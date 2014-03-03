@@ -96,7 +96,7 @@ class ReadDialog {
                 ICommonConsts.ACTIONPARAM2, ICommonConsts.IMPORT,
                 ICommonConsts.HIDDEN, ICommonConsts.READONLY,
                 ICommonConsts.METHOD, ICommonConsts.VALIDATE,
-                ICommonConsts.BUTTONHEADER };
+                ICommonConsts.BUTTONHEADER, ICommonConsts.IMAGENAME };
         private final String[] fieldTag = { ICommonConsts.ID,
                 ICommonConsts.TYPE, ICommonConsts.AFTERDOT,
                 ICommonConsts.ACTIONID, ICommonConsts.DISPLAYNAME,
@@ -147,7 +147,8 @@ class ReadDialog {
         private final String[] allowedActions = { ICommonConsts.JMAINDIALOG,
                 ICommonConsts.JUPDIALOG, ICommonConsts.JCLOSEDIALOG,
                 ICommonConsts.JOKMESSAGE, ICommonConsts.JERRORMESSAGE,
-                ICommonConsts.JYESNOMESSAGE, ICommonConsts.JLOGOUTACTION, ICommonConsts.JSUBMIT };
+                ICommonConsts.JYESNOMESSAGE, ICommonConsts.JLOGOUTACTION,
+                ICommonConsts.JSUBMIT };
         private String[] currentT;
         private StringBuffer buf;
         private ElemDescription bDescr = null;

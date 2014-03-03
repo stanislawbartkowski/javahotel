@@ -40,4 +40,8 @@ public class ButtonItem extends ElemDescription {
         return isAttr(ICommonConsts.BUTTONHEADER);
     }
 
+    public String getImageButton() {
+        return getAttr(ICommonConsts.IMAGENAME);
+    }
+
 }

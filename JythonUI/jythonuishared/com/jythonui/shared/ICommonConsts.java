@@ -151,6 +151,7 @@ public interface ICommonConsts {
     String JLISTEDITMODE = "MODE";
     String TYPES = "types";
     String COMBOID = "comboid";
+    String IMAGENAME = "imagebutton";
     String TYPEDEFS = "typedefs";
     String TYPEDEF = "typedef";
     String CUSTOMTYPE = "custom:";
@@ -273,4 +274,7 @@ public interface ICommonConsts {
     String BLOBUPLOAD_REALM = "BLOBUPLOAD_REALM";
     String BLOBUPLOAD_KEY = "BLOBUPLOAD_GEN_KEY";
     String BLOBDOWNLOADPARAM = "param";
+    
+    String DOWNLOADSERVLET = "downLoadHandler";
+    String UPLOADSERVLET = "upLoadHandler";
 }
