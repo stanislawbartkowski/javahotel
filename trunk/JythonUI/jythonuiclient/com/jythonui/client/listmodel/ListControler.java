@@ -74,6 +74,7 @@ import com.gwtmodel.table.listdataview.StartNextRowSignal;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType.StandClickEnum;
+import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.CustomStringSlot;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
@@ -781,17 +782,24 @@ class ListControler {
                 List<IGetSetVField> eList = SlU.getVListFromEditTable(dType,
                         DataListPersistAction.this, getI());
                 IVModelData vD = getV();
+                boolean refreshlist = false;
                 for (IVField f : row.getF()) {
                     vD.setF(f, row.getF(f));
+                    boolean isset = false;
                     if (eList != null)
                         for (IGetSetVField ii : eList) {
                             if (ii.getV().eq(f)) {
                                 ii.setValObj(row.getF(f));
+                                isset = true;
                                 break;
                             }
                         }
+                    if (!isset)
+                        refreshlist = true;
                 }
-                // publish(dType,DataActionEnum.RefreshListAction);
+                // added 2014/03/02 : for refreshing values not related to edit
+                if (refreshlist)
+                    publish(dType, DataActionEnum.RefreshListAction);
             }
 
         }
@@ -1201,6 +1209,9 @@ class ListControler {
                     ButtonItem but = DialogFormat.findE(rM.getDialogInfo()
                             .getDialog().getActionList(), actionButt);
                     b = CreateForm.constructButton(but, true, false);
+//                    public ControlButtonDesc(final String imageHtml, final String displayName,
+//                            final ClickButtonType actionId) {
+
                     customList.add(b);
                 }
                 if (bu != null)

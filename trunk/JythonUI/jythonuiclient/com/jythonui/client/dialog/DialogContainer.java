@@ -380,7 +380,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                         String title = ff[2];
 //                        String u = GWT.getHostPageBaseURL()
 //                                + "/downLoadHandler";
-                        String u = Utils.getURLServlet("downLoadHandler");
+                        String u = Utils.getURLServlet(ICommonConsts.DOWNLOADSERVLET);
 //                                + "/downLoadHandler";
                         String link = Utils.createURL(u, ICommonConsts.BLOBDOWNLOADPARAM, s,null);
                         i.setValObj(title + "|" + link);

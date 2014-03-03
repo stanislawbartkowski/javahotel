@@ -253,11 +253,13 @@ public class CreateForm {
 
         String id = b.getId();
         String dName = b.getDisplayName();
+        String imageName = b.getImageButton();
         if (b.isHeaderButton())
-            return new ControlButtonDesc(dName, new ClickButtonType(
+            return new ControlButtonDesc(imageName, dName, new ClickButtonType(
                     StandClickEnum.MENUTITLE), enabled, hidden);
         else
-            return new ControlButtonDesc(dName, id, enabled, hidden);
+            return new ControlButtonDesc(imageName, dName, new ClickButtonType(
+                    id), enabled, hidden);
     }
 
     public static List<ControlButtonDesc> constructBList(SecurityInfo sInfo,
