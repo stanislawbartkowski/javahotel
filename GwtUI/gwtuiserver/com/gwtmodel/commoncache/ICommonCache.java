@@ -12,8 +12,6 @@
  */
 package com.gwtmodel.commoncache;
 
-
-
 /**
  * @author hotel
  * 
@@ -25,7 +23,7 @@ public interface ICommonCache {
     void put(String key, Object o);
 
     void remove(String key);
-    
+
     void invalidate();
 
 }
