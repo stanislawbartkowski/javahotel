@@ -17,8 +17,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -33,19 +31,6 @@ import javax.xml.validation.Validator;
 import org.xml.sax.SAXException;
 
 public class FileUtil {
-
-	public static String OLDgetFile(String name) throws IOException {
-		BufferedReader reader = new BufferedReader(new FileReader(name));
-		StringBuilder stringBuilder = new StringBuilder();
-		String ls = System.getProperty("line.separator");
-		String line;
-		while ((line = reader.readLine()) != null) {
-			stringBuilder.append(line);
-			stringBuilder.append(ls);
-		}
-		reader.close();
-		return stringBuilder.toString();
-	}
 
 	public static File getResourceDir(@SuppressWarnings("rawtypes") Class cl) {
 		String me = cl.getName().replace(".", "/") + ".class";
