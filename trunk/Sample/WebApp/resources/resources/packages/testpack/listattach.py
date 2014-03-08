@@ -9,6 +9,18 @@ from com.itextpdf.text import Paragraph
 from com.itextpdf.text.pdf import PdfWriter
 
 from com.jythonui.server.holder import SHolder
+from java.io import FileReader
+
+from com.jythonui.server import Util
+
+from com.itextpdf.text import Document
+from com.itextpdf.text import DocumentException
+from com.itextpdf.text import PageSize
+from com.itextpdf.text.pdf import PdfWriter
+from com.itextpdf.tool.xml import XMLWorkerHelper
+from java.io import FileOutputStream
+
+
 
 def createPDF(var) :
   
@@ -23,6 +35,45 @@ def createPDF(var) :
     document.add(Paragraph("Hello World!"))
     #step 5
     document.close()
+    return b.toByteArray()
+
+def createPDF1(var) :
+    s = Util.getResourceAdDirectory("docs")
+    print s
+    fis = FileReader( s + "/Sample.html")
+    b = ByteArrayOutputStream()
+         
+    # create a new document
+    document = Document();
+    # get Instance of the PDFWriter
+    pdfWriter = PdfWriter.getInstance(document, b)
+          
+    # document header attributes
+    document.addAuthor("betterThanZero")
+    document.addCreationDate()
+    document.addProducer()
+    document.addCreator("MySampleCode.com")
+    document.addTitle("Demo for iText XMLWorker")
+    document.setPageSize(PageSize.LETTER);
+       
+    # open document
+    document.open();
+          
+    # To convert a HTML file from the filesystem
+    # String File_To_Convert = "docs/SamplePDF.html";
+#    //FileInputStream fis = new FileInputStream(File_To_Convert);
+       
+    # URL for HTML page
+       
+    # get the XMLWorkerHelper Instance
+    worker = XMLWorkerHelper.getInstance();
+    # convert to PDF
+    worker.parseXHtml(pdfWriter, document, fis);
+          
+    # close the document
+    document.close();
+    # close the writer
+    pdfWriter.close();
     return b.toByteArray()
 
 class LISTREGISTRY(cutil.RegistryFile):
@@ -115,6 +166,15 @@ def attachaction(action,var) :
     key = "PDF"
     bkey = i.addNewBlob(realm,key,b)
     _setVals(var,realm,bkey,"test.pdf")
+
+  if action == "addpdf1" and var["JYESANSWER"] :
+    b = createPDF1(var)
+#    print "dok=",b.length
+    i = SHolder.getAddBlob()
+    realm = "TESTPDF"
+    key = "PDF"
+    bkey = i.addNewBlob(realm,key,b)
+    _setVals(var,realm,bkey,"test.pdf")       
   
 def downaction(action,var) :
   cutil.printVar("download action",action,var)
