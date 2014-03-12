@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<toolkitModel xmlns="http://www.ibm.com/xmlns/prod/streams/spl/toolkit" productVersion="3.2.0.0" xmlns:common="http://www.ibm.com/xmlns/prod/streams/spl/common" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <toolkit name="TestOra" requiredProductVersion="3.0.0" version="1.0.0">
+    <description/>
+    <uriTable>
+      <uri index="1" value="application/TestOra.spl"/>
+    </uriTable>
+    <namespace name="application">
+      <compositeOp column="11" line="5" name="TestOra" potentialMain="true" uriIndex="1"/>
+    </namespace>
+  </toolkit>
+
+</toolkitModel>

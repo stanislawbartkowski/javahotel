@@ -1,0 +1,39 @@
+namespace application ;
+
+use com.ibm.streams.db::ODBCAppend ;
+
+composite TestOra
+{
+	graph
+		stream<uint32 id, rstring name> Beacon_1 = Beacon()
+		{
+			param
+				period : 0.2 ;
+			output
+				Beacon_1 : name = "NAME " +(rstring) IterationCount(), id =(uint32)
+					IterationCount() ;
+		}
+
+		() as Custom_2 = Custom(Beacon_1 as S)
+		{
+			logic
+				onTuple S : println(S) ;
+		}
+
+		stream<tuple<uint32 id, rstring name> inTuple, int32 sqlcode,
+			rstring sqlmessage, //1
+		rstring sqlstate> errors = ODBCAppend(Beacon_1)
+		{
+			param
+				connection : "oracledb" ;
+				access : "withoracle" ;
+		}
+
+		() as Custom_3 = Custom(errors as S)
+		{
+			logic
+				onTuple S : println(S) ;
+		}
+
+}
+
