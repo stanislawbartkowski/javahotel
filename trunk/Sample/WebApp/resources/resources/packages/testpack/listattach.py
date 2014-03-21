@@ -20,6 +20,11 @@ from com.itextpdf.text.pdf import PdfWriter
 from com.itextpdf.tool.xml import XMLWorkerHelper
 from java.io import FileOutputStream
 
+from javax.xml.transform import TransformerFactory
+from javax.xml.transform import Transformer
+from javax.xml.transform.stream import StreamSource
+from javax.xml.transform.stream import StreamResult
+from java.io import ByteArrayInputStream
 
 
 def createPDF(var) :
@@ -37,10 +42,7 @@ def createPDF(var) :
     document.close()
     return b.toByteArray()
 
-def createPDF1(var) :
-    s = Util.getResourceAdDirectory("docs")
-    print s
-    fis = FileReader( s + "/Sample.html")
+def _toPDF(fis) :
     b = ByteArrayOutputStream()
          
     # create a new document
@@ -75,6 +77,23 @@ def createPDF1(var) :
     # close the writer
     pdfWriter.close();
     return b.toByteArray()
+
+
+def createPDF1(var) :
+    s = Util.getResourceAdDirectory("docs")
+    print s
+    fis = FileReader( s + "/Sample.html")
+    return _toPDF(fis)
+  
+def createPDF2(var) :
+    tFactory = TransformerFactory.newInstance();
+    s = Util.getResourceAdDirectory("docs")
+    transformer = tFactory.newTransformer(StreamSource(s + "/template.xsl"))
+    out = ByteArrayOutputStream()            
+    transformer.transform(StreamSource(s + "/data.xml"),StreamResult(out))
+    fis = ByteArrayInputStream(out.toByteArray())
+    return _toPDF(fis)
+
 
 class LISTREGISTRY(cutil.RegistryFile):
 
@@ -167,8 +186,9 @@ def attachaction(action,var) :
     bkey = i.addNewBlob(realm,key,b)
     _setVals(var,realm,bkey,"test.pdf")
 
-  if action == "addpdf1" and var["JYESANSWER"] :
-    b = createPDF1(var)
+  if (action == "addpdf1" or action == "addpdf2") and var["JYESANSWER"] :
+    if action == "addpdf1" : b = createPDF1(var)
+    else : b = createPDF2(var)
 #    print "dok=",b.length
     i = SHolder.getAddBlob()
     realm = "TESTPDF"
