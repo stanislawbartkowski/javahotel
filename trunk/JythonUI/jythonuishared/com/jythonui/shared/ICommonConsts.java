@@ -38,6 +38,7 @@ public interface ICommonConsts {
     String IMPORT = "import";
     String METHOD = "method";
     String HTMLPANEL = "htmlpanel";
+    String HTMLTYPE = "html";
     String JSCODE = "jscode";
     String BEFORE = "before";
     String LIST = "list";

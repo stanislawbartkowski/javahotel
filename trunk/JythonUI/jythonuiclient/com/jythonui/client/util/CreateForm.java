@@ -83,6 +83,8 @@ public class CreateForm {
                 v = eFactory.constructEditFileName(vf, htmlId);
             } else if (f.isDownloadType()) {
                 v = eFactory.constructAnchorField(vf);
+            } else if (f.isHtmlType()) {
+                v = eFactory.constructHTMLField(vf);
             } else if (f.isLabel()) {
                 v = eFactory.constructLabelField(vf,
                         iMess.getMessage(f.getDisplayName()));
@@ -150,7 +152,7 @@ public class CreateForm {
 
             FormField fie = new FormField(name, v, vf, fRange,
                     f.isReadOnlyChange(), f.isReadOnlyAdd(), modeSetAlready,
-                    f.isLabel());
+                    f.isLabel() || f.isHtmlType());
             fList.add(fie);
         }
         return new FormLineContainer(fList);

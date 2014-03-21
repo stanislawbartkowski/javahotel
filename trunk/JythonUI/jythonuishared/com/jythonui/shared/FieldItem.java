@@ -60,6 +60,7 @@ public class FieldItem extends ElemDescription {
                 || CUtil.EqNS(t, ICommonConsts.RICHTEXT)
                 || CUtil.EqNS(t, ICommonConsts.UPLOADTYPE)
                 || CUtil.EqNS(t, ICommonConsts.DOWNLOADTYPE)
+                || CUtil.EqNS(t, ICommonConsts.HTMLTYPE)
                 || CUtil.EqNS(t, ICommonConsts.PASSWORD)) {
             return TT.STRING;
         }
@@ -99,12 +100,20 @@ public class FieldItem extends ElemDescription {
         return isAttr(ICommonConsts.HIDDEN);
     }
 
+    private boolean isType(String val) {
+        return CUtil.EqNS(getTypeName(), val);
+    }
+
     public boolean isUploadType() {
-        return CUtil.EqNS(getTypeName(), ICommonConsts.UPLOADTYPE);
+        return isType(ICommonConsts.UPLOADTYPE);
     }
 
     public boolean isDownloadType() {
-        return CUtil.EqNS(getTypeName(), ICommonConsts.DOWNLOADTYPE);
+        return isType(ICommonConsts.DOWNLOADTYPE);
+    }
+
+    public boolean isHtmlType() {
+        return isType(ICommonConsts.HTMLTYPE);
     }
 
     public boolean isReadOnlyAdd() {
@@ -132,15 +141,15 @@ public class FieldItem extends ElemDescription {
     }
 
     public boolean isTextArea() {
-        return CUtil.EqNS(getTypeName(), ICommonConsts.TEXTAREA);
+        return isType(ICommonConsts.TEXTAREA);
     }
 
     public boolean isRichText() {
-        return CUtil.EqNS(getTypeName(), ICommonConsts.RICHTEXT);
+        return isType(ICommonConsts.RICHTEXT);
     }
 
     public boolean isPassword() {
-        return CUtil.EqNS(getTypeName(), ICommonConsts.PASSWORD);
+        return isType(ICommonConsts.PASSWORD);
     }
 
     public String getFrom() {
