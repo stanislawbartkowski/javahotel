@@ -38,6 +38,10 @@ public class EditWidgetFactory {
         return new VLabel(v, displayName);
     }
 
+    public IFormLineView constructHTMLField(IVField v) {
+        return new VHtml(v);
+    }
+
     public IFormLineView constructAnchorField(IVField v) {
         return new AnchorField(v);
     }
