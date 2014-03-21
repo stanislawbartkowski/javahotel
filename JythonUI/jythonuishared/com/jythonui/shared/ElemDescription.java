@@ -32,7 +32,7 @@ public abstract class ElemDescription implements Serializable {
     public Map<String, String> getMap() {
         return attr;
     }
-    
+
     public void setMap(Map<String, String> attr) {
         this.attr = attr;
     }
