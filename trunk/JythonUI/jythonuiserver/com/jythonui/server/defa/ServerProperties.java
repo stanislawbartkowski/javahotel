@@ -33,12 +33,12 @@ public class ServerProperties implements IJythonUIServerProperties {
 
 	@Override
 	public String getDialogDirectory() {
-		return Util.getResourceAdDirectory(IConsts.DIALOGDIR);
+		return Util.getResourceAsDirectory(IConsts.DIALOGDIR);
 	}
 
 	@Override
 	public String getPackageDirectory() {
-		return Util.getResourceAdDirectory(IConsts.PACKAGEDIR);
+		return Util.getResourceAsDirectory(IConsts.PACKAGEDIR);
 	}
 
 	@Override
@@ -50,7 +50,7 @@ public class ServerProperties implements IJythonUIServerProperties {
 
 	@Override
 	public String getBundleBase() {
-		return Util.getResourceAdDirectory(IConsts.BUNDLEDIR);
+		return Util.getResourceAsDirectory(IConsts.BUNDLEDIR);
 	}
 
 }

@@ -771,7 +771,7 @@ public class RunJython {
 
 		// check sys.path
 		addIfNotExisttoPath(interp, p.getPackageDirectory());
-		String commPath = Util.getResourceAdDirectory(IConsts.PACKAGEDIR);
+		String commPath = Util.getResourceAsDirectory(IConsts.PACKAGEDIR);
 		addIfNotExisttoPath(interp, commPath);
 		// add common directory
 
