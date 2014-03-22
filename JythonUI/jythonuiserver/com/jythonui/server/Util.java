@@ -118,7 +118,7 @@ public class Util {
         }
     }
 
-    public static String getResourceAdDirectory(String dir) {
+    public static String getResourceAsDirectory(String dir) {
         URL u = JythonUiServerProvider.class.getClassLoader().getResource(
                 ISharedConsts.RESOURCES + "/" + dir);
         if (u == null)
