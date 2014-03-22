@@ -26,4 +26,19 @@ public class Test36 extends TestHelper {
         runAction(v, "test73.xml", "runpdf");
         runAction(v, "test73.xml", "runpdf1");
     }
+    
+    @Test
+    public void test2() {
+        DialogFormat d = findDialog("test73.xml");
+        DialogVariables v = new DialogVariables();
+        runAction(v, "test73.xml", "runxslt");
+    }
+
+    @Test
+    public void test3() {
+        DialogFormat d = findDialog("test73.xml");
+        DialogVariables v = new DialogVariables();
+        runAction(v, "test73.xml", "runxsltpdf");
+    }
+
 }

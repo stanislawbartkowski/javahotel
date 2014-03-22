@@ -19,6 +19,7 @@ from com.itextpdf.text import PageSize
 from com.itextpdf.text.pdf import PdfWriter
 from com.itextpdf.tool.xml import XMLWorkerHelper
 from java.io import FileOutputStream
+from java.io import FileInputStream
 
 from javax.xml.transform import TransformerFactory
 from javax.xml.transform import Transformer
@@ -26,8 +27,9 @@ from javax.xml.transform.stream import StreamSource
 from javax.xml.transform.stream import StreamResult
 from java.io import ByteArrayInputStream
 
+import pdfutil
 
-def createPDF(var) :
+def OLD_createPDF(var) :
   
     # step 1
     document = Document()
@@ -41,6 +43,10 @@ def createPDF(var) :
     #step 5
     document.close()
     return b.toByteArray()
+  
+def createPDF(var) :
+    return pdfutil.createPDFH("",None,["Hello World !",])
+
 
 def _toPDF(fis) :
     b = ByteArrayOutputStream()
@@ -79,21 +85,36 @@ def _toPDF(fis) :
     return b.toByteArray()
 
 
-def createPDF1(var) :
-    s = Util.getResourceAdDirectory("docs")
+def OLD_createPDF1(var) :
+    s = Util.getResourceAsDirectory("docs")
     print s
     fis = FileReader( s + "/Sample.html")
     return _toPDF(fis)
+
+def createPDF1(var) :
+    s = Util.getResourceAsDirectory("docs")
+    print s
+    fis = FileReader( s + "/Sample.html")
+    map = {}
+    map[pdfutil.AUTHOR] = "betterThanZero"
+    map[pdfutil.CREATOR] = ""
+    map[pdfutil.TITLE] = "Demo for iText XMLWorker"
+    return pdfutil.createPDF(fis,map)
   
-def createPDF2(var) :
+def OLD_createPDF2(var) :
     tFactory = TransformerFactory.newInstance();
-    s = Util.getResourceAdDirectory("docs")
+    s = Util.getResourceAsDirectory("docs")
     transformer = tFactory.newTransformer(StreamSource(s + "/template.xsl"))
     out = ByteArrayOutputStream()            
     transformer.transform(StreamSource(s + "/data.xml"),StreamResult(out))
     fis = ByteArrayInputStream(out.toByteArray())
     return _toPDF(fis)
 
+def createPDF2(var) :
+    s = Util.getResourceAsDirectory("docs")
+    inS = FileInputStream(s+"/data.xml")
+    xml = Util.readFromFileInput(inS)
+    return pdfutil.createPDFXSLT("docs/template.xsl",xml)
 
 class LISTREGISTRY(cutil.RegistryFile):
 
