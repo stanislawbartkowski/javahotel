@@ -1,0 +1,178 @@
+pkg load nan;
+
+global NOMELS STARTHZ LASTHZ FFTSIZE OFFSET SLICESIZE REFERENCESIZE
+
+NOMELS=40
+
+STARTHZ=20
+LASTHZ=4000
+
+SLICESIZE=2048
+OFFSET=100
+
+REFERENCESIZE=2048
+
+FFTSIZE=1024
+
+# Read wav file, only one channel
+function t = readsound1(f,channel=1) 
+  tt = wavread(f);
+  t = tt(:,channel);
+endfunction;
+
+# Apply hanning windowing
+function h = applyhunning(t,size) 
+  win = hanning(size);
+  h = win.*t;    
+endfunction;
+ 
+# Convert value in Hertz to Mel
+function val = countmel(f) 
+     val = 1125 * log (1 + f/700);
+endfunction
+
+# Convert value in Mel to Hertz
+function val = revmel(m) 
+  val = 700 * (exp(m/1125) - 1);
+endfunction
+
+# Find closest bin frequency
+function val = nearestbin(h)
+
+  global FFTSIZE LASTHZ
+  n = FFTSIZE/2;
+  val = floor(((n+1) * h) / LASTHZ);
+endfunction
+
+# Calculate mel points from STARTHZ to LASTHZ
+function res  = calcpoints()
+  global NOMELS STARTHZ LASTHZ
+  minmel = countmel(STARTHZ);
+  maxmel = countmel(LASTHZ);
+  step = (maxmel - minmel) / (NOMELS + 1);
+
+  res = [minmel];
+  val = minmel;
+  for i = 1 : NOMELS
+     val = val + step;
+     res(end+1) = val;
+  endfor
+  res(end + 1) = maxmel;
+endfunction
+
+# Calculate HZ frequency from mel points
+function res = calfreq(l) 
+  res = [];
+  for v = l 
+    res(end+1) = revmel(v);
+  endfor
+endfunction
+
+# Calculate bins scale
+function res = calcbins(c)
+  res = [];
+  for v = c
+    res(end+1) = nearestbin(v);
+  endfor
+endfunction
+
+# Calculate mel bins from frequency
+function res = melbins() 
+  t = calcpoints;
+  t1 = calfreq(t);
+  res = calcbins(t1);
+endfunction
+
+# Create mel filter bank
+function res = creatembank(f,m) 
+    global FFTSIZE
+    res = [];
+    n = FFTSIZE/2;
+    mm = m+1;
+    for k = 1 : n 
+      val = 0;
+      if k < f(mm) && k >= f(mm-1) 
+        val = (k - f(mm-1)) / (f(mm) - f(mm-1));
+      endif
+      if k >= f(mm) && k <= f(mm+1)
+        val = (f(mm+1) - k) / (f(mm+1) - f(mm));
+      endif
+      res(end+1) = val;
+    endfor
+endfunction
+
+# Create matrix of mel filters
+function res = createfilters() 
+  global NOMELS
+  res = [];
+  me = melbins();
+  for m = 1:NOMELS 
+    row = creatembank(me,m);
+    res = [res;row];
+  endfor
+endfunction 
+
+# Sum energy for mel banks from fft output
+function res = calculateenergy(m,sfft) 
+  res = [];
+  for i = 1 : size(m)(1) 
+    s = sum(m(i,:) .* sfft);
+    if s == 0 
+      s = 1;
+    endif
+    res(end+1) = s;
+  endfor
+endfunction
+
+# Apply log and dct
+function res = transformenergy(e) 
+  res = dct(log(e));
+endfunction
+
+function res = transformmel(m,g,size) 
+  global FFTSIZE
+  GG = abs(fft(applyhunning(g,size),FFTSIZE));
+  e = calculateenergy(m,GG(1:FFTSIZE/2)');
+  res = transformenergy(e);
+endfunction
+
+function res = preparenumb(m,f)
+  global REFERENCESIZE
+  r = readsound1(f);
+  r = r(1:REFERENCESIZE);
+  res = transformmel(m,r,REFERENCESIZE);
+endfunction
+
+function res = prepareone(m)
+  res = preparenumb(m,"numb/O0075900.wav");  # one
+#  res = preparenumb(m,"numb/T0606800.wav"); #two
+#  res = preparenumb(m,"numb/N0148400.wav"); #nine
+endfunction
+
+function m = matchsinglefile(tname,channel=1) 
+  global OFFSET SLICESIZE NOMELS
+  tname
+  f = createfilters();
+  g = prepareone(f);
+  t = readsound1(tname,channel);
+  m = []; 
+  for i = 1:OFFSET:size(t) 
+    if i + SLICESIZE -1 > size(t) 
+       break;
+    endif
+    transT = transformmel(f,t(i:i+SLICESIZE-1),SLICESIZE);  
+    diff = transT-g; 
+    val = rms(diff(2:NOMELS));
+    m(end+1) = val;
+  endfor;
+  
+endfunction; 
+
+function res = mytest() 
+#  res = matchsinglefile("numb/9 1 2 5 1 7 8 9 0_8000HZ.wav");
+#  res = matchsinglefile("numb/169198__freeicecream12-gmail-com__number-one-8000HZ.wav");
+#  res = matchsinglefile("numb/197012__margo-heston__one-m-8000HZ.wav");
+  res = matchsinglefile("numb/220435__jarredgibb__one-original.wav");
+#   calc01(res);
+endfunction
+
