@@ -16,6 +16,7 @@
 </buttons>
 
 <form>
+   <field id="billno" hidden="" />
    <field id="html" displayname="Enter string" type = "html"/>
 </form>
  

@@ -18,9 +18,12 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.gwtmodel.mapcache.SimpleMapCacheFactory;
+import com.gwtmodel.table.common.dateutil.ISetTestToday;
+import com.gwtmodel.table.common.dateutil.SetTestTodayProvider;
 import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.gwtmodel.testenhancer.notgae.TestEnhancer;
 import com.jython.ui.ServerProperties;
+import com.jython.ui.TestHelper;
 import com.jython.ui.server.datastore.IDateLineOp;
 import com.jython.ui.server.datastore.IDateRecordOp;
 import com.jython.ui.server.datastore.IPersonOp;
@@ -38,9 +41,7 @@ import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.defa.EmptyConnectionProvider;
 import com.jythonui.server.defa.SecurityNullConvert;
-import com.jythonui.server.defa.StorageRealmRegistryFactory;
 import com.jythonui.server.guice.JythonServerService.JythonServiceModule;
-import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.security.ISecurityConvert;
 import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.server.semaphore.impl.SemaphoreSynch;
@@ -74,18 +75,17 @@ public class ServerService {
             // common
             bind(IStorageJpaRegistryFactory.class).to(
                     StorageJpaRegistryFactory.class).in(Singleton.class);
-//            bind(IStorageRegistryFactory.class).to(
-//                    StorageRealmRegistryFactory.class).in(Singleton.class);
-            // bind(ISemaphore.class).to(JpaSemaphore.class).in(Singleton.class);
-            // bind(ISemaphore.class).to(SemaphoreRegistry.class).in(Singleton.class);
             bind(ISemaphore.class).to(SemaphoreSynch.class).in(Singleton.class);
             bind(IGetConnection.class)
                     .toProvider(EmptyConnectionProvider.class).in(
                             Singleton.class);
             bind(IBlobHandler.class).to(BlobEntryJpaHandler.class).in(
                     Singleton.class);
-
+            bind(ISetTestToday.class).toProvider(SetTestTodayProvider.class)
+                    .in(Singleton.class);
             requestStatic();
+            requestStaticInjection(TestHelper.class);
+
         }
 
         // common
