@@ -20,6 +20,7 @@ import com.jythonui.server.IDefaultData;
 import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonUIServer;
+import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.IXMLToMap;
 import com.jythonui.server.dict.IGetLocalizedDict;
 import com.jythonui.server.getmess.IGetLogMess;
@@ -45,6 +46,9 @@ public class Holder {
 
     @Inject
     private static IGetConnection getConnection;
+
+    @Inject
+    private static IJythonUIServerProperties iJython;
 
     private static boolean auth = false;
 
@@ -149,6 +153,10 @@ public class Holder {
 
     public static IDefaultData getDefaultData() {
         return dData;
+    }
+
+    public static IJythonUIServerProperties getIJython() {
+        return iJython;
     }
 
 }

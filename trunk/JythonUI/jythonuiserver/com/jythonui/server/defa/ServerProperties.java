@@ -24,33 +24,39 @@ import com.jythonui.server.Util;
  */
 public class ServerProperties implements IJythonUIServerProperties {
 
-	private final IsCached isC;
+    private final IsCached isC;
 
-	@Inject
-	public ServerProperties(IsCached isC) {
-		this.isC = isC;
-	}
+    @Inject
+    public ServerProperties(IsCached isC) {
+        this.isC = isC;
+    }
 
-	@Override
-	public String getDialogDirectory() {
-		return Util.getResourceAsDirectory(IConsts.DIALOGDIR);
-	}
+    @Override
+    public String getDialogDirectory() {
+        return Util.getResourceAsDirectory(IConsts.DIALOGDIR);
+    }
 
-	@Override
-	public String getPackageDirectory() {
-		return Util.getResourceAsDirectory(IConsts.PACKAGEDIR);
-	}
+    @Override
+    public String getPackageDirectory() {
+        return Util.getResourceAsDirectory(IConsts.PACKAGEDIR);
+    }
 
-	@Override
-	public boolean isCached() {
-		if (isC == null)
-			return false;
-		return isC.isCached();
-	}
+    @Override
+    public boolean isCached() {
+        if (isC == null)
+            return false;
+        return isC.isCached();
+    }
 
-	@Override
-	public String getBundleBase() {
-		return Util.getResourceAsDirectory(IConsts.BUNDLEDIR);
-	}
+    @Override
+    public String getBundleBase() {
+        return Util.getResourceAsDirectory(IConsts.BUNDLEDIR);
+    }
+
+    @Override
+    public String getResourceDirectory() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }
