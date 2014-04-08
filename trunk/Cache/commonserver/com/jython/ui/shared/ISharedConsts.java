@@ -18,6 +18,9 @@ public interface ISharedConsts {
 
     String COMMONSEQGENJNDI = "java:global/SeqGenRegistry";
 
+    String COMMONBEANBLOBJNDI = "java:global/BlobRegistry";
+
+    
     String RESOURCES = "resources";
 
     String JYTHONMESSSERVER = "jythonservermess";
