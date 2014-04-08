@@ -18,10 +18,13 @@ import guice.ServiceInjector;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.inject.Inject;
+
 import org.junit.After;
 import org.junit.Before;
 
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
+import com.gwtmodel.table.common.dateutil.ISetTestToday;
 import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.jython.ui.server.datastore.IDateLineOp;
 import com.jython.ui.server.datastore.IDateRecordOp;
@@ -35,6 +38,7 @@ import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.resbundle.IAppMess;
 import com.jythonui.server.security.ISecurity;
 import com.jythonui.server.semaphore.ISemaphore;
+import com.jythonui.server.storage.blob.IBlobHandler;
 import com.jythonui.server.storage.gensym.ISymGenerator;
 import com.jythonui.server.storage.seq.ISequenceRealmGen;
 import com.jythonui.server.xml.IXMLTransformer;
@@ -42,7 +46,6 @@ import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.RequestContext;
-import com.jythonui.server.storage.blob.IBlobHandler;
 
 /**
  * @author hotel
@@ -68,6 +71,8 @@ public class TestHelper {
     protected final IGetLocalizedDict iListP;
     protected final IDefaultData dData;
     protected final IBlobHandler iBlob;
+    @Inject
+    protected static ISetTestToday setTestToday;
 
     protected final static String realmIni = "classpath:resources/shiro/shiro.ini";
     protected final static String derbyIni = "classpath:resources/shiro/shiroderby.ini";
@@ -91,6 +96,7 @@ public class TestHelper {
         iListP = Holder.getListOfPayment();
         dData = Holder.getDefaultData();
         iBlob = SHolder.getBlobHandler();
+//        setTestToday = SHolder.getSetTest();
     }
 
     protected void putLocale(String lang) {

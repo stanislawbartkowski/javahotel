@@ -25,9 +25,14 @@ public class ServerProperties implements IJythonUIServerProperties {
     private final String PACKAGEDIR = "packages";
     private final String MESS = "bundle";
 
+    @Override
+    public String getResourceDirectory() {
+        return TestHelper.class.getClassLoader().getResource(RESOURCES)
+                .getPath();
+    }
+
     private String getResource(String dir) {
-        return TestHelper.class.getClassLoader()
-                .getResource(RESOURCES + "/" + dir).getPath();
+        return getResourceDirectory() + "/" + dir;
     }
 
     @Override

@@ -3,7 +3,7 @@ import pdfutil
 
 from com.jythonui.server import Util
 from java.io import FileInputStream
-
+from com.jythonui.server.holder import Holder
 
 def dialogaction(action,var):
     cutil.printVar("runpdf",action,var)
@@ -51,8 +51,11 @@ def dialogaction(action,var):
        print b.toString()
        
     if action == "runxsltpdf" :   
-       s = Util.getResourceAsDirectory("dialogs")
+#       s = Util.getResourceAsDirectory("dialogs")
+       s = Holder.getIJython().getResourceDirectory() + "/dialogs";
+       print s
        s = s + "/data.xml"
+       print s
        inS = FileInputStream(s)
        print inS
        xml = Util.readFromFileInput(inS)

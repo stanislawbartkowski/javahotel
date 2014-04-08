@@ -15,8 +15,11 @@ package guice;
 import com.google.inject.Singleton;
 import com.gwtmodel.commoncache.CommonCacheFactory;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
+import com.gwtmodel.table.common.dateutil.ISetTestToday;
+import com.gwtmodel.table.common.dateutil.SetTestTodayProvider;
 import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.jython.ui.ServerProperties;
+import com.jython.ui.TestHelper;
 import com.jython.ui.server.datastore.IDateLineOp;
 import com.jython.ui.server.datastore.IDateRecordOp;
 import com.jython.ui.server.datastore.IPersonOp;
@@ -69,8 +72,10 @@ public class ServerService {
             bind(IGetConnection.class)
                     .toProvider(EmptyConnectionProvider.class).in(
                             Singleton.class);
-
+            bind(ISetTestToday.class).toProvider(SetTestTodayProvider.class)
+                    .in(Singleton.class);
             requestStatic();
+            requestStaticInjection(TestHelper.class);
         }
 
     }
