@@ -81,19 +81,24 @@ public class ServerPropertiesEnv implements IJythonUIServerProperties {
         return null;
     }
 
-    private String getResourceDirectory(String dir) {
+    @Override
+    public String getResourceDirectory() {
         EnvVar e = getEnvString(getJNDI.getResourceDir(), false);
-        return e.resS + "/" + ISharedConsts.RESOURCES + "/" + dir;
+        return e.resS + "/" + ISharedConsts.RESOURCES;
+    }
+
+    private String getResource(String dir) {
+        return getResourceDirectory() + "/" + dir;
     }
 
     @Override
     public String getDialogDirectory() {
-        return getResourceDirectory(IConsts.DIALOGDIR);
+        return getResource(IConsts.DIALOGDIR);
     }
 
     @Override
     public String getPackageDirectory() {
-        return getResourceDirectory(IConsts.PACKAGEDIR);
+        return getResource(IConsts.PACKAGEDIR);
     }
 
     @Override
@@ -104,7 +109,7 @@ public class ServerPropertiesEnv implements IJythonUIServerProperties {
 
     @Override
     public String getBundleBase() {
-        return getResourceDirectory(IConsts.BUNDLEDIR);
+        return getResource(IConsts.BUNDLEDIR);
     }
 
 }
