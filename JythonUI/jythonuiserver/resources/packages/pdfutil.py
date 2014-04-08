@@ -19,7 +19,8 @@ from javax.xml.transform import Transformer
 from javax.xml.transform.stream import StreamSource
 from javax.xml.transform.stream import StreamResult
 
-from com.jythonui.server import Util
+#from com.jythonui.server import Util
+from com.jythonui.server.holder import Holder
 
 AUTHOR="author"
 PRODUCER="producer"
@@ -71,7 +72,8 @@ def createPDF(fis,map={},paragraph=None) :
 
 def xsltHtml(xslt,xmlcontent) :
     tFactory = TransformerFactory.newInstance();
-    s = Util.getResourceAsDirectory(xslt)
+#    s = Util.getResourceAsDirectory(xslt)
+    s = Holder.getIJython().getResourceDirectory() + "/" + xslt
     transformer = tFactory.newTransformer(StreamSource(s))
     out = ByteArrayOutputStream()
     reader = StringReader(xmlcontent)            

@@ -12,7 +12,6 @@
  */
 package com.jythonui.server;
 
-
 /**
  * @author hotel
  * 
@@ -24,6 +23,8 @@ public interface IJythonUIServerProperties {
     String getPackageDirectory();
 
     String getBundleBase();
+
+    String getResourceDirectory();
 
     boolean isCached();
 

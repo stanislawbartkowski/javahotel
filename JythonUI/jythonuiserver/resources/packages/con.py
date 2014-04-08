@@ -68,3 +68,14 @@ def minusDecimal(sum1,sum2,afterdot=2):
        return round(0 - sum2,afterdot)
    if sum2 == None : return sum1
    return round(sum1 - sum2,afterdot)
+
+def toS(val): 
+    s  = val
+    f = None
+    if type(val) == BigDecimal : f = BigDecimalToDecimal(val)
+    elif type(val) == datetime.date : s = str(val)
+    elif type(val) == int : s = str(val)    
+    elif type(val) == float : f = val
+    if f != None :
+        s = '%.2f' % f
+    return s

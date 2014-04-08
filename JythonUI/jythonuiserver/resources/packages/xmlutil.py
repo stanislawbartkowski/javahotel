@@ -105,3 +105,22 @@ def toMap(xmls):
       li.append(_toMap(m))
   return (rmap,li)
     
+# ---------------------------------------------------------------    
+      
+def listNumberToCVS(li) :  
+  s = None
+  for l in li :
+    vals = str(l)
+    if s : s = s + "," + vals
+    else : s = vals
+  if s : return s
+  return ""
+
+def CVSToListNumber(s) :
+  if s == None : return []
+  li = []
+  for n in s.split(",") :
+    num = long(n)
+    li.append(num)
+  return li  
+    

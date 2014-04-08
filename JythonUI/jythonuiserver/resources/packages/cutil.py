@@ -449,6 +449,14 @@ def enumDictAction(action,var,what) :
   iC = getDict(what)
   seq = createEnum(iC,lambda c : c.getKey(),lambda c : c.getName(), False)
   setJMapList(var,action,seq)      
+  
+def getDicName(what,id):
+    if id == None : return None
+    i = getDict(what)
+    for c in i : 
+        if c.getKey().upper() == id.upper() : return c.getName()
+    return None
+
 
 class DEFAULTDATA :
   
