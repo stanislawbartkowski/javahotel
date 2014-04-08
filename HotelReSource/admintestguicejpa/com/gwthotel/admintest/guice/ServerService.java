@@ -22,6 +22,7 @@ import com.gwthotel.admin.IAppInstanceHotel;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admin.jpa.HotelAdminProvider;
 import com.gwthotel.admin.jpa.HotelAppInstanceProvider;
+import com.gwthotel.admintest.suite.TestHelper;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.IGetAutomPatterns;
 import com.gwthotel.hotel.IHotelObjectGenSym;
@@ -50,8 +51,11 @@ import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.gwtmodel.mapcache.SimpleMapCacheFactory;
+import com.gwtmodel.table.common.dateutil.ISetTestToday;
+import com.gwtmodel.table.common.dateutil.SetTestTodayProvider;
 import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.gwtmodel.testenhancer.notgae.TestEnhancer;
+import com.jython.ui.server.jpastoragekey.BlobEntryJpaHandler;
 import com.jython.ui.server.jpastoragekey.IStorageJpaRegistryFactory;
 import com.jython.ui.server.jpastoragekey.StorageJpaRegistryFactory;
 import com.jython.ui.server.jpatrans.ITransactionContext;
@@ -61,11 +65,10 @@ import com.jython.ui.server.jpatrans.JpaTransactionContext;
 import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.defa.EmptyConnectionProvider;
-import com.jythonui.server.defa.StorageRealmRegistryFactory;
 import com.jythonui.server.getmess.IGetLogMess;
-import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.server.semaphore.impl.SemaphoreRegistry;
+import com.jythonui.server.storage.blob.IBlobHandler;
 import com.jythonui.server.storage.gensym.ISymGenerator;
 import com.jythonui.server.storage.gensym.ISymGeneratorFactory;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
@@ -125,17 +128,22 @@ public class ServerService {
             // common
             bind(IStorageJpaRegistryFactory.class).to(
                     StorageJpaRegistryFactory.class).in(Singleton.class);
-            bind(IStorageRegistryFactory.class).to(
-                    StorageRealmRegistryFactory.class).in(Singleton.class);
+            // bind(IStorageRegistryFactory.class).to(
+            // StorageRealmRegistryFactory.class).in(Singleton.class);
             bind(ISemaphore.class).to(SemaphoreRegistry.class).in(
                     Singleton.class);
             bind(IGetConnection.class)
                     .toProvider(EmptyConnectionProvider.class).in(
                             Singleton.class);
-
+            bind(IBlobHandler.class).to(BlobEntryJpaHandler.class).in(
+                    Singleton.class);
+            bind(ISetTestToday.class).toProvider(SetTestTodayProvider.class)
+                    .in(Singleton.class);
             // -----
 
             requestStatic();
+            requestStaticInjection(TestHelper.class);
+
             // requestStaticInjection(H.class);
         }
 

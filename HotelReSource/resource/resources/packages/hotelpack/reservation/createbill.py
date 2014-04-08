@@ -14,8 +14,6 @@ from cutil import BigDecimalToDecimal
 from sets import Set
 from util.util import BILLLIST
 from util.util import newBill
-from util.util import listNumberToCVS
-from util.util import CVSToListNumber
 from util.util import setCustData
 from cutil import today
 from cutil import toDate
@@ -33,8 +31,10 @@ from cutil import setErrorField
 from util.util import PAYMENTOP
 from util.util import newBillPayment
 from con import toB
+
 from util import util
 from util import rutil
+import cutil
 
 LIST="poslist"
 NOPAID="billlist"

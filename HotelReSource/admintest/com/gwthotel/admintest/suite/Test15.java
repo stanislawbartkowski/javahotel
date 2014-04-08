@@ -34,7 +34,7 @@ public class Test15 extends TestHelper {
     public void before() {
         clearObjects();
         createHotels();
-        DateFormatUtil.setTestToday(DateFormatUtil.toD(2013, 6, 13));
+        setTestToday(DateFormatUtil.toD(2013, 6, 13));
     }
 
     @Test

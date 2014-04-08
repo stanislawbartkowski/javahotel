@@ -20,10 +20,9 @@ public class ServerProperties implements IJythonUIServerProperties {
     private final String RESOURCES = "resources";
     private final String DIALOGDIR = "dialogs";
     private final String PACKAGEDIR = "packages";
-    
+
     private String getResource(String dir) {
-        return JythonUiServerProvider.class.getClassLoader()
-                .getResource(RESOURCES + "/" + dir).getPath();
+        return getResourceDirectory() + "/" + dir;
     }
 
     @Override
@@ -36,7 +35,6 @@ public class ServerProperties implements IJythonUIServerProperties {
         return getResource(PACKAGEDIR);
     }
 
-
     @Override
     public boolean isCached() {
         return true;
@@ -45,5 +43,11 @@ public class ServerProperties implements IJythonUIServerProperties {
     @Override
     public String getBundleBase() {
         return null;
+    }
+
+    @Override
+    public String getResourceDirectory() {
+        return JythonUiServerProvider.class.getClassLoader()
+                .getResource(RESOURCES).getPath();
     }
 }

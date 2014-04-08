@@ -38,7 +38,7 @@ public class Test18 extends TestHelper {
     public void before() {
         clearObjects();
         createHotels();
-        DateFormatUtil.setTestToday(DateFormatUtil.toD(2013, 6, 13));
+        setTestToday(DateFormatUtil.toD(2013, 6, 13));
     }
 
     @Test
@@ -59,6 +59,7 @@ public class Test18 extends TestHelper {
         ReservationPaymentDetail det = new ReservationPaymentDetail();
         det.setNoP(3);
         det.setPrice(new BigDecimal("100.0"));
+        det.setPriceTotal(new BigDecimal("100.0"));
         det.setPriceList(new BigDecimal("200.0"));
         det.setRoomName("P10");
         det.setResDate(toDate(2013, 4, 10));

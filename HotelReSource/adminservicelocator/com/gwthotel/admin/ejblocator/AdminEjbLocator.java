@@ -32,6 +32,7 @@ import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.shared.IHotelConsts;
 import com.jython.ui.shared.ISharedConsts;
+import com.jythonui.server.storage.blob.IBlobHandler;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 import com.jythonui.server.storage.seq.ISequenceRealmGen;
 import com.jythonui.shared.JythonUIFatal;
@@ -67,6 +68,10 @@ public class AdminEjbLocator {
 
     static IStorageRealmRegistry getStorageRealm() {
         return construct(ISharedConsts.COMMONREGISTRYBEANJNDI);
+    }
+
+    static public IBlobHandler getBlobHandler() {
+        return construct(ISharedConsts.COMMONBEANBLOBJNDI);
     }
 
     static IHotelServices getHotelServices() {

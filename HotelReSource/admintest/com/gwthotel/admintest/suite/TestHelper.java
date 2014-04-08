@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -31,6 +33,7 @@ import com.gwthotel.admin.IGetHotelRoles;
 import com.gwthotel.admin.IGetVatTaxes;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admin.IXMLToMap;
+import com.gwthotel.admin.Person;
 import com.gwthotel.admintest.guice.ServiceInjector;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.IGetInstanceHotelId;
@@ -47,13 +50,17 @@ import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.server.service.H;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.shared.IHotelConsts;
+import com.gwtmodel.table.common.dateutil.ISetTestToday;
 import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.holder.SHolder;
+import com.jythonui.server.newblob.IAddNewBlob;
+import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.security.ISecurity;
 import com.jythonui.server.security.token.ICustomSecurity;
 import com.jythonui.server.semaphore.ISemaphore;
+import com.jythonui.server.storage.blob.IBlobHandler;
 import com.jythonui.server.storage.seq.ISequenceRealmGen;
 import com.jythonui.shared.CustomSecurity;
 import com.jythonui.shared.DialogFormat;
@@ -90,6 +97,14 @@ public class TestHelper {
     protected final ICustomerBills iBills;
     protected final ISemaphore iSem;
     protected final IPaymentBillOp iPayOp;
+    @Inject
+    protected static IStorageRegistryFactory iReg;
+    @Inject
+    protected static IBlobHandler iBlob;
+    @Inject
+    protected static ISetTestToday setTest;
+    @Inject
+    protected static IAddNewBlob iAddBlob;
 
     protected static final String HOTEL = "hotel";
     protected static final String HOTEL1 = "hotel1";
@@ -103,12 +118,11 @@ public class TestHelper {
     protected HotelId getH(String hotel) {
         return iGetI.getHotel(TESTINSTANCE, hotel, "user");
     }
-    
+
     protected HotelId getH1(String hotel) {
         return iGetI.getHotel(TESTINSTANCE, hotel, "modifuser");
     }
 
-    
     protected void createHotels() {
         iGetI.invalidateCache();
         iAdmin.clearAll(getI());
@@ -187,6 +201,13 @@ public class TestHelper {
         iServer.runAction(new RequestContext(), v, dialogName, actionId);
     }
 
+    protected void runAction(DialogVariables v, String token,String dialogName,
+            String actionId) {
+        RequestContext re = new RequestContext();
+        re.setToken(token);
+        iServer.runAction(re, v, dialogName, actionId);
+    }
+
     protected Date toDate(int y, int m, int d) {
         Date da = new Date(y - 1900, m, d);
         return da;
@@ -212,8 +233,34 @@ public class TestHelper {
     }
 
     protected void assertEqB(double b1, BigDecimal b2) {
-        assertEquals(b1, b2.doubleValue(),2);
-
+        assertEquals(b1, b2.doubleValue(), 2);
     }
+
+    protected void setTestToday(Date d) {
+        setTest.setToday(d);
+    }
+    
+    protected void setUserPassword() {
+        iAdmin.clearAll(getI());
+        Person pe = new Person();
+        pe.setName("user");
+        pe.setDescription("user name");
+        List<HotelRoles> roles = new ArrayList<HotelRoles>();
+        iAdmin.addOrModifPerson(getI(), pe, roles);
+        iAdmin.changePasswordForPerson(getI(), "user", "secret");
+        Hotel ho = new Hotel();
+
+        ho.setName(HOTEL);
+        ho.setDescription("Pod Pieskiem");
+        roles = new ArrayList<HotelRoles>();
+        pe = new Person();
+        pe.setName("user");
+        HotelRoles rol = new HotelRoles(pe);
+        rol.getRoles().add("mana");
+        rol.getRoles().add("acc");
+        roles.add(rol);
+        iAdmin.addOrModifHotel(getI(), ho, roles);
+    }
+
 
 }

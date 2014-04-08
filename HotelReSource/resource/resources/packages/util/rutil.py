@@ -23,17 +23,8 @@ def getReservForDay(var):
    res = R.queryReservation(query)
    return res
 
-#def createResFormElem(roomname,service,date,nop,price):
-#    r = util.newResAddPayment()
-#    r.setRoomName(roomname)
-#    r.setNoP(nop)
-#    r.setPrice(price)
-#    r.setService(service)
-#    r.setResDate(toDate(date))
-#    return r
-
-def getPayments(var) :    
-  rese = getReseName(var)
+def getPayments(var,rese=None) :    
+  if rese == None : rese = getReseName(var)
   pli = util.RESOP(var).getResAddPaymentList(rese)
   R = util.RESFORM(var)
   # java.util.List
@@ -76,9 +67,9 @@ def setvarBefore(var,cust="cust_"):
     var["name"] = roomname
     var["desc"] = room.getDescription()
     var["nop"] = nop
-    var["noextrabeds"] = room.getNoExtraBeds()
-    var["nochildren"] = room.getNoChildren()
-    var["resnop"] = room.getNoChildren()
+    var["noextrabeds"] = util.getIntField(room.getNoExtraBeds())
+    var["nochildren"] = util.getIntField(room.getNoChildren())
+    var["resnop"] = util.getIntField(room.getNoChildren())
     util.setCopy(var,["resename","name","datecol","nop","desc","resdays","noextrabeds","nochildren","resnop"])
     res = getReservForDay(var)
     if len(res) == 0 :

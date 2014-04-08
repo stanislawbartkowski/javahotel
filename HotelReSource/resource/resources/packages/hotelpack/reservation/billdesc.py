@@ -14,7 +14,6 @@ def billdesc(action,var) :
      b = util.BILLLIST(var).findElem(billname)
      pli = util.getPayments(var)
      for idp in b.getPayList() :
-       print idp
        for pa in pli :
          if con.eqUL(idp,pa.getId()) : 
             LI.addMa({},pa,idp)
