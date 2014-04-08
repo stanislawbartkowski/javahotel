@@ -6,6 +6,7 @@
 		transaction-type="RESOURCE_LOCAL">
 		<non-jta-data-source>java:comp/env/jdbc/hoteladmin</non-jta-data-source>
 		<class>com.jython.ui.server.jpastoragekey.entity.RegistryEntry</class>
+		<class>com.jython.ui.server.jpastoragekey.entity.BlobEntry</class>		
 		<class>com.gwthotel.admin.jpa.entities.EHotel</class>
 		<class>com.gwthotel.admin.jpa.entities.EPersonPassword</class>
 		<class>com.gwthotel.admin.jpa.entities.EPersonRoles</class>

@@ -12,6 +12,8 @@
  */
 package com.gwthotel.hotelejb.clearop;
 
+import java.util.Date;
+
 import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -19,12 +21,13 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
-import com.google.inject.Inject;
 import javax.interceptor.Interceptors;
 
+import com.google.inject.Inject;
 import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.shared.IHotelConsts;
+import com.gwtmodel.table.common.dateutil.ISetTestToday;
 import com.jythonui.server.defa.GuiceInterceptor;
 
 @Stateless
@@ -36,15 +39,22 @@ import com.jythonui.server.defa.GuiceInterceptor;
 public class HotelClearOpEJB implements IClearHotel {
 
     private IClearHotel clearOp;
-    
+
     @Inject
-    public void injectHotelServices(IClearHotel injectedServices) {
+    public void injectHotelServices(IClearHotel injectedServices,
+            ISetTestToday iSetToday) {
         clearOp = injectedServices;
     }
 
     @Override
     public void clearObjects(HotelId hotel) {
         clearOp.clearObjects(hotel);
+    }
+
+    @Override
+    public void setTestDataToday(Date d) {
+        clearOp.setTestDataToday(d);
+
     }
 
 }

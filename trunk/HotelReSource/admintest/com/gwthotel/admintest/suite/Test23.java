@@ -12,33 +12,47 @@
  */
 package com.gwthotel.admintest.suite;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
+import java.io.IOException;
+import java.io.StringReader;
 import java.math.BigDecimal;
-import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.bill.CustomerBill;
 import com.gwthotel.hotel.customer.HotelCustomer;
-import com.gwthotel.hotel.payment.PaymentBill;
 import com.gwthotel.hotel.reservation.ReservationForm;
 import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
 import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
+import com.jythonui.server.security.token.ICustomSecurity;
+import com.jythonui.shared.DialogVariables;
 
-public class Test20 extends TestHelper {
+public class Test23 extends TestHelper {
 
     @Before
     public void before() {
         clearObjects();
         createHotels();
         setTestToday(DateFormatUtil.toD(2013, 6, 13));
+        setUserPassword();
     }
 
     private CustomerBill createP() {
@@ -50,6 +64,7 @@ public class Test20 extends TestHelper {
         HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL),
                 HotelObjects.CUSTOMER);
         p.setGensymbol(true);
+        p.setAttr("country", "gb");
         p = iCustomers.addElem(getH(HOTEL), p);
         ReservationForm r = (ReservationForm) hObjects.construct(getH(HOTEL),
                 HotelObjects.RESERVATION);
@@ -83,68 +98,55 @@ public class Test20 extends TestHelper {
 
     @Test
     public void test1() {
+        ICustomSecurity cu = getSec(HOTEL);
+        String token = iSec.authenticateToken(realM, "user", "secret", cu);
+        assertNotNull(token);
+
         CustomerBill b = createP();
-        PaymentBill p = new PaymentBill();
-        p.setDateOfPayment(toDate(2013, 9, 10));
-        p.setPaymentTotal(new BigDecimal(100.0));
-        p.setPaymentMethod("cache");
-        p.setDescription("Hello");
-        iPayOp.addPaymentForBill(getH(HOTEL), b.getName(), p);
-        List<PaymentBill> pList = iPayOp.getPaymentsForBill(getH(HOTEL),
-                b.getName());
-        assertEquals(1, pList.size());
-        p = pList.get(0);
-        eqDate(p.getDateOfPayment(), 2013, 9, 10);
-        assertEqB(100.0, p.getPaymentTotal());
-        assertEquals("cache", p.getPaymentMethod());
-        assertEquals("Hello", p.getDescription());
-        // now remove
-        iPayOp.removePaymentForBill(getH(HOTEL), b.getName(), p.getId());
-        pList = iPayOp.getPaymentsForBill(getH(HOTEL), b.getName());
-        assertTrue(pList.isEmpty());
+        DialogVariables v = new DialogVariables();
+        v.setValueS("billno", b.getName());
+        runAction(v, token, "dialog4.xml", "invoicexmlforbill");
+        assertTrue(v.getValue("OK").getValueB());
+        v = new DialogVariables();
+        v.setValueS("billno", b.getName());
+        runAction(v, token, "dialog4.xml", "invoicehtmlforbill");
+        assertTrue(v.getValue("OK").getValueB());
+        v = new DialogVariables();
+        v.setValueS("billno", b.getName());
+        runAction(v, token, "dialog4.xml", "invoicepdfforbill");
+        assertTrue(v.getValue("OK").getValueB());
     }
 
     @Test
-    public void test2() {
-        CustomerBill b = createP();
-        for (int i = 0; i < 100; i++) {
-            PaymentBill p = new PaymentBill();
-            p.setDateOfPayment(toDate(2013, 9, 10));
-            p.setPaymentTotal(new BigDecimal(i));
-            p.setPaymentMethod("cache");
-            p.setDescription("Hello");
-            iPayOp.addPaymentForBill(getH(HOTEL), b.getName(), p);
-        }
-        List<PaymentBill> pList = iPayOp.getPaymentsForBill(getH(HOTEL),
-                b.getName());
-        assertEquals(100, pList.size());
-        for (int i = 0; i < 70; i++) {
-            iPayOp.removePaymentForBill(getH(HOTEL), b.getName(), pList.get(i)
-                    .getId());
-        }
-        pList = iPayOp.getPaymentsForBill(getH(HOTEL), b.getName());
-        assertEquals(30, pList.size());
-        for (PaymentBill bb : pList) {
-            System.out.println(bb.getBillName());
-            assertNotNull(bb.getBillName());
-        }
-        // remove bill
-        iBills.deleteElem(getH(HOTEL), b);
-        assertNull(iBills.findElem(getH(HOTEL), b.getName()));
-    }
+    public void test2() throws ParserConfigurationException, SAXException,
+            IOException, XPathExpressionException {
+        ICustomSecurity cu = getSec(HOTEL);
+        String token = iSec.authenticateToken(realM, "user", "secret", cu);
+        assertNotNull(token);
 
-    @Test
-    public void test3() {
         CustomerBill b = createP();
-        PaymentBill p = new PaymentBill();
-        p.setDateOfPayment(toDate(2013, 9, 10));
-        p.setPaymentTotal(new BigDecimal(100.0));
-        p.setPaymentMethod("cache");
-        p.setDescription("Hello");
-        iPayOp.addPaymentForBill(getH(HOTEL), b.getName(), p);
-        String rese = b.getReseName();
-        ReservationForm r = iRes.findElem(getH(HOTEL), rese);
-        iRes.deleteElem(getH(HOTEL), r);
+        DialogVariables v = new DialogVariables();
+        v.setValueS("billno", b.getName());
+        runAction(v, token, "dialog4.xml", "invoicexmlforbill");
+        assertTrue(v.getValue("OK").getValueB());
+        String xml = v.getValueS("xml");
+        assertNotNull(xml);
+        System.out.println(xml);
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document doc = builder.parse(new InputSource(new StringReader(xml)));
+        XPathFactory xPathfactory = XPathFactory.newInstance();
+        XPath xpath = xPathfactory.newXPath();
+        XPathExpression expr = xpath.compile("/invoice/country");
+        NodeList nl = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+        assertNotNull(nl);
+        System.out.println(nl);
+        Node no = nl.item(0);
+        String s = no.getTextContent();
+        System.out.println(s);
+        assertEquals(s,"United Kingdom");
+        int i = 0;
+
     }
 
 }

@@ -26,8 +26,6 @@ public class HotelApplication implements EntryPoint {
         String hotelName = Utils.getURLParam(IHotelConsts.HOTELURLQUERY);
         CustomSecurity sec = new CustomSecurity();
         sec.setAttr(IHotelConsts.HOTELNAME, hotelName);
-        // TODO: now application id is settled here
-        // Future: change it
         sec.setAttr(IHotelConsts.INSTANCEID, IHotelConsts.INSTANCEDEFAULT);
         JythonClientStart.start(null, sec);
     }

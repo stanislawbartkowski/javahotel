@@ -17,7 +17,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -39,7 +38,7 @@ public class Test12 extends TestHelper {
     public void before() {
         clearObjects();
         createHotels();
-        DateFormatUtil.setTestToday(DateFormatUtil.toD(2013, 6, 13));
+        setTestToday(DateFormatUtil.toD(2013, 6, 13));
     }
 
     @Test
@@ -92,6 +91,7 @@ public class Test12 extends TestHelper {
         det.setResDate(res);
         det.setPrice(new BigDecimal(100));
         det.setService("1p1");
+        det.setPriceTotal(new BigDecimal(100));
         r.getResDetail().add(det);
 
         r = iRes.addElem(getH(HOTEL), r);
@@ -175,6 +175,7 @@ public class Test12 extends TestHelper {
                 det.setNoP(1);
                 det.setResDate(res);
                 det.setPrice(new BigDecimal(100 * j * i));
+                det.setPriceTotal(det.getPrice());
                 det.setService("SE" + j);
                 det.setRoomName("NO" + j);
                 r.getResDetail().add(det);
@@ -191,6 +192,7 @@ public class Test12 extends TestHelper {
         det.setNoP(1);
         det.setResDate(res);
         det.setPrice(new BigDecimal(500));
+        det.setPriceTotal(new BigDecimal(500));
         det.setService("SE0");
         det.setRoomName("NO0");
         r.getResDetail().add(det);

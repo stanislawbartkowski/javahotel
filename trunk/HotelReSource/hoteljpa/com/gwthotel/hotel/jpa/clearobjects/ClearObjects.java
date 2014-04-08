@@ -12,22 +12,29 @@
  */
 package com.gwthotel.hotel.jpa.clearobjects;
 
+import java.util.Date;
+
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
 import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.jpa.JUtils;
+import com.gwtmodel.table.common.dateutil.ISetTestToday;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaTransaction;
 
 public class ClearObjects implements IClearHotel {
 
     private final ITransactionContextFactory eFactory;
+    private final ISetTestToday iSetToday;
 
     @Inject
-    public ClearObjects(ITransactionContextFactory eFactory) {
+    public ClearObjects(ITransactionContextFactory eFactory,
+            ISetTestToday iSetToday) {
         this.eFactory = eFactory;
+        this.iSetToday = iSetToday;
+
     }
 
     private class RemoveObject extends JpaTransaction {
@@ -56,6 +63,12 @@ public class ClearObjects implements IClearHotel {
     public void clearObjects(HotelId hotel) {
         RemoveObject comma = new RemoveObject(hotel);
         comma.executeTran();
+    }
+
+    @Override
+    public void setTestDataToday(Date d) {
+        iSetToday.setToday(d);
+
     }
 
 }

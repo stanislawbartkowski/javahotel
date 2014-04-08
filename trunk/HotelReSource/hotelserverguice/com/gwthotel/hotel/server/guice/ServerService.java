@@ -12,6 +12,8 @@
  */
 package com.gwthotel.hotel.server.guice;
 
+import java.util.Date;
+
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -54,6 +56,7 @@ import com.gwthotel.resource.GetResourceJNDI;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.gwtmodel.mapcache.SimpleMapCacheFactory;
+import com.gwtmodel.table.common.dateutil.ISetTestToday;
 import com.jython.ui.server.jpastoragekey.BlobEntryJpaHandler;
 import com.jython.ui.server.jpastoragekey.IStorageJpaRegistryFactory;
 import com.jython.ui.server.jpastoragekey.StorageJpaRegistryFactory;
@@ -167,6 +170,19 @@ public class ServerService {
                 public ITransactionContext construct() {
                     return new JpaTransactionContext(eFactory);
                 }
+            };
+        }
+
+        @Provides
+        @Singleton
+        ISetTestToday getSetTestToday() {
+            return new ISetTestToday() {
+
+                @Override
+                public void setToday(Date p) {
+
+                }
+
             };
         }
 

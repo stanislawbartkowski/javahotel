@@ -49,6 +49,9 @@ import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.mess.HotelMessProvider;
 import com.gwthotel.shared.IHotelConsts;
+import com.gwtmodel.table.common.dateutil.ISetTestToday;
+import com.gwtmodel.table.common.dateutil.SetTestTodayProvider;
+import com.jython.ui.server.jpastoragekey.BlobEntryJpaHandler;
 import com.jython.ui.server.jpastoragekey.IStorageJpaRegistryFactory;
 import com.jython.ui.server.jpastoragekey.StorageJpaRegistryFactory;
 import com.jython.ui.server.jpatrans.ITransactionContext;
@@ -60,6 +63,7 @@ import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.logmess.MessProvider;
 import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.server.semaphore.impl.SemaphoreRegistry;
+import com.jythonui.server.storage.blob.IBlobHandler;
 import com.jythonui.server.storage.gensym.ISymGenerator;
 import com.jythonui.server.storage.gensym.ISymGeneratorFactory;
 import com.jythonui.server.storage.gensymimpl.SymGeneratorFactory;
@@ -124,11 +128,15 @@ public class GuiceService {
                     StorageJpaRegistryFactory.class).in(Singleton.class);
             bind(ISequenceRealmGenFactory.class).to(
                     SequenceRealmGenFactory.class).in(Singleton.class);
+            bind(IBlobHandler.class).to(BlobEntryJpaHandler.class).in(
+                    Singleton.class);
 
             bind(ISymGeneratorFactory.class).to(SymGeneratorFactory.class).in(
                     Singleton.class);
             bind(ISemaphore.class).to(SemaphoreRegistry.class).in(
                     Singleton.class);
+            bind(ISetTestToday.class).toProvider(SetTestTodayProvider.class)
+                    .in(Singleton.class);
             // -----
 
         }

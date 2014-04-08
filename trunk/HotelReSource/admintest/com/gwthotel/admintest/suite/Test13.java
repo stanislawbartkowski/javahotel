@@ -44,7 +44,7 @@ public class Test13 extends TestHelper {
     public void before() {
         clearObjects();
         createHotels();
-        DateFormatUtil.setTestToday(DateFormatUtil.toD(2013, 6, 13));
+        setTestToday(DateFormatUtil.toD(2013, 6, 13));
     }
 
     @Test
@@ -69,6 +69,7 @@ public class Test13 extends TestHelper {
         det.setResDate(d);
         det.setRoomName("R10");
         det.setPrice(new BigDecimal(100));
+        det.setPriceTotal(new BigDecimal(100));
 
         HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL),
                 HotelObjects.CUSTOMER);
@@ -142,12 +143,14 @@ public class Test13 extends TestHelper {
         det.setResDate(r.dFrom);
         det.setRoomName("R10");
         det.setPrice(new BigDecimal(100));
+        det.setPriceTotal(new BigDecimal(100));
         re.getResDetail().add(det);
         det = new ReservationPaymentDetail();
         det.setNoP(1);
         det.setResDate(r.dTo);
         det.setRoomName("R11");
         det.setPrice(new BigDecimal(100));
+        det.setPriceTotal(new BigDecimal(100));
         re.getResDetail().add(det);
         re = iRes.addElem(getH(HOTEL), re);
         r.rese = re.getName();

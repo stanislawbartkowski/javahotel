@@ -16,8 +16,6 @@ from util.util import getCustFieldId
 from util.util import newResForm
 from com.gwthotel.hotel.reservation import ResStatus
 from util.util import getCustFieldId
-from util.util import mapToXML
-from util.util import xmlToVar
 from util.util import showCustomerDetails
 from util.util import getPriceForPriceList
 from cutil import setFooter
@@ -313,13 +311,13 @@ def reseraction(action,var):
         
     if action == "acceptdetails" and var["JUPDIALOG_BUTTON"] == "accept" :
         xml = var["JUPDIALOG_RES"]
-        xmlToVar(var,xml,getCustFieldIdAll(),CUST)
+        util.xmlToVar(var,xml,getCustFieldIdAll(),CUST)
         setCopy(var,getCustFieldIdAll(),None,CUST)
         
     if action=="custdetails" :
         var["JUP_DIALOG"]="hotel/reservation/customerdetails.xml" 
         var["JAFTERDIALOG_ACTION"] = "acceptdetails" 
-        var["JUPDIALOG_START"] = mapToXML(var,getCustFieldIdAll(),CUST)
+        var["JUPDIALOG_START"] = util.mapToXML(var,getCustFieldIdAll(),CUST)
             
     if action == "checkaval" :
         _checkRese(var)

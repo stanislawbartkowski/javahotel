@@ -9,6 +9,11 @@
 		<import>from hotelpack.reservation import showstay</import>
 		<method>showstay.showstay({0},{1})</method>
 	</jython>
+        
+        <actions>
+          <action id="printbill" displayname="Print" imagebutton="default_print.png" />
+        </actions>          
+       
 
 	<buttons>
 		<button id="guestdesc" displayname="@guestdetails" />
@@ -26,6 +31,9 @@
 		<field id="resename" hidden="" />
 		<field id="name" displayname="@roomname" readonly="" />
 		<field id="nop" type="int" displayname="@nopersons" readonly="" />
+                <field id="resnop" type="int" displayname="@nopersons" readonly="" hidden="" />
+                <field id="noextrabeds" type="int" displayname="@nofextrabeds" readonly="" hidden=""/>
+                <field id="nochildren" type="int" displayname="@nofchildren" readonly="" hidden=""/>
 		<field id="desc" displayname="@roomdescription" readonly="" />
                 <field id="datecol" type="date" hidden="" />
 		<!-- cust description -->
@@ -84,7 +92,7 @@
         </list>  
 
         <list id="billlist" pagesize="5" elemformat="hotel/reservation/billdesc.xml">
-                <standbutt>TOOLS,FIND,FILTER,SHOW,REMOVE</standbutt>
+                <standbutt>TOOLS,FIND,FILTER,SHOW,REMOVE,custom:printbill</standbutt>
                 <columns>
                         <column id="billname" displayname="@billname" />
                         <column id="payer_name" displayname="@billpayerid" actionid="payerdetail" />

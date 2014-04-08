@@ -52,6 +52,7 @@ import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.resbundle.Mess;
 import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.server.semaphore.impl.SemaphoreRegistry;
+import com.jythonui.server.storage.blob.IBlobHandler;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 
 /**
@@ -130,6 +131,11 @@ public class ServerService {
         @Provides
         IPaymentBillOp getPaymentBillOp() {
             return AdminEjbLocator.getBillPaymentOp();
+        }
+
+        @Provides
+        IBlobHandler getBlobHandler() {
+            return AdminEjbLocator.getBlobHandler();
         }
 
     }

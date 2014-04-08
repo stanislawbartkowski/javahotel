@@ -284,45 +284,7 @@ def resStatus(rform):
     status = rform.getStatus()
     if status == ResStatus.STAY : return 1
     return 0       
-                
-def xmlToVar(var,xml,list,pre=None) :
-    iXML = H.getXMLMap()
-    prop = iXML.readXML(xml,"root","elem")
-    for l in list :
-        val = prop.getAttr(l)
-        if pre : k = pre + l
-        else : k = l
-        var[k] = val
-        
-def mapToXML(map,list,pre=None):
-    s = "<root><elem>"
-    for e in list :
-        val = ""
-        if pre : k = pre + e
-        else : k = e
-        if map.has_key(k) :
-            if map[k] : val = str(map[k])
-        s = s + "<" + e + ">" + val + "</" + e + ">"
-    s = s + "</elem></root>"
-    return s 
-  
-def listNumberToCVS(li) :  
-  s = None
-  for l in li :
-    vals = str(l)
-    if s : s = s + "," + vals
-    else : s = vals
-  if s : return s
-  return ""
-
-def CVSToListNumber(s) :
-  if s == None : return []
-  li = []
-  for n in s.split(",") :
-    num = long(n)
-    li.append(num)
-  return li  
-  
+                  
 def printvar(method,action,var): 
     cutil.printVar(method,action,var)
 #  return  
@@ -649,3 +611,24 @@ def saveDefaCustomer(var,prefix=None) :
   
 
 # ------------------------------
+
+def xmlToVar(var,xml,list,pre=None) :
+    iXML = H.getXMLMap()
+    prop = iXML.readXML(xml,"root","elem")
+    for l in list :
+        val = prop.getAttr(l)
+        if pre : k = pre + l
+        else : k = l
+        var[k] = val
+        
+def mapToXML(map,list,pre=None):
+    s = "<root><elem>"
+    for e in list :
+        val = ""
+        if pre : k = pre + e
+        else : k = e
+        if map.has_key(k) :
+            if map[k] : val = str(map[k])
+        s = s + "<" + e + ">" + val + "</" + e + ">"
+    s = s + "</elem></root>"
+    return s 

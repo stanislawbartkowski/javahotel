@@ -2,6 +2,12 @@ import cutil
 import con
 from util import rutil
 from util import util
+from util import rpdf
+import pdfutil
+
+from com.jythonui.server.holder import SHolder
+
+ADDBLOB=SHolder.getAddBlob()
 
 BILLIST="billlist"
 
@@ -104,6 +110,10 @@ def showstay(action,var):
       var["JAFTERDIALOG_ACTION"] = "afterlistpayments"
       var["JUPDIALOG_START"] = var["billname"]
       
+   if action == "printbill" and var["billlist_lineset"] :
+      var["JUP_DIALOG"]="hotel/reservation/billprint.xml" 
+      var["JUPDIALOG_START"] = var["billname"]
+      
    if action == "afteraddpayment" and var["JUPDIALOG_BUTTON"] == "addpayment" :
      _listOfPayments(var)
         
@@ -112,3 +122,22 @@ def showstay(action,var):
        
    if action == "guestdetail" :
        util.showCustomerDetails(var,var["guest_name"])
+
+
+def billprint(action,var) :
+   cutil.printVar("bill print",action,var)
+   
+   if action == "before" :
+     billname=var["JUPDIALOG_START"]
+     xml = rpdf.buildXMLS(var,billname)
+     b = pdfutil.xsltHtml("invoice/invoicestandard.xslt",xml)
+     html =  b.toString()
+     var["html"] = html
+     var["billno"] = billname
+     cutil.setCopy(var,["html","billno","download"])
+     pdf = pdfutil.createPDFXSLT("invoice/invoicestandard.xslt",xml)
+     assert pdf != None
+     bkey = ADDBLOB.addNewBlob("TEMPORARY","PDF",pdf)
+     var["download"] = "TEMPORARY:" + bkey + ":print.pdf"
+
+   

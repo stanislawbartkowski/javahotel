@@ -12,6 +12,8 @@
  */
 package com.gwthotel.admintest.guice;
 
+import java.util.Date;
+
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.gwthotel.admin.IAppInstanceHotel;
@@ -25,6 +27,7 @@ import com.gwthotel.admin.ejblocator.HotelPriceListProvider;
 import com.gwthotel.admin.ejblocator.HotelRoomsProvider;
 import com.gwthotel.admin.ejblocator.HotelServicesProvider;
 import com.gwthotel.admin.ejblocator.StorageRealmProvider;
+import com.gwthotel.admintest.suite.TestHelper;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.IGetAutomPatterns;
 import com.gwthotel.hotel.bill.ICustomerBills;
@@ -39,13 +42,17 @@ import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.gwtmodel.mapcache.SimpleMapCacheFactory;
+import com.gwtmodel.table.common.dateutil.ISetTestToday;
 import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.gwtmodel.testenhancer.notgae.TestEnhancer;
+import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IJythonUIServerProperties;
+import com.jythonui.server.defa.EmptyConnectionProvider;
 import com.jythonui.server.defa.StorageRealmRegistryFactory;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.server.semaphore.impl.SemaphoreRegistry;
+import com.jythonui.server.storage.blob.IBlobHandler;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 
 /**
@@ -90,7 +97,11 @@ public class ServerService {
                             Singleton.class);
             bind(IGetAutomPatterns.class).to(GetTestPatterns.class).in(
                     Singleton.class);
+            bind(IGetConnection.class)
+                    .toProvider(EmptyConnectionProvider.class).in(
+                            Singleton.class);
             requestStatic();
+            requestStaticInjection(TestHelper.class);
         }
 
         @Provides
@@ -117,6 +128,25 @@ public class ServerService {
         IPaymentBillOp getPaymentBillOp() {
             return AdminEjbLocator.getBillPaymentOp();
         }
+
+        @Provides
+        IBlobHandler getBlobHandler() {
+            return AdminEjbLocator.getBlobHandler();
+        }
+
+        @Provides
+        @Singleton
+        ISetTestToday getSetToday(final IClearHotel iClear) {
+            return new ISetTestToday() {
+
+                @Override
+                public void setToday(Date p) {
+                    iClear.setTestDataToday(p);                    
+                }
+                
+            };
+        }
+
     }
 
 }
