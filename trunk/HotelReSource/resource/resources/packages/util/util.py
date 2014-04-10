@@ -311,6 +311,10 @@ def getHotel(var) :
     """
     return getHotelName(var).getHotel()
 
+def getPerson(var):
+    token = var["SECURITY_TOKEN"]
+    return H.getInstanceId(token).getPerson()
+
 def getAppId(var):
     token = var["SECURITY_TOKEN"]
     return H.getInstanceId(token)

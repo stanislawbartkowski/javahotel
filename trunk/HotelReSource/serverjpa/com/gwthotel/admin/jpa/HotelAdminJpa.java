@@ -36,6 +36,7 @@ import com.gwthotel.shared.PropDescription;
 import com.gwtmodel.table.common.CUtil;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaTransaction;
+import com.jython.ui.shared.BUtil;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.shared.JythonUIFatal;
 
@@ -216,7 +217,7 @@ class HotelAdminJpa implements IHotelAdmin {
                 create = true;
             }
             PropUtils.copyToEDict(hote, hotel);
-            HUtils.setCreateModif(i.getPerson(), hote, create);
+            BUtil.setCreateModif(i.getPerson(), hote, create);
             em.persist(hote);
             makekeys();
             Query q = em.createNamedQuery("removeRolesForHotel");
@@ -259,7 +260,7 @@ class HotelAdminJpa implements IHotelAdmin {
                 create = true;
             }
             PropUtils.copyToEDict(pe, person);
-            HUtils.setCreateModif(i.getPerson(), pe, create);
+            BUtil.setCreateModif(i.getPerson(), pe, create);
             em.persist(pe);
             makekeys();
             Query q = em.createNamedQuery("removeRolesForPerson");

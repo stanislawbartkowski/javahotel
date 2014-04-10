@@ -97,9 +97,9 @@ public interface IHotelConsts {
     String CREATIONPERSON = "creationperson";
     String MODIFPERSON = "modifperson";
 
-    String CREATIONPERSONPROPERTY = "creationPerson";
-    String CREATIONDATEPROPERTY = "creationDate";
-    String MODIFPERSONPROPERTY = "modifPerson";
-    String MODIFDATEPROPERTY = "modifDate";
+    //String CREATIONPERSONPROPERTY = "creationPerson";
+    //String CREATIONDATEPROPERTY = "creationDate";
+    //String MODIFPERSONPROPERTY = "modifPerson";
+    //String MODIFDATEPROPERTY = "modifDate";
 
 }

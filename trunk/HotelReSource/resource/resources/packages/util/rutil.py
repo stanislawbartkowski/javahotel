@@ -66,11 +66,11 @@ def setvarBefore(var,cust="cust_"):
     nop = room.getNoPersons()
     var["name"] = roomname
     var["desc"] = room.getDescription()
-    var["nop"] = nop
+#    var["nop"] = nop
     var["noextrabeds"] = util.getIntField(room.getNoExtraBeds())
     var["nochildren"] = util.getIntField(room.getNoChildren())
-    var["resnop"] = util.getIntField(room.getNoChildren())
-    util.setCopy(var,["resename","name","datecol","nop","desc","resdays","noextrabeds","nochildren","resnop"])
+    var["resnop"] = util.getIntField(nop)
+    util.setCopy(var,["resename","name","datecol","desc","resdays","noextrabeds","nochildren","resnop"])
     res = getReservForDay(var)
     if len(res) == 0 :
       date = var["JDATELINE_DATE"]

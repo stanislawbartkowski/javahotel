@@ -19,7 +19,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import com.gwthotel.admin.HotelId;
-import com.gwthotel.hotel.HUtils;
 import com.gwthotel.hotel.jpa.JUtils;
 import com.gwthotel.hotel.jpa.entities.EBillPayment;
 import com.gwthotel.hotel.jpa.entities.ECustomerBill;
@@ -27,6 +26,7 @@ import com.gwthotel.hotel.payment.IPaymentBillOp;
 import com.gwthotel.hotel.payment.PaymentBill;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaTransaction;
+import com.jython.ui.shared.BUtil;
 
 class PaymentOp implements IPaymentBillOp {
 
@@ -104,7 +104,7 @@ class PaymentOp implements IPaymentBillOp {
             ECustomerBill b = findBill(em);
             EBillPayment e = new EBillPayment();
             // only creation date
-            HUtils.setCreateModif(hotel.getUserName(), e, true);
+            BUtil.setCreateModif(hotel.getUserName(), e, true);
             e.setCustomerBill(b);
             e.setDateOfPayment(p.getDateOfPayment());
             e.setPaymentMethod(p.getPaymentMethod());

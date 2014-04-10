@@ -122,22 +122,8 @@ def showstay(action,var):
        
    if action == "guestdetail" :
        util.showCustomerDetails(var,var["guest_name"])
-
-
-def billprint(action,var) :
-   cutil.printVar("bill print",action,var)
-   
-   if action == "before" :
-     billname=var["JUPDIALOG_START"]
-     xml = rpdf.buildXMLS(var,billname)
-     b = pdfutil.xsltHtml("invoice/invoicestandard.xslt",xml)
-     html =  b.toString()
-     var["html"] = html
-     var["billno"] = billname
-     cutil.setCopy(var,["html","billno","download"])
-     pdf = pdfutil.createPDFXSLT("invoice/invoicestandard.xslt",xml)
-     assert pdf != None
-     bkey = ADDBLOB.addNewBlob("TEMPORARY","PDF",pdf)
-     var["download"] = "TEMPORARY:" + bkey + ":print.pdf"
-
+       
+   if action == "listpdf" :
+      var["JUP_DIALOG"]="hotel/reservation/pdflist.xml" 
+      var["JUPDIALOG_START"] = var["billname"]
    
