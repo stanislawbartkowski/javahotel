@@ -18,6 +18,8 @@ DATE="date"
 BOOL="boolean"
 STRING="string"
 
+PDFTEMPORARY="TEMPORARY"
+
 class MESS :
 
   def __init__(self):
@@ -247,6 +249,8 @@ class RegistryFile:
     
     def __init__(self,fa,realM,seqGen,map, listid,id):
         self.__fa = fa
+        if fa == None :
+            self.__fa = Holder.getRegFactory()
         self.__realM = realM
         self.__seqGen = seqGen
         if seqGen == None :
