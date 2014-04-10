@@ -24,6 +24,7 @@ import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.IXMLToMap;
 import com.jythonui.server.dict.IGetLocalizedDict;
 import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.resbundle.IAppMess;
 import com.jythonui.server.security.ISecurity;
 import com.jythonui.server.security.ISecurityConvert;
@@ -49,6 +50,9 @@ public class Holder {
 
     @Inject
     private static IJythonUIServerProperties iJython;
+
+    @Inject
+    private static IStorageRegistryFactory regFactory;
 
     private static boolean auth = false;
 
@@ -157,6 +161,10 @@ public class Holder {
 
     public static IJythonUIServerProperties getIJython() {
         return iJython;
+    }
+
+    public static IStorageRegistryFactory getRegFactory() {
+        return regFactory;
     }
 
 }
