@@ -12,12 +12,14 @@
  */
 package com.jython.ui;
 
+import static org.junit.Assert.*;
+
+import java.util.List;
+
 import org.junit.Test;
 
 import com.jythonui.server.registry.IStorageRegistry;
 import com.jythonui.shared.DialogFormat;
-
-import static org.junit.Assert.*;
 
 public class Test35 extends TestHelper {
 
@@ -45,6 +47,12 @@ public class Test35 extends TestHelper {
 
         iBlob.addBlob(RE1, "hello", b.toString().getBytes());
 
+        List<String> bList = iBlob.findBlobs(RE1);
+        assertEquals(1, bList.size());
+        String bkey = bList.get(0);
+        System.out.println(bkey);
+        assertEquals("hello",bkey);
+
         byte[] bb = reg.getEntry("hello");
         assertNotNull(bb);
         String s = new String(bb);
@@ -65,20 +73,21 @@ public class Test35 extends TestHelper {
         iBlob.removeBlob(RE1, "hello");
         bb = iBlob.findBlob(RE1, "hello");
         assertNull(bb);
+        assertTrue(iBlob.findBlobs("RE1").isEmpty());
     }
 
     @Test
     public void test2() {
         beforeTest();
         try {
-        DialogFormat d = findDialog("test71.xml");
-        fail("Should fail here");
+            DialogFormat d = findDialog("test71.xml");
+            fail("Should fail here");
         } catch (Exception e) {
             // ok
         }
 
     }
-    
+
     @Test
     public void test3() {
         beforeTest();
