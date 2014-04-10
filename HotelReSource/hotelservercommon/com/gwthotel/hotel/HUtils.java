@@ -18,7 +18,6 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 
 import com.google.common.base.Optional;
@@ -27,7 +26,7 @@ import com.gwthotel.mess.IHError;
 import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwthotel.shared.PropDescription;
-import com.gwtmodel.table.common.dateutil.DateFormatUtil;
+import com.jython.ui.shared.ISharedConsts;
 import com.jython.ui.shared.MUtil;
 import com.jythonui.shared.JythonUIFatal;
 
@@ -89,30 +88,30 @@ public class HUtils {
         return MUtil.roundB(b);
     }
 
-    private static void setD(Object o, String propname) {
-        Date d = DateFormatUtil.getToday();
-        try {
-            BeanUtils.setProperty(o, propname, d);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-        }
-    }
-
-    private static void setPerson(Object o, String propName, String person) {
-        try {
-            PropertyUtils.setProperty(o, propName, person);
-        } catch (IllegalAccessException | InvocationTargetException
-                | NoSuchMethodException e) {
-        }
-    }
-
-    public static void setCreateModif(String person, Object o, boolean create) {
-        setD(o, IHotelConsts.MODIFDATEPROPERTY);
-        if (create)
-            setD(o, IHotelConsts.CREATIONDATEPROPERTY);
-        setPerson(o, IHotelConsts.MODIFPERSONPROPERTY, person);
-        if (create)
-            setPerson(o, IHotelConsts.CREATIONPERSONPROPERTY, person);
-    }
+//    private static void setD(Object o, String propname) {
+//        Date d = DateFormatUtil.getToday();
+//        try {
+//            BeanUtils.setProperty(o, propname, d);
+//        } catch (IllegalAccessException | InvocationTargetException e) {
+//        }
+//    }
+//
+//    private static void setPerson(Object o, String propName, String person) {
+//        try {
+//            PropertyUtils.setProperty(o, propName, person);
+//        } catch (IllegalAccessException | InvocationTargetException
+//                | NoSuchMethodException e) {
+//        }
+//    }
+//
+//    public static void setCreateModif(String person, Object o, boolean create) {
+//        setD(o, IHotelConsts.MODIFDATEPROPERTY);
+//        if (create)
+//            setD(o, IHotelConsts.CREATIONDATEPROPERTY);
+//        setPerson(o, IHotelConsts.MODIFPERSONPROPERTY, person);
+//        if (create)
+//            setPerson(o, IHotelConsts.CREATIONPERSONPROPERTY, person);
+//    }
 
     private static Optional<Date> retrieveD(Object o, String propName) {
         Date d = null;
@@ -137,16 +136,16 @@ public class HUtils {
     }
 
     public static void retrieveCreateModif(PropDescription dest, Object sou) {
-        Optional<Date> d = retrieveD(sou, IHotelConsts.CREATIONDATEPROPERTY);
+        Optional<Date> d = retrieveD(sou, ISharedConsts.CREATIONDATEPROPERTY);
         if (d != null)
             dest.setCreationDate(d.orNull());
-        d = retrieveD(sou, IHotelConsts.MODIFDATEPROPERTY);
+        d = retrieveD(sou, ISharedConsts.MODIFDATEPROPERTY);
         if (d != null)
             dest.setModifDate(d.orNull());
-        Optional<String> s = retrieveS(sou, IHotelConsts.CREATIONPERSONPROPERTY);
+        Optional<String> s = retrieveS(sou, ISharedConsts.CREATIONPERSONPROPERTY);
         if (s != null)
             dest.setCreationPerson(s.orNull());
-        s = retrieveS(sou, IHotelConsts.MODIFPERSONPROPERTY);
+        s = retrieveS(sou, ISharedConsts.MODIFPERSONPROPERTY);
         if (s != null)
             dest.setModifPerson(s.orNull());
 

@@ -12,7 +12,8 @@
         
         <actions>
           <action id="printbill" displayname="Print" imagebutton="default_print.png" />
-        </actions>          
+          <action id="listpdf" displayname="List of PDFs"/>
+         </actions>          
        
 
 	<buttons>
@@ -92,7 +93,7 @@
         </list>  
 
         <list id="billlist" pagesize="5" elemformat="hotel/reservation/billdesc.xml">
-                <standbutt>TOOLS,FIND,FILTER,SHOW,REMOVE,custom:printbill</standbutt>
+                <standbutt>TOOLS,FIND,FILTER,SHOW,REMOVE,custom:printbill,custom:listpdf</standbutt>
                 <columns>
                         <column id="billname" displayname="@billname" />
                         <column id="payer_name" displayname="@billpayerid" actionid="payerdetail" />

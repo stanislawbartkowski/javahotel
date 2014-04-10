@@ -23,12 +23,12 @@ import com.gwthotel.admin.HotelId;
 import com.gwthotel.admin.IAppInstanceHotel;
 import com.gwthotel.admin.jpa.entities.EHotel;
 import com.gwthotel.admin.jpa.entities.EInstance;
-import com.gwthotel.hotel.HUtils;
 import com.gwthotel.mess.IHError;
 import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.IHotelConsts;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaTransaction;
+import com.jython.ui.shared.BUtil;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.shared.JythonUIFatal;
 
@@ -75,7 +75,7 @@ class HotelAdminInstance implements IAppInstanceHotel {
                         || instanceName.equals(IHotelConsts.INSTANCEDEFAULT)) {
                     insta = new EInstance();
                     insta.setName(instanceName);
-                    HUtils.setCreateModif(userName, insta, true);
+                    BUtil.setCreateModif(userName, insta, true);
                     em.persist(insta);
                     makekeys();
                     log.info(lMess.getMessN(

@@ -18,6 +18,7 @@ import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
+import com.jython.ui.shared.GetCreateModifTime;
 import com.jythonui.server.registry.IStorageRegistry;
 
 public class Test24 extends TestHelper {
@@ -55,6 +56,11 @@ public class Test24 extends TestHelper {
         bb = iBlob.findBlob(RE1, "hello");
         assertNotNull(bb);
         assertEquals(2890, bb.length);
+
+        GetCreateModifTime bTime = iBlob.getModifTime(RE1, "hello");
+        assertNotNull(bTime);
+        assertNotNull(bTime.getCreationDate());
+        assertNotNull(bTime.getModifDate());
 
         iBlob.changeBlob(RE1, "hello", hello.getBytes());
         bb = iBlob.findBlob(RE1, "hello");

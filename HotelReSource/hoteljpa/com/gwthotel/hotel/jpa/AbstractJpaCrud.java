@@ -31,6 +31,7 @@ import com.gwthotel.shared.IHotelConsts;
 import com.gwthotel.shared.PropDescription;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaTransaction;
+import com.jython.ui.shared.BUtil;
 import com.jythonui.server.getmess.IGetLogMess;
 
 public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHotelDict>
@@ -152,7 +153,7 @@ public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHote
             iGenSym.genSym(hotel, elem, tObject);
             toE(pers, elem, em, hotel);
             JUtils.copyToEDict(hotel, pers, elem);
-            HUtils.setCreateModif(hotel.getUserName(), pers, true);
+            BUtil.setCreateModif(hotel.getUserName(), pers, true);
             em.persist(pers);
             afterAddChange(em, hotel, elem, pers, true);
             reselem = toT(pers, em, hotel);
@@ -183,7 +184,7 @@ public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHote
                 return;
             toE(pers, elem, em, hotel);
             PropUtils.copyToEDict(pers, elem);
-            HUtils.setCreateModif(hotel.getUserName(), pers, false);
+            BUtil.setCreateModif(hotel.getUserName(), pers, false);
             pers.setHotel(hotel.getId());
             em.persist(pers);
             afterAddChange(em, hotel, elem, pers, false);
