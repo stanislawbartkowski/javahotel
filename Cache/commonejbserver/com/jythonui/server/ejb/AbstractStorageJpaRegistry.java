@@ -14,6 +14,7 @@ package com.jythonui.server.ejb;
 
 import java.util.List;
 
+import com.jython.ui.shared.GetCreateModifTime;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 
 abstract class AbstractStorageJpaRegistry implements IStorageRealmRegistry {
@@ -43,6 +44,11 @@ abstract class AbstractStorageJpaRegistry implements IStorageRealmRegistry {
     @Override
     public void addNewEntry(String realM, String key, byte[] value) {
         iStorage.addNewEntry(realM, key, value);
-
     }
+
+    @Override
+    public GetCreateModifTime getModifTime(String realM, String key) {
+        return iStorage.getModifTime(realM, key);
+    }
+
 }

@@ -14,8 +14,11 @@ package com.jythonui.server.storage.registry;
 
 import java.util.List;
 
-public interface IStorageRealmRegistry {
+import com.jython.ui.shared.GetCreateModifTime;
 
+
+public interface IStorageRealmRegistry {
+    
     void putEntry(String realM, String key, byte[] value);
 
     void addNewEntry(String realM, String key, byte[] value);
@@ -25,5 +28,7 @@ public interface IStorageRealmRegistry {
     void removeEntry(String realM, String key);
 
     List<String> getKeys(String realM);
+    
+    GetCreateModifTime getModifTime(String realM, String key);
 
 }

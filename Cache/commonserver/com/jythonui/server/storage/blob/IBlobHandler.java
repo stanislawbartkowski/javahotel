@@ -12,6 +12,10 @@
  */
 package com.jythonui.server.storage.blob;
 
+import java.util.List;
+
+import com.jython.ui.shared.GetCreateModifTime;
+
 public interface IBlobHandler {
 
     void clearAll(String realM);
@@ -23,5 +27,9 @@ public interface IBlobHandler {
     byte[] findBlob(String realM, String blobid);
 
     void removeBlob(String realM, String blobid);
+    
+    List<String> findBlobs(String realM);
+    
+    GetCreateModifTime getModifTime(String realM, String key);
 
 }
