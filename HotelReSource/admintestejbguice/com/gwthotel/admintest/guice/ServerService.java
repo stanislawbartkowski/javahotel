@@ -42,12 +42,15 @@ import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.gwtmodel.mapcache.SimpleMapCacheFactory;
+import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.gwtmodel.table.common.dateutil.ISetTestToday;
 import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.gwtmodel.testenhancer.notgae.TestEnhancer;
 import com.jythonui.server.IGetConnection;
+import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.defa.EmptyConnectionProvider;
+import com.jythonui.server.defa.EmptyRPCNotifier;
 import com.jythonui.server.defa.StorageRealmRegistryFactory;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.semaphore.ISemaphore;
@@ -64,6 +67,7 @@ public class ServerService {
     public static class ServiceModule extends HotelServiceModule {
         @Override
         protected void configure() {
+            requestStaticInjection(AdminEjbLocator.class);
             configureHotel();
             bind(IJythonUIServerProperties.class).to(ServerProperties.class)
                     .in(Singleton.class);
@@ -100,6 +104,9 @@ public class ServerService {
             bind(IGetConnection.class)
                     .toProvider(EmptyConnectionProvider.class).in(
                             Singleton.class);
+            bind(IJythonRPCNotifier.class).to(EmptyRPCNotifier.class).in(
+                    Singleton.class);
+
             requestStatic();
             requestStaticInjection(TestHelper.class);
         }
@@ -141,9 +148,10 @@ public class ServerService {
 
                 @Override
                 public void setToday(Date p) {
-                    iClear.setTestDataToday(p);                    
+                    DateFormatUtil.setTestToday(p);
+                    iClear.setTestDataToday(p);
                 }
-                
+
             };
         }
 

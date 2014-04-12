@@ -63,8 +63,10 @@ import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaEmTransactionContext;
 import com.jython.ui.server.jpatrans.JpaTransactionContext;
 import com.jythonui.server.IGetConnection;
+import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.defa.EmptyConnectionProvider;
+import com.jythonui.server.defa.EmptyRPCNotifier;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.server.semaphore.impl.SemaphoreRegistry;
@@ -140,6 +142,8 @@ public class ServerService {
             bind(ISetTestToday.class).toProvider(SetTestTodayProvider.class)
                     .in(Singleton.class);
             // -----
+            bind(IJythonRPCNotifier.class).to(EmptyRPCNotifier.class).in(
+                    Singleton.class);
 
             requestStatic();
             requestStaticInjection(TestHelper.class);

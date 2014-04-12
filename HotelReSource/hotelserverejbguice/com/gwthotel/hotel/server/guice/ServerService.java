@@ -37,12 +37,13 @@ import com.gwthotel.hotel.reservation.IReservationForm;
 import com.gwthotel.hotel.reservationop.IReservationOp;
 import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.server.autompatt.GetAutomPatterns;
-import com.gwthotel.hotel.server.service.H;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.resource.GetResourceJNDI;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.gwtmodel.mapcache.SimpleMapCacheFactory;
+import com.gwtmodel.table.common.dateutil.ISetTestToday;
 import com.jythonui.server.IGetConnection;
+import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.defa.EmptyConnectionProvider;
 import com.jythonui.server.defa.IGetResourceJNDI;
@@ -64,6 +65,8 @@ public class ServerService {
     public static class ServiceModule extends HotelServiceModule {
         @Override
         protected void configure() {
+            // before configure hotel
+            requestStaticInjection(AdminEjbLocator.class);
             configureHotel();
             bind(IJythonUIServerProperties.class).to(ServerPropertiesEnv.class)
                     .in(Singleton.class);
@@ -105,37 +108,57 @@ public class ServerService {
 
             // common
             requestStatic();
-            requestStaticInjection(H.class);
         }
 
         @Provides
+        @Singleton
         IReservationForm getReservationForm() {
             return AdminEjbLocator.getReservationForm();
         }
 
         @Provides
+        @Singleton
         IReservationOp getReservationOp() {
             return AdminEjbLocator.getReservationOp();
         }
 
         @Provides
+        @Singleton
         IClearHotel getClearHotel() {
             return AdminEjbLocator.getClearHotel();
         }
 
         @Provides
+        @Singleton
         ICustomerBills getCustomerBills() {
             return AdminEjbLocator.getCustomerBills();
         }
 
         @Provides
+        @Singleton
         IPaymentBillOp getPaymentBillOp() {
             return AdminEjbLocator.getBillPaymentOp();
         }
 
         @Provides
+        @Singleton
         IBlobHandler getBlobHandler() {
             return AdminEjbLocator.getBlobHandler();
+        }
+
+        @Provides
+        @Singleton
+        IJythonRPCNotifier getNotifier(final IClearHotel iSet) {
+            return new IJythonRPCNotifier() {
+
+                @Override
+                public void hello(int what) {
+                    iSet.setTestDataToday(null);
+
+                }
+
+            };
+
         }
 
     }

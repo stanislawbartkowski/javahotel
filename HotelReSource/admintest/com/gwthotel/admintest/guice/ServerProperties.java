@@ -50,4 +50,14 @@ public class ServerProperties implements IJythonUIServerProperties {
         return JythonUiServerProvider.class.getClassLoader()
                 .getResource(RESOURCES).getPath();
     }
+
+    @Override
+    public String getEJBHost() {
+        return "think";
+    }
+
+    @Override
+    public String getEJBPort() {
+        return null;
+    }
 }

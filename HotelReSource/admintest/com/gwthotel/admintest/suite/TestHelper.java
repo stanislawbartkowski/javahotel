@@ -201,22 +201,23 @@ public class TestHelper {
         iServer.runAction(new RequestContext(), v, dialogName, actionId);
     }
 
-    protected void runAction(DialogVariables v, String token,String dialogName,
-            String actionId) {
+    protected void runAction(DialogVariables v, String token,
+            String dialogName, String actionId) {
         RequestContext re = new RequestContext();
         re.setToken(token);
         iServer.runAction(re, v, dialogName, actionId);
     }
 
     protected Date toDate(int y, int m, int d) {
-        Date da = new Date(y - 1900, m, d);
+        Date da = new Date(y - 1900, m - 1, d);
         return da;
     }
 
     protected boolean eqDate(Date da, int y, int m, int d) {
         if (da.getYear() + 1900 != y)
             return false;
-        if (da.getMonth() != m)
+        int ma = da.getMonth();
+        if (ma + 1 != m)
             return false;
         int day = da.getDate();
         if (day != d)
@@ -239,7 +240,7 @@ public class TestHelper {
     protected void setTestToday(Date d) {
         setTest.setToday(d);
     }
-    
+
     protected void setUserPassword() {
         iAdmin.clearAll(getI());
         Person pe = new Person();
@@ -261,6 +262,5 @@ public class TestHelper {
         roles.add(rol);
         iAdmin.addOrModifHotel(getI(), ho, roles);
     }
-
 
 }
