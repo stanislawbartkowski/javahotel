@@ -65,8 +65,10 @@ import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaEmTransactionContext;
 import com.jython.ui.server.jpatrans.JpaTransactionContext;
 import com.jythonui.server.IGetConnection;
+import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.defa.EmptyConnectionProvider;
+import com.jythonui.server.defa.EmptyRPCNotifier;
 import com.jythonui.server.defa.IGetResourceJNDI;
 import com.jythonui.server.defa.ServerPropertiesEnv;
 import com.jythonui.server.defa.StorageRealmRegistryFactory;
@@ -145,6 +147,9 @@ public class ServerService {
                             Singleton.class);
             bind(IBlobHandler.class).to(BlobEntryJpaHandler.class).in(
                     Singleton.class);
+            bind(IJythonRPCNotifier.class).to(EmptyRPCNotifier.class).in(
+                    Singleton.class);
+
 
             // common
 

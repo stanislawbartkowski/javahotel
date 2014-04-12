@@ -5,7 +5,7 @@ import com.gwthotel.auth.IRealmResources;
 import com.gwthotel.hotel.server.service.H;
 import com.jythonui.server.getmess.IGetLogMess;
 
-public class HotelAuthResources implements IRealmResources {
+class HotelAuthResources implements IRealmResources {
 
     @Override
     public IHotelAdmin getAdmin() {

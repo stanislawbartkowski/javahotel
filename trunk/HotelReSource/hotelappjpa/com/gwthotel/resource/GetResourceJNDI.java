@@ -21,6 +21,8 @@ public class GetResourceJNDI implements IGetResourceJNDI {
     private final static String RESOURCEDIR = "hotelapp/resource";
     private final static String CACHED = "hotelapp/cached";
     private final static String COMP = "java:comp/env/";
+    private final static String EJBHOST = "hotelapp/ejbhost";
+    private final static String EJBPORT = "hotelapp/ejbport";
 
     private String getRes(String res) {
         if (ContainerInfo.getContainerType() == ContainerType.TOMCAT)
@@ -36,6 +38,16 @@ public class GetResourceJNDI implements IGetResourceJNDI {
     @Override
     public String getCachedValue() {
         return getRes(CACHED);
+    }
+
+    @Override
+    public String getEJBHost() {
+        return getRes(EJBHOST);
+    }
+
+    @Override
+    public String getEJBPort() {
+        return getRes(EJBPORT);
     }
 
 }

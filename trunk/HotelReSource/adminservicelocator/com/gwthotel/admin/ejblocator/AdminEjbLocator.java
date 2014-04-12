@@ -12,12 +12,14 @@
  */
 package com.gwthotel.admin.ejblocator;
 
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import com.google.inject.Inject;
 import com.gwthotel.admin.IAppInstanceHotel;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.hotel.IClearHotel;
@@ -32,6 +34,7 @@ import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.shared.IHotelConsts;
 import com.jython.ui.shared.ISharedConsts;
+import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.storage.blob.IBlobHandler;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 import com.jythonui.server.storage.seq.ISequenceRealmGen;
@@ -51,9 +54,32 @@ public class AdminEjbLocator {
         throw new JythonUIFatal(mess, e);
     }
 
+    @Inject
+    private static IJythonUIServerProperties iServer;
+
     private static <T> T construct(String name) {
         try {
-            Object remoteObj = new InitialContext().lookup(name);
+            Properties props = null;
+            if (iServer.getEJBHost() != null) {
+                props = new Properties();
+                props.setProperty("java.naming.factory.initial",
+                        "com.sun.enterprise.naming.SerialInitContextFactory");
+                props.setProperty("java.naming.factory.url.pkgs",
+                        "com.sun.enterprise.naming");
+                props.setProperty("java.naming.factory.state",
+                        "com.sun.corba.ee.impl.presentation.rmi.JNDIStateFactoryImpl");
+                // props.setProperty("org.omg.CORBA.ORBInitialHost", "think");
+                props.setProperty("org.omg.CORBA.ORBInitialHost",
+                        iServer.getEJBHost());
+                // props.setProperty("org.omg.CORBA.ORBInitialHost",
+                // props.setProperty("org.omg.CORBA.ORBInitialPort", "3700");
+                // "localhost");
+                if (iServer.getEJBPort() != null)
+                    props.setProperty("org.omg.CORBA.ORBInitialPort",
+                            iServer.getEJBPort());
+            }
+            InitialContext ic = new InitialContext(props);
+            Object remoteObj = ic.lookup(name);
             T inter = (T) remoteObj;
             return inter;
         } catch (NamingException e) {

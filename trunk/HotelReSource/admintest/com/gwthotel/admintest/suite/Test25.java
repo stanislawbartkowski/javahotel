@@ -13,10 +13,12 @@
 package com.gwthotel.admintest.suite;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -155,6 +157,15 @@ public class Test25 extends TestHelper {
 
         verifyNumberOf(b,token,5); 
                 
+    }
+    
+    @Test
+    public void test2() {
+        Date da = DateFormatUtil.getToday();
+        assertTrue(eqDate(da,2013,6,13));
+        setTestToday(null);
+        da = DateFormatUtil.getToday();
+        assertFalse(eqDate(da,2013,6,13));
     }
 
 }
