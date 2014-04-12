@@ -58,32 +58,35 @@ public class ServerPropertiesEnv implements IJythonUIServerProperties {
         this.getJNDI = getJNDI;
     }
 
-    private EnvVar getEnvString(String name, boolean logVal) {
+    private EnvVar getEnvString(String name, boolean logVal, boolean throwerror) {
         Context initCtx;
         EnvVar r = new EnvVar();
         try {
             initCtx = new InitialContext();
             // Context envCtx = (Context) initCtx.lookup("java:comp/env");
             Object res = initCtx.lookup(name);
-            if (res == null) {
-                error(gMess.getMess(IErrorCode.ERRORCODE44,
-                        ILogMess.CANNOTFINDRESOURCEVARIABLE, name), null);
-            }
+            if (res == null)
+                if (throwerror)
+                    error(gMess.getMess(IErrorCode.ERRORCODE44,
+                            ILogMess.CANNOTFINDRESOURCEVARIABLE, name), null);
+                else
+                    return null;
             if (logVal)
                 r.resL = (Boolean) res;
             else
                 r.resS = (String) res;
             return r;
         } catch (NamingException e) {
-            error(gMess.getMess(IErrorCode.ERRORCODE43,
-                    ILogMess.ERRORWHILEREADINGCONTEXT, name), e);
+            if (throwerror)
+                error(gMess.getMess(IErrorCode.ERRORCODE43,
+                        ILogMess.ERRORWHILEREADINGCONTEXT, name), e);
+            return null;
         }
-        return null;
     }
 
     @Override
     public String getResourceDirectory() {
-        EnvVar e = getEnvString(getJNDI.getResourceDir(), false);
+        EnvVar e = getEnvString(getJNDI.getResourceDir(), false, true);
         return e.resS + "/" + ISharedConsts.RESOURCES;
     }
 
@@ -103,13 +106,29 @@ public class ServerPropertiesEnv implements IJythonUIServerProperties {
 
     @Override
     public boolean isCached() {
-        EnvVar e = getEnvString(getJNDI.getCachedValue(), true);
+        EnvVar e = getEnvString(getJNDI.getCachedValue(), true, true);
         return e.resL;
     }
 
     @Override
     public String getBundleBase() {
         return getResource(IConsts.BUNDLEDIR);
+    }
+
+    @Override
+    public String getEJBHost() {
+        EnvVar e = getEnvString(getJNDI.getEJBHost(), false, false);
+        if (e == null)
+            return null;
+        return e.resS;
+    }
+
+    @Override
+    public String getEJBPort() {
+        EnvVar e = getEnvString(getJNDI.getEJBPort(), false, false);
+        if (e == null)
+            return null;
+        return e.resS;
     }
 
 }

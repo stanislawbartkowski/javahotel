@@ -29,5 +29,11 @@ public interface ISharedConsts {
 
     char MALEDICT = 'M';
     char FEMALEDICT = 'F';
+    
+    String CREATIONPERSONPROPERTY = "creationPerson";
+    String CREATIONDATEPROPERTY = "creationDate";
+    String MODIFPERSONPROPERTY = "modifPerson";
+    String MODIFDATEPROPERTY = "modifDate";
+
 
 }

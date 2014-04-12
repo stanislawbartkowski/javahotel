@@ -67,4 +67,9 @@ public class BlobEntryJpaHandler extends AbstractStorageJpaRegistry implements
 
     }
 
+    @Override
+    public List<String> findBlobs(String realM) {
+        return this.getKeys(realM);
+    }
+
 }

@@ -50,7 +50,7 @@ public class SHolder {
 
     @Inject
     private static IAddNewBlob iAddBlob;
-
+    
     public static IGetLogMess getM() {
         return logMess;
     }
@@ -78,5 +78,5 @@ public class SHolder {
     public static IAddNewBlob getAddBlob() {
         return iAddBlob;
     }
-
+    
 }

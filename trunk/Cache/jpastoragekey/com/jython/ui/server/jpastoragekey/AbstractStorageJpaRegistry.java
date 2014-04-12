@@ -22,6 +22,8 @@ import javax.persistence.Query;
 import com.jython.ui.server.jpastoragekey.entity.AbstractRegistryEntry;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaTransaction;
+import com.jython.ui.shared.BUtil;
+import com.jython.ui.shared.GetCreateModifTime;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 
 abstract class AbstractStorageJpaRegistry implements IStorageRealmRegistry {
@@ -49,12 +51,14 @@ abstract class AbstractStorageJpaRegistry implements IStorageRealmRegistry {
         }
     }
 
-    private AbstractRegistryEntry getE(EntityManager em, String realM, String key) {
+    private AbstractRegistryEntry getE(EntityManager em, String realM,
+            String key) {
         Query q = em.createNamedQuery(queries[FINDENTRY]);
         q.setParameter(1, realM);
         q.setParameter(2, key);
         try {
-            AbstractRegistryEntry e = (AbstractRegistryEntry) q.getSingleResult();
+            AbstractRegistryEntry e = (AbstractRegistryEntry) q
+                    .getSingleResult();
             if (e == null)
                 return null;
             return e;
@@ -68,6 +72,7 @@ abstract class AbstractStorageJpaRegistry implements IStorageRealmRegistry {
         private final String realm;
         private final String key;
         byte[] res;
+        AbstractRegistryEntry r;
 
         GetEntry(String realm, String key) {
             this.realm = realm;
@@ -76,7 +81,7 @@ abstract class AbstractStorageJpaRegistry implements IStorageRealmRegistry {
 
         @Override
         protected void dosth(EntityManager em) {
-            AbstractRegistryEntry r = getE(em, realm, key);
+            r = getE(em, realm, key);
             if (r == null)
                 res = null;
             else
@@ -107,12 +112,15 @@ abstract class AbstractStorageJpaRegistry implements IStorageRealmRegistry {
         @Override
         public void dosth(EntityManager em) {
             AbstractRegistryEntry e = getE(em, realm, key);
+            boolean create = false;
             if (e == null) {
                 e = construct();
                 e.setRegistryRealm(realm);
                 e.setRegistryEntry(key);
+                create = true;
             }
             e.setValue(value);
+            BUtil.setCreateModif(null, e, create);
             em.persist(e);
         }
 
@@ -179,12 +187,25 @@ abstract class AbstractStorageJpaRegistry implements IStorageRealmRegistry {
                 e.setRegistryRealm(realM);
                 e.setRegistryEntry(key);
                 e.setValue(value);
+                BUtil.setCreateModif(null, e, true);
                 em.persist(e);
             }
 
         };
         trans.executeTran();
+    }
 
+    @Override
+    public GetCreateModifTime getModifTime(String realM, String key) {
+        final GetEntry comma = new GetEntry(realM, key);
+        comma.executeTran();
+        GetCreateModifTime res = new GetCreateModifTime();
+        if (comma.r != null) {
+            res.setCreationDate(comma.r.getCreationDate());
+            res.setModifDate(comma.r.getModifDate());
+
+        }
+        return res;
     }
 
 }

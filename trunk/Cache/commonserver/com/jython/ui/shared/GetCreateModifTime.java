@@ -10,15 +10,31 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server.defa;
+package com.jython.ui.shared;
 
-public interface IGetResourceJNDI {
+import java.io.Serializable;
+import java.util.Date;
 
-    String getResourceDir();
+@SuppressWarnings("serial")
+public class GetCreateModifTime implements Serializable {
 
-    String getCachedValue();
+    private Date creationDate;
+    private Date modifDate;
 
-    String getEJBHost();
+    public Date getCreationDate() {
+        return creationDate;
+    }
 
-    String getEJBPort();
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Date getModifDate() {
+        return modifDate;
+    }
+
+    public void setModifDate(Date modifDate) {
+        this.modifDate = modifDate;
+    }
+
 }

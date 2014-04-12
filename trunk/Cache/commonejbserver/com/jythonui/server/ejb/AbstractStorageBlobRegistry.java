@@ -12,12 +12,15 @@
  */
 package com.jythonui.server.ejb;
 
+import java.util.List;
+
+import com.jython.ui.shared.GetCreateModifTime;
 import com.jythonui.server.storage.blob.IBlobHandler;
 
 abstract class AbstractStorageBlobRegistry implements IBlobHandler {
 
     protected IBlobHandler iBlob;
-    
+
     @Override
     public void clearAll(String realM) {
         iBlob.clearAll(realM);
@@ -26,12 +29,12 @@ abstract class AbstractStorageBlobRegistry implements IBlobHandler {
     @Override
     public void addBlob(String realM, String blobid, byte[] content) {
         iBlob.addBlob(realM, blobid, content);
-        
+
     }
 
     @Override
     public void changeBlob(String realM, String blobid, byte[] content) {
-        iBlob.changeBlob(realM, blobid, content);        
+        iBlob.changeBlob(realM, blobid, content);
     }
 
     @Override
@@ -41,8 +44,17 @@ abstract class AbstractStorageBlobRegistry implements IBlobHandler {
 
     @Override
     public void removeBlob(String realM, String blobid) {
-        iBlob.removeBlob(realM, blobid);        
+        iBlob.removeBlob(realM, blobid);
     }
 
+    @Override
+    public List<String> findBlobs(String realM) {
+        return iBlob.findBlobs(realM);
+    }
+
+    @Override
+    public GetCreateModifTime getModifTime(String realM, String key) {
+        return iBlob.getModifTime(realM, key);
+    }
 
 }
