@@ -150,7 +150,7 @@ public class DateFormatUtil {
      * @param d
      *            New 'today' day
      */
-    static void setTestToday(final Date d) {
+    public static void setTestToday(final Date d) {
         testToday = d;
     }
 
