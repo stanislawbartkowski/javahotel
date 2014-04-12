@@ -38,8 +38,10 @@ import com.jythonui.datastore.DateRecordOp;
 import com.jythonui.datastore.EntityManagerFactoryProvider;
 import com.jythonui.datastore.PersonOp;
 import com.jythonui.server.IGetConnection;
+import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.defa.EmptyConnectionProvider;
+import com.jythonui.server.defa.EmptyRPCNotifier;
 import com.jythonui.server.defa.SecurityNullConvert;
 import com.jythonui.server.guice.JythonServerService.JythonServiceModule;
 import com.jythonui.server.security.ISecurityConvert;
@@ -83,6 +85,8 @@ public class ServerService {
                     Singleton.class);
             bind(ISetTestToday.class).toProvider(SetTestTodayProvider.class)
                     .in(Singleton.class);
+            bind(IJythonRPCNotifier.class).to(EmptyRPCNotifier.class).in(
+                    Singleton.class);
             requestStatic();
             requestStaticInjection(TestHelper.class);
 

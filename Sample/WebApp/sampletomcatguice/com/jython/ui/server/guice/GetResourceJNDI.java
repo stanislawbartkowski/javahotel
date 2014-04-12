@@ -38,4 +38,16 @@ public class GetResourceJNDI implements IGetResourceJNDI {
         return getRes(CACHED);
     }
 
+    @Override
+    public String getEJBHost() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String getEJBPort() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }
