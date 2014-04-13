@@ -53,3 +53,6 @@ def removeOneBlob(var,billno,bloblist,id):
     B = BLOBREGISTRY(billno,bloblist)
     var["id"] = id
     B.removeMap(var)
+
+def constructPDFBLOB(var,billno,pdfkey) :
+  return util.getHotel(var) + ":" + billno + ":" + pdfkey

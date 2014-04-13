@@ -41,7 +41,8 @@ public class HotelCustomer extends PropDescription {
     private static final long serialVersionUID = 1L;
 
     private char sex = ISharedConsts.MALEDICT;
-    private char doctype;
+    // important: should be initialized to not zero value
+    private char doctype = ' ';
 
     public char getSex() {
         return sex;

@@ -110,7 +110,7 @@ def showstay(action,var):
       var["JAFTERDIALOG_ACTION"] = "afterlistpayments"
       var["JUPDIALOG_START"] = var["billname"]
       
-   if action == "printbill" and var["billlist_lineset"] :
+   if action == "printbill" and var[BILLIST + "_lineset"] :
       var["JUP_DIALOG"]="hotel/reservation/billprint.xml" 
       var["JUPDIALOG_START"] = var["billname"]
       
@@ -123,7 +123,7 @@ def showstay(action,var):
    if action == "guestdetail" :
        util.showCustomerDetails(var,var["guest_name"])
        
-   if action == "listpdf" :
+   if action == "listpdf" and var[BILLIST + "_lineset"] :
       var["JUP_DIALOG"]="hotel/reservation/pdflist.xml" 
       var["JUPDIALOG_START"] = var["billname"]
    
