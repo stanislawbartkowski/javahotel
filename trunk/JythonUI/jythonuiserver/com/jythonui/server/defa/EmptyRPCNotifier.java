@@ -10,26 +10,14 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server;
+package com.jythonui.server.defa;
 
-/**
- * @author hotel
- * 
- */
-public interface IJythonUIServerProperties {
+import com.jythonui.server.IJythonRPCNotifier;
 
-    String getDialogDirectory();
+public class EmptyRPCNotifier implements IJythonRPCNotifier {
 
-    String getPackageDirectory();
-
-    String getBundleBase();
-
-    String getResourceDirectory();
-    
-    String getEJBHost();
-    
-    String getEJBPort();
-
-    boolean isCached();
+    @Override
+    public void hello(int what) {
+    }
 
 }

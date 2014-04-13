@@ -12,24 +12,10 @@
  */
 package com.jythonui.server;
 
-/**
- * @author hotel
- * 
- */
-public interface IJythonUIServerProperties {
+public interface IJythonRPCNotifier {
 
-    String getDialogDirectory();
+    int BEFORELOGIN = 0;
 
-    String getPackageDirectory();
-
-    String getBundleBase();
-
-    String getResourceDirectory();
-    
-    String getEJBHost();
-    
-    String getEJBPort();
-
-    boolean isCached();
+    void hello(int what);
 
 }
