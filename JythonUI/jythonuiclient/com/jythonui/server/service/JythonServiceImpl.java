@@ -15,6 +15,7 @@ package com.jythonui.server.service;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.jythonui.client.service.JythonService;
 import com.jythonui.server.IJythonClientRes;
+import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.security.ISecurity;
@@ -55,6 +56,8 @@ public class JythonServiceImpl extends RemoteServiceServlet implements
     @Override
     public String login(String shiroRealm, String user, String password,
             CustomSecurity iCustom) {
+        IJythonRPCNotifier iRPC = Holder.getRPC();
+        iRPC.hello(IJythonRPCNotifier.BEFORELOGIN);
         ISecurity iSec = Holder.getiSec();
         ICustomSecurity iCust = Holder.getSecurityConvert().construct(iCustom);
         return iSec.authenticateToken(shiroRealm, user, password, iCust);

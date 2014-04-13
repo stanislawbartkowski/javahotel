@@ -59,4 +59,16 @@ public class ServerProperties implements IJythonUIServerProperties {
         return null;
     }
 
+    @Override
+    public String getEJBHost() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String getEJBPort() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

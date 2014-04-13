@@ -19,6 +19,7 @@ import com.jythonui.server.IConsts;
 import com.jythonui.server.IDefaultData;
 import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IJythonClientRes;
+import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.IXMLToMap;
@@ -53,6 +54,9 @@ public class Holder {
 
     @Inject
     private static IStorageRegistryFactory regFactory;
+
+    @Inject
+    private static IJythonRPCNotifier iRPC;
 
     private static boolean auth = false;
 
@@ -165,6 +169,10 @@ public class Holder {
 
     public static IStorageRegistryFactory getRegFactory() {
         return regFactory;
+    }
+
+    public static IJythonRPCNotifier getRPC() {
+        return iRPC;
     }
 
 }
