@@ -51,11 +51,23 @@ public class Test10 extends TestHelper {
         HotelCustomer co = new HotelCustomer();
         co.setName("C001");
         co.setAttr(IHotelConsts.CUSTOMEREMAILPROP, "aaaaa");
+        
+//        for (String s : HUtils.getCustomerFields()) {
+//            if (s.equals(IHotelConsts.CUSTOMERCOUNTRYPROP))
+//                co.setAttr(s, "vv");
+//            else
+//                co.setAttr(s, "a " + s);
+//        }
+        // co.setMale(ISharedConsts.MALEDICT);
+//        co.setDoctype('A');
+
+        
         iCustomers.addElem(getH(HOTEL), co);
 
         co = new HotelCustomer();
         co.setName("C001");
         co.setAttr(IHotelConsts.CUSTOMEREMAILPROP, "ccccc");
+//        co.setDoctype('A');
         iCustomers.changeElem(getH(HOTEL), co);
         List<HotelCustomer> hList = iCustomers.getList(getH(HOTEL));
         co = hList.get(0);
@@ -82,6 +94,7 @@ public class Test10 extends TestHelper {
     public void test3() {
         HotelCustomer co = new HotelCustomer();
         co.setName("C001");
+//        co.setGensymbol(true);
         for (String s : HUtils.getCustomerFields()) {
             if (s.equals(IHotelConsts.CUSTOMERCOUNTRYPROP))
                 co.setAttr(s, "vv");

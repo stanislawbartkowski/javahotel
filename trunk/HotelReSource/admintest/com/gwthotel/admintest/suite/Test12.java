@@ -141,6 +141,7 @@ public class Test12 extends TestHelper {
             HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL),
                     HotelObjects.CUSTOMER);
             p.setName("CUST" + i);
+//            System.out.println(p.getName());
             p = iCustomers.addElem(getH(HOTEL), p);
         }
 

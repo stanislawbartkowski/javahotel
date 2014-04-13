@@ -29,9 +29,13 @@ public class EHotelCustomer extends EHotelDict {
 
     private String firstname;
     private String surname;
+    
+    @Column(nullable = false)
     private char sex; // F - female, M - male
 
+    @Column(nullable = false)
     private char doctype; // I - Id card, P - passport
+    
     private String docnumb;
     private String email;
     private String phone1;

@@ -21,11 +21,19 @@
 		<class>com.gwthotel.hotel.jpa.entities.ECustomerBill</class>
         <class>com.gwthotel.hotel.jpa.entities.EBillPayment</class>
 		<properties>
+<!-- 		
 			<property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver" />
 			<property name="javax.persistence.jdbc.url"
 				value="jdbc:derby:/tmp/database/hoteladminDb;create=true" />
 			<property name="javax.persistence.jdbc.user" value="test" />
 			<property name="javax.persistence.jdbc.password" value="test" />
+-->
+        <property name="javax.persistence.target-database" value="PostgreSQL" />
+        <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" /> 
+        <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost/test" />
+        <property name="javax.persistence.jdbc.user" value="hotel" />
+        <property name="javax.persistence.jdbc.password" value="hotel" />
+
 
 			<!-- EclipseLink should create the database schema automatically -->
 			<property name="eclipselink.ddl-generation" value="create-tables" />

@@ -22,7 +22,9 @@ public class GetTestPatterns implements IGetAutomPatterns {
     public String getPatt(HotelId hotel, HotelObjects t) {
         switch (t) {
         case CUSTOMER:
-            return "(Y) / (N) /C";
+//            return "(Y) / (N) /P";
+// important: /C does not work for postgress            
+          return "(Y) / (N) /C";
         case RESERVATION:
             return "(Y)/(M) (N)R";
         case BILL:

@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="List of PDFs">
+
+        <before />
+        
+        <jython>
+                <import>from hotelpack.reservation import pdflist</import>
+                <method>pdflist.listaction({0},{1})</method>
+        </jython>
+        
+        <actions>
+          <action id="edit" displayname="Edit" />
+        </actions>          
+
+        <form>
+                <field id="blob_billname" hidden="" />
+        </form>
+                
+        <list id="pdflist" pagesize="5">
+                <standbutt>TOOLS,FIND,FILTER,custom:edit</standbutt>
+                <columns>
+                        <column id="id" type="long" hidden=""/>
+                        <column id="blob_key" hidden=""/>
+                        <column id="blob_comment" displayname="@description" editable="" signalchange="" />
+                        <column id="blob_person" displayname="Person" />
+                        <column id="blob_date" type="date" displayname="Date" />
+                        <column id="download" defvalue="Download" actionid="pdfdownload" />
+                </columns>
+        </list>
+
+</dialog>

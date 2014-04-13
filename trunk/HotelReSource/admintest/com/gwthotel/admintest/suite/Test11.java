@@ -37,6 +37,9 @@ public class Test11 extends TestHelper {
         HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL),
                 HotelObjects.CUSTOMER);
         p.setGensymbol(true);
+//        p.setName("2013 / 2 /C");
+        p.setDescription("Hejka");
+        p.setDoctype('X');
         p = iCustomers.addElem(getH(HOTEL), p);
         System.out.println(p.getName());
         assertEquals("2013 / 1 /C", p.getName());

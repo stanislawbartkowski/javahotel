@@ -12,6 +12,8 @@
  */
 package com.gwthotel.hotel.jpa.customers;
 
+import java.util.logging.Logger;
+
 import javax.persistence.EntityManager;
 
 import com.gwthotel.admin.HotelId;
@@ -23,10 +25,16 @@ import com.gwthotel.hotel.jpa.AbstractJpaCrud;
 import com.gwthotel.hotel.jpa.IHotelObjectGenSymFactory;
 import com.gwthotel.hotel.jpa.JUtils;
 import com.gwthotel.hotel.jpa.entities.EHotelCustomer;
+import com.gwthotel.mess.IHError;
+import com.gwthotel.mess.IHMess;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
+import com.jythonui.shared.JythonUIFatal;
 
 class HotelJpaCustomers extends AbstractJpaCrud<HotelCustomer, EHotelCustomer>
         implements IHotelCustomers {
+
+    private static final Logger log = Logger.getLogger(HotelJpaCustomers.class
+            .getName());
 
     HotelJpaCustomers(ITransactionContextFactory eFactory,
             IHotelObjectGenSymFactory iGen) {
@@ -53,6 +61,12 @@ class HotelJpaCustomers extends AbstractJpaCrud<HotelCustomer, EHotelCustomer>
     protected void toE(EHotelCustomer dest, HotelCustomer sou,
             EntityManager em, HotelId hotel) {
         toEProperties(HUtils.getCustomerFields(), dest, sou);
+        if ((sou.getDoctype() == 0) || (sou.getSex() == 0)) {
+            String mess = lMess.getMess(IHError.HERROR022,
+                    IHMess.CUSTOMERSEXDOCNULL);
+            log.severe(mess);
+            throw new JythonUIFatal(mess);
+        }
         dest.setDoctype(sou.getDoctype());
         dest.setSex(sou.getSex());
     }
