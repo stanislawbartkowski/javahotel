@@ -1,6 +1,7 @@
 from com.jythonui.server.holder import Holder
 from com.jythonui.shared import DialogVariables
 from com.gwtmodel.table.common import TT
+from com.jython.ui.shared import BUtil
 from cutil import BigDecimalToDecimal
 from cutil import toJDate
 from cutil import toJDateTime
@@ -123,4 +124,11 @@ def CVSToListNumber(s) :
     num = long(n)
     li.append(num)
   return li  
+  
+# ----------------------------------------------------
+def fileToS(filename):
+   iS = Holder.getIJython().getResource().getRes(filename)
+   s = BUtil.readFromFileInput(iS.openStream())
+   return s
+  
     

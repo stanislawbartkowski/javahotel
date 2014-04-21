@@ -12,11 +12,14 @@
  */
 package com.jythonui.server.resimpl;
 
+import java.io.File;
+import java.net.MalformedURLException;
 import java.util.Map;
 
 import javax.inject.Inject;
 
 import com.gwtmodel.commoncache.ICommonCache;
+import com.jython.ui.shared.resource.IReadResource;
 import com.jythonui.server.IGetResourceMap;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.Util;
@@ -35,18 +38,34 @@ public class GetResourceMapImpl implements IGetResourceMap {
     }
 
     @Override
-    public Map<String, String> getResourceMap(String dir, String bundle) {
+    public Map<String, String> getResourceMap(IReadResource iRead, String dir,
+            String bundle) {
         String loc = Util.getLocale();
         String keyCache = "bundle_" + loc + "_" + dir + "_" + bundle;
         Map<String, String> map = null;
         if (iRes.isCached()) {
             map = (Map<String, String>) iCache.get(keyCache);
         }
-        if (map == null)
-            map = ReadBundle.getBundle(loc, dir, bundle);
+        if (map == null) {
+//            ReadBundle.ILocaleBundle i = ReadBundle.getLocale(loc, dir, bundle);
+            map = ReadBundle.getBundle(iRead, loc, dir, bundle);
+//            if (cl != null) {
+//                map = ReadBundle.getBundle(cl.getResource(i.getDefa()),
+//                        i.getLoc() == null ? null : cl.getResource(i.getLoc()));
+//            } else {
+//                try {
+//                    map = ReadBundle.getBundle(new File(i.getDefa()).toURI()
+//                            .toURL(),
+//                            i.getLoc() == null ? null : new File(i.getLoc())
+//                                    .toURI().toURL());
+//                } catch (MalformedURLException e) {
+//                    // TODO Auto-generated catch block
+//                    e.printStackTrace();
+//                }
+//            }
+        }
         if (iRes.isCached())
             iCache.put(keyCache, map);
         return map;
     }
-
 }

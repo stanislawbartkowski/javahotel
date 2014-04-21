@@ -14,8 +14,10 @@ package com.jythonui.server;
 
 import java.util.Map;
 
+import com.jython.ui.shared.resource.IReadResource;
+
 public interface IGetResourceMap {
     
-    Map<String,String> getResourceMap(String dir,String bundle);
-
+    Map<String,String> getResourceMap(IReadResource iRead,String dir,String bundle);
+    
 }

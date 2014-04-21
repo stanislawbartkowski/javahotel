@@ -12,22 +12,17 @@
  */
 package com.jythonui.server.memstorage;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.gwtmodel.commoncache.ICommonCache;
+import com.jython.ui.shared.UtilHelper;
 import com.jythonui.server.IStorageMemCache;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.logmess.ILogMess;
 
-class StorageCache implements IStorageMemCache {
+class StorageCache extends UtilHelper implements IStorageMemCache {
 
     private final ICommonCache iMemCache;
     private final ICommonCache iPersistent;
     private final IGetLogMess gMess;
-
-    private static final Logger log = Logger.getLogger(StorageCache.class
-            .getName());
 
     StorageCache(ICommonCache iMemCache, ICommonCache iPersistent,
             IGetLogMess gMess) {
@@ -45,7 +40,7 @@ class StorageCache implements IStorageMemCache {
         if (val == null)
             return null;
         // add value to cache again
-        log.log(Level.FINE, gMess.getMessN(ILogMess.PUTINCACHEAGAIN, key));
+        logDebug(gMess.getMessN(ILogMess.PUTINCACHEAGAIN, key));
         iMemCache.put(key, val);
         return val;
     }

@@ -12,38 +12,24 @@
  */
 package com.jythonui.server;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import com.jython.ui.shared.ISharedConsts;
+import com.jython.ui.shared.BUtil;
+import com.jython.ui.shared.UtilHelper;
+import com.jython.ui.shared.resource.IReadResource;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.holder.SHolder;
-import com.jythonui.server.impl.JythonUiServerProvider;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
-import com.jythonui.shared.JythonUIFatal;
 import com.jythonui.shared.RequestContext;
 
-public class Util {
+public class Util extends UtilHelper {
 
     private Util() {
-    }
-
-    static final private Logger log = Logger.getLogger(Util.class.getName());
-
-    static private void error(String mess, Exception e) {
-        if (e != null)
-            log.log(Level.SEVERE, mess, e);
-        else
-            log.log(Level.SEVERE, mess);
-        throw new JythonUIFatal(mess);
     }
 
     public static void setContext(RequestContext context) {
@@ -71,7 +57,7 @@ public class Util {
         InputStream i = Util.class.getClassLoader().getResourceAsStream(
                 propName);
         if (i == null) {
-            error(gMess.getMess(IErrorCode.ERRORCODE1,
+            errorLog(gMess.getMess(IErrorCode.ERRORCODE1,
                     ILogMess.CANNOTFINDRESOURCEFILE, propName), null);
             return null;
         }
@@ -79,7 +65,7 @@ public class Util {
         try {
             prop.load(i);
         } catch (IOException e) {
-            error(gMess.getMess(IErrorCode.ERRORCODE2,
+            errorLog(gMess.getMess(IErrorCode.ERRORCODE2,
                     ILogMess.ERRORWHILEREADINGRESOURCEFILE, propName), e);
             return null;
         }
@@ -87,43 +73,30 @@ public class Util {
     }
 
     public static InputStream getFile(IJythonUIServerProperties p, String name) {
-        if (p.getDialogDirectory() == null) {
-            error(SHolder.getM().getMess(IErrorCode.ERRORCODE17,
-                    ILogMess.DIALOGDIRECTORYNULL), null);
+        if (p.getResource() == null) {
+            errorLog(
+                    SHolder.getM().getMess(IErrorCode.ERRORCODE17,
+                            ILogMess.DIALOGDIRECTORYNULL), null);
         }
-        String dDir = p.getDialogDirectory();
-        dDir = dDir + "/" + name;
-        InputStream s;
+        URL u = p.getResource().getRes(
+                BUtil.addNameToPath(IConsts.DIALOGDIR, name));
         try {
-            s = new FileInputStream(dDir);
-            return s;
-        } catch (FileNotFoundException e) {
-            error(SHolder.getM().getMess(IErrorCode.ERRORCODE54,
-                    ILogMess.FILENOTFOUND, dDir), e);
-            return null;
-        }
-    }
-
-    public static String readFromFileInput(InputStream is) {
-        byte[] b;
-        try {
-            b = new byte[is.available()];
-            is.read(b);
-            String text = new String(b);
-            return text;
+            if (u == null) {
+                errorLog(
+                        SHolder.getM().getMess(IErrorCode.ERRORCODE80,
+                                ILogMess.FILENOTFOUND, name), null);
+            }
+            return u.openStream();
         } catch (IOException e) {
-            error(SHolder.getM().getMess(IErrorCode.ERRORCODE55,
-                    ILogMess.FILEIOEXCEPTION), e);
+            errorLog(
+                    SHolder.getM().getMess(IErrorCode.ERRORCODE54,
+                            ILogMess.FILENOTFOUND, u.toString() + " " + name),
+                    e);
             return null;
         }
     }
 
-    public static String getResourceAsDirectory(String dir) {
-        URL u = JythonUiServerProvider.class.getClassLoader().getResource(
-                ISharedConsts.RESOURCES + "/" + dir);
-        if (u == null)
-            return null;
-        return u.getPath();
+    public static String getJythonPackageDirectory(IReadResource iRes) {
+        return iRes.getRes(IConsts.PACKAGEDIR).getPath();
     }
-
 }

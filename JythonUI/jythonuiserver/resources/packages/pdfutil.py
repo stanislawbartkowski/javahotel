@@ -73,8 +73,9 @@ def createPDF(fis,map={},paragraph=None) :
 def xsltHtml(xslt,xmlcontent) :
     tFactory = TransformerFactory.newInstance();
 #    s = Util.getResourceAsDirectory(xslt)
-    s = Holder.getIJython().getResourceDirectory() + "/" + xslt
-    transformer = tFactory.newTransformer(StreamSource(s))
+#    s = Holder.getIJython().getResourceDirectory() + "/" + xslt
+    iS = Holder.getIJython().getResource().getRes(xslt)
+    transformer = tFactory.newTransformer(StreamSource(iS.openStream()))
     out = ByteArrayOutputStream()
     reader = StringReader(xmlcontent)            
     transformer.transform(StreamSource(reader),StreamResult(out))

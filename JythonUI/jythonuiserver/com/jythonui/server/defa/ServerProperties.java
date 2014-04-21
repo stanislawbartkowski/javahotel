@@ -14,31 +14,21 @@ package com.jythonui.server.defa;
 
 import javax.inject.Inject;
 
-import com.jythonui.server.IConsts;
-import com.jythonui.server.IJythonUIServerProperties;
-import com.jythonui.server.Util;
+import com.jython.ui.shared.resource.IReadResource;
+import com.jython.ui.shared.resource.IReadResourceFactory;
 
 /**
  * @author hotel
  * 
  */
-public class ServerProperties implements IJythonUIServerProperties {
+public class ServerProperties extends AbstractServerProperties {
 
     private final IsCached isC;
 
     @Inject
-    public ServerProperties(IsCached isC) {
+    public ServerProperties(IsCached isC, IReadResourceFactory iFactory) {
+        super(iFactory);
         this.isC = isC;
-    }
-
-    @Override
-    public String getDialogDirectory() {
-        return Util.getResourceAsDirectory(IConsts.DIALOGDIR);
-    }
-
-    @Override
-    public String getPackageDirectory() {
-        return Util.getResourceAsDirectory(IConsts.PACKAGEDIR);
     }
 
     @Override
@@ -49,26 +39,9 @@ public class ServerProperties implements IJythonUIServerProperties {
     }
 
     @Override
-    public String getBundleBase() {
-        return Util.getResourceAsDirectory(IConsts.BUNDLEDIR);
-    }
-
-    @Override
-    public String getResourceDirectory() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public String getEJBHost() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public String getEJBPort() {
-        // TODO Auto-generated method stub
-        return null;
+    public IReadResource getResource() {
+        return iFactory
+                .constructLoader(ServerProperties.class.getClassLoader());
     }
 
 }

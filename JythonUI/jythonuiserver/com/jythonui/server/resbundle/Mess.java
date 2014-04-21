@@ -12,18 +12,17 @@
  */
 package com.jythonui.server.resbundle;
 
-import java.net.URL;
 import java.util.Map;
 
 import javax.inject.Inject;
 
-import com.jython.ui.shared.ISharedConsts;
+import com.jython.ui.shared.resource.IReadResourceFactory;
+import com.jythonui.server.IConsts;
 import com.jythonui.server.IGetResourceMap;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.Util;
 import com.jythonui.server.getmess.GetLogMessFactory;
 import com.jythonui.server.getmess.IGetLogMess;
-import com.jythonui.server.logmess.MessProvider;
 import com.jythonui.shared.CustomMessages;
 
 public class Mess implements IAppMess {
@@ -32,12 +31,15 @@ public class Mess implements IAppMess {
     private final IGetResourceMap iGet;
     private IGetLogMess iMess = null;
     private String lastloca = null;
-    private Map<String,String> commonmess = null;
+    private Map<String, String> commonmess = null;
+    private final IReadResourceFactory iFactory;
 
     @Inject
-    public Mess(IJythonUIServerProperties iRes, IGetResourceMap iGet) {
+    public Mess(IJythonUIServerProperties iRes, IGetResourceMap iGet,
+            IReadResourceFactory iFactory) {
         this.iRes = iRes;
         this.iGet = iGet;
+        this.iFactory = iFactory;
     }
 
     private boolean localeChanged() {
@@ -53,11 +55,15 @@ public class Mess implements IAppMess {
 
     private void setMess() {
         if ((iMess == null) || !iRes.isCached() || localeChanged()) {
-            URL u = Mess.class.getClassLoader().getResource(ISharedConsts.RESOURCES + "/mess");
+            // URL u =
+            // Mess.class.getClassLoader().getResource(ISharedConsts.RESOURCES +
+            // "/mess");
             // use full path
-            commonmess = iGet.getResourceMap(u.getFile(),  "commonmess");
-            Map<String, String> mess = iGet.getResourceMap(
-                    iRes.getBundleBase(), "messages");
+            commonmess = iGet.getResourceMap(
+                    iFactory.constructLoader(Mess.class.getClassLoader()),
+                    "mess", "commonmess");
+            Map<String, String> mess = iGet.getResourceMap(iRes.getResource(),
+                    IConsts.BUNDLEDIR, "messages");
             iMess = GetLogMessFactory.construct(mess);
             lastloca = Util.getLocale();
         }
@@ -77,14 +83,14 @@ public class Mess implements IAppMess {
 
     @Override
     public CustomMessages getCustomMess() {
-        if (iRes.getBundleBase() == null)
-            return null;
+//        if (iRes.getBundleBase() == null)
+//            return null;
         setMess();
         CustomMessages cust = new CustomMessages();
         // firstly common mess
         for (String key : commonmess.keySet()) {
             cust.setAttr(key, commonmess.get(key));
-        }        
+        }
         Map<String, String> ma = iMess.getMess();
         for (String key : ma.keySet()) {
             cust.setAttr(key, ma.get(key));
@@ -94,7 +100,7 @@ public class Mess implements IAppMess {
 
     @Override
     public Map<String, String> getMess() {
-        setMess();        
+        setMess();
         return iMess.getMess();
     }
 
