@@ -12,43 +12,17 @@
  */
 package com.gwthotel.admintest.guice;
 
-import com.jythonui.server.IJythonUIServerProperties;
-import com.jythonui.server.impl.JythonUiServerProvider;
+import javax.inject.Inject;
 
-public class ServerProperties implements IJythonUIServerProperties {
+import com.jython.ui.shared.resource.IReadResource;
+import com.jython.ui.shared.resource.IReadResourceFactory;
+import com.jythonui.server.defa.AbstractServerProperties;
 
-    private final String RESOURCES = "resources";
-    private final String DIALOGDIR = "dialogs";
-    private final String PACKAGEDIR = "packages";
+public class ServerProperties extends AbstractServerProperties {
 
-    private String getResource(String dir) {
-        return getResourceDirectory() + "/" + dir;
-    }
-
-    @Override
-    public String getDialogDirectory() {
-        return getResource(DIALOGDIR);
-    }
-
-    @Override
-    public String getPackageDirectory() {
-        return getResource(PACKAGEDIR);
-    }
-
-    @Override
-    public boolean isCached() {
-        return true;
-    }
-
-    @Override
-    public String getBundleBase() {
-        return null;
-    }
-
-    @Override
-    public String getResourceDirectory() {
-        return JythonUiServerProvider.class.getClassLoader()
-                .getResource(RESOURCES).getPath();
+    @Inject
+    public ServerProperties(IReadResourceFactory iFactory) {
+        super(iFactory);
     }
 
     @Override
@@ -57,7 +31,13 @@ public class ServerProperties implements IJythonUIServerProperties {
     }
 
     @Override
-    public String getEJBPort() {
-        return null;
+    public IReadResource getResource() {
+        return iFactory.constructLoader(ServerProperties.class.getClassLoader());
+    }
+
+
+    @Override
+    public boolean isCached() {
+        return false;
     }
 }

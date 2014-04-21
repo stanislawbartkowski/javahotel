@@ -63,13 +63,6 @@ class CustomerBillJpa extends AbstractJpaCrud<CustomerBill, ECustomerBill>
     }
 
     @Override
-    protected void beforedeleteAll(EntityManager em, HotelId hotel) {
-        JUtils.runQueryForHotels(em, hotel,
-                new String[] { "removeAllPayments" });
-
-    }
-
-    @Override
     protected void beforedeleteElem(EntityManager em, HotelId hotel,
             ECustomerBill elem) {
         JUtils.runQueryForObject(em, elem,

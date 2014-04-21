@@ -17,6 +17,7 @@ import com.gwthotel.admin.IAppInstanceHotel;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admin.gae.HotelAdminGae;
 import com.gwthotel.admin.gae.HotelInstanceImpl;
+import com.gwthotel.admintest.suite.TestHelper;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.IGetAutomPatterns;
 import com.gwthotel.hotel.bill.ICustomerBills;
@@ -41,15 +42,23 @@ import com.gwthotel.hotel.service.gae.ReservationOpImpl;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.gwtmodel.mapcache.SimpleMapCacheFactory;
+import com.gwtmodel.table.common.dateutil.ISetTestToday;
+import com.gwtmodel.table.common.dateutil.SetTestTodayProvider;
 import com.gwtmodel.testenhancer.ITestEnhancer;
-import com.jython.ui.server.gaestoragekey.StorageRegistryFactory;
+import com.jython.ui.server.gaestoragekey.BlobStorage;
+import com.jython.ui.server.gaestoragekey.GaeStorageRegistry;
 import com.jythonui.server.IGetConnection;
+import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.defa.EmptyConnectionProvider;
+import com.jythonui.server.defa.EmptyRPCNotifier;
 import com.jythonui.server.defa.StorageRealmRegistryFactory;
+import com.jythonui.server.newblob.IAddNewBlob;
+import com.jythonui.server.newblob.impl.AddNewBlob;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.server.semaphore.impl.SemaphoreRegistry;
+import com.jythonui.server.storage.blob.IBlobHandler;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 import com.table.testenhancer.gae.LocalDataStoreTestEnvironment;
 
@@ -98,16 +107,23 @@ public class ServerService {
                     Singleton.class);
             bind(IStorageRegistryFactory.class).to(
                     StorageRealmRegistryFactory.class).in(Singleton.class);
-            bind(IStorageRealmRegistry.class).toProvider(
-                    StorageRegistryFactory.class).in(Singleton.class);
+            // bind(IStorageRealmRegistry.class).toProvider(
+            // StorageRegistryFactory.class).in(Singleton.class);
             bind(ISemaphore.class).to(SemaphoreRegistry.class).in(
                     Singleton.class);
             bind(IGetConnection.class)
                     .toProvider(EmptyConnectionProvider.class).in(
                             Singleton.class);
+            bind(IJythonRPCNotifier.class).to(EmptyRPCNotifier.class).in(
+                    Singleton.class);
+            bind(IBlobHandler.class).to(BlobStorage.class).in(Singleton.class);
+            bind(IStorageRealmRegistry.class).to(GaeStorageRegistry.class).in(
+                    Singleton.class);
+            bind(ISetTestToday.class).toProvider(SetTestTodayProvider.class)
+                    .in(Singleton.class);
 
             // --
-
+            requestStaticInjection(TestHelper.class);
             requestStatic();
         }
     }

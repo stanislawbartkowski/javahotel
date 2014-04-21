@@ -190,6 +190,7 @@ public class DictUtil {
             dd.setDescription(d.getDescription());
             dd.setVat(d.getVatTax());
             dd.setId(d.getId());
+            dd.setPriceListName(d.getPricelistName());
             resList.add(dd);
         }
     }
@@ -226,6 +227,7 @@ public class DictUtil {
         er.setHotel(ho);
         er.setDescription(r.getDescription());
         er.setVatTax(r.getVat());
+        er.setPricelistName(r.getPriceListName());
         return er;
 
     }

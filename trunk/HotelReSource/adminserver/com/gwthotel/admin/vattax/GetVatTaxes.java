@@ -19,6 +19,7 @@ import com.gwthotel.admin.IGetVatTaxes;
 import com.gwthotel.admin.VatTax;
 import com.gwthotel.admin.xmlhelper.ReadXMLHelper;
 import com.gwthotel.shared.IHotelConsts;
+import com.jython.ui.shared.resource.IReadResourceFactory;
 import com.jythonui.server.getmess.IGetLogMess;
 
 public class GetVatTaxes extends ReadXMLHelper<VatTax> implements IGetVatTaxes {
@@ -28,10 +29,11 @@ public class GetVatTaxes extends ReadXMLHelper<VatTax> implements IGetVatTaxes {
     private static final String VATTAG = "vat";
 
     @Inject
-    public GetVatTaxes(@Named(IHotelConsts.MESSNAMED) IGetLogMess lMess) {
+    public GetVatTaxes(@Named(IHotelConsts.MESSNAMED) IGetLogMess lMess,
+            IReadResourceFactory iFactory) {
         super(lMess, new String[] { VATFILE, VATSTAG, VATTAG }, new String[] {
                 IHotelConsts.NAME, IHotelConsts.DESCRIPTION,
-                IHotelConsts.VATLEVELPROP });
+                IHotelConsts.VATLEVELPROP }, iFactory);
     }
 
     @Override

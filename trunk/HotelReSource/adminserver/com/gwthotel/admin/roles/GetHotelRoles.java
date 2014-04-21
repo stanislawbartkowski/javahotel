@@ -19,6 +19,7 @@ import com.gwthotel.admin.IGetHotelRoles;
 import com.gwthotel.admin.Role;
 import com.gwthotel.admin.xmlhelper.ReadXMLHelper;
 import com.gwthotel.shared.IHotelConsts;
+import com.jython.ui.shared.resource.IReadResourceFactory;
 import com.jythonui.server.getmess.IGetLogMess;
 
 public class GetHotelRoles extends ReadXMLHelper<Role> implements
@@ -29,9 +30,10 @@ public class GetHotelRoles extends ReadXMLHelper<Role> implements
     private static final String ROLETAG = "role";
 
     @Inject
-    public GetHotelRoles(@Named(IHotelConsts.MESSNAMED) IGetLogMess lMess) {
+    public GetHotelRoles(@Named(IHotelConsts.MESSNAMED) IGetLogMess lMess,
+            IReadResourceFactory iFactory) {
         super(lMess, new String[] { ROLES, ROLESTAG, ROLETAG }, new String[] {
-                IHotelConsts.NAME, IHotelConsts.DESCRIPTION });
+                IHotelConsts.NAME, IHotelConsts.DESCRIPTION }, iFactory);
     }
 
     @Override

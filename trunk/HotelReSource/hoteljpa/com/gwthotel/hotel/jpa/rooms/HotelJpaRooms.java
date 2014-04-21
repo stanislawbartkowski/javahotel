@@ -63,13 +63,6 @@ class HotelJpaRooms extends AbstractJpaCrud<HotelRoom, EHotelRoom> implements
     }
 
     @Override
-    protected void beforedeleteAll(EntityManager em, HotelId hotel) {
-        String[] queryS = { "deleteAllRoomServices",
-                "deleteAllGuestsReservationFromHotel" };
-        JUtils.runQueryForHotels(em, hotel, queryS);
-    }
-
-    @Override
     protected void beforedeleteElem(EntityManager em, HotelId hotel,
             EHotelRoom elem) {
         String[] queryS = { "deleteAllReservationDetailsForRoom",

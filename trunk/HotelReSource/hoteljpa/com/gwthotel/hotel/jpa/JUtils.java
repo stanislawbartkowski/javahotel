@@ -12,6 +12,7 @@
  */
 package com.gwthotel.hotel.jpa;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -96,11 +97,28 @@ public class JUtils {
         throw new JythonUIFatal(mess);
     }
 
-    public static Query createHotelQuery(EntityManager em, HotelId hotel,
+    public static Query createObjectQuery(EntityManager em, Object o,
             String query) {
         Query q = em.createNamedQuery(query);
-        q.setParameter(1, hotel.getId());
+        q.setParameter(1, o);
         return q;
+    }
+
+    public static Query createHotelQuery(EntityManager em, HotelId hotel,
+            String query) {
+        return createObjectQuery(em, hotel.getId(), query);
+    }
+
+    public static void removeList(EntityManager em, Object o, String query) {
+        Query q = createObjectQuery(em, o, query);
+
+        @SuppressWarnings({ "rawtypes" })
+        List list = q.getResultList();
+        for (Object e : list)
+            em.remove(e);
+        em.flush();
+        // Hibernate:
+        // Important: otherwise consecutive deletes do not see the change
     }
 
     public static EHotelServices findService(EntityManager em, HotelId hotel,
@@ -131,16 +149,16 @@ public class JUtils {
     }
 
     public static void runQueryForObject(EntityManager em, Object o,
-            String[] remQuery) {
+            String... remQuery) {
         for (String r : remQuery) {
-            Query q = em.createNamedQuery(r);
-            q.setParameter(1, o);
+            Query q = createObjectQuery(em, o, r);
+            // q.setParameter(1, o);
             q.executeUpdate();
         }
     }
 
     public static void runQueryForHotels(EntityManager em, HotelId hotel,
-            String[] remQuery) {
+            String... remQuery) {
         runQueryForObject(em, hotel.getId(), remQuery);
     }
 

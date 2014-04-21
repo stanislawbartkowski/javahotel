@@ -15,8 +15,6 @@ package com.gwthotel.hotel;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.apache.commons.beanutils.PropertyUtils;
 
@@ -28,14 +26,12 @@ import com.gwthotel.shared.IHotelConsts;
 import com.gwthotel.shared.PropDescription;
 import com.jython.ui.shared.ISharedConsts;
 import com.jython.ui.shared.MUtil;
-import com.jythonui.shared.JythonUIFatal;
+import com.jython.ui.shared.UtilHelper;
 
-public class HUtils {
+public class HUtils extends UtilHelper {
 
     private HUtils() {
     }
-
-    static final private Logger log = Logger.getLogger(HUtils.class.getName());
 
     public static <T extends PropDescription> void toEProperties(String[] prop,
             Object dest, T sou) {
@@ -47,8 +43,7 @@ public class HUtils {
                     | NoSuchMethodException e) {
                 String mess = HHolder.getHM().getMess(IHError.HERROR007,
                         IHMess.BEANCANNOTSETPROPERTY, key, val);
-                log.log(Level.SEVERE, mess, e);
-                throw new JythonUIFatal(mess);
+                errorLog(mess, e);
             }
         }
     }
@@ -56,15 +51,14 @@ public class HUtils {
     public static <T extends PropDescription> void toTProperties(String[] prop,
             T dest, Object sou) {
         for (String key : prop) {
-            String val;
+            String val = null;
             try {
                 val = (String) PropertyUtils.getSimpleProperty(sou, key);
             } catch (IllegalAccessException | InvocationTargetException
                     | NoSuchMethodException e) {
                 String mess = HHolder.getHM().getMess(IHError.HERROR008,
                         IHMess.BEANCANNOTGETPROPERTY, key);
-                log.log(Level.SEVERE, mess, e);
-                throw new JythonUIFatal(mess);
+                errorLog(mess, e);
             }
             dest.setAttr(key, val);
         }
@@ -87,31 +81,6 @@ public class HUtils {
     public static BigDecimal roundB(BigDecimal b) {
         return MUtil.roundB(b);
     }
-
-//    private static void setD(Object o, String propname) {
-//        Date d = DateFormatUtil.getToday();
-//        try {
-//            BeanUtils.setProperty(o, propname, d);
-//        } catch (IllegalAccessException | InvocationTargetException e) {
-//        }
-//    }
-//
-//    private static void setPerson(Object o, String propName, String person) {
-//        try {
-//            PropertyUtils.setProperty(o, propName, person);
-//        } catch (IllegalAccessException | InvocationTargetException
-//                | NoSuchMethodException e) {
-//        }
-//    }
-//
-//    public static void setCreateModif(String person, Object o, boolean create) {
-//        setD(o, IHotelConsts.MODIFDATEPROPERTY);
-//        if (create)
-//            setD(o, IHotelConsts.CREATIONDATEPROPERTY);
-//        setPerson(o, IHotelConsts.MODIFPERSONPROPERTY, person);
-//        if (create)
-//            setPerson(o, IHotelConsts.CREATIONPERSONPROPERTY, person);
-//    }
 
     private static Optional<Date> retrieveD(Object o, String propName) {
         Date d = null;
@@ -142,7 +111,8 @@ public class HUtils {
         d = retrieveD(sou, ISharedConsts.MODIFDATEPROPERTY);
         if (d != null)
             dest.setModifDate(d.orNull());
-        Optional<String> s = retrieveS(sou, ISharedConsts.CREATIONPERSONPROPERTY);
+        Optional<String> s = retrieveS(sou,
+                ISharedConsts.CREATIONPERSONPROPERTY);
         if (s != null)
             dest.setCreationPerson(s.orNull());
         s = retrieveS(sou, ISharedConsts.MODIFPERSONPROPERTY);

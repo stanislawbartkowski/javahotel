@@ -12,14 +12,22 @@
  */
 package com.gwthotel.adminejb.guice;
 
-import com.gwthotel.shared.IHotelConsts;
-import com.jythonui.server.defa.AbstractEntityManagerFactoryProvider;
+import javax.persistence.EntityManager;
 
-public class EntityManagerFactoryProvider extends AbstractEntityManagerFactoryProvider {
-    private static final String PERSISTENCE_UNIT_NAME = IHotelConsts.HOTELPERSISTENCEPROVIDER;
+public class EMHolder {
 
-    public EntityManagerFactoryProvider() {
-         super(PERSISTENCE_UNIT_NAME);
+    private EMHolder() {
+
+    }
+
+    static private EntityManager em;
+
+    public static EntityManager getEm() {
+        return em;
+    }
+
+    public static void setEm(EntityManager em) {
+        EMHolder.em = em;
     }
 
 }

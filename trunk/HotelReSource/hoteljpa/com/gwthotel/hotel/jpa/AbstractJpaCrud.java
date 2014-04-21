@@ -65,8 +65,6 @@ public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHote
     abstract protected void afterAddChange(EntityManager em, HotelId hotel,
             T prop, E elem, boolean add);
 
-    abstract protected void beforedeleteAll(EntityManager em, HotelId hotel);
-
     abstract protected void beforedeleteElem(EntityManager em, HotelId hotel,
             E elem);
 

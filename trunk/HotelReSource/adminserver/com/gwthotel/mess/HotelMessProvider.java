@@ -12,27 +12,36 @@
  */
 package com.gwthotel.mess;
 
-import java.net.URL;
 import java.util.Map;
 
 import javax.inject.Provider;
 
-import com.jython.ui.shared.ISharedConsts;
+import com.google.inject.Inject;
+import com.jython.ui.shared.resource.IReadResource;
+import com.jython.ui.shared.resource.IReadResourceFactory;
 import com.jythonui.server.getbundle.ReadBundle;
 import com.jythonui.server.getmess.GetLogMessFactory;
 import com.jythonui.server.getmess.IGetLogMess;
 
 public class HotelMessProvider implements Provider<IGetLogMess> {
 
-    private static final String dirName = ISharedConsts.RESOURCES + "/hmess";
+    private static final String dirName = "hmess";
 
     private Map<String, String> mess = null;
+
+    @Inject
+    private IReadResourceFactory iFactory;
 
     private void readProp() {
         if (mess != null)
             return;
-        URL u = HotelMessProvider.class.getClassLoader().getResource(dirName);
-        mess = ReadBundle.getBundle(null, u.getFile(), "mess");
+        IReadResource iRead = iFactory.constructLoader(HotelMessProvider.class
+                .getClassLoader());
+        // / ReadBundle.ILocaleBundle i = ReadBundle
+        // .getLocale(null, dirName, "mess");
+        // URL u = HotelMessProvider.class.getClassLoader().getResource(
+        // i.getDefa());
+        mess = ReadBundle.getBundle(iRead, null, dirName, "mess");
     }
 
     @Override

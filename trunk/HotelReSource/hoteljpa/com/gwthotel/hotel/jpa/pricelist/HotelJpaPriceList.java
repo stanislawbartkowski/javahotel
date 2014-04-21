@@ -56,12 +56,6 @@ class HotelJpaPriceList extends
     }
 
     @Override
-    protected void beforedeleteAll(EntityManager em, HotelId hotel) {
-        String[] queryL = { "deletePricesForHotel" };
-        JUtils.runQueryForHotels(em, hotel, queryL);
-    }
-
-    @Override
     protected void beforedeleteElem(EntityManager em, HotelId hotel,
             EHotelPriceList elem) {
         String[] queryL = { "deletePricesForHotelAndPriceList" };
