@@ -12,12 +12,15 @@
  */
 package com.jythonui.server.defa;
 
+import java.util.logging.Logger;
+
 import javax.ejb.EJB;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import com.gwthotel.adminejb.guice.EMHolder;
 import com.gwthotel.shared.IHotelConsts;
 
 public class GuiceInterceptor {
@@ -25,19 +28,16 @@ public class GuiceInterceptor {
     @EJB
     private GuiceInjectorHolder injectorHolder;
 
-    // TODO: investigate later
-    // I do not understand it fully but it seems necessary to inject
-    // EntityManager here just now although it is not used directly.
-    // 
-    // It is necessary for later invocation of EntityManagerFactoryProvider
-    // If this injection is done before then the later invocation of
-    // EntityManagerFactoryProvider creates shared copy of EntityManager
-    // managed by Container.
-    // Otherwise it creates it's own copy and transactional processing does not
-    // work
-    // Additional problem: GuiceService : Singleton.class or not Singleton.class
+    static final private Logger log = Logger.getLogger(GuiceInterceptor.class
+            .getName());
+
     @PersistenceContext(unitName = IHotelConsts.HOTELPERSISTENCEPROVIDER)
-    private EntityManager em;
+    public void setPersistence(EntityManager em) {
+//        log.info("EntityManager injected");
+        EMHolder.setEm(em);
+    }
+
+    // private EntityManager em;
 
     @AroundInvoke
     public Object injectByGuice(InvocationContext context) throws Exception {

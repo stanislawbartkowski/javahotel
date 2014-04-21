@@ -13,63 +13,81 @@
 package com.jythonui.server.getbundle;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import com.jython.ui.shared.MUtil;
 import com.jython.ui.shared.ReadUTF8Properties;
+import com.jython.ui.shared.UtilHelper;
+import com.jython.ui.shared.resource.IReadResource;
 import com.jythonui.server.holder.SHolder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
-import com.jythonui.shared.JythonUIFatal;
 
-public class ReadBundle {
+public class ReadBundle extends UtilHelper {
 
-    static final private Logger log = Logger.getLogger(ReadBundle.class
-            .getName());
+    private interface ILocaleBundle {
+        String getDefa();
 
-    static private void error(String mess, Throwable e) {
-        log.log(Level.SEVERE, mess);
-        throw new JythonUIFatal(mess, e);
+        String getLoc();
     }
 
-    static private void debug(String mess) {
-        log.fine(mess);
+    private static ILocaleBundle getLocale(final String loc, final String dir,
+            final String bundle) {
+
+        return new ILocaleBundle() {
+
+            @Override
+            public String getDefa() {
+                return dir + "/" + bundle + ".properties";
+            }
+
+            @Override
+            public String getLoc() {
+                if (loc == null)
+                    return null;
+                return dir + "/" + bundle + "_" + loc + ".properties";
+            }
+        };
     }
 
-    public static Map<String, String> getBundle(String loc, String dir,
-            String bundle) {
-        String propdefaS = dir + "/" + bundle + ".properties";
-        String propS = null;
-        debug("setMess locale=" + loc);
-        if (loc != null) {
-            propS = dir + "/" + bundle + "_" + loc + ".properties";
-            debug("locale not null " + propS);
-        }
+    public static Map<String, String> getBundle(IReadResource i,
+            final String loc, final String dir, final String bundle) {
+        ILocaleBundle l = getLocale(loc, dir, bundle);
         Properties defa = null;
+        URL defaU = i.getRes(l.getDefa());
+        if (defaU == null)
+            return new HashMap<String, String>();
         try {
-            defa = ReadUTF8Properties.readProperties(propdefaS);
+            defa = ReadUTF8Properties.readProperties(defaU.openStream());
         } catch (IOException e) {
-            error(SHolder.getM().getMess(IErrorCode.ERRORCODE46,
-                    ILogMess.ERRORWHILELOADINGBUNDLERESOURCE, dir,bundle), e);
+            if (SHolder.getM() != null)
+                errorLog(
+                        SHolder.getM().getMess(IErrorCode.ERRORCODE46,
+                                ILogMess.ERRORWHILELOADINGBUNDLERESOURCE,
+                                defaU.toString()), e);
+            else
+                errorLog("Error while reading " + defaU.toString(), e);
         }
         Properties prop = null;
-        try {
-            if (propS != null)
-                prop = ReadUTF8Properties.readProperties(propS);
-        } catch (IOException e1) {
-            // expected, do nothing
-            debug(propS + " not found");
+
+        if (l.getLoc() != null && i.getRes(l.getLoc()) != null) {
+            URL iloca = i.getRes(l.getLoc());
+            try {
+                if (iloca != null)
+                    prop = ReadUTF8Properties
+                            .readProperties(iloca.openStream());
+            } catch (IOException e1) {
+                // expected, do nothing
+                logDebug(iloca.toString() + " not found");
+            }
         }
-        Map<String,String> b = new HashMap<String,String>();
+        Map<String, String> b = new HashMap<String, String>();
         MUtil.toElem(b, defa);
-        if (prop != null) {
+        if (prop != null)
             MUtil.toElem(b, prop);
-            debug("combine : " + propS + " " + propdefaS);            
-        }
         return b;
     }
 

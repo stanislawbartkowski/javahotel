@@ -13,19 +13,17 @@
 package com.jythonui.server.semaphore.impl;
 
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 import com.jython.ui.shared.ISharedConsts;
+import com.jython.ui.shared.UtilHelper;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.server.semaphore.ISemaphore;
 
-abstract class AbstractSemaphore {
+abstract class AbstractSemaphore extends UtilHelper {
 
     protected final static String SEMAPHORE_REALM = "SEMAPHORE_REALM";
     protected final IGetLogMess gMess;
-    protected static final Logger log = Logger
-            .getLogger(AbstractSemaphore.class.getName());
 
     protected int expMili(int expirationsec) {
 
@@ -42,12 +40,12 @@ abstract class AbstractSemaphore {
     protected void logExpire(String semaphoreName) {
         String logmess1 = gMess.getMessN(ILogMess.SEMAPHOREEXPIRETIME,
                 semaphoreName);
-        log.info(logmess1);
+        info(logmess1);
     }
 
     protected void delay(String semaphoreName) {
         String logMess = gMess.getMessN(ILogMess.SEMAPHOREWAIT, semaphoreName);
-        log.info(logMess);
+        info(logMess);
         try {
             TimeUnit.SECONDS.sleep(5);
         } catch (InterruptedException e) {

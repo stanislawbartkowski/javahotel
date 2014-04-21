@@ -12,19 +12,23 @@
  */
 package com.jythonui.server.logmess;
 
-import java.net.URL;
 import java.util.Map;
 
 import javax.inject.Provider;
 
-import com.jython.ui.shared.ISharedConsts;
+import com.google.inject.Inject;
+import com.jython.ui.shared.resource.IReadResource;
+import com.jython.ui.shared.resource.IReadResourceFactory;
 import com.jythonui.server.getbundle.ReadBundle;
 import com.jythonui.server.getmess.GetLogMessFactory;
 import com.jythonui.server.getmess.IGetLogMess;
 
 public class MessProvider implements Provider<IGetLogMess> {
 
-    private static final String dirName = ISharedConsts.RESOURCES + "/mess";
+    private static final String dirName = "mess";
+    
+    @Inject
+    private IReadResourceFactory iFactory;
 
     // mess
     private Map<String, String> mess = null;
@@ -32,8 +36,8 @@ public class MessProvider implements Provider<IGetLogMess> {
     private void readProp() {
         if (mess != null)
             return;
-        URL u = MessProvider.class.getClassLoader().getResource(dirName);
-        mess = ReadBundle.getBundle(null, u.getFile(), "mess");
+        IReadResource iRes = iFactory.constructLoader(MessProvider.class.getClassLoader());
+        mess = ReadBundle.getBundle(iRes,null,dirName, "mess");
     }
 
     @Override

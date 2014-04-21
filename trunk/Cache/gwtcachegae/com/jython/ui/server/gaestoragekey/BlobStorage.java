@@ -68,4 +68,9 @@ public class BlobStorage extends AbstractStorageRegistry implements
         return new BlobEntry();
     }
 
+    @Override
+    public List<String> findBlobs(String realM) {
+        return getKeys(realM);
+    }
+
 }

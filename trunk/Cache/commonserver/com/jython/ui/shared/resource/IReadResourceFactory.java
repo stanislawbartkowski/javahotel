@@ -10,16 +10,11 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jython.ui.server.jpatrans;
+package com.jython.ui.shared.resource;
 
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
+public interface IReadResourceFactory {
 
-public class JpaNonTransactionContext extends JpaEmTransactionContext {
+    public IReadResource constructLoader(final ClassLoader cl);
 
-    @Inject
-    public JpaNonTransactionContext(EntityManager em) {
-        super(em);
-    }
-
+    public IReadResource constructDir(final String baseDir);
 }

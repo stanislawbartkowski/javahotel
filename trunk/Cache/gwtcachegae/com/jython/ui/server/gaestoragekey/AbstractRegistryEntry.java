@@ -12,6 +12,8 @@
  */
 package com.jython.ui.server.gaestoragekey;
 
+import java.util.Date;
+
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 
@@ -24,7 +26,11 @@ abstract class AbstractRegistryEntry {
     @Index
     private String key;
     private byte[] value;
-
+    
+    private Date creationDate;
+    
+    private Date modifDate;
+    
     /**
      * @return the id
      */
@@ -64,5 +70,20 @@ abstract class AbstractRegistryEntry {
         this.value = value;
     }
 
+    public Date getCreationDate() {
+        return creationDate;
+    }
 
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Date getModifDate() {
+        return modifDate;
+    }
+
+    public void setModifDate(Date modifDate) {
+        this.modifDate = modifDate;
+    }
+    
 }

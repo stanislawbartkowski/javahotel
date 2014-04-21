@@ -12,8 +12,7 @@
  */
 package com.jythonui.server.defa;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.Serializable;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -21,31 +20,38 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import com.gwtmodel.commoncache.ICommonCache;
+import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.jython.ui.shared.ISharedConsts;
-import com.jythonui.server.IConsts;
-import com.jythonui.server.IJythonUIServerProperties;
+import com.jython.ui.shared.resource.IReadResource;
+import com.jython.ui.shared.resource.IReadResourceFactory;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
-import com.jythonui.shared.JythonUIFatal;
 
-public class ServerPropertiesEnv implements IJythonUIServerProperties {
+public class ServerPropertiesEnv extends AbstractServerProperties {
 
     private final IGetLogMess gMess;
-    static final private Logger log = Logger
-            .getLogger(ServerPropertiesEnv.class.getName());
+    private final ICommonCache iCache;
 
-    private class EnvVar {
+    private class EnvVar implements Serializable {
+        private static final long serialVersionUID = 1L;
         boolean resL;
         String resS;
+        boolean empty = true;
+
+        String toS() {
+            if (empty)
+                return "empty";
+            if (resS != null)
+                return resS;
+            return new Boolean(resL).toString();
+        }
     }
 
-    static private void error(String mess, Throwable t) {
-        if (t == null)
-            log.log(Level.SEVERE, mess);
-        else
-            log.log(Level.SEVERE, mess, t);
-        throw new JythonUIFatal(mess);
+    private void info(String messid, String... params) {
+        String mess = gMess.getMessN(messid, params);
+        info(mess);
     }
 
     private final IGetResourceJNDI getJNDI;
@@ -53,72 +59,76 @@ public class ServerPropertiesEnv implements IJythonUIServerProperties {
     @Inject
     public ServerPropertiesEnv(
             @Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess gMess,
-            IGetResourceJNDI getJNDI) {
+            IGetResourceJNDI getJNDI, IReadResourceFactory iFactory,
+            ICommonCacheFactory cFactory) {
+        super(iFactory);
         this.gMess = gMess;
         this.getJNDI = getJNDI;
+        this.iCache = cFactory.construct(ISharedConsts.JYTHONENVCACHE);
     }
 
-    private EnvVar getEnvString(String name, boolean logVal, boolean throwerror) {
+    private EnvVar getEnvStringDirect(String name, boolean logVal,
+            boolean throwerror) {
         Context initCtx;
         EnvVar r = new EnvVar();
         try {
             initCtx = new InitialContext();
             // Context envCtx = (Context) initCtx.lookup("java:comp/env");
+            info(ILogMess.LOOKFORENVVARIABLE, name);
             Object res = initCtx.lookup(name);
             if (res == null)
                 if (throwerror)
-                    error(gMess.getMess(IErrorCode.ERRORCODE44,
-                            ILogMess.CANNOTFINDRESOURCEVARIABLE, name), null);
+                    errorLog(gMess.getMess(IErrorCode.ERRORCODE44,
+                            ILogMess.CANNOTFINDRESOURCEVARIABLE, name));
                 else
-                    return null;
+                    return r;
+            r.empty = false;
             if (logVal)
                 r.resL = (Boolean) res;
             else
                 r.resS = (String) res;
+            // ENVVARIABLEFOUND
+            info(ILogMess.ENVVARIABLEFOUND, name, r.toS());
             return r;
         } catch (NamingException e) {
             if (throwerror)
-                error(gMess.getMess(IErrorCode.ERRORCODE43,
+                errorLog(gMess.getMess(IErrorCode.ERRORCODE43,
                         ILogMess.ERRORWHILEREADINGCONTEXT, name), e);
-            return null;
+            // ENVVARIABLENOTFOUND
+            info(ILogMess.ENVVARIABLENOTFOUND, name);
+            return r;
         }
     }
 
-    @Override
-    public String getResourceDirectory() {
-        EnvVar e = getEnvString(getJNDI.getResourceDir(), false, true);
-        return e.resS + "/" + ISharedConsts.RESOURCES;
-    }
-
-    private String getResource(String dir) {
-        return getResourceDirectory() + "/" + dir;
-    }
-
-    @Override
-    public String getDialogDirectory() {
-        return getResource(IConsts.DIALOGDIR);
+    private EnvVar getEnvString(String name, boolean logVal, boolean throwerror) {
+        Object o = iCache.get(name);
+        if (o != null)
+            return (EnvVar) o;
+        EnvVar r = getEnvStringDirect(name, logVal, throwerror);
+        iCache.put(name, r);
+        return r;
     }
 
     @Override
-    public String getPackageDirectory() {
-        return getResource(IConsts.PACKAGEDIR);
+    public IReadResource getResource() {
+        EnvVar e = getEnvString(getJNDI.getResourceDir(), false, false);
+        if (!e.empty)
+            return iFactory.constructDir(e.toS());
+        return iFactory.constructLoader(this.getClass().getClassLoader());
     }
 
     @Override
     public boolean isCached() {
-        EnvVar e = getEnvString(getJNDI.getCachedValue(), true, true);
+        EnvVar e = getEnvString(getJNDI.getCachedValue(), true, false);
+        if (e.empty)
+            return true;
         return e.resL;
-    }
-
-    @Override
-    public String getBundleBase() {
-        return getResource(IConsts.BUNDLEDIR);
     }
 
     @Override
     public String getEJBHost() {
         EnvVar e = getEnvString(getJNDI.getEJBHost(), false, false);
-        if (e == null)
+        if (e.empty)
             return null;
         return e.resS;
     }
@@ -126,7 +136,7 @@ public class ServerPropertiesEnv implements IJythonUIServerProperties {
     @Override
     public String getEJBPort() {
         EnvVar e = getEnvString(getJNDI.getEJBPort(), false, false);
-        if (e == null)
+        if (e.empty)
             return null;
         return e.resS;
     }

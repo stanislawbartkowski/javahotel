@@ -14,6 +14,7 @@ package com.jython.ui.server.gaestoragekey;
 
 import com.googlecode.objectify.annotation.Entity;
 
+// should be public
 @Entity
-class BlobEntry extends AbstractRegistryEntry {
+public class BlobEntry extends AbstractRegistryEntry {
 }
