@@ -1,5 +1,6 @@
 import cutil
 import pdfutil
+import xmlutil
 
 from com.jythonui.server import Util
 from java.io import FileInputStream
@@ -38,11 +39,12 @@ def dialogaction(action,var):
           
         
     if action == "runxslt" :
-       s = Util.getResourceAsDirectory("dialogs")
-       s = s + "/data.xml"
-       inS = FileInputStream(s)
-       print inS
-       xml = Util.readFromFileInput(inS)
+#       iS = Holder.getIJython().getResource().getRes("dialogs/data.xml")
+#       s = s + "/data.xml"
+#       inS = FileInputStream(iS)
+#       print inS
+#       xml = Util.readFromFileInput(iS)
+       xml = xmlutil.fileToS("dialogs/data.xml")
        print xml
                
        b = pdfutil.xsltHtml("dialogs/template.xsl",xml)
@@ -52,13 +54,14 @@ def dialogaction(action,var):
        
     if action == "runxsltpdf" :   
 #       s = Util.getResourceAsDirectory("dialogs")
-       s = Holder.getIJython().getResourceDirectory() + "/dialogs";
-       print s
-       s = s + "/data.xml"
-       print s
-       inS = FileInputStream(s)
-       print inS
-       xml = Util.readFromFileInput(inS)
+#       s = Holder.getIJython().getResourceDirectory() + "/dialogs";
+#       print s
+#       s = s + "/data.xml"
+#       print s
+#       inS = FileInputStream(s)
+#       print inS
+#       xml = Util.readFromFileInput(inS)
+       xml = xmlutil.fileToS("dialogs/data.xml")
        print xml
                
        b = pdfutil.createPDFXSLT("dialogs/template.xsl",xml)
