@@ -1,5 +1,6 @@
 import cutil
 from com.jython.ui.server.guice import ServiceInjector
+from com.jythonui.server.holder import Holder
 
 from com.itextpdf.text import Document
 from java.io import ByteArrayOutputStream
@@ -26,23 +27,9 @@ from javax.xml.transform import Transformer
 from javax.xml.transform.stream import StreamSource
 from javax.xml.transform.stream import StreamResult
 from java.io import ByteArrayInputStream
+import xmlutil
 
 import pdfutil
-
-def OLD_createPDF(var) :
-  
-    # step 1
-    document = Document()
-    b = ByteArrayOutputStream()
-    # step 2
-    PdfWriter.getInstance(document, b)
-    # step 3
-    document.open()
-    # step 4
-    document.add(Paragraph("Hello World!"))
-    #step 5
-    document.close()
-    return b.toByteArray()
   
 def createPDF(var) :
     return pdfutil.createPDFH("",None,["Hello World !",])
@@ -84,36 +71,25 @@ def _toPDF(fis) :
     pdfWriter.close();
     return b.toByteArray()
 
-
-def OLD_createPDF1(var) :
-    s = Util.getResourceAsDirectory("docs")
-    print s
-    fis = FileReader( s + "/Sample.html")
-    return _toPDF(fis)
-
 def createPDF1(var) :
-    s = Util.getResourceAsDirectory("docs")
-    print s
-    fis = FileReader( s + "/Sample.html")
+#    s = Util.getResourceAsDirectory("docs")
+#    print s
+#    fis = FileReader( s + "/Sample.html")
+    iS = Holder.getIJython().getResource().getRes("docs/Sample.html")
+ #   s = Util.readFromFileInput(iS.openStream())
+
     map = {}
     map[pdfutil.AUTHOR] = "betterThanZero"
     map[pdfutil.CREATOR] = ""
     map[pdfutil.TITLE] = "Demo for iText XMLWorker"
-    return pdfutil.createPDF(fis,map)
+    return pdfutil.createPDF(iS.openStream(),map)
   
-def OLD_createPDF2(var) :
-    tFactory = TransformerFactory.newInstance();
-    s = Util.getResourceAsDirectory("docs")
-    transformer = tFactory.newTransformer(StreamSource(s + "/template.xsl"))
-    out = ByteArrayOutputStream()            
-    transformer.transform(StreamSource(s + "/data.xml"),StreamResult(out))
-    fis = ByteArrayInputStream(out.toByteArray())
-    return _toPDF(fis)
 
 def createPDF2(var) :
-    s = Util.getResourceAsDirectory("docs")
-    inS = FileInputStream(s+"/data.xml")
-    xml = Util.readFromFileInput(inS)
+#    s = Util.getResourceAsDirectory("docs")
+#    inS = FileInputStream(s+"/data.xml")
+#    xml = Util.readFromFileInput(inS)
+    xml = xmlutil.fileToS("docs/data.xml")
     return pdfutil.createPDFXSLT("docs/template.xsl",xml)
 
 class LISTREGISTRY(cutil.RegistryFile):

@@ -93,6 +93,5 @@ public class Test35 extends TestHelper {
         beforeTest();
         DialogFormat d = findDialog("test72.xml");
         assertNotNull(d);
-
-    }
+    }    
 }
