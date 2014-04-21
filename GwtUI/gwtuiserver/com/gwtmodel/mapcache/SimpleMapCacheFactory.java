@@ -19,7 +19,6 @@ public class SimpleMapCacheFactory implements ICommonCacheFactory {
 	@Override
 	public ICommonCache construct(String cName) {
 		return new SimpleMapCache();
-
 	}
 
 }
