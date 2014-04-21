@@ -21,7 +21,6 @@ import com.googlecode.objectify.VoidWork;
 import com.gwthotel.admin.HotelId;
 import com.gwthotel.admin.gae.DictUtil;
 import com.gwthotel.admin.gae.entities.EHotel;
-import com.gwthotel.hotel.HUtils;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.IHotelProp;
@@ -30,6 +29,7 @@ import com.gwthotel.hotel.service.gae.entities.EHotelPriceElem;
 import com.gwthotel.hotel.service.gae.entities.EHotelRoomServices;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwthotel.shared.PropDescription;
+import com.jython.ui.shared.BUtil;
 import com.jythonui.server.getmess.IGetLogMess;
 
 abstract public class CrudGaeAbstract<T extends PropDescription, E extends EHotelDict>
@@ -114,7 +114,7 @@ abstract public class CrudGaeAbstract<T extends PropDescription, E extends EHote
         iGen.genSym(hotel, elem, o);
         EHotel ho = findEHotel(hotel);
         toEDict(e, elem, ho);
-        HUtils.setCreateModif(hotel.getUserName(), e, true);
+        BUtil.setCreateModif(hotel.getUserName(), e, true);
         ofy().transact(new VoidWork() {
             public void vrun() {
                 ofy().save().entity(e).now();
@@ -139,7 +139,7 @@ abstract public class CrudGaeAbstract<T extends PropDescription, E extends EHote
         if (serv == null) // TODO: more verbose log
             return;
         toEDict(serv, elem, ho);
-        HUtils.setCreateModif(hotel.getUserName(), serv, false);
+        BUtil.setCreateModif(hotel.getUserName(), serv, false);
         ofy().transact(new VoidWork() {
             public void vrun() {
                 ofy().save().entity(serv).now();

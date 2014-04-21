@@ -79,7 +79,8 @@ public class Test8 extends TestHelper {
         iPriceElem.savePricesForPriceList(getH(HOTEL), PRICE1, pList);
         pList = iPriceElem.getPricesForPriceList(getH(HOTEL), PRICE1);
         eElem = pList.get(0);
-        assertEquals(new BigDecimal(10), eElem.getPrice());
+        assertEqB(10,eElem.getPrice());
+//        assertEquals(new BigDecimal(10), eElem.getPrice());
     }
 
     @Test
@@ -162,7 +163,7 @@ public class Test8 extends TestHelper {
         boolean found = false;
         for (HotelPriceElem e : pList) {
             if (e.getService().equals("s81")) {
-                assertEquals(e.getPrice(), new BigDecimal(111.0));
+                assertEqB(111,e.getPrice());
                 found = true;
             }
         }

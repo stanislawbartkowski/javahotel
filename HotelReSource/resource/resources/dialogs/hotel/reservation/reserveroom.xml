@@ -40,13 +40,13 @@
 		<field id="roomservice" type="custom:roomservice" displayname="@servicename"
 			notempty="" signalchange="" />
                 <field id="serviceperperson" type="bool" displayname="@perperson" notempty="" signalchange="" />
-                <field id="respriceperroom" type="decimal" displayname="Price per room" />
-                <field id="resnop" type="int" displayname="Number of persons" notempty="" />
-                <field id="respriceperson" type="decimal" displayname="Price per person" />
-                <field id="resnochildren" type="int" displayname="Number of children" />
-                <field id="respricechildren" type="decimal" displayname="Price per child" />                
-                <field id="resnoextrabeds" type="int" displayname="Number of extra beds" />
-                <field id="respriceextrabeds" type="decimal" displayname="Price per extra beds" />            
+                <field id="respriceperroom" type="decimal" displayname="@priceperperson" />
+                <field id="resnop" type="int" displayname="@nopersons" notempty="" />
+                <field id="respriceperson" type="decimal" displayname="@priceperperson" />
+                <field id="resnochildren" type="int" displayname="@nofchildren" />
+                <field id="respricechildren" type="decimal" displayname="@priceperchild" />
+                <field id="resnoextrabeds" type="int" displayname="@nofextrabeds" />
+                <field id="respriceextrabeds" type="decimal" displayname="@priceperbeds" />
 		<!-- cust description -->
                 <field id="cust_name" displayname="@guestid" readonly="" />
                 <field id="cust_descr" displayname="@description" hidden="" />
@@ -74,11 +74,11 @@
 			<column id="resroomname" displayname="@roomname" />
 			<column id="resday" type="date" displayname="@night" />
                        <column id="rline_nop" type="int" displayname="@nopersons" /> 
-                       <column id="rlist_priceperson" type="decimal" displayname="Price per person" />
-                       <column id="rlist_noc" type="int" displayname="Number of childer" />
-                       <column id="rlist_pricechildren" type="decimal" displayname="Price per children" />
-                       <column id="rlist_noe" type="int" displayname="Number of extra beds" />
-                       <column id="rlist_priceextra" type="decimal" displayname="Price per extra beds" />
+                       <column id="rlist_priceperson" type="decimal" displayname="@priceperperson" />
+                       <column id="rlist_noc" type="int" displayname="@nofchildren" />
+                       <column id="rlist_pricechildren" type="decimal" displayname="@priceperchild" />
+                       <column id="rlist_noe" type="int" displayname="@nofextrabeds" />
+                       <column id="rlist_priceextra" type="decimal" displayname="@priceperbeds" />
 			<column id="rlist_pricetotal" type="decimal" displayname="@price" footer="" />
                        <column id="rlist_roomservice"  hidden="" />
                        <column id="rlist_roompricelist" hidden="" />

@@ -9,17 +9,17 @@
         </jython>
    
         <buttons>
-                <button id="savepdf" displayname="Save PDF"
-                        actiontype="JYESNO_MESSAGE" actionparam="Save this PDF ?"
+                <button id="savepdf" displayname="@savepdf"
+                        actiontype="JYESNO_MESSAGE" actionparam="@savepdfquestion"
                         actionparam1="@confirmation" />
         </buttons>                        
         
    <form>
-     <field id="html" displayname="Print" type = "html"/>
+     <field id="html" displayname="@print" type = "html"/>
      <field id="pdfbillno" hidden=""/>
      <field id="tempkey" hidden="" />
-     <field id="download" displayname="Click to download and print" type="download"/>
-     <field id="pdf_comment" displayname="Description to save" />
+     <field id="download" displayname="@clicktodownloadandprint" type="download"/>
+     <field id="pdf_comment" displayname="@printdescription" />
    </form>
 
 </dialog>

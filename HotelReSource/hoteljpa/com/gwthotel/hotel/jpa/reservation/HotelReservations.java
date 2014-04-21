@@ -18,7 +18,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import com.gwthotel.admin.HotelId;
-import com.gwthotel.hotel.HUtils;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.ServiceType;
 import com.gwthotel.hotel.jpa.AbstractJpaCrud;
@@ -96,21 +95,11 @@ class HotelReservations extends
     }
 
     @Override
-    protected void beforedeleteAll(EntityManager em, HotelId hotel) {
-        String[] queryS = { "removeAllPayments",
-                "deleteAllReservationsDetails",
-                "deleteAllGuestsReservationFromHotel", "deleteAllAddPayment" };
-        JUtils.runQueryForHotels(em, hotel, queryS);
-    }
-
-    @Override
     protected void beforedeleteElem(EntityManager em, HotelId hotel,
             EHotelReservation elem) {
-        String[] queryS = { "removeAllPaymentsforReservation",
-                "removeBillsForReservation",
-                "deleteAllReservationDetailsForReservation",
-                "deleteGuestsFromReservation" };
-        JUtils.runQueryForObject(em, elem, queryS);
+      JUtils.runQueryForObject(em, elem, "removeAllPaymentsforReservation");
+      JUtils.removeList(em,elem,"findBillsForReservation");
+      JUtils.runQueryForObject(em, elem, "deleteAllReservationDetailsForReservation","deleteGuestsFromReservation");
     }
 
 }

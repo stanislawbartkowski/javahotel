@@ -18,11 +18,12 @@ import javax.persistence.NamedQuery;
 
 @Entity
 @NamedQueries({
+        @NamedQuery(name = "countAllGuests", query = "SELECT COUNT(x) FROM EHotelGuest x,EHotelCustomer c WHERE x.customer = c AND c.hotel=?1"),
         @NamedQuery(name = "deleteGuestForRoom", query = "DELETE FROM EHotelGuest x WHERE x.room=?1"),
         @NamedQuery(name = "deleteGuestForCustomer", query = "DELETE FROM EHotelGuest x WHERE x.customer=?1"),
         @NamedQuery(name = "findGuestForReservation", query = "SELECT x FROM EHotelGuest x WHERE x.reservation = ?1"),
         @NamedQuery(name = "deleteGuestsFromReservation", query = "DELETE FROM EHotelGuest x WHERE x.reservation=?1"),
-        @NamedQuery(name = "deleteAllGuestsReservationFromHotel", query = "DELETE FROM EHotelGuest x WHERE x.reservation.hotel = ?1") })
+        @NamedQuery(name = "deleteAllGuestsReservationFromHotel", query = "DELETE FROM EHotelGuest x WHERE x.customer IN (SELECT c FROM EHotelCustomer c WHERE c.hotel = ?1)") })
 public class EHotelGuest extends EHotelRoomCustomer {
 
 }

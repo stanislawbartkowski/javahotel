@@ -18,8 +18,11 @@ import javax.ejb.Stateless;
 import com.google.inject.Injector;
 import com.jythonui.server.defa.GuiceInjectorHolder;
 
+// does not work on JBoss
+// cannot be Singleton and Stateless
+// works in Glassfish
 @Singleton
-@Stateless
+//@Stateless
 public class GuiceInjectorHolderBean implements GuiceInjectorHolder {
 
     @Override

@@ -73,9 +73,8 @@ class PaymentOp implements IPaymentBillOp {
 
         @Override
         protected void dosth(EntityManager em) {
-            Query q = JUtils.createHotelQuery(em, hotel,
-                    "findAllPaymentsForBill");
-            q.setParameter(2, findBill(em));
+            Query q = JUtils.createObjectQuery(em, findBill(em),"findAllPaymentsForBill");
+//            q.setParameter(2, findBill(em));
             List<EBillPayment> rList = q.getResultList();
             for (EBillPayment e : rList)
                 pList.add(toB(e));
@@ -134,7 +133,7 @@ class PaymentOp implements IPaymentBillOp {
         @Override
         protected void dosth(EntityManager em) {
             // only as additional test
-            findBill(em);
+            //findBill(em);
             EBillPayment e = em.find(EBillPayment.class, paymentId);
             em.remove(e);
         }

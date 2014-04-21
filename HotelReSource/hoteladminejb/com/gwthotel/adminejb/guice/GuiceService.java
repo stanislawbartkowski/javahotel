@@ -15,7 +15,6 @@ package com.gwthotel.adminejb.guice;
 import javax.inject.Named;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
@@ -59,6 +58,8 @@ import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaEmTransactionContext;
 import com.jython.ui.server.jpatrans.JpaNonTransactionContext;
 import com.jython.ui.shared.ISharedConsts;
+import com.jython.ui.shared.resource.IReadResourceFactory;
+import com.jython.ui.shared.resource.ReadResourceFactory;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.logmess.MessProvider;
 import com.jythonui.server.semaphore.ISemaphore;
@@ -77,9 +78,6 @@ public class GuiceService {
     public static class ServiceModule extends AbstractModule {
         @Override
         protected void configure() {
-
-            bind(EntityManagerFactory.class).toProvider(
-                    EntityManagerFactoryProvider.class).in(Singleton.class);
 
             bind(IHotelAdmin.class).toProvider(HotelAdminProvider.class).in(
                     Singleton.class);
@@ -137,6 +135,8 @@ public class GuiceService {
                     Singleton.class);
             bind(ISetTestToday.class).toProvider(SetTestTodayProvider.class)
                     .in(Singleton.class);
+            bind(IReadResourceFactory.class).to(ReadResourceFactory.class).in(
+                    Singleton.class);
             // -----
 
         }
@@ -152,12 +152,11 @@ public class GuiceService {
 
         @Provides
         @Singleton
-        ITransactionContextFactory getTransactionContextFactory(
-                final EntityManagerFactory eFactory) {
+        ITransactionContextFactory getTransactionContextFactory() {
             return new ITransactionContextFactory() {
                 @Override
                 public ITransactionContext construct() {
-                    return new JpaNonTransactionContext(eFactory);
+                    return new JpaNonTransactionContext(EMHolder.getEm());
                 }
             };
         }

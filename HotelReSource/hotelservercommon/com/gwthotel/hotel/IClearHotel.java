@@ -17,9 +17,11 @@ import java.util.Date;
 import com.gwthotel.admin.HotelId;
 
 public interface IClearHotel {
-    
+
     void clearObjects(HotelId hotel);
-    
+
     void setTestDataToday(Date d);
+
+    long numberOf(HotelId hotel, HotelObjects o);
 
 }

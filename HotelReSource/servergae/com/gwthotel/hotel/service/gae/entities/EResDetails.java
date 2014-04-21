@@ -24,6 +24,8 @@ public class EResDetails extends EHotelRoomGuest {
 
     private Ref<EHotelReservation> reservation;
 
+    private String pricelistName;
+
     @Index
     private String resName;
 
@@ -201,6 +203,14 @@ public class EResDetails extends EHotelRoomGuest {
 
     public void setPerperson(boolean perperson) {
         this.perperson = perperson;
+    }
+
+    public String getPricelistName() {
+        return pricelistName;
+    }
+
+    public void setPricelistName(String pricelistName) {
+        this.pricelistName = pricelistName;
     }
 
 }

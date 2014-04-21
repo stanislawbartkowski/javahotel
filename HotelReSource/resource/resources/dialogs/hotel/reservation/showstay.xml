@@ -11,8 +11,8 @@
 	</jython>
         
         <actions>
-          <action id="printbill" displayname="Print" imagebutton="default_print.png" />
-          <action id="listpdf" displayname="List of PDFs"/>
+          <action id="printbill" displayname="@print" imagebutton="default_print.png" />
+          <action id="listpdf" displayname="@listofpdf"/>
          </actions>          
        
 
@@ -63,11 +63,11 @@
                        <column id="resroomname" displayname="@roomname" />
                        <column id="resday" type="date" displayname="@night" />
                        <column id="rline_nop" type="int" displayname="@nopersons" /> 
-                       <column id="rlist_priceperson" type="decimal" displayname="Price per person" />
-                       <column id="rlist_noc" type="int" displayname="Number of childer" />
-                       <column id="rlist_pricechildren" type="decimal" displayname="Price per children" />
-                       <column id="rlist_noe" type="int" displayname="Number of extra beds" />
-                       <column id="rlist_priceextra" type="decimal" displayname="Price per extra beds" />
+                       <column id="rlist_priceperson" type="decimal" displayname="@priceperperson" />
+                       <column id="rlist_noc" type="int" displayname="@nofchildren" />
+                       <column id="rlist_pricechildren" type="decimal" displayname="@priceperchild" />
+                       <column id="rlist_noe" type="int" displayname="@nofextrabeds" />
+                       <column id="rlist_priceextra" type="decimal" displayname="@priceperbeds" />
                         <column id="rlist_pricetotal" type="decimal" displayname="@price" footer="" />
                        <column id="rlist_roomservice"  hidden="" />
                        <column id="rlist_roompricelist" hidden="" />

@@ -42,7 +42,9 @@ public class HotelCustomer extends PropDescription {
 
     private char sex = ISharedConsts.MALEDICT;
     // important: should be initialized to not zero value
-    private char doctype = ' ';
+    // important: not space !!! different then space
+    // breaks in case of hibernate
+    private char doctype = ISharedConsts.DEFAULTID;
 
     public char getSex() {
         return sex;

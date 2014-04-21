@@ -25,6 +25,7 @@ import javax.interceptor.Interceptors;
 
 import com.google.inject.Inject;
 import com.gwthotel.admin.HotelId;
+import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.table.common.dateutil.ISetTestToday;
@@ -55,6 +56,11 @@ public class HotelClearOpEJB implements IClearHotel {
     public void setTestDataToday(Date d) {
         clearOp.setTestDataToday(d);
 
+    }
+
+    @Override
+    public long numberOf(HotelId hotel, HotelObjects o) {
+        return clearOp.numberOf(hotel, o);
     }
 
 }

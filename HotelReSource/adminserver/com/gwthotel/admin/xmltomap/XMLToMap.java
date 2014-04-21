@@ -21,21 +21,26 @@ import com.gwthotel.admin.IXMLToMap;
 import com.gwthotel.admin.xmlhelper.ReadXMLHelper;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwthotel.shared.PropDescription;
+import com.jython.ui.shared.resource.IReadResourceFactory;
 import com.jythonui.server.getmess.IGetLogMess;
 
 public class XMLToMap implements IXMLToMap {
 
     private final IGetLogMess lMess;
+    private final IReadResourceFactory iFactory;
 
     @Inject
-    public XMLToMap(@Named(IHotelConsts.MESSNAMED) IGetLogMess lMess) {
+    public XMLToMap(@Named(IHotelConsts.MESSNAMED) IGetLogMess lMess,
+            IReadResourceFactory iFactory) {
         this.lMess = lMess;
+        this.iFactory = iFactory;
     }
 
     @Override
     public PropDescription readXML(String xml, String rootTag, String elemTag) {
         ReadXMLHelper<PropDescription> reader = new ReadXMLHelper<PropDescription>(
-                lMess, new String[] { null, rootTag, elemTag, xml }, null) {
+                lMess, new String[] { null, rootTag, elemTag, xml }, null,
+                iFactory) {
 
             @Override
             protected PropDescription constructT() {

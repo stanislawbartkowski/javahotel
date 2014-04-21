@@ -57,12 +57,6 @@ class HotelJpaServices extends AbstractJpaCrud<HotelServices, EHotelServices>
     }
 
     @Override
-    protected void beforedeleteAll(EntityManager em, HotelId hotel) {
-        String qList[] = { "deletePricesForHotel", "deleteAllRoomServices" };
-        JUtils.runQueryForHotels(em, hotel, qList);
-    }
-
-    @Override
     protected void beforedeleteElem(EntityManager em, HotelId hotel,
             EHotelServices elem) {
         String qList[] = { "deleteAllReservationDetailsForService",
@@ -73,6 +67,6 @@ class HotelJpaServices extends AbstractJpaCrud<HotelServices, EHotelServices>
     @Override
     protected void afterAddChange(EntityManager em, HotelId hotel,
             HotelServices prop, EHotelServices elem, boolean add) {
-        
+
     }
 }

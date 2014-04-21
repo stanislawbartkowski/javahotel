@@ -2,39 +2,25 @@
 <persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
 	version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
-	<persistence-unit name="hoteladmintomcat"
-		transaction-type="RESOURCE_LOCAL">
-		<non-jta-data-source>java:comp/env/jdbc/hoteladmin</non-jta-data-source>
-		<class>com.jython.ui.server.jpastoragekey.entity.RegistryEntry</class>
-		<class>com.jython.ui.server.jpastoragekey.entity.BlobEntry</class>		
-		<class>com.gwthotel.admin.jpa.entities.EHotel</class>
-		<class>com.gwthotel.admin.jpa.entities.EPersonPassword</class>
-		<class>com.gwthotel.admin.jpa.entities.EPersonRoles</class>
-		<class>com.gwthotel.admin.jpa.entities.EInstance</class>
-		<class>com.gwthotel.hotel.jpa.entities.EHotelServices</class>
-		<class>com.gwthotel.hotel.jpa.entities.EHotelPriceList</class>
-		<class>com.gwthotel.hotel.jpa.entities.EHotelPriceElem</class>
-		<class>com.gwthotel.hotel.jpa.entities.EHotelRoom</class>
-		<class>com.gwthotel.hotel.jpa.entities.EHotelRoomServices</class>
-		<class>com.gwthotel.hotel.jpa.entities.EHotelCustomer </class>
-		<class>com.gwthotel.hotel.jpa.entities.EHotelReservation </class>
-		<class>com.gwthotel.hotel.jpa.entities.EHotelReservationDetail</class>
-		<class>com.gwthotel.hotel.jpa.entities.EHotelGuest</class>
-		<class>com.gwthotel.hotel.jpa.entities.ECustomerBill</class>
-		<class>com.gwthotel.hotel.jpa.entities.EBillPayment</class>
-
-		<properties>
-			<!-- EclipseLink should create the database schema automatically -->
-			<property name="eclipselink.ddl-generation" value="create-tables" />
-			<property name="eclipselink.ddl-generation.output-mode"
-				value="database" />
-		</properties>
-
-	</persistence-unit>
-
+	<!-- TODO: resolve the issue later -->
+	<!-- <persistence-unit name="hoteladmintomcat" transaction-type="RESOURCE_LOCAL"> 
+		<non-jta-data-source>java:comp/env/jdbc/hoteladmin</non-jta-data-source> 
+		<class>com.jython.ui.server.jpastoragekey.entity.RegistryEntry</class> <class>com.jython.ui.server.jpastoragekey.entity.BlobEntry</class> 
+		<class>com.gwthotel.admin.jpa.entities.EHotel</class> <class>com.gwthotel.admin.jpa.entities.EPersonPassword</class> 
+		<class>com.gwthotel.admin.jpa.entities.EPersonRoles</class> <class>com.gwthotel.admin.jpa.entities.EInstance</class> 
+		<class>com.gwthotel.hotel.jpa.entities.EHotelServices</class> <class>com.gwthotel.hotel.jpa.entities.EHotelPriceList</class> 
+		<class>com.gwthotel.hotel.jpa.entities.EHotelPriceElem</class> <class>com.gwthotel.hotel.jpa.entities.EHotelRoom</class> 
+		<class>com.gwthotel.hotel.jpa.entities.EHotelRoomServices</class> <class>com.gwthotel.hotel.jpa.entities.EHotelCustomer 
+		</class> <class>com.gwthotel.hotel.jpa.entities.EHotelReservation </class> 
+		<class>com.gwthotel.hotel.jpa.entities.EHotelReservationDetail</class> <class>com.gwthotel.hotel.jpa.entities.EHotelGuest</class> 
+		<class>com.gwthotel.hotel.jpa.entities.ECustomerBill</class> <class>com.gwthotel.hotel.jpa.entities.EBillPayment</class> 
+		<properties> <property name="eclipselink.ddl-generation" value="create-tables" 
+		/> <property name="eclipselink.ddl-generation.output-mode" value="database" 
+		/> </properties> </persistence-unit> -->
 	<persistence-unit name="hoteladmin" transaction-type="JTA">
 		<jta-data-source>jdbc/hoteladmin</jta-data-source>
-		<non-jta-data-source>jdbc/hoteladmin</non-jta-data-source>
+		<!-- <jta-data-source>datasources/ExampleDS</jta-data-source> -->
+		<!-- <non-jta-data-source>jdbc/hoteladmin</non-jta-data-source> -->
 		<class>com.jython.ui.server.jpastoragekey.entity.RegistryEntry</class>
 		<class>com.gwthotel.admin.jpa.entities.EHotel</class>
 		<class>com.gwthotel.admin.jpa.entities.EPersonPassword</class>
@@ -47,10 +33,10 @@
 		<class>com.gwthotel.hotel.jpa.entities.EHotelRoomServices</class>
 		<class>com.gwthotel.hotel.jpa.entities.EHotelCustomer </class>
 		<class>com.gwthotel.hotel.jpa.entities.EHotelReservation </class>
-		<class>com.gwthotel.hotel.jpa.entities.EHotelReservationDetail</class>
 		<class>com.gwthotel.hotel.jpa.entities.EHotelGuest</class>
 		<class>com.gwthotel.hotel.jpa.entities.ECustomerBill</class>
 		<class>com.gwthotel.hotel.jpa.entities.EBillPayment</class>
+		<class>com.gwthotel.hotel.jpa.entities.EHotelReservationDetail</class>
 
 
 		<properties>
@@ -58,6 +44,13 @@
 			<property name="eclipselink.ddl-generation" value="create-tables" />
 			<property name="eclipselink.ddl-generation.output-mode"
 				value="database" />
+<!-- 			<property name="hibernate.hbm2ddl.auto" value="create-drop" /> -->
+<!-- 			<property name="hibernate.show_sql" value="true" /> -->
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+			
+			<!-- <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform" 
+				/> -->
+
 		</properties>
 
 	</persistence-unit>

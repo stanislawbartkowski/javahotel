@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="List of PDFs">
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="@listofpdf">
 
         <before />
         
@@ -9,7 +9,7 @@
         </jython>
         
         <actions>
-          <action id="edit" displayname="Edit" />
+          <action id="edit" displayname="@edit" />
         </actions>          
 
         <form>
@@ -22,9 +22,9 @@
                         <column id="id" type="long" hidden=""/>
                         <column id="blob_key" hidden=""/>
                         <column id="blob_comment" displayname="@description" editable="" signalchange="" />
-                        <column id="blob_person" displayname="Person" />
-                        <column id="blob_date" type="date" displayname="Date" />
-                        <column id="download" defvalue="Download" actionid="pdfdownload" />
+                        <column id="blob_person" displayname="@person" />
+                        <column id="blob_date" type="date" displayname="@date" />
+                        <column id="download" defvalue="@download" actionid="pdfdownload" displayname="" />
                 </columns>
         </list>
 

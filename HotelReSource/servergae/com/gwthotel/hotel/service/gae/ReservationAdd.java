@@ -23,7 +23,6 @@ import com.googlecode.objectify.VoidWork;
 import com.gwthotel.admin.HotelId;
 import com.gwthotel.admin.gae.DictUtil;
 import com.gwthotel.admin.gae.entities.EHotel;
-import com.gwthotel.hotel.HUtils;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.ServiceType;
@@ -33,6 +32,7 @@ import com.gwthotel.hotel.service.gae.entities.EHotelCustomer;
 import com.gwthotel.hotel.service.gae.entities.EHotelReservation;
 import com.gwthotel.hotel.service.gae.entities.EResDetails;
 import com.gwtmodel.table.common.CUtil;
+import com.jython.ui.shared.BUtil;
 import com.jythonui.server.getmess.IGetLogMess;
 
 class ReservationAdd {
@@ -40,7 +40,6 @@ class ReservationAdd {
     private final ReservationForm elem;
     private final EHotel ho;
     private final HotelId hotel;
-    private final List<EHotelCustomer> gList = new ArrayList<EHotelCustomer>();
     private final boolean change;
     private List<EResDetails> deList;
     private final IHotelObjectGenSym iGen;
@@ -55,14 +54,9 @@ class ReservationAdd {
     }
 
     void beforeAdd() {
-        Set<String> custSet = new HashSet<String>();
         for (ReservationPaymentDetail d : elem.getResDetail()) {
             if (CUtil.EmptyS(d.getGuestName()))
                 d.setGuestName(elem.getCustomerName());
-            if (!custSet.contains(d.getGuestName())) {
-                gList.add(DictUtil.findCustomer(ho, d.getGuestName()));
-                custSet.add(d.getGuestName());
-            }
             d.setServiceType(ServiceType.HOTEL);
         }
         if (change)
@@ -79,7 +73,7 @@ class ReservationAdd {
             e = DictUtil.findReservation(ho, elem.getName());
         else
             e = new EHotelReservation();
-        HUtils.setCreateModif(hotel.getUserName(), e, !change);
+        BUtil.setCreateModif(hotel.getUserName(), e, !change);
         DictUtil.toEDict(e, elem);
         e.setCustomer(DictUtil.findCustomer(ho, elem.getCustomerName()));
         e.setStatus(elem.getStatus());

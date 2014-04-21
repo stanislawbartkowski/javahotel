@@ -15,12 +15,15 @@ package com.gwthotel.hotel.jpa.entities;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
@@ -28,10 +31,11 @@ import javax.persistence.TemporalType;
 
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "removeAllPayments", query = "DELETE FROM EBillPayment x WHERE x.customerBill.hotel = ?1"),
+        @NamedQuery(name = "countAllPayments", query = "SELECT COUNT(x) FROM EBillPayment x,ECustomerBill c WHERE x.customerBill = c AND c.hotel = ?1"),
+        @NamedQuery(name = "removeAllPayments", query = "DELETE FROM EBillPayment x WHERE x.customerBill IN (SELECT c FROM ECustomerBill c WHERE c.hotel = ?1)"),
         @NamedQuery(name = "removePaymentsforBill", query = "DELETE FROM EBillPayment x WHERE x.customerBill = ?1"),
-        @NamedQuery(name = "removeAllPaymentsforReservation", query = "DELETE FROM EBillPayment x WHERE x.customerBill.reservation = ?1"),
-        @NamedQuery(name = "findAllPaymentsForBill", query = "SELECT x FROM EBillPayment x WHERE x.customerBill.hotel = ?1 AND x.customerBill = ?2") })
+        @NamedQuery(name = "removeAllPaymentsforReservation", query = "DELETE FROM EBillPayment x WHERE x.customerBill IN (SELECT c FROM ECustomerBill c WHERE c.reservation = ?1)"),
+        @NamedQuery(name = "findAllPaymentsForBill", query = "SELECT x FROM EBillPayment x WHERE x.customerBill = ?1") })
 public class EBillPayment {
 
     @Id
@@ -45,6 +49,8 @@ public class EBillPayment {
     @Column(nullable = false)
     private BigDecimal paymentTotal;
 
+    // 2014/04/18
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customerbill_id", nullable = false)
     private ECustomerBill customerBill;
 
@@ -119,7 +125,5 @@ public class EBillPayment {
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
-    
-    
 
 }

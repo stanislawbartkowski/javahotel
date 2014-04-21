@@ -19,10 +19,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
@@ -32,6 +31,8 @@ import com.gwthotel.hotel.ServiceType;
 
 @Entity
 @NamedQueries({
+
+        @NamedQuery(name = "countAllReservationDetails", query = "SELECT COUNT(x) FROM EHotelReservationDetail x,EHotelReservation r WHERE x.reservation = r AND r.hotel = ?1"),
         @NamedQuery(name = "findReservationForReservation", query = "SELECT x FROM EHotelReservationDetail x WHERE x.reservation = ?1 AND x.serviceType = ?2 "),
         @NamedQuery(name = "deleteAllReservationsForReservation", query = "DELETE FROM EHotelReservationDetail x WHERE x.reservation=?1 AND x.serviceType = ?2"),
 
@@ -39,18 +40,18 @@ import com.gwthotel.hotel.ServiceType;
         @NamedQuery(name = "deleteAllReservationDetailsForRoom", query = "DELETE FROM EHotelReservationDetail x WHERE x.room=?1"),
         @NamedQuery(name = "deleteAllReservationDetailsForService", query = "DELETE FROM EHotelReservationDetail x WHERE x.service=?1"),
         @NamedQuery(name = "deleteAllReservationDetailsForCustomer", query = "DELETE FROM EHotelReservationDetail x WHERE x.customer=?1"),
-        @NamedQuery(name = "deleteAllReservationDetails", query = "DELETE FROM EHotelReservationDetail x WHERE x.reservation.hotel = ?1"),
-
-        @NamedQuery(name = "findReservation", query = "SELECT x FROM EHotelReservationDetail x WHERE x.serviceType = com.gwthotel.hotel.ServiceType.HOTEL AND x.reservation.hotel = ?1 AND x.room.name = ?2 AND x.resDate >= ?3 AND x.resDate <= ?4 AND x.reservation.status != com.gwthotel.hotel.reservation.ResStatus.CANCEL ORDER BY x.room.name,x.resDate") })
+        @NamedQuery(name = "deleteAllReservationDetails", query = "DELETE FROM EHotelReservationDetail x WHERE x.reservation IN (SELECT r FROM EHotelReservation r  WHERE r.hotel= ?1)"),
+        @NamedQuery(name = "findReservation", query = "SELECT x FROM EHotelReservationDetail x WHERE x.serviceType = com.gwthotel.hotel.ServiceType.HOTEL AND x.reservation.hotel = ?1 AND x.room.name = ?2 AND x.resDate >= ?3 AND x.resDate <= ?4 AND x.reservation.status != com.gwthotel.hotel.reservation.ResStatus.CANCEL ORDER BY x.room.name,x.resDate") 
+        })
 public class EHotelReservationDetail extends EHotelRoomCustomer {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    // 2014/04/18
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "service_id", nullable = true)
     private EHotelServices service;
 
+    // 2014/04/18
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pricelist_id")
     private EHotelPriceList pricelist;
 
@@ -138,9 +139,9 @@ public class EHotelReservationDetail extends EHotelRoomCustomer {
         this.service = service;
     }
 
-    public Long getId() {
-        return id;
-    }
+//    public Long getId() {
+//        return id;
+//    }
 
     public BigDecimal getTotal() {
         return total;

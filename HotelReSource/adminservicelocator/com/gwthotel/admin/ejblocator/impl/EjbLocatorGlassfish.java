@@ -10,11 +10,9 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.admin.ejblocator;
+package com.gwthotel.admin.ejblocator.impl;
 
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -22,6 +20,7 @@ import javax.naming.NamingException;
 import com.google.inject.Inject;
 import com.gwthotel.admin.IAppInstanceHotel;
 import com.gwthotel.admin.IHotelAdmin;
+import com.gwthotel.admin.ejblocator.IBeanLocator;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.bill.ICustomerBills;
 import com.gwthotel.hotel.customer.IHotelCustomers;
@@ -34,33 +33,30 @@ import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.shared.IHotelConsts;
 import com.jython.ui.shared.ISharedConsts;
+import com.jython.ui.shared.UtilHelper;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.storage.blob.IBlobHandler;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 import com.jythonui.server.storage.seq.ISequenceRealmGen;
-import com.jythonui.shared.JythonUIFatal;
 
-public class AdminEjbLocator {
+public class EjbLocatorGlassfish extends UtilHelper implements IBeanLocator {
 
-    private AdminEjbLocator() {
-
-    }
-
-    static final private Logger log = Logger.getLogger(AdminEjbLocator.class
-            .getName());
-
-    static private void error(String mess, Throwable e) {
-        log.log(Level.SEVERE, mess);
-        throw new JythonUIFatal(mess, e);
-    }
+    private final IJythonUIServerProperties iServer;
 
     @Inject
-    private static IJythonUIServerProperties iServer;
+    public EjbLocatorGlassfish(IJythonUIServerProperties iServer) {
+        this.iServer = iServer;
+    }
 
-    private static <T> T construct(String name) {
+    private <T> T construct(String name) {
         try {
             Properties props = null;
-            if (iServer.getEJBHost() != null) {
+            info("Search for EJB " + name);
+            String eHost = iServer.getEJBHost();
+            if (eHost != null) {
+                // info(ILogMess.SEARCHEJBFORHOST, eHost);
+                // WARNING: not IGetLogMess, not initialized
+                info("EJB on host " + eHost);
                 props = new Properties();
                 props.setProperty("java.naming.factory.initial",
                         "com.sun.enterprise.naming.SerialInitContextFactory");
@@ -69,10 +65,9 @@ public class AdminEjbLocator {
                 props.setProperty("java.naming.factory.state",
                         "com.sun.corba.ee.impl.presentation.rmi.JNDIStateFactoryImpl");
                 // props.setProperty("org.omg.CORBA.ORBInitialHost", "think");
-                props.setProperty("org.omg.CORBA.ORBInitialHost",
-                        iServer.getEJBHost());
+                props.setProperty("org.omg.CORBA.ORBInitialHost", eHost);
                 // props.setProperty("org.omg.CORBA.ORBInitialHost",
-                // props.setProperty("org.omg.CORBA.ORBInitialPort", "3700");
+                props.setProperty("org.omg.CORBA.ORBInitialPort", "3700");
                 // "localhost");
                 if (iServer.getEJBPort() != null)
                     props.setProperty("org.omg.CORBA.ORBInitialPort",
@@ -83,68 +78,83 @@ public class AdminEjbLocator {
             T inter = (T) remoteObj;
             return inter;
         } catch (NamingException e) {
-            error("Cannot load service " + name, e);
+            errorLog("Cannot load service " + name, e);
         }
         return null;
     }
 
-    static IHotelAdmin getHotelAdmin() {
+    @Override
+    public IHotelAdmin getHotelAdmin() {
         return construct(IHotelConsts.HOTELADMINEJBJNDI);
     }
 
-    static IStorageRealmRegistry getStorageRealm() {
+    @Override
+    public IStorageRealmRegistry getStorageRealm() {
         return construct(ISharedConsts.COMMONREGISTRYBEANJNDI);
     }
 
-    static public IBlobHandler getBlobHandler() {
+    @Override
+    public IBlobHandler getBlobHandler() {
         return construct(ISharedConsts.COMMONBEANBLOBJNDI);
     }
 
-    static IHotelServices getHotelServices() {
+    @Override
+    public IHotelServices getHotelServices() {
         return construct(IHotelConsts.HOTELSERVICESJNDI);
     }
 
-    static IHotelPriceList getHotelPriceList() {
+    @Override
+    public IHotelPriceList getHotelPriceList() {
         return construct(IHotelConsts.HOTELPRICELISTJNDI);
     }
 
-    static IHotelPriceElem getHotelPriceElem() {
+    @Override
+    public IHotelPriceElem getHotelPriceElem() {
         return construct(IHotelConsts.HOTELPRICEELEMJNDI);
     }
 
-    static IHotelRooms getHotelRooms() {
+    @Override
+    public IHotelRooms getHotelRooms() {
         return construct(IHotelConsts.HOTELROOMSJNDI);
     }
 
-    static IHotelCustomers getHotelCustomers() {
+    @Override
+    public IHotelCustomers getHotelCustomers() {
         return construct(IHotelConsts.HOTELCUSTOMERSJNDI);
     }
 
-    static IAppInstanceHotel getAppInstanceHotel() {
+    @Override
+    public IAppInstanceHotel getAppInstanceHotel() {
         return construct(IHotelConsts.HOTELADMININSTANCEEJBJNDI);
     }
 
-    static ISequenceRealmGen getSequenceRealmGen() {
+    @Override
+    public ISequenceRealmGen getSequenceRealmGen() {
         return construct(ISharedConsts.COMMONSEQGENJNDI);
     }
 
-    public static IReservationForm getReservationForm() {
+    @Override
+    public IReservationForm getReservationForm() {
         return construct(IHotelConsts.HOTELRESERVATIONJNDI);
     }
 
-    public static IReservationOp getReservationOp() {
+    @Override
+    public IReservationOp getReservationOp() {
         return construct(IHotelConsts.HOTELRESERVATIONOPJNDI);
     }
 
-    public static IClearHotel getClearHotel() {
+    @Override
+    public IClearHotel getClearHotel() {
         return construct(IHotelConsts.HOTELCLEAROPJNDI);
     }
 
-    public static ICustomerBills getCustomerBills() {
+    @Override
+    public ICustomerBills getCustomerBills() {
         return construct(IHotelConsts.HOTELBILLJNDI);
     }
 
-    public static IPaymentBillOp getBillPaymentOp() {
+    @Override
+    public IPaymentBillOp getBillPaymentOp() {
         return construct(IHotelConsts.HOTELPAYMENTOPJNDI);
     }
 

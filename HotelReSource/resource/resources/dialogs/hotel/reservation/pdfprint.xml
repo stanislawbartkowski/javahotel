@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+<before/>
+
+        <jython>
+             <import>from hotelpack.reservation import pdflist</import>
+             <method>pdflist.pdfprint({0},{1})</method>
+        </jython>
+           
+   <form>
+      <field id="download" displayname="@clicktodownloadandprint" type="download"/>
+   </form>
+
+</dialog>

@@ -14,6 +14,8 @@ package com.gwthotel.hotel.service.gae;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.util.Date;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -21,6 +23,7 @@ import com.googlecode.objectify.VoidWork;
 import com.gwthotel.admin.HotelId;
 import com.gwthotel.admin.gae.DictUtil;
 import com.gwthotel.admin.gae.entities.EHotel;
+import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.service.gae.entities.EBillPayment;
 import com.gwthotel.hotel.service.gae.entities.ECustomerBill;
@@ -34,6 +37,7 @@ import com.gwthotel.hotel.service.gae.entities.EHotelRoomServices;
 import com.gwthotel.hotel.service.gae.entities.EHotelServices;
 import com.gwthotel.hotel.service.gae.entities.EResDetails;
 import com.gwthotel.shared.IHotelConsts;
+import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.jythonui.server.getmess.IGetLogMess;
 
 public class ClearHotelImpl implements IClearHotel {
@@ -64,6 +68,17 @@ public class ClearHotelImpl implements IClearHotel {
             }
         });
 
+    }
+
+    @Override
+    public void setTestDataToday(Date d) {
+        DateFormatUtil.setTestToday(d);        
+    }
+
+    @Override
+    public long numberOf(HotelId hotel, HotelObjects o) {
+        // TODO Auto-generated method stub
+        return 0;
     }
 
 }

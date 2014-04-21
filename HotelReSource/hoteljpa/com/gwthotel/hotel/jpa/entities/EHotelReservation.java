@@ -16,7 +16,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -36,6 +38,8 @@ public class EHotelReservation extends EHotelDict {
     @Enumerated(EnumType.ORDINAL)
     private ResStatus status;
 
+    // 2014/04/18
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = false)
     private EHotelCustomer customer;
 

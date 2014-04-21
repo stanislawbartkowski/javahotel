@@ -67,7 +67,7 @@ def billprint(action,var) :
      comment = var["pdf_comment"]
      billno = var["pdfbillno"]
      listbl.addBlob(var,billno,LIST,comment,tempkey)
-     var["JOK_MESSAGE"] = "OK, saved"
+     var["JOK_MESSAGE"] = "@oksavedconfirmation"
 
 
 def pdfprint(action,var) :

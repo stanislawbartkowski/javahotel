@@ -27,9 +27,13 @@ public abstract class EHotelRoomCustomer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // 2014/04/18
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id", nullable = true)
     private EHotelRoom room;
 
+    // 2014/04/18
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = true)
     private EHotelCustomer customer;
 

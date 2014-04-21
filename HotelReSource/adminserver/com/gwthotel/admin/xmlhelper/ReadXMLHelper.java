@@ -12,7 +12,6 @@
  */
 package com.gwthotel.admin.xmlhelper;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,8 +19,6 @@ import java.io.StringReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -35,17 +32,20 @@ import org.xml.sax.helpers.DefaultHandler;
 import com.gwthotel.mess.IHError;
 import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.PropDescription;
-import com.jython.ui.shared.ISharedConsts;
 import com.jython.ui.shared.SaxUtil;
+import com.jython.ui.shared.UtilHelper;
+import com.jython.ui.shared.resource.IReadResource;
+import com.jython.ui.shared.resource.IReadResourceFactory;
 import com.jythonui.server.getmess.IGetLogMess;
-import com.jythonui.shared.JythonUIFatal;
 
-public abstract class ReadXMLHelper<T extends PropDescription> {
+public abstract class ReadXMLHelper<T extends PropDescription> extends
+        UtilHelper {
 
     private final IGetLogMess lMess;
     private final String[] constList;
     private final String[] tagList;
     private List<T> rList = null;
+    private final IReadResource iRead;
 
     private static final int XMLFILENAME = 0;
     private static final int ALLTAG = 1;
@@ -54,30 +54,25 @@ public abstract class ReadXMLHelper<T extends PropDescription> {
 
     protected abstract T constructT();
 
-    static final private Logger log = Logger.getLogger(ReadXMLHelper.class
-            .getName());
-
-    static private void error(String mess, Throwable e) {
-        log.log(Level.SEVERE, mess);
-        throw new JythonUIFatal(mess, e);
-    }
-
     protected ReadXMLHelper(IGetLogMess lMess, String[] constList,
-            String[] tagList) {
+            String[] tagList, IReadResourceFactory iFactory) {
         this.lMess = lMess;
         this.constList = constList;
         this.tagList = tagList;
+        this.iRead = iFactory.constructLoader(ReadXMLHelper.class.getClassLoader());
     }
 
     private URL getURL() {
-        URL ur = ReadXMLHelper.class.getClassLoader().getResource(
-                ISharedConsts.RESOURCES + "/" + constList[XMLFILENAME]);
-        return ur;
+//        URL ur = ReadXMLHelper.class.getClassLoader().getResource(
+//                ISharedConsts.RESOURCES + "/" + constList[XMLFILENAME]);
+//        return ur;
+        return iRead.getRes(constList[XMLFILENAME]);
     }
 
-    private InputSource getXML() throws FileNotFoundException {
+    private InputSource getXML() throws IOException {
         if (constList.length == 3) {
-            InputStream s = new FileInputStream(getURL().getFile());
+//            InputStream s = new FileInputStream(getURL().getFile());
+            InputStream s = getURL().openStream();
             return new InputSource(s);
         } else {
             String xml = constList[XMLSTRING];
@@ -146,8 +141,8 @@ public abstract class ReadXMLHelper<T extends PropDescription> {
             try {
                 rList = readRoles();
             } catch (ParserConfigurationException | SAXException | IOException e) {
-                error(lMess.getMess(IHError.HERROR001, IHMess.READROLESERROR,
-                        constList[ALLTAG]), e);
+                errorLog(lMess.getMess(IHError.HERROR001,
+                        IHMess.READROLESERROR, constList[ALLTAG]), e);
             }
         }
         // replace names

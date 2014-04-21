@@ -18,6 +18,7 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -30,8 +31,8 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "hotel", "name" }))
 @NamedQueries({
-        @NamedQuery(name = "removeAllBills", query = "DELETE FROM ECustomerBill x WHERE x.hotel = ?1"),
-        @NamedQuery(name = "removeBillsForReservation", query = "DELETE FROM ECustomerBill x WHERE x.reservation = ?1"),
+//        @NamedQuery(name = "removeAllBills", query = "DELETE FROM ECustomerBill x WHERE x.hotel = ?1"),
+//        @NamedQuery(name = "removeBillsForReservation", query = "DELETE FROM ECustomerBill x WHERE x.reservation = ?1"),
         @NamedQuery(name = "findBillsForReservation", query = "SELECT x FROM ECustomerBill x WHERE x.reservation = ?1"),
 
         @NamedQuery(name = "findAllBills", query = "SELECT x FROM ECustomerBill x WHERE x.hotel = ?1"),
@@ -39,6 +40,8 @@ import javax.persistence.UniqueConstraint;
         @NamedQuery(name = "findOneBill", query = "SELECT x FROM ECustomerBill x WHERE x.hotel = ?1 AND x.name = ?2") })
 public class ECustomerBill extends EHotelDict {
 
+    // 2014/04/18
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = false)
     private EHotelCustomer customer;
 
