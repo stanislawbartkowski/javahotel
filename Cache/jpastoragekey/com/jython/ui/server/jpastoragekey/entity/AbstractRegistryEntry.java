@@ -33,7 +33,15 @@ abstract public class AbstractRegistryEntry {
     private String registryRealm;
     @Column(nullable = false)
     private String registryEntry;
-    @Lob
+// Important:
+// Seems not working for hibernate and postgresql
+// Remove @Lob    
+//    @Lob
+// force BLOB type without @Lob
+// nonpostgresql (Derby and H2)    
+    @Column(columnDefinition="BLOB")
+// postgresql only    
+//    @Column(columnDefinition="bytea")
     private byte[] value;
 
     @Column(nullable = false)

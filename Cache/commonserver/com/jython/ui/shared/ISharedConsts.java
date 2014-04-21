@@ -19,16 +19,18 @@ public interface ISharedConsts {
     String COMMONSEQGENJNDI = "java:global/SeqGenRegistry";
 
     String COMMONBEANBLOBJNDI = "java:global/BlobRegistry";
-
     
-    String RESOURCES = "resources";
+//    String RESOURCES = "resources";
 
     String JYTHONMESSSERVER = "jythonservermess";
+    
+    String JYTHONENVCACHE = "JYTHON-ENV-CACHE"; 
 
     int DEFEXPIRATIONSEC = 30;
 
     char MALEDICT = 'M';
     char FEMALEDICT = 'F';
+    char DEFAULTID = 'I';
     
     String CREATIONPERSONPROPERTY = "creationPerson";
     String CREATIONDATEPROPERTY = "creationDate";

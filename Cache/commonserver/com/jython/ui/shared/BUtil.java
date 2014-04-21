@@ -12,21 +12,31 @@
  */
 package com.jython.ui.shared;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.CharStreams;
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
+import com.jythonui.server.holder.SHolder;
+import com.jythonui.server.logmess.IErrorCode;
+import com.jythonui.server.logmess.ILogMess;
 
-public class BUtil {
+public class BUtil extends UtilHelper {
 
     private static void setD(Object o, String propname) {
         Date d = DateFormatUtil.getToday();
         try {
             BeanUtils.setProperty(o, propname, d);
         } catch (IllegalAccessException | InvocationTargetException e) {
+            int k = 1;
         }
     }
 
@@ -48,5 +58,45 @@ public class BUtil {
         if (create)
             setPerson(o, ISharedConsts.CREATIONPERSONPROPERTY, person);
     }
+    
+    public static String readFromFileInput(InputStream is) {
+        try {
+            return CharStreams.toString(new InputStreamReader(is,
+                    Charsets.UTF_8));
+        } catch (IOException e) {
+            errorLog(SHolder.getM().getMess(IErrorCode.ERRORCODE55,
+                    ILogMess.FILEIOEXCEPTION), e);
+            return null;
+        }
+    }
+    
+    private static boolean isFSep(char ch) {
+        if (ch == '/') {
+            return true;
+        }
+        if (ch == '\'') {
+            return true;
+        }
+        return false;
+    }
+
+    private static String add(String path, String fName) {
+        StringBuilder bu = new StringBuilder(path);
+        int la = bu.length() - 1;
+        char ch = bu.charAt(la);
+        if (!isFSep(ch)) {
+            return path + File.separator + fName;
+        }
+        return path + fName;
+    }
+
+    public static String addNameToPath(String path, String... fName) {
+        String res = path;
+        for (String f : fName)
+            res = add(res, f);
+        return res;
+    }
+
+
 
 }

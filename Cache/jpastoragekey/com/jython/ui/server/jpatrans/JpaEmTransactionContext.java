@@ -38,7 +38,7 @@ public class JpaEmTransactionContext implements ITransactionContext {
 
     @Override
     public void rollback() {
-        throw new RollBackException();
+//        throw new RollBackException();
     }
 
     @Override

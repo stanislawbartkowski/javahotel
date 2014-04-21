@@ -18,8 +18,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.jythonui.server.getmess.IGetLogMess;
@@ -27,10 +25,7 @@ import com.jythonui.server.holder.SHolder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
 
-public class UObjects {
-
-    private static final Logger log = Logger
-            .getLogger(UObjects.class.getName());
+public class UObjects extends UtilHelper {
 
     private UObjects() {
 
@@ -48,11 +43,11 @@ public class UObjects {
             inp.close();
             return val;
         } catch (IOException e) {
-            log.log(Level.SEVERE, gMess.getMess(IErrorCode.ERRORCODE19,
+            errorLog(gMess.getMess(IErrorCode.ERRORCODE19,
                     ILogMess.GETOBJECTREGISTRYERROR, keyInfo), e);
 
         } catch (ClassNotFoundException e) {
-            log.log(Level.SEVERE, gMess.getMess(IErrorCode.ERRORCODE20,
+            errorLog(gMess.getMess(IErrorCode.ERRORCODE20,
                     ILogMess.GETOBJECTREGISTRYERROR, keyInfo), e);
         }
         return null;
@@ -67,7 +62,7 @@ public class UObjects {
             outP.writeObject(o);
             outP.close();
         } catch (IOException e) {
-            log.log(Level.SEVERE, gMess.getMess(IErrorCode.ERRORCODE18,
+            errorLog(gMess.getMess(IErrorCode.ERRORCODE18,
                     ILogMess.PUTOBJECTREGISTRYERROR, keyInfo), e);
             return null;
         }

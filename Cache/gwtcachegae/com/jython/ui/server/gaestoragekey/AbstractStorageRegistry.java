@@ -19,6 +19,8 @@ import java.util.List;
 
 import com.googlecode.objectify.LoadResult;
 import com.googlecode.objectify.VoidWork;
+import com.jython.ui.shared.BUtil;
+import com.jython.ui.shared.GetCreateModifTime;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
@@ -28,13 +30,15 @@ import com.jythonui.shared.JythonUIFatal;
 abstract class AbstractStorageRegistry implements IStorageRealmRegistry {
 
     private final IGetLogMess gMess;
+    @SuppressWarnings("rawtypes")
     private final Class eClass;
 
-    AbstractStorageRegistry(IGetLogMess gMess, Class eClass) {
+    AbstractStorageRegistry(IGetLogMess gMess,
+            @SuppressWarnings("rawtypes") Class eClass) {
         this.gMess = gMess;
         this.eClass = eClass;
     }
-    
+
     abstract AbstractRegistryEntry construct();
 
     @Override
@@ -109,9 +113,21 @@ abstract class AbstractStorageRegistry implements IStorageRealmRegistry {
                 re.setRealM(realM);
                 re.setKey(key);
                 re.setValue(value);
+                BUtil.setCreateModif(null, re, true);
                 ofy().save().entity(re).now();
             }
         });
+    }
+
+    @Override
+    public GetCreateModifTime getModifTime(String realM, String key) {
+        AbstractRegistryEntry re = findR(realM, key);
+        GetCreateModifTime res = new GetCreateModifTime();
+        if (re != null) {
+            res.setCreationDate(re.getCreationDate());
+            res.setModifDate(re.getModifDate());
+        }
+        return res;
     }
 
 }

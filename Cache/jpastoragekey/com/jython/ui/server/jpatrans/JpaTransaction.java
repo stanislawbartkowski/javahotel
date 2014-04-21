@@ -49,8 +49,9 @@ public abstract class JpaTransaction {
             iC.commit();
             commited = true;
         } catch (Exception e) {
-            log.log(Level.SEVERE, lMess.getMess(IErrorCode.ERRORCODE53,
+            if (lMess != null) log.log(Level.SEVERE, lMess.getMess(IErrorCode.ERRORCODE53,
                     ILogMess.JPATRANSACTIONEXCEPTION), e);
+            else log.log(Level.SEVERE,"Error",e);
         } finally {
             if (!commited)
                 iC.rollback();

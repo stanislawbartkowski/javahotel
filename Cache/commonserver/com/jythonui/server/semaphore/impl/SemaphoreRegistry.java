@@ -54,7 +54,7 @@ public class SemaphoreRegistry extends AbstractSemaphore implements ISemaphore {
             }
             String logmess = gMess.getMessN(ILogMess.SEMAPHOREEXCEPTION,
                     semaphoreName);
-            log.info(logmess);
+            info(logmess);
             byte[] val1 = iReg.getEntry(SEMAPHORE_REALM, semaphoreName);
             if (val1 == null)
                 continue;

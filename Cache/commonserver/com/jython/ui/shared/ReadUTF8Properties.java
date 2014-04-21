@@ -13,21 +13,12 @@
 
 package com.jython.ui.shared;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringReader;
 import java.util.Properties;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Files;
-
 public class ReadUTF8Properties {
-
-    private static String getFileContent(String name) throws IOException {
-        // does not work in Google App Engine, use Guava goodies
-        // return new String(Files.readAllBytes(Paths.get(name)));
-        return Files.toString(new File(name), Charsets.UTF_8);
-    }
 
     private static String toLatin1(String s) {
         StringBuilder b = new StringBuilder();
@@ -45,10 +36,10 @@ public class ReadUTF8Properties {
         return b.toString();
     }
 
-    public static Properties readProperties(String propName) throws IOException {
+    public static Properties readProperties(InputStream is) throws IOException {
 
         Properties prop = new Properties();
-        String p = toLatin1(getFileContent(propName));
+        String p = toLatin1(BUtil.readFromFileInput(is));
         prop.load(new StringReader(p));
         return prop;
     }
