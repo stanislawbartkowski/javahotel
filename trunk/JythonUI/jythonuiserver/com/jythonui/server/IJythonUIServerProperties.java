@@ -12,22 +12,22 @@
  */
 package com.jythonui.server;
 
+import com.jython.ui.shared.resource.IReadResource;
+
 /**
  * @author hotel
  * 
  */
 public interface IJythonUIServerProperties {
 
-    String getDialogDirectory();
+    IReadResource getResource();
 
-    String getPackageDirectory();
+    String getJythonPackageDirectory();
 
-    String getBundleBase();
+    String getJythonSharedDirectory();
 
-    String getResourceDirectory();
-    
     String getEJBHost();
-    
+
     String getEJBPort();
 
     boolean isCached();

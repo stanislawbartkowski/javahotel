@@ -16,8 +16,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.stream.StreamSource;
@@ -26,7 +24,9 @@ import org.xml.sax.SAXException;
 
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.util.VerifyXML;
-import com.jython.ui.shared.ISharedConsts;
+import com.jython.ui.shared.UtilHelper;
+import com.jython.ui.shared.resource.IReadResource;
+import com.jython.ui.shared.resource.ReadResourceFactory;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.Util;
 import com.jythonui.server.holder.Holder;
@@ -36,7 +36,6 @@ import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.ICommonConsts;
-import com.jythonui.shared.JythonUIFatal;
 import com.jythonui.shared.ListFormat;
 import com.jythonui.shared.TypesDescr;
 
@@ -44,7 +43,7 @@ import com.jythonui.shared.TypesDescr;
  * @author hotel
  * 
  */
-public class GetDialog {
+public class GetDialog extends UtilHelper {
 
     private GetDialog() {
 
@@ -53,38 +52,26 @@ public class GetDialog {
     private static final String XSDDIR = "xsd";
     private static final String DIALOGXSD = "dialogschema.xsd";
     private static final String TYPESXSD = "typedefschema.xsd";
+    private static IReadResource iRead = new ReadResourceFactory()
+            .constructLoader(GetDialog.class.getClassLoader());
 
-    static final private Logger log = Logger.getLogger(GetDialog.class
-            .getName());
-
-    static private void putDebug(String mess) {
-        log.log(Level.FINE, mess);
-    }
-
-    static private void error(String mess) {
-        log.log(Level.SEVERE, mess);
-        throw new JythonUIFatal(mess);
-    }
-
-    private static void parseError(String errCode, String param, Throwable e) {
-        log.log(Level.SEVERE,
+    private static void parseError(String errCode, String param, Exception e) {
+        errorLog(
                 SHolder.getM().getMess(errCode, ILogMess.DIALOGXMLPARSERROR,
                         param), e);
-        throw new JythonUIFatal(SHolder.getM().getMess(errCode,
-                ILogMess.DIALOGXMLPARSERROR, param), e);
     }
 
     private static void error(String errCode, String logMess, String param) {
-        log.severe(SHolder.getM().getMess(errCode, logMess, param));
-        throw new JythonUIFatal(SHolder.getM().getMess(errCode, logMess, param));
+        errorLog(SHolder.getM().getMess(errCode, logMess, param));
     }
 
     static private URL getURLSchema(String schemaname) {
-        putDebug("Search schema " + schemaname);
-        URL ur = ReadDialog.class.getClassLoader().getResource(
-                ISharedConsts.RESOURCES + "/" + XSDDIR + "/" + schemaname);
+        logDebug("Search schema " + schemaname);
+        // URL ur = ReadDialog.class.getClassLoader().getResource(
+        // ISharedConsts.RESOURCES + "/" + XSDDIR + "/" + schemaname);
+        URL ur = iRead.getRes(XSDDIR + "/" + schemaname);
         if (ur == null) {
-            error(SHolder.getM().getMess(IErrorCode.ERRORCODE16,
+            errorLog(SHolder.getM().getMess(IErrorCode.ERRORCODE16,
                     ILogMess.SCHEMANOTFOUND));
         }
         return ur;
@@ -99,7 +86,7 @@ public class GetDialog {
             MCached mCached, String token, String dialogName, boolean verify) {
         DialogFormat d;
         if (Holder.isAuth() && CUtil.EmptyS(token)) {
-            error(SHolder.getM().getMess(IErrorCode.ERRORCODE8,
+            errorLog(SHolder.getM().getMess(IErrorCode.ERRORCODE8,
                     ILogMess.AUTOENABLEDNOTOKEN, dialogName));
             return null;
         }
@@ -120,7 +107,7 @@ public class GetDialog {
                     return lo.getfElem();
                 }
             }
-            error(SHolder.getM().getMess(IErrorCode.ERRORCODE9,
+            errorLog(SHolder.getM().getMess(IErrorCode.ERRORCODE9,
                     ILogMess.ELEMDOESNOTMATCHPARENT, dParentName, dialogName));
         }
         if (d != null)
@@ -137,7 +124,7 @@ public class GetDialog {
             URL u = getURLSchema(DIALOGXSD);
             InputStream sou;
             if (verify) {
-                putDebug("Verify using xsd schema " + DIALOGXSD);
+                logDebug("Verify using xsd schema " + DIALOGXSD);
                 sou = getXML(p, dialogName);
                 VerifyXML.verify(u, new StreamSource(sou));
             }
@@ -169,7 +156,7 @@ public class GetDialog {
                     if (l.getElemFormat() != null) {
                         // recursive
                         if (dialogName.equals(l.getElemFormat())) {
-                            error(SHolder.getM().getMess(
+                            errorLog(SHolder.getM().getMess(
                                     IErrorCode.ERRORCODE75,
                                     ILogMess.PARENTCANNOTBETHESAME,
                                     ICommonConsts.PARENT, dialogName));
@@ -183,7 +170,7 @@ public class GetDialog {
                             // then copy parent column list
                             // dElem.setFieldList(l.getColumns());
                             dElem.getFieldList().addAll(l.getColumns());
-                            putDebug(l.getElemFormat()
+                            logDebug(l.getElemFormat()
                                     + " copy list of columns from "
                                     + dialogName);
                             wasmodified = true;
@@ -195,13 +182,13 @@ public class GetDialog {
                             if (dElem.getAttr(a) == null) {
                                 wasmodified = true;
                                 dElem.setAttr(a, d.getAttr(a));
-                                putDebug(l.getElemFormat() + " copy attribute "
+                                logDebug(l.getElemFormat() + " copy attribute "
                                         + a + " from " + dialogName);
                             }
                         }
                         if (wasmodified) {
                             if (dElem.getParent() == null) {
-                                error(dElem.getId() + " "
+                                errorLog(dElem.getId() + " "
                                         + ICommonConsts.PARENT
                                         + " attribute expected");
                             }
@@ -211,7 +198,7 @@ public class GetDialog {
                                         ILogMess.PARENTFILEEXPECTED,
                                         dElem.getId(), ICommonConsts.PARENT,
                                         dElem.getParent());
-                                error(mess);
+                                errorLog(mess);
                             }
                             // cache again with changes
                             if (mCached.isCached())

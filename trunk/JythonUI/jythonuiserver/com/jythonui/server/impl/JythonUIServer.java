@@ -13,11 +13,10 @@
 package com.jythonui.server.impl;
 
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import com.gwtmodel.commoncache.ICommonCache;
 import com.gwtmodel.table.common.CUtil;
+import com.jython.ui.shared.UtilHelper;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.Util;
@@ -33,7 +32,6 @@ import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldValue;
 import com.jythonui.shared.ICommonConsts;
-import com.jythonui.shared.JythonUIFatal;
 import com.jythonui.shared.ListFormat;
 import com.jythonui.shared.RequestContext;
 import com.jythonui.shared.SecurityInfo;
@@ -42,18 +40,11 @@ import com.jythonui.shared.SecurityInfo;
  * @author hotel
  * 
  */
-class JythonUIServer implements IJythonUIServer {
+class JythonUIServer extends UtilHelper implements IJythonUIServer {
 
     private final IJythonUIServerProperties p;
     private final MCached mCached;
     private final ISecurity iSec;
-    static final private Logger log = Logger.getLogger(JythonUIServer.class
-            .getName());
-
-    static private void error(String mess) {
-        log.log(Level.SEVERE, mess);
-        throw new JythonUIFatal(mess);
-    }
 
     JythonUIServer(IJythonUIServerProperties p, ICommonCache mCache,
             ISecurity iSec) {
@@ -61,8 +52,9 @@ class JythonUIServer implements IJythonUIServer {
         this.mCached = new MCached(p, mCache);
         this.iSec = iSec;
     }
-    
-    private void setElemSecurityInfo(SecurityInfo si,String token,List<ListFormat> lis) {
+
+    private void setElemSecurityInfo(SecurityInfo si, String token,
+            List<ListFormat> lis) {
         for (ListFormat li : lis) {
             // columns
             SecurityInfo sList = AddSecurityInfo.createForColumns(iSec, token,
@@ -76,8 +68,8 @@ class JythonUIServer implements IJythonUIServer {
             SecurityInfo sl = AddSecurityInfo.create(iSec, token, dElem);
             li.setElemSec(sl);
             // recursive
-            setElemSecurityInfo(sl,token,dElem.getListList());
-        }        
+            setElemSecurityInfo(sl, token, dElem.getListList());
+        }
     }
 
     @Override
@@ -92,20 +84,7 @@ class JythonUIServer implements IJythonUIServer {
         CustomMessages custMess = null;
         if (!p.isCached())
             custMess = Holder.getAppMess().getCustomMess();
-        setElemSecurityInfo(si,token,d.getListList());
-//        for (ListFormat li : d.getListList()) {
-//            // columns
-//            SecurityInfo sList = AddSecurityInfo.createForColumns(iSec, token,
-//                    li);
-//            si.getListSecur().put(li.getId(), sList);
-//            // crud dialog
-//            DialogFormat dElem = li.getfElem();
-//            // ignore if not exist
-//            if (dElem == null)
-//                continue;
-//            SecurityInfo sl = AddSecurityInfo.create(iSec, token, dElem);
-//            li.setElemSec(sl);
-//        }
+        setElemSecurityInfo(si, token, d.getListList());
         return new DialogInfo(d, si, custMess);
     }
 
@@ -115,7 +94,7 @@ class JythonUIServer implements IJythonUIServer {
         if (CUtil.EmptyS(actionId)) {
             String mess = Holder.getM().getMess(IErrorCode.ERRORCODE70,
                     ILogMess.ACIONIDCANNOTBENULL, dialogName);
-            error(mess);
+            errorLog(mess);
         }
         Util.setContext(rcontext);
         String locale = Util.getLocale();
@@ -139,7 +118,7 @@ class JythonUIServer implements IJythonUIServer {
                             ILogMess.XMLSETCONTENTBUTCONTENTNOTAVAILABLE,
                             d.getId(), ICommonConsts.JXMLCONTENT,
                             ICommonConsts.JXMLCONTENT);
-                    error(mess);
+                    errorLog(mess);
                 }
                 Holder.getXMLTransformer()
                         .fromXML(dialogName, v, x.getValueS());

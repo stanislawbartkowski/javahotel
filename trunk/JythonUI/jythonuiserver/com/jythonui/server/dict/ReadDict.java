@@ -12,26 +12,26 @@
  */
 package com.jythonui.server.dict;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.jython.ui.shared.ISharedConsts;
+import com.jython.ui.shared.resource.IReadResource;
+import com.jython.ui.shared.resource.ReadResourceFactory;
 import com.jythonui.server.IGetResourceMap;
 import com.jythonui.server.dict.IDictOfLocalEntries.DictEntry;
 
 public class ReadDict {
 
-    private static final String dictName = ISharedConsts.RESOURCES + "/dict/";
+    private static final String dictName = "dict";
+    private static IReadResource iRead = new ReadResourceFactory()
+            .constructLoader(ReadDict.class.getClassLoader());
 
     public static DictEntry[] getList(IGetResourceMap iGet, String resName) {
         List<DictEntry> cList = new ArrayList<DictEntry>();
-        URL u = ReadDict.class.getClassLoader().getResource(dictName);
-        // Map<String, String> mess = ReadBundle.getBundle(lang, u.getFile(),
-        // resName);
-        Map<String, String> mess = iGet.getResourceMap(u.getFile(), resName);
+        Map<String, String> mess = iGet
+                .getResourceMap(iRead, dictName, resName);
         for (Entry e : mess.entrySet()) {
             String key = (String) e.getKey();
             String name = (String) e.getValue();

@@ -19,6 +19,8 @@ import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 import com.gwtmodel.commoncache.ICommonCache;
 import com.jython.ui.shared.ISharedConsts;
+import com.jython.ui.shared.resource.IReadResourceFactory;
+import com.jython.ui.shared.resource.ReadResourceFactory;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IDefaultData;
 import com.jythonui.server.IGetAppProp;
@@ -110,6 +112,8 @@ public class JythonServerService {
                     MemStorageCacheFactory.class).in(Singleton.class);
             bind(IDefaultData.class).to(DefaDataImpl.class).in(Singleton.class);
             bind(IGetAppProp.class).to(GetAppProperties.class).in(
+                    Singleton.class);
+            bind(IReadResourceFactory.class).to(ReadResourceFactory.class).in(
                     Singleton.class);
             // common
             bind(IStorageRegistryFactory.class).to(

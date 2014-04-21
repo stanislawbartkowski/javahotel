@@ -16,8 +16,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -27,7 +25,9 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import com.jython.ui.shared.BUtil;
 import com.jython.ui.shared.SaxUtil;
+import com.jython.ui.shared.UtilHelper;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.Util;
 import com.jythonui.server.holder.SHolder;
@@ -41,7 +41,6 @@ import com.jythonui.shared.ElemDescription;
 import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.FormDef;
 import com.jythonui.shared.ICommonConsts;
-import com.jythonui.shared.JythonUIFatal;
 import com.jythonui.shared.ListFormat;
 import com.jythonui.shared.TabPanel;
 import com.jythonui.shared.TabPanelElem;
@@ -52,22 +51,7 @@ import com.jythonui.shared.ValidateRule;
  * 
  *         Reads XML with dialog description and return DialogFormat class
  */
-class ReadDialog {
-
-    /** Logger. */
-    static final private Logger log = Logger.getLogger(ReadDialog.class
-            .getName());
-
-    /**
-     * Logs error message and throws unchecked exception at the same time.
-     * 
-     * @param mess
-     *            Error message
-     */
-    static private void errorLog(String mess) {
-        log.log(Level.SEVERE, mess);
-        throw new JythonUIFatal(mess);
-    }
+class ReadDialog extends UtilHelper {
 
     /**
      * @author hotel
@@ -364,7 +348,7 @@ class ReadDialog {
                 String fileName = d.getFormDef();
                 // replace with content of real file
                 InputStream sou = Util.getFile(p, fileName);
-                String te = Util.readFromFileInput(sou);
+                String te = BUtil.readFromFileInput(sou);
                 d.setFormDef(te);
                 dL.getFormList().add(d);
                 return;
@@ -422,7 +406,7 @@ class ReadDialog {
             String fileName = fo.getAttr(attr);
             // replace file name with content
             InputStream souI = Util.getFile(p, fileName);
-            String te = Util.readFromFileInput(souI);
+            String te = BUtil.readFromFileInput(souI);
             fo.setAttr(attr, te);
         }
 
