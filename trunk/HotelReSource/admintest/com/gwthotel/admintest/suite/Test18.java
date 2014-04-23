@@ -145,7 +145,7 @@ public class Test18 extends TestHelper {
         assertEquals("user", b.getModifPerson());
         assertNotNull(b.getCreationDate());
         assertNotNull(b.getModifDate());
-        eqDate(b.getIssueDate(), 2010, 10, 12);
+        eqD(2010, 10, 12, b.getIssueDate());
     }
 
     @Test

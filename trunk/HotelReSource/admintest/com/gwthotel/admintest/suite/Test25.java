@@ -91,11 +91,11 @@ public class Test25 extends TestHelper {
         ListOfRows r = v.getList("blist");
         return r.getRowList().size();
     }
-    
-    private DialogVariables verifyNumberOf(CustomerBill b,String token,int no) {
+
+    private DialogVariables verifyNumberOf(CustomerBill b, String token, int no) {
         DialogVariables v = new DialogVariables();
         v.setValueS("billno", b.getName());
-        runAction(v, token, "dialog5.xml", "createlist");
+        runAction(token, v, "dialog5.xml", "createlist");
         assertTrue(v.getValue("OK").getValueB());
         assertEquals(no, noPDFs(v));
         return v;
@@ -109,26 +109,26 @@ public class Test25 extends TestHelper {
         CustomerBill b = createP();
         DialogVariables v = new DialogVariables();
         v.setValueS("billno", b.getName());
-        runAction(v, token, "dialog5.xml", "clearlist");
+        runAction(token, v, "dialog5.xml", "clearlist");
         assertTrue(v.getValue("OK").getValueB());
 
-        verifyNumberOf(b,token,0); 
+        verifyNumberOf(b, token, 0);
 
         v = new DialogVariables();
         v.setValueS("billno", b.getName());
-        runAction(v, token, "dialog5.xml", "addpdf");
+        runAction(token, v, "dialog5.xml", "addpdf");
         assertTrue(v.getValue("OK").getValueB());
 
-        verifyNumberOf(b,token,1); 
+        verifyNumberOf(b, token, 1);
 
         for (int i = 0; i < 5; i++) {
             v = new DialogVariables();
             v.setValueS("billno", b.getName());
-            runAction(v, token, "dialog5.xml", "addpdf");
+            runAction(token, v, "dialog5.xml", "addpdf");
             assertTrue(v.getValue("OK").getValueB());
         }
 
-        v = verifyNumberOf(b,token,6); 
+        v = verifyNumberOf(b, token, 6);
 
         DialogFormat d = findDialog("dialog5.xml");
         ListFormat li = d.findList("blist");
@@ -142,28 +142,28 @@ public class Test25 extends TestHelper {
             remId = id;
             System.out.println(id);
         }
-        
+
         v = new DialogVariables();
         v.setValueS("billno", b.getName());
         v.setValueL("id", remId);
-        runAction(v, token, "dialog5.xml", "changecomment");
-        
+        runAction(token, v, "dialog5.xml", "changecomment");
+
         v = new DialogVariables();
         v.setValueS("billno", b.getName());
-        v.setValueL("id", remId);        
-        runAction(v, token, "dialog5.xml", "removepdf");
+        v.setValueL("id", remId);
+        runAction(token, v, "dialog5.xml", "removepdf");
 
-        verifyNumberOf(b,token,5); 
-                
+        verifyNumberOf(b, token, 5);
+
     }
-    
+
     @Test
     public void test2() {
         Date da = DateFormatUtil.getToday();
-        assertTrue(eqDate(da,2013,6,13));
+        assertTrue(eqD(2013, 6, 13, da));
         setTestToday(null);
         da = DateFormatUtil.getToday();
-        assertFalse(eqDate(da,2013,6,13));
+        assertFalse(eqD(2013, 6, 13, da));
     }
 
 }

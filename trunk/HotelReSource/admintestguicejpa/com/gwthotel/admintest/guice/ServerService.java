@@ -87,6 +87,7 @@ public class ServerService {
         @Override
         protected void configure() {
             configureHotel();
+            requestStaticInjection(TestHelper.class);
             bind(IJythonUIServerProperties.class).to(ServerProperties.class)
                     .in(Singleton.class);
             bind(ITestEnhancer.class).to(TestEnhancer.class);

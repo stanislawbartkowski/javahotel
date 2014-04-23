@@ -26,11 +26,11 @@ import com.gwthotel.hotel.pricelist.HotelPriceList;
 
 public class Test7 extends TestHelper {
 
-    @Before
-    public void resetHotel() {
-        clearObjects();
-        createHotels();
-    }
+//    @Before
+//    public void resetHotel() {
+//        clearObjects();
+//        createHotels();
+//    }
 
     @Test
     public void test1() {
@@ -43,7 +43,7 @@ public class Test7 extends TestHelper {
         pList = iPrice.getList(getH(HOTEL1));
         assertEquals(1, pList.size());
         p = pList.get(0);
-        assertTrue(eqDate(p.getFromDate(), 2010, 10, 1));
+        assertTrue(eqD(2010, 10, 1, p.getFromDate()));
         assertNull(p.getToDate());
     }
 
@@ -59,8 +59,8 @@ public class Test7 extends TestHelper {
         iPrice.changeElem(getH(HOTEL1), p);
         pList = iPrice.getList(getH(HOTEL1));
         p = pList.get(0);
-        assertTrue(eqDate(p.getFromDate(), 2010, 10, 1));
-        assertTrue(eqDate(p.getToDate(), 2012, 1, 1));
+        assertTrue(eqD(2010, 10, 1, p.getFromDate()));
+        assertTrue(eqD(2012, 1, 1, p.getToDate()));
     }
 
     @Test
