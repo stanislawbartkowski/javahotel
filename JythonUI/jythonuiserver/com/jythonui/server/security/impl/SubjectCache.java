@@ -27,6 +27,7 @@ import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.Factory;
 
 import com.jythonui.server.IStorageMemCache;
+import com.jythonui.server.UtilHelper;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.logmess.IErrorCode;
@@ -34,7 +35,7 @@ import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.server.security.token.ICustomSecurity;
 import com.jythonui.server.security.token.PasswordSecurityToken;
 
-class SubjectCache {
+class SubjectCache extends UtilHelper {
 
     private final IStorageMemCache iCache;
     private final IGetLogMess gMess;
@@ -47,16 +48,13 @@ class SubjectCache {
 
     private static ThreadLocal<CurrentSubject> lastS = new ThreadLocal<CurrentSubject>();
 
-    private static final Logger log = Logger.getLogger(SubjectCache.class
-            .getName());
-
     SubjectCache(IStorageMemCache iCache, IGetLogMess gMess) {
         this.iCache = iCache;
         this.gMess = gMess;
     }
 
     private static SecurityManager constructManager(String realm) {
-        log.info(Holder.getM().getMessN(ILogMess.REALMINITIALZATION, realm));
+        info(Holder.getM().getMessN(ILogMess.REALMINITIALZATION, realm));
         Factory<SecurityManager> factory = new IniSecurityManagerFactory(realm);
         SecurityManager securityManager = factory.getInstance();
         return securityManager;
@@ -85,35 +83,36 @@ class SubjectCache {
         Subject currentUser = buildSubject();
         PasswordSecurityToken token = new PasswordSecurityToken(se.getUser(),
                 se.getPassword(), se.getiCustom());
-        log.info(gMess.getMessN(ILogMess.AUTHENTICATEUSER, se.getUser(),
+        info(gMess.getMessN(ILogMess.AUTHENTICATEUSER, se.getUser(),
                 se.getRealm()));
         try {
             currentUser.login(token);
         } catch (UnknownAccountException uae) {
-            log.info(gMess.getMess(IErrorCode.ERRORCODE3,
+            info(gMess.getMess(IErrorCode.ERRORCODE3,
                     ILogMess.AUTHENTICATENOUSER, se.getUser()));
             return null;
         } catch (IncorrectCredentialsException ice) {
-            log.info(gMess.getMess(IErrorCode.ERRORCODE4,
+            info(gMess.getMess(IErrorCode.ERRORCODE4,
                     ILogMess.AUTHENTICATEINCORECTPASSWORD, se.getUser()));
             return null;
         } catch (LockedAccountException lae) {
-            log.info(gMess.getMess(IErrorCode.ERRORCODE5,
+            info(gMess.getMess(IErrorCode.ERRORCODE5,
                     ILogMess.AUTHENTOCATELOCKED, se.getUser()));
             return null;
         } catch (AuthenticationException ae) {
-            log.info(gMess.getMess(IErrorCode.ERRORCODE6,
+            severe(gMess.getMess(IErrorCode.ERRORCODE6,
                     ILogMess.AUTHENTICATEOTHERERROR, se.getUser(),
-                    ae.getMessage()));
+                    ae.getMessage()),ae);
+            ae.printStackTrace();
             return null;
         } catch (UnknownSessionException ae) {
-            log.info(gMess.getMess(IErrorCode.ERRORCODE22,
+            info(gMess.getMess(IErrorCode.ERRORCODE22,
                     ILogMess.AUTHENTICATEOTHERERROR, se.getUser(),
                     ae.getMessage()));
             return null;
         }
 
-        log.info(gMess.getMessN(ILogMess.OKAUTHENTICATED));
+        info(gMess.getMessN(ILogMess.OKAUTHENTICATED));
         if (tokenS == null) {
             UUID i = UUID.randomUUID();
             tokenS = i.toString();
@@ -138,7 +137,7 @@ class SubjectCache {
         SessionEntry e = null;
         e = (SessionEntry) iCache.get(token);
         if (e == null) {
-            log.info(token + " token not found ");
+            info(token + " token not found ");
         }
         return e;
     }
@@ -173,10 +172,10 @@ class SubjectCache {
             return subC.currentUser;
         }
         // validate again
-        log.info("Authenticate again");
+        info("Authenticate again");
         Result res = authenticate(se, token);
         if (res == null) {
-            log.severe(gMess.getMess(IErrorCode.ERRORCODE23,
+            severe(gMess.getMess(IErrorCode.ERRORCODE23,
                     ILogMess.CANNOTAUTHENTICATEAGAIN, se.getUser(),
                     se.getRealm()));
             return null;

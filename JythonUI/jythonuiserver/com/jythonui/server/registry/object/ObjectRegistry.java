@@ -15,7 +15,7 @@ package com.jythonui.server.registry.object;
 import java.util.List;
 
 import com.gwtmodel.commoncache.ICommonCache;
-import com.jython.ui.shared.UObjects;
+import com.jythonui.server.UObjects;
 import com.jythonui.server.registry.IStorageRegistry;
 
 class ObjectRegistry implements ICommonCache {

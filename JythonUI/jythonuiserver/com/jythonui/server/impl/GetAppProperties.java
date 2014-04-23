@@ -20,8 +20,8 @@ import javax.inject.Inject;
 
 import com.gwtmodel.commoncache.ICommonCache;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
-import com.jython.ui.shared.MUtil;
 import com.jythonui.server.IGetAppProp;
+import com.jythonui.server.MUtil;
 import com.jythonui.server.Util;
 import com.jythonui.shared.ICommonConsts;
 

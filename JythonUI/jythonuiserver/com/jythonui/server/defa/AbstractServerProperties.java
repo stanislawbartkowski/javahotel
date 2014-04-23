@@ -12,12 +12,12 @@
  */
 package com.jythonui.server.defa;
 
-import com.jython.ui.shared.UtilHelper;
-import com.jython.ui.shared.resource.IReadResource;
-import com.jython.ui.shared.resource.IReadResourceFactory;
-import com.jython.ui.shared.resource.ReadResourceFactory;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.Util;
+import com.jythonui.server.UtilHelper;
+import com.jythonui.server.resource.IReadResource;
+import com.jythonui.server.resource.IReadResourceFactory;
+import com.jythonui.server.resource.ReadResourceFactory;
 
 abstract public class AbstractServerProperties extends UtilHelper implements
         IJythonUIServerProperties {

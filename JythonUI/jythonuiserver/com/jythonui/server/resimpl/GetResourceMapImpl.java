@@ -19,11 +19,11 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import com.gwtmodel.commoncache.ICommonCache;
-import com.jython.ui.shared.resource.IReadResource;
 import com.jythonui.server.IGetResourceMap;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.Util;
 import com.jythonui.server.getbundle.ReadBundle;
+import com.jythonui.server.resource.IReadResource;
 
 public class GetResourceMapImpl implements IGetResourceMap {
 

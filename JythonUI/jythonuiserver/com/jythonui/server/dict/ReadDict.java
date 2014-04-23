@@ -17,10 +17,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.jython.ui.shared.resource.IReadResource;
-import com.jython.ui.shared.resource.ReadResourceFactory;
 import com.jythonui.server.IGetResourceMap;
 import com.jythonui.server.dict.IDictOfLocalEntries.DictEntry;
+import com.jythonui.server.resource.IReadResource;
+import com.jythonui.server.resource.ReadResourceFactory;
 
 public class ReadDict {
 

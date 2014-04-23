@@ -16,10 +16,10 @@ import java.util.List;
 
 import com.gwtmodel.commoncache.ICommonCache;
 import com.gwtmodel.table.common.CUtil;
-import com.jython.ui.shared.UtilHelper;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.Util;
+import com.jythonui.server.UtilHelper;
 import com.jythonui.server.dialog.GetDialog;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.jython.RunJython;

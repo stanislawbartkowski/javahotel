@@ -17,14 +17,14 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Properties;
 
-import com.jython.ui.shared.BUtil;
-import com.jython.ui.shared.UtilHelper;
-import com.jython.ui.shared.resource.IReadResource;
+import com.jythonui.server.BUtil;
+import com.jythonui.server.UtilHelper;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.holder.SHolder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
+import com.jythonui.server.resource.IReadResource;
 import com.jythonui.shared.RequestContext;
 
 public class Util extends UtilHelper {

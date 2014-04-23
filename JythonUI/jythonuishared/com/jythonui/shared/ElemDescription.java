@@ -12,40 +12,19 @@
  */
 package com.jythonui.shared;
 
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
 import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.map.XMap;
 
 /**
  * @author hotel
  * 
  */
-public abstract class ElemDescription implements Serializable {
+public abstract class ElemDescription extends XMap  {
 
     private static final long serialVersionUID = 1L;
-    // important: not final !
-    private Map<String, String> attr = new HashMap<String, String>();
 
-    public Map<String, String> getMap() {
-        return attr;
-    }
-
-    public void setMap(Map<String, String> attr) {
-        this.attr = attr;
-    }
-
-    public void setAttr(String key, String value) {
-        attr.put(key, value);
-    }
-
-    public Iterator<String> getKeys() {
-        return attr.keySet().iterator();
-    }
-
-    private int findSecurity(String s) {
+    @Override
+    protected int findSecurity(String s) {
         if (CUtil.EmptyS(s))
             return -1;
         int startp = 0;
@@ -62,22 +41,6 @@ public abstract class ElemDescription implements Serializable {
             // double (escaped) $
             startp = pos + 2;
         }
-    }
-
-    public String getAttr(String key) {
-        String val = attr.get(key);
-        int sec = findSecurity(val);
-        if (sec == -1)
-            return val; // no security string
-        if (sec == 0)
-            return "";
-        return val.substring(0, sec - 1); // remove security part
-    }
-
-    public String getAttr(String key, String defa) {
-        if (!isAttr(key))
-            return defa;
-        return getAttr(key);
     }
 
     public String getSecuriyPart(String key) {
@@ -104,10 +67,6 @@ public abstract class ElemDescription implements Serializable {
         return CUtil.EqNS(getId(), id);
     }
 
-    public boolean isAttr(String attr) {
-        return getAttr(attr) != null;
-    }
-
     public String getWidth() {
         return getAttr(ICommonConsts.WIDTH);
     }
@@ -122,13 +81,6 @@ public abstract class ElemDescription implements Serializable {
 
     public boolean isReadOnly() {
         return isAttr(ICommonConsts.READONLY);
-    }
-
-    protected int getInt(String key, int defaultval) {
-        String s = getAttr(key);
-        if (CUtil.EmptyS(s))
-            return defaultval;
-        return CUtil.getInteger(s);
     }
 
     public String getClassName() {

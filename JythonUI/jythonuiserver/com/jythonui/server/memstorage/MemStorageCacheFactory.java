@@ -17,7 +17,7 @@ import javax.inject.Named;
 
 import com.gwtmodel.commoncache.ICommonCache;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
-import com.jython.ui.shared.ISharedConsts;
+import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.IStorageMemCache;
 import com.jythonui.server.IStorageMemContainerFactory;
 import com.jythonui.server.getmess.IGetLogMess;

@@ -2,7 +2,7 @@ from java.util import Calendar
 from com.gwtmodel.table.common.dateutil import DateFormatUtil
 from java.math import BigDecimal
 import datetime
-from com.jython.ui.shared import MUtil
+from com.jythonui.server import MUtil
 
 def eqUL(l1,l2) :
     return toL(l1) == toL(l2)

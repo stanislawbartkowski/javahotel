@@ -18,10 +18,10 @@ import java.util.logging.Logger;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.jython.ui.shared.ISharedConsts;
-import com.jython.ui.shared.MUtil;
 import com.jythonui.server.IGetAppProp;
 import com.jythonui.server.IJythonClientRes;
+import com.jythonui.server.ISharedConsts;
+import com.jythonui.server.MUtil;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.resbundle.IAppMess;

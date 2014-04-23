@@ -19,8 +19,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -35,15 +33,14 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
-import com.jython.ui.shared.ISharedConsts;
+import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.IXMLToMap;
+import com.jythonui.server.UtilHelper;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
 
-public class XMLMap implements IXMLToMap {
-
-    static final private Logger log = Logger.getLogger(XMLMap.class.getName());
+public class XMLMap extends UtilHelper implements IXMLToMap {
 
     private final IGetLogMess gMess;
 
@@ -158,7 +155,7 @@ public class XMLMap implements IXMLToMap {
         } catch (ParserConfigurationException | SAXException | IOException e) {
             String mess = gMess.getMess(IErrorCode.ERRORCODE73,
                     ILogMess.ERRORWHILEREADINGXML);
-            log.log(Level.SEVERE, mess, e);
+            errorLog(mess, e);
             return null;
         }
         return ha.res;

@@ -12,7 +12,7 @@
  */
 package com.jythonui.server;
 
-import com.jython.ui.shared.resource.IReadResource;
+import com.jythonui.server.resource.IReadResource;
 
 /**
  * @author hotel

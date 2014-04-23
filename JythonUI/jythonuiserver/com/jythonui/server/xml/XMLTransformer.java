@@ -16,10 +16,9 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -34,7 +33,9 @@ import org.xml.sax.helpers.DefaultHandler;
 import com.gwtmodel.table.common.ConvertTT;
 import com.jamesmurty.utils.XMLBuilder;
 import com.jythonui.server.IJythonUIServer;
-import com.jythonui.server.holder.Holder;
+import com.jythonui.server.ISharedConsts;
+import com.jythonui.server.UtilHelper;
+import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.shared.DialogFormat;
@@ -43,32 +44,25 @@ import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.FieldValue;
 import com.jythonui.shared.ICommonConsts;
-import com.jythonui.shared.JythonUIFatal;
 import com.jythonui.shared.ListFormat;
 import com.jythonui.shared.ListOfRows;
 import com.jythonui.shared.RowContent;
 import com.jythonui.shared.RowIndex;
 
-public class XMLTransformer implements IXMLTransformer {
+public class XMLTransformer extends UtilHelper implements IXMLTransformer {
 
-    static final private Logger log = Logger.getLogger(XMLTransformer.class
-            .getName());
-
-    static private void errorL(String errId, String messId, Throwable e,
-            String... par) {
-        String mess = Holder.getM().getMess(errId, messId, par);
-        if (e == null)
-            log.log(Level.SEVERE, mess);
-        else
-            log.log(Level.SEVERE, mess, e);
-        throw new JythonUIFatal(mess);
+    private void errorL(String errId, String messId, Throwable e, String... par) {
+        errorMess(gMess, errId, messId, (Exception) e, par);
     }
 
     private final IJythonUIServer iS;
+    private final IGetLogMess gMess;
 
     @Inject
-    public XMLTransformer(IJythonUIServer iS) {
+    public XMLTransformer(IJythonUIServer iS,
+            @Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess gMess) {
         this.iS = iS;
+        this.gMess = gMess;
     }
 
     private static XMLBuilder addValue(XMLBuilder builder, String id,
@@ -131,7 +125,7 @@ public class XMLTransformer implements IXMLTransformer {
         return null;
     }
 
-    private static class MyHandler extends DefaultHandler {
+    private class MyHandler extends DefaultHandler {
         private final DialogFormat d;
         private final DialogVariables v;
         private StringBuffer buf;
