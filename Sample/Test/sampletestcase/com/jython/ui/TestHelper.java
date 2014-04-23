@@ -12,7 +12,8 @@
  */
 package com.jython.ui;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import guice.ServiceInjector;
 
 import java.math.BigDecimal;
@@ -46,64 +47,25 @@ import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.RequestContext;
+import com.jythonui.test.CommonTestHelper;
 
 /**
  * @author hotel
  * 
  */
-public class TestHelper {
+public class TestHelper extends CommonTestHelper {
 
-    protected final IJythonUIServer iServer;
-    protected final ITestEnhancer iTest;
     protected final IPersonOp po;
-    protected final ISecurity iSec;
-    protected final IAppMess appMess;
-    protected final ISequenceRealmGen iSeq;
-    protected final ISymGenerator iSym;
     protected final IDateLineOp iOp;
     protected final IDateRecordOp dOp;
-    protected final IStorageRegistryFactory iReg;
-    protected final IXMLTransformer iXml;
-    protected final ISemaphore iSem;
-    protected final IGetLocalizedDict iListC;
-    protected final IGetLocalizedDict iListT;
-    protected final IGetLocalizedDict iListI;
-    protected final IGetLocalizedDict iListP;
-    protected final IDefaultData dData;
-    protected final IBlobHandler iBlob;
-    @Inject
-    protected static ISetTestToday setTestToday;
 
     protected final static String realmIni = "classpath:resources/shiro/shiro.ini";
     protected final static String derbyIni = "classpath:resources/shiro/shiroderby.ini";
 
     public TestHelper() {
-        iServer = ServiceInjector.contructJythonUiServer();
-        iTest = ServiceInjector.constructITestEnhancer();
         po = ServiceInjector.constructPersonOp();
-        iSec = ServiceInjector.constructSecurity();
-        appMess = Holder.getAppMess();
-        iSeq = SHolder.getSequenceRealmGen();
-        iSym = ServiceInjector.getSymGenerator();
         iOp = ServiceInjector.constructDateLineElem();
         dOp = ServiceInjector.getDateRecordOp();
-        iReg = ServiceInjector.getStorageRegistryFactory();
-        iXml = Holder.getXMLTransformer();
-        iSem = SHolder.getSem();
-        iListC = Holder.getListOfCountries();
-        iListT = Holder.getListOfTitles();
-        iListI = Holder.getListOfIdTypes();
-        iListP = Holder.getListOfPayment();
-        dData = Holder.getDefaultData();
-        iBlob = SHolder.getBlobHandler();
-//        setTestToday = SHolder.getSetTest();
-    }
-
-    protected void putLocale(String lang) {
-        RequestContext req = new RequestContext();
-        req.setLocale(lang);
-        Holder.setContext(req);
-
     }
 
     @Before
@@ -117,63 +79,6 @@ public class TestHelper {
     @After
     public void tearDown() {
         iTest.afterTest();
-    }
-
-    protected void equalB(double f, BigDecimal b, int afterdot) {
-        BigDecimal c = new BigDecimal(f).setScale(afterdot,
-                BigDecimal.ROUND_HALF_UP);
-        assertEquals(c, b);
-    }
-
-    protected DialogFormat findDialog(String dialogName) {
-        DialogInfo d = iServer.findDialog(new RequestContext(), dialogName);
-        if (d == null)
-            return null;
-        return d.getDialog();
-    }
-
-    protected DialogInfo findDialog(String token, String dialogName) {
-        RequestContext req = new RequestContext();
-        req.setToken(token);
-        return iServer.findDialog(req, dialogName);
-    }
-
-    protected void runAction(DialogVariables v, String dialogName,
-            String actionId) {
-        iServer.runAction(new RequestContext(), v, dialogName, actionId);
-    }
-
-    protected void runAction(String token, DialogVariables v,
-            String dialogName, String actionId) {
-        RequestContext req = new RequestContext();
-        req.setToken(token);
-        iServer.runAction(req, v, dialogName, actionId);
-    }
-
-    protected String authenticateToken(String realm, String user,
-            String password) {
-        String t = iSec.authenticateToken(realm, user, password, null);
-        return t;
-    }
-
-    protected Date getD(int year, int m, int d) {
-        return DateFormatUtil.toD(year, m, d);
-    }
-
-    protected boolean eqD(int year, int m, int d, Date da) {
-        int dd = DateFormatUtil.getY(da);
-        if (year != dd)
-            return false;
-        int mm = DateFormatUtil.getM(da);
-        if (m != mm)
-            return false;
-        if (d != da.getDay())
-            return false;
-        return true;
-    }
-    
-    protected void assertOK(DialogVariables v) {
-        assertTrue(v.getValue("OK").getValueB());        
     }
 
 }

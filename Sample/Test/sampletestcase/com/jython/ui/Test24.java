@@ -20,7 +20,6 @@ import java.util.Date;
 
 import org.junit.Test;
 
-import com.gwtmodel.util.DayOp;
 import com.jython.ui.server.datastore.IDateLineElem;
 
 public class Test24 extends TestHelper {
@@ -50,14 +49,14 @@ public class Test24 extends TestHelper {
         for (int i = 0; i < 100; i++) {
             Long id = new Long(1);
             iOp.addormodifElem(id, dt, i * 2, "Hello");
-            dt = DayOp.incDay(dt);
+            dt = incDay(dt);
         }
         dt = da;
         int no = 0;
         for (int i = 0; i < 100; i++) {
             Long id = new Long(1);
             IDateLineElem el = iOp.findElem(id, dt);
-            dt = DayOp.incDay(dt);
+            dt = incDay(dt);
             assertNotNull(el);
             no = i;
         }
