@@ -12,7 +12,7 @@
  */
 package com.jython.ui;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import guice.ServiceInjector;
 
 import java.math.BigDecimal;
@@ -170,6 +170,10 @@ public class TestHelper {
         if (d != da.getDay())
             return false;
         return true;
+    }
+    
+    protected void assertOK(DialogVariables v) {
+        assertTrue(v.getValue("OK").getValueB());        
     }
 
 }

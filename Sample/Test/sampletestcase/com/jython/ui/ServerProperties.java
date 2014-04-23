@@ -14,9 +14,9 @@ package com.jython.ui;
 
 import javax.inject.Inject;
 
-import com.jython.ui.shared.resource.IReadResource;
-import com.jython.ui.shared.resource.IReadResourceFactory;
 import com.jythonui.server.defa.AbstractServerProperties;
+import com.jythonui.server.resource.IReadResource;
+import com.jythonui.server.resource.IReadResourceFactory;
 
 /**
  * @author hotel
