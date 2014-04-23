@@ -19,8 +19,8 @@ import java.util.List;
 
 import com.googlecode.objectify.LoadResult;
 import com.googlecode.objectify.VoidWork;
-import com.jython.ui.shared.BUtil;
-import com.jython.ui.shared.GetCreateModifTime;
+import com.jythonui.server.BUtil;
+import com.jythonui.server.GetCreateModifTime;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;

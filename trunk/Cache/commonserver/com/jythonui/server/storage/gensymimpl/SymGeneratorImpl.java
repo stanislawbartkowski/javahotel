@@ -15,7 +15,7 @@ package com.jythonui.server.storage.gensymimpl;
 import java.util.Date;
 
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
-import com.jython.ui.shared.UObjects;
+import com.jythonui.server.UObjects;
 import com.jythonui.server.storage.gensym.ISymGenerator;
 import com.jythonui.server.storage.seq.ISequenceRealmGen;
 

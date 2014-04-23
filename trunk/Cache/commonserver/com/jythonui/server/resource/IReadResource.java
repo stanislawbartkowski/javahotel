@@ -10,26 +10,14 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server.storage.blob;
+package com.jythonui.server.resource;
 
-import java.util.List;
+import java.net.URL;
 
-import com.jythonui.server.GetCreateModifTime;
+public interface IReadResource {
 
-public interface IBlobHandler {
+    String RESOURCES = "resources";
 
-    void clearAll(String realM);
-
-    void addBlob(String realM, String blobid, byte[] content);
-    
-    void changeBlob(String realM, String blobid, byte[] content);
-
-    byte[] findBlob(String realM, String blobid);
-
-    void removeBlob(String realM, String blobid);
-    
-    List<String> findBlobs(String realM);
-    
-    GetCreateModifTime getModifTime(String realM, String key);
+    URL getRes(String resourcePath);
 
 }

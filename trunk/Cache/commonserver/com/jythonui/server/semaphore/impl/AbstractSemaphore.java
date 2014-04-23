@@ -14,8 +14,8 @@ package com.jythonui.server.semaphore.impl;
 
 import java.util.concurrent.TimeUnit;
 
-import com.jython.ui.shared.ISharedConsts;
-import com.jython.ui.shared.UtilHelper;
+import com.jythonui.server.ISharedConsts;
+import com.jythonui.server.UtilHelper;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.server.semaphore.ISemaphore;

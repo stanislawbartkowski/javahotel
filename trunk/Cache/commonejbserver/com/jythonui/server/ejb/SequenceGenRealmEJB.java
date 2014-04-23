@@ -19,10 +19,10 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
-import com.google.inject.Inject;
 import javax.interceptor.Interceptors;
 
-import com.jython.ui.shared.ISharedConsts;
+import com.google.inject.Inject;
+import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.defa.GuiceInterceptor;
 import com.jythonui.server.storage.seq.ISequenceRealmGen;
 

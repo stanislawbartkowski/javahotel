@@ -18,13 +18,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import com.jython.ui.shared.MUtil;
-import com.jython.ui.shared.ReadUTF8Properties;
-import com.jython.ui.shared.UtilHelper;
-import com.jython.ui.shared.resource.IReadResource;
+import com.jythonui.server.MUtil;
+import com.jythonui.server.ReadUTF8Properties;
+import com.jythonui.server.UtilHelper;
 import com.jythonui.server.holder.SHolder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
+import com.jythonui.server.resource.IReadResource;
 
 public class ReadBundle extends UtilHelper {
 

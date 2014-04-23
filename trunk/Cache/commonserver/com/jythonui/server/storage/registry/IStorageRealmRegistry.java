@@ -14,7 +14,7 @@ package com.jythonui.server.storage.registry;
 
 import java.util.List;
 
-import com.jython.ui.shared.GetCreateModifTime;
+import com.jythonui.server.GetCreateModifTime;
 
 
 public interface IStorageRealmRegistry {

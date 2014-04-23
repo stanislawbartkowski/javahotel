@@ -12,7 +12,7 @@
  */
 package com.jythonui.server.storage.seqimpl;
 
-import com.jython.ui.shared.UObjects;
+import com.jythonui.server.UObjects;
 import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 import com.jythonui.server.storage.seq.ISequenceRealmGen;

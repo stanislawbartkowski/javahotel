@@ -22,8 +22,8 @@ import javax.persistence.Query;
 import com.jython.ui.server.jpastoragekey.entity.AbstractRegistryEntry;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaTransaction;
-import com.jython.ui.shared.BUtil;
-import com.jython.ui.shared.GetCreateModifTime;
+import com.jythonui.server.BUtil;
+import com.jythonui.server.GetCreateModifTime;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 
 abstract class AbstractStorageJpaRegistry implements IStorageRealmRegistry {

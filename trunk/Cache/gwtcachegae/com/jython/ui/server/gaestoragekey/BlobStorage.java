@@ -18,7 +18,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.googlecode.objectify.ObjectifyService;
-import com.jython.ui.shared.ISharedConsts;
+import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.storage.blob.IBlobHandler;
 

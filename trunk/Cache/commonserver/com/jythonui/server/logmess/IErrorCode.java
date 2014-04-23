@@ -93,4 +93,5 @@ public interface IErrorCode {
     String ERRORCODE78 = "E0078";
     String ERRORCODE79 = "E0079";
     String ERRORCODE80 = "E0080";
+    String ERRORCODE81 = "E0081";
 }
