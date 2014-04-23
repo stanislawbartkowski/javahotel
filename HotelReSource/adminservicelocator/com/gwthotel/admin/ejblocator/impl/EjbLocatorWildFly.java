@@ -35,9 +35,9 @@ import com.gwthotel.hotel.reservationop.IReservationOp;
 import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.shared.IHotelConsts;
-import com.jython.ui.shared.ISharedConsts;
-import com.jython.ui.shared.UtilHelper;
 import com.jythonui.server.IJythonUIServerProperties;
+import com.jythonui.server.ISharedConsts;
+import com.jythonui.server.UtilHelper;
 import com.jythonui.server.storage.blob.IBlobHandler;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 import com.jythonui.server.storage.seq.ISequenceRealmGen;
@@ -90,8 +90,9 @@ public class EjbLocatorWildFly extends UtilHelper implements IBeanLocator {
         String name = APPNAME + "/" + jndiM.get(bName);
         try {
             Properties props = null;
-            info("Search for EJB " + bName);
+            traceLog("Search for EJB " + bName);
             String eHost = iServer.getEJBHost();
+//            eHost = "think";
             if (eHost != null) {
                 info("EJB on host " + eHost);
                 props = new Properties();
@@ -104,6 +105,8 @@ public class EjbLocatorWildFly extends UtilHelper implements IBeanLocator {
             InitialContext ic = new InitialContext(props);
             Object remoteObj = ic.lookup(name);
             T inter = (T) remoteObj;
+            traceLog("OK " + bName + " found.");
+            ic.close();
             return inter;
         } catch (NamingException e) {
             errorLog("Cannot load service " + name, e);

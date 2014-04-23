@@ -32,9 +32,9 @@ import com.gwthotel.hotel.reservationop.IReservationOp;
 import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.shared.IHotelConsts;
-import com.jython.ui.shared.ISharedConsts;
-import com.jython.ui.shared.UtilHelper;
 import com.jythonui.server.IJythonUIServerProperties;
+import com.jythonui.server.ISharedConsts;
+import com.jythonui.server.UtilHelper;
 import com.jythonui.server.storage.blob.IBlobHandler;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 import com.jythonui.server.storage.seq.ISequenceRealmGen;
@@ -51,12 +51,12 @@ public class EjbLocatorGlassfish extends UtilHelper implements IBeanLocator {
     private <T> T construct(String name) {
         try {
             Properties props = null;
-            info("Search for EJB " + name);
+            traceLog("Search for EJB " + name);
             String eHost = iServer.getEJBHost();
             if (eHost != null) {
                 // info(ILogMess.SEARCHEJBFORHOST, eHost);
                 // WARNING: not IGetLogMess, not initialized
-                info("EJB on host " + eHost);
+                traceLog("EJB on host " + eHost);
                 props = new Properties();
                 props.setProperty("java.naming.factory.initial",
                         "com.sun.enterprise.naming.SerialInitContextFactory");
@@ -76,6 +76,7 @@ public class EjbLocatorGlassfish extends UtilHelper implements IBeanLocator {
             InitialContext ic = new InitialContext(props);
             Object remoteObj = ic.lookup(name);
             T inter = (T) remoteObj;
+            ic.close();
             return inter;
         } catch (NamingException e) {
             errorLog("Cannot load service " + name, e);

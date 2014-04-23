@@ -41,7 +41,7 @@ public class Test20 extends TestHelper {
         setTestToday(DateFormatUtil.toD(2013, 6, 13));
     }
 
-    private CustomerBill createP() {
+    private CustomerBill OLDcreateP() {
 
         HotelRoom ho = new HotelRoom();
         ho.setName("P10");

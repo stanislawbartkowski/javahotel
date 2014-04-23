@@ -13,6 +13,8 @@
 package com.gwthotel.admintest.suite;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -32,27 +34,34 @@ import com.gwthotel.admin.HotelRoles;
 import com.gwthotel.admin.IGetHotelRoles;
 import com.gwthotel.admin.IGetVatTaxes;
 import com.gwthotel.admin.IHotelAdmin;
-import com.gwthotel.admin.IXMLToMap;
 import com.gwthotel.admin.Person;
 import com.gwthotel.admintest.guice.ServiceInjector;
+import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.IGetInstanceHotelId;
 import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.IHotelObjectsFactory;
+import com.gwthotel.hotel.bill.CustomerBill;
 import com.gwthotel.hotel.bill.ICustomerBills;
+import com.gwthotel.hotel.customer.HotelCustomer;
 import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.payment.IPaymentBillOp;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
 import com.gwthotel.hotel.reservation.IReservationForm;
+import com.gwthotel.hotel.reservation.ReservationForm;
+import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
 import com.gwthotel.hotel.reservationop.IReservationOp;
+import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.server.service.H;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.shared.IHotelConsts;
+import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.gwtmodel.table.common.dateutil.ISetTestToday;
 import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.jythonui.server.IJythonUIServer;
+import com.jythonui.server.IXMLToMap;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.holder.SHolder;
 import com.jythonui.server.newblob.IAddNewBlob;
@@ -110,6 +119,13 @@ public class TestHelper {
     protected static final String HOTEL1 = "hotel1";
 
     protected static final String TESTINSTANCE = IHotelConsts.INSTANCETEST;
+    
+    @Before
+    public void before() {
+        clearObjects();
+        createHotels();
+        setTestToday(DateFormatUtil.toD(2013, 6, 13));
+    }
 
     protected AppInstanceId getI() {
         return iGetI.getInstance(TESTINSTANCE, "user");
@@ -262,5 +278,52 @@ public class TestHelper {
         roles.add(rol);
         iAdmin.addOrModifHotel(getI(), ho, roles);
     }
+    
+    protected CustomerBill createP() {
+
+        HotelRoom ho = new HotelRoom();
+        ho.setName("P10");
+        ho.setNoPersons(3);
+        iRooms.addElem(getH(HOTEL), ho);
+        HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL),
+                HotelObjects.CUSTOMER);
+        p.setGensymbol(true);
+        p.setAttr("country", "gb");
+        p = iCustomers.addElem(getH(HOTEL), p);
+        ReservationForm r = (ReservationForm) hObjects.construct(getH(HOTEL),
+                HotelObjects.RESERVATION);
+        r.setCustomerName(p.getName());
+        r.setGensymbol(true);
+        ReservationPaymentDetail det = new ReservationPaymentDetail();
+        det.setNoP(3);
+        det.setPrice(new BigDecimal("100.0"));
+        det.setPriceTotal(new BigDecimal("100.0"));
+        det.setPriceList(new BigDecimal("200.0"));
+        det.setRoomName("P10");
+        det.setResDate(toDate(2013, 4, 10));
+        r.getResDetail().add(det);
+        r = iRes.addElem(getH(HOTEL), r);
+        String sym = r.getName();
+
+        CustomerBill b = (CustomerBill) hObjects.construct(getH(HOTEL),
+                HotelObjects.BILL);
+        b.setGensymbol(true);
+        b.setPayer(p.getName());
+        b.setReseName(sym);
+        b.setIssueDate(toDate(2010, 10, 12));
+        b.setDateOfPayment(toDate(2010, 10, 15));
+        for (ReservationPaymentDetail d : r.getResDetail()) {
+            b.getPayList().add(d.getId());
+        }
+        b = iBills.addElem(getH(HOTEL), b);
+        assertNotNull(b);
+        System.out.println(b.getName());
+        return b;
+    }
+    
+    protected void assertOK(DialogVariables v) {
+        assertTrue(v.getValue("OK").getValueB());        
+    }
+
 
 }
