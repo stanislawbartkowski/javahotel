@@ -54,5 +54,5 @@ def removeOneBlob(var,billno,bloblist,id):
     var["id"] = id
     B.removeMap(var)
 
-def constructPDFBLOB(var,billno,pdfkey) :
-  return util.getHotel(var) + ":" + billno + ":" + pdfkey
+def constructPDFBLOB(var,pdfkey,name="receipt.pdf") :
+  return util.getHotel(var) + ":" + pdfkey + ":" + name

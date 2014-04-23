@@ -12,6 +12,11 @@
  */
 package com.gwthotel.hotel.jpa.bill;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
+
 import javax.persistence.EntityManager;
 
 import com.gwthotel.admin.HotelId;
@@ -24,6 +29,8 @@ import com.gwthotel.hotel.jpa.JUtils;
 import com.gwthotel.hotel.jpa.entities.ECustomerBill;
 import com.gwthotel.hotel.jpa.entities.EHotelCustomer;
 import com.gwthotel.hotel.jpa.entities.EHotelReservation;
+import com.gwthotel.mess.IHError;
+import com.gwthotel.mess.IHMess;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 
 class CustomerBillJpa extends AbstractJpaCrud<CustomerBill, ECustomerBill>
@@ -48,6 +55,24 @@ class CustomerBillJpa extends AbstractJpaCrud<CustomerBill, ECustomerBill>
         return new ECustomerBill();
     }
 
+    // Hibernate
+    // Convert BigInteger to Long (if exists)
+    // otherwise Hibernate breaks
+    private List<Long> convertToLong(List<Long> list) {
+        List<Long> dest = new ArrayList<Long>();
+        for (Object o : list) {
+            if (o instanceof Long)
+                dest.add((Long) o);
+            else if (o instanceof BigInteger) {
+                BigInteger b = (BigInteger) o;
+                dest.add(b.longValue());
+            } else
+                errorMess(lMess,IHError.HERROR024,IHMess.CUSTOMERBILLJPA,null,o.getClass().getName());
+
+        }
+        return dest;
+    }
+
     @Override
     protected void toE(ECustomerBill dest, CustomerBill sou, EntityManager em,
             HotelId hotel) {
@@ -57,9 +82,9 @@ class CustomerBillJpa extends AbstractJpaCrud<CustomerBill, ECustomerBill>
         String resename = sou.getReseName();
         EHotelReservation res = JUtils.findReservation(em, hotel, resename);
         dest.setReservation(res);
-        dest.setResDetails(sou.getPayList());
+        dest.setResDetails(convertToLong(sou.getPayList()));
         dest.setIssueDate(sou.getIssueDate());
-        dest.setDateOfPayment(sou.getIssueDate());
+        dest.setDateOfPayment(sou.getDateOfPayment());
     }
 
     @Override

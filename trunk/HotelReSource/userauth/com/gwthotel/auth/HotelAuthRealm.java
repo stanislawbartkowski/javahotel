@@ -32,6 +32,7 @@ import com.gwthotel.mess.IHError;
 import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.table.common.CUtil;
+import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.security.token.PasswordSecurityToken;
 
 public class HotelAuthRealm extends AuthorizingRealm {
@@ -105,6 +106,10 @@ public class HotelAuthRealm extends AuthorizingRealm {
         }
         List<HotelRoles> roles = getI().getListOfRolesForHotel(
                 getG().getInstance(instanceId, person), hotel);
+        if (roles == null) {
+            String mess = iRes.getLogMess().getMess(IHError.HERROR023, IHMess.AUTHCANNOTGETROLES, hotel,person);
+            throw new AuthenticationException(mess);            
+        }
         List<String> hotelroles = null;
         for (HotelRoles ro : roles) {
             if (ro.getObject().getName().equals(person)) {

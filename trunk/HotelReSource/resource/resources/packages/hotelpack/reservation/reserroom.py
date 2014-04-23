@@ -169,22 +169,33 @@ def _checkRese(var):
   if not _checkNoAndPrice(var,"resnoextrabeds","respriceextrabeds") : return False
     
   if _createListOfDays(var) : return True
-  var["JERROR_MESSAGE"] = M("ALREADYRESERVEDMESSAGE")
-  var["JMESSAGE_TITLE"] = M("ALREADYRESERVEDTITLE") 
+  _setAlreadyReserved(var)
   return False
   
+def _setAlreadyReserved(var) :  
+   var["JERROR_MESSAGE"] = M("ALREADYRESERVEDMESSAGE")
+   var["JMESSAGE_TITLE"] = M("ALREADYRESERVEDTITLE") 
+
+def _setAlreadyReservedNotAvailable(var) :  
+    var["JERROR_MESSAGE"] = M("ALREADYRESERVEDMESSAGE")
+    var["JMESSAGE_TITLE"] = "Not everything is available"
+    
+def _setAlreadyReservedNotSelected(var) :  
+    var["JERROR_MESSAGE"] = M("ALREADYRESERVEDMESSAGE")
+    var["JMESSAGE_TITLE"] = "No single room selected !"
+
+
 def _checkAvailibity(var) :
   list = var["JLIST_MAP"][RESLIST]
   RES = RESOP(var)
   query = cutil.createArrayList()
   for p in list :
     if not p["avail"] :
-       var["JERROR_MESSAGE"] = M("ALREADYRESERVEDMESSAGE")
-       var["JMESSAGE_TITLE"] = "Not everything is available"
-       return False
+      _setAlreadyReservedNotAvailable(var)
+      return False
     dat = p["resday"]
     roomname = p["resroomname"]
-    qelem = rutil.createResQueryElem(roomname,dat,dat+datetime.timedelta(1))
+    qelem = rutil.createResQueryElem(roomname,dat,dat)
     query.add(qelem)
   rList = RES.queryReservation(query)
   # analize if other reservation
@@ -195,8 +206,7 @@ def _checkAvailibity(var) :
     for r in rList :
       if r.getResId() != resename : alreadyres = alreadyres + 1
   if alreadyres :
-     var["JERROR_MESSAGE"] = M("ALREADYRESERVEDMESSAGE")
-     var["JMESSAGE_TITLE"] = M("ALREADYRESERVEDTITLE") 
+     _setAlreadyReserved(var)
      return False
   return True       
   
@@ -262,15 +272,13 @@ class MAKERESE(HOTELTRANSACTION) :
 def _checkCurrentRese(var) :
   list = var["JLIST_MAP"][RESLIST]
   if len(list) == 0:
-      var["JERROR_MESSAGE"] = M("alreadyreserved")
-      var["JMESSAGE_TITLE"] = "No single room selected !"
-      return False
+    _setAlreadyReservedNotSelected(var)  
+    return False
   for elem in list :
     avail = elem["avail"]
     if not avail :
-      var["JERROR_MESSAGE"] = M("alreadyreserved")
-      var["JMESSAGE_TITLE"] = "Not all room are available"
-      return False
+     _setAlreadyReserved(var)
+     return False
   return True          
     
 def reseraction(action,var):
@@ -293,15 +301,15 @@ def reseraction(action,var):
         if var["changefield"] == "roomservice" : 
             _setAfterServiceName(var)
             if not var["changeafterfocus"] and _newRese(var) : 
-               _createListOfDays(var)
                _setAfterPriceList(var)
                _setAfterPerPerson(var)
+               _createListOfDays(var)
         if var["changefield"] == "roompricelist" : 
             _setAfterPriceList(var)
             if not var["changeafterfocus"] and _newRese(var): 
-              _createListOfDays(var)
               _setAfterServiceName(var)
               _setAfterPerPerson(var)
+              _createListOfDays(var)
     
     if action=="before" :
         rutil.setvarBefore(var)

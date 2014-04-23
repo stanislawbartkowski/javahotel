@@ -101,6 +101,8 @@ public class HotelRoomsImpl extends CrudGaeAbstract<HotelRoom, EHotelRoom>
     protected HotelRoom constructProp(EHotel ho, EHotelRoom e) {
         HotelRoom r = new HotelRoom();
         r.setNoPersons(e.getNoPersons());
+        r.setNoChildren(e.getNoChildren());
+        r.setNoExtraBeds(e.getNoExtraBeds());
         return r;
     }
 

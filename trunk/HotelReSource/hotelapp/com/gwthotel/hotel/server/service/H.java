@@ -20,7 +20,6 @@ import com.gwthotel.admin.HotelId;
 import com.gwthotel.admin.IGetHotelRoles;
 import com.gwthotel.admin.IGetVatTaxes;
 import com.gwthotel.admin.IHotelAdmin;
-import com.gwthotel.admin.IXMLToMap;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.IGetInstanceHotelId;
 import com.gwthotel.hotel.IHotelGetName;
@@ -88,9 +87,6 @@ public class H {
 
     @Inject
     private static IReservationForm resForm;
-
-    @Inject
-    private static IXMLToMap iXMLMap;
 
     @Inject
     private static ICustomerBills iBills;
@@ -163,10 +159,6 @@ public class H {
 
     public static IReservationForm getResForm() {
         return resForm;
-    }
-
-    public static IXMLToMap getXMLMap() {
-        return iXMLMap;
     }
 
     public static ICustomerBills getCustomerBills() {

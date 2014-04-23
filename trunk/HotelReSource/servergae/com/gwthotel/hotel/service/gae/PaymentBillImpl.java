@@ -48,8 +48,9 @@ public class PaymentBillImpl implements IPaymentBillOp {
     @Override
     public List<PaymentBill> getPaymentsForBill(HotelId hotel, String billName) {
         EHotel ho = DictUtil.findEHotel(lMess, hotel);
-        List<EBillPayment> li = ofy().load().type(EBillPayment.class)
-                .ancestor(ho).filter("billName == ", billName).list();
+//        List<EBillPayment> li = ofy().load().type(EBillPayment.class)
+//                .ancestor(ho).filter("billName == ", billName).list();
+        List<EBillPayment> li = DictUtil.findPaymentsForBill(ho,billName);
         List<PaymentBill> bList = new ArrayList<PaymentBill>();
         for (EBillPayment b : li) {
             PaymentBill bi = new PaymentBill();

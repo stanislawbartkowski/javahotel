@@ -26,7 +26,7 @@ import com.gwthotel.hotel.payment.IPaymentBillOp;
 import com.gwthotel.hotel.payment.PaymentBill;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaTransaction;
-import com.jython.ui.shared.BUtil;
+import com.jythonui.server.BUtil;
 
 class PaymentOp implements IPaymentBillOp {
 

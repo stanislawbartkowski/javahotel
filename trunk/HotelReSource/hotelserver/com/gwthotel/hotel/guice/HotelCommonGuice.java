@@ -19,11 +19,9 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Names;
 import com.gwthotel.admin.IGetHotelRoles;
 import com.gwthotel.admin.IGetVatTaxes;
-import com.gwthotel.admin.IXMLToMap;
 import com.gwthotel.admin.holder.HHolder;
 import com.gwthotel.admin.roles.GetHotelRoles;
 import com.gwthotel.admin.vattax.GetVatTaxes;
-import com.gwthotel.admin.xmltomap.XMLToMap;
 import com.gwthotel.auth.SecurityConverter;
 import com.gwthotel.hotel.IGetInstanceHotelId;
 import com.gwthotel.hotel.IHotelGetName;
@@ -61,7 +59,6 @@ public class HotelCommonGuice {
                     Singleton.class);
             bind(IHotelObjectsFactory.class).to(HotelObjectsFactory.class).in(
                     Singleton.class);
-            bind(IXMLToMap.class).to(XMLToMap.class).in(Singleton.class);
             requestStaticInjection(HHolder.class);
             requestStaticInjection(H.class);
         }

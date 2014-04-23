@@ -12,15 +12,11 @@
  */
 package com.gwthotel.shared;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
-import com.gwtmodel.table.common.DecimalUtils;
+import com.gwtmodel.table.map.XMap;
 
-abstract public class PropDescription implements Serializable {
+abstract public class PropDescription extends XMap {
 
     private static final long serialVersionUID = 1L;
 
@@ -30,20 +26,10 @@ abstract public class PropDescription implements Serializable {
     private Date modifDate;
 
     private boolean gensymbol = false;
-
-    // important: not final !
-    private Map<String, String> attr = new HashMap<String, String>();
-
-    public Map<String, String> getMap() {
-        return attr;
-    }
-
-    public void setAttr(String key, String value) {
-        attr.put(key, value);
-    }
-
-    public String getAttr(String key) {
-        return attr.get(key);
+    
+    @Override
+    protected int findSecurity(String val) {
+        return -1;
     }
 
     public String getDescription() {
@@ -68,21 +54,6 @@ abstract public class PropDescription implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    protected BigDecimal getAttrBig(String key) {
-        String s = getAttr(key);
-        if (s == null)
-            return null;
-        return DecimalUtils.toBig(s);
-    }
-
-    protected void setAttrBig(String key, BigDecimal b) {
-        if (b == null) {
-            setAttr(key, null);
-            return;
-        }
-        setAttr(key, b.toString());
     }
 
     public String getAutomPattern() {

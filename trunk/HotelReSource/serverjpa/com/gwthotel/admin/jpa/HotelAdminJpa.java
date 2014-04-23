@@ -35,7 +35,7 @@ import com.gwthotel.shared.PropDescription;
 import com.gwtmodel.table.common.CUtil;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaTransaction;
-import com.jython.ui.shared.BUtil;
+import com.jythonui.server.BUtil;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.shared.JythonUIFatal;
 
