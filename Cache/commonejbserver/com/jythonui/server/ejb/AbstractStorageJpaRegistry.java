@@ -14,7 +14,7 @@ package com.jythonui.server.ejb;
 
 import java.util.List;
 
-import com.jython.ui.shared.GetCreateModifTime;
+import com.jythonui.server.GetCreateModifTime;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 
 abstract class AbstractStorageJpaRegistry implements IStorageRealmRegistry {

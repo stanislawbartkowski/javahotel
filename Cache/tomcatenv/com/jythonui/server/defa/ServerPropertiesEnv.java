@@ -22,12 +22,12 @@ import javax.naming.NamingException;
 
 import com.gwtmodel.commoncache.ICommonCache;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
-import com.jython.ui.shared.ISharedConsts;
-import com.jython.ui.shared.resource.IReadResource;
-import com.jython.ui.shared.resource.IReadResourceFactory;
+import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
+import com.jythonui.server.resource.IReadResource;
+import com.jythonui.server.resource.IReadResourceFactory;
 
 public class ServerPropertiesEnv extends AbstractServerProperties {
 
@@ -49,11 +49,6 @@ public class ServerPropertiesEnv extends AbstractServerProperties {
         }
     }
 
-    private void info(String messid, String... params) {
-        String mess = gMess.getMessN(messid, params);
-        info(mess);
-    }
-
     private final IGetResourceJNDI getJNDI;
 
     @Inject
@@ -72,9 +67,8 @@ public class ServerPropertiesEnv extends AbstractServerProperties {
         Context initCtx;
         EnvVar r = new EnvVar();
         try {
+            infoMess(gMess, ILogMess.LOOKFORENVVARIABLE, name);
             initCtx = new InitialContext();
-            // Context envCtx = (Context) initCtx.lookup("java:comp/env");
-            info(ILogMess.LOOKFORENVVARIABLE, name);
             Object res = initCtx.lookup(name);
             if (res == null)
                 if (throwerror)
@@ -88,24 +82,30 @@ public class ServerPropertiesEnv extends AbstractServerProperties {
             else
                 r.resS = (String) res;
             // ENVVARIABLEFOUND
-            info(ILogMess.ENVVARIABLEFOUND, name, r.toS());
+            infoMess(gMess, ILogMess.ENVVARIABLEFOUND, name, r.toS());
+            initCtx.close();
             return r;
         } catch (NamingException e) {
             if (throwerror)
                 errorLog(gMess.getMess(IErrorCode.ERRORCODE43,
                         ILogMess.ERRORWHILEREADINGCONTEXT, name), e);
             // ENVVARIABLENOTFOUND
-            info(ILogMess.ENVVARIABLENOTFOUND, name);
+            infoMess(gMess, ILogMess.ENVVARIABLENOTFOUND, name);
             return r;
         }
     }
 
     private EnvVar getEnvString(String name, boolean logVal, boolean throwerror) {
         Object o = iCache.get(name);
-        if (o != null)
-            return (EnvVar) o;
-        EnvVar r = getEnvStringDirect(name, logVal, throwerror);
+        EnvVar r = (EnvVar) o;
+        if (r != null) {
+            
+            traceLog(name + " already cached " + r.toS());
+            return r;
+        }
+        r = getEnvStringDirect(name, logVal, throwerror);
         iCache.put(name, r);
+        traceLog(name + " to cache " + r.toS());
         return r;
     }
 

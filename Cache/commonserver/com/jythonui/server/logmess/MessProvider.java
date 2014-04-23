@@ -17,11 +17,11 @@ import java.util.Map;
 import javax.inject.Provider;
 
 import com.google.inject.Inject;
-import com.jython.ui.shared.resource.IReadResource;
-import com.jython.ui.shared.resource.IReadResourceFactory;
 import com.jythonui.server.getbundle.ReadBundle;
 import com.jythonui.server.getmess.GetLogMessFactory;
 import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.server.resource.IReadResource;
+import com.jythonui.server.resource.IReadResourceFactory;
 
 public class MessProvider implements Provider<IGetLogMess> {
 

@@ -10,26 +10,31 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server.storage.blob;
+package com.jythonui.server;
 
-import java.util.List;
+import java.io.Serializable;
+import java.util.Date;
 
-import com.jythonui.server.GetCreateModifTime;
+@SuppressWarnings("serial")
+public class GetCreateModifTime implements Serializable {
 
-public interface IBlobHandler {
+    private Date creationDate;
+    private Date modifDate;
 
-    void clearAll(String realM);
+    public Date getCreationDate() {
+        return creationDate;
+    }
 
-    void addBlob(String realM, String blobid, byte[] content);
-    
-    void changeBlob(String realM, String blobid, byte[] content);
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
 
-    byte[] findBlob(String realM, String blobid);
+    public Date getModifDate() {
+        return modifDate;
+    }
 
-    void removeBlob(String realM, String blobid);
-    
-    List<String> findBlobs(String realM);
-    
-    GetCreateModifTime getModifTime(String realM, String key);
+    public void setModifDate(Date modifDate) {
+        this.modifDate = modifDate;
+    }
 
 }

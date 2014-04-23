@@ -17,8 +17,8 @@ import java.util.Date;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.jython.ui.shared.ISharedConsts;
-import com.jython.ui.shared.UObjects;
+import com.jythonui.server.ISharedConsts;
+import com.jythonui.server.UObjects;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.server.semaphore.ISemaphore;
