@@ -36,4 +36,6 @@ public interface IHError {
     String HERROR020 = "H020";
     String HERROR021 = "H021";
     String HERROR022 = "H022";
+    String HERROR023 = "H023";
+    String HERROR024 = "H023";
 }

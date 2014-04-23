@@ -12,33 +12,50 @@
  */
 package com.gwthotel.admin.roles;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.gwthotel.admin.IGetHotelRoles;
 import com.gwthotel.admin.Role;
-import com.gwthotel.admin.xmlhelper.ReadXMLHelper;
 import com.gwthotel.shared.IHotelConsts;
-import com.jython.ui.shared.resource.IReadResourceFactory;
-import com.jythonui.server.getmess.IGetLogMess;
+import com.gwtmodel.table.map.XMap;
+import com.jythonui.server.ISharedConsts;
+import com.jythonui.server.xml.IXMLHelper;
+import com.jythonui.server.xml.IXMapFactory;
 
-public class GetHotelRoles extends ReadXMLHelper<Role> implements
-        IGetHotelRoles {
+public class GetHotelRoles implements IGetHotelRoles {
 
     private static final String ROLES = "roles//roles.xml";
     private static final String ROLESTAG = "roles";
     private static final String ROLETAG = "role";
 
+    private final IXMLHelper xHelper;
+
     @Inject
-    public GetHotelRoles(@Named(IHotelConsts.MESSNAMED) IGetLogMess lMess,
-            IReadResourceFactory iFactory) {
-        super(lMess, new String[] { ROLES, ROLESTAG, ROLETAG }, new String[] {
-                IHotelConsts.NAME, IHotelConsts.DESCRIPTION }, iFactory);
+    public GetHotelRoles(
+            @Named(ISharedConsts.XMLHELPERCACHED) IXMLHelper xHelper) {
+        // super(lMess, new String[] { ROLES, ROLESTAG, ROLETAG }, new String[]
+        // {
+        // IHotelConsts.NAME, IHotelConsts.DESCRIPTION }, iFactory);
+        this.xHelper = xHelper;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    protected Role constructT() {
-        return new Role();
+    public List<Role> getList() {
+        IXMapFactory xFactory = new IXMapFactory() {
+
+            @Override
+            public XMap construct() {
+                return new Role();
+            }
+        };
+        return (List<Role>) xHelper.getList(new String[] { ROLES, ROLESTAG,
+                ROLETAG }, new String[] { IHotelConsts.NAME,
+                IHotelConsts.DESCRIPTION }, xFactory);
+
     }
 
 }

@@ -18,7 +18,7 @@ import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
-import com.jython.ui.shared.GetCreateModifTime;
+import com.jythonui.server.GetCreateModifTime;
 import com.jythonui.server.registry.IStorageRegistry;
 
 public class Test24 extends TestHelper {

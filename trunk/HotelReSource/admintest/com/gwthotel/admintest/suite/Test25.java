@@ -42,13 +42,11 @@ public class Test25 extends TestHelper {
 
     @Before
     public void before() {
-        clearObjects();
-        createHotels();
-        setTestToday(DateFormatUtil.toD(2013, 6, 13));
+        super.before();
         setUserPassword();
     }
 
-    private CustomerBill createP() {
+    private CustomerBill OLDcreateP() {
 
         HotelRoom ho = new HotelRoom();
         ho.setName("P10");

@@ -41,7 +41,7 @@ public class Test26 extends TestHelper {
     }
     
     
-    private CustomerBill createP() {
+    private CustomerBill OLDcreateP() {
 
         HotelRoom ho = new HotelRoom();
         ho.setName("P10");

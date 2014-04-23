@@ -107,8 +107,6 @@ public class ServerService {
                     Singleton.class);
             bind(IStorageRegistryFactory.class).to(
                     StorageRealmRegistryFactory.class).in(Singleton.class);
-            // bind(IStorageRealmRegistry.class).toProvider(
-            // StorageRegistryFactory.class).in(Singleton.class);
             bind(ISemaphore.class).to(SemaphoreRegistry.class).in(
                     Singleton.class);
             bind(IGetConnection.class)

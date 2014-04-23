@@ -22,7 +22,7 @@ import org.junit.Test;
 import com.gwthotel.hotel.HUtils;
 import com.gwthotel.hotel.customer.HotelCustomer;
 import com.gwthotel.shared.IHotelConsts;
-import com.jython.ui.shared.ISharedConsts;
+import com.jythonui.server.ISharedConsts;
 
 public class Test10 extends TestHelper {
 
