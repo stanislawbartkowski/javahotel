@@ -18,15 +18,13 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 import com.gwtmodel.commoncache.ICommonCache;
-import com.jython.ui.shared.ISharedConsts;
-import com.jython.ui.shared.resource.IReadResourceFactory;
-import com.jython.ui.shared.resource.ReadResourceFactory;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IDefaultData;
 import com.jythonui.server.IGetAppProp;
 import com.jythonui.server.IGetResourceMap;
 import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonUIServer;
+import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.IStorageMemCache;
 import com.jythonui.server.IStorageMemContainerFactory;
 import com.jythonui.server.IXMLToMap;
@@ -54,6 +52,8 @@ import com.jythonui.server.registry.object.ObjectRegistryFactory;
 import com.jythonui.server.resbundle.IAppMess;
 import com.jythonui.server.resbundle.Mess;
 import com.jythonui.server.resimpl.GetResourceMapImpl;
+import com.jythonui.server.resource.IReadResourceFactory;
+import com.jythonui.server.resource.ReadResourceFactory;
 import com.jythonui.server.security.ISecurity;
 import com.jythonui.server.security.ISecurityResolver;
 import com.jythonui.server.security.impl.SecurityJython;
@@ -66,9 +66,14 @@ import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 import com.jythonui.server.storage.seq.ISequenceRealmGen;
 import com.jythonui.server.storage.seq.ISequenceRealmGenFactory;
 import com.jythonui.server.storage.seqimpl.SequenceRealmGenFactory;
+import com.jythonui.server.xml.IXMLHelper;
+import com.jythonui.server.xml.IXMLToXMap;
 import com.jythonui.server.xml.IXMLTransformer;
 import com.jythonui.server.xml.XMLTransformer;
+import com.jythonui.server.xmlhelper.XMLHelper;
+import com.jythonui.server.xmlhelpercached.XMLHelperCached;
 import com.jythonui.server.xmlmap.XMLMap;
+import com.jythonui.server.xmltoxmap.XMLToXMap;
 
 /**
  * @author hotel
@@ -105,6 +110,8 @@ public class JythonServerService {
             bind(IXMLTransformer.class).to(XMLTransformer.class).in(
                     Singleton.class);
             bind(IXMLToMap.class).to(XMLMap.class).in(Singleton.class);
+            bind(IXMLHelper.class).to(XMLHelper.class).in(Singleton.class);
+            bind(IXMLHelper.class).annotatedWith(Names.named(ISharedConsts.XMLHELPERCACHED)).to(XMLHelperCached.class).in(Singleton.class);
             bind(IDictOfLocalEntries.class)
                     .annotatedWith(Names.named(IConsts.COUNTRIESDICT))
                     .to(ListOfCountries.class).in(Singleton.class);
@@ -115,6 +122,7 @@ public class JythonServerService {
                     Singleton.class);
             bind(IReadResourceFactory.class).to(ReadResourceFactory.class).in(
                     Singleton.class);
+            bind(IXMLToXMap.class).to(XMLToXMap.class).in(Singleton.class);
             // common
             bind(IStorageRegistryFactory.class).to(
                     StorageRealmRegistryFactory.class).in(Singleton.class);

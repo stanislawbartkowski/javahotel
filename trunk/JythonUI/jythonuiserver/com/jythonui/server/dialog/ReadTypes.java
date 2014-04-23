@@ -24,7 +24,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import com.jython.ui.shared.SaxUtil;
+import com.jythonui.server.SaxUtil;
 import com.jythonui.shared.ElemDescription;
 import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.ICommonConsts;

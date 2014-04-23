@@ -16,13 +16,13 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import com.jython.ui.shared.resource.IReadResourceFactory;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IGetResourceMap;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.Util;
 import com.jythonui.server.getmess.GetLogMessFactory;
 import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.server.resource.IReadResourceFactory;
 import com.jythonui.shared.CustomMessages;
 
 public class Mess implements IAppMess {

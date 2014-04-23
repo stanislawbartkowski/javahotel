@@ -4,7 +4,7 @@ import datetime
 import time
 from java.util import ArrayList
 from java.math import BigDecimal
-from com.jython.ui.shared import MUtil
+from com.jythonui.server import MUtil
 from com.gwtmodel.table.common.dateutil import DateFormatUtil
 from com.jythonui.server.holder import Holder
 import con

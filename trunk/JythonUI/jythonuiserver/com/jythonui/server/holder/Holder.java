@@ -29,6 +29,7 @@ import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.resbundle.IAppMess;
 import com.jythonui.server.security.ISecurity;
 import com.jythonui.server.security.ISecurityConvert;
+import com.jythonui.server.xml.IXMLToXMap;
 import com.jythonui.server.xml.IXMLTransformer;
 import com.jythonui.shared.RequestContext;
 

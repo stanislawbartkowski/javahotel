@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.TT;
-import com.jython.ui.shared.UtilHelper;
+import com.jythonui.server.UtilHelper;
 import com.jythonui.server.holder.SHolder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;

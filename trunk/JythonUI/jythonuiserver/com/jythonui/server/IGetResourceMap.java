@@ -14,7 +14,7 @@ package com.jythonui.server;
 
 import java.util.Map;
 
-import com.jython.ui.shared.resource.IReadResource;
+import com.jythonui.server.resource.IReadResource;
 
 public interface IGetResourceMap {
     

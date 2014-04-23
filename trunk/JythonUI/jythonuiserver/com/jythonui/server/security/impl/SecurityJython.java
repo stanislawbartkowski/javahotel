@@ -19,8 +19,8 @@ import javax.inject.Named;
 
 import org.apache.shiro.subject.Subject;
 
-import com.jython.ui.shared.ISharedConsts;
 import com.jythonui.server.IConsts;
+import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.IStorageMemCache;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.logmess.IErrorCode;

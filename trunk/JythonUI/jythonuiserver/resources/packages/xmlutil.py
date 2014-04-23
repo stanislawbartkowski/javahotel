@@ -1,7 +1,8 @@
 from com.jythonui.server.holder import Holder
+from com.jythonui.server.holder import SHolder
 from com.jythonui.shared import DialogVariables
 from com.gwtmodel.table.common import TT
-from com.jython.ui.shared import BUtil
+from com.jythonui.server import BUtil
 from cutil import BigDecimalToDecimal
 from cutil import toJDate
 from cutil import toJDateTime
@@ -10,7 +11,10 @@ import sys
 import datetime
 import con
 from java.util import Date
-
+from com.jythonui.shared import ButtonItem
+from com.jamesmurty.utils import XMLBuilder 
+from java.util import Properties
+from javax.xml.transform.OutputKeys import INDENT
 
 def getVar(map,dialogname,xml,listv):
     """ Set map with values read from xml string for dialog form.
@@ -55,8 +59,37 @@ def getVar(map,dialogname,xml,listv):
             map[vname] = toJDateTime(val.getValue())
             continue         
 
-def _toXML(ma):
+def _toXML_OLD(ma):
+    
     xml = "<elem>"
+    for k in ma :
+        val = ma[k]
+        atype = None
+        tos = True
+        if type(val) == int or type(val) == long : atype = cutil.LONG
+        elif type(val) == float : atype = cutil.DECIMAL
+        elif type(val) == bool : 
+            atype = cutil.BOOL
+            if val : val = 1
+            else : val = 0
+        elif type(val) == datetime.date : 
+            atype = cutil.DATE
+            val = str(val).replace('-','/')
+            tos = False
+        else : tos = False
+        if tos and val : val = str(val)        
+        x = '<' + k
+        if atype : x = x + " type=\"" + atype + '\"'
+        if val : x = x + '>' + val + "</" + k + '>'
+        else : x = x + "/>"
+        xml = xml + '\n' + x
+    xml = xml + "\n</elem>"    
+    return xml
+
+def _toXML(builder,ma):
+
+    builder = builder.e("elem")
+    
     for k in ma :
         val = ma[k]
         atype = None
@@ -68,25 +101,24 @@ def _toXML(ma):
             else : val = 0
         elif type(val) == datetime.date : 
             atype = cutil.DATE
-            val = str(val).replace('-','/')    
-        x = '<' + k
-        if atype : x = x + " type=\"" + atype + '\"'
-        if val : x = x + '>' + str(val) + "</" + k + '>'
-        else : x = x + "/>"
-        xml = xml + '\n' + x
-    xml = xml + "\n</elem>"    
-    return xml    
+            val = str(val).replace('-','/')
+        builder = builder.e(k)    
+        if atype : builder = builder.a("type",atype)
+        if val : builder = builder.t(str(val))
+        builder = builder.up()
+    return builder.up()     
+    
 
 def toXML(ma,list = None): 
-    xml = _toXML(ma)
+    builder = XMLBuilder.create("root")
+    builder = _toXML(builder, ma)
     if list :
-      li = "\n<list>"
-      for m in list :
-          li = li + '\n' + _toXML(m)
-      li = li + "\n</list>" 
-      xml = "<root>\n" + xml + li + "\n</root>"
-    return xml  
-         
+      builder = builder.e("list")
+      for m in list : builder = _toXML(builder,m)
+      builder = builder.up() 
+    outputProperties = Properties()
+    outputProperties.put(INDENT, "yes")
+    return builder.root().asString(outputProperties)              
    
 def _toMap(map):
     ma = {}
@@ -131,4 +163,28 @@ def fileToS(filename):
    s = BUtil.readFromFileInput(iS.openStream())
    return s
   
-    
+# ---------------------
+
+def xmlToVar(var,xml,list,pre=None) :
+    iXML = SHolder.getToXMap()
+    prop = ButtonItem()
+    iXML.readXML(prop,xml,"root","elem")
+    for l in list :
+        val = prop.getAttr(l)
+        if pre : k = pre + l
+        else : k = l
+        var[k] = val
+        
+def mapToXML(map,list = None,pre=None):
+    iter = list
+    if iter == None : iter = map
+    demap = {}
+    for e in iter :
+        val = ""
+        if pre : k = pre + e
+        else : k = e
+        if map.has_key(k) :
+            if map[k] : val = str(map[k])
+        demap[e] = val
+            
+    return toXML(demap)       
