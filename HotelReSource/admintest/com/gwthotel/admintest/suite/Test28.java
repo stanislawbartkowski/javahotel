@@ -26,8 +26,8 @@ public class Test28 extends TestHelper {
     public void test1() {
         CustomerBill b = createP();
         b = iBills.findElem(getH(HOTEL),b.getName());
-        eqDate(b.getDateOfPayment(),2010,10,15);
-        eqDate(b.getIssueDate(),2010,10,12);
+        eqD(2010,10,15,b.getDateOfPayment());
+        eqD(2010,10,12,b.getIssueDate());
     }
     
     @Test
@@ -39,7 +39,7 @@ public class Test28 extends TestHelper {
         assertNotNull(token);
         DialogVariables v = new DialogVariables();
         v.setValueS("billno",b.getName());
-        runAction(v, token, "dialog6.xml", "testbill");
+        runAction(token, v, "dialog6.xml", "testbill");
         assertOK(v);
     }
 

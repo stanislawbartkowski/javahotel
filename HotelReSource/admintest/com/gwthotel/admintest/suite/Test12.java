@@ -30,7 +30,6 @@ import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
 import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwthotel.hotel.services.HotelServices;
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
-import com.gwtmodel.util.DayOp;
 
 public class Test12 extends TestHelper {
 
@@ -171,7 +170,7 @@ public class Test12 extends TestHelper {
             for (int j = 0; j < 100; j++) {
                 // c.setTime(res);
                 // c.add(Calendar.DATE, 1);
-                res = DayOp.incDay(res);
+                res = incDay(res);
                 ReservationPaymentDetail det = new ReservationPaymentDetail();
                 det.setNoP(1);
                 det.setResDate(res);

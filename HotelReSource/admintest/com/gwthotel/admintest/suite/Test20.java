@@ -34,52 +34,12 @@ import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 
 public class Test20 extends TestHelper {
 
-    @Before
-    public void before() {
-        clearObjects();
-        createHotels();
-        setTestToday(DateFormatUtil.toD(2013, 6, 13));
-    }
-
-    private CustomerBill OLDcreateP() {
-
-        HotelRoom ho = new HotelRoom();
-        ho.setName("P10");
-        ho.setNoPersons(3);
-        iRooms.addElem(getH(HOTEL), ho);
-        HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL),
-                HotelObjects.CUSTOMER);
-        p.setGensymbol(true);
-        p = iCustomers.addElem(getH(HOTEL), p);
-        ReservationForm r = (ReservationForm) hObjects.construct(getH(HOTEL),
-                HotelObjects.RESERVATION);
-        r.setCustomerName(p.getName());
-        r.setGensymbol(true);
-        ReservationPaymentDetail det = new ReservationPaymentDetail();
-        det.setNoP(3);
-        det.setPrice(new BigDecimal("100.0"));
-        det.setPriceTotal(new BigDecimal("100.0"));
-        det.setPriceList(new BigDecimal("200.0"));
-        det.setRoomName("P10");
-        det.setResDate(toDate(2013, 4, 10));
-        r.getResDetail().add(det);
-        r = iRes.addElem(getH(HOTEL), r);
-        String sym = r.getName();
-
-        CustomerBill b = (CustomerBill) hObjects.construct(getH(HOTEL),
-                HotelObjects.BILL);
-        b.setGensymbol(true);
-        b.setPayer(p.getName());
-        b.setReseName(sym);
-        b.setIssueDate(toDate(2010, 10, 12));
-        for (ReservationPaymentDetail d : r.getResDetail()) {
-            b.getPayList().add(d.getId());
-        }
-        b = iBills.addElem(getH(HOTEL), b);
-        assertNotNull(b);
-        System.out.println(b.getName());
-        return b;
-    }
+    // @Before
+    // public void before() {
+    // clearObjects();
+    // createHotels();
+    // setTestToday(DateFormatUtil.toD(2013, 6, 13));
+    // }
 
     @Test
     public void test1() {
@@ -94,7 +54,7 @@ public class Test20 extends TestHelper {
                 b.getName());
         assertEquals(1, pList.size());
         p = pList.get(0);
-        eqDate(p.getDateOfPayment(), 2013, 9, 10);
+        eqD(2013, 9, 10, p.getDateOfPayment());
         assertEqB(100.0, p.getPaymentTotal());
         assertEquals("cache", p.getPaymentMethod());
         assertEquals("Hello", p.getDescription());

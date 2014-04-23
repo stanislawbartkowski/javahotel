@@ -76,19 +76,19 @@ import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.RequestContext;
+import com.jythonui.test.CommonTestHelper;
 
 /**
  * @author hotel
  * 
  */
-public class TestHelper {
+public class TestHelper extends CommonTestHelper {
 
     protected final IHotelAdmin iAdmin;
     protected final IGetHotelRoles iRoles;
+    // for some reason it is necessary
     private static final ITestEnhancer iTest = ServiceInjector
             .constructITestEnhancer();
-    protected final IJythonUIServer iServer;
-    protected final ISecurity iSec;
     protected final IHotelServices iServices;
     protected final IGetVatTaxes iTaxes;
     protected final IHotelPriceList iPrice;
@@ -96,24 +96,13 @@ public class TestHelper {
     protected final IHotelRooms iRooms;
     protected final IHotelCustomers iCustomers;
     protected final IGetInstanceHotelId iGetI;
-    protected final ISequenceRealmGen iSeq;
     protected final IHotelObjectGenSym iHGen;
     protected final IHotelObjectsFactory hObjects;
     protected final IReservationForm iRes;
     protected final IReservationOp iResOp;
     protected final IClearHotel iClear;
-    protected final IXMLToMap ixMap;
     protected final ICustomerBills iBills;
-    protected final ISemaphore iSem;
     protected final IPaymentBillOp iPayOp;
-    @Inject
-    protected static IStorageRegistryFactory iReg;
-    @Inject
-    protected static IBlobHandler iBlob;
-    @Inject
-    protected static ISetTestToday setTest;
-    @Inject
-    protected static IAddNewBlob iAddBlob;
 
     protected static final String HOTEL = "hotel";
     protected static final String HOTEL1 = "hotel1";
@@ -158,8 +147,6 @@ public class TestHelper {
     public TestHelper() {
         iAdmin = H.getHotelAdmin();
         iRoles = ServiceInjector.constructHotelRoles();
-        iServer = ServiceInjector.contructJythonUiServer();
-        iSec = ServiceInjector.constructSecurity();
         iServices = ServiceInjector.getHotelServices();
         iTaxes = ServiceInjector.getVatTaxes();
         iPrice = ServiceInjector.getHotelPriceList();
@@ -167,15 +154,12 @@ public class TestHelper {
         iRooms = ServiceInjector.getHotelRooms();
         iCustomers = ServiceInjector.getHotelCustomers();
         iGetI = H.getInstanceHotelId();
-        iSeq = ServiceInjector.getSequenceRealmGen();
         iHGen = ServiceInjector.getHotelGenSym();
         hObjects = ServiceInjector.getHotelObjects();
         iRes = ServiceInjector.getReservationForm();
         iResOp = ServiceInjector.getReservationOp();
         iClear = H.getClearHotel();
-        ixMap = ServiceInjector.getXMLToMap();
         iBills = ServiceInjector.getCustomerBills();
-        iSem = SHolder.getSem();
         iPayOp = H.getPaymentsOp();
 
     }
@@ -205,56 +189,15 @@ public class TestHelper {
 
     }
 
-    protected DialogFormat findDialog(String dialogName) {
-        DialogInfo d = iServer.findDialog(new RequestContext(), dialogName);
-        if (d == null)
-            return null;
-        return d.getDialog();
-    }
-
-    protected void runAction(DialogVariables v, String dialogName,
-            String actionId) {
-        iServer.runAction(new RequestContext(), v, dialogName, actionId);
-    }
-
-    protected void runAction(DialogVariables v, String token,
-            String dialogName, String actionId) {
-        RequestContext re = new RequestContext();
-        re.setToken(token);
-        iServer.runAction(re, v, dialogName, actionId);
-    }
-
-    protected Date toDate(int y, int m, int d) {
-        Date da = new Date(y - 1900, m - 1, d);
-        return da;
-    }
-
-    protected boolean eqDate(Date da, int y, int m, int d) {
-        if (da.getYear() + 1900 != y)
-            return false;
-        int ma = da.getMonth();
-        if (ma + 1 != m)
-            return false;
-        int day = da.getDate();
-        if (day != d)
-            return false;
-        return true;
-    }
-
+     protected Date toDate(int y, int m, int d) {
+         return getD(y,m,d);
+     }
     protected ICustomSecurity getSec(String hotel) {
         CustomSecurity cust = new CustomSecurity();
         cust.setAttr(IHotelConsts.HOTELNAME, hotel);
         cust.setAttr(IHotelConsts.INSTANCEID, TESTINSTANCE);
         ICustomSecurity cu = Holder.getSecurityConvert().construct(cust);
         return cu;
-    }
-
-    protected void assertEqB(double b1, BigDecimal b2) {
-        assertEquals(b1, b2.doubleValue(), 2);
-    }
-
-    protected void setTestToday(Date d) {
-        setTest.setToday(d);
     }
 
     protected void setUserPassword() {
@@ -321,9 +264,4 @@ public class TestHelper {
         return b;
     }
     
-    protected void assertOK(DialogVariables v) {
-        assertTrue(v.getValue("OK").getValueB());        
-    }
-
-
 }

@@ -100,7 +100,7 @@ public class Test16 extends TestHelper {
         assertEqB(150.0, add.getPriceList());
         assertEqB(200.0, add.getPriceTotal());
         assertEquals(2, add.getQuantity());
-        assertEquals(toDate(2013, 4, 5), add.getServDate());
+        eqD(2013, 4, 5, add.getServDate());
         assertEquals(SERVICE1, add.getService());
         assertEquals("22%", add.getVat());
     }

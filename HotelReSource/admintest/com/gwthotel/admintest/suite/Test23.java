@@ -55,7 +55,6 @@ public class Test23 extends TestHelper {
         setUserPassword();
     }
 
-
     @Test
     public void test1() {
         ICustomSecurity cu = getSec(HOTEL);
@@ -65,15 +64,15 @@ public class Test23 extends TestHelper {
         CustomerBill b = createP();
         DialogVariables v = new DialogVariables();
         v.setValueS("billno", b.getName());
-        runAction(v, token, "dialog4.xml", "invoicexmlforbill");
+        runAction(token, v, "dialog4.xml", "invoicexmlforbill");
         assertTrue(v.getValue("OK").getValueB());
         v = new DialogVariables();
         v.setValueS("billno", b.getName());
-        runAction(v, token, "dialog4.xml", "invoicehtmlforbill");
+        runAction(token, v, "dialog4.xml", "invoicehtmlforbill");
         assertTrue(v.getValue("OK").getValueB());
         v = new DialogVariables();
         v.setValueS("billno", b.getName());
-        runAction(v, token, "dialog4.xml", "invoicepdfforbill");
+        runAction(token, v, "dialog4.xml", "invoicepdfforbill");
         assertTrue(v.getValue("OK").getValueB());
     }
 
@@ -87,7 +86,7 @@ public class Test23 extends TestHelper {
         CustomerBill b = createP();
         DialogVariables v = new DialogVariables();
         v.setValueS("billno", b.getName());
-        runAction(v, token, "dialog4.xml", "invoicexmlforbill");
+        runAction(token, v, "dialog4.xml", "invoicexmlforbill");
         assertTrue(v.getValue("OK").getValueB());
         String xml = v.getValueS("xml");
         assertNotNull(xml);
@@ -104,7 +103,7 @@ public class Test23 extends TestHelper {
         Node no = nl.item(0);
         String s = no.getTextContent();
         System.out.println(s);
-        assertEquals(s,"United Kingdom");
+        assertEquals(s, "United Kingdom");
         int i = 0;
 
     }
