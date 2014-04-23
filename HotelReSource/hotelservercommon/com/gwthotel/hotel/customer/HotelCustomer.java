@@ -13,7 +13,7 @@
 package com.gwthotel.hotel.customer;
 
 import com.gwthotel.shared.PropDescription;
-import com.jython.ui.shared.ISharedConsts;
+import com.jythonui.server.ISharedConsts;
 
 /**
  * @author hotel

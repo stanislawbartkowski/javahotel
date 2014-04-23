@@ -28,7 +28,7 @@ import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.IHotelConsts;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaTransaction;
-import com.jython.ui.shared.BUtil;
+import com.jythonui.server.BUtil;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.shared.JythonUIFatal;
 

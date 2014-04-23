@@ -29,6 +29,8 @@ import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.ServiceType;
 import com.gwthotel.hotel.reservation.IReservationForm;
 import com.gwthotel.hotel.reservation.ReservationForm;
+import com.gwthotel.hotel.service.gae.entities.EBillPayment;
+import com.gwthotel.hotel.service.gae.entities.ECustomerBill;
 import com.gwthotel.hotel.service.gae.entities.EHotelReservation;
 import com.gwthotel.hotel.service.gae.entities.EResDetails;
 import com.gwthotel.shared.IHotelConsts;
@@ -95,12 +97,21 @@ public class HotelReservationImpl implements IReservationForm {
     @Override
     public void deleteElem(HotelId hotel, ReservationForm elem) {
         EHotel eh = DictUtil.findEHotel(lMess, hotel);
+        final List<EBillPayment> liP = new ArrayList<EBillPayment>();
+        final List<ECustomerBill> re = DictUtil.findBillsForRese(eh,
+                elem.getName());
+        for (ECustomerBill b : re)
+            liP.addAll(DictUtil.findPaymentsForBill(eh, b.getName()));
+
         final List<EResDetails> li = DictUtil.findResDetailsForRes(eh,
                 elem.getName(), ServiceType.HOTEL);
         final EHotelReservation rese = DictUtil.findReservation(eh,
                 elem.getName());
+
         ofy().transact(new VoidWork() {
             public void vrun() {
+                ofy().delete().entities(liP);
+                ofy().delete().entities(re);
                 ofy().delete().entities(li);
                 ofy().delete().entity(rese);
             }

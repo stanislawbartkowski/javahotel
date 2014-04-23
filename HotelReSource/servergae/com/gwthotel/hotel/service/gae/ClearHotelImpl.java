@@ -15,6 +15,7 @@ package com.gwthotel.hotel.service.gae;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -72,12 +73,46 @@ public class ClearHotelImpl implements IClearHotel {
 
     @Override
     public void setTestDataToday(Date d) {
-        DateFormatUtil.setTestToday(d);        
+        DateFormatUtil.setTestToday(d);
     }
 
+    @SuppressWarnings("rawtypes")
+    private Class getClass(HotelObjects o) {
+        switch (o) {
+        case ROOM:
+            return EHotelRoom.class;
+        case PAYMENTS:
+            return EBillPayment.class;
+        case BILL:
+            return ECustomerBill.class;
+        case CUSTOMER:
+            return EHotelCustomer.class;
+        case GUESTS:
+            return EHotelGuest.class;
+        case PRICELIST:
+            return EHotelPriceList.class;
+        case RESERVATION:
+            return EHotelReservation.class;
+        case RESERVATIONDETAILS:
+            return EResDetails.class;
+        case SERVICE:
+            return EHotelServices.class;
+        default:
+            break;
+        }
+        return null;
+    }
+
+    @SuppressWarnings("rawtypes")
     @Override
     public long numberOf(HotelId hotel, HotelObjects o) {
-        // TODO Auto-generated method stub
+        Class cl = getClass(o);
+        boolean nof = true;
+        if (nof) {
+            List li = ofy().load().type(cl)
+                    .ancestor(DictUtil.findEHotel(lMess, hotel)).list();
+            return li.size();
+        }
         return 0;
     }
 

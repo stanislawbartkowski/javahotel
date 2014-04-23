@@ -154,8 +154,9 @@ public class ReservationOpImpl implements IReservationOp {
     public List<CustomerBill> findBillsForReservation(HotelId hotel,
             String resName) {
         EHotel eh = DictUtil.findEHotel(lMess, hotel);
-        List<ECustomerBill> re = ofy().load().type(ECustomerBill.class)
-                .ancestor(eh).filter("resName ==", resName).list();
+//        List<ECustomerBill> re = ofy().load().type(ECustomerBill.class)
+//                .ancestor(eh).filter("resName ==", resName).list();
+        List<ECustomerBill> re = DictUtil.findBillsForRese(eh,resName);
         List<CustomerBill> bList = new ArrayList<CustomerBill>();
         for (ECustomerBill b : re) {
             CustomerBill bi = DictUtil.toCustomerBill(b);

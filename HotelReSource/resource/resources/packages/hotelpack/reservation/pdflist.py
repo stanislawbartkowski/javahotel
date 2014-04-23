@@ -43,7 +43,7 @@ def listaction(action,var) :
      
   if action == "pdfdownload" :
       var["JUP_DIALOG"]="hotel/reservation/pdfprint.xml"       
-      var["JUPDIALOG_START"] = listbl.constructPDFBLOB(var,var["blob_billname"],var["blob_key"])
+      var["JUPDIALOG_START"] = listbl.constructPDFBLOB(var,var["blob_key"])
     
 def billprint(action,var) :
    cutil.printVar("bill print",action,var)

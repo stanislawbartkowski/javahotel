@@ -24,9 +24,9 @@ import com.gwthotel.mess.IHError;
 import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwthotel.shared.PropDescription;
-import com.jython.ui.shared.ISharedConsts;
-import com.jython.ui.shared.MUtil;
-import com.jython.ui.shared.UtilHelper;
+import com.jythonui.server.ISharedConsts;
+import com.jythonui.server.MUtil;
+import com.jythonui.server.UtilHelper;
 
 public class HUtils extends UtilHelper {
 

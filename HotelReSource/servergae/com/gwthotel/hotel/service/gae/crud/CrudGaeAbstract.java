@@ -29,7 +29,7 @@ import com.gwthotel.hotel.service.gae.entities.EHotelPriceElem;
 import com.gwthotel.hotel.service.gae.entities.EHotelRoomServices;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwthotel.shared.PropDescription;
-import com.jython.ui.shared.BUtil;
+import com.jythonui.server.BUtil;
 import com.jythonui.server.getmess.IGetLogMess;
 
 abstract public class CrudGaeAbstract<T extends PropDescription, E extends EHotelDict>

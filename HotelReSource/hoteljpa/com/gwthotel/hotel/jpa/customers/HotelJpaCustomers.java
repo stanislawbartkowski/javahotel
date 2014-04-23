@@ -33,9 +33,6 @@ import com.jythonui.shared.JythonUIFatal;
 class HotelJpaCustomers extends AbstractJpaCrud<HotelCustomer, EHotelCustomer>
         implements IHotelCustomers {
 
-    private static final Logger log = Logger.getLogger(HotelJpaCustomers.class
-            .getName());
-
     HotelJpaCustomers(ITransactionContextFactory eFactory,
             IHotelObjectGenSymFactory iGen) {
         super(new String[] { "findAllCustomers", "findOneCustomer" }, eFactory,
@@ -64,8 +61,7 @@ class HotelJpaCustomers extends AbstractJpaCrud<HotelCustomer, EHotelCustomer>
         if ((sou.getDoctype() == 0) || (sou.getSex() == 0)) {
             String mess = lMess.getMess(IHError.HERROR022,
                     IHMess.CUSTOMERSEXDOCNULL);
-            log.severe(mess);
-            throw new JythonUIFatal(mess);
+            errorLog(mess);
         }
         dest.setDoctype(sou.getDoctype());
         dest.setSex(sou.getSex());

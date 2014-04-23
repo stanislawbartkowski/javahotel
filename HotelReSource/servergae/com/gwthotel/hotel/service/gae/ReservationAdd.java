@@ -14,10 +14,7 @@ package com.gwthotel.hotel.service.gae;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import com.googlecode.objectify.VoidWork;
 import com.gwthotel.admin.HotelId;
@@ -28,11 +25,10 @@ import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.ServiceType;
 import com.gwthotel.hotel.reservation.ReservationForm;
 import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
-import com.gwthotel.hotel.service.gae.entities.EHotelCustomer;
 import com.gwthotel.hotel.service.gae.entities.EHotelReservation;
 import com.gwthotel.hotel.service.gae.entities.EResDetails;
 import com.gwtmodel.table.common.CUtil;
-import com.jython.ui.shared.BUtil;
+import com.jythonui.server.BUtil;
 import com.jythonui.server.getmess.IGetLogMess;
 
 class ReservationAdd {

@@ -27,7 +27,6 @@ def getPayments(var,rese=None) :
   if rese == None : rese = getReseName(var)
   pli = util.RESOP(var).getResAddPaymentList(rese)
   R = util.RESFORM(var)
-  # java.util.List
   pli.addAll(R.findElem(rese).getResDetail())
   return pli
 

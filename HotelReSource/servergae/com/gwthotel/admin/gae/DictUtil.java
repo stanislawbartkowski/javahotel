@@ -17,8 +17,6 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import com.googlecode.objectify.LoadResult;
 import com.gwthotel.admin.AppInstanceId;
@@ -31,6 +29,7 @@ import com.gwthotel.hotel.HUtils;
 import com.gwthotel.hotel.ServiceType;
 import com.gwthotel.hotel.bill.CustomerBill;
 import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
+import com.gwthotel.hotel.service.gae.entities.EBillPayment;
 import com.gwthotel.hotel.service.gae.entities.ECustomerBill;
 import com.gwthotel.hotel.service.gae.entities.EHotelCustomer;
 import com.gwthotel.hotel.service.gae.entities.EHotelReservation;
@@ -43,21 +42,13 @@ import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwthotel.shared.PropDescription;
 import com.gwtmodel.table.common.CUtil;
+import com.jythonui.server.UtilHelper;
 import com.jythonui.server.getmess.IGetLogMess;
-import com.jythonui.shared.JythonUIFatal;
 
-public class DictUtil {
+public class DictUtil extends UtilHelper {
 
     private DictUtil() {
 
-    }
-
-    private static final Logger log = Logger
-            .getLogger(DictUtil.class.getName());
-
-    private static void setFailure(String mess) {
-        log.severe(mess);
-        throw new JythonUIFatal(mess);
     }
 
     public static void toProp(PropDescription dest, EDictionary e) {
@@ -78,7 +69,7 @@ public class DictUtil {
         if (p.now() == null) {
             String mess = lMess.getMess(IHError.HERROR005,
                     IHMess.HOTELBYIDNOTFOUND, Long.toString(hotel.getId()));
-            setFailure(mess);
+            errorLog(mess);
         }
         return p.now();
     }
@@ -101,7 +92,7 @@ public class DictUtil {
         if (p == null) {
             String mess = lMess.getMess(IHError.HERROR014,
                     IHMess.INSTANCEBYIDCANNOTBEFOUND, Long.toString(i.getId()));
-            setFailure(mess);
+            errorLog(mess);
         }
         return p.now();
     }
@@ -123,8 +114,8 @@ public class DictUtil {
             return e;
         String mess = HHolder.getHM().getMess(IHError.HERROR021,
                 IHMess.OBJECTBYNAMECANNOTBEFOUND, name, eh.getName());
-        log.log(Level.SEVERE, mess, e);
-        throw new JythonUIFatal(mess);
+        errorLog(mess);
+        return null;
     }
 
     public static EHotelCustomer findCustomer(EHotel eh, String name) {
@@ -238,6 +229,18 @@ public class DictUtil {
         for (ReservationPaymentDetail r : rList)
             resList.add(toEResDetail(ho, e, r));
         return resList;
+    }
+
+    public static List<ECustomerBill> findBillsForRese(EHotel ho, String resName) {
+        List<ECustomerBill> re = ofy().load().type(ECustomerBill.class)
+                .ancestor(ho).filter("resName ==", resName).list();
+        return re;
+    }
+    
+    public static List<EBillPayment> findPaymentsForBill(EHotel ho,String billName) {
+        List<EBillPayment> li = ofy().load().type(EBillPayment.class)
+                .ancestor(ho).filter("billName == ", billName).list();
+        return li;
     }
 
     public static CustomerBill toCustomerBill(ECustomerBill e) {

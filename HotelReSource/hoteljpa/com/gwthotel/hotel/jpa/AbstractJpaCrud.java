@@ -31,10 +31,11 @@ import com.gwthotel.shared.IHotelConsts;
 import com.gwthotel.shared.PropDescription;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaTransaction;
-import com.jython.ui.shared.BUtil;
+import com.jythonui.server.BUtil;
+import com.jythonui.server.UtilHelper;
 import com.jythonui.server.getmess.IGetLogMess;
 
-public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHotelDict>
+public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHotelDict> extends UtilHelper 
         implements IHotelProp<T> {
 
     private final String[] queryMap;

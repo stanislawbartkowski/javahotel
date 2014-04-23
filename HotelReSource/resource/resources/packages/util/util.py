@@ -17,6 +17,7 @@ from com.gwthotel.hotel import HUtils
 import rutil
 from com.gwthotel.hotel.rooms import HotelRoom
 from com.gwthotel.shared import IHotelConsts
+import xmlutil
 
 def setIntField(var,key,setF) :
   if var[key] == None : setF(IHotelConsts.PERSONIDNO)
@@ -613,26 +614,10 @@ def saveDefaCustomer(var,prefix=None) :
    D.putDataH(1,country)
    D.putDataH(2,doctype)
   
-
 # ------------------------------
 
 def xmlToVar(var,xml,list,pre=None) :
-    iXML = H.getXMLMap()
-    prop = iXML.readXML(xml,"root","elem")
-    for l in list :
-        val = prop.getAttr(l)
-        if pre : k = pre + l
-        else : k = l
-        var[k] = val
+  xmlutil.xmlToVar(var,xml,list,pre)
         
-def mapToXML(map,list,pre=None):
-    s = "<root><elem>"
-    for e in list :
-        val = ""
-        if pre : k = pre + e
-        else : k = e
-        if map.has_key(k) :
-            if map[k] : val = str(map[k])
-        s = s + "<" + e + ">" + val + "</" + e + ">"
-    s = s + "</elem></root>"
-    return s 
+def mapToXML(map,list=None,pre=None):
+  return xmlutil.mapToXML(map,list,pre) 

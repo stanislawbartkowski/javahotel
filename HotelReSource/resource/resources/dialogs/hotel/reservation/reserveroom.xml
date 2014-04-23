@@ -40,7 +40,7 @@
 		<field id="roomservice" type="custom:roomservice" displayname="@servicename"
 			notempty="" signalchange="" />
                 <field id="serviceperperson" type="bool" displayname="@perperson" notempty="" signalchange="" />
-                <field id="respriceperroom" type="decimal" displayname="@priceperperson" />
+                <field id="respriceperroom" type="decimal" displayname="@priceperroom" />
                 <field id="resnop" type="int" displayname="@nopersons" notempty="" />
                 <field id="respriceperson" type="decimal" displayname="@priceperperson" />
                 <field id="resnochildren" type="int" displayname="@nofchildren" />
