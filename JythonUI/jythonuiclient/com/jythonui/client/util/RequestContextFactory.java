@@ -19,19 +19,20 @@ import com.jythonui.shared.RequestContext;
 
 public class RequestContextFactory {
 
-    private RequestContextFactory() {
+	private RequestContextFactory() {
 
-    }
+	}
 
-    public static RequestContext construct() {
-        RequestContext req = new RequestContext();
-        String token = M.getSecToken();
-        if (!CUtil.EmptyS(token))
-            req.setToken(token);
-        String loca = Utils.getLocale();
-        if (loca != null)
-            req.setLocale(loca);
-        return req;
-    }
+	public static RequestContext construct() {
+		RequestContext req = new RequestContext();
+		String token = M.getSecToken();
+		if (!CUtil.EmptyS(token))
+			req.setToken(token);
+		String loca = Utils.getLocale();
+		if (loca != null)
+			req.setLocale(loca);
+		req.setUrlParam(Utils.getURLMap());
+		return req;
+	}
 
 }

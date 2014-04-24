@@ -56,15 +56,17 @@ public class JythonClientStart {
 			this.iCustom = iCustom;
 		}
 
-		private void drawError() {
-			RootPanel.get().add(
-					new HTML("<H1>" + M.M().cannotLoadClientResource()
-							+ "</H1>"));
+		private void drawError(Throwable caught) {
+			String html = "<H1>" + M.M().cannotLoadClientResource() + "</H1>";
+			if (caught != null) {
+				html = html + "<p>" + caught.getLocalizedMessage();
+			}
+			RootPanel.get().add(new HTML(html));
 		}
 
 		@Override
 		public void onFailure(Throwable caught) {
-			drawError();
+			drawError(caught);
 
 		}
 
@@ -100,7 +102,7 @@ public class JythonClientStart {
 		@Override
 		public void onSuccess(ClientProp result) {
 			if (result == null) {
-				drawError();
+				drawError(null);
 				return;
 			}
 			// resolve root dialog

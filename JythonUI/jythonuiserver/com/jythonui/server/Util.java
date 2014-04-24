@@ -12,13 +12,13 @@
  */
 package com.jythonui.server;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Properties;
 
-import com.jythonui.server.BUtil;
-import com.jythonui.server.UtilHelper;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.holder.SHolder;
@@ -29,74 +29,96 @@ import com.jythonui.shared.RequestContext;
 
 public class Util extends UtilHelper {
 
-    private Util() {
-    }
+	private Util() {
+	}
 
-    public static void setContext(RequestContext context) {
-        if (context == null)
-            return;
-        Holder.setContext(context);
-    }
+	public static void setContext(RequestContext context) {
+		if (context == null)
+			return;
+		Holder.setContext(context);
+	}
 
-    public static String getToken() {
-        RequestContext req = Holder.getRequest();
-        if (req == null)
-            return null;
-        return req.getToken();
-    }
+	public static String getToken() {
+		RequestContext req = Holder.getRequest();
+		if (req == null)
+			return null;
+		return req.getToken();
+	}
 
-    public static String getLocale() {
-        RequestContext req = Holder.getRequest();
-        if (req == null)
-            return null;
-        return req.getLocale();
-    }
+	public static String getLocale() {
+		RequestContext req = Holder.getRequest();
+		if (req == null)
+			return null;
+		return req.getLocale();
+	}
 
-    public static Properties getProperties(String propName) {
-        IGetLogMess gMess = SHolder.getM();
-        InputStream i = Util.class.getClassLoader().getResourceAsStream(
-                propName);
-        if (i == null) {
-            errorLog(gMess.getMess(IErrorCode.ERRORCODE1,
-                    ILogMess.CANNOTFINDRESOURCEFILE, propName), null);
-            return null;
-        }
-        Properties prop = new Properties();
-        try {
-            prop.load(i);
-        } catch (IOException e) {
-            errorLog(gMess.getMess(IErrorCode.ERRORCODE2,
-                    ILogMess.ERRORWHILEREADINGRESOURCEFILE, propName), e);
-            return null;
-        }
-        return prop;
-    }
+	public static Properties getPropertiesFromFile(String propName) {
+		IGetLogMess gMess = SHolder.getM();
+		FileInputStream f = null;
+		try {
+			f = new FileInputStream(propName);
+		} catch (FileNotFoundException e) {
+			errorLog(gMess.getMess(IErrorCode.ERRORCODE82,
+					ILogMess.CANNOTFINDRESOURCEFILE, propName), null);
+			return null;
+		}
+		Properties prop;
+		try {
+			prop = ReadUTF8Properties.readProperties(f);
+			return prop;
+		} catch (IOException e) {
+			errorLog(gMess.getMess(IErrorCode.ERRORCODE83,
+					ILogMess.ERRORWHILEREADINGRESOURCEFILE, propName), e);
+			return null;
+		}
+	}
 
-    public static InputStream getFile(IJythonUIServerProperties p, String name) {
-        if (p.getResource() == null) {
-            errorLog(
-                    SHolder.getM().getMess(IErrorCode.ERRORCODE17,
-                            ILogMess.DIALOGDIRECTORYNULL), null);
-        }
-        URL u = p.getResource().getRes(
-                BUtil.addNameToPath(IConsts.DIALOGDIR, name));
-        try {
-            if (u == null) {
-                errorLog(
-                        SHolder.getM().getMess(IErrorCode.ERRORCODE80,
-                                ILogMess.FILENOTFOUND, name), null);
-            }
-            return u.openStream();
-        } catch (IOException e) {
-            errorLog(
-                    SHolder.getM().getMess(IErrorCode.ERRORCODE54,
-                            ILogMess.FILENOTFOUND, u.toString() + " " + name),
-                    e);
-            return null;
-        }
-    }
+	public static Properties getProperties(String propName) {
+		IGetLogMess gMess = SHolder.getM();
+		InputStream i = Util.class.getClassLoader().getResourceAsStream(
+				propName);
+		if (i == null) {
+			errorLog(gMess.getMess(IErrorCode.ERRORCODE1,
+					ILogMess.CANNOTFINDRESOURCEFILE, propName), null);
+			return null;
+		}
+		// return ReadUTF8Properties.readProperties(i);
+		// Properties prop = ReadUTF8Properties.readProperties(i);
+		try {
+			Properties prop = ReadUTF8Properties.readProperties(i);
+			return prop;
+		} catch (IOException e) {
+			errorLog(gMess.getMess(IErrorCode.ERRORCODE2,
+					ILogMess.ERRORWHILEREADINGRESOURCEFILE, propName), e);
+			return null;
+		}
+	}
 
-    public static String getJythonPackageDirectory(IReadResource iRes) {
-        return iRes.getRes(IConsts.PACKAGEDIR).getPath();
-    }
+	public static InputStream getFile(IJythonUIServerProperties p, String name) {
+		if (p.getResource() == null) {
+			errorLog(
+					SHolder.getM().getMess(IErrorCode.ERRORCODE17,
+							ILogMess.DIALOGDIRECTORYNULL), null);
+		}
+		URL u = p.getResource().getRes(
+				BUtil.addNameToPath(IConsts.DIALOGDIR, name));
+		try {
+			if (u == null) {
+				errorLog(
+						SHolder.getM().getMess(IErrorCode.ERRORCODE80,
+								ILogMess.FILENOTFOUND, name), null);
+			}
+			return u.openStream();
+		} catch (IOException e) {
+			errorLog(
+					SHolder.getM().getMess(IErrorCode.ERRORCODE54,
+							ILogMess.FILENOTFOUND, u.toString() + " " + name),
+					e);
+			return null;
+		}
+	}
+
+	public static String getJythonPackageDirectory(IReadResource iRes) {
+		return iRes.getRes(IConsts.PACKAGEDIR).getPath();
+	}
 }

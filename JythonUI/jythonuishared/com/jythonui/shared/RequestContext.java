@@ -13,29 +13,40 @@
 package com.jythonui.shared;
 
 import java.io.Serializable;
+import java.util.Map;
 
 public class RequestContext implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private String token;
+	private String token;
 
-    private String locale;
+	private String locale;
 
-    public String getToken() {
-        return token;
-    }
+	private Map<String, String> urlParam;
 
-    public void setToken(String token) {
-        this.token = token;
-    }
+	public String getToken() {
+		return token;
+	}
 
-    public String getLocale() {
-        return locale;
-    }
+	public void setToken(String token) {
+		this.token = token;
+	}
 
-    public void setLocale(String locale) {
-        this.locale = locale;
-    }
+	public String getLocale() {
+		return locale;
+	}
+
+	public void setLocale(String locale) {
+		this.locale = locale;
+	}
+
+	public Map<String, String> getUrlParam() {
+		return urlParam;
+	}
+
+	public void setUrlParam(Map<String, String> urlParam) {
+		this.urlParam = urlParam;
+	}
 
 }
