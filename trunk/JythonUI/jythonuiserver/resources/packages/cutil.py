@@ -494,3 +494,14 @@ class DEFAULTDATA :
     if val : self.putData(key,"1")
     else : self.putData(key,"0")    
    
+# ==========================
+
+def urlParList(var) :
+  R = Holder.getRequest().getUrlParam()
+  res = []
+  for k in R : res.append(k)
+  return res
+
+def urlPar(var,k) :
+  R = Holder.getRequest().getUrlParam()
+  return R.get(k)
