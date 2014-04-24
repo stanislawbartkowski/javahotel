@@ -58,7 +58,7 @@ def _setPriceAfterRating(var) :
       _setPrice(var)
       return
     
-    _setPrice(var,BigDecimalToDecimal(pr.getWeekendPrice()))
+    _setPrice(var,BigDecimalToDecimal(pr.getPrice()))
 
 def _setAfterPriceList(var) :
     _setPriceAfterRating(var)
