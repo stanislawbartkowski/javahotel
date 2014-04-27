@@ -13,12 +13,13 @@
 package com.gwthotel.hotel.server.guice;
 
 import com.gwthotel.auth.HotelAuthRealm;
+import com.jythonui.server.holder.Holder;
 
 public class AppHotelAuthRealm extends HotelAuthRealm {
 
     public AppHotelAuthRealm() {
         this.setiRes(new HotelAuthResources());
-        this.setiGet(ServiceInjector.getInstanceHotel());
+        this.setiGet(Holder.getInstanceCache());
     }
 
 }

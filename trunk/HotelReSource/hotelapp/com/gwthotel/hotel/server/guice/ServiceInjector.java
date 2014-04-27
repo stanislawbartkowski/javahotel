@@ -14,7 +14,6 @@ package com.gwthotel.hotel.server.guice;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.gwthotel.hotel.IGetInstanceHotelId;
 import com.jythonui.server.IJythonUIServer;
 
 /**
@@ -38,8 +37,8 @@ public class ServiceInjector {
         return injector.getInstance(IJythonUIServer.class);
     }
     
-    public static IGetInstanceHotelId getInstanceHotel() {
-        return injector.getInstance(IGetInstanceHotelId.class);
-    }
+//    public static IGetInstanceHotelId getInstanceHotel() {
+//        return injector.getInstance(IGetInstanceHotelId.class);
+//    }
 
 }

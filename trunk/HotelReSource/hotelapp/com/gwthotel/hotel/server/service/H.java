@@ -15,13 +15,7 @@ package com.gwthotel.hotel.server.service;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.gwthotel.admin.AppInstanceId;
-import com.gwthotel.admin.HotelId;
-import com.gwthotel.admin.IGetHotelRoles;
-import com.gwthotel.admin.IGetVatTaxes;
-import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.hotel.IClearHotel;
-import com.gwthotel.hotel.IGetInstanceHotelId;
 import com.gwthotel.hotel.IHotelGetName;
 import com.gwthotel.hotel.IHotelObjectsFactory;
 import com.gwthotel.hotel.bill.ICustomerBills;
@@ -34,6 +28,9 @@ import com.gwthotel.hotel.reservationop.IReservationOp;
 import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.shared.IHotelConsts;
+import com.jython.serversecurity.AppInstanceId;
+import com.jython.serversecurity.IGetInstanceOObjectIdCache;
+import com.jython.serversecurity.OObjectId;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.resbundle.Mess;
 
@@ -46,11 +43,6 @@ public class H {
     @Named(IHotelConsts.MESSNAMED)
     private static IGetLogMess lMess;
 
-    @Inject
-    private static IGetHotelRoles iRoles;
-
-    @Inject
-    private static IHotelAdmin iAdmin;
 
     @Inject
     private static Mess mMess;
@@ -58,8 +50,6 @@ public class H {
     @Inject
     private static IHotelServices iServices;
 
-    @Inject
-    private static IGetVatTaxes iTaxes;
 
     @Inject
     private static IHotelGetName iGetHotelName;
@@ -77,7 +67,7 @@ public class H {
     private static IHotelCustomers iCustomers;
 
     @Inject
-    private static IGetInstanceHotelId iGet;
+    private static IGetInstanceOObjectIdCache iGet;
 
     @Inject
     private static IHotelObjectsFactory oFactory;
@@ -101,14 +91,6 @@ public class H {
         return lMess;
     }
 
-    public static IGetHotelRoles getHotelRoles() {
-        return iRoles;
-    }
-
-    public static IHotelAdmin getHotelAdmin() {
-        return iAdmin;
-    }
-
     public static Mess getM() {
         return mMess;
     }
@@ -117,11 +99,7 @@ public class H {
         return iServices;
     }
 
-    public static IGetVatTaxes getVatTaxes() {
-        return iTaxes;
-    }
-
-    public static HotelId getHotelName(String token) {
+    public static OObjectId getHotelName(String token) {
         return iGetHotelName.getHotel(token);
     }
 
@@ -173,7 +151,7 @@ public class H {
         return iClear;
     }
 
-    public static IGetInstanceHotelId getInstanceHotelId() {
+    public static IGetInstanceOObjectIdCache getInstanceObjectId() {
         return iGet;
     }
 
