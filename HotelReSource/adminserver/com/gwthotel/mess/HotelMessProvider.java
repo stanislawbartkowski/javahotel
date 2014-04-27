@@ -37,10 +37,6 @@ public class HotelMessProvider implements Provider<IGetLogMess> {
             return;
         IReadResource iRead = iFactory.constructLoader(HotelMessProvider.class
                 .getClassLoader());
-        // / ReadBundle.ILocaleBundle i = ReadBundle
-        // .getLocale(null, dirName, "mess");
-        // URL u = HotelMessProvider.class.getClassLoader().getResource(
-        // i.getDefa());
         mess = ReadBundle.getBundle(iRead, null, dirName, "mess");
     }
 
