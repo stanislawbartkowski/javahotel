@@ -19,13 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.googlecode.objectify.LoadResult;
-import com.gwthotel.admin.AppInstanceId;
-import com.gwthotel.admin.HotelId;
-import com.gwthotel.admin.gae.entities.EDictionary;
-import com.gwthotel.admin.gae.entities.EHotel;
-import com.gwthotel.admin.gae.entities.EInstance;
 import com.gwthotel.admin.holder.HHolder;
-import com.gwthotel.hotel.HUtils;
 import com.gwthotel.hotel.ServiceType;
 import com.gwthotel.hotel.bill.CustomerBill;
 import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
@@ -40,8 +34,12 @@ import com.gwthotel.hotel.services.HotelServices;
 import com.gwthotel.mess.IHError;
 import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.IHotelConsts;
-import com.gwthotel.shared.PropDescription;
 import com.gwtmodel.table.common.CUtil;
+import com.jython.serversecurity.OObjectId;
+import com.jython.ui.server.gae.security.entities.EInstance;
+import com.jython.ui.server.gae.security.entities.EObject;
+import com.jython.ui.server.gae.security.impl.EntUtil;
+import com.jythonui.server.RUtils;
 import com.jythonui.server.UtilHelper;
 import com.jythonui.server.getmess.IGetLogMess;
 
@@ -51,20 +49,9 @@ public class DictUtil extends UtilHelper {
 
     }
 
-    public static void toProp(PropDescription dest, EDictionary e) {
-        dest.setName(e.getName());
-        dest.setDescription(e.getDescription());
-        HUtils.retrieveCreateModif(dest, e);
-    }
-
-    public static void toEDict(EDictionary dest, PropDescription sou) {
-        dest.setName(sou.getName());
-        dest.setDescription(sou.getDescription());
-    }
-
-    public static EHotel findEHotel(IGetLogMess lMess, HotelId hotel) {
-        EInstance eI = findI(lMess, hotel.getInstanceId());
-        LoadResult<EHotel> p = ofy().load().type(EHotel.class).parent(eI)
+    public static EObject findEHotel(IGetLogMess lMess, OObjectId hotel) {
+        EInstance eI = EntUtil.findI(lMess, hotel.getInstanceId());
+        LoadResult<EObject> p = ofy().load().type(EObject.class).parent(eI)
                 .id(hotel.getId());
         if (p.now() == null) {
             String mess = lMess.getMess(IHError.HERROR005,
@@ -82,22 +69,11 @@ public class DictUtil extends UtilHelper {
         h.setNoExtraBeds(e.getNoExtraBeds());
         h.setServiceType(e.getServiceType());
         h.setPerperson(e.isPerperson());
-        toProp(h, e);
+        EntUtil.toProp(h, e);
         return h;
     }
 
-    public static EInstance findI(IGetLogMess lMess, AppInstanceId i) {
-        LoadResult<EInstance> p = ofy().load().type(EInstance.class)
-                .id(i.getId());
-        if (p == null) {
-            String mess = lMess.getMess(IHError.HERROR014,
-                    IHMess.INSTANCEBYIDCANNOTBEFOUND, Long.toString(i.getId()));
-            errorLog(mess);
-        }
-        return p.now();
-    }
-
-    public static <E> E findE(EHotel eh, String name, Class<E> cl) {
+    public static <E> E findE(EObject eh, String name, Class<E> cl) {
         LoadResult<E> p = ofy().load().type(cl).ancestor(eh)
                 .filter("name == ", name).first();
         if (p == null) {
@@ -106,7 +82,7 @@ public class DictUtil extends UtilHelper {
         return p.now();
     }
 
-    public static <E> E findEE(EHotel eh, String name, Class<E> cl) {
+    public static <E> E findEE(EObject eh, String name, Class<E> cl) {
         LoadResult<E> p = ofy().load().type(cl).ancestor(eh)
                 .filter("name == ", name).first();
         E e = p.now();
@@ -118,27 +94,27 @@ public class DictUtil extends UtilHelper {
         return null;
     }
 
-    public static EHotelCustomer findCustomer(EHotel eh, String name) {
+    public static EHotelCustomer findCustomer(EObject eh, String name) {
         return findEE(eh, name, EHotelCustomer.class);
     }
 
-    public static EHotelRoom findRoom(EHotel eh, String name) {
+    public static EHotelRoom findRoom(EObject eh, String name) {
         return findEE(eh, name, EHotelRoom.class);
     }
 
-    public static EHotelReservation findReservation(EHotel eh, String name) {
+    public static EHotelReservation findReservation(EObject eh, String name) {
         return findEE(eh, name, EHotelReservation.class);
     }
 
-    public static ECustomerBill findCustomerBill(EHotel eh, String name) {
+    public static ECustomerBill findCustomerBill(EObject eh, String name) {
         return findEE(eh, name, ECustomerBill.class);
     }
 
-    public static EHotelServices findService(EHotel eh, String name) {
+    public static EHotelServices findService(EObject eh, String name) {
         return findEE(eh, name, EHotelServices.class);
     }
 
-    public static List<EResDetails> findResDetailsForRes(EHotel ho,
+    public static List<EResDetails> findResDetailsForRes(EObject ho,
             String resName, ServiceType serviceType) {
         List<EResDetails> li = ofy().load().type(EResDetails.class)
                 .ancestor(ho).filter("resName == ", resName).list();
@@ -192,7 +168,7 @@ public class DictUtil extends UtilHelper {
         return b.doubleValue();
     }
 
-    public static EResDetails toEResDetail(EHotel ho, EHotelReservation e,
+    public static EResDetails toEResDetail(EObject ho, EHotelReservation e,
             ReservationPaymentDetail r) {
         EResDetails er = new EResDetails();
         if (!CUtil.EmptyS(r.getGuestName()))
@@ -223,7 +199,7 @@ public class DictUtil extends UtilHelper {
 
     }
 
-    public static List<EResDetails> toED(EHotel ho, EHotelReservation e,
+    public static List<EResDetails> toED(EObject ho, EHotelReservation e,
             List<ReservationPaymentDetail> rList) {
         List<EResDetails> resList = new ArrayList<EResDetails>();
         for (ReservationPaymentDetail r : rList)
@@ -231,13 +207,15 @@ public class DictUtil extends UtilHelper {
         return resList;
     }
 
-    public static List<ECustomerBill> findBillsForRese(EHotel ho, String resName) {
+    public static List<ECustomerBill> findBillsForRese(EObject ho,
+            String resName) {
         List<ECustomerBill> re = ofy().load().type(ECustomerBill.class)
                 .ancestor(ho).filter("resName ==", resName).list();
         return re;
     }
-    
-    public static List<EBillPayment> findPaymentsForBill(EHotel ho,String billName) {
+
+    public static List<EBillPayment> findPaymentsForBill(EObject ho,
+            String billName) {
         List<EBillPayment> li = ofy().load().type(EBillPayment.class)
                 .ancestor(ho).filter("billName == ", billName).list();
         return li;
@@ -251,7 +229,7 @@ public class DictUtil extends UtilHelper {
         bi.setReseName(e.getReservation().getName());
         bi.getPayList().addAll(e.getResDetails());
         bi.setId(e.getId());
-        HUtils.retrieveCreateModif(bi, e);
+        RUtils.retrieveCreateModif(bi, e);
         return bi;
     }
 }
