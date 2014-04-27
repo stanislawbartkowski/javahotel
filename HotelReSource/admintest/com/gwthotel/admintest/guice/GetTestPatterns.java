@@ -12,14 +12,14 @@
  */
 package com.gwthotel.admintest.guice;
 
-import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.IGetAutomPatterns;
+import com.jython.serversecurity.OObjectId;
 
 public class GetTestPatterns implements IGetAutomPatterns {
 
     @Override
-    public String getPatt(HotelId hotel, HotelObjects t) {
+    public String getPatt(OObjectId hotel, HotelObjects t) {
         switch (t) {
         case CUSTOMER:
 //            return "(Y) / (N) /P";

@@ -13,14 +13,14 @@
  */
 package com.gwthotel.admintest.guice;
 
-import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.auth.IRealmResources;
+import com.jython.serversecurity.IOObjectAdmin;
 import com.jythonui.server.getmess.IGetLogMess;
 
 public class HotelAuthResources implements IRealmResources {
 
     @Override
-    public IHotelAdmin getAdmin() {
+    public IOObjectAdmin getAdmin() {
         return ServiceInjector.constructHotelAdmin();
     }
 

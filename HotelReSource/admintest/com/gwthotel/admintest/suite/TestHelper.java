@@ -12,33 +12,20 @@
  */
 package com.gwthotel.admintest.suite;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
-import com.gwthotel.admin.AppInstanceId;
-import com.gwthotel.admin.Hotel;
-import com.gwthotel.admin.HotelId;
-import com.gwthotel.admin.HotelRoles;
-import com.gwthotel.admin.IGetHotelRoles;
-import com.gwthotel.admin.IGetVatTaxes;
-import com.gwthotel.admin.IHotelAdmin;
-import com.gwthotel.admin.Person;
 import com.gwthotel.admintest.guice.ServiceInjector;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.IClearHotel;
-import com.gwthotel.hotel.IGetInstanceHotelId;
 import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.IHotelObjectsFactory;
 import com.gwthotel.hotel.bill.CustomerBill;
@@ -58,24 +45,14 @@ import com.gwthotel.hotel.server.service.H;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
-import com.gwtmodel.table.common.dateutil.ISetTestToday;
-import com.gwtmodel.testenhancer.ITestEnhancer;
-import com.jythonui.server.IJythonUIServer;
-import com.jythonui.server.IXMLToMap;
+import com.jython.serversecurity.OObject;
+import com.jython.serversecurity.OObjectId;
+import com.jython.serversecurity.OObjectRoles;
+import com.jython.serversecurity.Person;
+import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.holder.Holder;
-import com.jythonui.server.holder.SHolder;
-import com.jythonui.server.newblob.IAddNewBlob;
-import com.jythonui.server.registry.IStorageRegistryFactory;
-import com.jythonui.server.security.ISecurity;
 import com.jythonui.server.security.token.ICustomSecurity;
-import com.jythonui.server.semaphore.ISemaphore;
-import com.jythonui.server.storage.blob.IBlobHandler;
-import com.jythonui.server.storage.seq.ISequenceRealmGen;
 import com.jythonui.shared.CustomSecurity;
-import com.jythonui.shared.DialogFormat;
-import com.jythonui.shared.DialogInfo;
-import com.jythonui.shared.DialogVariables;
-import com.jythonui.shared.RequestContext;
 import com.jythonui.test.CommonTestHelper;
 
 /**
@@ -84,18 +61,11 @@ import com.jythonui.test.CommonTestHelper;
  */
 public class TestHelper extends CommonTestHelper {
 
-    protected final IHotelAdmin iAdmin;
-    protected final IGetHotelRoles iRoles;
-    // for some reason it is necessary
-    private static final ITestEnhancer iTest = ServiceInjector
-            .constructITestEnhancer();
     protected final IHotelServices iServices;
-    protected final IGetVatTaxes iTaxes;
     protected final IHotelPriceList iPrice;
     protected final IHotelPriceElem iPriceElem;
     protected final IHotelRooms iRooms;
     protected final IHotelCustomers iCustomers;
-    protected final IGetInstanceHotelId iGetI;
     protected final IHotelObjectGenSym iHGen;
     protected final IHotelObjectsFactory hObjects;
     protected final IReservationForm iRes;
@@ -107,8 +77,8 @@ public class TestHelper extends CommonTestHelper {
     protected static final String HOTEL = "hotel";
     protected static final String HOTEL1 = "hotel1";
 
-    protected static final String TESTINSTANCE = IHotelConsts.INSTANCETEST;
-    
+    protected static final String TESTINSTANCE = ISharedConsts.INSTANCETEST;
+
     @Before
     public void before() {
         clearObjects();
@@ -116,28 +86,16 @@ public class TestHelper extends CommonTestHelper {
         setTestToday(DateFormatUtil.toD(2013, 6, 13));
     }
 
-    protected AppInstanceId getI() {
-        return iGetI.getInstance(TESTINSTANCE, "user");
-    }
-
-    protected HotelId getH(String hotel) {
-        return iGetI.getHotel(TESTINSTANCE, hotel, "user");
-    }
-
-    protected HotelId getH1(String hotel) {
-        return iGetI.getHotel(TESTINSTANCE, hotel, "modifuser");
-    }
-
     protected void createHotels() {
         iGetI.invalidateCache();
         iAdmin.clearAll(getI());
         String[] hNames = new String[] { HOTEL, HOTEL1 };
         for (String s : hNames) {
-            Hotel ho = new Hotel();
+            OObject ho = new OObject();
             ho.setName(s);
             ho.setDescription("Pod Pieskiem");
-            List<HotelRoles> roles = new ArrayList<HotelRoles>();
-            iAdmin.addOrModifHotel(getI(), ho, roles);
+            List<OObjectRoles> roles = new ArrayList<OObjectRoles>();
+            iAdmin.addOrModifObject(getI(), ho, roles);
         }
     }
 
@@ -145,15 +103,12 @@ public class TestHelper extends CommonTestHelper {
     protected final String adminM = "classpath:resources/shiro/admin.ini";
 
     public TestHelper() {
-        iAdmin = H.getHotelAdmin();
-        iRoles = ServiceInjector.constructHotelRoles();
         iServices = ServiceInjector.getHotelServices();
-        iTaxes = ServiceInjector.getVatTaxes();
         iPrice = ServiceInjector.getHotelPriceList();
         iPriceElem = ServiceInjector.getHotelPriceElem();
         iRooms = ServiceInjector.getHotelRooms();
         iCustomers = ServiceInjector.getHotelCustomers();
-        iGetI = H.getInstanceHotelId();
+//        iGetI = H.getInstanceHotelId();
         iHGen = ServiceInjector.getHotelGenSym();
         hObjects = ServiceInjector.getHotelObjects();
         iRes = ServiceInjector.getReservationForm();
@@ -166,6 +121,7 @@ public class TestHelper extends CommonTestHelper {
 
     @BeforeClass
     public static void setUp() {
+        iTest = ServiceInjector.constructITestEnhancer();
         iTest.beforeTest();
     }
 
@@ -180,18 +136,19 @@ public class TestHelper extends CommonTestHelper {
     }
 
     protected void clearObjects() {
-        List<Hotel> aList = iAdmin.getListOfHotels(getI());
-        for (Hotel ho : aList) {
-            HotelId hotel = getH(ho.getName());
+        List<OObject> aList = iAdmin.getListOfObjects(getI());
+        for (OObject ho : aList) {
+            OObjectId hotel = getH(ho.getName());
             iClear.clearObjects(hotel);
             iHGen.clearAll(hotel);
         }
 
     }
 
-     protected Date toDate(int y, int m, int d) {
-         return getD(y,m,d);
-     }
+    protected Date toDate(int y, int m, int d) {
+        return getD(y, m, d);
+    }
+
     protected ICustomSecurity getSec(String hotel) {
         CustomSecurity cust = new CustomSecurity();
         cust.setAttr(IHotelConsts.HOTELNAME, hotel);
@@ -205,23 +162,23 @@ public class TestHelper extends CommonTestHelper {
         Person pe = new Person();
         pe.setName("user");
         pe.setDescription("user name");
-        List<HotelRoles> roles = new ArrayList<HotelRoles>();
+        List<OObjectRoles> roles = new ArrayList<OObjectRoles>();
         iAdmin.addOrModifPerson(getI(), pe, roles);
         iAdmin.changePasswordForPerson(getI(), "user", "secret");
-        Hotel ho = new Hotel();
+        OObject ho = new OObject();
 
         ho.setName(HOTEL);
         ho.setDescription("Pod Pieskiem");
-        roles = new ArrayList<HotelRoles>();
+        roles = new ArrayList<OObjectRoles>();
         pe = new Person();
         pe.setName("user");
-        HotelRoles rol = new HotelRoles(pe);
+        OObjectRoles rol = new OObjectRoles(pe);
         rol.getRoles().add("mana");
         rol.getRoles().add("acc");
         roles.add(rol);
-        iAdmin.addOrModifHotel(getI(), ho, roles);
+        iAdmin.addOrModifObject(getI(), ho, roles);
     }
-    
+
     protected CustomerBill createP() {
 
         HotelRoom ho = new HotelRoom();
@@ -263,5 +220,5 @@ public class TestHelper extends CommonTestHelper {
         System.out.println(b.getName());
         return b;
     }
-    
+
 }
