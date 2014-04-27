@@ -20,13 +20,17 @@ public interface ISharedConsts {
 
     String COMMONBEANBLOBJNDI = "java:global/BlobRegistry";
 
+    String COMMONOBJECTADMINJNDI = "java:global/ObjectAdmin";
+    String COMMONAPPINSTANCEJNDI = "java:global/AppInstance";
+
     // String RESOURCES = "resources";
 
     String JYTHONMESSSERVER = "jythonservermess";
 
     String JYTHONENVCACHE = "JYTHON-ENV-TOMCAT-CACHE";
     String JYTHONXMLHELPERCACHE = "JYTHON-XML-HELPER-CACHE";
-    
+    String CACHEREALMOBJECTINSTANCE = "JYTHON-CACHEREALM-OBJECT-INSTANCE";
+
     String XMLHELPERCACHED = "jythonxmlhelpercached";
 
     int DEFEXPIRATIONSEC = 30;
@@ -39,5 +43,12 @@ public interface ISharedConsts {
     String CREATIONDATEPROPERTY = "creationDate";
     String MODIFPERSONPROPERTY = "modifPerson";
     String MODIFDATEPROPERTY = "modifDate";
+
+    String NAME = "name";
+    String DESCRIPTION = "descr";
+    String VATLEVELPROP = "level";
+
+    String INSTANCEDEFAULT = "AppInstanceDefault";
+    String INSTANCETEST = "AppInstanceTest";
 
 }

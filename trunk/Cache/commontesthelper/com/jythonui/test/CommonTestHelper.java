@@ -25,9 +25,14 @@ import javax.inject.Named;
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.gwtmodel.table.common.dateutil.ISetTestToday;
 import com.gwtmodel.testenhancer.ITestEnhancer;
+import com.jython.serversecurity.AppInstanceId;
+import com.jython.serversecurity.IGetInstanceOObjectIdCache;
+import com.jython.serversecurity.IOObjectAdmin;
+import com.jython.serversecurity.OObjectId;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IDefaultData;
 import com.jythonui.server.IJythonUIServer;
+import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.IXMLToMap;
 import com.jythonui.server.dict.IGetLocalizedDict;
 import com.jythonui.server.holder.Holder;
@@ -49,7 +54,8 @@ abstract public class CommonTestHelper {
 
     @Inject
     protected static IJythonUIServer iServer;
-    @Inject
+    // @Inject
+    // This first one inject directly in the constructor
     protected static ITestEnhancer iTest;
     @Inject
     protected static ISecurity iSec;
@@ -72,6 +78,8 @@ abstract public class CommonTestHelper {
     protected final IGetLocalizedDict iListT;
     protected final IGetLocalizedDict iListI;
     protected final IGetLocalizedDict iListP;
+    protected final IGetLocalizedDict iListR;
+    protected final IGetLocalizedDict iListV;
     @Inject
     protected static IDefaultData dData;
     @Inject
@@ -80,12 +88,18 @@ abstract public class CommonTestHelper {
     protected static ISetTestToday setTestToday;
     @Inject
     protected static IXMLToMap ixMap;
+    @Inject
+    protected static IOObjectAdmin iAdmin;
+    @Inject
+    protected static IGetInstanceOObjectIdCache iGetI;
 
     protected CommonTestHelper() {
         iListC = Holder.getListOfCountries();
         iListT = Holder.getListOfTitles();
         iListI = Holder.getListOfIdTypes();
         iListP = Holder.getListOfPayment();
+        iListR = Holder.IGetListOfDefaultRoles();
+        iListV = Holder.IGetListOfVat();
     }
 
     protected void putLocale(String lang) {
@@ -151,7 +165,7 @@ abstract public class CommonTestHelper {
         if (m != mm)
             return false;
         int day = DateFormatUtil.getD(da);
-        if (d != day) 
+        if (d != day)
             return false;
         return true;
     }
@@ -165,6 +179,24 @@ abstract public class CommonTestHelper {
         c.setTime(d);
         c.add(Calendar.DATE, 1);
         return c.getTime();
+    }
+
+    // ------------
+    protected static final String HOTEL = "hotel";
+    protected static final String HOTEL1 = "hotel1";
+
+    protected static final String TESTINSTANCE = ISharedConsts.INSTANCETEST;
+
+    protected AppInstanceId getI() {
+        return iGetI.getInstance(TESTINSTANCE, "user");
+    }
+
+    protected OObjectId getH(String objectName) {
+        return iGetI.getOObject(TESTINSTANCE, objectName, "user");
+    }
+
+    protected OObjectId getH1(String objectName) {
+        return iGetI.getOObject(TESTINSTANCE, objectName, "modifuser");
     }
 
 }

@@ -31,7 +31,7 @@ public class GuiceInterceptor {
     static final private Logger log = Logger.getLogger(GuiceInterceptor.class
             .getName());
 
-    @PersistenceContext(unitName = IHotelConsts.HOTELPERSISTENCEPROVIDER)
+    @PersistenceContext(unitName = IHotelConsts.PERSISTENCE_UNIT_NAME)
     public void setPersistence(EntityManager em) {
 //        log.info("EntityManager injected");
         EMHolder.setEm(em);
