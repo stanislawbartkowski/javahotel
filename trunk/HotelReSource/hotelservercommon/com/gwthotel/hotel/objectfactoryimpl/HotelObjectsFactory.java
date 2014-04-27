@@ -14,7 +14,6 @@ package com.gwthotel.hotel.objectfactoryimpl;
 
 import javax.inject.Inject;
 
-import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.IGetAutomPatterns;
 import com.gwthotel.hotel.IHotelObjectsFactory;
@@ -26,6 +25,7 @@ import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwthotel.hotel.services.HotelServices;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwthotel.shared.PropDescription;
+import com.jython.serversecurity.OObjectId;
 
 public class HotelObjectsFactory implements IHotelObjectsFactory {
 
@@ -37,7 +37,7 @@ public class HotelObjectsFactory implements IHotelObjectsFactory {
     }
 
     @Override
-    public PropDescription construct(HotelId hotel, HotelObjects o) {
+    public PropDescription construct(OObjectId hotel, HotelObjects o) {
         PropDescription outo = null;
         switch (o) {
         case RESERVATION:

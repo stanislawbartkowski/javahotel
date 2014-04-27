@@ -27,13 +27,14 @@ import com.gwthotel.shared.PropDescription;
 import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.MUtil;
 import com.jythonui.server.UtilHelper;
+import com.jythonui.shared.RMap;
 
 public class HUtils extends UtilHelper {
 
     private HUtils() {
     }
 
-    public static <T extends PropDescription> void toEProperties(String[] prop,
+    public static <T extends RMap> void toEProperties(String[] prop,
             Object dest, T sou) {
         for (String key : prop) {
             String val = sou.getAttr(key);
@@ -48,7 +49,7 @@ public class HUtils extends UtilHelper {
         }
     }
 
-    public static <T extends PropDescription> void toTProperties(String[] prop,
+    public static <T extends RMap> void toTProperties(String[] prop,
             T dest, Object sou) {
         for (String key : prop) {
             String val = null;
@@ -82,6 +83,7 @@ public class HUtils extends UtilHelper {
         return MUtil.roundB(b);
     }
 
+/*    
     private static Optional<Date> retrieveD(Object o, String propName) {
         Date d = null;
         try {
@@ -120,5 +122,5 @@ public class HUtils extends UtilHelper {
             dest.setModifPerson(s.orNull());
 
     }
-
+*/
 }

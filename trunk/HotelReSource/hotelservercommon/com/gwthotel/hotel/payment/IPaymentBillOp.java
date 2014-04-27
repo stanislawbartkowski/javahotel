@@ -14,14 +14,14 @@ package com.gwthotel.hotel.payment;
 
 import java.util.List;
 
-import com.gwthotel.admin.HotelId;
+import com.jython.serversecurity.OObjectId;
 
 public interface IPaymentBillOp {
 
-    List<PaymentBill> getPaymentsForBill(HotelId hotel, String billName);
+    List<PaymentBill> getPaymentsForBill(OObjectId hotel, String billName);
 
-    void addPaymentForBill(HotelId hotel, String billName, PaymentBill payment);
+    void addPaymentForBill(OObjectId hotel, String billName, PaymentBill payment);
 
-    void removePaymentForBill(HotelId hotel, String billName, Long paymentId);
+    void removePaymentForBill(OObjectId hotel, String billName, Long paymentId);
 
 }

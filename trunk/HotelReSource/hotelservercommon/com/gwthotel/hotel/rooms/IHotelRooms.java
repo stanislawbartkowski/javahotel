@@ -14,14 +14,14 @@ package com.gwthotel.hotel.rooms;
 
 import java.util.List;
 
-import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.IHotelProp;
 import com.gwthotel.hotel.services.HotelServices;
+import com.jython.serversecurity.OObjectId;
 
 public interface IHotelRooms extends IHotelProp<HotelRoom> {
     
-    void setRoomServices(HotelId hotel, String roomName,List<String> services);
+    void setRoomServices(OObjectId hotel, String roomName,List<String> services);
     
-    List<HotelServices> getRoomServices(HotelId hotel, String roomName);
+    List<HotelServices> getRoomServices(OObjectId hotel, String roomName);
 
 }

@@ -14,28 +14,28 @@ package com.gwthotel.hotel.reservationop;
 
 import java.util.List;
 
-import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.bill.CustomerBill;
 import com.gwthotel.hotel.reservation.ResStatus;
 import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
 import com.gwthotel.hotel.stay.ResGuest;
+import com.jython.serversecurity.OObjectId;
 
 public interface IReservationOp {
 
-    List<ResData> queryReservation(HotelId hotel, List<ResQuery> rQuery);
+    List<ResData> queryReservation(OObjectId hotel, List<ResQuery> rQuery);
 
-    void changeStatus(HotelId hotel, String resName, ResStatus newStatus);
+    void changeStatus(OObjectId hotel, String resName, ResStatus newStatus);
 
-    void setResGuestList(HotelId hotel, String resName, List<ResGuest> gList);
+    void setResGuestList(OObjectId hotel, String resName, List<ResGuest> gList);
 
-    List<ResGuest> getResGuestList(HotelId hotel, String resName);
+    List<ResGuest> getResGuestList(OObjectId hotel, String resName);
 
-    void addResAddPayment(HotelId hotel, String resName,
+    void addResAddPayment(OObjectId hotel, String resName,
             ReservationPaymentDetail add);
 
-    List<ReservationPaymentDetail> getResAddPaymentList(HotelId hotel,
+    List<ReservationPaymentDetail> getResAddPaymentList(OObjectId hotel,
             String resName);
 
-    List<CustomerBill> findBillsForReservation(HotelId hotel, String resName);
+    List<CustomerBill> findBillsForReservation(OObjectId hotel, String resName);
 
 }

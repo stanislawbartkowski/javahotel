@@ -12,11 +12,11 @@
  */
 package com.gwthotel.hotel;
 
-import com.gwthotel.admin.HotelId;
 import com.gwthotel.shared.PropDescription;
+import com.jython.serversecurity.OObjectId;
 
 public interface IHotelObjectsFactory {
 
-    PropDescription construct(HotelId hotel, HotelObjects o);
+    PropDescription construct(OObjectId hotel, HotelObjects o);
 
 }
