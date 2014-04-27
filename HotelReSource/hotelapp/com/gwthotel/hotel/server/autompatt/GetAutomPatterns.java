@@ -14,16 +14,16 @@ package com.gwthotel.hotel.server.autompatt;
 
 import java.util.Properties;
 
-import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.IGetAutomPatterns;
 import com.gwthotel.shared.IHotelConsts;
+import com.jython.serversecurity.OObjectId;
 import com.jythonui.server.Util;
 
 public class GetAutomPatterns implements IGetAutomPatterns {
 
     @Override
-    public String getPatt(HotelId hotel, HotelObjects t) {
+    public String getPatt(OObjectId hotel, HotelObjects t) {
         Properties prop = Util.getProperties(IHotelConsts.PROPAUTOM);
         String s = t.toString();
         return prop.getProperty(s);

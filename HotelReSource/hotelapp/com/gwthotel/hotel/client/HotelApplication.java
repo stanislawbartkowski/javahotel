@@ -16,6 +16,7 @@ import com.google.gwt.core.client.EntryPoint;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.table.Utils;
 import com.jythonui.client.JythonClientStart;
+import com.jythonui.server.ISharedConsts;
 import com.jythonui.shared.CustomSecurity;
 
 /**
@@ -26,7 +27,7 @@ public class HotelApplication implements EntryPoint {
         String hotelName = Utils.getURLParam(IHotelConsts.HOTELURLQUERY);
         CustomSecurity sec = new CustomSecurity();
         sec.setAttr(IHotelConsts.HOTELNAME, hotelName);
-        sec.setAttr(IHotelConsts.INSTANCEID, IHotelConsts.INSTANCEDEFAULT);
+        sec.setAttr(IHotelConsts.INSTANCEID, ISharedConsts.INSTANCEDEFAULT);
         JythonClientStart.start(null, sec);
     }
 
