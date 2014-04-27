@@ -5,7 +5,7 @@
 
 	<jython>
 		<import>from adminpack import admin</import>
-		<method>admin.hotelaction({0},{1})</method>
+		<method>admin.hotelaction({0},{1},True)</method>
 	</jython>
 
 
@@ -13,7 +13,7 @@
 		<columns>
 			<column id="name" displayname="@name" />
 			<column id="descr" displayname="@description" />
-                       <column id="clearhotel" displayname="@clearhotel" actionid="clearhotel" />
+                       <column id="clearhotel" displayname="@clearhotel" actionid="clearhotel" defvalue="@clearhotel" />
 		</columns>
 	</list>
 

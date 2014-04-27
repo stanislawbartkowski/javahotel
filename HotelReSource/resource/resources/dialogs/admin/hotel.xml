@@ -6,7 +6,7 @@
 
 	<jython>
 		<import>from adminpack import admin</import>
-		<method>admin.hotelelemaction({0},{1})</method>
+		<method>admin.hotelelemaction({0},{1},True)</method>
 	</jython>
 
 

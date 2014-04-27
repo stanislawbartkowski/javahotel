@@ -10,9 +10,10 @@ from util.util import duplicateService
 from util.util import getVatName
 from util import util
 import cutil
+from com.jythonui.server.holder import Holder
 
 M = MESS()
-taxList = H.getVatTaxes()
+taxList = cutil.getDict("vat")
 D = util.HOTELDEFADATA()
 
 def _getVatName(vat):

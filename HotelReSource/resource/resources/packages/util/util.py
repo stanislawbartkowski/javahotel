@@ -82,57 +82,11 @@ class MESS :
       return self.M.getMessN(key)
     
 def clearHotel(var,hotel) :
-   token = var["SECURITY_TOKEN"]
-   iGet = H.getInstanceHotelId()
+   iGet = H.getInstanceObjectId()
    aid = getAppId(var)
    instance = aid.getInstanceName()
-   hi = iGet.getHotel(instance, hotel, aid.getPerson());
+   hi = iGet.getOObject(instance, hotel, aid.getPerson());
    H.getClearHotel().clearObjects(hi)
-     
-class HotelAdmin :
-    
-    def __init__(self,var) :
-      self.adminI = H.getHotelAdmin()
-      self.app = getAppId(var)
-      
-    def getListOfPersons(self) :
-      return self.adminI.getListOfPersons(self.app)
-
-    def getListOfHotels(self) :
-      return self.adminI.getListOfHotels(self.app)
-
-    def getListOfRolesForPerson(self,person):
-      return self.adminI.getListOfRolesForPerson(self.app,person)
-  
-    def getListOfRolesForHotel(self,hotel):
-      return self.adminI.getListOfRolesForHotel(self.app,hotel)
-  
-    def addOrModifHotel(self,hotel,roles):
-      self.adminI.addOrModifHotel(self.app,hotel,roles)
-      H.invalidateHotelCache()   
-
-    def addOrModifPerson(self,person,roles):
-      self.adminI.addOrModifPerson(self.app,person,roles)  
-
-
-    def changePasswordForPerson(self,person,password):
-      self.adminI.changePasswordForPerson(self.app,person,password)  
-
-    def validatePasswordForPerson(self,person,password):
-        return self.adminI.validatePasswordForPerson(self.app,person,password)        
-
-    def getPassword(self,person):
-        return self.adminI.getPassword(self.app,person)
-
-    def clearAll(self):
-        self.adminI.clearAll(self.app)
-
-    def removePerson(self,person):
-        self.adminI.removePerson(self.app,person)
-        
-    def removeHotel(self,hotel):
-        self.adminI.removeHotel(self.app,hotel)
-        H.invalidateHotelCache()         
 
 class CRUDLIST :
     def __init__(self,var):
@@ -310,7 +264,7 @@ def getHotel(var) :
     
     Returns: hotel name
     """
-    return getHotelName(var).getHotel()
+    return getHotelName(var).getObject()
 
 def getPerson(var):
     token = var["SECURITY_TOKEN"]
@@ -487,8 +441,7 @@ def duplicateService(var):
     return False
 
 def getVatName(vat):
-  taxList = H.getVatTaxes()
-  list = taxList.getList()
+  list = cutil.getDict("vat")
   vat = findElemInSeq(vat,list)
   if vat == None : return ""
   return vat.getDescription()

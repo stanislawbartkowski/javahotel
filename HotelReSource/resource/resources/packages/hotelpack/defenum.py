@@ -1,7 +1,7 @@
-from com.gwthotel.hotel.server.service import H
+#from com.gwthotel.hotel.server.service import H
 import cutil
 
-taxList = H.getVatTaxes()
+taxList = cutil.getDict("vat")
 
 def serviceenum(action,var) :
 
@@ -9,9 +9,7 @@ def serviceenum(action,var) :
   
   seq = []
   
-  list = taxList.getList()
-  
-  for v in list :
+  for v in taxList :
       seq.append({"id" : v.getName(), "name" : v.getDescription()})
         
   var["JLIST_MAP"] = { "vattax" : seq}
