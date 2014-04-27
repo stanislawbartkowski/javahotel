@@ -16,24 +16,23 @@ import javax.inject.Provider;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import com.gwtmodel.containertype.ContainerInfo;
-import com.gwtmodel.containertype.ContainerType;
+import com.gwthotel.shared.IHotelConsts;
 
 public class EntityManagerFactoryProvider implements
         Provider<EntityManagerFactory> {
 
     private static EntityManagerFactory factory;
 
-    private static final String PERSISTENCE_UNIT_NAME_TOMCAT = "hoteladmintomcat";
-    private static final String PERSISTENCE_UNIT_NAME = "hoteladmin";
+    // private static final String PERSISTENCE_UNIT_NAME_TOMCAT =
+    // "hoteladmintomcat";
+//    private static final String PERSISTENCE_UNIT_NAME = "hoteladmin";
 
     public EntityManagerFactoryProvider() {
-        if (ContainerInfo.getContainerType() == ContainerType.TOMCAT)
-            factory = Persistence
-                    .createEntityManagerFactory(PERSISTENCE_UNIT_NAME_TOMCAT);
-        else
-            factory = Persistence
-                    .createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        // if (ContainerInfo.getContainerType() == ContainerType.TOMCAT)
+        // factory = Persistence
+        // .createEntityManagerFactory(PERSISTENCE_UNIT_NAME_TOMCAT);
+        // else
+        factory = Persistence.createEntityManagerFactory(IHotelConsts.PERSISTENCE_UNIT_NAME);
     }
 
     @Override
