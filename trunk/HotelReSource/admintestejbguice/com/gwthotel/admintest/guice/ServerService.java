@@ -16,8 +16,6 @@ import java.util.Date;
 
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import com.gwthotel.admin.IAppInstanceHotel;
-import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admin.ejblocator.IBeanLocator;
 import com.gwthotel.admin.ejblocator.impl.EjbLocatorWildFly;
 import com.gwthotel.admintest.suite.TestHelper;
@@ -39,6 +37,8 @@ import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.gwtmodel.table.common.dateutil.ISetTestToday;
 import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.gwtmodel.testenhancer.notgae.TestEnhancer;
+import com.jython.serversecurity.IOObjectAdmin;
+import com.jython.serversecurity.instance.IAppInstanceOObject;
 import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServerProperties;
@@ -126,14 +126,14 @@ public class ServerService {
         
         @Provides
         @Singleton
-        IAppInstanceHotel getAppHotel(IBeanLocator iBean) {
-            return iBean.getAppInstanceHotel();
+        IAppInstanceOObject getAppHotel(IBeanLocator iBean) {
+            return iBean.getAppInstanceObject();
         }
         
         @Provides
         @Singleton
-        IHotelAdmin getHotelAdmin(IBeanLocator iBean) {
-            return iBean.getHotelAdmin();
+        IOObjectAdmin getHotelAdmin(IBeanLocator iBean) {
+            return iBean.getObjectAdmin();
         }
         
         @Provides
