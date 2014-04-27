@@ -22,6 +22,10 @@ import com.gwtmodel.table.common.dateutil.ISetTestToday;
 import com.gwtmodel.table.common.dateutil.SetTestTodayProvider;
 import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.gwtmodel.testenhancer.notgae.TestEnhancer;
+import com.jython.serversecurity.IOObjectAdmin;
+import com.jython.serversecurity.instance.IAppInstanceOObject;
+import com.jython.serversecurity.jpa.OObjectAdminInstance;
+import com.jython.serversecurity.jpa.OObjectAdminJpa;
 import com.jython.ui.ServerProperties;
 import com.jython.ui.TestHelper;
 import com.jython.ui.server.datastore.IDateLineOp;
@@ -86,6 +90,10 @@ public class ServerService {
             bind(ISetTestToday.class).toProvider(SetTestTodayProvider.class)
                     .in(Singleton.class);
             bind(IJythonRPCNotifier.class).to(EmptyRPCNotifier.class).in(
+                    Singleton.class);
+            bind(IAppInstanceOObject.class).to(OObjectAdminInstance.class).in(
+                    Singleton.class);
+            bind(IOObjectAdmin.class).to(OObjectAdminJpa.class).in(
                     Singleton.class);
             requestStatic();
             requestStaticInjection(TestHelper.class);

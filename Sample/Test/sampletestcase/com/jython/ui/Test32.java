@@ -12,22 +12,26 @@
  */
 package com.jython.ui;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
-import com.jythonui.server.dict.IDictOfLocalEntries;
+import org.junit.Test;
+
+import com.jythonui.server.dict.DictEntry;
 
 public class Test32 extends TestHelper {
 
     @Test
     public void test1() {
 
-        assertTrue(iListC.getList().length > 0);
+        assertFalse(iListC.getList().isEmpty());
         String pl = null;
-        for (IDictOfLocalEntries.DictEntry c : iListC.getList()) {
-            System.out.println(c.getKey() + " " + c.getName());
-            if (c.getKey().equals("PL"))
-                pl = c.getName();
+        for (DictEntry c : iListC.getList()) {
+            System.out.println(c.getName() + " " + c.getDescription());
+            if (c.getName().equals("PL"))
+                pl = c.getDescription();
         }
         assertNotNull(pl);
 
@@ -36,27 +40,27 @@ public class Test32 extends TestHelper {
     @Test
     public void test2() {
 
-        assertTrue(iListT.getList().length > 0);
-        for (IDictOfLocalEntries.DictEntry c : iListT.getList()) {
-            System.out.println(c.getKey() + " " + c.getName());
+        assertFalse(iListT.getList().isEmpty());
+        for (DictEntry c : iListT.getList()) {
+            System.out.println(c.getName() + " " + c.getDescription());
         }
     }
 
     @Test
     public void test3() {
 
-        assertTrue(iListI.getList().length > 0);
-        for (IDictOfLocalEntries.DictEntry c : iListI.getList()) {
-            System.out.println(c.getKey() + " " + c.getName());
+        assertFalse(iListI.getList().isEmpty());
+        for (DictEntry c : iListI.getList()) {
+            System.out.println(c.getName() + " " + c.getDescription());
         }
     }
 
     @Test
     public void test4() {
 
-        assertTrue(iListP.getList().length > 0);
-        for (IDictOfLocalEntries.DictEntry c : iListP.getList()) {
-            System.out.println(c.getKey() + " " + c.getName());
+        assertFalse(iListP.getList().isEmpty());
+        for (DictEntry c : iListP.getList()) {
+            System.out.println(c.getName() + " " + c.getDescription());
         }
     }
 
@@ -95,7 +99,15 @@ public class Test32 extends TestHelper {
         dData.putValue("locM", "hello");
         val = dData.getValue("locM");
         assertEquals("hello", val);
+    }
 
+    @Test
+    public void test7() {
+        assertEquals(3, iListR.getList().size());
+        for (DictEntry r : iListR.getList()) {
+            assertNotNull(r.getName());
+            assertNotNull(r.getDescription());
+        }
     }
 
 }
