@@ -19,12 +19,14 @@ import java.util.List;
 import java.util.Locale;
 
 import com.gwtmodel.table.common.CUtil;
+import com.jythonui.server.Util;
 
-public class ListOfCountries implements IDictOfLocalEntries {
+public class ListOfCountries implements IGetLocalizedDict {
 
     @Override
-    public DictEntry[] getList(String lang) {
+    public List<DictEntry> getList() {
         Locale inL;
+        String lang = Util.getLocale();
         if (lang == null)
             inL = Locale.ENGLISH;
         else
@@ -37,8 +39,8 @@ public class ListOfCountries implements IDictOfLocalEntries {
             if (CUtil.EmptyS(code) || CUtil.EmptyS(name))
                 continue;
             DictEntry c = new DictEntry();
-            c.setKey(code);
-            c.setName(name);
+            c.setName(code);
+            c.setDescription(name);
             cList.add(c);
         }
         Collections.sort(cList, new Comparator<DictEntry>() {
@@ -49,7 +51,7 @@ public class ListOfCountries implements IDictOfLocalEntries {
             }
 
         });
-        return (DictEntry[]) cList.toArray(new DictEntry[cList.size()]);
+        return cList;
     }
 
 }

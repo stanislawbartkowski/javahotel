@@ -12,11 +12,10 @@
  */
 package com.jythonui.server.dict;
 
-import java.util.List;
+import com.jythonui.shared.RMap;
 
+public class DictEntry extends RMap {
 
-public interface IGetLocalizedDict {
-
-    List<DictEntry> getList();
+    private static final long serialVersionUID = 1L;
 
 }

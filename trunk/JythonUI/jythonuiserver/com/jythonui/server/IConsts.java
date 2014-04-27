@@ -29,5 +29,6 @@ public interface IConsts {
     String TITLESDICT = "titles";
     String IDTYPEDICT = "idtype";
     String PAYMENTDICT = "payment";
-
+    String ROLES = "roles";
+    String VATDICT="vatdict";
 }

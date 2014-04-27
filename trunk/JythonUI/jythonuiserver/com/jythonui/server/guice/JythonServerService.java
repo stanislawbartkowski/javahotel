@@ -12,12 +12,16 @@
  */
 package com.jythonui.server.guice;
 
+import java.util.List;
+
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 import com.gwtmodel.commoncache.ICommonCache;
+import com.jython.serversecurity.IGetInstanceOObjectIdCache;
+import com.jython.serversecurity.impl.GetInstanceObjectId;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IDefaultData;
 import com.jythonui.server.IGetAppProp;
@@ -28,13 +32,12 @@ import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.IStorageMemCache;
 import com.jythonui.server.IStorageMemContainerFactory;
 import com.jythonui.server.IXMLToMap;
-import com.jythonui.server.Util;
 import com.jythonui.server.defa.CommonCacheProvider;
 import com.jythonui.server.defa.GetClientProperties;
 import com.jythonui.server.defa.StorageRealmRegistryFactory;
 import com.jythonui.server.defadata.DefaDataImpl;
-import com.jythonui.server.dict.IDictOfLocalEntries;
-import com.jythonui.server.dict.IDictOfLocalEntries.DictEntry;
+import com.jythonui.server.dict.DictEntry;
+import com.jythonui.server.dict.GetVatTaxes;
 import com.jythonui.server.dict.IGetLocalizedDict;
 import com.jythonui.server.dict.ListOfCountries;
 import com.jythonui.server.dict.ReadDict;
@@ -111,10 +114,15 @@ public class JythonServerService {
                     Singleton.class);
             bind(IXMLToMap.class).to(XMLMap.class).in(Singleton.class);
             bind(IXMLHelper.class).to(XMLHelper.class).in(Singleton.class);
-            bind(IXMLHelper.class).annotatedWith(Names.named(ISharedConsts.XMLHELPERCACHED)).to(XMLHelperCached.class).in(Singleton.class);
-            bind(IDictOfLocalEntries.class)
+            bind(IXMLHelper.class)
+                    .annotatedWith(Names.named(ISharedConsts.XMLHELPERCACHED))
+                    .to(XMLHelperCached.class).in(Singleton.class);
+            bind(IGetLocalizedDict.class)
                     .annotatedWith(Names.named(IConsts.COUNTRIESDICT))
                     .to(ListOfCountries.class).in(Singleton.class);
+            bind(IGetLocalizedDict.class)
+                    .annotatedWith(Names.named(IConsts.VATDICT))
+                    .to(GetVatTaxes.class).in(Singleton.class);
             bind(IStorageMemContainerFactory.class).to(
                     MemStorageCacheFactory.class).in(Singleton.class);
             bind(IDefaultData.class).to(DefaDataImpl.class).in(Singleton.class);
@@ -127,6 +135,10 @@ public class JythonServerService {
             bind(IStorageRegistryFactory.class).to(
                     StorageRealmRegistryFactory.class).in(Singleton.class);
             bind(IAddNewBlob.class).to(AddNewBlob.class).in(Singleton.class);
+            // GetInstanceObjectId extends UtilHelper implements
+            // IGetInstanceOObjectId
+            bind(IGetInstanceOObjectIdCache.class).to(GetInstanceObjectId.class).in(
+                    Singleton.class);
         }
 
         @Provides
@@ -150,28 +162,13 @@ public class JythonServerService {
         }
 
         @Provides
-        @Named(IConsts.COUNTRIESDICT)
-        @Singleton
-        IGetLocalizedDict getListOfCountries(
-                @Named(IConsts.COUNTRIESDICT) final IDictOfLocalEntries iList) {
-            return new IGetLocalizedDict() {
-
-                @Override
-                public DictEntry[] getList() {
-                    return iList.getList(Util.getLocale());
-                }
-
-            };
-        }
-
-        @Provides
         @Named(IConsts.TITLESDICT)
         @Singleton
         IGetLocalizedDict getListOfTitles(final IGetResourceMap iGet) {
             return new IGetLocalizedDict() {
 
                 @Override
-                public DictEntry[] getList() {
+                public List<DictEntry> getList() {
                     return ReadDict.getList(iGet, IConsts.TITLESDICT);
                 }
 
@@ -185,10 +182,23 @@ public class JythonServerService {
             return new IGetLocalizedDict() {
 
                 @Override
-                public DictEntry[] getList() {
+                public List<DictEntry> getList() {
                     return ReadDict.getList(iGet, IConsts.IDTYPEDICT);
                 }
 
+            };
+        }
+
+        @Provides
+        @Named(IConsts.ROLES)
+        @Singleton
+        IGetLocalizedDict getListOfDefaultRoles(final IGetResourceMap iGet) {
+            return new IGetLocalizedDict() {
+
+                @Override
+                public List<DictEntry> getList() {
+                    return ReadDict.getList(iGet, IConsts.ROLES);
+                }
             };
         }
 
@@ -199,7 +209,7 @@ public class JythonServerService {
             return new IGetLocalizedDict() {
 
                 @Override
-                public DictEntry[] getList() {
+                public List<DictEntry> getList() {
                     return ReadDict.getList(iGet, IConsts.PAYMENTDICT);
                 }
 
