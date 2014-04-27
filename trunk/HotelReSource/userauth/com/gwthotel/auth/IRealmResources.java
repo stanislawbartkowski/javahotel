@@ -12,12 +12,12 @@
  */
 package com.gwthotel.auth;
 
-import com.gwthotel.admin.IHotelAdmin;
+import com.jython.serversecurity.IOObjectAdmin;
 import com.jythonui.server.getmess.IGetLogMess;
 
 public interface IRealmResources {
         
-    IHotelAdmin getAdmin();
+    IOObjectAdmin getAdmin();
     
     IGetLogMess getLogMess();
 }
