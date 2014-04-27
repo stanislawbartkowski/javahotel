@@ -20,10 +20,6 @@ import javax.persistence.EntityManagerFactory;
 
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import com.gwthotel.admin.IAppInstanceHotel;
-import com.gwthotel.admin.IHotelAdmin;
-import com.gwthotel.admin.jpa.HotelAdminProvider;
-import com.gwthotel.admin.jpa.HotelAppInstanceProvider;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.IGetAutomPatterns;
 import com.gwthotel.hotel.IHotelObjectGenSym;
@@ -57,6 +53,10 @@ import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.gwtmodel.mapcache.SimpleMapCacheFactory;
 import com.gwtmodel.table.common.dateutil.ISetTestToday;
+import com.jython.serversecurity.IOObjectAdmin;
+import com.jython.serversecurity.instance.IAppInstanceOObject;
+import com.jython.serversecurity.jpa.OObjectAdminInstance;
+import com.jython.serversecurity.jpa.OObjectAdminJpa;
 import com.jython.ui.server.jpastoragekey.BlobEntryJpaHandler;
 import com.jython.ui.server.jpastoragekey.IStorageJpaRegistryFactory;
 import com.jython.ui.server.jpastoragekey.StorageJpaRegistryFactory;
@@ -102,8 +102,8 @@ public class ServerService {
                     StorageRealmRegistryFactory.class).in(Singleton.class);
             bind(EntityManagerFactory.class).toProvider(
                     EntityManagerFactoryProvider.class).in(Singleton.class);
-            bind(IHotelAdmin.class).toProvider(HotelAdminProvider.class).in(
-                    Singleton.class);
+//            bind(IHotelAdmin.class).toProvider(HotelAdminProvider.class).in(
+//                    Singleton.class);
             bind(Mess.class).in(Singleton.class);
             bind(IGetResourceJNDI.class).to(GetResourceJNDI.class).in(
                     Singleton.class);
@@ -120,8 +120,8 @@ public class ServerService {
                             Singleton.class);
             bind(IHotelRooms.class).toProvider(HotelRoomsProvider.class).in(
                     Singleton.class);
-            bind(IAppInstanceHotel.class).toProvider(
-                    HotelAppInstanceProvider.class).in(Singleton.class);
+//            bind(IAppInstanceHotel.class).toProvider(
+//                    HotelAppInstanceProvider.class).in(Singleton.class);
             bind(IGetAutomPatterns.class).to(GetAutomPatterns.class).in(
                     Singleton.class);
 
@@ -139,6 +139,10 @@ public class ServerService {
             // common
             bind(IStorageJpaRegistryFactory.class).to(
                     StorageJpaRegistryFactory.class).in(Singleton.class);
+            bind(IAppInstanceOObject.class).to(OObjectAdminInstance.class).in(
+                    Singleton.class);
+            bind(IOObjectAdmin.class).to(OObjectAdminJpa.class).in(
+                    Singleton.class);
             bind(IStorageRegistryFactory.class).to(
                     StorageRealmRegistryFactory.class).in(Singleton.class);
             bind(ISemaphore.class).to(SemaphoreSynch.class).in(Singleton.class);
