@@ -12,41 +12,15 @@
  */
 package com.jython.ui;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import guice.ServiceInjector;
-
-import java.math.BigDecimal;
-import java.util.Date;
-
-import javax.inject.Inject;
 
 import org.junit.After;
 import org.junit.Before;
 
-import com.gwtmodel.table.common.dateutil.DateFormatUtil;
-import com.gwtmodel.table.common.dateutil.ISetTestToday;
-import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.jython.ui.server.datastore.IDateLineOp;
 import com.jython.ui.server.datastore.IDateRecordOp;
 import com.jython.ui.server.datastore.IPersonOp;
-import com.jythonui.server.IDefaultData;
-import com.jythonui.server.IJythonUIServer;
-import com.jythonui.server.dict.IGetLocalizedDict;
 import com.jythonui.server.holder.Holder;
-import com.jythonui.server.holder.SHolder;
-import com.jythonui.server.registry.IStorageRegistryFactory;
-import com.jythonui.server.resbundle.IAppMess;
-import com.jythonui.server.security.ISecurity;
-import com.jythonui.server.semaphore.ISemaphore;
-import com.jythonui.server.storage.blob.IBlobHandler;
-import com.jythonui.server.storage.gensym.ISymGenerator;
-import com.jythonui.server.storage.seq.ISequenceRealmGen;
-import com.jythonui.server.xml.IXMLTransformer;
-import com.jythonui.shared.DialogFormat;
-import com.jythonui.shared.DialogInfo;
-import com.jythonui.shared.DialogVariables;
-import com.jythonui.shared.RequestContext;
 import com.jythonui.test.CommonTestHelper;
 
 /**
@@ -70,6 +44,7 @@ public class TestHelper extends CommonTestHelper {
 
     @Before
     public void setUp() {
+        iTest = ServiceInjector.constructITestEnhancer();
         iTest.beforeTest();
         Holder.setAuth(false);
         putLocale("pl");
