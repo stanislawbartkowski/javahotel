@@ -18,8 +18,6 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import com.google.inject.Inject;
-import com.gwthotel.admin.IAppInstanceHotel;
-import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admin.ejblocator.IBeanLocator;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.bill.ICustomerBills;
@@ -32,6 +30,8 @@ import com.gwthotel.hotel.reservationop.IReservationOp;
 import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.shared.IHotelConsts;
+import com.jython.serversecurity.IOObjectAdmin;
+import com.jython.serversecurity.instance.IAppInstanceOObject;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.UtilHelper;
@@ -85,8 +85,13 @@ public class EjbLocatorGlassfish extends UtilHelper implements IBeanLocator {
     }
 
     @Override
-    public IHotelAdmin getHotelAdmin() {
-        return construct(IHotelConsts.HOTELADMINEJBJNDI);
+    public IOObjectAdmin getObjectAdmin() {
+        return construct(ISharedConsts.COMMONOBJECTADMINJNDI);
+    }
+    
+    @Override
+    public IAppInstanceOObject getAppInstanceObject() {
+        return construct(ISharedConsts.COMMONAPPINSTANCEJNDI);
     }
 
     @Override
@@ -122,11 +127,6 @@ public class EjbLocatorGlassfish extends UtilHelper implements IBeanLocator {
     @Override
     public IHotelCustomers getHotelCustomers() {
         return construct(IHotelConsts.HOTELCUSTOMERSJNDI);
-    }
-
-    @Override
-    public IAppInstanceHotel getAppInstanceHotel() {
-        return construct(IHotelConsts.HOTELADMININSTANCEEJBJNDI);
     }
 
     @Override

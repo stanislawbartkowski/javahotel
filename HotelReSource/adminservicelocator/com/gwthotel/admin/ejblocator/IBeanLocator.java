@@ -12,8 +12,6 @@
  */
 package com.gwthotel.admin.ejblocator;
 
-import com.gwthotel.admin.IAppInstanceHotel;
-import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.bill.ICustomerBills;
 import com.gwthotel.hotel.customer.IHotelCustomers;
@@ -24,29 +22,31 @@ import com.gwthotel.hotel.reservation.IReservationForm;
 import com.gwthotel.hotel.reservationop.IReservationOp;
 import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.IHotelServices;
+import com.jython.serversecurity.IOObjectAdmin;
+import com.jython.serversecurity.instance.IAppInstanceOObject;
 import com.jythonui.server.storage.blob.IBlobHandler;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 import com.jythonui.server.storage.seq.ISequenceRealmGen;
 
 public interface IBeanLocator {
-    
-    IHotelAdmin getHotelAdmin();
-    
+
+    IOObjectAdmin getObjectAdmin();
+
+    IAppInstanceOObject getAppInstanceObject();
+
     IStorageRealmRegistry getStorageRealm();
 
     IBlobHandler getBlobHandler();
 
     IHotelServices getHotelServices();
-    
+
     IHotelPriceList getHotelPriceList();
 
     IHotelPriceElem getHotelPriceElem();
 
     IHotelRooms getHotelRooms();
-    
-    IHotelCustomers getHotelCustomers();
 
-    IAppInstanceHotel getAppInstanceHotel();
+    IHotelCustomers getHotelCustomers();
 
     ISequenceRealmGen getSequenceRealmGen();
 
@@ -59,5 +59,5 @@ public interface IBeanLocator {
     ICustomerBills getCustomerBills();
 
     IPaymentBillOp getBillPaymentOp();
-    
+
 }

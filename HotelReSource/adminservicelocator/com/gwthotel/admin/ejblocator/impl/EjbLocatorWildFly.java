@@ -21,8 +21,6 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import com.google.inject.Inject;
-import com.gwthotel.admin.IAppInstanceHotel;
-import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admin.ejblocator.IBeanLocator;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.bill.ICustomerBills;
@@ -35,6 +33,8 @@ import com.gwthotel.hotel.reservationop.IReservationOp;
 import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.shared.IHotelConsts;
+import com.jython.serversecurity.IOObjectAdmin;
+import com.jython.serversecurity.instance.IAppInstanceOObject;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.UtilHelper;
@@ -53,8 +53,10 @@ public class EjbLocatorWildFly extends UtilHelper implements IBeanLocator {
     @Inject
     public EjbLocatorWildFly(IJythonUIServerProperties iServer) {
         this.iServer = iServer;
-        jndiM.put(IHotelConsts.HOTELADMINEJBJNDI,
-                "HotelAdminEJB!com.gwthotel.admin.IHotelAdmin");
+        jndiM.put(ISharedConsts.COMMONAPPINSTANCEJNDI,
+                "AppInstanceOObjectEJB!com.jython.serversecurity.instance.IAppInstanceOObject");
+        jndiM.put(ISharedConsts.COMMONOBJECTADMINJNDI,
+                "OObjectAdminEJB!com.jython.serversecurity.IOObjectAdmin");
         jndiM.put(
                 ISharedConsts.COMMONREGISTRYBEANJNDI,
                 "StorageJpaRegistryEJB!com.jythonui.server.storage.registry.IStorageRealmRegistry");
@@ -70,8 +72,6 @@ public class EjbLocatorWildFly extends UtilHelper implements IBeanLocator {
                 "HotelRoomsEJB!com.gwthotel.hotel.rooms.IHotelRooms");
         jndiM.put(IHotelConsts.HOTELCUSTOMERSJNDI,
                 "HotelCustomersEJB!com.gwthotel.hotel.customer.IHotelCustomers");
-        jndiM.put(IHotelConsts.HOTELADMININSTANCEEJBJNDI,
-                "HotelAdminInstanceEJB!com.gwthotel.admin.IAppInstanceHotel");
         jndiM.put(ISharedConsts.COMMONSEQGENJNDI,
                 "SequenceGenRealmEJB!com.jythonui.server.storage.seq.ISequenceRealmGen");
         jndiM.put(IHotelConsts.HOTELRESERVATIONJNDI,
@@ -114,9 +114,15 @@ public class EjbLocatorWildFly extends UtilHelper implements IBeanLocator {
         return null;
     }
 
+    
     @Override
-    public IHotelAdmin getHotelAdmin() {
-        return construct(IHotelConsts.HOTELADMINEJBJNDI);
+    public IOObjectAdmin getObjectAdmin() {
+        return construct(ISharedConsts.COMMONOBJECTADMINJNDI);
+    }
+    
+    @Override
+    public IAppInstanceOObject getAppInstanceObject() {
+        return construct(ISharedConsts.COMMONAPPINSTANCEJNDI);
     }
 
     @Override
@@ -158,11 +164,6 @@ public class EjbLocatorWildFly extends UtilHelper implements IBeanLocator {
     }
 
     @Override
-    public IAppInstanceHotel getAppInstanceHotel() {
-        return construct(IHotelConsts.HOTELADMININSTANCEEJBJNDI);
-    }
-
-    @Override
     public ISequenceRealmGen getSequenceRealmGen() {
         return construct(ISharedConsts.COMMONSEQGENJNDI);
     }
@@ -191,4 +192,5 @@ public class EjbLocatorWildFly extends UtilHelper implements IBeanLocator {
     public IPaymentBillOp getBillPaymentOp() {
         return construct(IHotelConsts.HOTELPAYMENTOPJNDI);
     }
+
 }
