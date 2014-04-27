@@ -12,11 +12,8 @@
  */
 package com.gwthotel.hotel.jpa.customers;
 
-import java.util.logging.Logger;
-
 import javax.persistence.EntityManager;
 
-import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.HUtils;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.customer.HotelCustomer;
@@ -27,8 +24,8 @@ import com.gwthotel.hotel.jpa.JUtils;
 import com.gwthotel.hotel.jpa.entities.EHotelCustomer;
 import com.gwthotel.mess.IHError;
 import com.gwthotel.mess.IHMess;
+import com.jython.serversecurity.OObjectId;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
-import com.jythonui.shared.JythonUIFatal;
 
 class HotelJpaCustomers extends AbstractJpaCrud<HotelCustomer, EHotelCustomer>
         implements IHotelCustomers {
@@ -41,7 +38,7 @@ class HotelJpaCustomers extends AbstractJpaCrud<HotelCustomer, EHotelCustomer>
 
     @Override
     protected HotelCustomer toT(EHotelCustomer sou, EntityManager em,
-            HotelId hotel) {
+            OObjectId hotel) {
         HotelCustomer ho = new HotelCustomer();
         toTProperties(HUtils.getCustomerFields(), ho, sou);
         ho.setSex(sou.getSex());
@@ -50,13 +47,13 @@ class HotelJpaCustomers extends AbstractJpaCrud<HotelCustomer, EHotelCustomer>
     }
 
     @Override
-    protected EHotelCustomer constructE(EntityManager em, HotelId hotel) {
+    protected EHotelCustomer constructE(EntityManager em, OObjectId hotel) {
         return new EHotelCustomer();
     }
 
     @Override
     protected void toE(EHotelCustomer dest, HotelCustomer sou,
-            EntityManager em, HotelId hotel) {
+            EntityManager em, OObjectId hotel) {
         toEProperties(HUtils.getCustomerFields(), dest, sou);
         if ((sou.getDoctype() == 0) || (sou.getSex() == 0)) {
             String mess = lMess.getMess(IHError.HERROR022,
@@ -68,7 +65,7 @@ class HotelJpaCustomers extends AbstractJpaCrud<HotelCustomer, EHotelCustomer>
     }
 
     @Override
-    protected void beforedeleteElem(EntityManager em, HotelId hotel,
+    protected void beforedeleteElem(EntityManager em, OObjectId hotel,
             EHotelCustomer elem) {
         String[] lQuery = { "deleteGuestForCustomer",
                 "deleteAllReservationDetailsForCustomer" };
@@ -76,7 +73,7 @@ class HotelJpaCustomers extends AbstractJpaCrud<HotelCustomer, EHotelCustomer>
     }
 
     @Override
-    protected void afterAddChange(EntityManager em, HotelId hotel,
+    protected void afterAddChange(EntityManager em, OObjectId hotel,
             HotelCustomer prop, EHotelCustomer elem, boolean add) {
     }
 

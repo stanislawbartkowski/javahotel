@@ -20,9 +20,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
-import com.gwthotel.admin.HotelId;
 import com.gwthotel.admin.holder.HHolder;
-import com.gwthotel.admin.jpa.PropUtils;
 import com.gwthotel.hotel.HUtils;
 import com.gwthotel.hotel.bill.CustomerBill;
 import com.gwthotel.hotel.jpa.entities.ECustomerBill;
@@ -41,6 +39,9 @@ import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwthotel.shared.PropDescription;
 import com.gwtmodel.table.common.CUtil;
+import com.jython.serversecurity.OObjectId;
+import com.jython.serversecurity.jpa.PropUtils;
+import com.jythonui.server.RUtils;
 import com.jythonui.shared.JythonUIFatal;
 
 public class JUtils {
@@ -63,7 +64,7 @@ public class JUtils {
         return ho;
     }
 
-    public static void copyToEDict(HotelId hotel, EHotelDict pers,
+    public static void copyToEDict(OObjectId hotel, EHotelDict pers,
             PropDescription elem) {
         PropUtils.copyToEDict(pers, elem);
         pers.setHotel(hotel.getId());
@@ -74,7 +75,7 @@ public class JUtils {
     }
 
     public static <E extends EHotelDict> E getElem(EntityManager em,
-            HotelId hotel, String qName, String name) {
+            OObjectId hotel, String qName, String name) {
         Query q = createHotelQuery(em, hotel, qName);
         q.setParameter(2, name);
         try {
@@ -87,12 +88,12 @@ public class JUtils {
     }
 
     public static <E extends EHotelDict> E getElemE(EntityManager em,
-            HotelId hotel, String qName, String name) {
+            OObjectId hotel, String qName, String name) {
         E e = getElem(em, hotel, qName, name);
         if (e != null)
             return e;
         String mess = HHolder.getHM().getMess(IHError.HERROR021,
-                IHMess.OBJECTBYNAMECANNOTBEFOUND, name, hotel.getHotel());
+                IHMess.OBJECTBYNAMECANNOTBEFOUND, name, hotel.getObject());
         log.log(Level.SEVERE, mess, e);
         throw new JythonUIFatal(mess);
     }
@@ -104,7 +105,7 @@ public class JUtils {
         return q;
     }
 
-    public static Query createHotelQuery(EntityManager em, HotelId hotel,
+    public static Query createHotelQuery(EntityManager em, OObjectId hotel,
             String query) {
         return createObjectQuery(em, hotel.getId(), query);
     }
@@ -121,29 +122,29 @@ public class JUtils {
         // Important: otherwise consecutive deletes do not see the change
     }
 
-    public static EHotelServices findService(EntityManager em, HotelId hotel,
+    public static EHotelServices findService(EntityManager em, OObjectId hotel,
             String s) {
         return getElemE(em, hotel, "findOneService", s);
     }
 
     public static EHotelPriceList findPriceList(EntityManager em,
-            HotelId hotel, String s) {
+            OObjectId hotel, String s) {
         return getElemE(em, hotel, "findOnePriceList", s);
     }
 
-    public static EHotelCustomer findCustomer(EntityManager em, HotelId hotel,
+    public static EHotelCustomer findCustomer(EntityManager em, OObjectId hotel,
             String s) {
         EHotelCustomer cu = getElemE(em, hotel, "findOneCustomer", s);
         return cu;
     }
 
-    public static EHotelRoom findRoom(EntityManager em, HotelId hotel, String s) {
+    public static EHotelRoom findRoom(EntityManager em, OObjectId hotel, String s) {
         EHotelRoom room = getElemE(em, hotel, "findOneRoom", s);
         return room;
     }
 
     public static EHotelReservation findReservation(EntityManager em,
-            HotelId hotel, String s) {
+            OObjectId hotel, String s) {
         EHotelReservation res = getElemE(em, hotel, "findOneReservation", s);
         return res;
     }
@@ -157,7 +158,7 @@ public class JUtils {
         }
     }
 
-    public static void runQueryForHotels(EntityManager em, HotelId hotel,
+    public static void runQueryForHotels(EntityManager em, OObjectId hotel,
             String... remQuery) {
         runQueryForObject(em, hotel.getId(), remQuery);
     }
@@ -191,7 +192,7 @@ public class JUtils {
             det.setPriceListName(r.getPriceListName().getName());
     }
 
-    public static void ToEReservationDetails(EntityManager em, HotelId hotel,
+    public static void ToEReservationDetails(EntityManager em, OObjectId hotel,
             EHotelReservationDetail dest, ReservationPaymentDetail sou) {
         String roomName = sou.getRoomName();
         if (!CUtil.EmptyS(roomName)) {
@@ -232,7 +233,7 @@ public class JUtils {
         dest.setPerperson(sou.isPerperson());
     }
 
-    public static void toCustomerBill(EntityManager em, HotelId hotel,
+    public static void toCustomerBill(EntityManager em, OObjectId hotel,
             CustomerBill dest, ECustomerBill sou) {
         dest.setPayer(sou.getCustomer().getName());
         dest.setReseName(sou.getReservation().getName());
@@ -240,6 +241,6 @@ public class JUtils {
         PropUtils.copyToProp(dest, sou);
         dest.setIssueDate(sou.getIssueDate());
         dest.setDateOfPayment(sou.getDateOfPayment());
-        HUtils.retrieveCreateModif(dest, sou);
+        RUtils.retrieveCreateModif(dest, sou);
     }
 }

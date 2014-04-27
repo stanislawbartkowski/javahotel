@@ -15,7 +15,7 @@ package com.gwthotel.hotel.jpa.entities;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
-import com.gwthotel.admin.jpa.entities.EDictEntry;
+import com.jython.serversecurity.jpa.entities.EDictEntry;
 
 @MappedSuperclass
 public abstract class EHotelDict extends EDictEntry {
