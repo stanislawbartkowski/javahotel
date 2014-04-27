@@ -15,6 +15,8 @@ package com.jythonui.server.holder;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.jython.serversecurity.IGetInstanceOObjectIdCache;
+import com.jython.serversecurity.IOObjectAdmin;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IDefaultData;
 import com.jythonui.server.IGetConnection;
@@ -29,7 +31,6 @@ import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.resbundle.IAppMess;
 import com.jythonui.server.security.ISecurity;
 import com.jythonui.server.security.ISecurityConvert;
-import com.jythonui.server.xml.IXMLToXMap;
 import com.jythonui.server.xml.IXMLTransformer;
 import com.jythonui.shared.RequestContext;
 
@@ -86,6 +87,20 @@ public class Holder {
     @Inject
     @Named(IConsts.PAYMENTDICT)
     private static IGetLocalizedDict iListP;
+
+    @Inject
+    @Named(IConsts.ROLES)
+    private static IGetLocalizedDict iListR;
+
+    @Inject
+    @Named(IConsts.VATDICT)
+    private static IGetLocalizedDict iListV;
+
+    @Inject
+    private static IOObjectAdmin iAdmin;
+
+    @Inject
+    private static IGetInstanceOObjectIdCache iICache;
 
     @Inject
     private static IDefaultData dData;
@@ -160,6 +175,14 @@ public class Holder {
         return iListP;
     }
 
+    public static IGetLocalizedDict IGetListOfDefaultRoles() {
+        return iListR;
+    }
+
+    public static IGetLocalizedDict IGetListOfVat() {
+        return iListV;
+    }
+
     public static IDefaultData getDefaultData() {
         return dData;
     }
@@ -174,6 +197,14 @@ public class Holder {
 
     public static IJythonRPCNotifier getRPC() {
         return iRPC;
+    }
+
+    public static IOObjectAdmin getAdmin() {
+        return iAdmin;
+    }
+
+    public static IGetInstanceOObjectIdCache getInstanceCache() {
+        return iICache;
     }
 
 }

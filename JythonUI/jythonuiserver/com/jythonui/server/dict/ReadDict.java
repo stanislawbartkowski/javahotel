@@ -18,7 +18,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.jythonui.server.IGetResourceMap;
-import com.jythonui.server.dict.IDictOfLocalEntries.DictEntry;
 import com.jythonui.server.resource.IReadResource;
 import com.jythonui.server.resource.ReadResourceFactory;
 
@@ -28,18 +27,18 @@ public class ReadDict {
     private static IReadResource iRead = new ReadResourceFactory()
             .constructLoader(ReadDict.class.getClassLoader());
 
-    public static DictEntry[] getList(IGetResourceMap iGet, String resName) {
+    public static List<DictEntry> getList(IGetResourceMap iGet, String resName) {
         List<DictEntry> cList = new ArrayList<DictEntry>();
         Map<String, String> mess = iGet
                 .getResourceMap(iRead, dictName, resName);
-        for (Entry e : mess.entrySet()) {
+        for (Entry<String, String> e : mess.entrySet()) {
             String key = (String) e.getKey();
             String name = (String) e.getValue();
             DictEntry c = new DictEntry();
-            c.setKey(key);
-            c.setName(name);
+            c.setName(key);
+            c.setDescription(name);
             cList.add(c);
         }
-        return (DictEntry[]) cList.toArray(new DictEntry[cList.size()]);
+        return cList;
     }
 }
