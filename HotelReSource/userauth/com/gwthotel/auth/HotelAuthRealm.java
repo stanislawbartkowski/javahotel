@@ -25,20 +25,19 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 
-import com.gwthotel.admin.HotelRoles;
-import com.gwthotel.admin.IHotelAdmin;
-import com.gwthotel.hotel.IGetInstanceHotelId;
 import com.gwthotel.mess.IHError;
 import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.table.common.CUtil;
-import com.jythonui.server.logmess.IErrorCode;
+import com.jython.serversecurity.IGetInstanceOObjectIdCache;
+import com.jython.serversecurity.IOObjectAdmin;
+import com.jython.serversecurity.OObjectRoles;
 import com.jythonui.server.security.token.PasswordSecurityToken;
 
 public class HotelAuthRealm extends AuthorizingRealm {
 
     private IRealmResources iRes;
-    private IGetInstanceHotelId iGet;
+    private IGetInstanceOObjectIdCache iGet;
 
     /**
      * Injected through 'ini' file
@@ -54,7 +53,7 @@ public class HotelAuthRealm extends AuthorizingRealm {
      * 
      * @param iGet
      */
-    protected void setiGet(IGetInstanceHotelId iGet) {
+    protected void setiGet(IGetInstanceOObjectIdCache iGet) {
         this.iGet = iGet;
     }
 
@@ -63,11 +62,11 @@ public class HotelAuthRealm extends AuthorizingRealm {
         setName(IHotelConsts.HOTELREALM);
     }
 
-    private IHotelAdmin getI() {
+    private IOObjectAdmin getI() {
         return iRes.getAdmin();
     }
 
-    private IGetInstanceHotelId getG() {
+    private IGetInstanceOObjectIdCache getG() {
         return iGet;
     }
 
@@ -104,14 +103,15 @@ public class HotelAuthRealm extends AuthorizingRealm {
             // TODO: not expected, more verbose
             throwNotExist(IHError.HERROR002, IHMess.AUTHHOTELISNULL, person);
         }
-        List<HotelRoles> roles = getI().getListOfRolesForHotel(
+        List<OObjectRoles> roles = getI().getListOfRolesForObject(
                 getG().getInstance(instanceId, person), hotel);
         if (roles == null) {
-            String mess = iRes.getLogMess().getMess(IHError.HERROR023, IHMess.AUTHCANNOTGETROLES, hotel,person);
-            throw new AuthenticationException(mess);            
+            String mess = iRes.getLogMess().getMess(IHError.HERROR023,
+                    IHMess.AUTHCANNOTGETROLES, hotel, person);
+            throw new AuthenticationException(mess);
         }
         List<String> hotelroles = null;
-        for (HotelRoles ro : roles) {
+        for (OObjectRoles ro : roles) {
             if (ro.getObject().getName().equals(person)) {
                 hotelroles = ro.getRoles();
                 break;
