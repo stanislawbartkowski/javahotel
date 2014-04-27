@@ -22,13 +22,13 @@ import javax.inject.Named;
 
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.VoidWork;
-import com.gwthotel.admin.HotelId;
 import com.gwthotel.admin.gae.DictUtil;
-import com.gwthotel.admin.gae.entities.EHotel;
 import com.gwthotel.hotel.prices.HotelPriceElem;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
 import com.gwthotel.hotel.service.gae.entities.EHotelPriceElem;
 import com.gwthotel.shared.IHotelConsts;
+import com.jython.serversecurity.OObjectId;
+import com.jython.ui.server.gae.security.entities.EObject;
 import com.jythonui.server.getmess.IGetLogMess;
 
 public class HotelPriceElemImpl implements IHotelPriceElem {
@@ -44,14 +44,14 @@ public class HotelPriceElemImpl implements IHotelPriceElem {
         this.lMess = lMess;
     }
 
-    private EHotel findEHotel(HotelId hotel) {
+    private EObject findEHotel(OObjectId hotel) {
         return DictUtil.findEHotel(lMess, hotel);
     }
 
     @Override
-    public List<HotelPriceElem> getPricesForPriceList(HotelId hotel,
+    public List<HotelPriceElem> getPricesForPriceList(OObjectId hotel,
             String pricelist) {
-        EHotel ho = findEHotel(hotel);
+        EObject ho = findEHotel(hotel);
         List<EHotelPriceElem> li = ofy().load().type(EHotelPriceElem.class)
                 .ancestor(ho).filter("pricelistName == ", pricelist).list();
         List<HotelPriceElem> outList = new ArrayList<HotelPriceElem>();
@@ -70,9 +70,9 @@ public class HotelPriceElemImpl implements IHotelPriceElem {
     }
 
     @Override
-    public void savePricesForPriceList(final HotelId hotel,
+    public void savePricesForPriceList(final OObjectId hotel,
             final String pricelist, final List<HotelPriceElem> pList) {
-        final EHotel ho = findEHotel(hotel);
+        final EObject ho = findEHotel(hotel);
         final List<EHotelPriceElem> li = ofy().load()
                 .type(EHotelPriceElem.class).ancestor(ho)
                 .filter("pricelistName == ", pricelist).list();
@@ -100,8 +100,8 @@ public class HotelPriceElemImpl implements IHotelPriceElem {
     }
 
     @Override
-    public void deleteAll(final HotelId hotel) {
-        final EHotel ho = findEHotel(hotel);
+    public void deleteAll(final OObjectId hotel) {
+        final EObject ho = findEHotel(hotel);
         ofy().transact(new VoidWork() {
 
             @Override

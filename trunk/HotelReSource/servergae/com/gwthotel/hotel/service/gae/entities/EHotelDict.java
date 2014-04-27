@@ -14,18 +14,18 @@ package com.gwthotel.hotel.service.gae.entities;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Parent;
-import com.gwthotel.admin.gae.entities.EDictionary;
-import com.gwthotel.admin.gae.entities.EHotel;
-import com.gwthotel.admin.gae.entities.EInstance;
+import com.jython.ui.server.gae.security.entities.EDictionary;
+import com.jython.ui.server.gae.security.entities.EInstance;
+import com.jython.ui.server.gae.security.entities.EObject;
 
 public abstract class EHotelDict extends EDictionary {
 
     @Parent
-    private Key<EHotel> hotel;
+    private Key<EObject> hotel;
 
-    public void setHotel(EHotel ho) {
+    public void setHotel(EObject ho) {
         Key<EInstance> pa = ho.getI();
-        hotel = Key.create(pa, EHotel.class, ho.getId());
+        hotel = Key.create(pa, EObject.class, ho.getId());
     }
 
     public boolean isHotelSet() {

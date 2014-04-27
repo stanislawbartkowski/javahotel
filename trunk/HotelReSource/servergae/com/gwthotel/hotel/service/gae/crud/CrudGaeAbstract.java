@@ -18,9 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.googlecode.objectify.VoidWork;
-import com.gwthotel.admin.HotelId;
 import com.gwthotel.admin.gae.DictUtil;
-import com.gwthotel.admin.gae.entities.EHotel;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.IHotelProp;
@@ -29,6 +27,9 @@ import com.gwthotel.hotel.service.gae.entities.EHotelPriceElem;
 import com.gwthotel.hotel.service.gae.entities.EHotelRoomServices;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwthotel.shared.PropDescription;
+import com.jython.serversecurity.OObjectId;
+import com.jython.ui.server.gae.security.entities.EObject;
+import com.jython.ui.server.gae.security.impl.EntUtil;
 import com.jythonui.server.BUtil;
 import com.jythonui.server.getmess.IGetLogMess;
 
@@ -48,15 +49,15 @@ abstract public class CrudGaeAbstract<T extends PropDescription, E extends EHote
         this.iGen = iGen;
     }
 
-    protected EHotel findEHotel(HotelId hotel) {
+    protected EObject findEHotel(OObjectId hotel) {
         return DictUtil.findEHotel(lMess, hotel);
     }
 
-    protected abstract T constructProp(EHotel ho, E e);
+    protected abstract T constructProp(EObject ho, E e);
 
     protected abstract E constructE();
 
-    protected abstract void toE(EHotel ho, E e, T t);
+    protected abstract void toE(EObject ho, E e, T t);
 
     protected class DeleteItem {
         public List<EHotelPriceElem> pList = null;
@@ -69,36 +70,36 @@ abstract public class CrudGaeAbstract<T extends PropDescription, E extends EHote
                 ofy().delete().entities(sList);
         }
 
-        public void readAllRoomServices(EHotel eh) {
+        public void readAllRoomServices(EObject eh) {
             sList = ofy().load().type(EHotelRoomServices.class).ancestor(eh)
                     .list();
         }
 
-        public void readAllPriceElems(EHotel eh) {
+        public void readAllPriceElems(EObject eh) {
             pList = ofy().load().type(EHotelPriceElem.class).ancestor(eh)
                     .list();
         }
     }
 
-    protected abstract void beforeDelete(DeleteItem i, EHotel ho, E elem);
+    protected abstract void beforeDelete(DeleteItem i, EObject ho, E elem);
 
-    private T toProp(E e, EHotel ho) {
+    private T toProp(E e, EObject ho) {
         T dest = constructProp(ho, e);
-        DictUtil.toProp(dest, e);
+        EntUtil.toProp(dest, e);
         dest.setAttr(IHotelConsts.HOTELPROP, ho.getName());
         return dest;
     }
 
-    private void toEDict(E dest, T sou, EHotel hotel) {
-        DictUtil.toEDict(dest, sou);
+    private void toEDict(E dest, T sou, EObject hotel) {
+        EntUtil.toEDict(dest, sou);
         if (!dest.isHotelSet())
             dest.setHotel(hotel);
         toE(hotel, dest, sou);
     }
 
     @Override
-    public List<T> getList(HotelId hotel) {
-        EHotel eh = findEHotel(hotel);
+    public List<T> getList(OObjectId hotel) {
+        EObject eh = findEHotel(hotel);
         List<E> li = ofy().load().type(cl).ancestor(eh).list();
         List<T> outList = new ArrayList<T>();
         for (E e : li) {
@@ -109,10 +110,10 @@ abstract public class CrudGaeAbstract<T extends PropDescription, E extends EHote
     }
 
     @Override
-    public T addElem(HotelId hotel, T elem) {
+    public T addElem(OObjectId hotel, T elem) {
         final E e = constructE();
         iGen.genSym(hotel, elem, o);
-        EHotel ho = findEHotel(hotel);
+        EObject ho = findEHotel(hotel);
         toEDict(e, elem, ho);
         BUtil.setCreateModif(hotel.getUserName(), e, true);
         ofy().transact(new VoidWork() {
@@ -124,17 +125,17 @@ abstract public class CrudGaeAbstract<T extends PropDescription, E extends EHote
         return toProp(e1, ho);
     }
 
-    private E findE(EHotel eh, String name) {
+    private E findE(EObject eh, String name) {
         return DictUtil.findE(eh, name, cl);
     }
 
-    private E findService(EHotel eh, T serv) {
+    private E findService(EObject eh, T serv) {
         return findE(eh, serv.getName());
     }
 
     @Override
-    public void changeElem(HotelId hotel, T elem) {
-        EHotel ho = findEHotel(hotel);
+    public void changeElem(OObjectId hotel, T elem) {
+        EObject ho = findEHotel(hotel);
         final E serv = findService(ho, elem);
         if (serv == null) // TODO: more verbose log
             return;
@@ -148,8 +149,8 @@ abstract public class CrudGaeAbstract<T extends PropDescription, E extends EHote
     }
 
     @Override
-    public void deleteElem(HotelId hotel, T elem) {
-        EHotel ho = findEHotel(hotel);
+    public void deleteElem(OObjectId hotel, T elem) {
+        EObject ho = findEHotel(hotel);
         final E serv = findService(ho, elem);
         if (serv == null) // TODO: more verbose log
             return;
@@ -164,10 +165,11 @@ abstract public class CrudGaeAbstract<T extends PropDescription, E extends EHote
     }
 
     @Override
-    public T findElem(HotelId hotel, String name) {
-        EHotel ho = findEHotel(hotel);
+    public T findElem(OObjectId hotel, String name) {
+        EObject ho = findEHotel(hotel);
         E e = findE(ho, name);
-        if (e == null) return null;
+        if (e == null)
+            return null;
         return toProp(e, ho);
     }
 

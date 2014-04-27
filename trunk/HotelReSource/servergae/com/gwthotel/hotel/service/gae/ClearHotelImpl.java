@@ -21,9 +21,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.googlecode.objectify.VoidWork;
-import com.gwthotel.admin.HotelId;
 import com.gwthotel.admin.gae.DictUtil;
-import com.gwthotel.admin.gae.entities.EHotel;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.service.gae.entities.EBillPayment;
@@ -39,6 +37,8 @@ import com.gwthotel.hotel.service.gae.entities.EHotelServices;
 import com.gwthotel.hotel.service.gae.entities.EResDetails;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
+import com.jython.serversecurity.OObjectId;
+import com.jython.ui.server.gae.security.entities.EObject;
 import com.jythonui.server.getmess.IGetLogMess;
 
 public class ClearHotelImpl implements IClearHotel {
@@ -51,8 +51,8 @@ public class ClearHotelImpl implements IClearHotel {
     }
 
     @Override
-    public void clearObjects(HotelId hotel) {
-        final EHotel eh = DictUtil.findEHotel(lMess, hotel);
+    public void clearObjects(OObjectId hotel) {
+        final EObject eh = DictUtil.findEHotel(lMess, hotel);
         ofy().transact(new VoidWork() {
             public void vrun() {
                 // partial list
@@ -105,7 +105,7 @@ public class ClearHotelImpl implements IClearHotel {
 
     @SuppressWarnings("rawtypes")
     @Override
-    public long numberOf(HotelId hotel, HotelObjects o) {
+    public long numberOf(OObjectId hotel, HotelObjects o) {
         Class cl = getClass(o);
         boolean nof = true;
         if (nof) {

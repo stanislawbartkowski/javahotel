@@ -18,7 +18,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.googlecode.objectify.ObjectifyService;
-import com.gwthotel.admin.gae.entities.EHotel;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.pricelist.HotelPriceList;
@@ -27,6 +26,7 @@ import com.gwthotel.hotel.service.gae.crud.CrudGaeAbstract;
 import com.gwthotel.hotel.service.gae.entities.EHotelPriceElem;
 import com.gwthotel.hotel.service.gae.entities.EHotelPriceList;
 import com.gwthotel.shared.IHotelConsts;
+import com.jython.ui.server.gae.security.entities.EObject;
 import com.jythonui.server.getmess.IGetLogMess;
 
 public class HotelPriceListImpl extends
@@ -44,7 +44,7 @@ public class HotelPriceListImpl extends
     }
 
     @Override
-    protected HotelPriceList constructProp(EHotel ho, EHotelPriceList e) {
+    protected HotelPriceList constructProp(EObject ho, EHotelPriceList e) {
         HotelPriceList pr = new HotelPriceList();
         pr.setFromDate(e.getPriceFrom());
         pr.setToDate(e.getPriceTo());
@@ -57,13 +57,13 @@ public class HotelPriceListImpl extends
     }
 
     @Override
-    protected void toE(EHotel ho, EHotelPriceList e, HotelPriceList t) {
+    protected void toE(EObject ho, EHotelPriceList e, HotelPriceList t) {
         e.setPriceFrom(t.getFromDate());
         e.setPriceTo(t.getToDate());
     }
 
     @Override
-    protected void beforeDelete(DeleteItem i, EHotel ho, EHotelPriceList elem) {
+    protected void beforeDelete(DeleteItem i, EObject ho, EHotelPriceList elem) {
         if (elem != null) {
             i.pList = ofy().load().type(EHotelPriceElem.class).ancestor(ho)
                     .filter("pricelistName == ", elem.getName()).list();

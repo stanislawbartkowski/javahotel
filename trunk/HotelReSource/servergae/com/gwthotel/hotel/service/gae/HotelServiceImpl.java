@@ -19,7 +19,6 @@ import javax.inject.Named;
 
 import com.googlecode.objectify.ObjectifyService;
 import com.gwthotel.admin.gae.DictUtil;
-import com.gwthotel.admin.gae.entities.EHotel;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.service.gae.crud.CrudGaeAbstract;
@@ -29,6 +28,7 @@ import com.gwthotel.hotel.service.gae.entities.EHotelServices;
 import com.gwthotel.hotel.services.HotelServices;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.shared.IHotelConsts;
+import com.jython.ui.server.gae.security.entities.EObject;
 import com.jythonui.server.getmess.IGetLogMess;
 
 public class HotelServiceImpl extends
@@ -46,7 +46,7 @@ public class HotelServiceImpl extends
     }
 
     @Override
-    protected HotelServices constructProp(EHotel ho, EHotelServices e) {
+    protected HotelServices constructProp(EObject ho, EHotelServices e) {
         return DictUtil.toS(e);
     }
 
@@ -56,7 +56,7 @@ public class HotelServiceImpl extends
     }
 
     @Override
-    protected void toE(EHotel ho, EHotelServices e, HotelServices t) {
+    protected void toE(EObject ho, EHotelServices e, HotelServices t) {
         e.setVat(t.getAttr(IHotelConsts.VATPROP));
         e.setNoperson(t.getNoPersons());
         e.setNoChildren(t.getNoChildren());
@@ -67,7 +67,7 @@ public class HotelServiceImpl extends
     }
 
     @Override
-    protected void beforeDelete(DeleteItem i, EHotel ho, EHotelServices elem) {
+    protected void beforeDelete(DeleteItem i, EObject ho, EHotelServices elem) {
         if (elem != null) {
             i.pList = ofy().load().type(EHotelPriceElem.class).ancestor(ho)
                     .filter("serviceName == ", elem.getName()).list();

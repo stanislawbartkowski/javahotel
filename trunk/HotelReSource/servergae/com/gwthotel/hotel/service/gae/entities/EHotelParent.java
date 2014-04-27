@@ -17,8 +17,8 @@ import java.util.Date;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Parent;
-import com.gwthotel.admin.gae.entities.EHotel;
-import com.gwthotel.admin.gae.entities.EInstance;
+import com.jython.ui.server.gae.security.entities.EInstance;
+import com.jython.ui.server.gae.security.entities.EObject;
 
 abstract class EHotelParent {
 
@@ -26,17 +26,17 @@ abstract class EHotelParent {
     private Long id;
 
     @Parent
-    private Key<EHotel> hotel;
+    private Key<EObject> hotel;
 
-    public void setHotel(EHotel ho) {
+    public void setHotel(EObject ho) {
         Key<EInstance> pa = ho.getI();
-        hotel = Key.create(pa, EHotel.class, ho.getId());
+        hotel = Key.create(pa, EObject.class, ho.getId());
     }
 
     public boolean isHotelSet() {
         return hotel != null;
     }
-    
+
     private String creationPerson;
 
     private String modifPerson;
@@ -80,6 +80,5 @@ abstract class EHotelParent {
     public Long getId() {
         return id;
     }
-
 
 }
