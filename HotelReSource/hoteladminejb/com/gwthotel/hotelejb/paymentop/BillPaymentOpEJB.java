@@ -24,11 +24,10 @@ import javax.ejb.TransactionManagementType;
 import javax.interceptor.Interceptors;
 
 import com.google.inject.Inject;
-import com.gwthotel.admin.HotelId;
-import com.gwthotel.hotel.bill.ICustomerBills;
 import com.gwthotel.hotel.payment.IPaymentBillOp;
 import com.gwthotel.hotel.payment.PaymentBill;
 import com.gwthotel.shared.IHotelConsts;
+import com.jython.serversecurity.OObjectId;
 import com.jythonui.server.defa.GuiceInterceptor;
 
 @Stateless
@@ -47,19 +46,19 @@ public class BillPaymentOpEJB implements IPaymentBillOp {
     }
 
     @Override
-    public List<PaymentBill> getPaymentsForBill(HotelId hotel, String billName) {
+    public List<PaymentBill> getPaymentsForBill(OObjectId hotel, String billName) {
         return service.getPaymentsForBill(hotel, billName);
     }
 
     @Override
-    public void addPaymentForBill(HotelId hotel, String billName,
+    public void addPaymentForBill(OObjectId hotel, String billName,
             PaymentBill payment) {
         service.addPaymentForBill(hotel, billName, payment);
 
     }
 
     @Override
-    public void removePaymentForBill(HotelId hotel, String billName,
+    public void removePaymentForBill(OObjectId hotel, String billName,
             Long paymentId) {
         service.removePaymentForBill(hotel, billName, paymentId);
     }

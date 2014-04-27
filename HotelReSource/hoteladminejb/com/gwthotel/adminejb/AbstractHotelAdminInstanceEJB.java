@@ -12,23 +12,21 @@
  */
 package com.gwthotel.adminejb;
 
-import com.gwthotel.admin.AppInstanceId;
-import com.gwthotel.admin.HotelId;
-import com.gwthotel.admin.IAppInstanceHotel;
+import com.jython.serversecurity.AppInstanceId;
 
-public class AbstractHotelAdminInstanceEJB implements IAppInstanceHotel {
-
-    protected IAppInstanceHotel iApp;
-
-    @Override
-    public AppInstanceId getInstanceId(String instanceName, String userName) {
-        return iApp.getInstanceId(instanceName, userName);
-    }
-
-    @Override
-    public HotelId getHotelId(AppInstanceId instanceId, String hotelName,
-            String userName) {
-        return iApp.getHotelId(instanceId, hotelName, userName);
-    }
-
-}
+//public class AbstractHotelAdminInstanceEJB implements IAppInstanceHotel {
+//
+//    protected IAppInstanceHotel iApp;
+//
+//    @Override
+//    public AppInstanceId getInstanceId(String instanceName, String userName) {
+//        return iApp.getInstanceId(instanceName, userName);
+//    }
+//
+//    @Override
+//    public HotelId getHotelId(AppInstanceId instanceId, String hotelName,
+//            String userName) {
+//        return iApp.getHotelId(instanceId, hotelName, userName);
+//    }
+//
+//}

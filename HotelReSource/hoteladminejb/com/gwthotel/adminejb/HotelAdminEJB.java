@@ -12,31 +12,18 @@
  */
 package com.gwthotel.adminejb;
 
-import javax.ejb.EJB;
-import javax.ejb.Remote;
-import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
-import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
-import com.google.inject.Inject;
-import javax.interceptor.Interceptors;
 
-import com.gwthotel.admin.IHotelAdmin;
-import com.gwthotel.shared.IHotelConsts;
-import com.jythonui.server.defa.GuiceInterceptor;
-
-@Stateless
-@TransactionManagement(TransactionManagementType.CONTAINER)
-@TransactionAttribute(TransactionAttributeType.REQUIRED)
-@EJB(name = IHotelConsts.HOTELADMINEJBJNDI, beanInterface = IHotelAdmin.class)
-@Remote
-@Interceptors(value = { GuiceInterceptor.class })
-public class HotelAdminEJB extends AbstractHotelAdminEJB implements IHotelAdmin {
-    
-    @Inject
-    public void injectHotelAdmin(IHotelAdmin injectedHotel) {
-        iHotel = injectedHotel;
-    }
-
-}
+//@Stateless
+//@TransactionManagement(TransactionManagementType.CONTAINER)
+//@TransactionAttribute(TransactionAttributeType.REQUIRED)
+//@EJB(name = IHotelConsts.HOTELADMINEJBJNDI, beanInterface = IHotelAdmin.class)
+//@Remote
+//@Interceptors(value = { GuiceInterceptor.class })
+//public class HotelAdminEJB extends AbstractHotelAdminEJB implements IHotelAdmin {
+//    
+//    @Inject
+//    public void injectHotelAdmin(IHotelAdmin injectedHotel) {
+//        iHotel = injectedHotel;
+//    }
+//
+//}

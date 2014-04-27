@@ -21,15 +21,15 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
-import com.google.inject.Inject;
 import javax.interceptor.Interceptors;
 
-import com.gwthotel.admin.HotelId;
+import com.google.inject.Inject;
 import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.HotelServices;
 import com.gwthotel.hotelejb.AbstractHotelEJB;
 import com.gwthotel.shared.IHotelConsts;
+import com.jython.serversecurity.OObjectId;
 import com.jythonui.server.defa.GuiceInterceptor;
 
 @Stateless
@@ -50,13 +50,13 @@ public class HotelRoomsEJB extends AbstractHotelEJB<HotelRoom> implements
     }
 
     @Override
-    public void setRoomServices(HotelId hotel, String roomName,
+    public void setRoomServices(OObjectId hotel, String roomName,
             List<String> services) {
         iRooms.setRoomServices(hotel, roomName, services);
     }
 
     @Override
-    public List<HotelServices> getRoomServices(HotelId hotel, String roomName) {
+    public List<HotelServices> getRoomServices(OObjectId hotel, String roomName) {
         return iRooms.getRoomServices(hotel, roomName);
     }
 

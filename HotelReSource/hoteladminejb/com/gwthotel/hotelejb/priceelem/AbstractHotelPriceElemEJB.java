@@ -14,29 +14,29 @@ package com.gwthotel.hotelejb.priceelem;
 
 import java.util.List;
 
-import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.prices.HotelPriceElem;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
+import com.jython.serversecurity.OObjectId;
 
 abstract class AbstractHotelPriceElemEJB implements IHotelPriceElem {
 
     protected IHotelPriceElem service;
 
     @Override
-    public List<HotelPriceElem> getPricesForPriceList(HotelId hotel,
+    public List<HotelPriceElem> getPricesForPriceList(OObjectId hotel,
             String pricelist) {
         return service.getPricesForPriceList(hotel, pricelist);
     }
 
     @Override
-    public void savePricesForPriceList(HotelId hotel, String pricelist,
+    public void savePricesForPriceList(OObjectId hotel, String pricelist,
             List<HotelPriceElem> pList) {
         service.savePricesForPriceList(hotel, pricelist, pList);
 
     }
 
     @Override
-    public void deleteAll(HotelId hotel) {
+    public void deleteAll(OObjectId hotel) {
         service.deleteAll(hotel);
 
     }
