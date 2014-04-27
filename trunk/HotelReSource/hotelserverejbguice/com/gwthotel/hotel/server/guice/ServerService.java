@@ -14,10 +14,8 @@ package com.gwthotel.hotel.server.guice;
 
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import com.gwthotel.admin.IAppInstanceHotel;
-import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admin.ejblocator.IBeanLocator;
-import com.gwthotel.admin.ejblocator.impl.EjbLocatorWildFly;
+import com.gwthotel.admin.ejblocator.impl.EjbLocatorGlassfish;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.IGetAutomPatterns;
 import com.gwthotel.hotel.bill.ICustomerBills;
@@ -34,6 +32,8 @@ import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.resource.GetResourceJNDI;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.gwtmodel.mapcache.SimpleMapCacheFactory;
+import com.jython.serversecurity.IOObjectAdmin;
+import com.jython.serversecurity.instance.IAppInstanceOObject;
 import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServerProperties;
@@ -73,15 +73,15 @@ public class ServerService {
             bind(IGetAutomPatterns.class).to(GetAutomPatterns.class).in(
                     Singleton.class);
             bind(ISemaphore.class).to(SemaphoreRegistry.class).in(
-                    Singleton.class);
+                    Singleton.class);            
             bind(IGetConnection.class)
                     .toProvider(EmptyConnectionProvider.class).in(
                             Singleton.class);
-//            bind(IBeanLocator.class).to(EjbLocatorGlassfish.class).in(
+             bind(IBeanLocator.class).to(EjbLocatorGlassfish.class).in(
+             Singleton.class);
+
+//            bind(IBeanLocator.class).to(EjbLocatorWildFly.class).in(
 //                    Singleton.class);
-            
-            bind(IBeanLocator.class).to(EjbLocatorWildFly.class).in(
-                    Singleton.class);
 
             // common
             requestStatic();
@@ -125,14 +125,14 @@ public class ServerService {
 
         @Provides
         @Singleton
-        IAppInstanceHotel getAppHotel(IBeanLocator iBean) {
-            return iBean.getAppInstanceHotel();
+        IAppInstanceOObject getAppHotel(IBeanLocator iBean) {
+            return iBean.getAppInstanceObject();
         }
 
         @Provides
         @Singleton
-        IHotelAdmin getHotelAdmin(IBeanLocator iBean) {
-            return iBean.getHotelAdmin();
+        IOObjectAdmin getHotelAdmin(IBeanLocator iBean) {
+            return iBean.getObjectAdmin();
         }
 
         @Provides
@@ -178,7 +178,7 @@ public class ServerService {
 
                 @Override
                 public void hello(int what) {
-                    iSet.setTestDataToday(null);                    
+                    iSet.setTestDataToday(null);
                 }
 
             };
