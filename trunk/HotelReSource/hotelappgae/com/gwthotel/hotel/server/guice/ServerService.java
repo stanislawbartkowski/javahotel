@@ -13,10 +13,6 @@
 package com.gwthotel.hotel.server.guice;
 
 import com.google.inject.Singleton;
-import com.gwthotel.admin.IAppInstanceHotel;
-import com.gwthotel.admin.IHotelAdmin;
-import com.gwthotel.admin.gae.HotelAdminGae;
-import com.gwthotel.admin.gae.HotelInstanceImpl;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.IGetAutomPatterns;
 import com.gwthotel.hotel.bill.ICustomerBills;
@@ -45,6 +41,10 @@ import com.gwtmodel.commoncache.CommonCacheFactory;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.gwtmodel.table.common.dateutil.ISetTestToday;
 import com.gwtmodel.table.common.dateutil.SetTestTodayProvider;
+import com.jython.serversecurity.IOObjectAdmin;
+import com.jython.serversecurity.instance.IAppInstanceOObject;
+import com.jython.ui.server.gae.security.impl.ObjectAdminGae;
+import com.jython.ui.server.gae.security.impl.ObjectInstanceImpl;
 import com.jython.ui.server.gaecached.Cached;
 import com.jython.ui.server.gaestoragekey.BlobStorage;
 import com.jython.ui.server.gaestoragekey.GaeStorageRegistry;
@@ -76,7 +76,10 @@ public class ServerService {
                     .in(Singleton.class);
             bind(ICommonCacheFactory.class).to(CommonCacheFactory.class).in(
                     Singleton.class);
-            bind(IHotelAdmin.class).to(HotelAdminGae.class).in(Singleton.class);
+            bind(IOObjectAdmin.class).to(ObjectAdminGae.class).in(
+                    Singleton.class);
+            bind(IAppInstanceOObject.class).to(ObjectInstanceImpl.class).in(
+                    Singleton.class);
             bind(IsCached.class).to(Cached.class).in(Singleton.class);
             bind(IHotelServices.class).to(HotelServiceImpl.class).in(
                     Singleton.class);
@@ -88,8 +91,6 @@ public class ServerService {
                     Singleton.class);
             bind(IHotelRooms.class).to(HotelRoomsImpl.class)
                     .in(Singleton.class);
-            bind(IAppInstanceHotel.class).to(HotelInstanceImpl.class).in(
-                    Singleton.class);
             bind(ICustomerBills.class).to(HotelCustomerBillsImpl.class).in(
                     Singleton.class);
             bind(IPaymentBillOp.class).to(PaymentBillImpl.class).in(
