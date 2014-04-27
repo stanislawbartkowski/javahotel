@@ -5,7 +5,7 @@
 
 	<jython>
 		<import>from adminpack import admin</import>
-		<method>admin.useraction({0},{1})</method>
+		<method>admin.hotelaction({0},{1},False)</method>
 	</jython>
 
 

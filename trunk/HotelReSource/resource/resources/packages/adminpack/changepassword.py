@@ -1,20 +1,16 @@
-from com.gwthotel.hotel.server.service import H
-from util.util import MESS
-from util.util import printvar
-from util.util import HotelAdmin
-
-M = MESS()
+import sec
+import cutil
+from util import util
 
 def changeaction(action,var):
 
-  printvar("changeaction",action,var) 
-  adminI = HotelAdmin(var)
+  cutil.printVar("changeaction",action,var) 
   
   if action == "changepassword" :
       if not var['JYESANSWER'] : return
       newpassword = var["newpassword"]
       user = var["name"]
-      adminI.changePasswordForPerson(user,newpassword)
+      sec.ObjectAdmin(util.getAppId(var)).changePasswordForPerson(user,newpassword)
       var["JCLOSE_DIALOG"] = True
       
       

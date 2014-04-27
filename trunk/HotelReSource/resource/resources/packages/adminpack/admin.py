@@ -7,17 +7,120 @@ from util.util import printvar
 from util.util import createArrayList
 from util.util import findElemInSeq
 from util.util import createSeq
-from util.util import HotelAdmin
+#from util.util import HotelAdmin
 from util.util import clearHotel
+
+# -------------------
+from com.gwthotel.hotel.server.service import H
+import sec
+from util import util
+import cutil
+#from com.jythonui.server.holder import Holder
+
+PERM="perm"
+
+class HotelAdmin(sec.ObjectAdmin) :
+
+   def __init__(self,var,hotel) :
+     sec.ObjectAdmin.__init__(self,util.getAppId(var))
+     self.var = var
+     self.hotel = hotel
+
+   def readList(self):
+    
+     if self.hotel : seq = self.getListOfObjects()
+     else : seq = self.getListOfPersons()
+     list = []
+    
+     for s in seq :
+       ma = {"name" : s.getName(), "descr" : s.getDescription()}
+#       if hotel : ma["clearhotel"] = M("clearhotel")
+       list.append(ma)
+
+     if self.hotel : cutil.setJMapList(self.var,"hotels",list)
+     else : cutil.setJMapList(self.var,"users",list)
+    
+   def preparePermissionForHotel(self):
+     if self.hotel : seq = self.getListOfPersons()
+     else : seq = self.getListOfObjects()
+     print seq
+     if len(seq) == 0 : return
+     print len(seq)
+ #    rolesdef = H.getHotelRoles().getList()
+     rolesdef = cutil.getDict("roles")
+     map = {"lines" : util.createSeq(seq,True), "columns" : util.createSeq(rolesdef,False)}
+#     self.var["JCHECK_MAP"] = { "perm" : map}
+     cutil.setJCheckList(self.var,PERM,map)
+
+   def __existHotelPerson(self,pname):
+     if self.hotel : seq = self.getListOfObjects()
+     else : seq = self.getListOfPersons()
+     return util.findElemInSeq(pname,seq) != None    
+     
+   def duplicatedHotelPersonName(self):
+     name = self.var["name"]
+     if self.__existHotelPerson(name) :
+       if self.hotel : self.var["JERROR_name"] = M("DUPLICATEDHOTELNAME")
+       else : self.var["JERROR_name"] = M("DUPLICATEDPERSONNAME")
+       return True
+     return False
+     
+   def createPersonObject(self) :
+     name = self.var["name"]
+     descr = self.var["descr"]
+     return sec.createObjectOrPerson(self.hotel,name,descr)
+   
+   def addOrModif(self,o,roles) :
+     if self.hotel : self.addOrModifObject(o,roles)
+     else : self.addOrModifPerson(o,roles)     
+     
+   def prepareRoles(self):   
+    l = util.createArrayList()
+    if not self.var.has_key("JCHECK_MAP") : return l         
+    map = self.var["JCHECK_MAP"][PERM]
+    
+    for row in map.keys() :
+#        if not self.hotel : ho = sec.createObjectOrPerson(hotel,name,descr)
+#        else : ho = Person()
+        ho = sec.createObjectOrPerson(not self.hotel,row,None)
+#        ho.setName(row)
+        role = sec.createObjectRoles(ho)
+        seq = map[row]
+        for r in seq :
+            name = r["id"]
+            if r["val"] : role.getRoles().add(name)
+        l.add(role)
+    return l     
+  
+   def getValuesForPermission(self):
+     if not self.var.has_key("JCHECK_MAP") : return
+     name = self.var["name"]
+     if name == "" : return
+     if self.hotel : roles = self.getListOfRolesForObject(name)
+     else : roles = self.getListOfRolesForPerson(name)
+     map = self.var["JCHECK_MAP"][PERM]
+     for r in roles :
+        rowname = r.getObject().getName()
+        seq = []
+        for s in r.getRoles() :
+            seq.append({"id" : s, "val" : True})
+        map[rowname] = seq
+        
+   def removeObjectOrPerson(self,name) :
+     if self.hotel : self.removeObject(name)
+     else : self.removePerson(name)
+
+     
+# -------------------              
 
 M = MESS()
 
-def __existHotelPerson(adminI,pname,hotel):
+def REMOVE__existHotelPerson(adminI,pname,hotel):
     if hotel : seq = adminI.getListOfHotels()
     else : seq = adminI.getListOfPersons()
     return findElemInSeq(pname,seq) != None    
     
-def __duplicatedHotelPersonName(adminI,var,hotel): 
+def REMOVE__duplicatedHotelPersonName(adminI,var,hotel): 
     name = var["name"]
     if __existHotelPerson(adminI,name,hotel) :
       if hotel : var["JERROR_name"] = M("DUPLICATEDHOTELNAME")
@@ -25,7 +128,7 @@ def __duplicatedHotelPersonName(adminI,var,hotel):
       return True
     return False
         
-def __createHotelPerson(var,hotel):
+def REMOVE__createHotelPerson(var,hotel):
     name = var["name"]
     descr = var["descr"]
     if hotel : ho = Hotel()
@@ -34,9 +137,9 @@ def __createHotelPerson(var,hotel):
     ho.setDescription(descr)
     return ho            
 
-def __readList(adminI,var,hotel):
+def REMOVE__readList(adminI,var,hotel):
     
-    if hotel : seq = adminI.getListOfHotels()
+    if hotel : seq = adminI.getListOfObjects()
     else : seq = adminI.getListOfPersons()
     list = []
     
@@ -51,7 +154,7 @@ def __readList(adminI,var,hotel):
     var["JLIST_MAP"] = map
     
     
-def __preparePermissionForHotel(adminI,var, hotel):
+def REMOVE__preparePermissionForHotel(adminI,var, hotel):
     if hotel : seq = adminI.getListOfPersons()
     else : seq = adminI.getListOfHotels()
     if len(seq) == 0 : return
@@ -59,7 +162,7 @@ def __preparePermissionForHotel(adminI,var, hotel):
     map = {"lines" : createSeq(seq,True), "columns" : createSeq(rolesdef,False)}
     var["JCHECK_MAP"] = { "perm" : map}
     
-def __getValuesForPermission(adminI,var,hotel):
+def REMOVE__getValuesForPermission(adminI,var,hotel):
     if not var.has_key("JCHECK_MAP") : return
     name = var["name"]
     if name == "" : return
@@ -73,7 +176,7 @@ def __getValuesForPermission(adminI,var,hotel):
             seq.append({"id" : s, "val" : True})
         map[rowname] = seq
       
-def __prepareValuesForPermission(var,hotel):   
+def REMOVE__prepareValuesForPermission(var,hotel):   
     l = createArrayList()
     if not var.has_key("JCHECK_MAP") : return l         
     map = var["JCHECK_MAP"]["perm"]
@@ -90,13 +193,14 @@ def __prepareValuesForPermission(var,hotel):
         l.add(role)
     return l            
 
-def hotelaction(action,var) :
+def hotelaction(action,var,hotel) :
 
   printvar("hotelaction", action,var)
-  adminI = HotelAdmin(var)
+  adminI = HotelAdmin(var,hotel)
   
   if action == "before" or action == "crud_readlist" :
-      __readList(adminI,var,True)
+      #__readList(adminI,var,True)
+      adminI.readList() 
       
   if action == "clearhotel" :
       var["JYESNO_MESSAGE"] = M("REMOVEALLDATAFROMHOTEL")
@@ -113,30 +217,34 @@ def hotelaction(action,var) :
   if action == "clearhotelexecute" and var["JYESANSWER"] :
       clearHotel(var,var["name"]) 
       
-def hotelelemaction(action,var):
+  if action == "changepassword" :
+      var['JUP_DIALOG'] = 'admin/changepassword.xml'     
+      
+def hotelelemaction(action,var,hotel):
 
   printvar("hotelelemaction",action,var)  
-  adminI = HotelAdmin(var)
+  adminI = HotelAdmin(var,hotel)
       
   if action == "before" :
-    __preparePermissionForHotel(adminI,var,True)
+#    __preparePermissionForHotel(adminI,var,True)
+    adminI.preparePermissionForHotel()
     if var["JCRUD_DIALOG"] != "crud_add" :
-       __getValuesForPermission(adminI,var,True)
+       adminI.getValuesForPermission()
     if var["JCRUD_DIALOG"] == "crud_remove" :
        var["JSETATTR_CHECKLIST_perm_readonly"] = True  
        var["JVALATTR_CHECKLIST_perm_readonly"] = ""       
   
  
   if action == "crud_add"  and not var["JCRUD_AFTERCONF"] :
-      if __duplicatedHotelPersonName(adminI,var,True) : return
+      if adminI.duplicatedHotelPersonName() : return
       var["JYESNO_MESSAGE"] = M("ADDNEWHOTELASK");
       var["JMESSAGE_TITLE"] = ""  
       return
       
   if action == "crud_add"  and var["JCRUD_AFTERCONF"] :
-      if __duplicatedHotelPersonName(adminI,var,True) : return
-      ho = __createHotelPerson(var,True)
-      adminI.addOrModifHotel(ho,__prepareValuesForPermission(var,True))
+      if adminI.duplicatedHotelPersonName() : return
+      ho = adminI.createPersonObject()
+      adminI.addOrModif(ho,adminI.prepareRoles())
       var["JCLOSE_DIALOG"] = True
       return
 
@@ -146,8 +254,8 @@ def hotelelemaction(action,var):
       return
 
   if action == "crud_change"  and var["JCRUD_AFTERCONF"] :
-      ho = __createHotelPerson(var,True)
-      adminI.addOrModifHotel(ho,__prepareValuesForPermission(var,True))
+      ho = adminI.createPersonObject()
+      adminI.addOrModif(ho,adminI.prepareRoles())
       var["JCLOSE_DIALOG"] = True      
 
   if action == "crud_remove"  and not var["JCRUD_AFTERCONF"] :
@@ -157,7 +265,7 @@ def hotelelemaction(action,var):
   
   if action == "crud_remove"  and var["JCRUD_AFTERCONF"] :
       name = var["name"]
-      adminI.removeHotel(name)
+      adminI.removeObjectOrPerson(name)
       var["JCLOSE_DIALOG"] = True      
 
 
@@ -167,7 +275,8 @@ def useraction(action,var) :
   adminI = HotelAdmin(var)
     
   if action == "before" or action == "crud_readlist" :
-      __readList(adminI,var,False)
+#      __readList(adminI,var,False)
+    adminI.readList(False)
       
   if action == "changepassword" :
       var['JUP_DIALOG'] = 'admin/changepassword.xml'
