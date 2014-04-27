@@ -3,10 +3,17 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
 	version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
 	<persistence-unit name="admin" transaction-type="RESOURCE_LOCAL">
+<!-- 	
 		<class>com.gwthotel.admin.jpa.entities.EHotel</class>
 		<class>com.gwthotel.admin.jpa.entities.EPersonPassword</class>
 		<class>com.gwthotel.admin.jpa.entities.EPersonRoles</class>
 		<class>com.gwthotel.admin.jpa.entities.EInstance</class>
+-->
+		<class>com.jython.serversecurity.jpa.entities.EObject</class>
+        <class>com.jython.serversecurity.jpa.entities.EPersonPassword</class>
+        <class>com.jython.serversecurity.jpa.entities.EPersonRoles</class>
+        <class>com.jython.serversecurity.jpa.entities.EInstance</class>
+		
 		<class>com.jython.ui.server.jpastoragekey.entity.RegistryEntry</class>
 		<class>com.jython.ui.server.jpastoragekey.entity.BlobEntry</class>      		
 		<class>com.gwthotel.hotel.jpa.entities.EHotelServices</class>
@@ -31,7 +38,7 @@
   
         <property name="javax.persistence.target-database" value="PostgreSQL" />
         <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" /> 
-        <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost/test" />
+        <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost/hotel" />
         <property name="javax.persistence.jdbc.user" value="hotel" />
         <property name="javax.persistence.jdbc.password" value="hotel" />
 

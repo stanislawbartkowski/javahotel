@@ -19,7 +19,7 @@ public class TestHotelAuthRealm extends HotelAuthRealm {
     public TestHotelAuthRealm() {
         super();
         this.setiRes(new HotelAuthResources());
-        this.setiGet(ServiceInjector.getInstanceHotel());
+        this.setiGet(ServiceInjector.getInstanceObject());
     }
 
 }

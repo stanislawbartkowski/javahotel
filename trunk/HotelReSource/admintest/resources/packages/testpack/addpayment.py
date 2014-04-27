@@ -1,7 +1,7 @@
 from cutil import printVar
 from com.gwthotel.hotel.server.service import H
 from com.gwthotel.hotel.reservation import ReservationPaymentDetail
-from com.gwthotel.admintest.guice import ServiceInjector
+#from com.gwthotel.admintest.guice import ServiceInjector
 from com.gwthotel.hotel.customer import HotelCustomer
 from cutil import toDate
 import datetime
@@ -14,8 +14,11 @@ def dialogaction(action,var) :
          op = H.getResOp()
          custOp = H.getHotelCustomers()
          add = ReservationPaymentDetail()
-         ho = ServiceInjector.getInstanceHotel()
-         hins = ho.getHotel("AppInstanceTest","hotel","user")
+#         ho = ServiceInjector.getInstanceHotel()
+
+         ho = H.getInstanceObjectId()
+         hins = ho.getOObject("AppInstanceTest","hotel","user")
+         
          print hins
          cust = HotelCustomer()
          cust.setName("guest")

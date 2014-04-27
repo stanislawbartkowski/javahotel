@@ -23,10 +23,10 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.gwthotel.admin.Hotel;
-import com.gwthotel.admin.HotelRoles;
-import com.gwthotel.admin.Person;
 import com.gwthotel.auth.HotelCustom;
+import com.jython.serversecurity.OObject;
+import com.jython.serversecurity.OObjectRoles;
+import com.jython.serversecurity.Person;
 import com.jythonui.server.security.token.ICustomSecurity;
 
 public class Test5 extends TestHelper {
@@ -36,21 +36,21 @@ public class Test5 extends TestHelper {
         Person pe = new Person();
         pe.setName("user");
         pe.setDescription("user name");
-        List<HotelRoles> roles = new ArrayList<HotelRoles>();
+        List<OObjectRoles> roles = new ArrayList<OObjectRoles>();
         iAdmin.addOrModifPerson(getI(), pe, roles);
         iAdmin.changePasswordForPerson(getI(), "user", "secret");
-        Hotel ho = new Hotel();
+        OObject ho = new OObject();
 
         ho.setName("hotel");
         ho.setDescription("Pod Pieskiem");
-        roles = new ArrayList<HotelRoles>();
+        roles = new ArrayList<OObjectRoles>();
         pe = new Person();
         pe.setName("user");
-        HotelRoles rol = new HotelRoles(pe);
+        OObjectRoles rol = new OObjectRoles(pe);
         rol.getRoles().add("mana");
         rol.getRoles().add("acc");
         roles.add(rol);
-        iAdmin.addOrModifHotel(getI(), ho, roles);
+        iAdmin.addOrModifObject(getI(), ho, roles);
     }
 
     @Test

@@ -26,9 +26,9 @@ import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.Factory;
 import org.junit.Test;
 
-import com.gwthotel.admin.Hotel;
-import com.gwthotel.admin.HotelRoles;
-import com.gwthotel.admin.Person;
+import com.jython.serversecurity.OObject;
+import com.jython.serversecurity.OObjectRoles;
+import com.jython.serversecurity.Person;
 import com.jythonui.server.security.token.ICustomSecurity;
 import com.jythonui.server.security.token.PasswordSecurityToken;
 
@@ -64,25 +64,25 @@ public class Test4 extends TestHelper {
             System.out.println("Is expected, hotel does not exist");
         }
         // now create a hotel
-        Hotel ho = new Hotel();
+        OObject ho = new OObject();
         ho.setName("hotel");
         ho.setDescription("Grzyb");
-        List<HotelRoles> roles = new ArrayList<HotelRoles>();
-        iAdmin.addOrModifHotel(getI(), ho, roles);
+        List<OObjectRoles> roles = new ArrayList<OObjectRoles>();
+        iAdmin.addOrModifObject(getI(), ho, roles);
         try {
             currentUser.login(token);
             fail("Not expected here");
         } catch (Exception e) {
             System.out.println("Is expected, user do not have any role");
         }
-        roles = new ArrayList<HotelRoles>();
+        roles = new ArrayList<OObjectRoles>();
         Person pe = new Person();
         pe.setName("user");
         pe.setDescription("user name");
-        HotelRoles role = new HotelRoles(pe);
+        OObjectRoles role = new OObjectRoles(pe);
         role.getRoles().add("man");
         roles.add(role);
-        iAdmin.addOrModifHotel(getI(), ho, roles);
+        iAdmin.addOrModifObject(getI(), ho, roles);
         currentUser.login(token);
         System.out.println("Welcome ..");
         assertTrue("Man role expected", currentUser.hasRole("man"));
@@ -96,7 +96,7 @@ public class Test4 extends TestHelper {
         Person pe = new Person();
         pe.setName("user");
         pe.setDescription("user name");
-        List<HotelRoles> roles = new ArrayList<HotelRoles>();
+        List<OObjectRoles> roles = new ArrayList<OObjectRoles>();
         iAdmin.addOrModifPerson(getI(), pe, roles);
         assertFalse(iAdmin.validatePasswordForPerson(getI(), "user", "secret"));
         iAdmin.changePasswordForPerson(getI(), "user", "secret");
@@ -124,21 +124,21 @@ public class Test4 extends TestHelper {
         Person pe = new Person();
         pe.setName("user");
         pe.setDescription("user name");
-        List<HotelRoles> roles = new ArrayList<HotelRoles>();
+        List<OObjectRoles> roles = new ArrayList<OObjectRoles>();
         iAdmin.addOrModifPerson(getI(), pe, roles);
         iAdmin.changePasswordForPerson(getI(), "user", "secret");
-        Hotel ho = new Hotel();
+        OObject ho = new OObject();
 
         ho.setName("hotel");
         ho.setDescription("Pod Pieskiem");
-        roles = new ArrayList<HotelRoles>();
+        roles = new ArrayList<OObjectRoles>();
         pe = new Person();
         pe.setName("user");
-        HotelRoles rol = new HotelRoles(pe);
+        OObjectRoles rol = new OObjectRoles(pe);
         rol.getRoles().add("mana");
         rol.getRoles().add("acc");
         roles.add(rol);
-        iAdmin.addOrModifHotel(getI(), ho, roles);
+        iAdmin.addOrModifObject(getI(), ho, roles);
         testShiro1();
 
     }
