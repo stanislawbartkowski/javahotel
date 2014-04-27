@@ -22,9 +22,7 @@ import javax.inject.Named;
 
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.VoidWork;
-import com.gwthotel.admin.HotelId;
 import com.gwthotel.admin.gae.DictUtil;
-import com.gwthotel.admin.gae.entities.EHotel;
 import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.ServiceType;
 import com.gwthotel.hotel.reservation.IReservationForm;
@@ -34,6 +32,9 @@ import com.gwthotel.hotel.service.gae.entities.ECustomerBill;
 import com.gwthotel.hotel.service.gae.entities.EHotelReservation;
 import com.gwthotel.hotel.service.gae.entities.EResDetails;
 import com.gwthotel.shared.IHotelConsts;
+import com.jython.serversecurity.OObjectId;
+import com.jython.ui.server.gae.security.entities.EObject;
+import com.jython.ui.server.gae.security.impl.EntUtil;
 import com.jythonui.server.getmess.IGetLogMess;
 
 public class HotelReservationImpl implements IReservationForm {
@@ -54,9 +55,9 @@ public class HotelReservationImpl implements IReservationForm {
         ObjectifyService.register(EResDetails.class);
     }
 
-    private ReservationForm constructProp(EHotel ho, EHotelReservation e) {
+    private ReservationForm constructProp(EObject ho, EHotelReservation e) {
         ReservationForm r = new ReservationForm();
-        DictUtil.toProp(r, e);
+        EntUtil.toProp(r, e);
         r.setAttr(IHotelConsts.HOTELPROP, ho.getName());
         r.setId(e.getId());
         r.setStatus(e.getStatus());
@@ -68,8 +69,8 @@ public class HotelReservationImpl implements IReservationForm {
     }
 
     @Override
-    public List<ReservationForm> getList(HotelId hotel) {
-        EHotel eh = DictUtil.findEHotel(lMess, hotel);
+    public List<ReservationForm> getList(OObjectId hotel) {
+        EObject eh = DictUtil.findEHotel(lMess, hotel);
         List<EHotelReservation> li = ofy().load().type(EHotelReservation.class)
                 .ancestor(eh).list();
         List<ReservationForm> outList = new ArrayList<ReservationForm>();
@@ -80,7 +81,7 @@ public class HotelReservationImpl implements IReservationForm {
     }
 
     @Override
-    public ReservationForm addElem(HotelId hotel, final ReservationForm elem) {
+    public ReservationForm addElem(OObjectId hotel, final ReservationForm elem) {
         ReservationAdd add = new ReservationAdd(hotel, lMess, elem, false, iGen);
         add.beforeAdd();
         add.addTran();
@@ -88,15 +89,15 @@ public class HotelReservationImpl implements IReservationForm {
     }
 
     @Override
-    public void changeElem(HotelId hotel, ReservationForm elem) {
+    public void changeElem(OObjectId hotel, ReservationForm elem) {
         ReservationAdd add = new ReservationAdd(hotel, lMess, elem, true, iGen);
         add.beforeAdd();
         add.addTran();
     }
 
     @Override
-    public void deleteElem(HotelId hotel, ReservationForm elem) {
-        EHotel eh = DictUtil.findEHotel(lMess, hotel);
+    public void deleteElem(OObjectId hotel, ReservationForm elem) {
+        EObject eh = DictUtil.findEHotel(lMess, hotel);
         final List<EBillPayment> liP = new ArrayList<EBillPayment>();
         final List<ECustomerBill> re = DictUtil.findBillsForRese(eh,
                 elem.getName());
@@ -119,8 +120,8 @@ public class HotelReservationImpl implements IReservationForm {
     }
 
     @Override
-    public ReservationForm findElem(HotelId hotel, String name) {
-        EHotel eh = DictUtil.findEHotel(lMess, hotel);
+    public ReservationForm findElem(OObjectId hotel, String name) {
+        EObject eh = DictUtil.findEHotel(lMess, hotel);
         EHotelReservation rese = DictUtil.findReservation(eh, name);
         return constructProp(eh, rese);
     }

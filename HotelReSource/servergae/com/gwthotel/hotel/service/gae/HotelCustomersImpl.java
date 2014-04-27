@@ -16,7 +16,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.googlecode.objectify.ObjectifyService;
-import com.gwthotel.admin.gae.entities.EHotel;
 import com.gwthotel.hotel.HUtils;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.IHotelObjectGenSym;
@@ -25,6 +24,7 @@ import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.service.gae.crud.CrudGaeAbstract;
 import com.gwthotel.hotel.service.gae.entities.EHotelCustomer;
 import com.gwthotel.shared.IHotelConsts;
+import com.jython.ui.server.gae.security.entities.EObject;
 import com.jythonui.server.getmess.IGetLogMess;
 
 public class HotelCustomersImpl extends
@@ -42,7 +42,7 @@ public class HotelCustomersImpl extends
     }
 
     @Override
-    protected HotelCustomer constructProp(EHotel ho, EHotelCustomer e) {
+    protected HotelCustomer constructProp(EObject ho, EHotelCustomer e) {
         HotelCustomer cu = new HotelCustomer();
         HUtils.toTProperties(HUtils.getCustomerFields(), cu, e);
         cu.setDoctype(e.getDoctype());
@@ -56,14 +56,14 @@ public class HotelCustomersImpl extends
     }
 
     @Override
-    protected void toE(EHotel ho, EHotelCustomer e, HotelCustomer t) {
+    protected void toE(EObject ho, EHotelCustomer e, HotelCustomer t) {
         HUtils.toEProperties(HUtils.getCustomerFields(), e, t);
         e.setDoctype(t.getDoctype());
         e.setSex(t.getSex());
     }
 
     @Override
-    protected void beforeDelete(DeleteItem i, EHotel ho, EHotelCustomer elem) {
+    protected void beforeDelete(DeleteItem i, EObject ho, EHotelCustomer elem) {
     }
 
 }

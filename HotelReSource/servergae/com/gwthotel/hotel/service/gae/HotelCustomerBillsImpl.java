@@ -19,7 +19,6 @@ import javax.inject.Named;
 
 import com.googlecode.objectify.ObjectifyService;
 import com.gwthotel.admin.gae.DictUtil;
-import com.gwthotel.admin.gae.entities.EHotel;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.bill.CustomerBill;
@@ -27,6 +26,7 @@ import com.gwthotel.hotel.bill.ICustomerBills;
 import com.gwthotel.hotel.service.gae.crud.CrudGaeAbstract;
 import com.gwthotel.hotel.service.gae.entities.ECustomerBill;
 import com.gwthotel.shared.IHotelConsts;
+import com.jython.ui.server.gae.security.entities.EObject;
 import com.jythonui.server.getmess.IGetLogMess;
 
 public class HotelCustomerBillsImpl extends
@@ -44,7 +44,7 @@ public class HotelCustomerBillsImpl extends
     }
 
     @Override
-    protected CustomerBill constructProp(EHotel ho, ECustomerBill e) {
+    protected CustomerBill constructProp(EObject ho, ECustomerBill e) {
         return DictUtil.toCustomerBill(e);
     }
 
@@ -54,7 +54,7 @@ public class HotelCustomerBillsImpl extends
     }
 
     @Override
-    protected void toE(EHotel ho, ECustomerBill e, CustomerBill t) {
+    protected void toE(EObject ho, ECustomerBill e, CustomerBill t) {
         e.setDateOfPayment(t.getDateOfPayment());
         e.setIssueDate(t.getIssueDate());
         e.setPayer(DictUtil.findCustomer(ho, t.getPayer()));
@@ -73,7 +73,7 @@ public class HotelCustomerBillsImpl extends
     }
 
     @Override
-    protected void beforeDelete(DeleteItem i, EHotel ho, ECustomerBill elem) {
+    protected void beforeDelete(DeleteItem i, EObject ho, ECustomerBill elem) {
     }
 
 }

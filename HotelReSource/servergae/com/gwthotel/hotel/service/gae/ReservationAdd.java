@@ -17,9 +17,7 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 import java.util.List;
 
 import com.googlecode.objectify.VoidWork;
-import com.gwthotel.admin.HotelId;
 import com.gwthotel.admin.gae.DictUtil;
-import com.gwthotel.admin.gae.entities.EHotel;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.ServiceType;
@@ -28,19 +26,22 @@ import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
 import com.gwthotel.hotel.service.gae.entities.EHotelReservation;
 import com.gwthotel.hotel.service.gae.entities.EResDetails;
 import com.gwtmodel.table.common.CUtil;
+import com.jython.serversecurity.OObjectId;
+import com.jython.ui.server.gae.security.entities.EObject;
+import com.jython.ui.server.gae.security.impl.EntUtil;
 import com.jythonui.server.BUtil;
 import com.jythonui.server.getmess.IGetLogMess;
 
 class ReservationAdd {
 
     private final ReservationForm elem;
-    private final EHotel ho;
-    private final HotelId hotel;
+    private final EObject ho;
+    private final OObjectId hotel;
     private final boolean change;
     private List<EResDetails> deList;
     private final IHotelObjectGenSym iGen;
 
-    ReservationAdd(HotelId hotel, IGetLogMess lMess, ReservationForm elem,
+    ReservationAdd(OObjectId hotel, IGetLogMess lMess, ReservationForm elem,
             boolean change, IHotelObjectGenSym iGen) {
         this.elem = elem;
         this.hotel = hotel;
@@ -70,7 +71,7 @@ class ReservationAdd {
         else
             e = new EHotelReservation();
         BUtil.setCreateModif(hotel.getUserName(), e, !change);
-        DictUtil.toEDict(e, elem);
+        EntUtil.toEDict(e, elem);
         e.setCustomer(DictUtil.findCustomer(ho, elem.getCustomerName()));
         e.setStatus(elem.getStatus());
         final List<EResDetails> eRes = DictUtil.toED(ho, null,

@@ -23,9 +23,7 @@ import javax.inject.Named;
 import com.googlecode.objectify.LoadResult;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.VoidWork;
-import com.gwthotel.admin.HotelId;
 import com.gwthotel.admin.gae.DictUtil;
-import com.gwthotel.admin.gae.entities.EHotel;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.rooms.HotelRoom;
@@ -36,6 +34,8 @@ import com.gwthotel.hotel.service.gae.entities.EHotelRoomServices;
 import com.gwthotel.hotel.service.gae.entities.EHotelServices;
 import com.gwthotel.hotel.services.HotelServices;
 import com.gwthotel.shared.IHotelConsts;
+import com.jython.serversecurity.OObjectId;
+import com.jython.ui.server.gae.security.entities.EObject;
 import com.jythonui.server.getmess.IGetLogMess;
 
 public class HotelRoomsImpl extends CrudGaeAbstract<HotelRoom, EHotelRoom>
@@ -53,10 +53,10 @@ public class HotelRoomsImpl extends CrudGaeAbstract<HotelRoom, EHotelRoom>
     }
 
     @Override
-    public void setRoomServices(HotelId hotel, final String roomName,
+    public void setRoomServices(OObjectId hotel, final String roomName,
             List<String> services) {
         final List<EHotelServices> sList = new ArrayList<EHotelServices>();
-        final EHotel ho = findEHotel(hotel);
+        final EObject ho = findEHotel(hotel);
         for (String s : services) {
             LoadResult<EHotelServices> p = ofy().load()
                     .type(EHotelServices.class).ancestor(ho)
@@ -85,8 +85,8 @@ public class HotelRoomsImpl extends CrudGaeAbstract<HotelRoom, EHotelRoom>
     }
 
     @Override
-    public List<HotelServices> getRoomServices(HotelId hotel, String roomName) {
-        EHotel ho = findEHotel(hotel);
+    public List<HotelServices> getRoomServices(OObjectId hotel, String roomName) {
+        EObject ho = findEHotel(hotel);
         List<HotelServices> outList = new ArrayList<HotelServices>();
         List<EHotelRoomServices> li = ofy().load()
                 .type(EHotelRoomServices.class).ancestor(ho)
@@ -98,7 +98,7 @@ public class HotelRoomsImpl extends CrudGaeAbstract<HotelRoom, EHotelRoom>
     }
 
     @Override
-    protected HotelRoom constructProp(EHotel ho, EHotelRoom e) {
+    protected HotelRoom constructProp(EObject ho, EHotelRoom e) {
         HotelRoom r = new HotelRoom();
         r.setNoPersons(e.getNoPersons());
         r.setNoChildren(e.getNoChildren());
@@ -112,14 +112,14 @@ public class HotelRoomsImpl extends CrudGaeAbstract<HotelRoom, EHotelRoom>
     }
 
     @Override
-    protected void toE(EHotel ho, EHotelRoom e, HotelRoom t) {
+    protected void toE(EObject ho, EHotelRoom e, HotelRoom t) {
         e.setNoPersons(t.getNoPersons());
         e.setNoChildren(t.getNoChildren());
         e.setNoExtraBeds(t.getNoExtraBeds());
     }
 
     @Override
-    protected void beforeDelete(DeleteItem i, EHotel ho, EHotelRoom elem) {
+    protected void beforeDelete(DeleteItem i, EObject ho, EHotelRoom elem) {
         if (elem != null) {
             i.sList = ofy().load().type(EHotelRoomServices.class).ancestor(ho)
                     .filter("roomName == ", elem.getName()).list();
