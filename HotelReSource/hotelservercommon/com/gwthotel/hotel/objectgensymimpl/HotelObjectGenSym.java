@@ -15,13 +15,13 @@ package com.gwthotel.hotel.objectgensymimpl;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.mess.IHError;
 import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.PropDescription;
 import com.gwtmodel.table.common.CUtil;
+import com.jython.serversecurity.OObjectId;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.storage.gensym.ISymGenerator;
 import com.jythonui.shared.JythonUIFatal;
@@ -47,12 +47,12 @@ public class HotelObjectGenSym implements IHotelObjectGenSym {
         this.lMess = lMess;
     }
 
-    private String genKey(HotelId hotelid, String oName) {
-        return hotelid.getHotel() + "-GENSYM-" + oName;
+    private String genKey(OObjectId hotelid, String oName) {
+        return hotelid.getObject() + "-GENSYM-" + oName;
     }
 
     @Override
-    public void genSym(HotelId hotelid, PropDescription o, HotelObjects t) {
+    public void genSym(OObjectId hotelid, PropDescription o, HotelObjects t) {
 
         if (!CUtil.EmptyS(o.getName()))
             return;
@@ -72,7 +72,7 @@ public class HotelObjectGenSym implements IHotelObjectGenSym {
     }
 
     @Override
-    public void clearAll(HotelId hotelid) {
+    public void clearAll(OObjectId hotelid) {
 
         for (HotelObjects o : HotelObjects.values()) {
             String key = genKey(hotelid, o.toString());

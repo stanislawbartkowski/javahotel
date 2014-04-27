@@ -14,14 +14,14 @@ package com.gwthotel.hotel;
 
 import java.util.Date;
 
-import com.gwthotel.admin.HotelId;
+import com.jython.serversecurity.OObjectId;
 
 public interface IClearHotel {
 
-    void clearObjects(HotelId hotel);
+    void clearObjects(OObjectId hotel);
 
     void setTestDataToday(Date d);
 
-    long numberOf(HotelId hotel, HotelObjects o);
+    long numberOf(OObjectId hotel, HotelObjects o);
 
 }

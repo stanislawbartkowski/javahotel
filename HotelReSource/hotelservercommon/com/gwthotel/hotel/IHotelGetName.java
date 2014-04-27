@@ -12,12 +12,12 @@
  */
 package com.gwthotel.hotel;
 
-import com.gwthotel.admin.AppInstanceId;
-import com.gwthotel.admin.HotelId;
+import com.jython.serversecurity.AppInstanceId;
+import com.jython.serversecurity.OObjectId;
 
 public interface IHotelGetName {
 
-    HotelId getHotel(String token);
+    OObjectId getHotel(String token);
 
     AppInstanceId getInstance(String token);
 

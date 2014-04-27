@@ -12,14 +12,16 @@
  */
 package com.gwthotel.hotel;
 
-import com.gwthotel.admin.AppInstanceId;
-import com.gwthotel.admin.HotelId;
+import com.jython.serversecurity.AppInstanceId;
+import com.jython.serversecurity.OObjectId;
 
-public interface IGetInstanceHotelId {
+// TODO remove
+
+interface IGetInstanceHotelId {
 
     AppInstanceId getInstance(String instanceName, String userName);
 
-    HotelId getHotel(String instanceName, String hotelName, String userName);
+    OObjectId getHotel(String instanceName, String hotelName, String userName);
 
     void invalidateCache();
 

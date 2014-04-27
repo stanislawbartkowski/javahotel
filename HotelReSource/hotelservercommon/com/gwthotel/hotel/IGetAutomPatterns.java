@@ -12,9 +12,9 @@
  */
 package com.gwthotel.hotel;
 
-import com.gwthotel.admin.HotelId;
+import com.jython.serversecurity.OObjectId;
 
 public interface IGetAutomPatterns {
 
-    String getPatt(HotelId hotel, HotelObjects t);
+    String getPatt(OObjectId hotel, HotelObjects t);
 }

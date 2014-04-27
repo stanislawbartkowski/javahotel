@@ -14,18 +14,18 @@ package com.gwthotel.hotel;
 
 import java.util.List;
 
-import com.gwthotel.admin.HotelId;
-import com.gwthotel.shared.PropDescription;
+import com.jython.serversecurity.OObjectId;
+import com.jythonui.shared.RMap;
 
-public interface IHotelProp<T extends PropDescription> {
+public interface IHotelProp<T extends RMap> {
 
-    List<T> getList(HotelId hotel);
+    List<T> getList(OObjectId hotel);
 
-    T addElem(HotelId hotel, T elem);
+    T addElem(OObjectId hotel, T elem);
 
-    void changeElem(HotelId hotel, T elem);
+    void changeElem(OObjectId hotel, T elem);
 
-    void deleteElem(HotelId hotel, T elem);
+    void deleteElem(OObjectId hotel, T elem);
     
-    T findElem(HotelId hotel, String name);
+    T findElem(OObjectId hotel, String name);
 }

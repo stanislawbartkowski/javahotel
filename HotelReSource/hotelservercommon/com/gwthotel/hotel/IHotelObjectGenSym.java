@@ -12,13 +12,13 @@
  */
 package com.gwthotel.hotel;
 
-import com.gwthotel.admin.HotelId;
 import com.gwthotel.shared.PropDescription;
+import com.jython.serversecurity.OObjectId;
 
 public interface IHotelObjectGenSym {
 
-    void genSym(HotelId hotelid, PropDescription o, HotelObjects t);
+    void genSym(OObjectId hotelid, PropDescription o, HotelObjects t);
 
-    void clearAll(HotelId hotelid);
+    void clearAll(OObjectId hotelid);
 
 }
