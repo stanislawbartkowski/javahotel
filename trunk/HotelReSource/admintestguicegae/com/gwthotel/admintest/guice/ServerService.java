@@ -13,10 +13,6 @@
 package com.gwthotel.admintest.guice;
 
 import com.google.inject.Singleton;
-import com.gwthotel.admin.IAppInstanceHotel;
-import com.gwthotel.admin.IHotelAdmin;
-import com.gwthotel.admin.gae.HotelAdminGae;
-import com.gwthotel.admin.gae.HotelInstanceImpl;
 import com.gwthotel.admintest.suite.TestHelper;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.IGetAutomPatterns;
@@ -45,6 +41,10 @@ import com.gwtmodel.mapcache.SimpleMapCacheFactory;
 import com.gwtmodel.table.common.dateutil.ISetTestToday;
 import com.gwtmodel.table.common.dateutil.SetTestTodayProvider;
 import com.gwtmodel.testenhancer.ITestEnhancer;
+import com.jython.serversecurity.IOObjectAdmin;
+import com.jython.serversecurity.instance.IAppInstanceOObject;
+import com.jython.ui.server.gae.security.impl.ObjectAdminGae;
+import com.jython.ui.server.gae.security.impl.ObjectInstanceImpl;
 import com.jython.ui.server.gaestoragekey.BlobStorage;
 import com.jython.ui.server.gaestoragekey.GaeStorageRegistry;
 import com.jythonui.server.IGetConnection;
@@ -53,8 +53,6 @@ import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.defa.EmptyConnectionProvider;
 import com.jythonui.server.defa.EmptyRPCNotifier;
 import com.jythonui.server.defa.StorageRealmRegistryFactory;
-import com.jythonui.server.newblob.IAddNewBlob;
-import com.jythonui.server.newblob.impl.AddNewBlob;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.server.semaphore.impl.SemaphoreRegistry;
@@ -77,8 +75,9 @@ public class ServerService {
             bind(ITestEnhancer.class).to(LocalDataStoreTestEnvironment.class);
             bind(ICommonCacheFactory.class).to(SimpleMapCacheFactory.class).in(
                     Singleton.class);
-            bind(IHotelAdmin.class).to(HotelAdminGae.class).in(Singleton.class);
-            bind(IAppInstanceHotel.class).to(HotelInstanceImpl.class).in(
+            bind(IOObjectAdmin.class).to(ObjectAdminGae.class).in(
+                    Singleton.class);
+            bind(IAppInstanceOObject.class).to(ObjectInstanceImpl.class).in(
                     Singleton.class);
 
             bind(IHotelServices.class).to(HotelServiceImpl.class).in(
