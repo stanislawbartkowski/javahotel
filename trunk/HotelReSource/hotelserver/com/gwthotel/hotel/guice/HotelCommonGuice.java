@@ -17,17 +17,11 @@ import javax.inject.Named;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.name.Names;
-import com.gwthotel.admin.IGetHotelRoles;
-import com.gwthotel.admin.IGetVatTaxes;
 import com.gwthotel.admin.holder.HHolder;
-import com.gwthotel.admin.roles.GetHotelRoles;
-import com.gwthotel.admin.vattax.GetVatTaxes;
 import com.gwthotel.auth.SecurityConverter;
-import com.gwthotel.hotel.IGetInstanceHotelId;
 import com.gwthotel.hotel.IHotelGetName;
 import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.IHotelObjectsFactory;
-import com.gwthotel.hotel.getid.GetInstanceHotelId;
 import com.gwthotel.hotel.getname.GetHotelNameFromToken;
 import com.gwthotel.hotel.objectfactoryimpl.HotelObjectsFactory;
 import com.gwthotel.hotel.objectgensymimpl.HotelObjectGenSym;
@@ -45,17 +39,12 @@ public class HotelCommonGuice {
 
         protected void configureHotel() {
             configureJythonUi();
-            bind(IGetHotelRoles.class).to(GetHotelRoles.class).in(
-                    Singleton.class);
-            bind(IGetVatTaxes.class).to(GetVatTaxes.class).in(Singleton.class);
             bind(IGetLogMess.class)
                     .annotatedWith(Names.named(IHotelConsts.MESSNAMED))
                     .toProvider(HotelMessProvider.class).in(Singleton.class);
             bind(ISecurityConvert.class).to(SecurityConverter.class).in(
                     Singleton.class);
             bind(IHotelGetName.class).to(GetHotelNameFromToken.class).in(
-                    Singleton.class);
-            bind(IGetInstanceHotelId.class).to(GetInstanceHotelId.class).in(
                     Singleton.class);
             bind(IHotelObjectsFactory.class).to(HotelObjectsFactory.class).in(
                     Singleton.class);
