@@ -18,7 +18,6 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.jpa.JUtils;
@@ -30,6 +29,7 @@ import com.gwthotel.hotel.jpa.entities.EHotelReservation;
 import com.gwthotel.hotel.jpa.entities.EHotelRoom;
 import com.gwthotel.hotel.jpa.entities.EHotelServices;
 import com.gwtmodel.table.common.dateutil.ISetTestToday;
+import com.jython.serversecurity.OObjectId;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaTransaction;
 
@@ -48,9 +48,9 @@ public class ClearObjects implements IClearHotel {
 
     private class RemoveObject extends JpaTransaction {
 
-        private final HotelId hotel;
+        private final OObjectId hotel;
 
-        RemoveObject(HotelId hotel) {
+        RemoveObject(OObjectId hotel) {
             super(eFactory);
             this.hotel = hotel;
         }
@@ -74,7 +74,7 @@ public class ClearObjects implements IClearHotel {
     }
 
     @Override
-    public void clearObjects(HotelId hotel) {
+    public void clearObjects(OObjectId hotel) {
         RemoveObject comma = new RemoveObject(hotel);
         comma.executeTran();
     }
@@ -106,11 +106,11 @@ public class ClearObjects implements IClearHotel {
 
     private class CountHotelObject extends JpaTransaction {
 
-        private final HotelId hotel;
+        private final OObjectId hotel;
         private final Class cl;
         Long l;
 
-        CountHotelObject(HotelId hotel, Class cl) {
+        CountHotelObject(OObjectId hotel, Class cl) {
             super(eFactory);
             this.hotel = hotel;
             this.cl = cl;
@@ -126,11 +126,11 @@ public class ClearObjects implements IClearHotel {
 
     private class CountHotelObject1 extends JpaTransaction {
 
-        private final HotelId hotel;
+        private final OObjectId hotel;
         private final String st;
         Long l;
 
-        CountHotelObject1(HotelId hotel, String st) {
+        CountHotelObject1(OObjectId hotel, String st) {
             super(eFactory);
             this.hotel = hotel;
             this.st = st;
@@ -144,7 +144,7 @@ public class ClearObjects implements IClearHotel {
     }
 
     @Override
-    public long numberOf(HotelId hotel, HotelObjects o) {
+    public long numberOf(OObjectId hotel, HotelObjects o) {
         Class cl = getClass(o);
         if (o == HotelObjects.RESERVATION || o == HotelObjects.CUSTOMER
                 || o == HotelObjects.PRICELIST || o == HotelObjects.ROOM

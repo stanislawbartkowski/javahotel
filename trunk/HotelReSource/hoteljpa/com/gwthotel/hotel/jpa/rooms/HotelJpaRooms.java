@@ -18,7 +18,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.jpa.AbstractJpaCrud;
 import com.gwthotel.hotel.jpa.IHotelObjectGenSymFactory;
@@ -29,6 +28,7 @@ import com.gwthotel.hotel.jpa.entities.EHotelServices;
 import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.HotelServices;
+import com.jython.serversecurity.OObjectId;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 
 class HotelJpaRooms extends AbstractJpaCrud<HotelRoom, EHotelRoom> implements
@@ -41,7 +41,7 @@ class HotelJpaRooms extends AbstractJpaCrud<HotelRoom, EHotelRoom> implements
     }
 
     @Override
-    protected HotelRoom toT(EHotelRoom sou, EntityManager em, HotelId hotel) {
+    protected HotelRoom toT(EHotelRoom sou, EntityManager em, OObjectId hotel) {
         HotelRoom dest = new HotelRoom();
         dest.setNoPersons(sou.getNoPersons());
         dest.setNoChildren(sou.getNoChildren());
@@ -50,20 +50,20 @@ class HotelJpaRooms extends AbstractJpaCrud<HotelRoom, EHotelRoom> implements
     }
 
     @Override
-    protected EHotelRoom constructE(EntityManager em, HotelId hotel) {
+    protected EHotelRoom constructE(EntityManager em, OObjectId hotel) {
         return new EHotelRoom();
     }
 
     @Override
     protected void toE(EHotelRoom dest, HotelRoom sou, EntityManager em,
-            HotelId hotel) {
+            OObjectId hotel) {
         dest.setNoPersons(sou.getNoPersons());
         dest.setNoChildren(sou.getNoChildren());
         dest.setNoExtraBeds(sou.getNoExtraBeds());
     }
 
     @Override
-    protected void beforedeleteElem(EntityManager em, HotelId hotel,
+    protected void beforedeleteElem(EntityManager em, OObjectId hotel,
             EHotelRoom elem) {
         String[] queryS = { "deleteAllReservationDetailsForRoom",
                 "deleteServicesForRoom", "deleteGuestForRoom" };
@@ -75,7 +75,7 @@ class HotelJpaRooms extends AbstractJpaCrud<HotelRoom, EHotelRoom> implements
         private final String roomName;
         private final List<String> services;
 
-        SetRoomServices(HotelId hotel, String roomName, List<String> services) {
+        SetRoomServices(OObjectId hotel, String roomName, List<String> services) {
             super(hotel);
             this.roomName = roomName;
             this.services = services;
@@ -101,7 +101,7 @@ class HotelJpaRooms extends AbstractJpaCrud<HotelRoom, EHotelRoom> implements
     }
 
     @Override
-    public void setRoomServices(HotelId hotel, String roomName,
+    public void setRoomServices(OObjectId hotel, String roomName,
             List<String> services) {
         SetRoomServices comma = new SetRoomServices(hotel, roomName, services);
         comma.executeTran();
@@ -112,7 +112,7 @@ class HotelJpaRooms extends AbstractJpaCrud<HotelRoom, EHotelRoom> implements
         private final String roomName;
         private final List<HotelServices> eList = new ArrayList<HotelServices>();
 
-        GetRoomServices(HotelId hotel, String roomName) {
+        GetRoomServices(OObjectId hotel, String roomName) {
             super(hotel);
             this.roomName = roomName;
         }
@@ -130,14 +130,14 @@ class HotelJpaRooms extends AbstractJpaCrud<HotelRoom, EHotelRoom> implements
     }
 
     @Override
-    public List<HotelServices> getRoomServices(HotelId hotel, String roomName) {
+    public List<HotelServices> getRoomServices(OObjectId hotel, String roomName) {
         GetRoomServices comm = new GetRoomServices(hotel, roomName);
         comm.executeTran();
         return comm.eList;
     }
 
     @Override
-    protected void afterAddChange(EntityManager em, HotelId hotel,
+    protected void afterAddChange(EntityManager em, OObjectId hotel,
             HotelRoom prop, EHotelRoom elem, boolean add) {
         
     }

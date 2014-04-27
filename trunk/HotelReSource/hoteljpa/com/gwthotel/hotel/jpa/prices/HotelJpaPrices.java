@@ -20,7 +20,6 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.HUtils;
 import com.gwthotel.hotel.jpa.JUtils;
 import com.gwthotel.hotel.jpa.entities.EHotelPriceElem;
@@ -28,6 +27,7 @@ import com.gwthotel.hotel.jpa.entities.EHotelPriceList;
 import com.gwthotel.hotel.jpa.entities.EHotelServices;
 import com.gwthotel.hotel.prices.HotelPriceElem;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
+import com.jython.serversecurity.OObjectId;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaTransaction;
 
@@ -41,9 +41,9 @@ class HotelJpaPrices implements IHotelPriceElem {
 
     private abstract class doTransaction extends JpaTransaction {
 
-        protected final HotelId hotel;
+        protected final OObjectId hotel;
 
-        doTransaction(HotelId hotel) {
+        doTransaction(OObjectId hotel) {
             super(eFactory);
             this.hotel = hotel;
         }
@@ -54,7 +54,7 @@ class HotelJpaPrices implements IHotelPriceElem {
         private final String priceList;
         private final List<HotelPriceElem> pList = new ArrayList<HotelPriceElem>();
 
-        GetPrices(HotelId hotel, String priceList) {
+        GetPrices(OObjectId hotel, String priceList) {
             super(hotel);
             this.priceList = priceList;
         }
@@ -81,7 +81,7 @@ class HotelJpaPrices implements IHotelPriceElem {
     }
 
     @Override
-    public List<HotelPriceElem> getPricesForPriceList(HotelId hotel,
+    public List<HotelPriceElem> getPricesForPriceList(OObjectId hotel,
             String pricelist) {
         GetPrices comm = new GetPrices(hotel, pricelist);
         comm.executeTran();
@@ -92,7 +92,7 @@ class HotelJpaPrices implements IHotelPriceElem {
         private final String priceList;
         private final List<HotelPriceElem> pList;
 
-        SavePrices(HotelId hotel, String pricelist, List<HotelPriceElem> pList) {
+        SavePrices(OObjectId hotel, String pricelist, List<HotelPriceElem> pList) {
             super(hotel);
             this.priceList = pricelist;
             this.pList = pList;
@@ -139,7 +139,7 @@ class HotelJpaPrices implements IHotelPriceElem {
     }
 
     @Override
-    public void savePricesForPriceList(HotelId hotel, String pricelist,
+    public void savePricesForPriceList(OObjectId hotel, String pricelist,
             List<HotelPriceElem> pList) {
         SavePrices comma = new SavePrices(hotel, pricelist, pList);
         comma.executeTran();
@@ -147,7 +147,7 @@ class HotelJpaPrices implements IHotelPriceElem {
 
     private class DeleteAllPrices extends doTransaction {
 
-        DeleteAllPrices(HotelId hotel) {
+        DeleteAllPrices(OObjectId hotel) {
             super(hotel);
         }
 
@@ -162,7 +162,7 @@ class HotelJpaPrices implements IHotelPriceElem {
     }
 
     @Override
-    public void deleteAll(HotelId hotel) {
+    public void deleteAll(OObjectId hotel) {
         DeleteAllPrices comm = new DeleteAllPrices(hotel);
         comm.executeTran();
 

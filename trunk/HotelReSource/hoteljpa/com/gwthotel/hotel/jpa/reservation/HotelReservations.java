@@ -17,7 +17,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.ServiceType;
 import com.gwthotel.hotel.jpa.AbstractJpaCrud;
@@ -29,6 +28,7 @@ import com.gwthotel.hotel.jpa.entities.EHotelReservationDetail;
 import com.gwthotel.hotel.reservation.IReservationForm;
 import com.gwthotel.hotel.reservation.ReservationForm;
 import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
+import com.jython.serversecurity.OObjectId;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 
 class HotelReservations extends
@@ -43,7 +43,7 @@ class HotelReservations extends
 
     @Override
     protected ReservationForm toT(EHotelReservation sou, EntityManager em,
-            HotelId hotel) {
+            OObjectId hotel) {
         ReservationForm ho = new ReservationForm();
         ho.setCustomerName(sou.getCustomer().getName());
         ho.setStatus(sou.getStatus());
@@ -63,12 +63,12 @@ class HotelReservations extends
     }
 
     @Override
-    protected EHotelReservation constructE(EntityManager em, HotelId hotel) {
+    protected EHotelReservation constructE(EntityManager em, OObjectId hotel) {
         return new EHotelReservation();
     }
 
     @Override
-    protected void afterAddChange(EntityManager em, HotelId hotel,
+    protected void afterAddChange(EntityManager em, OObjectId hotel,
             ReservationForm prop, EHotelReservation elem, boolean add) {
         Query q = em.createNamedQuery("deleteAllReservationsForReservation");
         q.setParameter(1, elem);
@@ -86,7 +86,7 @@ class HotelReservations extends
 
     @Override
     protected void toE(EHotelReservation dest, ReservationForm sou,
-            EntityManager em, HotelId hotel) {
+            EntityManager em, OObjectId hotel) {
         String custName = sou.getCustomerName();
         EHotelCustomer cust = JUtils.getElemE(em, hotel, "findOneCustomer",
                 custName);
@@ -95,7 +95,7 @@ class HotelReservations extends
     }
 
     @Override
-    protected void beforedeleteElem(EntityManager em, HotelId hotel,
+    protected void beforedeleteElem(EntityManager em, OObjectId hotel,
             EHotelReservation elem) {
       JUtils.runQueryForObject(em, elem, "removeAllPaymentsforReservation");
       JUtils.removeList(em,elem,"findBillsForReservation");

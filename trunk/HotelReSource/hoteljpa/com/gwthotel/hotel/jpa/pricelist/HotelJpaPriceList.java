@@ -14,7 +14,6 @@ package com.gwthotel.hotel.jpa.pricelist;
 
 import javax.persistence.EntityManager;
 
-import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.jpa.AbstractJpaCrud;
 import com.gwthotel.hotel.jpa.IHotelObjectGenSymFactory;
@@ -22,6 +21,7 @@ import com.gwthotel.hotel.jpa.JUtils;
 import com.gwthotel.hotel.jpa.entities.EHotelPriceList;
 import com.gwthotel.hotel.pricelist.HotelPriceList;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
+import com.jython.serversecurity.OObjectId;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 
 class HotelJpaPriceList extends
@@ -36,7 +36,7 @@ class HotelJpaPriceList extends
 
     @Override
     protected HotelPriceList toT(EHotelPriceList sou, EntityManager em,
-            HotelId hotel) {
+            OObjectId hotel) {
         HotelPriceList ho = new HotelPriceList();
         ho.setFromDate(sou.getPriceFrom());
         ho.setToDate(sou.getPriceTo());
@@ -44,26 +44,26 @@ class HotelJpaPriceList extends
     }
 
     @Override
-    protected EHotelPriceList constructE(EntityManager em, HotelId hotel) {
+    protected EHotelPriceList constructE(EntityManager em, OObjectId hotel) {
         return new EHotelPriceList();
     }
 
     @Override
     protected void toE(EHotelPriceList dest, HotelPriceList sou,
-            EntityManager em, HotelId hotel) {
+            EntityManager em, OObjectId hotel) {
         dest.setPriceFrom(sou.getFromDate());
         dest.setPriceTo(sou.getToDate());
     }
 
     @Override
-    protected void beforedeleteElem(EntityManager em, HotelId hotel,
+    protected void beforedeleteElem(EntityManager em, OObjectId hotel,
             EHotelPriceList elem) {
         String[] queryL = { "deletePricesForHotelAndPriceList" };
         JUtils.runQueryForObject(em, elem, queryL);
     }
 
     @Override
-    protected void afterAddChange(EntityManager em, HotelId hotel,
+    protected void afterAddChange(EntityManager em, OObjectId hotel,
             HotelPriceList prop, EHotelPriceList elem, boolean add) {
         
     }

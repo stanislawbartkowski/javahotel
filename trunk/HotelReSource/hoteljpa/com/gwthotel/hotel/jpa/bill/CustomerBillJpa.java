@@ -15,11 +15,9 @@ package com.gwthotel.hotel.jpa.bill;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 
-import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.bill.CustomerBill;
 import com.gwthotel.hotel.bill.ICustomerBills;
@@ -31,6 +29,7 @@ import com.gwthotel.hotel.jpa.entities.EHotelCustomer;
 import com.gwthotel.hotel.jpa.entities.EHotelReservation;
 import com.gwthotel.mess.IHError;
 import com.gwthotel.mess.IHMess;
+import com.jython.serversecurity.OObjectId;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 
 class CustomerBillJpa extends AbstractJpaCrud<CustomerBill, ECustomerBill>
@@ -44,14 +43,14 @@ class CustomerBillJpa extends AbstractJpaCrud<CustomerBill, ECustomerBill>
 
     @Override
     protected CustomerBill toT(ECustomerBill sou, EntityManager em,
-            HotelId hotel) {
+            OObjectId hotel) {
         CustomerBill dest = new CustomerBill();
         JUtils.toCustomerBill(em, hotel, dest, sou);
         return dest;
     }
 
     @Override
-    protected ECustomerBill constructE(EntityManager em, HotelId hotel) {
+    protected ECustomerBill constructE(EntityManager em, OObjectId hotel) {
         return new ECustomerBill();
     }
 
@@ -75,7 +74,7 @@ class CustomerBillJpa extends AbstractJpaCrud<CustomerBill, ECustomerBill>
 
     @Override
     protected void toE(ECustomerBill dest, CustomerBill sou, EntityManager em,
-            HotelId hotel) {
+            OObjectId hotel) {
         String payname = sou.getPayer();
         EHotelCustomer cust = JUtils.findCustomer(em, hotel, payname);
         dest.setCustomer(cust);
@@ -88,14 +87,14 @@ class CustomerBillJpa extends AbstractJpaCrud<CustomerBill, ECustomerBill>
     }
 
     @Override
-    protected void beforedeleteElem(EntityManager em, HotelId hotel,
+    protected void beforedeleteElem(EntityManager em, OObjectId hotel,
             ECustomerBill elem) {
         JUtils.runQueryForObject(em, elem,
                 new String[] { "removePaymentsforBill" });
     }
 
     @Override
-    protected void afterAddChange(EntityManager em, HotelId hotel,
+    protected void afterAddChange(EntityManager em, OObjectId hotel,
             CustomerBill prop, ECustomerBill elem, boolean add) {
 
     }

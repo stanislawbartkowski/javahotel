@@ -18,12 +18,12 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.jpa.JUtils;
 import com.gwthotel.hotel.jpa.entities.EBillPayment;
 import com.gwthotel.hotel.jpa.entities.ECustomerBill;
 import com.gwthotel.hotel.payment.IPaymentBillOp;
 import com.gwthotel.hotel.payment.PaymentBill;
+import com.jython.serversecurity.OObjectId;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaTransaction;
 import com.jythonui.server.BUtil;
@@ -38,10 +38,10 @@ class PaymentOp implements IPaymentBillOp {
 
     private abstract class doTransaction extends JpaTransaction {
 
-        protected final HotelId hotel;
+        protected final OObjectId hotel;
         protected final String billName;
 
-        doTransaction(HotelId hotel, String billName) {
+        doTransaction(OObjectId hotel, String billName) {
             super(eFactory);
             this.hotel = hotel;
             this.billName = billName;
@@ -67,7 +67,7 @@ class PaymentOp implements IPaymentBillOp {
 
         private List<PaymentBill> pList = new ArrayList<PaymentBill>();
 
-        GetPaymentsForBill(HotelId hotel, String billName) {
+        GetPaymentsForBill(OObjectId hotel, String billName) {
             super(hotel, billName);
         }
 
@@ -83,7 +83,7 @@ class PaymentOp implements IPaymentBillOp {
     }
 
     @Override
-    public List<PaymentBill> getPaymentsForBill(HotelId hotel, String billName) {
+    public List<PaymentBill> getPaymentsForBill(OObjectId hotel, String billName) {
         GetPaymentsForBill tran = new GetPaymentsForBill(hotel, billName);
         tran.executeTran();
         return tran.pList;
@@ -93,7 +93,7 @@ class PaymentOp implements IPaymentBillOp {
 
         private final PaymentBill p;
 
-        AddPaymentToBill(HotelId hotel, String billName, PaymentBill p) {
+        AddPaymentToBill(OObjectId hotel, String billName, PaymentBill p) {
             super(hotel, billName);
             this.p = p;
         }
@@ -115,7 +115,7 @@ class PaymentOp implements IPaymentBillOp {
     }
 
     @Override
-    public void addPaymentForBill(HotelId hotel, String billName,
+    public void addPaymentForBill(OObjectId hotel, String billName,
             PaymentBill payment) {
         AddPaymentToBill trans = new AddPaymentToBill(hotel, billName, payment);
         trans.executeTran();
@@ -125,7 +125,7 @@ class PaymentOp implements IPaymentBillOp {
 
         private final Long paymentId;
 
-        RemovePaymentForBill(HotelId hotel, String billName, Long paymentId) {
+        RemovePaymentForBill(OObjectId hotel, String billName, Long paymentId) {
             super(hotel, billName);
             this.paymentId = paymentId;
         }
@@ -141,7 +141,7 @@ class PaymentOp implements IPaymentBillOp {
     }
 
     @Override
-    public void removePaymentForBill(HotelId hotel, String billName,
+    public void removePaymentForBill(OObjectId hotel, String billName,
             Long paymentId) {
         RemovePaymentForBill trans = new RemovePaymentForBill(hotel, billName,
                 paymentId);

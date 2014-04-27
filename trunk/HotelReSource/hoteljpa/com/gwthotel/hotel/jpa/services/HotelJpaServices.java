@@ -14,7 +14,6 @@ package com.gwthotel.hotel.jpa.services;
 
 import javax.persistence.EntityManager;
 
-import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.jpa.AbstractJpaCrud;
 import com.gwthotel.hotel.jpa.IHotelObjectGenSymFactory;
@@ -23,6 +22,7 @@ import com.gwthotel.hotel.jpa.entities.EHotelServices;
 import com.gwthotel.hotel.services.HotelServices;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.shared.IHotelConsts;
+import com.jython.serversecurity.OObjectId;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 
 class HotelJpaServices extends AbstractJpaCrud<HotelServices, EHotelServices>
@@ -36,18 +36,18 @@ class HotelJpaServices extends AbstractJpaCrud<HotelServices, EHotelServices>
 
     @Override
     protected HotelServices toT(EHotelServices sou, EntityManager em,
-            HotelId hotel) {
+            OObjectId hotel) {
         return JUtils.toT(sou);
     }
 
     @Override
-    protected EHotelServices constructE(EntityManager em, HotelId hotel) {
+    protected EHotelServices constructE(EntityManager em, OObjectId hotel) {
         return new EHotelServices();
     }
 
     @Override
     protected void toE(EHotelServices dest, HotelServices sou,
-            EntityManager em, HotelId hotel) {
+            EntityManager em, OObjectId hotel) {
         dest.setNoPersons(sou.getNoPersons());
         dest.setVat(sou.getAttr(IHotelConsts.VATPROP));
         dest.setServiceType(sou.getServiceType());
@@ -57,7 +57,7 @@ class HotelJpaServices extends AbstractJpaCrud<HotelServices, EHotelServices>
     }
 
     @Override
-    protected void beforedeleteElem(EntityManager em, HotelId hotel,
+    protected void beforedeleteElem(EntityManager em, OObjectId hotel,
             EHotelServices elem) {
         String qList[] = { "deleteAllReservationDetailsForService",
                 "deletePricesForHotelAndService", "deleteForRoomServices" };
@@ -65,7 +65,7 @@ class HotelJpaServices extends AbstractJpaCrud<HotelServices, EHotelServices>
     }
 
     @Override
-    protected void afterAddChange(EntityManager em, HotelId hotel,
+    protected void afterAddChange(EntityManager em, OObjectId hotel,
             HotelServices prop, EHotelServices elem, boolean add) {
 
     }

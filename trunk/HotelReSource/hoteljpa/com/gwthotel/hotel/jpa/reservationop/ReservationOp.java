@@ -18,7 +18,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.ServiceType;
 import com.gwthotel.hotel.bill.CustomerBill;
 import com.gwthotel.hotel.jpa.JUtils;
@@ -36,6 +35,7 @@ import com.gwthotel.hotel.reservationop.IReservationOp;
 import com.gwthotel.hotel.reservationop.ResData;
 import com.gwthotel.hotel.reservationop.ResQuery;
 import com.gwthotel.hotel.stay.ResGuest;
+import com.jython.serversecurity.OObjectId;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaTransaction;
 
@@ -49,9 +49,9 @@ class ReservationOp implements IReservationOp {
 
     private abstract class doTransaction extends JpaTransaction {
 
-        protected final HotelId hotel;
+        protected final OObjectId hotel;
 
-        doTransaction(HotelId hotel) {
+        doTransaction(OObjectId hotel) {
             super(eFactory);
             this.hotel = hotel;
         }
@@ -59,10 +59,10 @@ class ReservationOp implements IReservationOp {
 
     private abstract class doResTransaction extends JpaTransaction {
 
-        protected final HotelId hotel;
+        protected final OObjectId hotel;
         protected final String resName;
 
-        doResTransaction(HotelId hotel, String resName) {
+        doResTransaction(OObjectId hotel, String resName) {
             super(eFactory);
             this.hotel = hotel;
             this.resName = resName;
@@ -95,7 +95,7 @@ class ReservationOp implements IReservationOp {
         private final List<ResQuery> rQuery;
         private List<ResData> resList = new ArrayList<ResData>();
 
-        QueryCommand(HotelId hotel, List<ResQuery> rQuery) {
+        QueryCommand(OObjectId hotel, List<ResQuery> rQuery) {
             super(hotel);
             this.rQuery = rQuery;
         }
@@ -123,7 +123,7 @@ class ReservationOp implements IReservationOp {
     }
 
     @Override
-    public List<ResData> queryReservation(HotelId hotel, List<ResQuery> rQuery) {
+    public List<ResData> queryReservation(OObjectId hotel, List<ResQuery> rQuery) {
         QueryCommand q = new QueryCommand(hotel, rQuery);
         q.executeTran();
         return q.resList;
@@ -133,7 +133,7 @@ class ReservationOp implements IReservationOp {
 
         private final ResStatus newStatus;
 
-        ChangeStatus(HotelId hotel, String resName, ResStatus newStatus) {
+        ChangeStatus(OObjectId hotel, String resName, ResStatus newStatus) {
             super(hotel, resName);
             this.newStatus = newStatus;
         }
@@ -147,7 +147,7 @@ class ReservationOp implements IReservationOp {
     }
 
     @Override
-    public void changeStatus(HotelId hotel, String resName, ResStatus newStatus) {
+    public void changeStatus(OObjectId hotel, String resName, ResStatus newStatus) {
         ChangeStatus comma = new ChangeStatus(hotel, resName, newStatus);
         comma.executeTran();
     }
@@ -156,7 +156,7 @@ class ReservationOp implements IReservationOp {
 
         private final List<ResGuest> gList;
 
-        SetReservGuest(HotelId hotel, String resName, List<ResGuest> gList) {
+        SetReservGuest(OObjectId hotel, String resName, List<ResGuest> gList) {
             super(hotel, resName);
             this.gList = gList;
         }
@@ -178,7 +178,7 @@ class ReservationOp implements IReservationOp {
     }
 
     @Override
-    public void setResGuestList(HotelId hotel, String resName,
+    public void setResGuestList(OObjectId hotel, String resName,
             List<ResGuest> gList) {
         SetReservGuest comma = new SetReservGuest(hotel, resName, gList);
         comma.executeTran();
@@ -188,7 +188,7 @@ class ReservationOp implements IReservationOp {
 
         private final List<ResGuest> outList = new ArrayList<ResGuest>();
 
-        GetResGuest(HotelId hotel, String resName) {
+        GetResGuest(OObjectId hotel, String resName) {
             super(hotel, resName);
         }
 
@@ -209,7 +209,7 @@ class ReservationOp implements IReservationOp {
     }
 
     @Override
-    public List<ResGuest> getResGuestList(HotelId hotel, String resName) {
+    public List<ResGuest> getResGuestList(OObjectId hotel, String resName) {
         GetResGuest comma = new GetResGuest(hotel, resName);
         comma.executeTran();
         return comma.outList;
@@ -219,7 +219,7 @@ class ReservationOp implements IReservationOp {
 
         private final ReservationPaymentDetail addP;
 
-        AddResPayment(HotelId hotel, String resName,
+        AddResPayment(OObjectId hotel, String resName,
                 ReservationPaymentDetail add) {
             super(hotel, resName);
             this.addP = add;
@@ -238,7 +238,7 @@ class ReservationOp implements IReservationOp {
     }
 
     @Override
-    public void addResAddPayment(HotelId hotel, String resName,
+    public void addResAddPayment(OObjectId hotel, String resName,
             ReservationPaymentDetail add) {
         AddResPayment comma = new AddResPayment(hotel, resName, add);
         comma.executeTran();
@@ -248,7 +248,7 @@ class ReservationOp implements IReservationOp {
 
         private List<ReservationPaymentDetail> pList = new ArrayList<ReservationPaymentDetail>();
 
-        AddResPaymentCommand(HotelId hotel, String resName) {
+        AddResPaymentCommand(OObjectId hotel, String resName) {
             super(hotel, resName);
         }
 
@@ -270,7 +270,7 @@ class ReservationOp implements IReservationOp {
     }
 
     @Override
-    public List<ReservationPaymentDetail> getResAddPaymentList(HotelId hotel,
+    public List<ReservationPaymentDetail> getResAddPaymentList(OObjectId hotel,
             String resName) {
         AddResPaymentCommand comma = new AddResPaymentCommand(hotel, resName);
         comma.executeTran();
@@ -281,7 +281,7 @@ class ReservationOp implements IReservationOp {
 
         private List<CustomerBill> bList = new ArrayList<CustomerBill>();
 
-        FindBillsForReservation(HotelId hotel, String resName) {
+        FindBillsForReservation(OObjectId hotel, String resName) {
             super(hotel, resName);
         }
 
@@ -301,7 +301,7 @@ class ReservationOp implements IReservationOp {
     }
 
     @Override
-    public List<CustomerBill> findBillsForReservation(HotelId hotel,
+    public List<CustomerBill> findBillsForReservation(OObjectId hotel,
             String resName) {
         FindBillsForReservation comma = new FindBillsForReservation(hotel,
                 resName);
