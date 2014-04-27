@@ -18,13 +18,11 @@ public interface IHotelConsts {
 
     int PERSONIDNO = -1;
 
-    String NAME = "name";
-    String DESCRIPTION = "descr";
+//    String NAME = "name";
+//    String DESCRIPTION = "descr";
 
     String MESSNAMED = "hotelmessnamed";
 
-    String HOTELADMINEJBJNDI = "java:global/HotelAdmin";
-    String HOTELADMININSTANCEEJBJNDI = "java:global/HotelAdminInstance";
     String HOTELSERVICESJNDI = "java:global/HotelServices";
     String HOTELPRICELISTJNDI = "java:global/HotelPriceList";
     String HOTELPRICEELEMJNDI = "java:global/HotelPriceElem";
@@ -83,18 +81,20 @@ public interface IHotelConsts {
     String PAYMENTBILLNAME = "paymentbillname";
     String PAYMENTMETHOD = "paymentmethod";
 
-    String INSTANCEDEFAULT = "AppInstanceDefault";
-    String INSTANCETEST = "AppInstanceTest";
+//    String INSTANCEDEFAULT = "AppInstanceDefault";
+//    String INSTANCETEST = "AppInstanceTest";
 
-    String CACHEREALMHOTELINSTANCE = "CACHEREALMHOTELINSTANCE";
+//    String CACHEREALMHOTELINSTANCE = "CACHEREALMHOTELINSTANCE";
 
     String PATTPROP = "autompatt";
 
-    String HOTELPERSISTENCEPROVIDER = "hoteladmin";
+//    String HOTELPERSISTENCEPROVIDER = "hoteladmin";
 
     String PROPAUTOM = "autompatterns.properties";
 
-    String CREATIONPERSON = "creationperson";
-    String MODIFPERSON = "modifperson";
+//    String CREATIONPERSON = "creationperson";
+//    String MODIFPERSON = "modifperson";
+
+    String PERSISTENCE_UNIT_NAME = "hoteladmin";
 
 }
