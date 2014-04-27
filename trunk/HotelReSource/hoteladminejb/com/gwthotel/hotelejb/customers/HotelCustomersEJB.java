@@ -27,6 +27,7 @@ import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotelejb.AbstractHotelEJB;
 import com.gwthotel.shared.IHotelConsts;
 import com.jythonui.server.defa.GuiceInterceptor;
+
 //import javax.inject.Inject;
 
 @Stateless

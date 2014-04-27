@@ -14,9 +14,9 @@ package com.gwthotel.hotelejb;
 
 import java.util.List;
 
-import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.IHotelProp;
 import com.gwthotel.shared.PropDescription;
+import com.jython.serversecurity.OObjectId;
 
 abstract public class AbstractHotelEJB<T extends PropDescription> implements
         IHotelProp<T> {
@@ -24,27 +24,27 @@ abstract public class AbstractHotelEJB<T extends PropDescription> implements
     protected IHotelProp<T> service;
 
     @Override
-    public List<T> getList(HotelId hotel) {
+    public List<T> getList(OObjectId hotel) {
         return service.getList(hotel);
     }
 
     @Override
-    public T addElem(HotelId hotel, T elem) {
+    public T addElem(OObjectId hotel, T elem) {
         return service.addElem(hotel, elem);
     }
 
     @Override
-    public void changeElem(HotelId hotel, T elem) {
+    public void changeElem(OObjectId hotel, T elem) {
         service.changeElem(hotel, elem);
     }
 
     @Override
-    public void deleteElem(HotelId hotel, T elem) {
+    public void deleteElem(OObjectId hotel, T elem) {
         service.deleteElem(hotel, elem);
     }
 
     @Override
-    public T findElem(HotelId hotel, String name) {
+    public T findElem(OObjectId hotel, String name) {
         return service.findElem(hotel, name);
     }
 

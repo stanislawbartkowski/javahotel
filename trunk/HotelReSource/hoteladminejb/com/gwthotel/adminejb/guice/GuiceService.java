@@ -19,10 +19,6 @@ import javax.persistence.EntityManager;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.name.Names;
-import com.gwthotel.admin.IAppInstanceHotel;
-import com.gwthotel.admin.IHotelAdmin;
-import com.gwthotel.admin.jpa.HotelAdminProvider;
-import com.gwthotel.admin.jpa.HotelAppInstanceProvider;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.bill.ICustomerBills;
@@ -50,6 +46,10 @@ import com.gwthotel.mess.HotelMessProvider;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.table.common.dateutil.ISetTestToday;
 import com.gwtmodel.table.common.dateutil.SetTestTodayProvider;
+import com.jython.serversecurity.IOObjectAdmin;
+import com.jython.serversecurity.instance.IAppInstanceOObject;
+import com.jython.serversecurity.jpa.OObjectAdminInstance;
+import com.jython.serversecurity.jpa.OObjectAdminJpa;
 import com.jython.ui.server.jpastoragekey.BlobEntryJpaHandler;
 import com.jython.ui.server.jpastoragekey.IStorageJpaRegistryFactory;
 import com.jython.ui.server.jpastoragekey.StorageJpaRegistryFactory;
@@ -79,11 +79,11 @@ public class GuiceService {
         @Override
         protected void configure() {
 
-            bind(IHotelAdmin.class).toProvider(HotelAdminProvider.class).in(
-                    Singleton.class);
+//            bind(IHotelAdmin.class).toProvider(HotelAdminProvider.class).in(
+//                    Singleton.class);
 
-            bind(IAppInstanceHotel.class).toProvider(
-                    HotelAppInstanceProvider.class).in(Singleton.class);
+//            bind(IAppInstanceHotel.class).toProvider(
+//                    HotelAppInstanceProvider.class).in(Singleton.class);
 
             bind(IHotelServices.class).toProvider(HotelServicesProvider.class)
                     .in(Singleton.class);
@@ -136,6 +136,10 @@ public class GuiceService {
             bind(ISetTestToday.class).toProvider(SetTestTodayProvider.class)
                     .in(Singleton.class);
             bind(IReadResourceFactory.class).to(ReadResourceFactory.class).in(
+                    Singleton.class);
+            bind(IAppInstanceOObject.class).to(OObjectAdminInstance.class).in(
+                    Singleton.class);
+            bind(IOObjectAdmin.class).to(OObjectAdminJpa.class).in(
                     Singleton.class);
             // -----
 

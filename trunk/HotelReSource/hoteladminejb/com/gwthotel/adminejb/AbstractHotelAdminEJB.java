@@ -12,85 +12,78 @@
  */
 package com.gwthotel.adminejb;
 
-import java.util.List;
 
-import com.gwthotel.admin.AppInstanceId;
-import com.gwthotel.admin.Hotel;
-import com.gwthotel.admin.HotelRoles;
-import com.gwthotel.admin.IHotelAdmin;
-import com.gwthotel.admin.Person;
-
-abstract class AbstractHotelAdminEJB implements IHotelAdmin {
-
-    protected IHotelAdmin iHotel;
-
-    @Override
-    public List<Person> getListOfPersons(AppInstanceId i) {
-        return iHotel.getListOfPersons(i);
-    }
-
-    @Override
-    public List<Hotel> getListOfHotels(AppInstanceId i) {
-        return iHotel.getListOfHotels(i);
-    }
-
-    @Override
-    public List<HotelRoles> getListOfRolesForPerson(AppInstanceId i,
-            String person) {
-        return iHotel.getListOfRolesForPerson(i, person);
-    }
-
-    @Override
-    public List<HotelRoles> getListOfRolesForHotel(AppInstanceId i, String hotel) {
-        return iHotel.getListOfRolesForHotel(i, hotel);
-    }
-
-    @Override
-    public void addOrModifHotel(AppInstanceId i, Hotel hotel,
-            List<HotelRoles> roles) {
-        iHotel.addOrModifHotel(i, hotel, roles);
-
-    }
-
-    @Override
-    public void addOrModifPerson(AppInstanceId i, Person person,
-            List<HotelRoles> roles) {
-        iHotel.addOrModifPerson(i, person, roles);
-
-    }
-
-    @Override
-    public void changePasswordForPerson(AppInstanceId i, String person,
-            String password) {
-        iHotel.changePasswordForPerson(i, person, password);
-
-    }
-
-    @Override
-    public boolean validatePasswordForPerson(AppInstanceId i, String person,
-            String password) {
-        return iHotel.validatePasswordForPerson(i, person, password);
-    }
-
-    @Override
-    public void clearAll(AppInstanceId i) {
-        iHotel.clearAll(i);
-    }
-
-    @Override
-    public void removePerson(AppInstanceId i, String person) {
-        iHotel.removePerson(i, person);
-
-    }
-
-    @Override
-    public void removeHotel(AppInstanceId i, String hotel) {
-        iHotel.removeHotel(i, hotel);
-    }
-
-    @Override
-    public String getPassword(AppInstanceId i, String person) {
-        return iHotel.getPassword(i, person);
-    }
-
-}
+//abstract class AbstractHotelAdminEJB implements IHotelAdmin {
+//
+//    protected IHotelAdmin iHotel;
+//
+//    @Override
+//    public List<Person> getListOfPersons(AppInstanceId i) {
+//        return iHotel.getListOfPersons(i);
+//    }
+//
+//    @Override
+//    public List<Hotel> getListOfHotels(AppInstanceId i) {
+//        return iHotel.getListOfHotels(i);
+//    }
+//
+//    @Override
+//    public List<HotelRoles> getListOfRolesForPerson(AppInstanceId i,
+//            String person) {
+//        return iHotel.getListOfRolesForPerson(i, person);
+//    }
+//
+//    @Override
+//    public List<HotelRoles> getListOfRolesForHotel(AppInstanceId i, String hotel) {
+//        return iHotel.getListOfRolesForHotel(i, hotel);
+//    }
+//
+//    @Override
+//    public void addOrModifHotel(AppInstanceId i, Hotel hotel,
+//            List<HotelRoles> roles) {
+//        iHotel.addOrModifHotel(i, hotel, roles);
+//
+//    }
+//
+//    @Override
+//    public void addOrModifPerson(AppInstanceId i, Person person,
+//            List<HotelRoles> roles) {
+//        iHotel.addOrModifPerson(i, person, roles);
+//
+//    }
+//
+//    @Override
+//    public void changePasswordForPerson(AppInstanceId i, String person,
+//            String password) {
+//        iHotel.changePasswordForPerson(i, person, password);
+//
+//    }
+//
+//    @Override
+//    public boolean validatePasswordForPerson(AppInstanceId i, String person,
+//            String password) {
+//        return iHotel.validatePasswordForPerson(i, person, password);
+//    }
+//
+//    @Override
+//    public void clearAll(AppInstanceId i) {
+//        iHotel.clearAll(i);
+//    }
+//
+//    @Override
+//    public void removePerson(AppInstanceId i, String person) {
+//        iHotel.removePerson(i, person);
+//
+//    }
+//
+//    @Override
+//    public void removeHotel(AppInstanceId i, String hotel) {
+//        iHotel.removeHotel(i, hotel);
+//    }
+//
+//    @Override
+//    public String getPassword(AppInstanceId i, String person) {
+//        return iHotel.getPassword(i, person);
+//    }
+//
+//}

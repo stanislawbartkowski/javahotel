@@ -24,11 +24,11 @@ import javax.ejb.TransactionManagementType;
 import javax.interceptor.Interceptors;
 
 import com.google.inject.Inject;
-import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.table.common.dateutil.ISetTestToday;
+import com.jython.serversecurity.OObjectId;
 import com.jythonui.server.defa.GuiceInterceptor;
 
 @Stateless
@@ -48,7 +48,7 @@ public class HotelClearOpEJB implements IClearHotel {
     }
 
     @Override
-    public void clearObjects(HotelId hotel) {
+    public void clearObjects(OObjectId hotel) {
         clearOp.clearObjects(hotel);
     }
 
@@ -59,7 +59,7 @@ public class HotelClearOpEJB implements IClearHotel {
     }
 
     @Override
-    public long numberOf(HotelId hotel, HotelObjects o) {
+    public long numberOf(OObjectId hotel, HotelObjects o) {
         return clearOp.numberOf(hotel, o);
     }
 
