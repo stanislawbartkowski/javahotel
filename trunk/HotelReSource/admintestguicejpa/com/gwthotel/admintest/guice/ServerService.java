@@ -18,10 +18,6 @@ import javax.persistence.EntityManagerFactory;
 
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import com.gwthotel.admin.IAppInstanceHotel;
-import com.gwthotel.admin.IHotelAdmin;
-import com.gwthotel.admin.jpa.HotelAdminProvider;
-import com.gwthotel.admin.jpa.HotelAppInstanceProvider;
 import com.gwthotel.admintest.suite.TestHelper;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.IGetAutomPatterns;
@@ -55,6 +51,10 @@ import com.gwtmodel.table.common.dateutil.ISetTestToday;
 import com.gwtmodel.table.common.dateutil.SetTestTodayProvider;
 import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.gwtmodel.testenhancer.notgae.TestEnhancer;
+import com.jython.serversecurity.IOObjectAdmin;
+import com.jython.serversecurity.instance.IAppInstanceOObject;
+import com.jython.serversecurity.jpa.OObjectAdminInstance;
+import com.jython.serversecurity.jpa.OObjectAdminJpa;
 import com.jython.ui.server.jpastoragekey.BlobEntryJpaHandler;
 import com.jython.ui.server.jpastoragekey.IStorageJpaRegistryFactory;
 import com.jython.ui.server.jpastoragekey.StorageJpaRegistryFactory;
@@ -95,10 +95,6 @@ public class ServerService {
                     EntityManagerFactoryProvider.class).in(Singleton.class);
             bind(ICommonCacheFactory.class).to(SimpleMapCacheFactory.class).in(
                     Singleton.class);
-            bind(IHotelAdmin.class).toProvider(HotelAdminProvider.class).in(
-                    Singleton.class);
-            bind(IAppInstanceHotel.class).toProvider(
-                    HotelAppInstanceProvider.class).in(Singleton.class);
 
             bind(IHotelServices.class).toProvider(HotelServicesProvider.class)
                     .in(Singleton.class);
@@ -131,8 +127,6 @@ public class ServerService {
             // common
             bind(IStorageJpaRegistryFactory.class).to(
                     StorageJpaRegistryFactory.class).in(Singleton.class);
-            // bind(IStorageRegistryFactory.class).to(
-            // StorageRealmRegistryFactory.class).in(Singleton.class);
             bind(ISemaphore.class).to(SemaphoreRegistry.class).in(
                     Singleton.class);
             bind(IGetConnection.class)
@@ -140,6 +134,11 @@ public class ServerService {
                             Singleton.class);
             bind(IBlobHandler.class).to(BlobEntryJpaHandler.class).in(
                     Singleton.class);
+            bind(IAppInstanceOObject.class).to(OObjectAdminInstance.class).in(
+                    Singleton.class);
+            bind(IOObjectAdmin.class).to(OObjectAdminJpa.class).in(
+                    Singleton.class);
+
             bind(ISetTestToday.class).toProvider(SetTestTodayProvider.class)
                     .in(Singleton.class);
             // -----
