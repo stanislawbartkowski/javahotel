@@ -15,6 +15,7 @@
   <button id="upbutton" displayname="Check button" actiontype="JMAIN_DIALOG" actionparam="buttonafter.xml" />
   <button id="enablebutton" displayname="Enable/disable button" actiontype="JMAIN_DIALOG" actionparam="buttonenable.xml" />
   <button id="htmldialog" displayname="Html dialog" actiontype="JMAIN_DIALOG" actionparam="htmldialog.xml" />
+  <button id="authidedialog" displayname="Autohide dialog" actiontype="JUP_DIALOG" actionparam="autodialog.xml" />
   <button id="h1" displayname = "Status" header="" />  
   <button id="statustext" displayname="Status tekst" actiontype="JMAIN_DIALOG" actionparam="statusup.xml" />
   <button id="listfooter" displayname="List footer" actiontype="JMAIN_DIALOG" actionparam="listdeffooter.xml" />

@@ -18,6 +18,10 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.gwtmodel.mapcache.SimpleMapCacheFactory;
+import com.jython.serversecurity.IOObjectAdmin;
+import com.jython.serversecurity.instance.IAppInstanceOObject;
+import com.jython.serversecurity.jpa.OObjectAdminInstance;
+import com.jython.serversecurity.jpa.OObjectAdminJpa;
 import com.jython.ui.server.Cached;
 import com.jython.ui.server.datastore.IDateLineOp;
 import com.jython.ui.server.datastore.IDateRecordOp;
@@ -91,7 +95,10 @@ public class ServerService {
                     Singleton.class);
             bind(IJythonRPCNotifier.class).to(EmptyRPCNotifier.class).in(
                     Singleton.class);
-
+            bind(IAppInstanceOObject.class).to(OObjectAdminInstance.class).in(
+                    Singleton.class);
+            bind(IOObjectAdmin.class).to(OObjectAdminJpa.class).in(
+                    Singleton.class);
             // -----
 
             requestStatic();
