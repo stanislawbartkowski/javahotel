@@ -73,7 +73,7 @@ class ReadDialog extends UtilHelper {
                 ICommonConsts.METHOD, ICommonConsts.PARENT,
                 ICommonConsts.TYPES, ICommonConsts.ASXML,
                 ICommonConsts.CLEARCENTRE, ICommonConsts.CLEARLEFT,
-                ICommonConsts.FORMPANEL };
+                ICommonConsts.FORMPANEL, ICommonConsts.AUTOHIDE };
         private final String[] buttonTag = { ICommonConsts.ID,
                 ICommonConsts.DISPLAYNAME, ICommonConsts.ACTIONTYPE,
                 ICommonConsts.ACTIONPARAM, ICommonConsts.ACTIONPARAM1,

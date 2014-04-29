@@ -12,14 +12,13 @@
  */
 package com.jythonui.client.dialog;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.SynchronizeList;
@@ -33,7 +32,6 @@ import com.gwtmodel.table.slotmodel.CustomStringSlot;
 import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.SlU;
-import com.gwtmodel.table.tabpanelview.BeforeTabChange;
 import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.gwtmodel.table.view.util.ModalDialog;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
@@ -136,8 +134,8 @@ public class RunAction implements IJythonUIClient {
         private final Widget w;
         private ModalDialog md;
 
-        UpDialog(Widget w, IDataType dType) {
-            super("");
+        UpDialog(Widget w, IDataType dType, boolean autohide) {
+            super(new VerticalPanel(), "", autohide, true);
             this.w = w;
             create();
             this.setOnClose(new CloseI(dType));
@@ -220,9 +218,9 @@ public class RunAction implements IJythonUIClient {
                 formP.setEncoding(FormPanel.ENCODING_MULTIPART);
                 formP.setMethod(FormPanel.METHOD_POST);
                 formP.addSubmitCompleteHandler(sC);
-                md = new UpDialog(formP, dType);
+                md = new UpDialog(formP, dType, d.isAutoHideDialog());
             } else
-                md = new UpDialog(w, dType);
+                md = new UpDialog(w, dType, d.isAutoHideDialog());
             if (!CUtil.EmptyS(d.getDisplayName())) {
                 md.setTitle(d.getDisplayName());
             }

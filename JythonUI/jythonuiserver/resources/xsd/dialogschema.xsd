@@ -115,6 +115,7 @@
 			<xs:element minOccurs="0" name="clearleft" type="emptyT" />
 			<xs:element minOccurs="0" name="clearcentre" type="emptyT" />
 			<xs:element minOccurs="0" name="formpanel" type="emptyT" />
+			<xs:element minOccurs="0" name="autohide" type="emptyT" />
 		</xs:sequence>
 	</xs:group>
 
@@ -129,6 +130,7 @@
 		<xs:attribute name="clearleft" type="emptyT" />
 		<xs:attribute name="clearcentre" type="emptyT" />
 		<xs:attribute name="formpanel" type="emptyT" />
+		<xs:attribute name="autohide" type="emptyT" />
 	</xs:attributeGroup>
 
 	<xs:group name="listG">
