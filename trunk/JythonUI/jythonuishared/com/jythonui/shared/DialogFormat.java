@@ -187,6 +187,10 @@ public class DialogFormat extends ElemDescription {
         return isAttr(ICommonConsts.FORMPANEL);
     }
 
+    public boolean isAutoHideDialog() {
+        return isAttr(ICommonConsts.AUTOHIDE);
+    }
+
     public String getAsXmlList() {
         return getAttr(ICommonConsts.ASXML);
     }

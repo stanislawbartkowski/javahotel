@@ -75,6 +75,7 @@ public interface ICommonConsts {
     String IJSCALL = "JS.";
     String ASXML = "asxml";
     String FORMPANEL = "formpanel";
+    String AUTOHIDE = "autohide";
     String CLEARLEFT = "clearleft";
     String CLEARCENTRE = "clearcentre";
     String JXMLCONTENT = "JXMLCONTENT";
@@ -275,7 +276,7 @@ public interface ICommonConsts {
     String BLOBUPLOAD_REALM = "BLOBUPLOAD_REALM";
     String BLOBUPLOAD_KEY = "BLOBUPLOAD_GEN_KEY";
     String BLOBDOWNLOADPARAM = "param";
-    
+
     String DOWNLOADSERVLET = "downLoadHandler";
     String UPLOADSERVLET = "upLoadHandler";
 }
