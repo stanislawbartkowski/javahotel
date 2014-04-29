@@ -18,7 +18,7 @@ import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.rdef.FormLineContainer;
-import com.gwtmodel.table.view.util.CreateReadOnlyI;
+import com.gwtmodel.table.view.util.CreateReadOnly;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -49,7 +49,7 @@ public class ValidateUtil {
 
     public static List<InvalidateMess> checkDate(FormLineContainer fo,
             IVField from, IVField to, boolean canBeEqual) {
-        IVModelData mData = CreateReadOnlyI.contructReadonlyVModel(fo);
+        IVModelData mData = CreateReadOnly.contructReadonlyVModel(fo);
         return checkDate(mData, from, to, canBeEqual);
     }
 
@@ -85,7 +85,7 @@ public class ValidateUtil {
 
     public static List<InvalidateMess> checkEmpty(final FormLineContainer fo,
             List<IVField> listMFie) {
-        IVModelData mData = CreateReadOnlyI.contructReadonlyVModel(fo);
+        IVModelData mData = CreateReadOnly.contructReadonlyVModel(fo);
         return checkEmpty(mData, listMFie, new HashSet<IVField>());
     }
 

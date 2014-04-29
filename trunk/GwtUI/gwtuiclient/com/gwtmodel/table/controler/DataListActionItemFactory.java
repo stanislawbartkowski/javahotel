@@ -114,7 +114,7 @@ class DataListActionItemFactory {
 
         FormDialog(VerticalPanel vp, String title, IGWidget w, boolean modal,
                 ISignal aClose) {
-            super(vp, title, modal);
+            super(vp, title, false, modal);
             this.w = w;
             if (aClose == null) {
                 create();

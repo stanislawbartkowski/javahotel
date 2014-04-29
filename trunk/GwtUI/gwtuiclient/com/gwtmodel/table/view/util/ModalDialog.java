@@ -15,7 +15,6 @@ package com.gwtmodel.table.view.util;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IGWidget;
@@ -53,21 +52,21 @@ abstract public class ModalDialog {
     }
 
     public ModalDialog(String title) {
-        this(new VerticalPanel(), title, true);
+        this(new VerticalPanel(), title, false,true);
     }
 
     public ModalDialog(VerticalPanel vP, String title) {
-        this(vP, title, true);
+        this(vP, title, false,true);
     }
 
-    public ModalDialog(VerticalPanel vP, String title, boolean modal) {
+    public ModalDialog(VerticalPanel vP, String title, boolean autohide,boolean modal) {
         this.vP = vP;
         this.title = iMess.getMessage(title);
-        dBox = new DialogBox(false, modal);
+        dBox = new DialogBox(autohide, modal);
     }
 
     public ModalDialog(VerticalPanel vP) {
-        this(vP, null, true);
+        this(vP, null, false, true);
     }
 
     public void setTitle(String title) {

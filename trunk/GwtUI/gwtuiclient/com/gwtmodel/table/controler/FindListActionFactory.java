@@ -55,7 +55,7 @@ import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
-import com.gwtmodel.table.view.util.CreateReadOnlyI;
+import com.gwtmodel.table.view.util.CreateReadOnly;
 import com.gwtmodel.table.view.util.FormUtil;
 import com.gwtmodel.table.view.util.OkDialog;
 import com.gwtmodel.table.view.util.YesNoDialog;
@@ -294,7 +294,7 @@ class FindListActionFactory {
         @Override
         public void onTouch() {
             FormLineContainer fContainer = new FormLineContainer(liF);
-            IVModelData v = CreateReadOnlyI.contructReadonlyVModel(fContainer);
+            IVModelData v = CreateReadOnly.contructReadonlyVModel(fContainer);
             modifCheck(v, from, to, icheck);
         }
 
