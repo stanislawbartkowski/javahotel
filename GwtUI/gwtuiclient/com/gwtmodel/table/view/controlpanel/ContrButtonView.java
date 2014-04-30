@@ -12,21 +12,30 @@
  */
 package com.gwtmodel.table.view.controlpanel;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.*;
-import com.gwtmodel.table.IGFocusWidget;
-import com.gwtmodel.table.IGWidget;
-import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
-import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
-import com.gwtmodel.table.slotmodel.ClickButtonType;
-import com.gwtmodel.table.view.button.ImgButtonFactory;
-import com.gwtmodel.table.view.util.CreateFormView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IGFocusWidget;
+import com.gwtmodel.table.IGWidget;
+import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
+import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
+import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
+import com.gwtmodel.table.slotmodel.ClickButtonType;
+import com.gwtmodel.table.slotmodel.ISlotCallerListener;
+import com.gwtmodel.table.slotmodel.ISlotSignalContext;
+import com.gwtmodel.table.view.button.ImgButtonFactory;
+import com.gwtmodel.table.view.util.CreateFormView;
 
 /**
  * 
@@ -66,14 +75,36 @@ class ContrButtonView implements IContrButtonView {
     }
 
     @Override
-    public void fillHtml(HTMLPanel pa) {
-        List<ClickButtonType> cList = new ArrayList<ClickButtonType>();
-        List<IGFocusWidget> bList = new ArrayList<IGFocusWidget>();
+    public CreateFormView.IGetButtons construct() {
+        final List<ClickButtonType> cList = new ArrayList<ClickButtonType>();
+        final List<IGFocusWidget> bList = new ArrayList<IGFocusWidget>();
         for (Entry<ClickButtonType, IGFocusWidget> e : iBut.entrySet()) {
             cList.add(e.getKey());
             bList.add(e.getValue());
         }
-        CreateFormView.setHtml(pa, cList, bList);
+        return new CreateFormView.IGetButtons() {
+
+            @Override
+            public List<ClickButtonType> getDList() {
+                return cList;
+            }
+
+            @Override
+            public List<IGFocusWidget> getBList() {
+                return bList;
+            }
+        };
+    }
+
+    @Override
+    public void fillHtml(HTMLPanel pa) {
+        final List<ClickButtonType> cList = new ArrayList<ClickButtonType>();
+        final List<IGFocusWidget> bList = new ArrayList<IGFocusWidget>();
+        for (Entry<ClickButtonType, IGFocusWidget> e : iBut.entrySet()) {
+            cList.add(e.getKey());
+            bList.add(e.getValue());
+        }
+        CreateFormView.setHtml(pa, construct());
     }
 
     private class Click implements ClickHandler {

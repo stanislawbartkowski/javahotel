@@ -10,28 +10,22 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.controlpanel;
+package com.gwtmodel.table.controlbuttonview;
 
-import com.google.gwt.user.client.ui.HTMLPanel;
-import com.gwtmodel.table.IGWidget;
-import com.gwtmodel.table.slotmodel.ClickButtonType;
+import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.slotmodel.CustomObjectValue;
+import com.gwtmodel.table.slotmodel.CustomStringDataTypeSlot;
+import com.gwtmodel.table.slotmodel.ISlotCustom;
 import com.gwtmodel.table.view.util.CreateFormView;
 
-/**
- * 
- * @author stanislawbartkowski@gmail.com
- */
-public interface IContrButtonView extends IGWidget {
+public class GetButtons extends CustomObjectValue<CreateFormView.IGetButtons> {
 
-    void setEnable(ClickButtonType actionId, boolean enable);
+    GetButtons(CreateFormView.IGetButtons i) {
+        super(i);
+    }
+    private static final String GET_BUTTONS = GetButtons.class.getName() + "GET_BUTTONS";
 
-    void setHidden(ClickButtonType actionId, boolean hidden);
-
-    void setHtml(IGWidget g);
-
-    void fillHtml(HTMLPanel pa);
-
-    void emulateClick(ClickButtonType actionId);
-
-    CreateFormView.IGetButtons construct();
+    public static ISlotCustom constructSlot(IDataType dType) {
+        return new CustomStringDataTypeSlot(dType, GET_BUTTONS);
+    }
 }
