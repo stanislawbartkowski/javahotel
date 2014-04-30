@@ -12,6 +12,9 @@
  */
 package com.gwtmodel.table.controlbuttonview;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.ICustomObject;
@@ -26,6 +29,7 @@ import com.gwtmodel.table.slotmodel.ButtonAction;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.CustomStringSlot;
+import com.gwtmodel.table.slotmodel.ISlotCallerListener;
 import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.stackpanelcontroller.IStackPanelController;
@@ -33,9 +37,6 @@ import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
 import com.gwtmodel.table.view.controlpanel.IContrButtonView;
 import com.gwtmodel.table.view.controlpanel.IControlClick;
 import com.gwtmodel.table.view.pullmenu.PullMenuFactory;
-
-import java.util.HashMap;
-import java.util.Map;
 
 class ControlButtonView extends AbstractSlotContainer implements
         IControlButtonView, IStackPanelController {
@@ -171,6 +172,15 @@ class ControlButtonView extends AbstractSlotContainer implements
         HideButton e = new HideButton(ba, b.getActionId());
         registerSubscriber(dType, b.getActionId(), ba, e);
     }
+    
+    private class GetterContainer implements ISlotCallerListener {
+
+        @Override
+        public ISlotSignalContext call(ISlotSignalContext slContext) {
+            GetButtons bu = new GetButtons(vButton.construct());
+            return slContextFactory.construct(slContext.getSlType(), bu);
+        }
+    }
 
     ControlButtonView(ContrButtonViewFactory vFactory,
             ListOfControlDesc listButton, IDataType dType, boolean hori) {
@@ -195,6 +205,8 @@ class ControlButtonView extends AbstractSlotContainer implements
         sl = ButtonRedirectActivateSignal
                 .constructSlotButtonRedirectActivateSignal(dType);
         registerSubscriber(sl, new RedirectActivateSignal());
+        registerCaller(GetButtons.constructSlot(dType), new GetterContainer());
+
     }
 
     ControlButtonView(PullMenuFactory menuFactory, MenuPullContainer menu,

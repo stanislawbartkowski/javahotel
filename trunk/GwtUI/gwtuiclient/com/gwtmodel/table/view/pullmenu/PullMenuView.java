@@ -23,6 +23,7 @@ import com.gwtmodel.table.menudef.MenuPullDesc;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.view.controlpanel.IContrButtonView;
 import com.gwtmodel.table.view.controlpanel.IControlClick;
+import com.gwtmodel.table.view.util.CreateFormView.IGetButtons;
 
 import java.util.List;
 
@@ -98,5 +99,11 @@ class PullMenuView implements IContrButtonView {
     public void setHidden(ClickButtonType actionId, boolean hidden) {
         // TODO Auto-generated method stub
         
+    }
+
+    @Override
+    public IGetButtons construct() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

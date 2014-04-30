@@ -59,11 +59,16 @@ public class CreateFormView {
 
     }
 
-    public static void setHtml(HTMLPanel pa, List<ClickButtonType> dList,
-            List<IGFocusWidget> bList) {
+    public interface IGetButtons {
+        List<ClickButtonType> getDList();
+
+        List<IGFocusWidget> getBList();
+    }
+
+    public static void setHtml(HTMLPanel pa, IGetButtons iG) {
         int i = 0;
-        for (ClickButtonType c : dList) {
-            IGFocusWidget b = bList.get(i++);
+        for (ClickButtonType c : iG.getDList()) {
+            IGFocusWidget b = iG.getBList().get(i++);
             String htmlId = c.getHtmlElementName();
             replace(pa, htmlId, b.getGWidget());
         }
