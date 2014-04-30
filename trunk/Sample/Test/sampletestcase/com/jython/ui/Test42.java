@@ -27,4 +27,12 @@ public class Test42 extends TestHelper {
         assertTrue(d.isAutoHideDialog());
     }
 
+    @Test
+    public void test2() {
+        DialogFormat d = findDialog("test76.xml");
+        assertNotNull(d);
+        assertFalse(d.isAutoHideDialog());
+        assertEquals(2,d.getDiscList().size());
+    }
+
 }
