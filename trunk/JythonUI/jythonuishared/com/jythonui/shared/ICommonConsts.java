@@ -84,6 +84,8 @@ public interface ICommonConsts {
     int DEFAULTROWNO = 20;
     String TABPANEL = "tabpanel";
     String TABPANELELEM = "tabelem";
+    String DISCLOSUREPANEL = "disclosurepanel";
+    String DISCLOUSREPANELELEM = "disclosureelem";
     String DATELINEFORMS = "files";
     String DATELINEFORM = "filedef";
     String DATELINEDEFAFILE = "defafile";

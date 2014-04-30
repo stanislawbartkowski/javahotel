@@ -37,6 +37,7 @@ import com.jythonui.shared.ButtonItem;
 import com.jythonui.shared.CheckList;
 import com.jythonui.shared.DateLine;
 import com.jythonui.shared.DialogFormat;
+import com.jythonui.shared.DisclosureElemPanel;
 import com.jythonui.shared.ElemDescription;
 import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.FormDef;
@@ -121,6 +122,8 @@ class ReadDialog extends UtilHelper {
         private final String[] tabpanelTag = { ICommonConsts.ID };
         private final String[] tabelemTag = { ICommonConsts.ID,
                 ICommonConsts.DISPLAYNAME, ICommonConsts.BEFORECHANGETAB };
+        private final String[] disclosureelemTag = { ICommonConsts.ID,
+                ICommonConsts.DISPLAYNAME, ICommonConsts.HTMLPANEL };
 
         /** Currently recognized set of tags. */
         /*
@@ -144,6 +147,7 @@ class ReadDialog extends UtilHelper {
         private DateLine dL = null;
         private List<ValidateRule> formRules = null;
         private List<TabPanelElem> tabList = null;
+        private List<DisclosureElemPanel> discList = null;
 
         MyHandler(IJythonUIServerProperties p) {
             this.p = p;
@@ -257,6 +261,17 @@ class ReadDialog extends UtilHelper {
                 TabPanelElem e = new TabPanelElem();
                 bDescr = e;
                 tabList.add(e);
+                getAttribute = true;
+            }
+
+            if (qName.equals(ICommonConsts.DISCLOSUREPANEL))
+                discList = dFormat.getDiscList();
+
+            if (qName.equals(ICommonConsts.DISCLOUSREPANELELEM)) {
+                currentT = disclosureelemTag;
+                DisclosureElemPanel e = new DisclosureElemPanel();
+                bDescr = e;
+                discList.add(e);
                 getAttribute = true;
             }
 
@@ -401,7 +416,7 @@ class ReadDialog extends UtilHelper {
     }
 
     private static void replaceFile(IJythonUIServerProperties p,
-            DialogFormat fo, String attr) {
+            ElemDescription fo, String attr) {
         if (fo.isAttr(attr)) {
             String fileName = fo.getAttr(attr);
             // replace file name with content
@@ -422,6 +437,8 @@ class ReadDialog extends UtilHelper {
         saxParser.parse(sou, ma);
         replaceFile(p, ma.dFormat, ICommonConsts.HTMLPANEL);
         replaceFile(p, ma.dFormat, ICommonConsts.JSCODE);
+        for (DisclosureElemPanel d : ma.dFormat.getDiscList())
+            replaceFile(p, d, ICommonConsts.HTMLPANEL);
         return ma.dFormat;
     }
 
