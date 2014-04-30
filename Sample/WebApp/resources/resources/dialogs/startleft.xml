@@ -22,6 +22,7 @@
   <button id="listnext" displayname="Different lists" header="" />
   <button id="listwithcustom" displayname="List with custom" actiontype="JMAIN_DIALOG" actionparam="listwithcustom.xml" />
   <button id="dialogattach" displayname="Dialog with attachment" actiontype="JMAIN_DIALOG" actionparam="dialogattach.xml" />
+  <button id="dialogdisc" displayname="Dialog with disclosure" actiontype="JMAIN_DIALOG" actionparam="dialogdisc.xml" />
 </leftstack>
 
  <form>
