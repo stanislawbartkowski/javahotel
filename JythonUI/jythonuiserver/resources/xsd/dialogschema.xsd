@@ -375,15 +375,60 @@
 		</xs:complexType>
 	</xs:element>
 
-	<xs:group name="tabpanelG">
+	<xs:group name="disclosurepanelG">
 		<xs:sequence>
 			<xs:element minOccurs="0" name="id" type="idType" />
 		</xs:sequence>
 	</xs:group>
 
-	<xs:attributeGroup name="tabpanelattrG">
+	<xs:attributeGroup name="disclosurepanelattrG">
 		<xs:attribute name="id" type="idType" />
 	</xs:attributeGroup>
+
+	<xs:group name="disclosureelemG">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="id" type="idType" />
+			<xs:element minOccurs="0" name="displayname" type="xs:string" />
+			<xs:element minOccurs="0" name="htmlpanel" type="xs:string" />
+		</xs:sequence>
+	</xs:group>
+
+	<xs:attributeGroup name="disclosureelemattrG">
+		<xs:attribute name="id" type="idType" />
+		<xs:attribute name="displayname" type="xs:string" />
+		<xs:attribute name="htmlpanel" type="xs:string" />
+	</xs:attributeGroup>
+
+	<xs:element name="disclosurepanel">
+		<xs:complexType>
+
+			<xs:sequence>
+				<xs:group ref="disclosurepanelG" />
+				<xs:sequence minOccurs="1" maxOccurs="unbounded">
+					<xs:element name="disclosureelem">
+						<xs:complexType>
+							<xs:group ref="disclosureelemG" />
+							<xs:attributeGroup ref="disclosureelemattrG" />
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+
+			</xs:sequence>
+			<xs:attributeGroup ref="disclosurepanelattrG" />
+		</xs:complexType>
+	</xs:element>
+	
+    <xs:group name="tabpanelG">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="id" type="idType" />
+        </xs:sequence>
+    </xs:group>
+
+
+    <xs:attributeGroup name="tabpanelattrG">
+        <xs:attribute name="id" type="idType" />
+    </xs:attributeGroup>
+
 
 	<xs:group name="tabpanelelemG">
 		<xs:sequence>
@@ -571,6 +616,8 @@
 				</xs:element>
 
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="tabpanel" />
+
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="disclosurepanel" />
 
 			</xs:sequence>
 			<xs:attributeGroup ref="dialogattrG" />

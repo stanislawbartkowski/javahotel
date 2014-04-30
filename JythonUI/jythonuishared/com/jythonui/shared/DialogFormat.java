@@ -45,6 +45,8 @@ public class DialogFormat extends ElemDescription {
 
     private List<TabPanel> tabList = new ArrayList<TabPanel>();
 
+    private List<DisclosureElemPanel> discList = new ArrayList<DisclosureElemPanel>();
+
     /**
      * @return the actionList
      */
@@ -210,4 +212,13 @@ public class DialogFormat extends ElemDescription {
     public boolean isClearCentre() {
         return isAttr(ICommonConsts.CLEARCENTRE);
     }
+
+    public List<DisclosureElemPanel> getDiscList() {
+        return discList;
+    }
+
+    public void setDiscList(List<DisclosureElemPanel> discList) {
+        this.discList = discList;
+    }
+
 }

@@ -15,8 +15,6 @@ package com.jythonui.server.dialog;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.TT;
@@ -28,10 +26,10 @@ import com.jythonui.shared.ButtonItem;
 import com.jythonui.shared.CheckList;
 import com.jythonui.shared.DateLine;
 import com.jythonui.shared.DialogFormat;
+import com.jythonui.shared.DisclosureElemPanel;
 import com.jythonui.shared.ElemDescription;
 import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.ICommonConsts;
-import com.jythonui.shared.JythonUIFatal;
 import com.jythonui.shared.ListFormat;
 import com.jythonui.shared.TabPanel;
 
@@ -100,8 +98,7 @@ class ValidateDialogFormat extends UtilHelper {
             if (b == null) {
                 errorLog(SHolder.getM().getMess(IErrorCode.ERRORCODE76,
                         ILogMess.STANDBUTTONNOTINACTION, d.getId(), l.getId(),
-                        l.getStandButt(), customButt,
-                        ICommonConsts.ACTIONS));
+                        l.getStandButt(), customButt, ICommonConsts.ACTIONS));
             }
         }
 
@@ -182,6 +179,13 @@ class ValidateDialogFormat extends UtilHelper {
         for (TabPanel t : d.getTabList())
             validateL(ICommonConsts.TABPANEL, ICommonConsts.TABPANELELEM,
                     t.gettList());
+
+        validateL(ICommonConsts.DISCLOSUREPANEL,
+                ICommonConsts.DISCLOUSREPANELELEM, d.getDiscList());
+
+        for (DisclosureElemPanel s : d.getDiscList())
+            tagExists(d, s, ICommonConsts.DISCLOSUREPANEL,
+                    ICommonConsts.HTMLPANEL);
 
     }
 }

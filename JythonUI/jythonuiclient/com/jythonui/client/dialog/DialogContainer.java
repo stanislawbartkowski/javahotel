@@ -18,6 +18,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.DisclosurePanel;
+import com.google.gwt.user.client.ui.HTMLPanel;
+import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IClickYesNo;
 import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.ICustomObject;
@@ -48,6 +51,7 @@ import com.gwtmodel.table.listdataview.ButtonCheckLostFocusSignal;
 import com.gwtmodel.table.panelview.IPanelView;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
+import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
@@ -65,6 +69,7 @@ import com.gwtmodel.table.tabpanelview.ITabPanelView;
 import com.gwtmodel.table.tabpanelview.TabPanelViewFactory;
 import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.gwtmodel.table.view.util.AbstractDataModel;
+import com.gwtmodel.table.view.util.CreateFormView;
 import com.gwtmodel.table.view.util.YesNoDialog;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.jythonui.client.M;
@@ -94,6 +99,7 @@ import com.jythonui.shared.DateLineVariables;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
+import com.jythonui.shared.DisclosureElemPanel;
 import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.FieldValue;
 import com.jythonui.shared.ICommonConsts;
@@ -377,11 +383,13 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                         String s = val.getValueS();
                         String ff[] = s.split(":");
                         String title = ff[2];
-//                        String u = GWT.getHostPageBaseURL()
-//                                + "/downLoadHandler";
-                        String u = Utils.getURLServlet(ICommonConsts.DOWNLOADSERVLET);
-//                                + "/downLoadHandler";
-                        String link = Utils.createURL(u, ICommonConsts.BLOBDOWNLOADPARAM, s,null);
+                        // String u = GWT.getHostPageBaseURL()
+                        // + "/downLoadHandler";
+                        String u = Utils
+                                .getURLServlet(ICommonConsts.DOWNLOADSERVLET);
+                        // + "/downLoadHandler";
+                        String link = Utils.createURL(u,
+                                ICommonConsts.BLOBDOWNLOADPARAM, s, null);
                         i.setValObj(title + "|" + link);
 
                     } else
@@ -572,6 +580,14 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
             iCon.copyCurrentVariablesToForm(slMediator, dType);
             SlU.registerChangeFormSubscriber(dType, slMediator, (IVField) null,
                     new ChangeField());
+        }
+        for (DisclosureElemPanel dP : d.getDiscList()) {
+            String id = dP.getId();
+            IDataType da = DataType.construct(id, this);
+            CellId panelId = pView.addElemC(id, dType);
+            ISlotable i = new HTMLDisc(dType, dP.getDisplayName(),
+                    dP.getHTMLPanel());
+            slMediator.registerSlotContainer(panelId, i);
         }
         List<ControlButtonDesc> bList = null;
         if (!d.getButtonList().isEmpty()) {
