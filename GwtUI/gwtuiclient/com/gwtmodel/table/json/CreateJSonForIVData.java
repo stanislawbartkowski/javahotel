@@ -12,7 +12,6 @@
  */
 package com.gwtmodel.table.json;
 
-import com.google.gwt.core.client.JsonUtils;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.IVField;
