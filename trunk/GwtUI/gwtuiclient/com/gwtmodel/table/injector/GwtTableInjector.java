@@ -23,6 +23,7 @@ import com.gwtmodel.table.controler.TableDataControlerFactory;
 import com.gwtmodel.table.datalisttype.DataListTypeFactory;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.editc.EditChooseRecordFactory;
+import com.gwtmodel.table.factories.IDisclosurePanelFactory;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
 import com.gwtmodel.table.factories.ITableCustomFactories;
@@ -132,4 +133,6 @@ public interface GwtTableInjector extends Ginjector {
     IJsonConvert getJsonConvert();
 
     IDatePanelScroll getDatePanelScroll();
+    
+    IDisclosurePanelFactory getDisclosurePanelFactory();
 }

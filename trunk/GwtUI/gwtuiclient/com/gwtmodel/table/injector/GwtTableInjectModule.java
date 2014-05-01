@@ -22,7 +22,9 @@ import com.gwtmodel.table.controlbuttonview.StackPanelButtonFactory;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
 import com.gwtmodel.table.datalisttype.DataListTypeFactory;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
+import com.gwtmodel.table.disclosure.DisclosurePanelFactory;
 import com.gwtmodel.table.editc.EditChooseRecordFactory;
+import com.gwtmodel.table.factories.IDisclosurePanelFactory;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
 import com.gwtmodel.table.factories.ITableCustomFactories;
@@ -49,6 +51,7 @@ import com.gwtmodel.table.stackpanelcontroller.StackPanelControllerFactory;
 import com.gwtmodel.table.tabpanelview.TabPanelViewFactory;
 import com.gwtmodel.table.view.checkstring.CheckDictModelFactory;
 import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
+import com.gwtmodel.table.view.daytimetable.IDatePanelScroll;
 import com.gwtmodel.table.view.daytimetable.impl.WidgetScrollSeasonFactory;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.gwtmodel.table.view.form.GwtFormViewFactory;
@@ -60,7 +63,6 @@ import com.gwtmodel.table.view.stackvertical.StackPanelFactory;
 import com.gwtmodel.table.view.table.GwtTableFactory;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.gwtmodel.table.view.webpanel.WebPanelFactory;
-import com.gwtmodel.table.view.daytimetable.IDatePanelScroll;
 
 public class GwtTableInjectModule extends AbstractGinModule {
 
@@ -118,5 +120,7 @@ public class GwtTableInjectModule extends AbstractGinModule {
                 Singleton.class);
         bind(IDatePanelScroll.class).to(WidgetScrollSeasonFactory.class).in(
                 Singleton.class);
+        bind(IDisclosurePanelFactory.class).to(DisclosurePanelFactory.class)
+                .in(Singleton.class);
     }
 }
