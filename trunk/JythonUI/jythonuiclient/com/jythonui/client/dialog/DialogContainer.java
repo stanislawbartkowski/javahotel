@@ -18,9 +18,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.DisclosurePanel;
-import com.google.gwt.user.client.ui.HTMLPanel;
-import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IClickYesNo;
 import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.ICustomObject;
@@ -45,13 +42,13 @@ import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.datamodelview.IDataViewModel;
 import com.gwtmodel.table.editc.IRequestForGWidget;
 import com.gwtmodel.table.factories.IDataModelFactory;
+import com.gwtmodel.table.factories.IDisclosurePanelFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.listdataview.ButtonCheckLostFocusSignal;
 import com.gwtmodel.table.panelview.IPanelView;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
-import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
@@ -69,7 +66,6 @@ import com.gwtmodel.table.tabpanelview.ITabPanelView;
 import com.gwtmodel.table.tabpanelview.TabPanelViewFactory;
 import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.gwtmodel.table.view.util.AbstractDataModel;
-import com.gwtmodel.table.view.util.CreateFormView;
 import com.gwtmodel.table.view.util.YesNoDialog;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.jythonui.client.M;
@@ -133,6 +129,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
 
     private ClickButtonType lastClicked = null;
     private WSize lastWClicked = null;
+    private final IDisclosurePanelFactory dFactory;
 
     public DialogContainer(IDataType dType, DialogInfo info,
             IVariablesContainer pCon, ISendCloseAction iClose,
@@ -160,6 +157,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
         this.addV = addV;
         gManager = new FormGridManager(this, dType);
         RegisterCustom.registerCustom(info.getCustMess());
+        dFactory = GwtGiniInjector.getI().getDisclosurePanelFactory();
 
     }
 
@@ -585,7 +583,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
             String id = dP.getId();
             IDataType da = DataType.construct(id, this);
             CellId panelId = pView.addElemC(id, dType);
-            ISlotable i = new HTMLDisc(dType, dP.getDisplayName(),
+            ISlotable i = dFactory.construct(dType, dP.getDisplayName(),
                     dP.getHTMLPanel());
             slMediator.registerSlotContainer(panelId, i);
         }
