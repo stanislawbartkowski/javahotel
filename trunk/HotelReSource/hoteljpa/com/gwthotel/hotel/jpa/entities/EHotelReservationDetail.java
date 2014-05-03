@@ -41,8 +41,8 @@ import com.gwthotel.hotel.ServiceType;
         @NamedQuery(name = "deleteAllReservationDetailsForService", query = "DELETE FROM EHotelReservationDetail x WHERE x.service=?1"),
         @NamedQuery(name = "deleteAllReservationDetailsForCustomer", query = "DELETE FROM EHotelReservationDetail x WHERE x.customer=?1"),
         @NamedQuery(name = "deleteAllReservationDetails", query = "DELETE FROM EHotelReservationDetail x WHERE x.reservation IN (SELECT r FROM EHotelReservation r  WHERE r.hotel= ?1)"),
-        @NamedQuery(name = "findReservation", query = "SELECT x FROM EHotelReservationDetail x WHERE x.serviceType = com.gwthotel.hotel.ServiceType.HOTEL AND x.reservation.hotel = ?1 AND x.room.name = ?2 AND x.resDate >= ?3 AND x.resDate <= ?4 AND x.reservation.status != com.gwthotel.hotel.reservation.ResStatus.CANCEL ORDER BY x.room.name,x.resDate") 
-        })
+        @NamedQuery(name = "searchReservation", query = "SELECT r FROM EHotelRoom r WHERE r.hotel = ?1 AND r NOT IN (SELECT x.room FROM EHotelReservationDetail x WHERE x.resDate >= ?2 AND x.resDate <?3 AND x.reservation.status != com.gwthotel.hotel.reservation.ResStatus.CANCEL)"),
+        @NamedQuery(name = "findReservation", query = "SELECT x FROM EHotelReservationDetail x WHERE x.serviceType = com.gwthotel.hotel.ServiceType.HOTEL AND x.reservation.hotel = ?1 AND x.room.name = ?2 AND x.resDate >= ?3 AND x.resDate <= ?4 AND x.reservation.status != com.gwthotel.hotel.reservation.ResStatus.CANCEL ORDER BY x.room.name,x.resDate") })
 public class EHotelReservationDetail extends EHotelRoomCustomer {
 
     // 2014/04/18
@@ -139,9 +139,9 @@ public class EHotelReservationDetail extends EHotelRoomCustomer {
         this.service = service;
     }
 
-//    public Long getId() {
-//        return id;
-//    }
+    // public Long getId() {
+    // return id;
+    // }
 
     public BigDecimal getTotal() {
         return total;
