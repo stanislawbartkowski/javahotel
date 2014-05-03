@@ -10,13 +10,23 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.factories;
+package com.gwtmodel.table.disclosure;
 
 import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.slotmodel.ISlotable;
+import com.gwtmodel.table.slotmodel.CustomObjectValue;
+import com.gwtmodel.table.slotmodel.CustomStringDataTypeSlot;
+import com.gwtmodel.table.slotmodel.ISlotCustom;
 
-public interface IDisclosurePanelFactory {
+public class DisclosureEvent extends CustomObjectValue<Boolean> {
 
-    ISlotable construct(IDataType publishType,IDataType dType, String header, String html);
-    
+    DisclosureEvent(Boolean open) {
+        super(open);
+    }
+
+    private static final String DISCLOSURE_EVENT = DisclosureEvent.class
+            .getName() + "DISCLOSURE_EVENT";
+
+    public static ISlotCustom constructSlot(IDataType dType) {
+        return new CustomStringDataTypeSlot(dType, DISCLOSURE_EVENT);
+    }
 }

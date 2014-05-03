@@ -29,8 +29,9 @@ public class DisclosurePanelFactory implements IDisclosurePanelFactory {
     }
 
     @Override
-    public ISlotable construct(IDataType dType, String header, String html) {
-        return new HTMLDisc(dType, header, html, iMess);
+    public ISlotable construct(IDataType publishType, IDataType dType,
+            String header, String html) {
+        return new HTMLDisc(publishType, dType, header, html, iMess);
     }
 
 }

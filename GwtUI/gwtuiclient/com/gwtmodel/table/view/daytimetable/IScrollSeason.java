@@ -30,5 +30,7 @@ public interface IScrollSeason {
      * 
      */
     void createVPanel(Date firstData, Date lastDate,final int panelW);
+    
+    void redraw(Date dCur);
 
 }
