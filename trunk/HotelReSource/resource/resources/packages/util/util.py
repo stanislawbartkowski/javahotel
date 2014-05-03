@@ -27,10 +27,6 @@ def getIntField(val) :
   if val == IHotelConsts.PERSONIDNO : return None
   return val
 
-# 0 : defsex
-# 1 : defcountry
-# 2 : defidcard
-# 3 : defpayment
 class HOTELDEFADATA(cutil.DEFAULTDATA) :
   
   def __init__(self) :
@@ -224,6 +220,9 @@ class RESOP :
        
      def findBillsForReservation(self,resId) :
          return self.service.findBillsForReservation(getHotelName(self.var),resId)
+     
+     def searchReservation(self,query):
+         return self.service.searchReservation(getHotelName(self.var),query)
        
 class RESFORM(CRUDLIST) :
 
