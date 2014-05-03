@@ -38,7 +38,8 @@ import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.gwtmodel.table.view.callback.ICommonCallBackFactory;
 import com.gwtmodel.table.view.util.YesNoDialog;
 import com.jythonui.client.M;
-import com.jythonui.client.dialog.DialogContainer;
+import com.jythonui.client.dialog.IDialogContainer;
+import com.jythonui.client.dialog.impl.DialogContainerFactory;
 import com.jythonui.client.util.ExecuteAction;
 import com.jythonui.client.util.ISendCloseAction;
 import com.jythonui.client.util.IYesNoAction;
@@ -122,7 +123,7 @@ class GetViewController implements IGetViewControllerFactory {
     private class ItemDataPersistAction extends AbstractSlotContainer implements
             IDataPersistAction {
 
-        private final DialogContainer dC;
+        private final IDialogContainer dC;
 
         private class CommandCrud implements executeCrud {
 
@@ -166,7 +167,7 @@ class GetViewController implements IGetViewControllerFactory {
                 @Override
                 public void submitAction() {
                     // do nothing
-                    
+
                 }
             }
 
@@ -256,7 +257,7 @@ class GetViewController implements IGetViewControllerFactory {
 
         }
 
-        ItemDataPersistAction(IDataType da, DialogContainer dC) {
+        ItemDataPersistAction(IDataType da, IDialogContainer dC) {
             this.dType = da;
             this.dC = dC;
             getSlContainer().registerSubscriber(dType,
@@ -291,8 +292,10 @@ class GetViewController implements IGetViewControllerFactory {
         // SecurityInfo(dInfo.getSecurity().getlSecur()
         // .get(li.getId()));
         DialogInfo elemInfo = new DialogInfo(dElem, elemSec, null);
-        DialogContainer sLo = new DialogContainer(da, elemInfo, iCon, null,
-                addV, null, null);
+        // DialogContainer sLo = new DialogContainer(da, elemInfo, iCon, null,
+        // addV, null, null);
+        IDialogContainer sLo = DialogContainerFactory.contstruct(da, elemInfo,
+                iCon, null, addV, null, null);
         ComposeControllerType cType = new ComposeControllerType(sLo, da, 0, 0);
         i.registerControler(cType);
 

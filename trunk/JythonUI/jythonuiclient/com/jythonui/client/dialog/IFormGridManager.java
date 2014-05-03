@@ -10,25 +10,24 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.client;
+package com.jythonui.client.dialog;
 
-import com.jythonui.client.dialog.CreateFactory;
-import com.jythonui.client.dialog.LeftMenu;
-import com.jythonui.client.dialog.run.RunAction;
+import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.slotmodel.ISlotable;
+import com.jythonui.client.variables.ISetGetVar;
+import com.jythonui.shared.DialogVariables;
+import com.jythonui.shared.FieldValue;
 
-/**
- * @author hotel
- * 
- */
-class JythonUIClientFactory {
+public interface IFormGridManager extends ISetGetVar {
 
-    private JythonUIClientFactory() {
-    }
+    void addDataType(String id, IDataType dType);
 
-    static IJythonUIClient construct() {
-        CreateFactory.create();
-        M.setLeftMenu(new LeftMenu());
-        return new RunAction();
-    }
+    ISlotable constructSlotable(String id);
+
+    void addLinesAndColumns(String id, DialogVariables v);
+
+    void modifAttr(String checkId, String action, FieldValue val);
+
+    boolean okGridErrors(DialogVariables v);
 
 }

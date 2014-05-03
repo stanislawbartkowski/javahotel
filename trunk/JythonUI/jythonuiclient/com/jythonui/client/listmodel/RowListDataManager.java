@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
@@ -63,7 +64,8 @@ public class RowListDataManager implements ISetGetVar {
     private final ISlotable iSlo;
     private final IConstructCustomDataType tConstruct;
 
-    public RowListDataManager(DialogInfo dialogInfo, ISlotable iSlo,IConstructCustomDataType tConstruct) {
+    public RowListDataManager(DialogInfo dialogInfo, ISlotable iSlo,
+            IConstructCustomDataType tConstruct) {
         this.dialogInfo = dialogInfo;
         this.iSlo = iSlo;
         this.tConstruct = tConstruct;
@@ -121,15 +123,23 @@ public class RowListDataManager implements ISetGetVar {
         return listMap.get(f);
     }
 
+    public IDataType getLType(String fId) {
+        for (Entry<IDataType, String> e : listMap.entrySet()) {
+            if (e.getValue().equals(fId))
+                return e.getKey();
+        }
+        return null;
+    }
+
     RowIndex getR(IDataType d) {
         return rMap.get(d);
     }
 
     public ISlotable constructListControler(IDataType da, CellId panelId,
             IVariablesContainer iCon, IPerformClickAction iAction,
-            ICreateBackActionFactory bFactory,IPerformClickAction custAction) {
+            ICreateBackActionFactory bFactory, IPerformClickAction custAction) {
         return ListControler.contruct(this, da, panelId, iCon, iAction,
-                bFactory,custAction);
+                bFactory, custAction);
     }
 
     IVModelData contructE(IDataType da) {
@@ -182,7 +192,7 @@ public class RowListDataManager implements ISetGetVar {
                 }
             };
 
-            JUtils.VisitVariable(var, listid,iVisit);
+            JUtils.VisitVariable(var, listid, iVisit);
             if (val != null) {
                 if (val.getType() != TT.BOOLEAN) {
                     String mess = M.M().FooterSetValueShouldBeBoolean(
@@ -234,7 +244,5 @@ public class RowListDataManager implements ISetGetVar {
     public IConstructCustomDataType gettConstruct() {
         return tConstruct;
     }
-    
-    
 
 }

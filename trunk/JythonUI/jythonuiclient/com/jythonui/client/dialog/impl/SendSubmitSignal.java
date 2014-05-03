@@ -10,25 +10,24 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.client;
+package com.jythonui.client.dialog.impl;
 
-import com.jythonui.client.dialog.CreateFactory;
-import com.jythonui.client.dialog.LeftMenu;
-import com.jythonui.client.dialog.run.RunAction;
+import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.slotmodel.CustomObjectValue;
+import com.gwtmodel.table.slotmodel.CustomStringDataTypeSlot;
+import com.gwtmodel.table.slotmodel.CustomStringSlot;
 
-/**
- * @author hotel
- * 
- */
-class JythonUIClientFactory {
+public class SendSubmitSignal extends CustomObjectValue<String> {
 
-    private JythonUIClientFactory() {
+    SendSubmitSignal(String b) {
+        super(b);
     }
 
-    static IJythonUIClient construct() {
-        CreateFactory.create();
-        M.setLeftMenu(new LeftMenu());
-        return new RunAction();
+    private static final String SUBMIT_SIGNAL = SendSubmitSignal.class
+            .getName() + "_SUBMIT";
+
+    public static CustomStringSlot constructSignal(IDataType dType) {
+        return new CustomStringDataTypeSlot(dType, SUBMIT_SIGNAL);
     }
 
 }

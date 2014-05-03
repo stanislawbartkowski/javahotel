@@ -15,6 +15,7 @@ package com.jythonui.client;
 import java.util.logging.Logger;
 
 import com.google.gwt.core.client.GWT;
+import com.jythonui.client.dialog.IDialogContainer;
 import com.jythonui.client.dialog.LeftMenu;
 import com.jythonui.client.service.JythonService;
 import com.jythonui.client.service.JythonServiceAsync;
@@ -33,6 +34,7 @@ public class M {
     private static final JythonServiceAsync jythonService = GWT
             .create(JythonService.class);
     private static LeftMenu leftMenu;
+    private static IDialogContainer mainD = null;
 
     private static String userName;
 
@@ -88,4 +90,12 @@ public class M {
         M.secToken = secToken;
     }
 
+    public static IDialogContainer getMainD() {
+        return mainD;
+    }
+
+    public static void setMainD(IDialogContainer mainD) {
+        M.mainD = mainD;
+    }
+    
 }

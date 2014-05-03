@@ -41,7 +41,7 @@ public class LeftMenu {
 
     private final static IDataType leftMenuD = Empty.getDataType();
 
-    enum MenuType {
+    public enum MenuType {
         LEFTPANEL, UPPANELMENU, LEFTSTACK;
     }
 
@@ -64,7 +64,7 @@ public class LeftMenu {
         }
     }
 
-    void createLeftButton(ISlotListener clickButton, SecurityInfo sec,
+    public void createLeftButton(ISlotListener clickButton, SecurityInfo sec,
             List<ButtonItem> buttList, MenuType mType) {
         if (!buttList.isEmpty()) {
             List<ControlButtonDesc> bList = CreateForm.constructBList(sec,

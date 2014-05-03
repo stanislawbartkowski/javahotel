@@ -85,5 +85,7 @@ public interface JMessages extends Messages {
     String CustomTypeIsNull(String customType);
     
     String ErrorWhileUploading();
+    
+    String SearchFailed();
 
 }

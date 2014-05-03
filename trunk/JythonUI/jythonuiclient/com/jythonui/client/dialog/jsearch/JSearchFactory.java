@@ -10,25 +10,18 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.client;
+package com.jythonui.client.dialog.jsearch;
 
-import com.jythonui.client.dialog.CreateFactory;
-import com.jythonui.client.dialog.LeftMenu;
-import com.jythonui.client.dialog.run.RunAction;
+import com.gwtmodel.table.IOkModelData;
+import com.jythonui.shared.FieldValue;
 
-/**
- * @author hotel
- * 
- */
-class JythonUIClientFactory {
+public class JSearchFactory {
 
-    private JythonUIClientFactory() {
+    private JSearchFactory() {
     }
 
-    static IJythonUIClient construct() {
-        CreateFactory.create();
-        M.setLeftMenu(new LeftMenu());
-        return new RunAction();
+    public static IOkModelData construct(String fT, FieldValue val) {
+        return new JSearchList(fT, val);
     }
 
 }

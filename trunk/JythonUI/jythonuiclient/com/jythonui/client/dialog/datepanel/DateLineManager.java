@@ -38,6 +38,7 @@ import com.gwtmodel.table.FieldDataType;
 import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
+import com.gwtmodel.table.IOkModelData;
 import com.gwtmodel.table.ISuccess;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
@@ -48,9 +49,11 @@ import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.listdataview.SearchTable;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.CustomStringSlot;
+import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotable;
@@ -69,14 +72,14 @@ import com.gwtmodel.table.view.table.IGwtTableView;
 import com.gwtmodel.table.view.table.IListClicked;
 import com.gwtmodel.table.view.table.IRowEditAction;
 import com.jythonui.client.M;
-import com.jythonui.client.dialog.DialogContainer;
+import com.jythonui.client.dialog.IDateLineManager;
+import com.jythonui.client.dialog.IDialogContainer;
 import com.jythonui.client.dialog.IPerformClickAction;
 import com.jythonui.client.dialog.VField;
 import com.jythonui.client.util.CreateForm;
 import com.jythonui.client.util.CreateForm.ColumnsDesc;
 import com.jythonui.client.util.ExecuteAction;
 import com.jythonui.client.util.RowVModelData;
-import com.jythonui.client.variables.ISetGetVar;
 import com.jythonui.shared.DateLine;
 import com.jythonui.shared.DateLineVariables;
 import com.jythonui.shared.DialogFormat;
@@ -89,9 +92,9 @@ import com.jythonui.shared.ListOfRows;
 import com.jythonui.shared.RowContent;
 import com.jythonui.shared.RowIndex;
 
-public class DateLineManager implements ISetGetVar {
+class DateLineManager implements IDateLineManager {
 
-    private final DialogContainer dContainer;
+    private final IDialogContainer dContainer;
     private final GwtTableFactory gFactory;
 
     // ---- variables
@@ -117,7 +120,7 @@ public class DateLineManager implements ISetGetVar {
         }
     }
 
-    public DateLineManager(DialogContainer dContainer) {
+    DateLineManager(IDialogContainer dContainer) {
         this.dContainer = dContainer;
         gFactory = GwtGiniInjector.getI().getGwtTableFactory();
     }
@@ -614,6 +617,26 @@ public class DateLineManager implements ISetGetVar {
             public void signal(ISlotSignalContext slContext) {
                 drawContent();
             }
+        }
+
+        private class GotoDate implements ISlotListener {
+
+            @Override
+            public void signal(ISlotSignalContext slContext) {
+                GotoDateSignal si = (GotoDateSignal) slContext.getCustom();
+                iSeason.redraw(si.getValue());
+            }
+
+        }
+
+        private class FindRow implements ISlotListener {
+
+            @Override
+            public void signal(ISlotSignalContext slContext) {
+                IOkModelData iOk = slContext.getIOkModelData();
+                if (!SearchTable.search(dType, iOk, iTable, true, false))
+                    Utils.errAlert(M.M().SearchFailed());
+            }
 
         }
 
@@ -627,6 +650,10 @@ public class DateLineManager implements ISetGetVar {
             registerSubscriber(sl, new Refresh());
             sl = RefreshData.constructRequestForRefreshData(dType);
             registerSubscriber(sl, new RequestForRefresh());
+            registerSubscriber(GotoDateSignal.constructSlot(dType),
+                    new GotoDate());
+            registerSubscriber(dType, DataActionEnum.FindRowBeginningList,
+                    new FindRow());
             iTable = gFactory.construct(null, null, null, null, null, null,
                     false, new GetColSpan());
             iTable.setModel(tModel);
@@ -650,6 +677,7 @@ public class DateLineManager implements ISetGetVar {
 
     }
 
+    @Override
     public ISlotable contructSlotable(IDataType publishType, IDataType dType,
             DateLine dl, CellId cell, IPerformClickAction iClick) {
         return new DateLineSlot(publishType, dType, dl, cell, iClick);
