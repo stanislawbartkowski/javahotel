@@ -43,7 +43,7 @@ abstract public class AbstractRegistryEntry {
 //    @Column(columnDefinition="BLOB")
     
 // postgresql only    
-    @Column(columnDefinition="bytea")
+//    @Column(columnDefinition="bytea")
     private byte[] value;
 
     @Column(nullable = false)
