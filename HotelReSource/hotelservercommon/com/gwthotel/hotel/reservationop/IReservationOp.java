@@ -24,6 +24,8 @@ public interface IReservationOp {
 
     List<ResData> queryReservation(OObjectId hotel, List<ResQuery> rQuery);
 
+    List<ResData> searchReservation(OObjectId hotel, ResQuery rQuery);
+
     void changeStatus(OObjectId hotel, String resName, ResStatus newStatus);
 
     void setResGuestList(OObjectId hotel, String resName, List<ResGuest> gList);
