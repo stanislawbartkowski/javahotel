@@ -296,13 +296,13 @@ class RegistryFile:
             elem[id] = valt
         return elem                                  
     
-    def readList(self,var):
+    def readList(self,var,setmap=True):
         R = self.__getR()
         l = R.getKeys()
         li = []
         for k in l : 
             if k != self.__key : li.append(self.getMapRR(k))
-        setJMapList(var,self.__listid,li)
+        if setmap : setJMapList(var,self.__listid,li)
         return li
         
     def __removeEntries(self,R):

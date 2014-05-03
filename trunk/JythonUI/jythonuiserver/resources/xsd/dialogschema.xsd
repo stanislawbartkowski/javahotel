@@ -116,6 +116,7 @@
 			<xs:element minOccurs="0" name="clearcentre" type="emptyT" />
 			<xs:element minOccurs="0" name="formpanel" type="emptyT" />
 			<xs:element minOccurs="0" name="autohide" type="emptyT" />
+            <xs:element minOccurs="0" name="modeless" type="emptyT" />
 		</xs:sequence>
 	</xs:group>
 
@@ -131,6 +132,7 @@
 		<xs:attribute name="clearcentre" type="emptyT" />
 		<xs:attribute name="formpanel" type="emptyT" />
 		<xs:attribute name="autohide" type="emptyT" />
+        <xs:attribute name="modeless" type="emptyT" />
 	</xs:attributeGroup>
 
 	<xs:group name="listG">
@@ -390,6 +392,7 @@
 			<xs:element minOccurs="0" name="id" type="idType" />
 			<xs:element minOccurs="0" name="displayname" type="xs:string" />
 			<xs:element minOccurs="0" name="htmlpanel" type="xs:string" />
+			<xs:element minOccurs="0" name="signalchange" type="emptyT" />			
 		</xs:sequence>
 	</xs:group>
 
@@ -397,6 +400,7 @@
 		<xs:attribute name="id" type="idType" />
 		<xs:attribute name="displayname" type="xs:string" />
 		<xs:attribute name="htmlpanel" type="xs:string" />
+        <xs:attribute name="signalchange" type="emptyT" />
 	</xs:attributeGroup>
 
 	<xs:element name="disclosurepanel">
