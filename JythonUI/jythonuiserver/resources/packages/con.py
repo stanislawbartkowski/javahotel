@@ -79,3 +79,6 @@ def toS(val):
     if f != None :
         s = '%.2f' % f
     return s
+
+def incDays(date,days = 1) :
+  return date+datetime.timedelta(days)

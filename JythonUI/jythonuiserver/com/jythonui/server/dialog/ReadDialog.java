@@ -74,7 +74,8 @@ class ReadDialog extends UtilHelper {
                 ICommonConsts.METHOD, ICommonConsts.PARENT,
                 ICommonConsts.TYPES, ICommonConsts.ASXML,
                 ICommonConsts.CLEARCENTRE, ICommonConsts.CLEARLEFT,
-                ICommonConsts.FORMPANEL, ICommonConsts.AUTOHIDE };
+                ICommonConsts.FORMPANEL, ICommonConsts.AUTOHIDE,
+                ICommonConsts.MODELESS };
         private final String[] buttonTag = { ICommonConsts.ID,
                 ICommonConsts.DISPLAYNAME, ICommonConsts.ACTIONTYPE,
                 ICommonConsts.ACTIONPARAM, ICommonConsts.ACTIONPARAM1,
@@ -123,7 +124,8 @@ class ReadDialog extends UtilHelper {
         private final String[] tabelemTag = { ICommonConsts.ID,
                 ICommonConsts.DISPLAYNAME, ICommonConsts.BEFORECHANGETAB };
         private final String[] disclosureelemTag = { ICommonConsts.ID,
-                ICommonConsts.DISPLAYNAME, ICommonConsts.HTMLPANEL };
+                ICommonConsts.DISPLAYNAME, ICommonConsts.HTMLPANEL,
+                ICommonConsts.SIGNALCHANGE };
 
         /** Currently recognized set of tags. */
         /*
