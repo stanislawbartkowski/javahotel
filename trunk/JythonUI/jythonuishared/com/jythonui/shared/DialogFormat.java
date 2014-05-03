@@ -193,6 +193,10 @@ public class DialogFormat extends ElemDescription {
         return isAttr(ICommonConsts.AUTOHIDE);
     }
 
+    public boolean isModelessDialog() {
+        return isAttr(ICommonConsts.MODELESS);
+    }
+
     public String getAsXmlList() {
         return getAttr(ICommonConsts.ASXML);
     }
