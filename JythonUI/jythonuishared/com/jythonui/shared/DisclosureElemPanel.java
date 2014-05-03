@@ -20,4 +20,8 @@ public class DisclosureElemPanel extends ElemDescription {
         return getAttr(ICommonConsts.HTMLPANEL);
     }
 
+    public boolean isSignalChange() {
+        return isAttr(ICommonConsts.SIGNALCHANGE);
+    }
+
 }

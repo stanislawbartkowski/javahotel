@@ -76,6 +76,7 @@ public interface ICommonConsts {
     String ASXML = "asxml";
     String FORMPANEL = "formpanel";
     String AUTOHIDE = "autohide";
+    String MODELESS = "modeless";
     String CLEARLEFT = "clearleft";
     String CLEARCENTRE = "clearcentre";
     String JXMLCONTENT = "JXMLCONTENT";
@@ -161,6 +162,9 @@ public interface ICommonConsts {
     String CUSTOMTYPE = "custom:";
     String SIGNALCHANGE = "signalchange";
     String AFTERSUBMIT = "aftersubmit";
+    String DISCLOSURECHANGE = "disclosurechange";
+    String DISCLOSUREID = "disclosureid";
+    String DISCLOSUREOPEN = "disclosureopen";
     String JSUBMITERES = "JSUBMITRES";
     String SIGNALBEFORE = "signalbefore";
     String JCHANGESIGNALBEFORE = "JLIST_EDIT_BEFORE";
@@ -215,6 +219,7 @@ public interface ICommonConsts {
     String JSEARCH_EQ = "JSEARCH_EQ_";
     String JFILTR_SEARCH = "JSEARCH_FILTR";
     String JSEARCH_SET = "JSEARCH_SET_";
+    String JSEARCH_LIST_SET = "JSEARCH_LIST_SET_";
     String PASSWORD = "password";
     String HTMLID = "htmlid";
     String AUTHENTICATE = "Authenticate";
@@ -246,6 +251,7 @@ public interface ICommonConsts {
     String JDATELINELINEDEF = "linedef";
     String JDATELINEVALUES = "values";
     String JDATELINESPAN = "colspan";
+    String JDATELINE_GOTODATE="JDATELINE_GOTO_";
 
     String JDATELINELINEID = "JDATELINE_LINE";
     String JDATELINEDATEID = "JDATELINE_DATE";
