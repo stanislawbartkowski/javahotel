@@ -83,11 +83,10 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
     private final EditAfterFocusSynchronizer editSynch = new EditAfterFocusSynchronizer();
 
     private void addActivateRedirect(IDataType rType) {
-        for (IDataType d : activateRedirect) {
-            if (d.eq(rType)) {
+        for (IDataType d : activateRedirect)
+            if (d.eq(rType))
                 return;
-            }
-        }
+
         activateRedirect.add(rType);
     }
 
@@ -107,10 +106,9 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             VListHeaderContainer listHeader = slContext.getListHeader();
             listView.setHeaderList(listHeader);
             tableView.setModel(listView);
-            if (listHeader.getJsModifRow() != null) {
+            if (listHeader.getJsModifRow() != null)
                 tableView.setModifyRowStyle(new ModifRow(listHeader
                         .getJsModifRow()));
-            }
         }
     }
 
@@ -148,11 +146,9 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         @Override
         public List<IVModelData> getList() {
             List<IVModelData> li = new ArrayList<IVModelData>();
-            for (IVModelData v : dataList.getList()) {
-                if (iOk.OkData(v)) {
+            for (IVModelData v : dataList.getList())
+                if (iOk.OkData(v))
                     li.add(v);
-                }
-            }
             return li;
         }
 
@@ -256,26 +252,20 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         @Override
         public void signal(ISlotSignalContext slContext) {
             IOkModelData iOk = slContext.getIOkModelData();
-            assert iOk != null : LogT.getT().FilterCannotbeNull();
-            WChoosedLine w = tableView.getClicked();
-            int aLine = -1;
-            if (w.isChoosed() && !begin) {
-                aLine = w.getChoosedLine() - 1;
-            }
-            if (next) {
-                aLine++;
-            }
-            boolean found = false;
-            // order in while predicate evaluation is important !
-            while (!found && (++aLine < tableView.getViewModel().getSize())) {
-                IVModelData v = tableView.getViewModel().get(aLine);
-                found = iOk.OkData(v);
-            }
-            if (!found) {
+            /*
+             * IOkModelData iOk = slContext.getIOkModelData(); assert iOk !=
+             * null : LogT.getT().FilterCannotbeNull(); WChoosedLine w =
+             * tableView.getClicked(); int aLine = -1; if (w.isChoosed() &&
+             * !begin) { aLine = w.getChoosedLine() - 1; } if (next) { aLine++;
+             * } boolean found = false; // order in while predicate evaluation
+             * is important ! while (!found && (++aLine <
+             * tableView.getViewModel().getSize())) { IVModelData v =
+             * tableView.getViewModel().get(aLine); found = iOk.OkData(v); } if
+             * (!found) { publish(dType, DataActionEnum.NotFoundSignal); return;
+             * } tableView.setClicked(aLine, true);
+             */
+            if (!SearchTable.search(dType, iOk, tableView, begin, next))
                 publish(dType, DataActionEnum.NotFoundSignal);
-                return;
-            }
-            tableView.setClicked(aLine, true);
         }
     }
 
@@ -283,9 +273,8 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            if (!isFilter) {
+            if (!isFilter)
                 return;
-            }
             isFilter = false;
             if (async) {
                 publishGetListSize();
@@ -325,9 +314,9 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             tableView.removeRow(rowno);
             dataList.remove(rowno);
             // next current row
-            if (dataList.getList().isEmpty()) {
+            if (dataList.getList().isEmpty())
                 return;
-            }
+
             if (rowno >= dataList.getList().size()) {
                 rowno = dataList.getList().size() - 1;
             }
@@ -353,9 +342,9 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             DataIntegerVDataSignal dv = (DataIntegerVDataSignal) o;
             int rowno = dv.getValue();
             int row = rowno;
-            if (dv.isAfter()) {
+            if (dv.isAfter())
                 row = rowno + 1;
-            }
+
             dataList.add(row, dv.getV());
             tableView.addRow(row);
 

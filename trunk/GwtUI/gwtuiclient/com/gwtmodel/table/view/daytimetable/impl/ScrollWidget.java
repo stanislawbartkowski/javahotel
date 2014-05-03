@@ -154,7 +154,8 @@ public class ScrollWidget implements IScrollSeason {
         return DateUtil.getMonths()[DateFormatUtil.getM(d) - 1];
     }
 
-    private void redraw(Date dCur) {
+    @Override
+    public void redraw(Date dCur) {
         panelDay = DatePanelUtil.createLDays(firstDay, lastDay, dCur,
                 panelDay.pSize);
         setCurrentDate();
