@@ -30,11 +30,11 @@ public class Test9 extends TestHelper {
     private static final String SERVICE1 = "1p1";
     private static final String SERVICE2 = "1p2";
 
-    @Before
-    public void before() {
-        clearObjects();
-        createHotels();
-    }
+//    @Before
+//    public void before() {
+//        clearObjects();
+//        createHotels();
+//    }
 
     @Test
     public void test1() {
