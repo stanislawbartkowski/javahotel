@@ -15,7 +15,7 @@ package com.gwthotel.hotel.server.guice;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.gwthotel.admin.ejblocator.IBeanLocator;
-import com.gwthotel.admin.ejblocator.impl.EjbLocatorGlassfish;
+import com.gwthotel.admin.ejblocator.impl.EjbLocatorWildFly;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.IGetAutomPatterns;
 import com.gwthotel.hotel.bill.ICustomerBills;
@@ -73,15 +73,15 @@ public class ServerService {
             bind(IGetAutomPatterns.class).to(GetAutomPatterns.class).in(
                     Singleton.class);
             bind(ISemaphore.class).to(SemaphoreRegistry.class).in(
-                    Singleton.class);            
+                    Singleton.class);
             bind(IGetConnection.class)
                     .toProvider(EmptyConnectionProvider.class).in(
                             Singleton.class);
-             bind(IBeanLocator.class).to(EjbLocatorGlassfish.class).in(
-             Singleton.class);
+            // bind(IBeanLocator.class).to(EjbLocatorGlassfish.class).in(
+            // Singleton.class);
 
-//            bind(IBeanLocator.class).to(EjbLocatorWildFly.class).in(
-//                    Singleton.class);
+            bind(IBeanLocator.class).to(EjbLocatorWildFly.class).in(
+                    Singleton.class);
 
             // common
             requestStatic();
