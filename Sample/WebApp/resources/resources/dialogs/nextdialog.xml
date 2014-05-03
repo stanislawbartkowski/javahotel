@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" >
+
+ <buttons>
+  <button id="close" displayname="Close" actiontype="JCLOSE_DIALOG" />
+  <button id="modeless" displayname="Modeless" actiontype="JUP_DIALOG" actionparam="modelessdialog.xml"  />
+ </buttons>
+
+ <form>
+   <field id="globint" type="int" displayname="Integer value" />
+   <field id="globlong" type="int" displayname="Long value" />
+   <field id="globdecimal" type="decimal" afterdot="2" displayname="Decimal" />
+   <field id="globdate" type="date" displayname="Date" />
+   <field id="globdatetime" type="datetime" displayname="Date and time" />   
+ </form>  
+ 
+</dialog>
