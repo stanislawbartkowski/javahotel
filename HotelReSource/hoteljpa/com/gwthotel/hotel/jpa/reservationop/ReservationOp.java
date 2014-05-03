@@ -147,7 +147,8 @@ class ReservationOp implements IReservationOp {
     }
 
     @Override
-    public void changeStatus(OObjectId hotel, String resName, ResStatus newStatus) {
+    public void changeStatus(OObjectId hotel, String resName,
+            ResStatus newStatus) {
         ChangeStatus comma = new ChangeStatus(hotel, resName, newStatus);
         comma.executeTran();
     }
@@ -308,5 +309,38 @@ class ReservationOp implements IReservationOp {
         comma.executeTran();
         return comma.bList;
     }
-    
+
+    private class FindQuery extends doTransaction {
+
+        private final ResQuery r;
+        private final List<ResData> resList = new ArrayList<ResData>();
+
+        FindQuery(OObjectId hotel, ResQuery r) {
+            super(hotel);
+            this.r = r;
+        }
+
+        @Override
+        protected void dosth(EntityManager em) {
+            Query q = em.createNamedQuery("searchReservation");
+            q.setParameter(1, hotel.getId());
+            q.setParameter(2, r.getFromRes());
+            q.setParameter(3, r.getToRes());
+            List<EHotelRoom> reList = q.getResultList();
+            for (EHotelRoom ro : reList) {
+                ResData rese = new ResData();
+                rese.setRoomName(ro.getName());
+                resList.add(rese);
+            }
+        }
+
+    }
+
+    @Override
+    public List<ResData> searchReservation(OObjectId hotel, ResQuery rQuery) {
+        FindQuery comma = new FindQuery(hotel,rQuery);
+        comma.executeTran();
+        return comma.resList;
+    }
+
 }
