@@ -4,6 +4,7 @@ import datetime
 from java.util import Calendar
 from cutil import printVar
 from cutil import toDate
+import cutil
 
 class ElemOp :
     
@@ -115,3 +116,10 @@ def dialogaction(action,var) :
        var["JDATELINE_MAP"] = {"dateline" : { "values" : vals}}
        printVar("before final",action,var)
     
+def searchaction(action,var) :
+   cutil.printVar("search",action,var)  
+   
+   if action=="find" :
+       if var["da"] : var["JDATELINE_GOTO_dateline"] = var["da"]
+       if var["name"] : var["JSEARCH_LIST_SET_dateline_displayname"] = var["name"]
+

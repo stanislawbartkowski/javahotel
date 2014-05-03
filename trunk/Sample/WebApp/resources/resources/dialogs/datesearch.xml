@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" modeless="">
+
+        <jython>
+                <import>from testpack import testdateline</import>
+                <method>testdateline.searchaction({0},{1})</method>
+        </jython>
+        
+        <buttons>
+          <button id="find" displayname="Search" validate=""/>
+        </buttons>
+        
+   <form>
+     <field id="da" displayname="To date" type="date"/>
+     <field id="name" displayname="To name" />
+   </form>  
+        
+
+</dialog>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" modeless="">
+
+        <jython>
+                <import>from testpack import listsearch</import>
+                <method>listsearch.searchaction({0},{1})</method>
+        </jython>
+        
+        <buttons>
+          <button id="find" displayname="Search" validate=""/>
+        </buttons>
+        
+   <form>
+     <field id="name" displayname="First name" notempty=""/>
+   </form>  
+        
+
+</dialog>

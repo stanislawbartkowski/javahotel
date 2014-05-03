@@ -1,8 +1,9 @@
 import datetime
+import cutil
 
 def dialogaction(action,var) :
 
-  print "test",action
+  cutil.printVar("main",action,var)
     
   if action == "main" :
     var["JMAIN_DIALOG"] = "start.xml"  

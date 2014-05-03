@@ -16,6 +16,7 @@
 	<buttons>
 		<button id="clear" displayname="Clear" actiontype="JYESNO_MESSAGE"
 			actionparam="Clear all content ?" actionparam2="clear" />
+                <button id="search" displayname="To date" actiontype="JUP_DIALOG" actionparam="datesearch.xml" />
 	</buttons>
 
 	<dateline id="dateline" displayname="List of rooms" lineid="id"
