@@ -22,7 +22,7 @@ import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.jythonui.client.M;
-import com.jythonui.client.dialog.DialogContainer;
+import com.jythonui.client.dialog.IDialogContainer;
 import com.jythonui.client.dialog.VField;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldValue;
@@ -70,7 +70,7 @@ public class VerifyJError {
 		return err;
 	}
 
-	public static boolean isError(final DialogContainer d, IDataType dType,
+	public static boolean isError(final IDialogContainer d, IDataType dType,
 			final DialogVariables v, ISlotable iSlo) {
 
 		IOkFieldName iOk = new IOkFieldName() {

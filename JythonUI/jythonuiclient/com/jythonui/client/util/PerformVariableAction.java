@@ -27,10 +27,11 @@ import com.gwtmodel.table.view.table.ChangeEditableRowsParam;
 import com.gwtmodel.table.view.util.OkDialog;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.jythonui.client.M;
-import com.jythonui.client.dialog.RunAction;
 import com.jythonui.client.dialog.VField;
+import com.jythonui.client.dialog.run.RunAction;
 import com.jythonui.client.listmodel.RowListDataManager;
 import com.jythonui.client.util.PerformVariableAction.VisitList.IGetFooter;
+import com.jythonui.client.variables.IBackAction;
 import com.jythonui.client.variables.IVariablesContainer;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldValue;
@@ -255,6 +256,8 @@ public class PerformVariableAction {
             return;
         }
         if (action.equals(ICommonConsts.JMAINDIALOG)) {
+            if (M.getMainD() != null) M.getMainD().close();
+            M.setMainD(null);
             new RunAction().start(param);
             return;
         }

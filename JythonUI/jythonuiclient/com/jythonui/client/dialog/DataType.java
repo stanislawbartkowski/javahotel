@@ -18,17 +18,17 @@ import com.gwtmodel.table.IDataType;
  * @author hotel
  * 
  */
-class DataType implements IDataType {
+public class DataType implements IDataType {
 
     private final String id;
-    private final DialogContainer d;
+    private final IDialogContainer d;
 
-    private DataType(String id, DialogContainer d) {
+    private DataType(String id, IDialogContainer d) {
         this.id = id;
         this.d = d;
     }
 
-    static IDataType construct(String id, DialogContainer d) {
+    public static IDataType construct(String id, IDialogContainer d) {
         return new DataType(id, d);
     }
 
@@ -49,11 +49,11 @@ class DataType implements IDataType {
         return id.hashCode();
     }
 
-    DialogContainer getD() {
+    IDialogContainer getD() {
         return d;
     }
 
-    String getId() {
+    public String getId() {
         return id;
     }
     
