@@ -3,19 +3,13 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
 	version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
 	<persistence-unit name="admin" transaction-type="RESOURCE_LOCAL">
-<!-- 	
-		<class>com.gwthotel.admin.jpa.entities.EHotel</class>
-		<class>com.gwthotel.admin.jpa.entities.EPersonPassword</class>
-		<class>com.gwthotel.admin.jpa.entities.EPersonRoles</class>
-		<class>com.gwthotel.admin.jpa.entities.EInstance</class>
--->
 		<class>com.jython.serversecurity.jpa.entities.EObject</class>
         <class>com.jython.serversecurity.jpa.entities.EPersonPassword</class>
         <class>com.jython.serversecurity.jpa.entities.EPersonRoles</class>
-        <class>com.jython.serversecurity.jpa.entities.EInstance</class>
-		
+        <class>com.jython.serversecurity.jpa.entities.EInstance</class>		
 		<class>com.jython.ui.server.jpastoragekey.entity.RegistryEntry</class>
-		<class>com.jython.ui.server.jpastoragekey.entity.BlobEntry</class>      		
+		<class>com.jython.ui.server.jpastoragekey.entity.BlobEntry</class>
+		      		
 		<class>com.gwthotel.hotel.jpa.entities.EHotelServices</class>
 		<class>com.gwthotel.hotel.jpa.entities.EHotelPriceList</class>
 		<class>com.gwthotel.hotel.jpa.entities.EHotelPriceElem</class>
