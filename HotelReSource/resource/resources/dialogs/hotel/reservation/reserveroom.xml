@@ -66,7 +66,7 @@
                 <field id="cust_docnumb" displayname="@docnumb" hidden="" />
 	</form>
 
-	<list id="reslist" displayname="Reservation details" pagesize="5">
+	<list id="reslist" displayname="@reservationdetails" pagesize="5">
 		<standbutt>TOOLS,FIND,FILTER</standbutt>
                <buttons-addlist>askforreservation,makereservation</buttons-addlist> 
 		<columns>

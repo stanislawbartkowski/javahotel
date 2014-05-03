@@ -143,3 +143,12 @@ class BILLPOSADD :
   def close(self) :
     cutil.setJMapList(self.var,self.liname,self.li)
     cutil.setFooter(self.var,self.liname,"total",self.sumf)
+
+def searchForRooms(var,dfrom, dto):
+    R = util.RESOP(var)
+    q = createResQueryElem(None,dfrom,dto)
+    l = R.searchReservation(q)
+    res = []
+    for r in l :
+        res.append(r.getRoomName())
+    return res
