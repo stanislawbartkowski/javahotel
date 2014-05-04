@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" modeless="" >
+
+        <before/>
+
+        <jython>
+                <import>from hotelpack.reservation import searchrooms</import>
+                <method>searchrooms.dialogaction({0},{1})</method>
+        </jython>
+        
+        
+        <buttons>
+          <button id="search" displayname="@searchforreservation" validate="" />
+          <button id="seton" displayname="@setondateandromm" validate="" />
+          <button id="tores" displayname="@startreservation" validate="" />
+        </buttons>  
+        
+         <form>
+            <field id="search_from" displayname="@firstnight" type="date" notempty=""/>
+            <field id="search_nop" displayname="@nopersons" type="int" />
+            <field id="searchby_days" displayname="@bynumberofnights" type="bool" />
+            <field id="search_days" displayname="@numberofnights" type="int" />
+            <field id="search_to" displayname="@lastday" type="date" />
+         </form>
+         
+         <list id="roomlist" pagesize="15">
+            <standbutt>TOOLS,FIND,FILTER</standbutt>
+            <columns>
+               <column id="search_roomid" displayname="@roomname" />
+               <column id="search_roomcapa" displayname="@roomcapacitypanel" type="int" />
+               <column id="search_roomdesc" displayname="@description" />
+               <column id="search_roomservice" displayname="@servicename" />
+               <column id="search_roompricelist" displayname="@pricelistname" />
+               <column id="search_price" displayname="@price" type="decimal" />
+               <column id="search_priceperson" displayname="@pricemulperson" type="decimal" />
+               <column id="search_pricetotal" displayname="@totalprice" type="decimal" />
+            </columns>   
+         </list>
+       
+</dialog>

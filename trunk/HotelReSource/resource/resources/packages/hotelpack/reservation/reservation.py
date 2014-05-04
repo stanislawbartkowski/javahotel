@@ -28,7 +28,7 @@ def __getList(var):
     
     for s in seq : 
        list.append({"name" : s.getName(), "descr" : s.getDescription(), 
-                    "noperson" : s.getNoPersons() } )
+                    "noperson" : s.getNoPersons() } )                                        
     return list        
 
 

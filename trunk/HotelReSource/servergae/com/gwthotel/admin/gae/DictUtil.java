@@ -53,9 +53,10 @@ public class DictUtil extends UtilHelper {
         EInstance eI = EntUtil.findI(lMess, hotel.getInstanceId());
         LoadResult<EObject> p = ofy().load().type(EObject.class).parent(eI)
                 .id(hotel.getId());
+//        System.out.println("Hotel " + hotel.getId() + " instance :" + hotel.getInstanceId().getId() );
         if (p.now() == null) {
             String mess = lMess.getMess(IHError.HERROR005,
-                    IHMess.HOTELBYIDNOTFOUND, Long.toString(hotel.getId()));
+                    IHMess.HOTELBYIDNOTFOUND, hotel.getId().toString(),eI.getId().toString());
             errorLog(mess);
         }
         return p.now();

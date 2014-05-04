@@ -15,7 +15,10 @@ package com.gwthotel.hotel.service.gae;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -33,6 +36,7 @@ import com.gwthotel.hotel.reservationop.ResQuery;
 import com.gwthotel.hotel.service.gae.entities.ECustomerBill;
 import com.gwthotel.hotel.service.gae.entities.EHotelGuest;
 import com.gwthotel.hotel.service.gae.entities.EHotelReservation;
+import com.gwthotel.hotel.service.gae.entities.EHotelRoom;
 import com.gwthotel.hotel.service.gae.entities.EResDetails;
 import com.gwthotel.hotel.stay.ResGuest;
 import com.gwthotel.shared.IHotelConsts;
@@ -166,6 +170,36 @@ public class ReservationOpImpl implements IReservationOp {
             bList.add(bi);
         }
         return bList;
+    }
+
+    @Override
+    public List<ResData> searchReservation(OObjectId hotel, ResQuery rQuery) {
+        Date dFrom = rQuery.getFromRes();
+        Date dTo = rQuery.getToRes();
+        EObject eh = DictUtil.findEHotel(lMess, hotel);
+        List<EHotelRoom> li = ofy().load().type(EHotelRoom.class).ancestor(eh)
+                .list();
+        List<ResQuery> ql = new ArrayList<ResQuery>();
+        for (EHotelRoom r : li) {
+            ResQuery q = new ResQuery();
+            q.setFromRes(dFrom);
+            q.setToRes(dTo);
+            q.setRoomName(r.getName());
+            ql.add(q);
+        }
+        List<ResData> dRes = queryReservation(hotel, ql);
+        Set<String> rMap = new HashSet<String>();
+        for (ResData r : dRes)
+            rMap.add(r.getRoomName());
+
+        List<ResData> outres = new ArrayList<ResData>();
+        for (EHotelRoom r : li)
+            if (!rMap.contains(r.getName())) {
+                ResData rd = new ResData();
+                rd.setRoomName(r.getName());
+                outres.add(rd);
+            }
+        return outres;
     }
 
 }

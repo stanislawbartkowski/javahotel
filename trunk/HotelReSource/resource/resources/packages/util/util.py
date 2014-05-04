@@ -230,6 +230,10 @@ class RESFORM(CRUDLIST) :
         CRUDLIST.__init__(self,var)
         self.serviceS = H.getResForm()
                 
+def addRoom(var,roomid,map,capa,descr) :
+    RO = ROOMLIST(var).findElem(roomid)
+    map[capa] = RO.getNoPersons()
+    map[descr] = RO.getDescription()                
                 
 def isRoomService(service) :
   return service == ServiceType.HOTEL

@@ -2,6 +2,7 @@ import cutil
 import con
 import util
 from com.gwthotel.hotel.reservationop import ResQuery
+import xmlutil
 
 def getReseName(var) :
   return var["resename"]
@@ -58,11 +59,23 @@ def countTotal(var,b,pli) :
   return total
 
 def setvarBefore(var,cust="cust_"):
+    nop = None
+    resdays = 1
+    
+    if var.has_key("JUPDIALOG_START") and var["JUPDIALOG_START"] != None :
+      xml = var["JUPDIALOG_START"]
+      m = {}
+      (m,li) = xmlutil.toMap(xml)
+      nop = m["nop"]
+      var["JDATELINE_LINE"] = m["roomname"]
+      var["JDATELINE_DATE"] = m["firstday"]
+      resdays = m["nodays"]
+      
     R = util.ROOMLIST(var)
     roomname = var["JDATELINE_LINE"]
     room = R.findElem(roomname)
     assert room != None
-    nop = room.getNoPersons()
+    if nop == None : nop = room.getNoPersons()
     var["name"] = roomname
     var["desc"] = room.getDescription()
     var["nop"] = nop
@@ -74,7 +87,7 @@ def setvarBefore(var,cust="cust_"):
     if len(res) == 0 :
       date = var["JDATELINE_DATE"]
       var["datecol"] = date
-      var["resdays"] = 1
+      var["resdays"] = resdays
       var["resename"] = None
       util.setDefaCustomer(var,cust)
       return
@@ -152,3 +165,27 @@ def searchForRooms(var,dfrom, dto):
     for r in l :
         res.append(r.getRoomName())
     return res
+  
+def getPriceList(var,pricelist,serv) :
+  price = None
+  pricechild = None
+  priceextra = None
+  if serv != None and pricelist != None :
+    P = util.PRICEELEM(var)
+    prices = P.getPricesForPriceList(pricelist)
+    for s in prices :
+      id = s.getService()
+      if id == serv :
+        price = s.getPrice()
+        pricechild = s.getChildrenPrice()
+        priceextra = s.getExtrabedsPrice()
+  return (price,pricechild,priceextra)
+  
+def calculatePrice(perperson,resnop,resnoc,resextra,priceperson,pricechildren,priceextra) :  
+  if perperson :
+    price = con.mulIntDecimal(resnop,priceperson)
+    price = con.addDecimal(price,con.mulIntDecimal(resnoc,pricechildren))
+    price = con.addDecimal(price,con.mulIntDecimal(resextra,priceextra))
+  else : price = priceroom    
+  return price
+
