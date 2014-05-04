@@ -40,6 +40,7 @@ public interface ICommonConsts {
     String HTMLPANEL = "htmlpanel";
     String HTMLTYPE = "html";
     String JSCODE = "jscode";
+    String CSSCODE = "csscode";
     String BEFORE = "before";
     String LIST = "list";
     String COLUMN = "column";
@@ -72,12 +73,13 @@ public interface ICommonConsts {
     String IMAGECOLUMN = "imagecolumn";
     String IMAGELIST = "imagelist";
     String LABEL = "label";
-    String IJSCALL = "JS.";
+    // String IJSCALL = "JS.";
     String ASXML = "asxml";
     String FORMPANEL = "formpanel";
     String AUTOHIDE = "autohide";
     String MODELESS = "modeless";
     String CLEARLEFT = "clearleft";
+    String JSMODIFROW = "jsmodifrow";
     String CLEARCENTRE = "clearcentre";
     String JXMLCONTENT = "JXMLCONTENT";
     String JXMLSETCONTENT = "JXMLCONTENTSET";
@@ -251,7 +253,7 @@ public interface ICommonConsts {
     String JDATELINELINEDEF = "linedef";
     String JDATELINEVALUES = "values";
     String JDATELINESPAN = "colspan";
-    String JDATELINE_GOTODATE="JDATELINE_GOTO_";
+    String JDATELINE_GOTODATE = "JDATELINE_GOTO_";
 
     String JDATELINELINEID = "JDATELINE_LINE";
     String JDATELINEDATEID = "JDATELINE_DATE";

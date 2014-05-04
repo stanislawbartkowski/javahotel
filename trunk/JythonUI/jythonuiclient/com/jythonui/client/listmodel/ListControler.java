@@ -21,7 +21,6 @@ import com.google.common.base.Optional;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.FieldDataType.IGetListValues;
-import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
@@ -74,7 +73,6 @@ import com.gwtmodel.table.listdataview.StartNextRowSignal;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType.StandClickEnum;
-import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.CustomStringSlot;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
@@ -834,7 +832,7 @@ class ListControler {
                 FieldItem fi = fo.getColumn(v.getId());
                 String[] res = new String[fi.getImageColumn()];
                 String s = fi.getImageList();
-                String js = JUtils.getJS(s);
+                String js = Utils.getJS(s);
                 if (!CUtil.EmptyS(js)) {
                     IVModelData va = SlU.getVDataByI(dType,
                             DataListPersistAction.this, sig.getValue());

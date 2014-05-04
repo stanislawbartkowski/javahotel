@@ -75,7 +75,7 @@ class ReadDialog extends UtilHelper {
                 ICommonConsts.TYPES, ICommonConsts.ASXML,
                 ICommonConsts.CLEARCENTRE, ICommonConsts.CLEARLEFT,
                 ICommonConsts.FORMPANEL, ICommonConsts.AUTOHIDE,
-                ICommonConsts.MODELESS };
+                ICommonConsts.MODELESS, ICommonConsts.CSSCODE };
         private final String[] buttonTag = { ICommonConsts.ID,
                 ICommonConsts.DISPLAYNAME, ICommonConsts.ACTIONTYPE,
                 ICommonConsts.ACTIONPARAM, ICommonConsts.ACTIONPARAM1,
@@ -105,7 +105,7 @@ class ReadDialog extends UtilHelper {
                 ICommonConsts.WIDTH, ICommonConsts.CHUNKED,
                 ICommonConsts.SIGNALAFTERROW, ICommonConsts.SIGNALBEFOREROW,
                 ICommonConsts.LISTBUTTONSLIST,
-                ICommonConsts.LISTBUTTONSVALIDATE };
+                ICommonConsts.LISTBUTTONSVALIDATE, ICommonConsts.JSMODIFROW };
         private final String[] valTag = { ICommonConsts.ID,
                 ICommonConsts.DISPLAYNAME, ICommonConsts.VALIDATEOP,
                 ICommonConsts.VALIDATEID1 };
@@ -439,6 +439,7 @@ class ReadDialog extends UtilHelper {
         saxParser.parse(sou, ma);
         replaceFile(p, ma.dFormat, ICommonConsts.HTMLPANEL);
         replaceFile(p, ma.dFormat, ICommonConsts.JSCODE);
+        replaceFile(p, ma.dFormat, ICommonConsts.CSSCODE);
         for (DisclosureElemPanel d : ma.dFormat.getDiscList())
             replaceFile(p, d, ICommonConsts.HTMLPANEL);
         return ma.dFormat;

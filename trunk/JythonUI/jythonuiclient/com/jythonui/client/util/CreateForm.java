@@ -247,7 +247,7 @@ public class CreateForm {
                 iGet);
         String lName = l.getDisplayName();
         return new VListHeaderContainer(desc.hList, lName, l.getPageSize(),
-                null, l.getWidth(), null, desc.footList);
+                l.getJSModifRow(), l.getWidth(), null, desc.footList);
     }
 
     public static ControlButtonDesc constructButton(ButtonItem b,

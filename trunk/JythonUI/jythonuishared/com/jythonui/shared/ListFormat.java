@@ -100,4 +100,8 @@ public class ListFormat extends ElemDescription {
         return getAttr(ICommonConsts.LISTBUTTONSVALIDATE);
     }
 
+    public String getJSModifRow() {
+        return getAttr(ICommonConsts.JSMODIFROW);
+    }
+
 }

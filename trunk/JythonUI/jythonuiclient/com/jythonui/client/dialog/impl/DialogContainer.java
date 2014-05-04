@@ -612,6 +612,8 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
         }
 
         // Java script code
+        if (!CUtil.EmptyS(d.getCssCode()))
+            Utils.addStyle(d.getCssCode());
         if (d.isJsCode())
             Utils.callJs(d.getJsCode());
 

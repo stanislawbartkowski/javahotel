@@ -108,14 +108,4 @@ public class JUtils {
         JUtils.visitListOfFields(var, prefix, vis);
     }
 
-    public static String getJS(String s) {
-        if (CUtil.EmptyS(s)) {
-            return null;
-        }
-        if (!s.startsWith(ICommonConsts.IJSCALL)) {
-            return null;
-        }
-        return s.substring(ICommonConsts.IJSCALL.length());
-    }
-
 }
