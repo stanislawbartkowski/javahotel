@@ -12,16 +12,17 @@
  */
 package com.gwthotel.admintest.suite;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
 
 import com.gwthotel.hotel.HotelObjects;
-import com.gwthotel.hotel.bill.CustomerBill;
 import com.gwthotel.hotel.customer.HotelCustomer;
 import com.gwthotel.hotel.reservation.ResStatus;
 import com.gwthotel.hotel.reservation.ReservationForm;
@@ -30,7 +31,6 @@ import com.gwthotel.hotel.reservationop.ResData;
 import com.gwthotel.hotel.reservationop.ResQuery;
 import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwthotel.hotel.services.HotelServices;
-import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.jythonui.server.security.token.ICustomSecurity;
 import com.jythonui.shared.DialogVariables;
 
@@ -83,7 +83,6 @@ public class Test29 extends TestHelper {
         cust = iCustomers.addElem(getH(HOTEL), cust);
         ReservationForm re = (ReservationForm) hObjects.construct(getH(HOTEL),
                 HotelObjects.RESERVATION);
-//        Date res = DateFormatUtil.toD(2013, 2, 1);
         re.setCustomerName(cust.getName());
         re.setGensymbol(true);
 
@@ -137,11 +136,11 @@ public class Test29 extends TestHelper {
     
     @Test
     public void test3() {
-        test2();
         setUserPassword();
         ICustomSecurity cu = getSec(HOTEL);
         String token = iSec.authenticateToken(realM, "user", "secret", cu);
         assertNotNull(token);
+        test2();
         DialogVariables v = new DialogVariables();
         runAction(token, v, "dialog7.xml", "testsearch");
         assertOK(v);
