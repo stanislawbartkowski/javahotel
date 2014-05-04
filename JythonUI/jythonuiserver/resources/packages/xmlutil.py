@@ -59,32 +59,6 @@ def getVar(map,dialogname,xml,listv):
             map[vname] = toJDateTime(val.getValue())
             continue         
 
-def _toXML_OLD(ma):
-    
-    xml = "<elem>"
-    for k in ma :
-        val = ma[k]
-        atype = None
-        tos = True
-        if type(val) == int or type(val) == long : atype = cutil.LONG
-        elif type(val) == float : atype = cutil.DECIMAL
-        elif type(val) == bool : 
-            atype = cutil.BOOL
-            if val : val = 1
-            else : val = 0
-        elif type(val) == datetime.date : 
-            atype = cutil.DATE
-            val = str(val).replace('-','/')
-            tos = False
-        else : tos = False
-        if tos and val : val = str(val)        
-        x = '<' + k
-        if atype : x = x + " type=\"" + atype + '\"'
-        if val : x = x + '>' + val + "</" + k + '>'
-        else : x = x + "/>"
-        xml = xml + '\n' + x
-    xml = xml + "\n</elem>"    
-    return xml
 
 def _toXML(builder,ma):
 

@@ -82,3 +82,7 @@ def toS(val):
 
 def incDays(date,days = 1) :
   return date+datetime.timedelta(days)
+  
+def nofDays(dfrom,dto) :
+  return (dto-dfrom).days
+  
