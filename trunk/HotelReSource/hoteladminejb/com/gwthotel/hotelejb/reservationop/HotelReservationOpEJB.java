@@ -56,7 +56,8 @@ public class HotelReservationOpEJB implements IReservationOp {
     }
 
     @Override
-    public void changeStatus(OObjectId hotel, String resName, ResStatus newStatus) {
+    public void changeStatus(OObjectId hotel, String resName,
+            ResStatus newStatus) {
         rOp.changeStatus(hotel, resName, newStatus);
     }
 
@@ -87,6 +88,11 @@ public class HotelReservationOpEJB implements IReservationOp {
     public List<CustomerBill> findBillsForReservation(OObjectId hotel,
             String resName) {
         return rOp.findBillsForReservation(hotel, resName);
+    }
+
+    @Override
+    public List<ResData> searchReservation(OObjectId hotel, ResQuery rQuery) {
+        return rOp.searchReservation(hotel, rQuery);
     }
 
 }
