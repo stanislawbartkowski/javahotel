@@ -17,9 +17,10 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import com.jythonui.shared.DialogFormat;
+import com.jythonui.shared.ListFormat;
 
 public class Test42 extends TestHelper {
-    
+
     @Test
     public void test1() {
         DialogFormat d = findDialog("test75.xml");
@@ -33,8 +34,19 @@ public class Test42 extends TestHelper {
         DialogFormat d = findDialog("test76.xml");
         assertNotNull(d);
         assertFalse(d.isAutoHideDialog());
-        assertEquals(2,d.getDiscList().size());
+        assertEquals(2, d.getDiscList().size());
         assertTrue(d.isModelessDialog());
+        assertNull(d.getCssCode());
+    }
+
+    @Test
+    public void test3() {
+        DialogFormat d = findDialog("test77.xml");
+        assertNotNull(d);
+        ListFormat f = DialogFormat.findE(d.getListList(), "lista");
+        assertNotNull(f);
+        assertEquals("hello", f.getJSModifRow());
+        assertEquals("CSS", d.getCssCode());
     }
 
 }
