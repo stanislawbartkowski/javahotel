@@ -39,6 +39,7 @@ import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
+import com.jythonui.shared.ICommonConsts;
 
 public class Utils {
 
@@ -376,6 +377,17 @@ public class Utils {
 	public static native String callJsStringFun(String jsonFun, String paramS) /*-{
 		return $wnd.eval(jsonFun + '(\'' + paramS + '\')');
 	}-*/;
+	
+    public static String getJS(String s) {
+        if (CUtil.EmptyS(s)) {
+            return null;
+        }
+        if (!s.startsWith(IConsts.IJSCALL)) {
+            return null;
+        }
+        return s.substring(IConsts.IJSCALL.length());
+    }
+
 
 	public static String getLocale() {
 		String loca = LocaleInfo.getCurrentLocale().getLocaleName();

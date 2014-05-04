@@ -28,8 +28,10 @@ import com.gwtmodel.table.ISuccess;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.SynchronizeList;
+import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.controlbuttonview.ButtonRedirectActivateSignal;
 import com.gwtmodel.table.controlbuttonview.ButtonRedirectSignal;
@@ -106,9 +108,11 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             VListHeaderContainer listHeader = slContext.getListHeader();
             listView.setHeaderList(listHeader);
             tableView.setModel(listView);
-            if (listHeader.getJsModifRow() != null)
-                tableView.setModifyRowStyle(new ModifRow(listHeader
-                        .getJsModifRow()));
+            String jsModif = listHeader.getJsModifRow();
+            if (jsModif != null)
+                jsModif = Utils.getJS(jsModif);
+            if (!CUtil.EmptyS(jsModif))
+                tableView.setModifyRowStyle(new ModifRow(jsModif));
         }
     }
 
@@ -130,7 +134,8 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         }
 
         public String newRowStyle(IVModelData line) {
-            return iJson.construct(line);
+            String rowJS = iJson.construct(line);
+            return Utils.callJsStringFun(jsFun, rowJS);
         }
     }
 
