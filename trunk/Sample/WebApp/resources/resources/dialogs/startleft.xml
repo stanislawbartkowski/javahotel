@@ -25,6 +25,7 @@
   <button id="dialogattach" displayname="Dialog with attachment" actiontype="JMAIN_DIALOG" actionparam="dialogattach.xml" />
   <button id="dialogdisc" displayname="Dialog with disclosure" actiontype="JMAIN_DIALOG" actionparam="dialogdisc.xml" />
   <button id="dialognext" displayname="List with custom search" actiontype="JMAIN_DIALOG" actionparam="dialoglist1.xml" />
+  <button id="dialognext2" displayname="List with custom modif row" actiontype="JMAIN_DIALOG" actionparam="dialoglist2.xml" />
 </leftstack>
 
  <form>

@@ -15,7 +15,7 @@ def dialogaction(action,var) :
 
   if action == "before" :
     F.removeAll()
-    for i in range(100) :
+    for i in range(10) :
       map = { "id" : F.nextKey(), "firstname" : "first" + str(i),"lastname" : "last" + str(i),"info" : "info" + str(i)}
       F.addMap(map)
       
