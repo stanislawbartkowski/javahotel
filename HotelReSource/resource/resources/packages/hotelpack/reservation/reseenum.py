@@ -24,7 +24,7 @@ def pricelistenum(action,var):
   var["JLIST_MAP"] = { "roompricelist" : createEnumFromList(li[1],f)}
 
 def allpricelistenum(action, var):
-  printvar ("allpricelistenum,", action,var)
+#  printvar ("allpricelistenum,", action,var)
   PR = PRICELIST(var)
   li = PR.getList()
   var["JLIST_MAP"] = { "allpricelist" : createEnumFromList(li)}

@@ -10,6 +10,9 @@
 		<method>reservation.reservationaction({0},{1})</method>
 	</jython>
         
+        <buttons>
+          <button id="searchrese" displayname="@searchforreservation" actiontype="JUP_DIALOG" actionparam="hotel/reservation/searchrooms.xml" />
+        </buttons>          
 
 	<dateline id="reservation" lineid="name"
 		defafile="empty" colno="18">

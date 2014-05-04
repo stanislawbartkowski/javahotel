@@ -1,33 +1,25 @@
 from util.util import printvar
 from cutil import setCopy
-from util.util import ROOMLIST
-from util.util import PRICELIST
-from util.util import PRICEELEM
 import datetime
-from util.util import getServicesForRoom
 from util.util import createEnumFromList
 from util.util import emptyS
 from util.util import SUMBDECIMAL
-from util.util import RESOP
 from util.util import eqDate
 from util.util import newCustomer
 from util.util import CUSTOMERLIST
 from util.util import getCustFieldId
 from util.util import newResForm
-from com.gwthotel.hotel.reservation import ResStatus
 from util.util import getCustFieldId
 from util.util import showCustomerDetails
 from util.util import getPriceForPriceList
 from cutil import setFooter
 from cutil import setJMapList
-from util.util import BILLLIST
 from util.util import setCustData
 from util.util import getPayments
 from con import eqUL
 from util.util import PAYMENTOP
 from util.util import HOTELTRANSACTION
 from util.util import customerFromVar
-from util.util import getCustFieldIdAll
 from util.util import setDefaCustomer
 from util.util import saveDefaCustomer
 
@@ -69,17 +61,12 @@ def _createResData(var):
   if resnoc : pricechildren = var["respricechildren"]
   resextra = var["resnoextrabeds"]
   if resextra : priceextra = var["respriceextrabeds"]
-  
-  #calculate
-  if perperson :
-    price = con.mulIntDecimal(resnop,priceperson)
-    price = con.addDecimal(price,con.mulIntDecimal(resnoc,pricechildren))
-    price = con.addDecimal(price,con.mulIntDecimal(resextra,priceextra))
-  else : price = priceroom    
+    
+  price = rutil.calculatePrice(perperson,resnop,resnoc,resextra,priceperson,pricechildren,priceextra)
   
   query = cutil.createArrayList()
-  RES = RESOP(var)
-  qelem = rutil.createResQueryElem(roomname,date,date+datetime.timedelta(resdays))
+  RES = util.RESOP(var)
+  qelem = rutil.createResQueryElem(roomname,date,con.incDays(date,resdays))
   query.add(qelem)
   rList = RES.queryReservation(query)
   allavail = True
@@ -106,24 +93,10 @@ def _createResData(var):
     
   return [list,sum.sum,allavail]    
 
-
 def _getPriceList(var) :
   pricelist = var["roompricelist"]
-  price = None
-  pricechild = None
-  priceextra = None
   serv = var["roomservice"]
-  pricelist = var["roompricelist"]
-  if serv != None and pricelist != None :
-    P = PRICEELEM(var)
-    prices = P.getPricesForPriceList(pricelist)
-    for s in prices :
-      id = s.getService()
-      if id == serv :
-        price = s.getPrice()
-        pricechild = s.getChildrenPrice()
-        priceextra = s.getExtrabedsPrice()
-  return (price,pricechild,priceextra)
+  return rutil.getPriceList(var,pricelist,serv)
 
 def _setAfterServiceName(var) :
   S = util.SERVICES(var)
@@ -187,7 +160,7 @@ def _setAlreadyReservedNotSelected(var) :
 
 def _checkAvailibity(var) :
   list = var["JLIST_MAP"][RESLIST]
-  RES = RESOP(var)
+  RES = util.RESOP(var)
   query = cutil.createArrayList()
   for p in list :
     if not p["avail"] :
@@ -319,13 +292,13 @@ def reseraction(action,var):
         
     if action == "acceptdetails" and var["JUPDIALOG_BUTTON"] == "accept" :
         xml = var["JUPDIALOG_RES"]
-        util.xmlToVar(var,xml,getCustFieldIdAll(),CUST)
-        setCopy(var,getCustFieldIdAll(),None,CUST)
+        util.xmlToVar(var,xml,util.getCustFieldIdAll(),CUST)
+        setCopy(var,util.getCustFieldIdAll(),None,CUST)
         
     if action=="custdetails" :
         var["JUP_DIALOG"]="hotel/reservation/customerdetails.xml" 
         var["JAFTERDIALOG_ACTION"] = "acceptdetails" 
-        var["JUPDIALOG_START"] = util.mapToXML(var,getCustFieldIdAll(),CUST)
+        var["JUPDIALOG_START"] = util.mapToXML(var,util.getCustFieldIdAll(),CUST)
             
     if action == "checkaval" :
         _checkRese(var)
