@@ -2,7 +2,9 @@
 <dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="@makereservation">
 
  <htmlpanel>hotel/reservation/html/reserveroom.html</htmlpanel>
-
+ <jscode>hotel/reservation/js/reservrow.js</jscode>
+ <csscode>hotel/reservation/html/reservrow.css</csscode>
+ 
 	<before />
 
 	<types>hotel/typesenum.xml,hotel/reservation/restypes.xml</types>
@@ -21,6 +23,7 @@
                         actionparam1="@warningcancelreservation" actionparam2="cancelreserv" hidden=""/>
                 <button id="checkin" displayname="@checkinbutton" actiontype="JUP_DIALOG"
                         actionparam="hotel/reservation/checkin.xml" actionparam2="aftercheckin" hidden=""/>
+                <button id="morereservation" displayname="Dołóż rezerwację" />
 
 	</buttons>
 
@@ -66,11 +69,11 @@
                 <field id="cust_docnumb" displayname="@docnumb" hidden="" />
 	</form>
 
-	<list id="reslist" displayname="@reservationdetails" pagesize="5">
+	<list id="reslist" displayname="@reservationdetails" pagesize="5" jsmodifrow="JS.ROW.reservrow">
 		<standbutt>TOOLS,FIND,FILTER</standbutt>
-               <buttons-addlist>askforreservation,makereservation</buttons-addlist> 
+               <buttons-addlist>askforreservation,makereservation,morereservation,morereservationaccept</buttons-addlist> 
 		<columns>
-			<column id="avail" type="bool" displayname="A" />
+			<column id="avail" type="bool" displayname="A" hidden=""/>
 			<column id="resroomname" displayname="@roomname" />
 			<column id="resday" type="date" displayname="@night" />
                        <column id="rline_nop" type="int" displayname="@nopersons" /> 

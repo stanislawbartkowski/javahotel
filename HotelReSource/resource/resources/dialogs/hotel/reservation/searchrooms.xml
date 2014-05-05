@@ -13,6 +13,7 @@
           <button id="search" displayname="@searchforreservation" validate="" />
           <button id="seton" displayname="@setondateandromm" validate="" />
           <button id="tores" displayname="@startreservation" validate="" />
+          <button id="toresrese" displayname="Dołóż do rezerwacji" validate="" hidden="" />
         </buttons>  
         
          <form>
@@ -21,6 +22,7 @@
             <field id="searchby_days" displayname="@bynumberofnights" type="bool" />
             <field id="search_days" displayname="@numberofnights" type="int" />
             <field id="search_to" displayname="@lastday" type="date" />
+            <field id="search_html" hidden="" />
          </form>
          
          <list id="roomlist" pagesize="15">
