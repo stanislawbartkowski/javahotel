@@ -18,7 +18,6 @@ from util.util import setCustData
 from util.util import getPayments
 from con import eqUL
 from util.util import PAYMENTOP
-from util.util import HOTELTRANSACTION
 from util.util import customerFromVar
 from util.util import setDefaCustomer
 from util.util import saveDefaCustomer
@@ -27,6 +26,7 @@ from util import rutil
 from util import util
 import cutil
 import con
+import xmlutil
 
 M = util.MESS()
 
@@ -39,7 +39,7 @@ def showButton(var,buttonid,show=True) :
 def _newRese(var) :
   return rutil.getReseName(var) == None
 
-def _createResData(var):
+def _createResData(var,new):
   service = var["roomservice"]
   if emptyS(service) : return None
   pricelist = var["roompricelist"]
@@ -48,9 +48,13 @@ def _createResData(var):
   date = var["datecol"]
   resdays = var["resdays"]
   dl = datetime.timedelta(1)
-  list = []
   dt = date
   sum = SUMBDECIMAL()
+  if new :
+    list = []
+  else :
+    list = var["JLIST_MAP"][RESLIST]
+    sum.add(var["JFOOTER_reslist_rlist_pricetotal"])
   resnop = var["resnop"]
   perperson = var["serviceperperson"]
   priceroom = var["respriceperroom"]
@@ -119,8 +123,8 @@ def _setAfterPerPerson(var) :
   var["JSETATTR_FIELD_respriceextrabeds_enable"] = var["serviceperperson"]  
   var["JSETATTR_FIELD_respriceperroom_enable"] = not var["serviceperperson"]  
 
-def _createListOfDays(var): 
-  rData = _createResData(var)
+def _createListOfDays(var,new): 
+  rData = _createResData(var,new)
   if rData == None : return None
 #  assert rData != None
   setJMapList(var,RESLIST,rData[0])
@@ -133,7 +137,7 @@ def _checkNoAndPrice(var,no,price) :
   if cutil.checkEmpty(var,price) : return False
   return True
  
-def _checkRese(var):
+def _checkRese(var,new=True):
   if not cutil.checkGreaterZero(var,"resdays") : return False
   if not var["serviceperperson"] :
     if cutil.checkEmpty(var,["respriceperroom"]) : return False
@@ -141,7 +145,7 @@ def _checkRese(var):
   if not _checkNoAndPrice(var,"resnochildren","respricechildren") : return False
   if not _checkNoAndPrice(var,"resnoextrabeds","respriceextrabeds") : return False
     
-  if _createListOfDays(var) : return True
+  if _createListOfDays(var,new) : return True
   _setAlreadyReserved(var)
   return False
   
@@ -183,10 +187,10 @@ def _checkAvailibity(var) :
      return False
   return True       
   
-class MAKERESE(HOTELTRANSACTION) :
+class MAKERESE(util.HOTELTRANSACTION) :
   
    def __init__(self,var) :
-     HOTELTRANSACTION.__init__(self,1,var)
+     util.HOTELTRANSACTION.__init__(self,1,var)
      
    def run(self,var) :     
       if not _checkAvailibity(var) : return
@@ -276,13 +280,13 @@ def reseraction(action,var):
             if not var["changeafterfocus"] and _newRese(var) : 
                _setAfterPriceList(var)
                _setAfterPerPerson(var)
-               _createListOfDays(var)
+               _createListOfDays(var,True)
         if var["changefield"] == "roompricelist" : 
             _setAfterPriceList(var)
             if not var["changeafterfocus"] and _newRese(var): 
               _setAfterServiceName(var)
               _setAfterPerPerson(var)
-              _createListOfDays(var)
+              _createListOfDays(var,True)
     
     if action=="before" :
         rutil.setvarBefore(var)
@@ -304,7 +308,6 @@ def reseraction(action,var):
         _checkRese(var)
 
     if action == "askforreservation" :
-#      if not _checkRese(var) : return
 
       if not _checkCurrentRese(var) : return
       var["JYESNO_MESSAGE"] = M("MAKERESERVATIONASK")
@@ -313,4 +316,16 @@ def reseraction(action,var):
 
     if action == "makereservation" and var["JYESANSWER"] :
       TRAN = MAKERESE(var)
-      TRAN.doTrans()                   
+      TRAN.doTrans()
+      
+    if action == "morereservation" :
+        l = var["JLIST_MAP"][RESLIST]
+        xml = xmlutil.toXML({},l)
+        var["JUPDIALOG_START"] = xml
+        var["JUP_DIALOG"]="hotel/reservation/searchrooms.xml" 
+        var["JAFTERDIALOG_ACTION"] = "morereservationaccept" 
+      
+    if action == "morereservationaccept" and var["JUPDIALOG_BUTTON"] == "toresrese" :
+        var["JUPDIALOG_START"] = var["JUPDIALOG_RES"]        
+        rutil.setvarBefore(var)
+        _checkRese(var,False)
