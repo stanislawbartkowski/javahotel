@@ -11,6 +11,7 @@
 	<actions>
 		<action id="datelineaction" actiontype="JUP_DIALOG"
 			actionparam="actionclick.xml" />
+                <action id="hello" displayname="Hello" />                        
 	</actions>
 
 	<buttons>
@@ -21,6 +22,7 @@
 
 	<dateline id="dateline" displayname="List of rooms" lineid="id"
 		colno="20" pagesize="10" defafile="name1" >
+                                  <standbutt>custom:hello</standbutt> 
 		<columns>
 			<column id="id" type="long" hidden="" />
 			<column id="displayname" displayname="Room" columnclass = "roomcolumnClass" editcss="margin-right:3em;" headerclass = "header-room" />
