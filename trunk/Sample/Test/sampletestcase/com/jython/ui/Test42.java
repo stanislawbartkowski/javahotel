@@ -16,6 +16,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import com.jythonui.shared.DateLine;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.ListFormat;
 
@@ -47,6 +48,14 @@ public class Test42 extends TestHelper {
         assertNotNull(f);
         assertEquals("hello", f.getJSModifRow());
         assertEquals("CSS", d.getCssCode());
+    }
+    
+    @Test
+    public void test4() {
+        DialogFormat d = findDialog("test78.xml");
+        assertNotNull(d);
+        DateLine dL = d.getDatelineList().get(0);
+        assertNotNull(dL.getStandButt());
     }
 
 }
