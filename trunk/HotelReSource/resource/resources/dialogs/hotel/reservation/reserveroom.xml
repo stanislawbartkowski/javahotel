@@ -23,7 +23,7 @@
                         actionparam1="@warningcancelreservation" actionparam2="cancelreserv" hidden=""/>
                 <button id="checkin" displayname="@checkinbutton" actiontype="JUP_DIALOG"
                         actionparam="hotel/reservation/checkin.xml" actionparam2="aftercheckin" hidden=""/>
-                <button id="morereservation" displayname="Dołóż rezerwację" />
+                <button id="morereservation" displayname="@addnextreservation" />
 
 	</buttons>
 

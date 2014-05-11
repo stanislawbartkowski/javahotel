@@ -1,36 +1,48 @@
-from cutil import setCopy
-from util.util import createCustomerList
-from util.util import getCustFieldId
-from util.util import CUSTOMERLIST
-from cutil import copyPropToVar
-from util.util import getCustFieldIdAll
-from util.util import setCustVarCopy
-from util.util import setCustData
 import cutil
+
 from util import util
 
-CLIST = getCustFieldIdAll()
+CLIST = util.getCustFieldIdAll()
+
+DE="de_"
 
 def custdetails(action,var):
   cutil.printVar ("custdetails", action,var)
   
   if action == "before" :
       xml = var["JUPDIALOG_START"]
-      util.xmlToVar(var,xml,CLIST,"de_")
-      setCustVarCopy(var,"de_")
+      util.xmlToVar(var,xml,CLIST + [util.CUSTACTION],DE)
+      action = var[DE + util.CUSTACTION]
+      print action
+      if action == util.CUSTSHOWTOACTIVE :
+        custid = var[DE + "name"]
+        custR = util.CUSTOMERLIST(var).findElem(custid)
+        assert custR != None
+        util.customerToVar(var,custR,DE)
+        util.setCustVarCopy(var,DE)
+#        util.enableCust(var,DE,False)
+        cutil.hideButton(var,["accept","ok"])
+      else : 
+        util.setCustVarCopy(var,DE)
+        cutil.hideButton(var,["acceptask","ok"])
+        
       
   if action == "accept" :
-      var["JCLOSE_DIALOG"] = util.mapToXML(var,CLIST,"de_")
+      var["JCLOSE_DIALOG"] = util.mapToXML(var,CLIST,DE)
+
+  if action == "acceptask" and var["JYESANSWER"] :
+      util.CUSTOMERLIST(var).changeElem(util.customerFromVar(var,DE))
+      var["JCLOSE_DIALOG"] = util.mapToXML(var,CLIST,DE)
       
   if action == "selectcustomer" :
       c_name = var["JUPDIALOG_RES"]
       if c_name == None : return      
-      setCustData(var,c_name,"de_")
+      util.setCustData(var,c_name,DE)
 
 def custlist (action,var):
   cutil.printVar ("list", action,var)
   if action == "before" :
-    seq = createCustomerList(var)
+    seq = util.createCustomerList(var)
     var["JLIST_MAP"] = { "customerlist" : seq}  
   if action == "select" :
       set = var["customerlist_lineset"]
@@ -41,4 +53,4 @@ def showcustdetails(action,var):
   cutil.printVar ("showcustdetails", action,var)
   if action == "before" :
       custid =  var["JUPDIALOG_START"]
-      setCustData(var,custid,"cust_")
+      util.setCustData(var,custid,"cust_")

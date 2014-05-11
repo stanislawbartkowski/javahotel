@@ -1,28 +1,17 @@
-from util.util import printvar
-from util.util import ROOMLIST
-from util.util import toDate
-#from util.util import RESOP
-from util.util import createArrayList
-#from util.util import RESFORM
 import datetime
-from util.util import getServicesForRoom
-from util.util import eqDate
-from util.util import resStatus
+
+import cutil
+import con
+
 from util import rutil
 from util import util
-import cutil
-
-from com.gwtmodel.table.common import CUtil
-
-def BLANK(s) :
-  return CUtil.EmptyS(s)
 
 def getAttrS(r,attr) :
   if r.getAttr(attr) == None : return ""
   return r.getAttr(attr)
 
 def __getList(var):
-    R = ROOMLIST(var)
+    R = util.ROOMLIST(var)
     seq = R.getList()
     list = []
     
@@ -39,12 +28,12 @@ def __resInfo(var,resid) :
    cust = util.CUSTOMERLIST(var).findElem(custName)
    assert cust != None
    dName = getAttrS(cust,"surname") + " " + getAttrS(cust,"firstname")
-   if BLANK(dName) : dName = cust.getName()
+   if util.emptyS(dName) : dName = cust.getName()
 #   return dName + " , " + cutil.getDicName("countries",getAttrS(cust,"country"))
    return dName + " , " + getAttrS(cust,"country")
    
 def reservationaction(action,var):
-    printvar("reservation",action,var)
+    cutil.printVar("reservation",action,var)
     
     if action == "before" :
       list = __getList(var)
@@ -53,14 +42,14 @@ def reservationaction(action,var):
     if action == "datelineaction" :
       R = util.RESOP(var)
       room = var["JDATELINE_LINE"]
-      RO = ROOMLIST(var)
+      RO = util.ROOMLIST(var)
       RFORM = util.RESFORM(var)
       services = RO.getRoomServices(room)
       if len(services) == 0 :
            var['JERROR_MESSAGE'] = "@noserviceassigned"
            var['JMESSAGE_TITLE'] = "@incompleteconfiguration"
            return
-      li = getServicesForRoom(var,room)
+      li = util.getServicesForRoom(var,room)
       if li == None :
            var['JERROR_MESSAGE'] = "@nopricelistforthisservice"
            var['JMESSAGE_TITLE'] = "@incompleteconfiguration"
@@ -73,7 +62,7 @@ def reservationaction(action,var):
           ares = res.get(0)
           resid = ares.getResId()
           rform = RFORM.findElem(resid)
-          sta = resStatus(rform)
+          sta = util.resStatus(rform)
 #          if sta == 0 : var["JUP_DIALOG"] = "hotel/reservation/showreserveroom.xml"
           if sta == 0 : var["JUP_DIALOG"] = "hotel/reservation/reserveroom.xml"
           else: var["JUP_DIALOG"] = "hotel/reservation/showstay.xml"
@@ -81,7 +70,7 @@ def reservationaction(action,var):
     if action == "datelinevalues" :
        seq = var["JDATELINE_QUERYLIST"]
        vals = []
-       query=createArrayList()
+       query=cutil.createArrayList()
        R = util.RESOP(var)
        RFORM = util.RESFORM(var)
        for s in seq :
@@ -107,7 +96,7 @@ def reservationaction(action,var):
                for ans in resList :
                    aname = ans.getRoomName()
                    dres = ans.getResDate()
-                   if eqDate(dt,dres) and aname == name : 
+                   if con.eqDate(dt,dres) and aname == name : 
                        resid = ans.getResId()
                        break
                    
@@ -117,7 +106,7 @@ def reservationaction(action,var):
                    else :   
                      if prevmap : vals.append(prevmap) 
                      rform = RFORM.findElem(resid)
-                     sta = resStatus(rform)
+                     sta = util.resStatus(rform)
                      if sta == 1 : form = "stay"
                      else : form = "reserved"
                      map = {"name" : name, "datecol" : dt,"colspan" : 1, "form" : form, "0" : __resInfo(var,resid)}

@@ -1,13 +1,9 @@
 from com.gwthotel.hotel.server.service import H
-from com.gwthotel.admin import Hotel
-from com.gwthotel.admin import Person
-from com.gwthotel.admin import HotelRoles
 from util.util import MESS
 from util.util import printvar
 from util.util import createArrayList
 from util.util import findElemInSeq
 from util.util import createSeq
-#from util.util import HotelAdmin
 from util.util import clearHotel
 
 # -------------------
@@ -15,7 +11,6 @@ from com.gwthotel.hotel.server.service import H
 import sec
 from util import util
 import cutil
-#from com.jythonui.server.holder import Holder
 
 PERM="perm"
 
@@ -80,10 +75,7 @@ class HotelAdmin(sec.ObjectAdmin) :
     map = self.var["JCHECK_MAP"][PERM]
     
     for row in map.keys() :
-#        if not self.hotel : ho = sec.createObjectOrPerson(hotel,name,descr)
-#        else : ho = Person()
         ho = sec.createObjectOrPerson(not self.hotel,row,None)
-#        ho.setName(row)
         role = sec.createObjectRoles(ho)
         seq = map[row]
         for r in seq :
@@ -115,83 +107,6 @@ class HotelAdmin(sec.ObjectAdmin) :
 
 M = MESS()
 
-def REMOVE__existHotelPerson(adminI,pname,hotel):
-    if hotel : seq = adminI.getListOfHotels()
-    else : seq = adminI.getListOfPersons()
-    return findElemInSeq(pname,seq) != None    
-    
-def REMOVE__duplicatedHotelPersonName(adminI,var,hotel): 
-    name = var["name"]
-    if __existHotelPerson(adminI,name,hotel) :
-      if hotel : var["JERROR_name"] = M("DUPLICATEDHOTELNAME")
-      else : var["JERROR_name"] = M("DUPLICATEDPERSONNAME")
-      return True
-    return False
-        
-def REMOVE__createHotelPerson(var,hotel):
-    name = var["name"]
-    descr = var["descr"]
-    if hotel : ho = Hotel()
-    else : ho = Person()
-    ho.setName(name)
-    ho.setDescription(descr)
-    return ho            
-
-def REMOVE__readList(adminI,var,hotel):
-    
-    if hotel : seq = adminI.getListOfObjects()
-    else : seq = adminI.getListOfPersons()
-    list = []
-    
-    for s in seq :
-       ma = {"name" : s.getName(), "descr" : s.getDescription()}
-       if hotel : ma["clearhotel"] = M("clearhotel")
-       list.append(ma)
-       
-    map={}   
-    if hotel : map["hotels"] = list
-    else : map["users"] = list
-    var["JLIST_MAP"] = map
-    
-    
-def REMOVE__preparePermissionForHotel(adminI,var, hotel):
-    if hotel : seq = adminI.getListOfPersons()
-    else : seq = adminI.getListOfHotels()
-    if len(seq) == 0 : return
-    rolesdef = H.getHotelRoles().getList()
-    map = {"lines" : createSeq(seq,True), "columns" : createSeq(rolesdef,False)}
-    var["JCHECK_MAP"] = { "perm" : map}
-    
-def REMOVE__getValuesForPermission(adminI,var,hotel):
-    if not var.has_key("JCHECK_MAP") : return
-    name = var["name"]
-    if name == "" : return
-    if hotel : roles = adminI.getListOfRolesForHotel(name)
-    else : roles = adminI.getListOfRolesForPerson(name)
-    map = var["JCHECK_MAP"]["perm"]
-    for r in roles :
-        rowname = r.getObject().getName()
-        seq = []
-        for s in r.getRoles() :
-            seq.append({"id" : s, "val" : True})
-        map[rowname] = seq
-      
-def REMOVE__prepareValuesForPermission(var,hotel):   
-    l = createArrayList()
-    if not var.has_key("JCHECK_MAP") : return l         
-    map = var["JCHECK_MAP"]["perm"]
-    
-    for row in map.keys() :
-        if not hotel : ho = Hotel()
-        else : ho = Person()
-        ho.setName(row)
-        role = HotelRoles(ho)
-        seq = map[row]
-        for r in seq :
-            name = r["id"]
-            if r["val"] : role.getRoles().add(name)
-        l.add(role)
-    return l            
 
 def hotelaction(action,var,hotel) :
 

@@ -10,12 +10,13 @@
 		<method>reservation.reservationaction({0},{1})</method>
 	</jython>
         
-        <buttons>
-          <button id="searchrese" displayname="@searchforreservation" actiontype="JUP_DIALOG" actionparam="hotel/reservation/searchrooms.xml" />
-        </buttons>          
+        <actions>
+          <action id="searchrese" displayname="@searchforreservation" actiontype="JUP_DIALOG" actionparam="hotel/reservation/searchrooms.xml" />
+        </actions>          
 
 	<dateline id="reservation" lineid="name"
 		defafile="empty" colno="18">
+        <standbutt>custom:searchrese</standbutt>
 		<columns>
 			<column id="name" displayname="@name" columnclass = "roomcolumnClass" editcss="margin-right:1em;" headerclass = "header-room"/>
 			<column id="noperson" displayname="@roomcapacitypanel" type="int" columnclass = "roomcolumnClass" editcss="margin-right:1em;" headerclass = "header-room"/>

@@ -58,6 +58,66 @@ def countTotal(var,b,pli) :
          
   return total
 
+class BILLPOSADD :
+  
+  def __init__(self,var,liname) :
+    self.sumf = 0.0
+    self.var = var
+    self.liname = liname
+    self.li = []
+    
+  def addMa(self,ma,r,idp) :
+    se = r.getServiceType()
+    resdate = None
+    servdate= None
+    if util.isRoomService(se) : resdate = r.getResDate()
+    else : servdate = r.getResDate()
+    total = r.getPriceTotal()
+    self.sumf = cutil.addDecimal(self.sumf,cutil.BigDecimalToDecimal(total))
+    guest = r.getGuestName()
+    room = r.getRoomName()
+    service = r.getService()
+    ma1 = { "idp" : idp, "room" : room, "resday" : resdate, "service" : service, "servday":servdate, "servdescr" : r.getDescription(),"guest_name" : guest, "total" : total }
+    ma.update(ma1)
+    self.li.append(ma)
+    
+  def close(self) :
+    cutil.setJMapList(self.var,self.liname,self.li)
+    cutil.setFooter(self.var,self.liname,"total",self.sumf)
+
+def searchForRooms(var,dfrom, dto):
+    R = util.RESOP(var)
+    q = createResQueryElem(None,dfrom,dto)
+    l = R.searchReservation(q)
+    res = []
+    for r in l :
+        res.append(r.getRoomName())
+    return res
+  
+def getPriceList(var,pricelist,serv) :
+  price = None
+  pricechild = None
+  priceextra = None
+  if serv != None and pricelist != None :
+    P = util.PRICEELEM(var)
+    prices = P.getPricesForPriceList(pricelist)
+    for s in prices :
+      id = s.getService()
+      if id == serv :
+        price = s.getPrice()
+        pricechild = s.getChildrenPrice()
+        priceextra = s.getExtrabedsPrice()
+  return (price,pricechild,priceextra)
+  
+def calculatePrice(perperson,resnop,resnoc,resextra,priceperson,pricechildren,priceextra) :  
+  if perperson :
+    price = con.mulIntDecimal(resnop,priceperson)
+    price = con.addDecimal(price,con.mulIntDecimal(resnoc,pricechildren))
+    price = con.addDecimal(price,con.mulIntDecimal(resextra,priceextra))
+  else : price = priceroom    
+  return price
+
+# -----------------------------------
 def setvarBefore(var,cust="cust_"):
     nop = None
     resdays = 1
@@ -124,68 +184,7 @@ def setvarBefore(var,cust="cust_"):
          list.append(map)
          sum.add(r.getPrice())
 
-    print mindate
     var["datecol"] = mindate
     var["resdays"] = len(reservation.getResDetail())
     cutil.setJMapList(var,"reslist",list)
     cutil.setFooter(var,"reslist","rlist_pricetotal",sum.sum)
-
-class BILLPOSADD :
-  
-  def __init__(self,var,liname) :
-    self.sumf = 0.0
-    self.var = var
-    self.liname = liname
-    self.li = []
-    
-  def addMa(self,ma,r,idp) :
-    se = r.getServiceType()
-    resdate = None
-    servdate= None
-    if util.isRoomService(se) : resdate = r.getResDate()
-    else : servdate = r.getResDate()
-    total = r.getPriceTotal()
-    self.sumf = cutil.addDecimal(self.sumf,cutil.BigDecimalToDecimal(total))
-    guest = r.getGuestName()
-    room = r.getRoomName()
-    service = r.getService()
-    ma1 = { "idp" : idp, "room" : room, "resday" : resdate, "service" : service, "servday":servdate, "servdescr" : r.getDescription(),"guest_name" : guest, "total" : total }
-    ma.update(ma1)
-    self.li.append(ma)
-    
-  def close(self) :
-    cutil.setJMapList(self.var,self.liname,self.li)
-    cutil.setFooter(self.var,self.liname,"total",self.sumf)
-
-def searchForRooms(var,dfrom, dto):
-    R = util.RESOP(var)
-    q = createResQueryElem(None,dfrom,dto)
-    l = R.searchReservation(q)
-    res = []
-    for r in l :
-        res.append(r.getRoomName())
-    return res
-  
-def getPriceList(var,pricelist,serv) :
-  price = None
-  pricechild = None
-  priceextra = None
-  if serv != None and pricelist != None :
-    P = util.PRICEELEM(var)
-    prices = P.getPricesForPriceList(pricelist)
-    for s in prices :
-      id = s.getService()
-      if id == serv :
-        price = s.getPrice()
-        pricechild = s.getChildrenPrice()
-        priceextra = s.getExtrabedsPrice()
-  return (price,pricechild,priceextra)
-  
-def calculatePrice(perperson,resnop,resnoc,resextra,priceperson,pricechildren,priceextra) :  
-  if perperson :
-    price = con.mulIntDecimal(resnop,priceperson)
-    price = con.addDecimal(price,con.mulIntDecimal(resnoc,pricechildren))
-    price = con.addDecimal(price,con.mulIntDecimal(resextra,priceextra))
-  else : price = priceroom    
-  return price
-
