@@ -1,23 +1,26 @@
-from com.gwthotel.hotel.server.service import H
 from java.util import ArrayList
 from java.util import Date
 from java.util import Calendar
 from java.math import BigDecimal
+
+from com.gwthotel.hotel.server.service import H
 from com.gwthotel.hotel import HotelObjects
 from com.gwthotel.hotel.reservation import ReservationPaymentDetail
-import cutil
 from com.gwthotel.hotel.reservation import ResStatus
-from cutil import removeDuplicates
 from com.gwthotel.hotel.stay import ResGuest
-from cutil import createArrayList
 from com.gwthotel.hotel import ServiceType
 from com.gwthotel.hotel.services import HotelServices
 from com.gwthotel.hotel.payment import PaymentBill
 from com.gwthotel.hotel import HUtils
-import rutil
 from com.gwthotel.hotel.rooms import HotelRoom
 from com.gwthotel.shared import IHotelConsts
+from com.gwtmodel.table.common import CUtil
+
+
+import cutil
 import xmlutil
+
+import rutil
 
 def setIntField(var,key,setF) :
   if var[key] == None : setF(IHotelConsts.PERSONIDNO)
@@ -94,7 +97,7 @@ class CRUDLIST :
     
     def getModifiedList(self,f):
         li = self.getList()
-        nli = createArrayList()
+        nli = cutil.createArrayList()
         for l in li :
             if not f(l) : continue
             nli.add(l)
@@ -245,11 +248,7 @@ def resStatus(rform):
                   
 def printvar(method,action,var): 
     cutil.printVar(method,action,var)
-#  return  
- 
-def createArrayList() :
-  return ArrayList()   
-  
+   
 def getHotelName(var):
     """ Get com.gwthotel.admin.HotelId class for current session
     
@@ -405,7 +404,7 @@ def getServicesForRoom(var,room):
                 liList.append(p.getName())
   if len(li) == 0 : return None
   f = lambda(e) : e[0] == e[1]
-  liList = removeDuplicates(liList,f)
+  liList = cutil.removeDuplicates(liList,f)
   return [li,liList]  
   
 def createEnumFromList(li, f = lambda elem : [elem.getName(), elem.getDescription()]):
@@ -419,7 +418,7 @@ def createEnumFromList(li, f = lambda elem : [elem.getName(), elem.getDescriptio
     return seq
 
 def emptyS(name):
-    return name == None or name == ""
+    return name == None or name == "" or CUtil.EmptyS(name)
 
 def isResOpen(res):
     return res.getStatus() == ResStatus.OPEN
@@ -475,14 +474,25 @@ class HOTELTRANSACTION(cutil.SEMTRANSACTION) :
       if semid == 2 : semname = "HOTELCHECKIN"
       cutil.SEMTRANSACTION.__init__(self,semname,var)
 
+# ------------------------------
+
+def xmlToVar(var,xml,list,pre=None) :
+  xmlutil.xmlToVar(var,xml,list,pre)
+        
+def mapToXML(map,list=None,pre=None):
+  return xmlutil.mapToXML(map,list,pre) 
+
 # ---------- CUSTOMER ---------
+
+CUSTACTION="custaction"
+CUSTMODIFACTIVE="modifactive"
+CUSTSHOWTOACTIVE="showtoaction"
 
 def newCustomer(var) :
     c = ConstructObject(var)
     return c.getO(0)  
 
 def __toS(ch) :
-   print ch
    return ch
  
 def __toCh(s) :
@@ -569,11 +579,35 @@ def saveDefaCustomer(var,prefix=None) :
    D.putDataH(0,title)
    D.putDataH(1,country)
    D.putDataH(2,doctype)
-  
-# ------------------------------
 
-def xmlToVar(var,xml,list,pre=None) :
-  xmlutil.xmlToVar(var,xml,list,pre)
-        
-def mapToXML(map,list=None,pre=None):
-  return xmlutil.mapToXML(map,list,pre) 
+def enableCust(var,pre,ena=True) :
+    for cust in getCustFieldIdAll() :
+      cutil.enableField(var,pre+cust,ena)
+      
+def customerDetailsActive(var,prefix) :
+    """ Customer data with active fields, accepts but does not change data automatically
+        Returns changed data 
+        Return action: acceptdetails
+    
+    Args:
+      var : map with customer data
+      prefix: prefix for customer data    
+    """
+    var[__toV(CUSTACTION,prefix)] = CUSTMODIFACTIVE
+    var["JUP_DIALOG"]="hotel/reservation/customerdetails.xml" 
+    var["JUPDIALOG_START"] = mapToXML(var,getCustFieldIdAll() + [CUSTACTION,],prefix)
+
+def showCustomerDetailstoActive(var,custid) :
+    """ Show customer data with field inactive, but possible to change to modify
+        Returns changed data and change data automatically
+        Return button action: accept or acceptask
+    Args:
+        custid : customer id to show
+    """
+    map = {}
+    map[CUSTACTION] = CUSTSHOWTOACTIVE
+    map["name"] = custid
+    var["JUPDIALOG_START"] = mapToXML(map)
+    var["JUP_DIALOG"]="hotel/reservation/customerdetails.xml" 
+    
+  

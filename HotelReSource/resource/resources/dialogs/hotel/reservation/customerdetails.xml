@@ -11,14 +11,16 @@
 	</jython>
 
 	<buttons>
+                <button id="acceptask" displayname="@accept" actiontype="JYESNO_MESSAGE" actionparam="@CHANGECUSTOMERASK"/>
 		<button id="accept" displayname="@accept" />
 		<button id="resign" displayname="@resign" actiontype="JCLOSE_DIALOG" />
 		<button id="find" displayname="@find" actiontype="JUP_DIALOG"
 			actionparam="hotel/reservation/customerselection.xml" actionparam2="selectcustomer" />
+               <button id="ok" displayname="@ok" />                        
 	</buttons>
 
 	<form >
-                <field id="de_name" displayname="@guestid" readonlychange="" />
+                <field id="de_name" displayname="@guestid" readonly="" />
                 <field id="de_descr" displayname="@description" hidden="" />
                 <field id="de_title" displayname="@title" type="custom:titles" notempty="" />
                 <field id="de_surname" displayname="@surname" />

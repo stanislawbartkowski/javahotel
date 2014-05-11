@@ -13,7 +13,7 @@
           <button id="search" displayname="@searchforreservation" validate="" />
           <button id="seton" displayname="@setondateandromm" validate="" />
           <button id="tores" displayname="@startreservation" validate="" />
-          <button id="toresrese" displayname="Dołóż do rezerwacji" validate="" hidden="" />
+          <button id="toresrese" displayname="@addtoreservation" validate="" hidden="" />
         </buttons>  
         
          <form>
