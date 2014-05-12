@@ -98,6 +98,7 @@ import com.jythonui.client.util.CreateForm.ISelectFactory;
 import com.jythonui.client.util.CreateSearchVar;
 import com.jythonui.client.util.ExecuteAction;
 import com.jythonui.client.util.JUtils;
+import com.jythonui.client.util.ListOfButt;
 import com.jythonui.client.util.PerformVariableAction;
 import com.jythonui.client.util.PerformVariableAction.VisitList;
 import com.jythonui.client.util.PerformVariableAction.VisitList.IGetFooter;
@@ -1166,8 +1167,8 @@ class ListControler {
             IPerformClickAction custClick) {
         TableDataControlerFactory tFactory = GwtGiniInjector.getI()
                 .getTableDataControlerFactory();
-        ControlButtonFactory buFactory = GwtGiniInjector.getI()
-                .getControlButtonFactory();
+        // ControlButtonFactory buFactory = GwtGiniInjector.getI()
+        // .getControlButtonFactory();
 
         ControlButtonFactory bFactory = GwtGiniInjector.getI()
                 .getControlButtonFactory();
@@ -1176,47 +1177,52 @@ class ListControler {
         List<ControlButtonDesc> cList;
         List<ControlButtonDesc> customList = new ArrayList<ControlButtonDesc>();
         if (!CUtil.EmptyS(li.getStandButt())) {
-            String[] liButton = li.getStandButt().split(",");
-            cList = new ArrayList<ControlButtonDesc>();
-            for (String s : liButton) {
-                StandClickEnum bu = null;
-                if (s.equals(ICommonConsts.BUTT_ADD)) {
-                    bu = StandClickEnum.ADDITEM;
-                }
-                if (s.equals(ICommonConsts.BUTT_REMOVE)) {
-                    bu = StandClickEnum.REMOVEITEM;
-                }
-                if (s.equals(ICommonConsts.BUTT_MODIF)) {
-                    bu = StandClickEnum.MODIFITEM;
-                }
-                if (s.equals(ICommonConsts.BUTT_SHOW)) {
-                    bu = StandClickEnum.SHOWITEM;
-                }
-                if (s.equals(ICommonConsts.BUTT_TOOLS)) {
-                    bu = StandClickEnum.TABLEDEFAULTMENU;
-                }
-                if (s.equals(ICommonConsts.BUTT_FILTER)) {
-                    bu = StandClickEnum.FILTRLIST;
-                }
-                if (s.equals(ICommonConsts.BUTT_FIND)) {
-                    bu = StandClickEnum.FIND;
-                }
-                String actionButt = FieldItem.getCustomT(s);
-                ControlButtonDesc b = null;
-                if (!CUtil.EmptyS(actionButt)) {
-                    ButtonItem but = DialogFormat.findE(rM.getDialogInfo()
-                            .getDialog().getActionList(), actionButt);
-                    b = CreateForm.constructButton(but, true, false);
-//                    public ControlButtonDesc(final String imageHtml, final String displayName,
-//                            final ClickButtonType actionId) {
-
-                    customList.add(b);
-                }
-                if (bu != null)
-                    b = buFactory.constructButt(bu);
-                if (b != null)
-                    cList.add(b);
-            }
+            ListOfButt.IGetButtons i = ListOfButt.constructList(rM
+                    .getDialogInfo().getDialog(), li.getStandButt());
+            cList = i.getList();
+            customList = i.getCustomList();
+            // String[] liButton = li.getStandButt().split(",");
+            // cList = new ArrayList<ControlButtonDesc>();
+            // for (String s : liButton) {
+            // StandClickEnum bu = null;
+            // if (s.equals(ICommonConsts.BUTT_ADD)) {
+            // bu = StandClickEnum.ADDITEM;
+            // }
+            // if (s.equals(ICommonConsts.BUTT_REMOVE)) {
+            // bu = StandClickEnum.REMOVEITEM;
+            // }
+            // if (s.equals(ICommonConsts.BUTT_MODIF)) {
+            // bu = StandClickEnum.MODIFITEM;
+            // }
+            // if (s.equals(ICommonConsts.BUTT_SHOW)) {
+            // bu = StandClickEnum.SHOWITEM;
+            // }
+            // if (s.equals(ICommonConsts.BUTT_TOOLS)) {
+            // bu = StandClickEnum.TABLEDEFAULTMENU;
+            // }
+            // if (s.equals(ICommonConsts.BUTT_FILTER)) {
+            // bu = StandClickEnum.FILTRLIST;
+            // }
+            // if (s.equals(ICommonConsts.BUTT_FIND)) {
+            // bu = StandClickEnum.FIND;
+            // }
+            // String actionButt = FieldItem.getCustomT(s);
+            // ControlButtonDesc b = null;
+            // if (!CUtil.EmptyS(actionButt)) {
+            // ButtonItem but = DialogFormat.findE(rM.getDialogInfo()
+            // .getDialog().getActionList(), actionButt);
+            // b = CreateForm.constructButton(but, true, false);
+            // // public ControlButtonDesc(final String imageHtml, final String
+            // displayName,
+            // // final ClickButtonType actionId) {
+            //
+            // customList.add(b);
+            // }
+            // if (bu != null)
+            // b = buFactory.constructButt(bu);
+            // if (b != null)
+            // cList.add(b);
+            // }
         } else {
             cList = crudList;
         }
@@ -1236,10 +1242,9 @@ class ListControler {
         i.getSlContainer().registerSubscriber(da,
                 DataActionEnum.TableCellClicked,
                 new ActionClicked(iClick, iCon));
-        for (ControlButtonDesc b : customList) {
+        for (ControlButtonDesc b : customList)
             i.getSlContainer().registerSubscriber(da, b.getActionId(),
                     new CustomClick(custClick));
-        }
 
         return i;
     }

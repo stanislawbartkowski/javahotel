@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.gwtmodel.table.IClickYesNo;
 import com.gwtmodel.table.ICommand;
@@ -677,7 +678,8 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
                 IDataType dLType = DataType.construct(dl.getId(), this);
                 CellId panelId = pView.addElemC(dl.getId(), dType);
                 ISlotable i = dManager.contructSlotable(dType, dLType, dl,
-                        panelId, new DateLineClick(dl.getId()));
+                        panelId, new DateLineClick(dl.getId()),
+                        new ActionButton(d.getActionList()));
                 dLineType.put(dl.getId(), dLType);
                 slMediator.registerSlotContainer(panelId, i);
             }
@@ -925,14 +927,13 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
         String action;
 
         void extract(String fie, String field, String errC) {
-            String[] li = fie.split("_");
-            if (li.length != 2) {
+            int l = fie.lastIndexOf('_');
+            if (l == -1) {
                 String mess = M.M().InproperFormatCheckSet(field, errC);
                 Utils.errAlertB(mess);
             }
-            id = li[0];
-            action = li[1];
-
+            id = fie.substring(0, l);
+            action = fie.substring(l + 1);
         }
     }
 
