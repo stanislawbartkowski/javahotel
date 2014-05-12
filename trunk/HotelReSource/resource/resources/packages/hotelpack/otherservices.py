@@ -1,53 +1,47 @@
-from cutil import printVar
-from util.util import SERVICES
-from util.util import duplicateService
-from util.util import newOtherService
-from util.util import copyNameDescr
-from util.util import MESS
-from util.util import getVatName
-from util import util
 import cutil
 
-M = MESS()
+from util import util
+
+M = util.MESS()
 D = util.HOTELDEFADATA()
 
 def _createList(var):
-    serv = SERVICES(var)
+    serv = util.SERVICES(var)
     seq = serv.getOtherServices()
     list = []
     
     for s in seq : 
        list.append({"name" : s.getName(), "descr" : s.getDescription(), 
                     "vat" : s.getAttr("vat"), 
-                    "vatname" : getVatName(s.getAttr("vat"))} )
+                    "vatname" : util.getVatName(s.getAttr("vat"))} )
        
     var["JLIST_MAP"] = { "services" : list}
 
 def _createService(var):
-   se = newOtherService(var)
-   copyNameDescr(se,var)
+   se = util.newOtherService(var)
+   util.copyNameDescr(se,var)
    se.setAttr("vat",var["vat"])
    D.putDataH(15,var["vat"])
    return se    
 
 def serviceaction(action,var) :
-    printVar("other services",action,var)
+    cutil.printVar("other services",action,var)
     
     if action == "before" or action == "crud_readlist" :  
        _createList(var)
        
 def elemserviceaction(action,var):
     
-  printVar("elem service action",action,var)    
+  cutil.printVar("elem service action",action,var)    
     
-  serv = SERVICES(var)
+  serv = util.SERVICES(var)
 
   if action == "before" and var["JCRUD_DIALOG"] == "crud_add" :
     var["vat"] = D.getDataH(15)
     cutil.setCopy(var,"vat")
     
   if action == "crud_add"  and not var["JCRUD_AFTERCONF"] :
-      if duplicateService(var) : return          
+      if util.duplicateService(var) : return          
       var["JYESNO_MESSAGE"] = M("ADDNEWSERVICEASK");
       var["JMESSAGE_TITLE"] = ""  
       return

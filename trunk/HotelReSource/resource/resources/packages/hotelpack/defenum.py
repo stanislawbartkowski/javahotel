@@ -1,4 +1,3 @@
-#from com.gwthotel.hotel.server.service import H
 import cutil
 
 taxList = cutil.getDict("vat")

@@ -1,26 +1,15 @@
-from com.gwthotel.hotel.server.service import H
-from util.util import MESS
-from util.util import printvar
-from util.util import getHotelName
-from util.util import SERVICES
-from util.util import copyNameDescr
-from util.util import findElemInSeq
-from com.gwthotel.hotel.services import HotelServices
-from util.util import duplicateService
-from util.util import getVatName
-from util import util
 import cutil
-from com.jythonui.server.holder import Holder
 
-M = MESS()
+from util import util
+from com.gwthotel.hotel.services import HotelServices
+import cutil
+
+M = util.MESS()
 taxList = cutil.getDict("vat")
 D = util.HOTELDEFADATA()
 
-def _getVatName(vat):
-  return getVatName(vat)  
-
 def _createList(var):
-    serv = SERVICES(var)
+    serv = util.SERVICES(var)
     seq = serv.getRoomServices()
     list = []
     
@@ -28,13 +17,10 @@ def _createList(var):
        list.append({"name" : s.getName(), "descr" : s.getDescription(), 
                     "vat" : s.getAttr("vat"), "noperson" : s.getNoPersons(), "noextrabeds" : util.getIntField(s.getNoExtraBeds()),
                     "nochildren" : util.getIntField(s.getNoChildren()),"perperson" : s.isPerperson(),
-                    "vatname" : _getVatName(s.getAttr("vat"))} )
+                    "vatname" : util.getVatName(s.getAttr("vat"))} )
        
     var["JLIST_MAP"] = { "services" : list}
-    
-def _duplicateService(var):    
-    return duplicateService(var)
-    
+        
 def _notverifyService(var):
    nop = var["noperson"]
    if nop <= 0 : 
@@ -46,14 +32,14 @@ def _notverifyService(var):
 
 def serviceaction(action,var) :
 
-  printvar ("serviceaction", action,var)
+  cutil.printVar ("serviceaction", action,var)
   
   if action == "before" or action == "crud_readlist" :
     _createList(var)
         
 def _createService(var):
    se = HotelServices()
-   copyNameDescr(se,var)
+   util.copyNameDescr(se,var)
    se.setAttr("vat",var["vat"])
    D.putDataH(14,var["vat"])
    nop = var["noperson"]
@@ -71,9 +57,9 @@ def _createService(var):
 
 def elemserviceaction(action,var) :
 
-  printvar ("elemserviceaction", action,var)
+  cutil.printVar ("elemserviceaction", action,var)
 
-  serv = SERVICES(var)
+  serv = util.SERVICES(var)
   
   if action == "before" and var["JCRUD_DIALOG"] == "crud_add" :
     var["noperson"] = D.getDataHI(10)
@@ -85,7 +71,7 @@ def elemserviceaction(action,var) :
     
     
   if action == "crud_add"  and not var["JCRUD_AFTERCONF"] :
-      if _duplicateService(var) or _notverifyService(var) : return          
+      if util.duplicateService(var) or _notverifyService(var) : return          
       var["JYESNO_MESSAGE"] = M("ADDNEWSERVICEASK");
       var["JMESSAGE_TITLE"] = ""  
       return

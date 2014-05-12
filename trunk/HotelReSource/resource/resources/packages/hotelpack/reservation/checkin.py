@@ -1,37 +1,14 @@
-from cutil import printVar
-from cutil import setStandEditMode
-from util.util import RESFORM
-from util.util import ROOMLIST
-from util.util import SERVICES
-from util.util import RESOP
-from util.util import CUSTOMERLIST
-from util.util import getCustFieldId
-from util.util import isResOpen
-from cutil import setCopy
-from util.util import mapToXML
-from util.util import xmlToVar
-from cutil import allEmpty
-from util.util import newResGuest
-from cutil import createArrayList
-from util.util import newCustomer
-from cutil import copyVarToProp
+import cutil
 from util import util
-from util.util import MESS
-from util.util import getCustFieldIdAll
-from util.util import customerToVar
-from util.util import saveDefaCustomer
-from util.util import setDefaCustomerNotCopy
-from util.util import getCustFieldIdWithout
-from util.util import customerDataFromVar
 
-M = MESS()
-CUSTF = getCustFieldIdAll()
+M = util.MESS()
+CUSTF = util.getCustFieldIdAll()
 CHECKINLIST= "checkinlist"
 
 def __toMap(map,custid,CUST) :
     cust = CUST.findElem(custid)
     map["guestselect"] = cust.getName()
-    customerToVar(map,cust)    
+    util.customerToVar(map,cust)    
 
 class MAKECHECKIN(util.HOTELTRANSACTION) :
   
@@ -41,26 +18,25 @@ class MAKECHECKIN(util.HOTELTRANSACTION) :
    def run(self,var) :
      # double check (under semaphore) that reservation is not already changed to STAY
      resName = var["resename"]
-     R = RESFORM(var)
-     ROP = RESOP(var)
-     CUST = CUSTOMERLIST(var)
+     R = util.RESFORM(var)
+     ROP = util.RESOP(var)
+     CUST = util.CUSTOMERLIST(var)
      r = R.findElem(resName)
      if util.resStatus(r) == 1 :
        var["JERROR_MESSAGE"] = M("ALREADYCHECKEDINMESS")
        var["JMESSAGE_TITLE"] = M("ALREADYCHECKEDINTITLE")
        return
-     a = createArrayList()
+     a = cutil.createArrayList()
      for cust in var["JLIST_MAP"][CHECKINLIST] :
-           if allEmpty(cust,getCustFieldIdWithout()) : continue
+           if cutil.allEmpty(cust,util.getCustFieldIdWithout()) : continue
            cid = cust["name"]
-           if cid == None : c = newCustomer(var)
+           if cid == None : c = util.newCustomer(var)
            else : c = CUST.findElem(cid)
-#           copyVarToProp(cust,c,CUSTF)
-           customerDataFromVar(c,cust)
+           util.customerDataFromVar(c,cust)
            if cid == None : cid = CUST.addElem(c).getName()
            else : CUST.changeElem(c)
-           saveDefaCustomer(cust)
-           rGuest = newResGuest(var)
+           util.saveDefaCustomer(cust)
+           rGuest = util.newResGuest(var)
            rGuest.setGuestName(cid)
            rid = cust["roomid"]
            rGuest.setRoomName(rid)
@@ -71,34 +47,35 @@ class MAKECHECKIN(util.HOTELTRANSACTION) :
      var["JREFRESH_DATELINE_reservation"] = ""
 
 def checkinaction(action,var):
-    printVar("checkinaction",action,var)
-    R = RESFORM(var)
-    ROOM = ROOMLIST(var)
-    SE = SERVICES(var)
-    ROP = RESOP(var)
+    cutil.printVar("checkinaction",action,var)
+    R = util.RESFORM(var)
+    ROOM = util.ROOMLIST(var)
+    SE = util.SERVICES(var)
+    ROP = util.RESOP(var)
     resName = var["resename"]
-    CUST = CUSTOMERLIST(var)
+    CUST = util.CUSTOMERLIST(var)
        
     if action == "makecheckin" and var["JYESANSWER"] :
         TRANS = MAKECHECKIN(var)
         TRANS.doTrans()
            
     if action == "guestdetails" and var[CHECKINLIST+"_lineset"] :
-        var["JUP_DIALOG"]="hotel/reservation/customerdetails.xml" 
+#        var["JUP_DIALOG"]="hotel/reservation/customerdetails.xml" 
         var["JAFTERDIALOG_ACTION"] = "acceptdetails" 
-        var["JUPDIALOG_START"] = mapToXML(var,CUSTF)
+        util.customerDetailsActive(var,None)
+#        var["JUPDIALOG_START"] = util.mapToXML(var,CUSTF)
         
     if action == "acceptdetails" and var["JUPDIALOG_BUTTON"] == "accept" : 
         xml = var["JUPDIALOG_RES"]
-        xmlToVar(var,xml,CUSTF)
-        setCopy(var,CUSTF,CHECKINLIST)
+        util.xmlToVar(var,xml,CUSTF)
+        cutil.setCopy(var,CUSTF,CHECKINLIST)
     
     if action == "selectguestfromlist" :
         custid =var["JUPDIALOG_RES"]
         if custid == None : return
         __toMap(var,custid,CUST)
         li = ["guestselect"] + CUSTF
-        setCopy(var,li,CHECKINLIST)
+        cutil.setCopy(var,li,CHECKINLIST)
     
     if action == "selectguest" :
         var["JUP_DIALOG"] = "hotel/reservation/customerselection.xml"
@@ -142,13 +119,13 @@ def checkinaction(action,var):
                                 break
                     if not found :
                         map["guestselect"] = "<select>"
-                        setDefaCustomerNotCopy(map)
+                        util.setDefaCustomerNotCopy(map)
                         
                     list.append(map)
             var["JLIST_MAP"] = { CHECKINLIST : list}
-            setStandEditMode(var,CHECKINLIST,["surname","firstname","title","country"])
+            cutil.setStandEditMode(var,CHECKINLIST,["surname","firstname","title","country"])
             resform = R.findElem(resName)
-            if isResOpen(resform) and not wasGuest :
+            if util.isResOpen(resform) and not wasGuest :
                 custid = resform.getCustomerName()
                 map = list[0]
                 __toMap(map,custid,CUST)                

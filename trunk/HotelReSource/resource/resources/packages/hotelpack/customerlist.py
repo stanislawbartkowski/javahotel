@@ -1,42 +1,31 @@
-from util.util import printvar
-from util.util import CUSTOMERLIST
-from util.util import toVarNameDesc
-from util.util import toVar
-from util.util import duplicatedName
-from util.util import copyNameDescr
-from util.util import toP
-from util.util import MESS
-from util.util import newCustomer
-from util.util import getCustFieldId
-from util.util import createCustomerList
-from util.util import customerFromVar
-from util.util import setDefaCustomer
-from util.util import saveDefaCustomer
+import cutil
 
-M = MESS()
+from util import util
+
+M = util.MESS()
     
-CLIST=getCustFieldId()
+CLIST=util.getCustFieldId()
 
 def createList(var):
-    seq = createCustomerList(var)
+    seq = util.createCustomerList(var)
     var["JLIST_MAP"] = { "customerlist" : seq}    
     
 def _duplicatedCustomerName(var):    
-    R = CUSTOMERLIST(var)
-    return duplicatedName(var,R,M("DUPLICATEDCUSTOMERNAME"))    
+    R = util.CUSTOMERLIST(var)
+    return util.duplicatedName(var,R,M("DUPLICATEDCUSTOMERNAME"))    
         
 def customerlistaction(action,var):
-  printvar("customerlistaction",action,var)
+  cutil.printVar("customerlistaction",action,var)
   
   if action == "before" or action == "crud_readlist" :
     createList(var)
     
 def elemcustomeraction(action,var):
-  printvar("elemcustomeraction",action,var)
-  R = CUSTOMERLIST(var)
+  cutil.printVar("elemcustomeraction",action,var)
+  R = util.CUSTOMERLIST(var)
     
   if action == "before" and var["JCRUD_DIALOG"] == "crud_add" :
-    setDefaCustomer(var)    
+    util.setDefaCustomer(var)    
     
   if action == "crud_add"  and not var["JCRUD_AFTERCONF"] :
       if _duplicatedCustomerName(var) : return
@@ -45,8 +34,8 @@ def elemcustomeraction(action,var):
       return
       
   if action == "crud_add"  and var["JCRUD_AFTERCONF"] :
-      R.addElem(customerFromVar(var))
-      saveDefaCustomer(var)
+      R.addElem(util.customerFromVar(var))
+      util.saveDefaCustomer(var)
       var["JCLOSE_DIALOG"] = True
       return
 
@@ -56,8 +45,8 @@ def elemcustomeraction(action,var):
       return
 
   if action == "crud_change"  and var["JCRUD_AFTERCONF"] :
-      R.changeElem(customerFromVar(var))      
-      saveDefaCustomer(var)
+      R.changeElem(util.customerFromVar(var))      
+      util.saveDefaCustomer(var)
       var["JCLOSE_DIALOG"] = True
 
   if action == "crud_remove"  and not var["JCRUD_AFTERCONF"] :
@@ -66,5 +55,5 @@ def elemcustomeraction(action,var):
       return
   
   if action == "crud_remove"  and var["JCRUD_AFTERCONF"] :
-      R.deleteElem(customerFromVar(var))
+      R.deleteElem(util.customerFromVar(var))
       var["JCLOSE_DIALOG"] = True              

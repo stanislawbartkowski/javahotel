@@ -5,6 +5,7 @@ from util import util
 CLIST = util.getCustFieldIdAll()
 
 DE="de_"
+CUSTLIST="customerlist"
 
 def custdetails(action,var):
   cutil.printVar ("custdetails", action,var)
@@ -13,19 +14,19 @@ def custdetails(action,var):
       xml = var["JUPDIALOG_START"]
       util.xmlToVar(var,xml,CLIST + [util.CUSTACTION],DE)
       action = var[DE + util.CUSTACTION]
-      print action
-      if action == util.CUSTSHOWTOACTIVE :
+      if action == util.CUSTSHOWTOACTIVE or action == util.CUSTSHOWONLY :
         custid = var[DE + "name"]
         custR = util.CUSTOMERLIST(var).findElem(custid)
         assert custR != None
         util.customerToVar(var,custR,DE)
         util.setCustVarCopy(var,DE)
-#        util.enableCust(var,DE,False)
-        cutil.hideButton(var,["accept","ok"])
-      else : 
+        if action == util.CUSTSHOWTOACTIVE : cutil.hideButton(var,["accept","ok"])
+        else : 
+          cutil.hideButton(var,["accept","acceptask","resign","find"])
+          util.enableCust(var,DE,False)
+      else:
         util.setCustVarCopy(var,DE)
         cutil.hideButton(var,["acceptask","ok"])
-        
       
   if action == "accept" :
       var["JCLOSE_DIALOG"] = util.mapToXML(var,CLIST,DE)
@@ -41,16 +42,11 @@ def custdetails(action,var):
 
 def custlist (action,var):
   cutil.printVar ("list", action,var)
+  
   if action == "before" :
     seq = util.createCustomerList(var)
-    var["JLIST_MAP"] = { "customerlist" : seq}  
-  if action == "select" :
-      set = var["customerlist_lineset"]
-      if not set : return
+    var["JLIST_MAP"] = {CUSTLIST : seq}  
+    
+  if action == "select" and var[CUSTLIST +"_lineset"]:
       var["JCLOSE_DIALOG"] = var["name"]
               
-def showcustdetails(action,var):
-  cutil.printVar ("showcustdetails", action,var)
-  if action == "before" :
-      custid =  var["JUPDIALOG_START"]
-      util.setCustData(var,custid,"cust_")

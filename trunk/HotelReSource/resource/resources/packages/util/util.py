@@ -142,7 +142,7 @@ class CUSTOMERLIST(CRUDLIST) :
     def __init__(self,var):
         CRUDLIST.__init__(self,var)
         self.serviceS = H.getHotelCustomers()
-
+        
 class BILLLIST(CRUDLIST) :
 
     def __init__(self,var):
@@ -232,6 +232,11 @@ class RESFORM(CRUDLIST) :
     def __init__(self,var):
         CRUDLIST.__init__(self,var)
         self.serviceS = H.getResForm()
+        
+    def changeCustName(self,resename,custname) :
+        r = self.findElem(resename)
+        r.setCustomerName(custname)
+        self.changeElem(r)
                 
 def addRoom(var,roomid,map,capa,descr) :
     RO = ROOMLIST(var).findElem(roomid)
@@ -487,6 +492,7 @@ def mapToXML(map,list=None,pre=None):
 CUSTACTION="custaction"
 CUSTMODIFACTIVE="modifactive"
 CUSTSHOWTOACTIVE="showtoaction"
+CUSTSHOWONLY="showonly"
 
 def newCustomer(var) :
     c = ConstructObject(var)
@@ -553,11 +559,6 @@ def setCustData(var,custname,prefix=None) :
     customerToVar(var,customer,prefix)
     setCustVarCopy(var,prefix)
 
-def showCustomerDetails(var,custid):
-    var["JUP_DIALOG"] = "hotel/reservation/showcustomerdetails.xml"
-#    print "details",custid
-    var["JUPDIALOG_START"] = custid
-
 def setDefaCustomerNotCopy(var,prefix=None) :
    D = HOTELDEFADATA()
    title = D.getDataH(0)
@@ -597,6 +598,14 @@ def customerDetailsActive(var,prefix) :
     var["JUP_DIALOG"]="hotel/reservation/customerdetails.xml" 
     var["JUPDIALOG_START"] = mapToXML(var,getCustFieldIdAll() + [CUSTACTION,],prefix)
 
+def _gotoCustomer(var,custid,action) :
+    map = {}
+    map[CUSTACTION] = action
+    map["name"] = custid
+    var["JUPDIALOG_START"] = mapToXML(map)
+    var["JUP_DIALOG"]="hotel/reservation/customerdetails.xml" 
+  
+
 def showCustomerDetailstoActive(var,custid) :
     """ Show customer data with field inactive, but possible to change to modify
         Returns changed data and change data automatically
@@ -604,10 +613,15 @@ def showCustomerDetailstoActive(var,custid) :
     Args:
         custid : customer id to show
     """
-    map = {}
-    map[CUSTACTION] = CUSTSHOWTOACTIVE
-    map["name"] = custid
-    var["JUPDIALOG_START"] = mapToXML(map)
-    var["JUP_DIALOG"]="hotel/reservation/customerdetails.xml" 
+    _gotoCustomer(var,custid,CUSTSHOWTOACTIVE)
     
+   
+def showCustomerDetails(var,custid):
+    """ Show customer details without modification
+    
+    Args:
+      var : map
+      custid : string, customer identifier to show
+    """
+    _gotoCustomer(var,custid,CUSTSHOWONLY)
   
