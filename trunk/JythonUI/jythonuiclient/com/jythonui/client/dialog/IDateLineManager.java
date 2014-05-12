@@ -20,6 +20,7 @@ import com.jythonui.shared.DateLine;
 
 public interface IDateLineManager extends ISetGetVar {
     ISlotable contructSlotable(IDataType publishType, IDataType dType,
-            DateLine dl, CellId cell, IPerformClickAction iClick);
+            DateLine dl, CellId cell, IPerformClickAction iClick,
+            IPerformClickAction customClick);
 
 }

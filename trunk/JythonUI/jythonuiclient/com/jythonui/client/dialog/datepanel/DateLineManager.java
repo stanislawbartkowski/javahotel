@@ -31,6 +31,7 @@ import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.Header;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.gwtmodel.table.DateUtil;
 import com.gwtmodel.table.FUtils;
@@ -46,8 +47,12 @@ import com.gwtmodel.table.MutableInteger;
 import com.gwtmodel.table.SynchronizeList;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
+import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
+import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
+import com.gwtmodel.table.controlbuttonview.IControlButtonView;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.listdataview.SearchTable;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
@@ -57,6 +62,7 @@ import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotable;
+import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.tabledef.IGHeader;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
@@ -79,6 +85,7 @@ import com.jythonui.client.dialog.VField;
 import com.jythonui.client.util.CreateForm;
 import com.jythonui.client.util.CreateForm.ColumnsDesc;
 import com.jythonui.client.util.ExecuteAction;
+import com.jythonui.client.util.ListOfButt;
 import com.jythonui.client.util.RowVModelData;
 import com.jythonui.shared.DateLine;
 import com.jythonui.shared.DateLineVariables;
@@ -150,6 +157,8 @@ class DateLineManager implements IDateLineManager {
         private int rowCol;
         private final IPerformClickAction iClick;
         private final SpanColContainer span = new SpanColContainer();
+        private IControlButtonView iView = null;
+        private final IPerformClickAction customClick;
 
         private class CellData {
             final Object lId;
@@ -387,7 +396,6 @@ class DateLineManager implements IDateLineManager {
 
                 }
 
-                @SuppressWarnings("rawtypes")
                 private class DataCell extends AbstractCell<MutableInteger> {
 
                     private final int noC = dList.constructDataLine().size();
@@ -566,14 +574,21 @@ class DateLineManager implements IDateLineManager {
         private class Synch extends SynchronizeList {
 
             IGWidget w;
+            IGWidget bView;
 
             Synch() {
-                super(2);
+                super(3);
             }
 
             @Override
             protected void doTask() {
-                vp.add(w.getGWidget());
+                if (bView != null) {
+                    HorizontalPanel hp = new HorizontalPanel();
+                    hp.add(bView.getGWidget());
+                    hp.add(w.getGWidget());
+                    vp.add(hp);
+                } else
+                    vp.add(w.getGWidget());
                 vp.add(iTable.getGWidget());
                 publish(publishType, cell, new GWidget(vp));
             }
@@ -640,12 +655,52 @@ class DateLineManager implements IDateLineManager {
 
         }
 
+        private class GetBWidget implements ISlotListener {
+
+            @Override
+            public void signal(ISlotSignalContext slContext) {
+                sy.bView = slContext.getGwtWidget();
+                sy.signalDone();
+            }
+
+        }
+
+        private class CustomClick implements ISlotListener {
+
+            @Override
+            public void signal(ISlotSignalContext slContext) {
+                WSize w = new WSize(slContext.getGwtWidget());
+                String s = slContext.getSlType().getButtonClick()
+                        .getCustomButt();
+                customClick.click(s, w);
+            }
+
+        }
+
         DateLineSlot(IDataType publishdType, IDataType dType, DateLine dl,
-                CellId cell, IPerformClickAction iClick) {
+                CellId cell, IPerformClickAction iClick,
+                IPerformClickAction customClick) {
             this.publishType = publishdType;
             this.dType = dType;
             this.cell = cell;
             dList = dl;
+            this.customClick = customClick;
+            String sButton = dl.getStandButt();
+            if (!CUtil.EmptyS(sButton)) {
+                ListOfButt.IGetButtons i = ListOfButt.constructList(
+                        dContainer.getD(), sButton);
+                if (!i.getCustomList().isEmpty()) {
+                    ListOfControlDesc cButton = new ListOfControlDesc(
+                            i.getCustomList());
+                    ControlButtonViewFactory vFactory = GwtGiniInjector.getI()
+                            .getControlButtonViewFactory();
+                    iView = vFactory.construct(dType, cButton);
+                    SlU.registerWidgetListener0(dType, iView, new GetBWidget());
+                    for (ControlButtonDesc b : i.getCustomList())
+                        iView.getSlContainer().registerSubscriber(dType,
+                                b.getActionId(), new CustomClick());
+                }
+            }
             CustomStringSlot sl = RefreshData.constructRefreshData(dType);
             registerSubscriber(sl, new Refresh());
             sl = RefreshData.constructRequestForRefreshData(dType);
@@ -673,14 +728,21 @@ class DateLineManager implements IDateLineManager {
             Date lastDate = DateFormatUtil.toD(2020, 12, 31);
             iSeason.createVPanel(firstDate, lastDate, dList.getColNo());
             sy.signalDone();
+            if (iView == null) {
+                sy.bView = null;
+                sy.signalDone();
+            } else
+                SlU.startPublish0(iView);
         }
 
     }
 
     @Override
     public ISlotable contructSlotable(IDataType publishType, IDataType dType,
-            DateLine dl, CellId cell, IPerformClickAction iClick) {
-        return new DateLineSlot(publishType, dType, dl, cell, iClick);
+            DateLine dl, CellId cell, IPerformClickAction iClick,
+            IPerformClickAction customClick) {
+        return new DateLineSlot(publishType, dType, dl, cell, iClick,
+                customClick);
     }
 
     @Override
