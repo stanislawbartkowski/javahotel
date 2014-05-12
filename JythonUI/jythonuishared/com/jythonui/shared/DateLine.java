@@ -63,6 +63,10 @@ public class DateLine extends ElemDescription {
     public FieldItem getFieldId() {
         return DialogFormat.findE(getColList(), getListId());
     }
+    
+    public String getStandButt() {
+        return getAttr(ICommonConsts.STANDBUTT);
+    }
 
     public List<FieldItem> constructDataLine() {
         List<FieldItem> colList = new ArrayList<FieldItem>();
