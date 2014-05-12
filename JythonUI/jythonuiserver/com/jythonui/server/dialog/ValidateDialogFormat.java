@@ -85,10 +85,11 @@ class ValidateDialogFormat extends UtilHelper {
                 listTag));
     }
 
-    private static void checkListCustomButton(DialogFormat d, ListFormat l) {
+    private static void checkListCustomButton(DialogFormat d, ElemDescription l) {
         if (!l.isAttr(ICommonConsts.STANDBUTT))
             return;
-        String[] cButtons = l.getStandButt().split(",");
+        String sta = l.getAttr(ICommonConsts.STANDBUTT);
+        String[] cButtons = sta.split(",");
         for (String s : cButtons) {
             String customButt = FieldItem.getCustomT(s);
             if (CUtil.EmptyS(customButt))
@@ -98,7 +99,7 @@ class ValidateDialogFormat extends UtilHelper {
             if (b == null) {
                 errorLog(SHolder.getM().getMess(IErrorCode.ERRORCODE76,
                         ILogMess.STANDBUTTONNOTINACTION, d.getId(), l.getId(),
-                        l.getStandButt(), customButt, ICommonConsts.ACTIONS));
+                        sta, customButt, ICommonConsts.ACTIONS));
             }
         }
 
@@ -175,6 +176,7 @@ class ValidateDialogFormat extends UtilHelper {
                     dl.getFormList());
             findTag(d, dl, ICommonConsts.DATELINEDEFAFILE,
                     ICommonConsts.DATELINEFORMS, dl.getFormList());
+            checkListCustomButton(d, dl);
         }
         for (TabPanel t : d.getTabList())
             validateL(ICommonConsts.TABPANEL, ICommonConsts.TABPANELELEM,

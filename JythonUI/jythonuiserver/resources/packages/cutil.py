@@ -28,15 +28,20 @@ class MESS :
   def __call__(self,key) :
       return self.M.getCustomMess().getAttr(key)
 
-
-def enableButton(var,buttid,enable=True) :
-      var["JSETATTR_BUTTON_"+buttid+"_enable"] = enable
-      
-def hideButton(var,buttid,hide=True) :
-      var["JSETATTR_BUTTON_"+buttid+"_hidden"] = hide    
-
-def enableField(var,fieldid,enable=True) :
-      var["JSETATTR_FIELD_"+fieldid+"_enable"] = enable
+def enableField(var,li,enable=True) :
+    if type(li) != list : li = [li]
+    for fieldid in li : 
+        var["JSETATTR_FIELD_"+fieldid+"_enable"] = enable
+        
+def enableButton(var,li,enable=True) :
+    if type(li) != list : li = [li]
+    for buttid in li :
+        var["JSETATTR_BUTTON_"+buttid+"_enable"] = enable
+     
+def hideButton(var,li,hide=True) :
+    if type(li) != list : li = [li]
+    for buttid in li :
+      var["JSETATTR_BUTTON_"+buttid+"_hidden"] = hide  
 
 def getCookie(var,name):
     cname="JCOOKIE_" + name
@@ -451,7 +456,6 @@ def getDict(what) :
   if what == "vat" : return Holder.IGetListOfVat().getList()
 
 def enumDictAction(action,var,what) :
-  printVar("countries action",action,var)
   iC = getDict(what)
   seq = createEnum(iC,lambda c : c.getName(),lambda c : c.getDescription(), False)
   setJMapList(var,action,seq)      
