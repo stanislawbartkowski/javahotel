@@ -1,45 +1,15 @@
-from cutil import printVar
-from util.util import RESFORM
-from util.util import ROOMLIST
-from util.util import SERVICES
-from util.util import RESOP
-from cutil import setJMapList
-from util.util import isRoomService
-from util.util import getReseName
-from cutil import setStandEditMode
-from cutil import addDecimal
-from cutil import minusDecimal
-from cutil import setFooter
-from cutil import BigDecimalToDecimal
+import cutil
+import con
 from sets import Set
-from util.util import BILLLIST
-from util.util import newBill
-from util.util import setCustData
-from cutil import today
-from cutil import toDate
-from util.util import getPayments
-from con import toL
-from util.util import getCustFieldId
-from util.util import mapToXML
-from util.util import xmlToVar
-from cutil import setCopy
-from util.util import HOTELTRANSACTION
-from cutil import setCopy
-from util.util import MESS
-from cutil import checkEmpty
-from cutil import setErrorField
-from util.util import PAYMENTOP
-from util.util import newBillPayment
-from con import toB
 
 from util import util
 from util import rutil
-import cutil
 
 LIST="poslist"
 NOPAID="billlist"
 CLIST=util.getCustFieldIdAll()
-M=MESS()
+M=util.MESS()
+PAY="payer_"
 
 class PAID :
   
@@ -49,13 +19,13 @@ class PAID :
     self.se = Set()
     for b in bli :
       for l in b.getPayList() :
-        self.se.add(toL(l))
+        self.se.add(con.toL(l))
  
   def onList(self,id) :
     return id in self.se
     
 def _createPosList(var) :
-  pli = getPayments(var)
+  pli = util.getPayments(var)
   P = PAID(var)
   L1 = rutil.BILLPOSADD(var,LIST)
   L2 = rutil.BILLPOSADD(var,NOPAID)
@@ -74,28 +44,28 @@ def _createPosList(var) :
   L1.close()
   L2.close()
   
-  setStandEditMode(var,NOPAID,["add"])
+  cutil.setStandEditMode(var,NOPAID,["add"])
                   
-class HOTELBILLSAVE(HOTELTRANSACTION) :
+class HOTELBILLSAVE(util.HOTELTRANSACTION) :
   
     def __init__(self,var) :
-      HOTELTRANSACTION.__init__(self,0,var)
+      util.HOTELTRANSACTION.__init__(self,0,var)
     
     def run(self,var) :
      self.total = 0.0
      P = PAID(var)
-     b = newBill(var)
+     b = util.newBill(var)
      cust_name = var["payer_name"]
      b.setGensymbol(True);
      b.setPayer(cust_name)
-     b.setReseName(getReseName(var))
-     b.setIssueDate(toDate(today()))
+     b.setReseName(util.getReseName(var))
+     b.setIssueDate(cutil.toDate(cutil.today()))
      for m in var["JLIST_MAP"][NOPAID] :
        if m["add"] :
           idp = m["idp"]
-          self.total = addDecimal(self.total,m["total"])
+          self.total = cutil.addDecimal(self.total,m["total"])
           if P.onList(idp) :
-             var["JERROR_MESSAGE"] = "Trying to pay again. Check if someone else is billing just now !"
+             var["JERROR_MESSAGE"] = "@billalreadypaid"
              return
           b.getPayList().add(idp)
          
@@ -103,22 +73,22 @@ class HOTELBILLSAVE(HOTELTRANSACTION) :
          var["JERROR_MESSAGE"] = "@nothingischecked"
          return
       
-     self.billName = BILLLIST(var).addElem(b).getName()
+     self.billName = util.BILLLIST(var).addElem(b).getName()
      var["JCLOSE_DIALOG"] = True
 
 def doaction(action,var) :
-  printVar("create bill",action,var)
+  cutil.printVar("create bill",action,var)
   
   if action == "before" :
     _createPosList(var)
     # payer
-    rese = getReseName(var)
-    R = RESFORM(var)
+    rese = util.getReseName(var)
+    R = util.RESFORM(var)
     r = R.findElem(rese)
     payername = r.getCustomerName()
-    setCustData(var,payername,"payer_")
+    util.setCustData(var,payername,PAY)
     var["paynow"] = True
-    setCopy(var,["paynow","paymethod"])
+    cutil.setCopy(var,["paynow","paymethod"])
     var["paymethod"] = util.HOTELDEFADATA().getDataH(3)    
     
   if action == "guestdetail" :
@@ -127,9 +97,9 @@ def doaction(action,var) :
   if action == "columnchangeaction" :
      total = var["total"]
      footerf = var["JFOOTER_billlist_total"]
-     if var["add"] : footerf = addDecimal(footerf,total)
-     else : footerf = minusDecimal(footerf,total)
-     setFooter(var,"billlist","total",footerf)
+     if var["add"] : footerf = cutil.addDecimal(footerf,total)
+     else : footerf = cutil.minusDecimal(footerf,total)
+     cutil.setFooter(var,"billlist","total",footerf)
 
   if action == "accept" : 
     exist = False 
@@ -140,10 +110,10 @@ def doaction(action,var) :
       return
     
     if var["paynow"] :
-      if checkEmpty(var,["paymethod"]): return
+      if cutil.checkEmpty(var,["paymethod"]): return
       
     if not var["paynow"] :  
-      if checkEmpty(var,["paymethod","paymentdate"]): return
+      if cutil.checkEmpty(var,["paymethod","paymentdate"]): return
       
     var["JYESNO_MESSAGE"] = "@areyousuretoissuebill"
     var['JAFTERDIALOG_ACTION'] = "acceptafteryes"
@@ -155,21 +125,22 @@ def doaction(action,var) :
      # semaphore transction is not needed here
      if var["paynow"] :
        billName = H.billName
-       p = newBillPayment()
+       p = util.newBillPayment()
        p.setBillName(billName)
        p.setPaymentMethod(var["paymethod"])
-       p.setDateOfPayment(toDate(today()))
-       p.setPaymentTotal(toB(H.total))
-       PAYMENTOP(var).addPaymentForBill(billName,p)       
+       p.setDateOfPayment(cutil.toDate(cutil.today()))
+       p.setPaymentTotal(con.toB(H.total))
+       util.PAYMENTOP(var).addPaymentForBill(billName,p)       
               
   if action == "payerdetails" :
-      var["JUP_DIALOG"]="hotel/reservation/customerdetails.xml" 
+#      var["JUP_DIALOG"]="hotel/reservation/customerdetails.xml" 
       var["JAFTERDIALOG_ACTION"] = "acceptdetails" 
-      var["JUPDIALOG_START"] = mapToXML(var,CLIST,"payer_")
+      util.customerDetailsActive(var,PAY)
+#      var["JUPDIALOG_START"] = util.mapToXML(var,CLIST,PAY)
 
   if action == "acceptdetails" and var["JUPDIALOG_BUTTON"] == "accept" :
      xml = var["JUPDIALOG_RES"]
-     xmlToVar(var,xml,CLIST,"payer_")
-     setCopy(var,CLIST,None,"payer_")
+     util.xmlToVar(var,xml,CLIST,PAY)
+     cutil.setCopy(var,CLIST,None,PAY)
 
          

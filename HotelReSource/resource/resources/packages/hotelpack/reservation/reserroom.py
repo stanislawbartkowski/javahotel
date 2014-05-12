@@ -76,7 +76,6 @@ def _createResData(var,new):
 def _getPriceList(var) :
   pricelist = var["roompricelist"]
   serv = var["roomservice"]
-#  print "!!!!", pricelist,serv, "!!!"
   return rutil.getPriceList(var,pricelist,serv)
 
 def _setAfterServiceName(var) :
@@ -92,7 +91,6 @@ def _setAfterPriceList(var) :
   var["respricechildren"] = pricechild
   var["respriceextrabeds"] = priceextra    
   var["respriceperroom"] = price
-#  print "set after price" + str(var["respriceperson"])
   cutil.setCopy(var,["respriceperson","respricechildren","respriceextrabeds"])
 
 def _setAfterPerPerson(var) :  
@@ -276,10 +274,7 @@ def reseraction(action,var):
         if not _newRese(var) :          
           name = var[CUST+"name"]
           resename = rutil.getReseName(var)          
-          RFORM = util.RESFORM(var)
-          r = RFORM.findElem(resename)
-          r.setCustomerName(name)
-          RFORM.changeElem(r)
+          util.RESFORM(var).changeCustName(resename,name)
         
     if action=="custdetails" :
         var["JAFTERDIALOG_ACTION"] = "acceptdetails" 
@@ -308,6 +303,9 @@ def reseraction(action,var):
         var["JAFTERDIALOG_ACTION"] = "morereservationaccept" 
       
     if action == "morereservationaccept" and var["JUPDIALOG_BUTTON"] == "toresrese" :
+        arese =  var["resename"]
         var["JUPDIALOG_START"] = var["JUPDIALOG_RES"]        
         rutil.setvarBefore(var)
+        # restore reservation name
+        var["resename"] = arese
         _checkRese(var,False)

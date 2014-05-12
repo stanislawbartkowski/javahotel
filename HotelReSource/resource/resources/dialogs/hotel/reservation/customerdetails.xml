@@ -16,7 +16,7 @@
 		<button id="resign" displayname="@resign" actiontype="JCLOSE_DIALOG" />
 		<button id="find" displayname="@find" actiontype="JUP_DIALOG"
 			actionparam="hotel/reservation/customerselection.xml" actionparam2="selectcustomer" />
-               <button id="ok" displayname="@ok" />                        
+               <button id="ok" displayname="@ok" actiontype="JCLOSE_DIALOG"/>                        
 	</buttons>
 
 	<form >

@@ -5,7 +5,6 @@ from util.util import BILLLIST
 from util import rutil
 from util import util
 
-
 PAYLIST="paymentslist"
 BILLNAME="paybillname"
 

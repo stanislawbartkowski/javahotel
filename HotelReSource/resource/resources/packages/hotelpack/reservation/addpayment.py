@@ -1,28 +1,14 @@
-from cutil import printVar
-from util.util import RESFORM
-from util.util import ROOMLIST 
-from util.util import RESOP
-from util.util import CUSTOMERLIST
-from util.util import showCustomerDetails
-from cutil import setCopy
-from cutil import today
-from util.util import getPriceForPriceList
-from util.util import SERVICES
-from cutil import mulIntDecimal
-from cutil import BigDecimalToDecimal
-from cutil import checkGreaterZero
-from util.util import newResAddPayment
-from cutil import toDate
-from cutil import toB
+import cutil
+import con
 from util import util
 
 RLIST = "roomlist"
 
 def _createList(var):
    resName = var["resename"]
-   ROOM = ROOMLIST(var)
-   ROP = RESOP(var)
-   CU = CUSTOMERLIST(var)
+   ROOM = util.ROOMLIST(var)
+   ROP = util.RESOP(var)
+   CU = util.CUSTOMERLIST(var)
    list = []
    gList = ROP.getResGuestList(resName)
    for g in gList :
@@ -38,13 +24,13 @@ def _createList(var):
 LI = ["paymentdate","pricelist","service","pricefromlist","price","descr","quantity","total"]
 
 def _setPrice(var,val=None) :
-    setCopy(var,["pricefromlist","price"])
+    cutil.setCopy(var,["pricefromlist","price"])
     var["pricefromlist"] = val
     if val : var["price"] = val
     _setTotal(var)
 
 def _setDescr(var,desc=None) :
-    setCopy(var,["descr"])
+    cutil.setCopy(var,["descr"])
     var["descr"] = desc
   
 def _setPriceAfterRating(var) :
@@ -53,12 +39,12 @@ def _setPriceAfterRating(var) :
     if price == None or service == None:
       _setPrice(var)
       return
-    pr = getPriceForPriceList(var,price,service)
+    pr = util.getPriceForPriceList(var,price,service)
     if pr == None :
       _setPrice(var)
       return
     
-    _setPrice(var,BigDecimalToDecimal(pr.getPrice()))
+    _setPrice(var,con.BigDecimalToDecimal(pr.getPrice()))
 
 def _setAfterPriceList(var) :
     _setPriceAfterRating(var)
@@ -69,9 +55,9 @@ def _setAfterService(var) :
       if service == None :
           _setDescr(var)
           return
-      serv = SERVICES(var).findElem(service)
+      serv = util.SERVICES(var).findElem(service)
       _setDescr(var,serv.getDescription())
-      setCopy(var,["vat"])
+      cutil.setCopy(var,["vat"])
       var["var"] = serv.getVat()
 
 def _setAfterQuantity(var) :
@@ -81,7 +67,7 @@ def _setAfterPrice(var) :
     _setTotal(var)
 
 def _setTotalVal(var,val=None) :
-      setCopy(var,["total"])
+      cutil.setCopy(var,["total"])
       var["total"] = val
     
 def _setTotal(var) :
@@ -90,19 +76,19 @@ def _setTotal(var) :
       if qua == None or price == None :
         _setTotalVal(var)
         return
-      if not checkGreaterZero(var,"quantity") : return
-      _setTotalVal(var,mulIntDecimal(qua,price))
+      if not cutil.checkGreaterZero(var,"quantity") : return
+      _setTotalVal(var,con.mulIntDecimal(qua,price))
 
 def _addPayment(var) :
-     ROP = RESOP(var)
-     r = newResAddPayment()
+     ROP = util.RESOP(var)
+     r = util.newResAddPayment()
      quantity = var["quantity"]
-     da = toDate(var["paymentdate"])
+     da = con.toDate(var["paymentdate"])
      descr = var["descr"]
-     price = toB(var["price"])
+     price = con.toB(var["price"])
 #     price = toB(1.00)     
-     pricelist = toB(var["pricefromlist"])
-     total = toB(var["total"])
+     pricelist = con.toB(var["pricefromlist"])
+     total = con.toB(var["total"])
 #     total = toB(1.01)
      room = None
      guest = None
@@ -115,7 +101,7 @@ def _addPayment(var) :
      if room == None :
        room = var["JDATELINE_LINE"]
      if guest == None :
-       guest = RESFORM(var).findElem(rese).getCustomerName()
+       guest = util.RESFORM(var).findElem(rese).getCustomerName()
      r.setQuantity(quantity)
      r.setPrice(price)
      r.setPriceList(pricelist)
@@ -129,17 +115,17 @@ def _addPayment(var) :
 
 
 def doaction(action,var):
-    printVar("addpayment",action,var)
+    cutil.printVar("addpayment",action,var)
     
     if action == "before" :
         _createList(var)
-        setCopy(var,LI)
+        cutil.setCopy(var,LI)
         for l in LI :
           var[l] = None
         var["pricelist"] = ""
         var["service"] = ""
         var["quantity"] = 1
-        var["paymentdate"] = today()
+        var["paymentdate"] = cutil.today()
         
     if action == "signalchange" :
         if var["changefield"] == "pricelist" : _setAfterPriceList(var)
@@ -148,10 +134,10 @@ def doaction(action,var):
         if var["changefield"] == "price" : _setAfterPrice(var)
         
     if action == "guestdetail" and var[RLIST+"_lineset"] :
-        showCustomerDetails(var,var["guest_name"])
+        util.showCustomerDetails(var,var["guest_name"])
         
     if action == "addpayment" and var["JYESANSWER"] :
-      if not checkGreaterZero(var,"quantity") : return
+      if not cutil.checkGreaterZero(var,"quantity") : return
       _addPayment(var)
       var["JCLOSE_DIALOG"] = True
               

@@ -1,12 +1,6 @@
-from util.util import printvar
-from util.util import ROOMLIST
-from util.util import findElemInSeq
-from util.util import copyNameDescr
-from util.util import SERVICES
-from util.util import createSeq
-from util.util import createArrayList
-from util import util
 import cutil
+
+from util import util
 
 M = util.MESS()
 
@@ -20,14 +14,14 @@ def _setNumb(map,s) :
   map["nochildren"] = util.getIntField(s.getNoChildren())
 
 def _getServiceList(var) :
-    a = createArrayList()
+    a = cutil.createArrayList()
     seq = var["JLIST_MAP"][SERVLIST]
     for s in seq :
       if s["check"] : a.add(s["service"])
     return a  
 
 def _createList(var):
-    R = ROOMLIST(var)
+    R = util.ROOMLIST(var)
     seq = R.getList()
     list = []
     
@@ -39,18 +33,15 @@ def _createList(var):
     cutil.setJMapList(var,RLIST,list)
 
 def _duplicatedPriceList(var):    
-    R = ROOMLIST(var)
+    R = util.ROOMLIST(var)
     seq = R.getList()
-    if findElemInSeq(var["name"],seq) != None :
+    if util.findElemInSeq(var["name"],seq) != None :
       var["JERROR_name"] = M("DUPLICATEDROOMNAME")
       return True
     return False
 
 def _notValidRoomDesc(var):
-    no = var["noperson"]
-    if no <= 0 :
-      var["JERROR_noperson"] = M("NOPERSONGREATERZERO")
-      return True
+    if not cutil.checkGreaterZero(var,"noperson") : return True
     if not cutil.checkGreaterZero(var,"noextrabeds",True) : return True
     if not cutil.checkGreaterZero(var,"nochildren",True) : return True
     a = _getServiceList(var)
@@ -61,7 +52,7 @@ def _notValidRoomDesc(var):
         
 def _createRoom(var,a = None):
    pr = util.newHotelRoom()
-   copyNameDescr(pr,var)
+   util.copyNameDescr(pr,var)
    nop = var["noperson"]
    pr.setNoPersons(nop)
    noe = var["noextrabeds"]
@@ -84,8 +75,8 @@ def _createRoom(var,a = None):
    return pr
 
 def _createServicesList(var):
-    S = SERVICES(var)
-    R = ROOMLIST(var)
+    S = util.SERVICES(var)
+    R = util.ROOMLIST(var)
     
     slist = []
     if var["JCRUD_DIALOG"] == "crud_change" :
@@ -104,7 +95,7 @@ def _createServicesList(var):
     seq = S.getRoomServices()
     list = []
     for s in seq :
-      check = findElemInSeq(s.getName(),slist, getN) != None
+      check = util.findElemInSeq(s.getName(),slist, getN) != None
       map = {"check" : check ,"service" : s.getName(), "servdescr" : s.getDescription(), "perperson" : s.isPerperson()}
       _setNumb(map,s)
       list.append( map )
@@ -113,19 +104,19 @@ def _createServicesList(var):
                     
 def roomlistaction(action,var) :
     
-  printvar("roomlistaction",action, var)  
+  cutil.printVar("roomlistaction",action, var)  
   
   if action == "before" or action == "crud_readlist" :
     _createList(var)
     
 def elemroomaction(action,var) :
     
-  printvar("elemroomaction",action, var)  
-  R = ROOMLIST(var)
+  cutil.printVar("elemroomaction",action, var)  
+  R = util.ROOMLIST(var)
 
   if action == "columnchangeaction" :
     if not var["check"] : return
-    serv = SERVICES(var).findElem(var["service"])
+    serv = util.SERVICES(var).findElem(var["service"])
     assert serv != None
     _setNumb(var,serv)
     cutil.setCopy(var,["noperson","nochildren","noextrabeds"])    

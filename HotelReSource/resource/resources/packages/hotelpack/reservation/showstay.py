@@ -10,6 +10,7 @@ from com.jythonui.server.holder import SHolder
 ADDBLOB=SHolder.getAddBlob()
 
 BILLIST="billlist"
+CUST="cust_"
 
 def _listOfPayments(var) :
   rese = util.getReseName(var)
@@ -118,8 +119,17 @@ def showstay(action,var):
      _listOfPayments(var)
         
    if action == "guestdesc" :
-       util.showCustomerDetails(var,var["cust_name"])
+       var["JAFTERDIALOG_ACTION"] = "acceptdetails" 
+       util.showCustomerDetailstoActive(var,var[CUST+"name"])
        
+   if action == "acceptdetails" and var["JUPDIALOG_BUTTON"] == "acceptask" :
+        xml = var["JUPDIALOG_RES"]
+        util.xmlToVar(var,xml,util.getCustFieldIdAll(),CUST)
+        cutil.setCopy(var,util.getCustFieldIdAll(),None,CUST)
+        name = var[CUST+"name"]
+        resename = rutil.getReseName(var)          
+        util.RESFORM(var).changeCustName(resename,name)
+              
    if action == "guestdetail" :
        util.showCustomerDetails(var,var["guest_name"])
        
