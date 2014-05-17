@@ -48,4 +48,9 @@ abstract public class AbstractHotelEJB<T extends PropDescription> implements
         return service.findElem(hotel, name);
     }
 
+    @Override
+    public T findElemById(OObjectId hotel, Long id) {
+        return service.findElemById(hotel, id);
+    }
+
 }
