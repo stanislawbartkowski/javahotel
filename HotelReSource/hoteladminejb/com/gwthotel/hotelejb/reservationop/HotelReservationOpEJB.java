@@ -95,4 +95,14 @@ public class HotelReservationOpEJB implements IReservationOp {
         return rOp.searchReservation(hotel, rQuery);
     }
 
+    @Override
+    public List<String> getReseForService(OObjectId hotel, String serviceName) {
+        return rOp.getReseForService(hotel, serviceName);
+    }
+
+    @Override
+    public List<String> getReseForRoom(OObjectId hotel, String roomName) {
+        return rOp.getReseForRoom(hotel, roomName);
+    }
+
 }
