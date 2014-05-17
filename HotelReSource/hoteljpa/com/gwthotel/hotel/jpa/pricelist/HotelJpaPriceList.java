@@ -14,6 +14,7 @@ package com.gwthotel.hotel.jpa.pricelist;
 
 import javax.persistence.EntityManager;
 
+import com.google.inject.Inject;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.jpa.AbstractJpaCrud;
 import com.gwthotel.hotel.jpa.IHotelObjectGenSymFactory;
@@ -24,14 +25,15 @@ import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.jython.serversecurity.OObjectId;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 
-class HotelJpaPriceList extends
+public class HotelJpaPriceList extends
         AbstractJpaCrud<HotelPriceList, EHotelPriceList> implements
         IHotelPriceList {
 
-    HotelJpaPriceList(ITransactionContextFactory eFactory,
+    @Inject
+    public HotelJpaPriceList(ITransactionContextFactory eFactory,
             IHotelObjectGenSymFactory iGen) {
         super(new String[] { "findAllPriceLists", "findOnePriceList" },
-                eFactory, HotelObjects.PRICELIST, iGen);
+                eFactory, HotelObjects.PRICELIST, iGen, EHotelPriceList.class);
     }
 
     @Override
@@ -65,7 +67,7 @@ class HotelJpaPriceList extends
     @Override
     protected void afterAddChange(EntityManager em, OObjectId hotel,
             HotelPriceList prop, EHotelPriceList elem, boolean add) {
-        
+
     }
 
 }

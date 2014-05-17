@@ -17,7 +17,9 @@ import javax.inject.Provider;
 import com.gwthotel.hotel.jpa.AbstractCrudProvider;
 import com.gwthotel.hotel.payment.IPaymentBillOp;
 
-public class PaymentOpProvider extends AbstractCrudProvider implements
+
+// TODO: remove
+class PaymentOpProvider extends AbstractCrudProvider implements
         Provider<IPaymentBillOp> {
 
     @Override

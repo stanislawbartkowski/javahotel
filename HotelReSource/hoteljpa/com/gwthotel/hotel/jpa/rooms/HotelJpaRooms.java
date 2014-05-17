@@ -18,6 +18,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import com.google.inject.Inject;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.jpa.AbstractJpaCrud;
 import com.gwthotel.hotel.jpa.IHotelObjectGenSymFactory;
@@ -31,13 +32,14 @@ import com.gwthotel.hotel.services.HotelServices;
 import com.jython.serversecurity.OObjectId;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 
-class HotelJpaRooms extends AbstractJpaCrud<HotelRoom, EHotelRoom> implements
+public class HotelJpaRooms extends AbstractJpaCrud<HotelRoom, EHotelRoom> implements
         IHotelRooms {
 
-    HotelJpaRooms(ITransactionContextFactory eFactory,
+    @Inject
+    public HotelJpaRooms(ITransactionContextFactory eFactory,
             IHotelObjectGenSymFactory iGen) {
         super(new String[] { "findAllRooms", "findOneRoom" }, eFactory,
-                HotelObjects.ROOM, iGen);
+                HotelObjects.ROOM, iGen, EHotelRoom.class);
     }
 
     @Override
@@ -139,6 +141,6 @@ class HotelJpaRooms extends AbstractJpaCrud<HotelRoom, EHotelRoom> implements
     @Override
     protected void afterAddChange(EntityManager em, OObjectId hotel,
             HotelRoom prop, EHotelRoom elem, boolean add) {
-        
+
     }
 }

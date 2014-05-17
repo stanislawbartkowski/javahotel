@@ -37,26 +37,28 @@ import com.jythonui.server.UtilHelper;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.shared.RMap;
 
-public abstract class AbstractJpaCrud<T extends RMap, E extends EHotelDict> extends UtilHelper 
-        implements IHotelProp<T> {
+public abstract class AbstractJpaCrud<T extends RMap, E extends EHotelDict>
+        extends UtilHelper implements IHotelProp<T> {
 
     private final String[] queryMap;
     protected final ITransactionContextFactory eFactory;
     protected final IGetLogMess lMess;
     private final HotelObjects tObject;
     private final IHotelObjectGenSymFactory iGen;
+    private final Class<E> cl;
 
     private final static int GETALLQUERY = 0;
     private final static int FINDELEMQUERY = 1;
 
     protected AbstractJpaCrud(String[] queryMap,
             ITransactionContextFactory eFactory, HotelObjects tObject,
-            IHotelObjectGenSymFactory iGen) {
+            IHotelObjectGenSymFactory iGen, Class<E> cl) {
         this.queryMap = queryMap;
         this.eFactory = eFactory;
         this.lMess = HHolder.getHM();
         this.tObject = tObject;
         this.iGen = iGen;
+        this.cl = cl;
     }
 
     abstract protected T toT(E sou, EntityManager em, OObjectId hotel);
@@ -247,6 +249,33 @@ public abstract class AbstractJpaCrud<T extends RMap, E extends EHotelDict> exte
     @Override
     public T findElem(OObjectId hotel, String name) {
         FindElem command = new FindElem(hotel, name);
+        command.executeTran();
+        return command.reselem;
+    }
+
+    private class FindElemId extends doTransaction {
+
+        private final Long id;
+        T reselem = null;
+
+        FindElemId(OObjectId hotel, Long id) {
+            super(hotel);
+            this.id = id;
+        }
+
+        @Override
+        protected void dosth(EntityManager em) {
+            E pers = em.find(cl, id);
+            if (pers == null)
+                return;
+            reselem = createT(em, pers, hotel);
+        }
+
+    }
+
+    @Override
+    public T findElemById(OObjectId hotel, Long id) {
+        FindElemId command = new FindElemId(hotel, id);
         command.executeTran();
         return command.reselem;
     }

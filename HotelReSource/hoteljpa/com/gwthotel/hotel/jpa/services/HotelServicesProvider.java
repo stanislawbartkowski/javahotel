@@ -5,7 +5,9 @@ import javax.inject.Provider;
 import com.gwthotel.hotel.jpa.AbstractCrudProvider;
 import com.gwthotel.hotel.services.IHotelServices;
 
-public class HotelServicesProvider extends AbstractCrudProvider implements
+// TODO: remove
+
+class HotelServicesProvider extends AbstractCrudProvider implements
         Provider<IHotelServices> {
 
     @Override
