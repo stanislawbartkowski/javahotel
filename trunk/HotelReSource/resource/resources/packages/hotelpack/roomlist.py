@@ -1,4 +1,5 @@
 import cutil
+import xmlutil
 
 from util import util
 
@@ -21,11 +22,18 @@ def _getServiceList(var) :
     return a  
 
 def _createList(var):
+    fList = var["filterlist"]
+    li = []
+    if fList != None :
+      li = xmlutil.CVSToListNumber(fList)
     R = util.ROOMLIST(var)
     seq = R.getList()
     list = []
     
     for s in seq : 
+       if len(li) > 0 :
+          fS = util.findElemInSeq(s.getId(),li,lambda x : x)
+          if fS == None : continue
        map = {"name" : s.getName(), "descr" : s.getDescription()}
        _setNumb(map,s)
        list.append(map )
@@ -107,6 +115,9 @@ def roomlistaction(action,var) :
   cutil.printVar("roomlistaction",action, var)  
   
   if action == "before" or action == "crud_readlist" :
+    if action == "before" :
+      var["filterlist"] = var["JUPDIALOG_START"]
+      cutil.setCopy(var,"filterlist")
     _createList(var)
     
 def elemroomaction(action,var) :

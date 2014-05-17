@@ -235,13 +235,13 @@ def reseraction(action,var):
     cutil.printVar("reseraction",action,var)
     
     if action == "cancelreserv" and var["JYESANSWER"] :
-     resname = rutil.getReseName(var)
-     R = util.RESOP(var)
-     R.changeStatusToCancel(resname)
+     util.RESOP(var).changeStatusToCancel(rutil.getReseName(var))
      var["JCLOSE_DIALOG"] = True
      var["JREFRESH_DATELINE_reservation"] = ""
      
     if action == "aftercheckin" and var["JUPDIALOG_BUTTON"] == "makecheckin" :
+       util.RESOP(var).changeStatusToStay(rutil.getReseName(var))
+       var["JREFRESH_DATELINE_reservation"] = ""
        var["JCLOSE_DIALOG"] = True        
     
     if action == "signalchange" :

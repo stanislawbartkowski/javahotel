@@ -10,6 +10,11 @@ def __toMap(map,custid,CUST) :
     map["guestselect"] = cust.getName()
     util.customerToVar(map,cust)    
 
+def _resStatus(var) :
+     resName = var["resename"]
+     r = util.RESFORM(var).findElem(resName)
+     return util.resStatus(resName)  
+
 class MAKECHECKIN(util.HOTELTRANSACTION) :
   
    def __init__(self,var) :
@@ -22,7 +27,7 @@ class MAKECHECKIN(util.HOTELTRANSACTION) :
      ROP = util.RESOP(var)
      CUST = util.CUSTOMERLIST(var)
      r = R.findElem(resName)
-     if util.resStatus(r) == 1 :
+     if not var["isstay"] and util.resStatus(r) == 1 :
        var["JERROR_MESSAGE"] = M("ALREADYCHECKEDINMESS")
        var["JMESSAGE_TITLE"] = M("ALREADYCHECKEDINTITLE")
        return
@@ -42,9 +47,7 @@ class MAKECHECKIN(util.HOTELTRANSACTION) :
            rGuest.setRoomName(rid)
            a.add(rGuest)
      ROP.setResGuestList(resName,a)
-     ROP.changeStatusToStay(resName)
      var["JCLOSE_DIALOG"] = True   
-     var["JREFRESH_DATELINE_reservation"] = ""
 
 def checkinaction(action,var):
     cutil.printVar("checkinaction",action,var)
@@ -60,10 +63,8 @@ def checkinaction(action,var):
         TRANS.doTrans()
            
     if action == "guestdetails" and var[CHECKINLIST+"_lineset"] :
-#        var["JUP_DIALOG"]="hotel/reservation/customerdetails.xml" 
         var["JAFTERDIALOG_ACTION"] = "acceptdetails" 
         util.customerDetailsActive(var,None)
-#        var["JUPDIALOG_START"] = util.mapToXML(var,CUSTF)
         
     if action == "acceptdetails" and var["JUPDIALOG_BUTTON"] == "accept" : 
         xml = var["JUPDIALOG_RES"]
@@ -125,7 +126,14 @@ def checkinaction(action,var):
             var["JLIST_MAP"] = { CHECKINLIST : list}
             cutil.setStandEditMode(var,CHECKINLIST,["surname","firstname","title","country"])
             resform = R.findElem(resName)
-            if util.isResOpen(resform) and not wasGuest :
+            assert resform != None
+            status = util.resStatus(resform)
+            print "status",status
+            var["isstay"] = (status == 1)
+            cutil.setCopy(var,"isstay")
+            if status == 2 : cutil.hideButton(var,"acceptchange")
+            else : cutil.hideButton(var,"accept")
+            if status == 2 and not wasGuest :
                 custid = resform.getCustomerName()
                 map = list[0]
                 __toMap(map,custid,CUST)                
