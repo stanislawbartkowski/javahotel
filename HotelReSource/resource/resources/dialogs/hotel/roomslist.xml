@@ -7,7 +7,10 @@
 		<import>from hotelpack import roomlist</import>
 		<method>roomlist.roomlistaction({0},{1})</method>
 	</jython>
-
+        
+        <form>
+            <field id="filterlist" hidden=""/>
+        </form>
 
 	<list id="roomlist" elemformat="hotel/elemroomlist.xml">
 		<columns>

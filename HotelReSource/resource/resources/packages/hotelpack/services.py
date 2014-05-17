@@ -3,10 +3,12 @@ import cutil
 from util import util
 from com.gwthotel.hotel.services import HotelServices
 import cutil
+import xmlutil
 
 M = util.MESS()
 taxList = cutil.getDict("vat")
 D = util.HOTELDEFADATA()
+
 
 def _createList(var):
     serv = util.SERVICES(var)
@@ -54,6 +56,18 @@ def _createService(var):
    se.setPerperson(var["perperson"])
    D.putDataHB(13,var["perperson"])
    return se    
+ 
+ 
+def _listOfRoomsForService(var,servname) :
+  R = util.ROOMLIST(var)
+  lRoom = R.getList()
+  outR = []
+  for r in lRoom :
+    sList = R.getRoomServices(r.getName())
+    for s in sList :
+      if s.getName() == servname :
+        outR.append(r.getId())
+  return outR        
 
 def elemserviceaction(action,var) :
 
@@ -61,14 +75,22 @@ def elemserviceaction(action,var) :
 
   serv = util.SERVICES(var)
   
-  if action == "before" and var["JCRUD_DIALOG"] == "crud_add" :
-    var["noperson"] = D.getDataHI(10)
-    var["noextrabeds"] = D.getDataHI(11)
-    var["nochildren"] = D.getDataHI(12)
-    var["vat"] = D.getDataH(14)
-    var["perperson"] = D.getDataHB(13)
-    cutil.setCopy(var,["noperson","noextrabeds","nochildren","vat","perperson"])
+  if action == "before" :
+    if var["JCRUD_DIALOG"] == "crud_add" : 
+      var["noperson"] = D.getDataHI(10)
+      var["noextrabeds"] = D.getDataHI(11)
+      var["nochildren"] = D.getDataHI(12)
+      var["vat"] = D.getDataH(14)
+      var["perperson"] = D.getDataHB(13)
+      cutil.setCopy(var,["noperson","noextrabeds","nochildren","vat","perperson"])
+    else : cutil.hideButton(var,"showrooms",False)
     
+  if action == "showrooms" :
+     l = _listOfRoomsForService(var,var["name"])
+     for s in l :
+       print s
+     var["JUPDIALOG_START"] = xmlutil.listNumberToCVS(l)   
+     var["JUP_DIALOG"] = "hotel/roomslist.xml"       
     
   if action == "crud_add"  and not var["JCRUD_AFTERCONF"] :
       if util.duplicateService(var) or _notverifyService(var) : return          
@@ -94,6 +116,10 @@ def elemserviceaction(action,var) :
       var["JCLOSE_DIALOG"] = True
 
   if action == "crud_remove"  and not var["JCRUD_AFTERCONF"] :
+      l = _listOfRoomsForService(var,var["name"])
+      if len(l) > 0 :
+         var["JERROR_MESSAGE"] = 'Cannot remove, there are %(#)i room(s) for this service !' % { '#' : len(l)}
+         return
       var["JYESNO_MESSAGE"] = M("DELETESERVICEASK")
       var["JMESSAGE_TITLE"] = ""  
       return

@@ -11,6 +11,10 @@
 		<import>from hotelpack import services</import>
 		<method>services.elemserviceaction({0},{1})</method>
 	</jython>
+        
+        <buttons>
+          <button id="showrooms" displayname = "Show rooms" hidden=""/>
+        </buttons>
 
 	<form>
 	       <field id="name" displayname="@name" readonlychange="" notempty="" />

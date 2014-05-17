@@ -247,9 +247,17 @@ def isRoomService(service) :
   return service == ServiceType.HOTEL
         
 def resStatus(rform):
+    """ Check the reservation status
+    
+    Args: rform, ReservationForm
+    
+    Returns: 1 : stay, 2 : open , 0 otherwise
+    """
     status = rform.getStatus()
     if status == ResStatus.STAY : return 1
+    if status == ResStatus.OPEN : return 2
     return 0       
+  
                   
 def printvar(method,action,var): 
     cutil.printVar(method,action,var)
@@ -424,9 +432,6 @@ def createEnumFromList(li, f = lambda elem : [elem.getName(), elem.getDescriptio
 
 def emptyS(name):
     return name == None or name == "" or CUtil.EmptyS(name)
-
-def isResOpen(res):
-    return res.getStatus() == ResStatus.OPEN
 
 class SUMBDECIMAL :
     

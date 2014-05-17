@@ -13,13 +13,19 @@
 	<buttons>
 		<button id="accept" displayname="@checkinbutton" actiontype="JYESNO_MESSAGE" actionparam="@checkinquestion"
 			actionparam1="@confirmation" actionparam2="makecheckin" />
-		<button id="resign" displayname="@resign" actiontype="JCLOSE_DIALOG" />
+                <button id="acceptchange" displayname="@changeguests" actiontype="JYESNO_MESSAGE" actionparam="@changeguestsask"
+                        actionparam1="@confirmation" actionparam2="makecheckin" />
+                <button id="resign" displayname="@resign" actiontype="JCLOSE_DIALOG" />
 	</buttons>
+        
+        <form>
+          <field id="isstay" type="bool" hidden=""/>
+        </form>
 	
 	<list id="checkinlist" pagesize="5">
 		<standbutt>TOOLS,FIND,FILTER</standbutt>
   		<buttons-addlist>makecheckin</buttons-addlist> 
-		<columns>
+		<columns>                       
 			<column id="roomid" displayname="@roomname" />
 			<column id="roomdesc" displayname="@roomdescription" />
 <!--  guest description -->			

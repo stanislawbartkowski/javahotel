@@ -29,7 +29,6 @@ def __resInfo(var,resid) :
    assert cust != None
    dName = getAttrS(cust,"surname") + " " + getAttrS(cust,"firstname")
    if util.emptyS(dName) : dName = cust.getName()
-#   return dName + " , " + cutil.getDicName("countries",getAttrS(cust,"country"))
    return dName + " , " + getAttrS(cust,"country")
    
 def reservationaction(action,var):
@@ -63,9 +62,10 @@ def reservationaction(action,var):
           resid = ares.getResId()
           rform = RFORM.findElem(resid)
           sta = util.resStatus(rform)
-#          if sta == 0 : var["JUP_DIALOG"] = "hotel/reservation/showreserveroom.xml"
-          if sta == 0 : var["JUP_DIALOG"] = "hotel/reservation/reserveroom.xml"
-          else: var["JUP_DIALOG"] = "hotel/reservation/showstay.xml"
+          
+          if sta == 1 : var["JUP_DIALOG"] = "hotel/reservation/showstay.xml"
+          else: var["JUP_DIALOG"] = "hotel/reservation/reserveroom.xml"
+
       
     if action == "datelinevalues" :
        seq = var["JDATELINE_QUERYLIST"]
