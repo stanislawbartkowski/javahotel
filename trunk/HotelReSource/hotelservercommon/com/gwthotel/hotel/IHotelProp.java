@@ -26,6 +26,8 @@ public interface IHotelProp<T extends RMap> {
     void changeElem(OObjectId hotel, T elem);
 
     void deleteElem(OObjectId hotel, T elem);
-    
+
     T findElem(OObjectId hotel, String name);
+
+    T findElemById(OObjectId hotel, Long id);
 }
