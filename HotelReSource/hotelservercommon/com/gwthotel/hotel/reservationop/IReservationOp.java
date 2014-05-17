@@ -40,4 +40,8 @@ public interface IReservationOp {
 
     List<CustomerBill> findBillsForReservation(OObjectId hotel, String resName);
 
+    List<String> getReseForService(OObjectId hotel, String serviceName);
+
+    List<String> getReseForRoom(OObjectId hotel, String roomName);
+
 }
