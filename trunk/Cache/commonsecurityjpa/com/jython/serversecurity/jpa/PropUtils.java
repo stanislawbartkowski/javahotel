@@ -25,6 +25,7 @@ public class PropUtils {
     public static void copyToProp(RMap dest, EDictEntry sou) {
         dest.setName(sou.getName());
         dest.setDescription(sou.getDescription());
+        dest.setId(sou.getId());
         RUtils.retrieveCreateModif(dest, sou);
     }
 
