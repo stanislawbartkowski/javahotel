@@ -17,7 +17,7 @@ import javax.inject.Provider;
 import com.gwthotel.hotel.jpa.AbstractCrudProvider;
 import com.gwthotel.hotel.rooms.IHotelRooms;
 
-public class HotelRoomsProvider extends AbstractCrudProvider implements Provider<IHotelRooms> {
+class HotelRoomsProvider extends AbstractCrudProvider implements Provider<IHotelRooms> {
 
     @Override
     public IHotelRooms get() {

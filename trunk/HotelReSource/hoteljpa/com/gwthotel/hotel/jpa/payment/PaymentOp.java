@@ -18,6 +18,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import com.google.inject.Inject;
 import com.gwthotel.hotel.jpa.JUtils;
 import com.gwthotel.hotel.jpa.entities.EBillPayment;
 import com.gwthotel.hotel.jpa.entities.ECustomerBill;
@@ -28,11 +29,12 @@ import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaTransaction;
 import com.jythonui.server.BUtil;
 
-class PaymentOp implements IPaymentBillOp {
+public class PaymentOp implements IPaymentBillOp {
 
     private final ITransactionContextFactory eFactory;
 
-    PaymentOp(ITransactionContextFactory eFactory) {
+    @Inject
+    public PaymentOp(ITransactionContextFactory eFactory) {
         this.eFactory = eFactory;
     }
 

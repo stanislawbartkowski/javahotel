@@ -14,6 +14,7 @@ package com.gwthotel.hotel.jpa.customers;
 
 import javax.persistence.EntityManager;
 
+import com.google.inject.Inject;
 import com.gwthotel.hotel.HUtils;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.customer.HotelCustomer;
@@ -27,13 +28,14 @@ import com.gwthotel.mess.IHMess;
 import com.jython.serversecurity.OObjectId;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 
-class HotelJpaCustomers extends AbstractJpaCrud<HotelCustomer, EHotelCustomer>
+public class HotelJpaCustomers extends AbstractJpaCrud<HotelCustomer, EHotelCustomer>
         implements IHotelCustomers {
 
-    HotelJpaCustomers(ITransactionContextFactory eFactory,
+    @Inject
+    public HotelJpaCustomers(ITransactionContextFactory eFactory,
             IHotelObjectGenSymFactory iGen) {
         super(new String[] { "findAllCustomers", "findOneCustomer" }, eFactory,
-                HotelObjects.CUSTOMER, iGen);
+                HotelObjects.CUSTOMER, iGen, EHotelCustomer.class);
     }
 
     @Override

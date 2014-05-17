@@ -17,6 +17,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import com.google.inject.Inject;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.ServiceType;
 import com.gwthotel.hotel.jpa.AbstractJpaCrud;
@@ -31,14 +32,16 @@ import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
 import com.jython.serversecurity.OObjectId;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 
-class HotelReservations extends
+public class HotelReservations extends
         AbstractJpaCrud<ReservationForm, EHotelReservation> implements
         IReservationForm {
 
-    HotelReservations(ITransactionContextFactory eFactory,
+    @Inject
+    public HotelReservations(ITransactionContextFactory eFactory,
             IHotelObjectGenSymFactory iGen) {
         super(new String[] { "findAllReservations", "findOneReservation" },
-                eFactory, HotelObjects.RESERVATION, iGen);
+                eFactory, HotelObjects.RESERVATION, iGen,
+                EHotelReservation.class);
     }
 
     @Override
@@ -79,7 +82,7 @@ class HotelReservations extends
             JUtils.ToEReservationDetails(em, hotel, d, r);
             d.setReservation(elem);
             d.setServiceType(ServiceType.HOTEL);
-//            d.setTotal(HUtils.roundB(r.getPrice()));
+            // d.setTotal(HUtils.roundB(r.getPrice()));
             em.persist(d);
         }
     }
@@ -97,9 +100,11 @@ class HotelReservations extends
     @Override
     protected void beforedeleteElem(EntityManager em, OObjectId hotel,
             EHotelReservation elem) {
-      JUtils.runQueryForObject(em, elem, "removeAllPaymentsforReservation");
-      JUtils.removeList(em,elem,"findBillsForReservation");
-      JUtils.runQueryForObject(em, elem, "deleteAllReservationDetailsForReservation","deleteGuestsFromReservation");
+        JUtils.runQueryForObject(em, elem, "removeAllPaymentsforReservation");
+        JUtils.removeList(em, elem, "findBillsForReservation");
+        JUtils.runQueryForObject(em, elem,
+                "deleteAllReservationDetailsForReservation",
+                "deleteGuestsFromReservation");
     }
 
 }

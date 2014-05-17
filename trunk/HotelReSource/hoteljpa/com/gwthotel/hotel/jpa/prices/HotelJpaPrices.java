@@ -20,6 +20,7 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import com.google.inject.Inject;
 import com.gwthotel.hotel.HUtils;
 import com.gwthotel.hotel.jpa.JUtils;
 import com.gwthotel.hotel.jpa.entities.EHotelPriceElem;
@@ -31,11 +32,12 @@ import com.jython.serversecurity.OObjectId;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaTransaction;
 
-class HotelJpaPrices implements IHotelPriceElem {
+public class HotelJpaPrices implements IHotelPriceElem {
 
     private final ITransactionContextFactory eFactory;
 
-    protected HotelJpaPrices(ITransactionContextFactory eFactory) {
+    @Inject
+    public HotelJpaPrices(ITransactionContextFactory eFactory) {
         this.eFactory = eFactory;
     }
 

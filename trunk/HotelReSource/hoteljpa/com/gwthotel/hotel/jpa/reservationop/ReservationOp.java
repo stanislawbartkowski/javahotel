@@ -18,11 +18,13 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import com.google.inject.Inject;
 import com.gwthotel.hotel.ServiceType;
 import com.gwthotel.hotel.bill.CustomerBill;
 import com.gwthotel.hotel.jpa.JUtils;
 import com.gwthotel.hotel.jpa.entities.ECustomerBill;
 import com.gwthotel.hotel.jpa.entities.EHotelCustomer;
+import com.gwthotel.hotel.jpa.entities.EHotelDict;
 import com.gwthotel.hotel.jpa.entities.EHotelGuest;
 import com.gwthotel.hotel.jpa.entities.EHotelReservation;
 import com.gwthotel.hotel.jpa.entities.EHotelReservationDetail;
@@ -35,15 +37,17 @@ import com.gwthotel.hotel.reservationop.IReservationOp;
 import com.gwthotel.hotel.reservationop.ResData;
 import com.gwthotel.hotel.reservationop.ResQuery;
 import com.gwthotel.hotel.stay.ResGuest;
+import com.gwtmodel.table.common.CUtil;
 import com.jython.serversecurity.OObjectId;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaTransaction;
 
-class ReservationOp implements IReservationOp {
+public class ReservationOp implements IReservationOp {
 
     private final ITransactionContextFactory eFactory;
 
-    ReservationOp(ITransactionContextFactory eFactory) {
+    @Inject
+    public ReservationOp(ITransactionContextFactory eFactory) {
         this.eFactory = eFactory;
     }
 
@@ -338,9 +342,58 @@ class ReservationOp implements IReservationOp {
 
     @Override
     public List<ResData> searchReservation(OObjectId hotel, ResQuery rQuery) {
-        FindQuery comma = new FindQuery(hotel,rQuery);
+        FindQuery comma = new FindQuery(hotel, rQuery);
         comma.executeTran();
         return comma.resList;
+    }
+
+    private class FindReseForServ extends doTransaction {
+
+        private final String servName;
+        private final String roomName;
+        private final String queryName;
+        private final List<String> resName = new ArrayList<String>();
+
+        FindReseForServ(OObjectId hotel, String servName, String roomName,
+                String queryName) {
+            super(hotel);
+            this.servName = servName;
+            this.roomName = roomName;
+            this.queryName = queryName;
+        }
+
+        @Override
+        protected void dosth(EntityManager em) {
+            EHotelDict e;
+            if (CUtil.EmptyS(roomName))
+                e = JUtils.findService(em, hotel, servName);
+            else
+                e = JUtils.findRoom(em, hotel, roomName);
+            if (e == null)
+                return;
+            Query q = em.createNamedQuery(queryName);
+            q.setParameter(1, e);
+            @SuppressWarnings("unchecked")
+            List<EHotelReservation> l = q.getResultList();
+            for (EHotelReservation ee : l)
+                resName.add(ee.getName());
+        }
+    }
+
+    @Override
+    public List<String> getReseForService(OObjectId hotel, String serviceName) {
+        FindReseForServ comma = new FindReseForServ(hotel, serviceName, null,
+                "searchReservationForService");
+        comma.executeTran();
+        return comma.resName;
+    }
+
+    @Override
+    public List<String> getReseForRoom(OObjectId hotel, String roomName) {
+        FindReseForServ comma = new FindReseForServ(hotel, null, roomName,
+                "searchReservationForRoom");
+        comma.executeTran();
+        return comma.resName;
     }
 
 }

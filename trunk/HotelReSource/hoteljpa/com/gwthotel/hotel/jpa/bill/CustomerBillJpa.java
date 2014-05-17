@@ -18,6 +18,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import com.google.inject.Inject;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.bill.CustomerBill;
 import com.gwthotel.hotel.bill.ICustomerBills;
@@ -32,13 +33,14 @@ import com.gwthotel.mess.IHMess;
 import com.jython.serversecurity.OObjectId;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 
-class CustomerBillJpa extends AbstractJpaCrud<CustomerBill, ECustomerBill>
+public class CustomerBillJpa extends AbstractJpaCrud<CustomerBill, ECustomerBill>
         implements ICustomerBills {
 
-    CustomerBillJpa(ITransactionContextFactory eFactory,
+    @Inject
+    public CustomerBillJpa(ITransactionContextFactory eFactory,
             IHotelObjectGenSymFactory iGen) {
         super(new String[] { "findAllBills", "findOneBill" }, eFactory,
-                HotelObjects.BILL, iGen);
+                HotelObjects.BILL, iGen, ECustomerBill.class);
     }
 
     @Override
@@ -66,7 +68,8 @@ class CustomerBillJpa extends AbstractJpaCrud<CustomerBill, ECustomerBill>
                 BigInteger b = (BigInteger) o;
                 dest.add(b.longValue());
             } else
-                errorMess(lMess,IHError.HERROR024,IHMess.CUSTOMERBILLJPA,null,o.getClass().getName());
+                errorMess(lMess, IHError.HERROR024, IHMess.CUSTOMERBILLJPA,
+                        null, o.getClass().getName());
 
         }
         return dest;

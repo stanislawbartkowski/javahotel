@@ -17,7 +17,9 @@ import javax.inject.Provider;
 import com.gwthotel.hotel.jpa.AbstractCrudProvider;
 import com.gwthotel.hotel.reservation.IReservationForm;
 
-public class HotelReservationProvider extends AbstractCrudProvider implements
+// TODO remove
+
+class HotelReservationProvider extends AbstractCrudProvider implements
         Provider<IReservationForm> {
 
     @Override
