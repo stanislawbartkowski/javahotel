@@ -33,12 +33,12 @@ import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 
 public class Test12 extends TestHelper {
 
-    @Before
-    public void before() {
-        clearObjects();
-        createHotels();
-        setTestToday(DateFormatUtil.toD(2013, 6, 13));
-    }
+//    @Before
+//    public void before() {
+//        clearObjects();
+//        createHotels();
+//        setTestToday(DateFormatUtil.toD(2013, 6, 13));
+//    }
 
     @Test
     public void test1() {
