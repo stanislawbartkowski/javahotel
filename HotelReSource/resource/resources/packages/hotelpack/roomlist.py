@@ -161,7 +161,11 @@ def elemroomaction(action,var) :
       R.setRoomServices(var["name"],a)
       var["JCLOSE_DIALOG"] = True
 
-  if action == "crud_remove"  and not var["JCRUD_AFTERCONF"] :
+  if action == "crud_remove"  and not var["JCRUD_AFTERCONF"] :    
+      l = util.RESOP(var).getReseForRoom(var["name"])
+      if len(l) > 0 :
+         var["JERROR_MESSAGE"] = M("cannotremoveroom").format(len(l))
+         return
       var["JYESNO_MESSAGE"] = M("REMOVEROOMASK")
       var["JMESSAGE_TITLE"] = ""  
       return

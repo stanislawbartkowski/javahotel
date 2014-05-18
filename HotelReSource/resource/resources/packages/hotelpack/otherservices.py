@@ -63,6 +63,12 @@ def elemserviceaction(action,var):
       var["JCLOSE_DIALOG"] = True
 
   if action == "crud_remove"  and not var["JCRUD_AFTERCONF"] :
+      l1 = util.RESOP(var).getReseForService(var["name"])
+      l2 = util.listOfPriceListForService(var,var["name"])
+      if len(l1) > 0 or len(l2) > 0 :
+         var["JERROR_MESSAGE"] = M("cannotremoveotherservice").format(len(l1),len(l2))
+         return
+
       var["JYESNO_MESSAGE"] = M("DELETESERVICEASK")
       var["JMESSAGE_TITLE"] = ""  
       return

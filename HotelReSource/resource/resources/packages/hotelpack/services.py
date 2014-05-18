@@ -9,6 +9,7 @@ M = util.MESS()
 taxList = cutil.getDict("vat")
 D = util.HOTELDEFADATA()
 
+# -------------
 
 def _createList(var):
     serv = util.SERVICES(var)
@@ -58,17 +59,6 @@ def _createService(var):
    return se    
  
  
-def _listOfRoomsForService(var,servname) :
-  R = util.ROOMLIST(var)
-  lRoom = R.getList()
-  outR = []
-  for r in lRoom :
-    sList = R.getRoomServices(r.getName())
-    for s in sList :
-      if s.getName() == servname :
-        outR.append(r.getId())
-  return outR        
-
 def elemserviceaction(action,var) :
 
   cutil.printVar ("elemserviceaction", action,var)
@@ -86,15 +76,16 @@ def elemserviceaction(action,var) :
     else : cutil.hideButton(var,"showrooms",False)
     
   if action == "showrooms" :
-     l = _listOfRoomsForService(var,var["name"])
+     l = util.listOfRoomsForService(var,var["name"])
+     print l
      for s in l :
        print s
-     var["JUPDIALOG_START"] = xmlutil.listNumberToCVS(l)   
+     var["JUPDIALOG_START"] = xmlutil.listNumberToCVS(l,"-1")   
      var["JUP_DIALOG"] = "hotel/roomslist.xml"       
     
   if action == "crud_add"  and not var["JCRUD_AFTERCONF"] :
       if util.duplicateService(var) or _notverifyService(var) : return          
-      var["JYESNO_MESSAGE"] = M("ADDNEWSERVICEASK");
+      var["JYESNO_MESSAGE"] = M("ADDNEWSERVICEASK")
       var["JMESSAGE_TITLE"] = ""  
       return
       
@@ -116,9 +107,11 @@ def elemserviceaction(action,var) :
       var["JCLOSE_DIALOG"] = True
 
   if action == "crud_remove"  and not var["JCRUD_AFTERCONF"] :
-      l = _listOfRoomsForService(var,var["name"])
-      if len(l) > 0 :
-         var["JERROR_MESSAGE"] = 'Cannot remove, there are %(#)i room(s) for this service !' % { '#' : len(l)}
+      l = util.listOfRoomsForService(var,var["name"])
+      l1 = util.RESOP(var).getReseForService(var["name"])
+      l2 = util.listOfPriceListForService(var,var["name"])
+      if len(l) > 0 or len(l1) > 0 or len(l2) > 0 :
+         var["JERROR_MESSAGE"] = M("cannotremoveservice").format(len(l),len(l2),len(l1))
          return
       var["JYESNO_MESSAGE"] = M("DELETESERVICEASK")
       var["JMESSAGE_TITLE"] = ""  
