@@ -44,6 +44,7 @@ import com.gwthotel.hotel.ServiceType;
         @NamedQuery(name = "searchReservation", query = "SELECT r FROM EHotelRoom r WHERE r.hotel = ?1 AND r NOT IN (SELECT x.room FROM EHotelReservationDetail x WHERE x.resDate >= ?2 AND x.resDate <?3 AND x.reservation.status != com.gwthotel.hotel.reservation.ResStatus.CANCEL)"),
         @NamedQuery(name = "searchReservationForService", query = "SELECT DISTINCT r FROM EHotelReservation r,EHotelReservationDetail e WHERE (e.reservation = r) AND (e.service = ?1)"),          
         @NamedQuery(name = "searchReservationForRoom", query = "SELECT DISTINCT r FROM EHotelReservation r,EHotelReservationDetail e WHERE (e.reservation = r) AND (e.room = ?1)"),          
+        @NamedQuery(name = "searchReservationForPriceList", query = "SELECT DISTINCT r FROM EHotelReservation r,EHotelReservationDetail e WHERE (e.reservation = r) AND (e.pricelist = ?1)"),          
         @NamedQuery(name = "findReservation", query = "SELECT x FROM EHotelReservationDetail x WHERE x.serviceType = com.gwthotel.hotel.ServiceType.HOTEL AND x.reservation.hotel = ?1 AND x.room.name = ?2 AND x.resDate >= ?3 AND x.resDate <= ?4 AND x.reservation.status != com.gwthotel.hotel.reservation.ResStatus.CANCEL ORDER BY x.room.name,x.resDate") })
 public class EHotelReservationDetail extends EHotelRoomCustomer {
 

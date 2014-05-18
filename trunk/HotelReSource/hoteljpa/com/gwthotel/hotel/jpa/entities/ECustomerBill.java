@@ -31,8 +31,7 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "hotel", "name" }))
 @NamedQueries({
-//        @NamedQuery(name = "removeAllBills", query = "DELETE FROM ECustomerBill x WHERE x.hotel = ?1"),
-//        @NamedQuery(name = "removeBillsForReservation", query = "DELETE FROM ECustomerBill x WHERE x.reservation = ?1"),
+        @NamedQuery(name = "searchReservationForPayer", query = "SELECT DISTINCT r FROM EHotelReservation r,ECustomerBill e WHERE (e.reservation = r) AND (e.customer = ?1)"),
         @NamedQuery(name = "findBillsForReservation", query = "SELECT x FROM ECustomerBill x WHERE x.reservation = ?1"),
 
         @NamedQuery(name = "findAllBills", query = "SELECT x FROM ECustomerBill x WHERE x.hotel = ?1"),
