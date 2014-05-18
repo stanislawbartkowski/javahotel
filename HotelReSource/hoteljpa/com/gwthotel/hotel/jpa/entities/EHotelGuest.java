@@ -18,6 +18,7 @@ import javax.persistence.NamedQuery;
 
 @Entity
 @NamedQueries({
+        @NamedQuery(name = "searchReservationForGuest", query = "SELECT DISTINCT r FROM EHotelReservation r,EHotelGuest e WHERE (e.reservation = r) AND (e.customer = ?1)"),          
         @NamedQuery(name = "countAllGuests", query = "SELECT COUNT(x) FROM EHotelGuest x,EHotelCustomer c WHERE x.customer = c AND c.hotel=?1"),
         @NamedQuery(name = "deleteGuestForRoom", query = "DELETE FROM EHotelGuest x WHERE x.room=?1"),
         @NamedQuery(name = "deleteGuestForCustomer", query = "DELETE FROM EHotelGuest x WHERE x.customer=?1"),

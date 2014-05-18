@@ -330,6 +330,7 @@ public class ReservationOp implements IReservationOp {
             q.setParameter(1, hotel.getId());
             q.setParameter(2, r.getFromRes());
             q.setParameter(3, r.getToRes());
+            @SuppressWarnings("unchecked")
             List<EHotelRoom> reList = q.getResultList();
             for (EHotelRoom ro : reList) {
                 ResData rese = new ResData();
@@ -347,30 +348,50 @@ public class ReservationOp implements IReservationOp {
         return comma.resList;
     }
 
-    private class FindReseForServ extends doTransaction {
+    private class FindReseForInfo extends doTransaction {
 
-        private final String servName;
-        private final String roomName;
-        private final String queryName;
+        private final IReservationOp.ResInfoType iType;
+        private final String infoName;
+
         private final List<String> resName = new ArrayList<String>();
 
-        FindReseForServ(OObjectId hotel, String servName, String roomName,
-                String queryName) {
+        FindReseForInfo(OObjectId hotel, IReservationOp.ResInfoType iType,
+                String infoName) {
             super(hotel);
-            this.servName = servName;
-            this.roomName = roomName;
-            this.queryName = queryName;
+            this.iType = iType;
+            this.infoName = infoName;
         }
 
         @Override
         protected void dosth(EntityManager em) {
-            EHotelDict e;
-            if (CUtil.EmptyS(roomName))
-                e = JUtils.findService(em, hotel, servName);
-            else
-                e = JUtils.findRoom(em, hotel, roomName);
-            if (e == null)
-                return;
+            EHotelDict e = null;
+            String queryName = null;
+            switch (iType) {
+            case FORSERVICE:
+                queryName = "searchReservationForService";
+                e = JUtils.findService(em, hotel, infoName);
+                break;
+            case FORROOM:
+                queryName = "searchReservationForRoom";
+                e = JUtils.findRoom(em, hotel, infoName);
+                break;
+            case FORPRICELIST:
+                queryName = "searchReservationForPriceList";
+                e = JUtils.findPriceList(em, hotel, infoName);
+                break;
+            case FORCUSTOMER:
+                e = JUtils.findCustomer(em, hotel, infoName);
+                queryName = "findReservationsForCustomer";
+                break;
+            case FORGUEST:
+                queryName = "searchReservationForGuest";
+                e = JUtils.findCustomer(em, hotel, infoName);
+                break;
+            case FORPAYER:
+                queryName = "searchReservationForPayer";
+                e = JUtils.findCustomer(em, hotel, infoName);
+                break;
+            }
             Query q = em.createNamedQuery(queryName);
             q.setParameter(1, e);
             @SuppressWarnings("unchecked")
@@ -381,17 +402,9 @@ public class ReservationOp implements IReservationOp {
     }
 
     @Override
-    public List<String> getReseForService(OObjectId hotel, String serviceName) {
-        FindReseForServ comma = new FindReseForServ(hotel, serviceName, null,
-                "searchReservationForService");
-        comma.executeTran();
-        return comma.resName;
-    }
-
-    @Override
-    public List<String> getReseForRoom(OObjectId hotel, String roomName) {
-        FindReseForServ comma = new FindReseForServ(hotel, null, roomName,
-                "searchReservationForRoom");
+    public List<String> getReseForInfoType(OObjectId hotel, ResInfoType iType,
+            String serviceName) {
+        FindReseForInfo comma = new FindReseForInfo(hotel, iType, serviceName);
         comma.executeTran();
         return comma.resName;
     }
