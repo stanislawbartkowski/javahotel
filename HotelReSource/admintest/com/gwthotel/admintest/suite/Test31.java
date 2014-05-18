@@ -23,6 +23,7 @@ import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.customer.HotelCustomer;
 import com.gwthotel.hotel.reservation.ReservationForm;
 import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
+import com.gwthotel.hotel.reservationop.IReservationOp;
 import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwthotel.hotel.services.HotelServices;
 import com.gwthotel.shared.IHotelConsts;
@@ -41,7 +42,8 @@ public class Test31 extends TestHelper {
         ho.setAttr(IHotelConsts.VATPROP, "7%");
         ho = iServices.addElem(getH(HOTEL), ho);
 
-        List<String> li = iResOp.getReseForService(getH(HOTEL), ho.getName());
+        List<String> li = iResOp.getReseForInfoType(getH(HOTEL),
+                IReservationOp.ResInfoType.FORSERVICE, ho.getName());
         assertTrue(li.isEmpty());
     }
 
@@ -100,7 +102,8 @@ public class Test31 extends TestHelper {
         r.getResDetail().add(det2);
         r = iRes.addElem(getH(HOTEL), r);
 
-        List<String> li = iResOp.getReseForService(getH(HOTEL), "1p1");
+        List<String> li = iResOp.getReseForInfoType(getH(HOTEL),
+                IReservationOp.ResInfoType.FORSERVICE, "1p1");
         assertEquals(1, li.size());
         assertEquals(r.getName(), li.get(0));
 
@@ -111,26 +114,30 @@ public class Test31 extends TestHelper {
         r1.getResDetail().add(det2);
         r1 = iRes.addElem(getH(HOTEL), r1);
 
-        li = iResOp.getReseForService(getH(HOTEL), "1p1");
+        li = iResOp.getReseForInfoType(getH(HOTEL),
+                IReservationOp.ResInfoType.FORSERVICE, "1p1");
         assertEquals(1, li.size());
         assertEquals(r.getName(), li.get(0));
 
-        li = iResOp.getReseForService(getH(HOTEL), "1p2");
+        li = iResOp.getReseForInfoType(getH(HOTEL),
+                IReservationOp.ResInfoType.FORSERVICE, "1p2");
         assertEquals(2, li.size());
     }
 
     @Test
     public void test3() {
         test2();
-        List<String> li = iResOp.getReseForRoom(getH(HOTEL), "P10");
+        List<String> li = iResOp.getReseForInfoType(getH(HOTEL),
+                IReservationOp.ResInfoType.FORROOM, "P10");
         assertEquals(2, li.size());
 
         HotelRoom ho = new HotelRoom();
         ho.setName("P12");
         ho.setNoPersons(3);
         iRooms.addElem(getH(HOTEL), ho);
-        
-        li = iResOp.getReseForRoom(getH(HOTEL), "P12");
+
+        li = iResOp.getReseForInfoType(getH(HOTEL),
+                IReservationOp.ResInfoType.FORROOM, "P12");
         assertTrue(li.isEmpty());
     }
 
