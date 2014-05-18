@@ -113,17 +113,34 @@ def toMap(xmls):
   return (rmap,li)
     
 # ---------------------------------------------------------------    
-      
-def listNumberToCVS(li) :  
+            
+def listNumberToCVS(li,empty="") :
+  """ Transforms list of number to csv line 
+    
+  Args:
+    li : list of numbers (longs)
+    empty (optional) : string representing empty list, default ""
+    
+  Returns:
+    cvs line representing the input list     
+  """  
   s = None
   for l in li :
     vals = str(l)
     if s : s = s + "," + vals
     else : s = vals
   if s : return s
-  return ""
+  return empty
 
 def CVSToListNumber(s) :
+  """ Opposite to listNumberToCVS, transform csv line to list of number
+      (Important: does not recognize empty parameter in listNumberTo CVS
+  
+  Args:
+    s : csv line
+  Returns: 
+    List of numbers  
+  """  
   if s == None : return []
   li = []
   for n in s.split(",") :
