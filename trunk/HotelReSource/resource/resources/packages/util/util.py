@@ -15,6 +15,7 @@ from com.gwthotel.hotel import HUtils
 from com.gwthotel.hotel.rooms import HotelRoom
 from com.gwthotel.shared import IHotelConsts
 from com.gwtmodel.table.common import CUtil
+from com.gwthotel.hotel.reservationop.IReservationOp import ResInfoType
 
 
 import cutil
@@ -226,6 +227,16 @@ class RESOP :
      
      def searchReservation(self,query):
          return self.service.searchReservation(getHotelName(self.var),query)
+       
+     def getReseForInfoType(self,itype,infoname) :
+         return self.service.getReseForInfoType(getHotelName(self.var),itype,infoname)
+       
+     def getReseForService(self,service) :
+         return self.getReseForInfoType(ResInfoType.FORSERVICE,service)
+
+     def getReseForRoom(self,room) :
+         return self.getReseForInfoType(ResInfoType.FORROOM,room)
+       
        
 class RESFORM(CRUDLIST) :
 
@@ -630,3 +641,40 @@ def showCustomerDetails(var,custid):
     """
     _gotoCustomer(var,custid,CUSTSHOWONLY)
   
+# -------------------
+def listOfRoomsForService(var,servname) :
+  """ Return list of rooms (long ids) related to service
+  Args:
+    var
+    servname : service name 
+  Returns:
+    List of ids (longs)
+  """
+  R = ROOMLIST(var)
+  lRoom = R.getList()
+  outR = []
+  for r in lRoom :
+    sList = R.getRoomServices(r.getName())
+    for s in sList :
+      if s.getName() == servname :
+        outR.append(r.getId())
+  return outR        
+
+def listOfPriceListForService(var,servicename) :
+  """ Returns list of pricelists (long id) containing this service  
+  Args:
+    var
+    servicename : service name
+  Returns:
+    List of ids (longs)  
+  """
+  li = PRICELIST(var).getList()
+  PE = PRICEELEM(var)
+  outl = []
+  for p in li :
+    elemlist = PE.getPricesForPriceList(p.getName())
+    for elem in elemlist :
+      if elem.getService() == servicename :
+        outl.append(p.getId())
+        break
+  return outl    
