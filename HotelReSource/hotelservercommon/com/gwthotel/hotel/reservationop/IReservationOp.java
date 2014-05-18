@@ -40,8 +40,11 @@ public interface IReservationOp {
 
     List<CustomerBill> findBillsForReservation(OObjectId hotel, String resName);
 
-    List<String> getReseForService(OObjectId hotel, String serviceName);
+    enum ResInfoType {
+        FORSERVICE, FORROOM, FORCUSTOMER, FORGUEST, FORPAYER, FORPRICELIST
+    }
 
-    List<String> getReseForRoom(OObjectId hotel, String roomName);
+    List<String> getReseForInfoType(OObjectId hotel, ResInfoType iType,
+            String serviceName);
 
 }
