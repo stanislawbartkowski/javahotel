@@ -117,6 +117,19 @@ def calculatePrice(perperson,resnop,resnoc,resextra,priceperson,pricechildren,pr
   else : price = priceroom    
   return price
 
+def getAttrS(r,attr) :
+  if r.getAttr(attr) == None : return ""
+  return r.getAttr(attr)
+
+def rescustInfo(var,res) :
+   custName = res.getCustomerName()
+   cust = util.CUSTOMERLIST(var).findElem(custName)
+   assert cust != None
+   dName = getAttrS(cust,"surname") + " " + getAttrS(cust,"firstname")
+   if util.emptyS(dName) : dName = cust.getName()
+   return dName + " , " + getAttrS(cust,"country")
+
+
 # -----------------------------------
 def setvarBefore(var,cust="cust_"):
     nop = None

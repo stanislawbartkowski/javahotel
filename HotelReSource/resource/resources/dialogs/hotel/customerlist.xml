@@ -29,6 +29,7 @@
                        <column id="fax" displayname="@fax" hidden=""/>
                        <column id="doctype" displayname="@doctype" type="custom:idtypes" notempty="" hidden="" />
                        <column id="docnumb" displayname="@docnumb" hidden="" />
+                       <column id="info" defvalue="Info" actionid="info" />
 		</columns>
 	</list>
 

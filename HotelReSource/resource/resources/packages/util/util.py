@@ -237,6 +237,17 @@ class RESOP :
      def getReseForRoom(self,room) :
          return self.getReseForInfoType(ResInfoType.FORROOM,room)
        
+     def getReseForPriceList(self,pricelist) :
+         return self.getReseForInfoType(ResInfoType.FORPRICELIST,pricelist)
+       
+     def getReseForCustomer(self,customer) :
+         return self.getReseForInfoType(ResInfoType.FORCUSTOMER,customer)
+
+     def getReseForGuest(self,customer) :
+         return self.getReseForInfoType(ResInfoType.FORGUEST,customer)
+
+     def getReseForPayer(self,customer) :
+         return self.getReseForInfoType(ResInfoType.FORPAYER,customer)
        
 class RESFORM(CRUDLIST) :
 
