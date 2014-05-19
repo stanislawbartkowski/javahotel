@@ -115,7 +115,6 @@ def _notValidPriceElemList(var):
     if len(err) == 0 : return False
     var["JCHECK_MAP"] = {_PRICES : {"JERROR" : err}}
     return True
-#    map["JERROR"] = err
     
 def _savePriceElemList(var):
     pricelist = var["name"]
@@ -168,6 +167,11 @@ def  elempricelistaction(action,var) :
       var["JCLOSE_DIALOG"] = True
 
   if action == "crud_remove"  and not var["JCRUD_AFTERCONF"] :
+#    getReseForPriceList
+      l = util.RESOP(var).getReseForPriceList(var["name"])
+      if len(l) > 0 :
+         var["JERROR_MESSAGE"] = M("cannotremovepricelist").format(len(l))
+         return
       var["JYESNO_MESSAGE"] = M("REMOVEPRICELIST")
       var["JMESSAGE_TITLE"] = ""  
       return

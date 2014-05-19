@@ -6,10 +6,6 @@ import con
 from util import rutil
 from util import util
 
-def getAttrS(r,attr) :
-  if r.getAttr(attr) == None : return ""
-  return r.getAttr(attr)
-
 def __getList(var):
     R = util.ROOMLIST(var)
     seq = R.getList()
@@ -24,12 +20,7 @@ def __getList(var):
 def __resInfo(var,resid) :
    res = util.RESFORM(var).findElem(resid)
    assert res != None
-   custName = res.getCustomerName()
-   cust = util.CUSTOMERLIST(var).findElem(custName)
-   assert cust != None
-   dName = getAttrS(cust,"surname") + " " + getAttrS(cust,"firstname")
-   if util.emptyS(dName) : dName = cust.getName()
-   return dName + " , " + getAttrS(cust,"country")
+   return rutil.rescustInfo(var,res)
    
 def reservationaction(action,var):
     cutil.printVar("reservation",action,var)

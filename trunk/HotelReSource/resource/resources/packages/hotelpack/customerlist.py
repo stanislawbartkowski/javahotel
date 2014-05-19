@@ -20,6 +20,12 @@ def customerlistaction(action,var):
   if action == "before" or action == "crud_readlist" :
     createList(var)
     
+  if action == "info" :
+    custname = var["name"]
+    var["JUPDIALOG_START"] = custname
+    var["JUP_DIALOG"]="hotel/reservation/customerresinfo.xml"
+    
+    
 def elemcustomeraction(action,var):
   cutil.printVar("elemcustomeraction",action,var)
   R = util.CUSTOMERLIST(var)
@@ -50,10 +56,18 @@ def elemcustomeraction(action,var):
       var["JCLOSE_DIALOG"] = True
 
   if action == "crud_remove"  and not var["JCRUD_AFTERCONF"] :
+      l = util.RESOP(var).getReseForCustomer(var["name"])
+      l1 = util.RESOP(var).getReseForGuest(var["name"])
+      l2 = util.RESOP(var).getReseForPayer(var["name"])
+      if len(l) > 0 or len(l1) > 0 or len(l2) > 0 :
+         var["JERROR_MESSAGE"] = M("cannotremovecustomer").format(len(l),len(l1),len(l2))
+         return
       var["JYESNO_MESSAGE"] = M("REMOVECUSTOMERASK")
       var["JMESSAGE_TITLE"] = ""  
       return
   
   if action == "crud_remove"  and var["JCRUD_AFTERCONF"] :
       R.deleteElem(util.customerFromVar(var))
-      var["JCLOSE_DIALOG"] = True              
+      var["JCLOSE_DIALOG"] = True       
+      
+    
