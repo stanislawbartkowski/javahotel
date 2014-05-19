@@ -53,10 +53,12 @@ public class DictUtil extends UtilHelper {
         EInstance eI = EntUtil.findI(lMess, hotel.getInstanceId());
         LoadResult<EObject> p = ofy().load().type(EObject.class).parent(eI)
                 .id(hotel.getId());
-//        System.out.println("Hotel " + hotel.getId() + " instance :" + hotel.getInstanceId().getId() );
+        // System.out.println("Hotel " + hotel.getId() + " instance :" +
+        // hotel.getInstanceId().getId() );
         if (p.now() == null) {
             String mess = lMess.getMess(IHError.HERROR005,
-                    IHMess.HOTELBYIDNOTFOUND, hotel.getId().toString(),eI.getId().toString());
+                    IHMess.HOTELBYIDNOTFOUND, hotel.getId().toString(), eI
+                            .getId().toString());
             errorLog(mess);
         }
         return p.now();
@@ -136,7 +138,8 @@ public class DictUtil extends UtilHelper {
             List<EResDetails> rList) {
         for (EResDetails d : rList) {
             ReservationPaymentDetail dd = new ReservationPaymentDetail();
-            dd.setGuestName(d.getGuest().getName());
+            if (d.getGuest() != null)
+                dd.setGuestName(d.getGuest().getName());
             dd.setRoomName(d.getRoom().getName());
             dd.setNoP(d.getNoP());
             dd.setPrice(toBD(d.getPrice()));

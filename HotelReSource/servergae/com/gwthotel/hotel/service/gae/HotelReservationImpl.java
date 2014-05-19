@@ -126,4 +126,12 @@ public class HotelReservationImpl implements IReservationForm {
         return constructProp(eh, rese);
     }
 
+    @Override
+    public ReservationForm findElemById(OObjectId hotel, Long id) {
+        EObject eh = DictUtil.findEHotel(lMess, hotel);
+        EHotelReservation e = ofy().load().type(EHotelReservation.class).id(id)
+                .now();
+        return constructProp(eh, e);
+    }
+
 }

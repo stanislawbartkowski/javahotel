@@ -52,8 +52,8 @@ class ReservationAdd {
 
     void beforeAdd() {
         for (ReservationPaymentDetail d : elem.getResDetail()) {
-            if (CUtil.EmptyS(d.getGuestName()))
-                d.setGuestName(elem.getCustomerName());
+//            if (CUtil.EmptyS(d.getGuestName()))
+//                d.setGuestName(elem.getCustomerName());
             d.setServiceType(ServiceType.HOTEL);
         }
         if (change)

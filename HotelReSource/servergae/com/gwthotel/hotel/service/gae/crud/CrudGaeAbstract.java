@@ -173,4 +173,10 @@ abstract public class CrudGaeAbstract<T extends PropDescription, E extends EHote
         return toProp(e, ho);
     }
 
+    @Override
+    public T findElemById(OObjectId hotel, Long id) {
+        EObject eh = findEHotel(hotel);
+        E e = ofy().load().type(cl).parent(eh).id(id).now();
+        return toProp(e, eh);
+    }
 }

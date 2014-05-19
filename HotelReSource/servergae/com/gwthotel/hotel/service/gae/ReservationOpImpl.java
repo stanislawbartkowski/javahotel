@@ -17,6 +17,7 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -160,8 +161,6 @@ public class ReservationOpImpl implements IReservationOp {
     public List<CustomerBill> findBillsForReservation(OObjectId hotel,
             String resName) {
         EObject eh = DictUtil.findEHotel(lMess, hotel);
-        // List<ECustomerBill> re = ofy().load().type(ECustomerBill.class)
-        // .ancestor(eh).filter("resName ==", resName).list();
         List<ECustomerBill> re = DictUtil.findBillsForRese(eh, resName);
         List<CustomerBill> bList = new ArrayList<CustomerBill>();
         for (ECustomerBill b : re) {
@@ -200,6 +199,109 @@ public class ReservationOpImpl implements IReservationOp {
                 outres.add(rd);
             }
         return outres;
+    }
+
+    private class DistinctResName {
+        private Set<String> rName = new HashSet<String>();
+
+        void addRes(String resName) {
+            rName.add(resName);
+        }
+
+        List<String> getResName() {
+            List<String> rList = new ArrayList<String>();
+            Iterator<String> r = rName.iterator();
+            while (r.hasNext())
+                rList.add(r.next());
+            return rList;
+        }
+
+    }
+
+    private List<String> getReseForInfo(EObject eh, ResInfoType iType,
+            String iName) {
+        DistinctResName re = new DistinctResName();
+        List<EResDetails> li = ofy().load().type(EResDetails.class)
+                .ancestor(eh).list();
+        for (EResDetails e : li) {
+            switch (iType) {
+            case FORSERVICE:
+                if (!e.getService().getName().equals(iName))
+                    continue;
+                break;
+            case FORROOM:
+                if (!e.getRoom().getName().equals(iName))
+                    continue;
+                break;
+            case FORPRICELIST:
+                if (e.getPricelistName() == null)
+                    continue;
+                if (!e.getPricelistName().equals(iName))
+                    continue;
+                break;
+            case FORGUEST:
+                if (e.getGuest() == null)
+                    continue;
+                if (!e.getGuest().getName().equals(iName))
+                    continue;
+                break;
+            default:
+                break;
+            }
+            re.addRes(e.getReservation().getName());
+        }
+
+        return re.getResName();
+    }
+
+    private List<String> getReseForCustomer(EObject eh, String iName) {
+        List<String> rList = new ArrayList<String>();
+        List<EHotelReservation> li = ofy().load().type(EHotelReservation.class)
+                .ancestor(eh).list();
+        for (EHotelReservation r : li)
+            if (r.getCustomer().getName().equals(iName))
+                rList.add(r.getName());
+        return rList;
+    }
+
+    private List<String> getReseForPayer(EObject eh, String iName) {
+        DistinctResName re = new DistinctResName();
+        List<ECustomerBill> rel = ofy().load().type(ECustomerBill.class)
+                .ancestor(eh).filter("payerName ==", iName).list();
+        for (ECustomerBill b : rel)
+            re.addRes(b.getReservation().getName());
+        return re.getResName();
+    }
+
+    private List<String> getReseForGuest(EObject eh, String iName) {
+        DistinctResName re = new DistinctResName();
+        List<EHotelGuest> rel = ofy().load().type(EHotelGuest.class)
+                .ancestor(eh).filter("guestName ==", iName).list();
+        for (EHotelGuest g : rel)
+            re.addRes(g.getReservation().getName());
+        return re.getResName();
+    }
+
+    @Override
+    public List<String> getReseForInfoType(OObjectId hotel, ResInfoType iType,
+            String iName) {
+        EObject eh = DictUtil.findEHotel(lMess, hotel);
+        switch (iType) {
+        case FORSERVICE:
+        case FORROOM:
+        case FORPRICELIST:
+            return getReseForInfo(eh, iType, iName);
+        case FORGUEST:
+            return getReseForGuest(eh, iName);
+        case FORCUSTOMER:
+            return getReseForCustomer(eh, iName);
+        case FORPAYER:
+            return getReseForPayer(eh, iName);
+        default:
+            break;
+        }
+        return null;
+
     }
 
 }
