@@ -25,6 +25,7 @@ abstract class EHotelRoomGuest extends EHotelParent {
     private String roomName;
 
     public EHotelCustomer getGuest() {
+        if (guest == null) return null;
         return guest.get();
     }
 
