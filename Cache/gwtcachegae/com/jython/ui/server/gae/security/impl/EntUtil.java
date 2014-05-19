@@ -33,6 +33,7 @@ public class EntUtil extends UtilHelper {
     public static void toProp(RMap dest, EDictionary e) {
         dest.setName(e.getName());
         dest.setDescription(e.getDescription());
+        dest.setId(e.getId());
         RUtils.retrieveCreateModif(dest, e);
     }
 
