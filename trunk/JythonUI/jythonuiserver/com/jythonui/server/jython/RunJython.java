@@ -26,8 +26,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.python.core.Py;
 import org.python.core.PyBoolean;
@@ -45,9 +43,8 @@ import org.python.util.PythonInterpreter;
 
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.TT;
-import com.jythonui.server.IConsts;
 import com.jythonui.server.IJythonUIServerProperties;
-import com.jythonui.server.Util;
+import com.jythonui.server.UtilHelper;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.impl.MCached;
 import com.jythonui.server.logmess.IErrorCode;
@@ -62,7 +59,6 @@ import com.jythonui.shared.ElemDescription;
 import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.FieldValue;
 import com.jythonui.shared.ICommonConsts;
-import com.jythonui.shared.JythonUIFatal;
 import com.jythonui.shared.ListFormat;
 import com.jythonui.shared.ListOfRows;
 import com.jythonui.shared.MapDialogVariable;
@@ -77,35 +73,10 @@ import com.jythonui.shared.TypesDescr;
  *         Interface between Java code and Jython Call Jython actions and
  *         pass/gets back client data
  */
-public class RunJython {
+public class RunJython extends UtilHelper {
 
     private final static String GGTempVariable = "GG";
     private final static String AATempVariable = "AA";
-
-    /** Logger. */
-    static final private Logger log = Logger.getLogger(RunJython.class
-            .getName());
-
-    /**
-     * Put debug message to logger
-     * 
-     * @param mess
-     *            Debug message
-     */
-    static private void putDebug(String mess) {
-        log.log(Level.FINE, mess);
-    }
-
-    /**
-     * Writes error message and throws unchecked exception
-     * 
-     * @param mess
-     *            Fatal error message
-     */
-    static private void error(String mess) {
-        log.log(Level.SEVERE, mess);
-        throw new JythonUIFatal(mess);
-    }
 
     /** Constant Jython string. */
     private static final PyObject JLISTMAP = toString(ICommonConsts.JLISTMAP);
@@ -124,7 +95,7 @@ public class RunJython {
                 case STRING:
                     String valS = val.getValueS();
                     if (valS == null)
-                        error(Holder.getM().getMess(IErrorCode.ERRORCODE36,
+                        errorLog(Holder.getM().getMess(IErrorCode.ERRORCODE36,
                                 ILogMess.STRINGVALUECANNOTBENULL, s));
 
                     valP = new PyString(valS);
@@ -132,7 +103,7 @@ public class RunJython {
                 case BOOLEAN:
                     Boolean b = val.getValueB();
                     if (b == null) {
-                        error(Holder.getM().getMess(IErrorCode.ERRORCODE37,
+                        errorLog(Holder.getM().getMess(IErrorCode.ERRORCODE37,
                                 ILogMess.BOOLEANVALUECANNOTBENULL, s));
                     }
                     valP = new PyBoolean(b.booleanValue());
@@ -160,7 +131,7 @@ public class RunJython {
                     valP = ti;
                     break;
                 default:
-                    error(Holder.getM().getMess(IErrorCode.ERRORCODE33,
+                    errorLog(Holder.getM().getMess(IErrorCode.ERRORCODE33,
                             ILogMess.TYPEMAPNOTIMPLEMENTS, s,
                             val.getType().toString()));
                     break;
@@ -210,7 +181,7 @@ public class RunJython {
             Entry<String, ListOfRows> e = iter.next();
             ListFormat fList = d.findList(e.getKey());
             if (fList == null)
-                error(Holder.getM().getMess(IErrorCode.ERRORCODE34,
+                errorLog(Holder.getM().getMess(IErrorCode.ERRORCODE34,
                         ILogMess.LISTNOTFOUND, d.getId(), e.getKey()));
             PyList pList = createList(fList.getColumns(), e.getValue());
             m.put(toString(e.getKey()), pList);
@@ -222,7 +193,7 @@ public class RunJython {
     private static String getNotEmptyValueS(MapDialogVariable v, String id) {
         String s = v.getValueS(ICommonConsts.JDATELINEQUERYID);
         if (CUtil.EmptyS(s)) {
-            error(Holder.getM().getMess(IErrorCode.ERRORCODE58,
+            errorLog(Holder.getM().getMess(IErrorCode.ERRORCODE58,
                     ILogMess.STRINGVALUECANNOTBENULL, id));
         }
         return s;
@@ -239,7 +210,7 @@ public class RunJython {
             String mess = Holder.getM().getMess(IErrorCode.ERRORCODE59,
                     ILogMess.DATELINENOTDEFINED, id, ICommonConsts.DATELINE,
                     d.getId());
-            error(mess);
+            errorLog(mess);
         }
         PyList qList = createList(dL.constructQueryLine(), v.getQueryDateLine());
         pMap.put(toString(ICommonConsts.JDATELINEQUERYLIST), qList);
@@ -258,7 +229,7 @@ public class RunJython {
                 if (cList == null)
                     continue;
                 // 2013/10/29 :
-                // error(Holder.getM().getMess(IErrorCode.ERRORCODE35,
+                // errorLog(Holder.getM().getMess(IErrorCode.ERRORCODE35,
                 // ILogMess.CANNOTFINDCHECKLIST, d.getId(),
                 // ICommonConsts.JCHECKLISTMAP, s));
                 PyList pList = createList(cList.constructValLine(), var
@@ -286,7 +257,7 @@ public class RunJython {
                 FieldValue valF = v.getValue(s);
                 if (!rI.isField(s)) {
                     if (strict)
-                        error(Holder.getM().getMess(IErrorCode.ERRORCODE28,
+                        errorLog(Holder.getM().getMess(IErrorCode.ERRORCODE28,
                                 ILogMess.COLUMNNOTDEFINED, s, d.getId()));
                     else {
                         // row.addRow(valF);
@@ -364,13 +335,13 @@ public class RunJython {
         @Override
         void visit(String listId, PyList pList) {
             if (d.getListList().isEmpty())
-                error(Holder.getM().getMess(IErrorCode.ERRORCODE38,
+                errorLog(Holder.getM().getMess(IErrorCode.ERRORCODE38,
                         ILogMess.EMPTYLISTDEFINITION, listId, d.getId()));
 
             ListFormat lForm = d.findList(listId);
             if (lForm == null)
-                error(Holder.getM().getMess(IErrorCode.ERRORCODE39, d.getId(),
-                        listId));
+                errorLog(Holder.getM().getMess(IErrorCode.ERRORCODE39,
+                        d.getId(), listId));
             RowIndex rI = new RowIndex(lForm.getColumns());
             ListOfRows lRows = new ListOfRows();
 
@@ -379,13 +350,13 @@ public class RunJython {
                     String errmess = Holder.getM().getMess(
                             IErrorCode.ERRORCODE50, ILogMess.SEQUENCEEXPECTED,
                             d.getId(), lForm.getId());
-                    error(errmess);
+                    errorLog(errmess);
                 } else {
                     lRows.setSize(intFound);
                 }
             } else {
                 if (lForm.isChunked() && actionId.equals(ICommonConsts.BEFORE)) {
-                    error(d.getId() + " " + lForm.getId()
+                    errorLog(d.getId() + " " + lForm.getId()
                             + " list is chunked. Sequence size is expected");
                 }
                 extractListFromSeq(lRows, rI, pList, d, true);
@@ -443,7 +414,7 @@ public class RunJython {
                             listId,
                             ICommonConsts.JDATELINELINEDEF + " "
                                     + ICommonConsts.JDATELINEVALUES);
-                    error(mess);
+                    errorLog(mess);
                 }
 
             }
@@ -464,7 +435,7 @@ public class RunJython {
                 String mess = Holder.getM().getMess(IErrorCode.ERRORCODE49,
                         ILogMess.DATELINENOTDEFINED, listId,
                         ICommonConsts.DATELINE, d.getId());
-                error(mess);
+                errorLog(mess);
             }
             ExtractDataLineDetail dE = new ExtractDataLineDetail(fMap, dLine);
             dE.runMap();
@@ -497,7 +468,7 @@ public class RunJython {
             void visit(String listId, PyList pList) {
                 CheckList cList = DialogFormat.findE(d.getCheckList(), checkId);
                 if (cList == null) {
-                    error(Holder.getM().getMess(IErrorCode.ERRORCODE31,
+                    errorLog(Holder.getM().getMess(IErrorCode.ERRORCODE31,
                             ILogMess.CANNOTFINDCHECKLIST,
                             ICommonConsts.JCHECKLISTMAP, listId));
                 }
@@ -611,7 +582,8 @@ public class RunJython {
                             BigInteger bi = (BigInteger) val;
                             lV = bi.longValue();
                         } else
-                            error(Holder.getM().getMess(IErrorCode.ERRORCODE40,
+                            errorLog(Holder.getM().getMess(
+                                    IErrorCode.ERRORCODE40,
                                     ILogMess.INTEGERORBITINTEGEREXPECTED, keyS));
 
                         f.setValue(lV);
@@ -627,7 +599,7 @@ public class RunJython {
                         } else if (val instanceof BigDecimal) {
                             bV = (BigDecimal) val;
                         } else
-                            error(Holder.getM().getMess(
+                            errorLog(Holder.getM().getMess(
                                     IErrorCode.ERRORCODE41,
                                     ILogMess.INTEGERORBITINTEGEREXPECTED,
                                     keyS,
@@ -659,14 +631,14 @@ public class RunJython {
                         f.setValue(ti);
                         break;
                     default:
-                        error(Holder.getM().getMess(IErrorCode.ERRORCODE32,
+                        errorLog(Holder.getM().getMess(IErrorCode.ERRORCODE32,
                                 ILogMess.TYPEMAPNOTIMPLEMENTS, keyS,
                                 fType.toString()));
                     }
             } else {
                 if (val == null)
                     if (strict)
-                        error(Holder.getM().getMess(IErrorCode.ERRORCODE30,
+                        errorLog(Holder.getM().getMess(IErrorCode.ERRORCODE30,
                                 ILogMess.VALUECANNOTBENULL, keyS));
                     else
                         f.setValue((String) null);
@@ -696,7 +668,7 @@ public class RunJython {
                     Date dat = new Date(dt.getTime());
                     f.setValue(dat);
                 } else {
-                    error(Holder.getM().getMess(IErrorCode.ERRORCODE29,
+                    errorLog(Holder.getM().getMess(IErrorCode.ERRORCODE29,
                             ILogMess.TYPENOTIMPLEMENTED, keyS,
                             val.getClass().getName()));
                 }
@@ -731,7 +703,7 @@ public class RunJython {
         if (!exist) {
             interp.exec("import sys");
             // interp.exec("print sys.path");
-            putDebug("append sys.path = " + addPath);
+            logDebug("append sys.path = " + addPath);
             interp.exec("sys.path.append('" + addPath + "')");
         }
 
@@ -744,11 +716,11 @@ public class RunJython {
         // but it works as expected after deploying to Google App Engine
         System.getProperties().remove("file.encoding");
         String importJ = d.getJythonImport();
-        putDebug("import jython = " + importJ);
+        logDebug("import jython = " + importJ);
         String methodJ = d.getJythonMethod();
-        putDebug("method jython = " + methodJ);
+        logDebug("method jython = " + methodJ);
         if (methodJ == null) {
-            error(Holder.getM().getMess(IErrorCode.ERRORCODE42,
+            errorLog(Holder.getM().getMess(IErrorCode.ERRORCODE42,
                     ILogMess.METHODNOTDEFINED, d.getId(), actionId));
         }
 
@@ -757,6 +729,10 @@ public class RunJython {
          * confined. So this code is thread safe.
          */
         PythonInterpreter interp;
+
+//        String sysName = System.getProperty("os.name");
+//        severe("os name=" + sysName);
+
         if (mCached.isCached()) {
             // Checked by experience that default PythonIntepreter constructor
             // keeps compiled packages, so we cannot modify jython source code
@@ -790,7 +766,7 @@ public class RunJython {
         if (importJ != null) {
             s = importJ + "; " + s;
         }
-        putDebug(s);
+        logDebug(s);
         interp.exec(s);
         toDialogVariables(d.getFieldList(), v, pyMap, true);
         if (pyMap.has_key(JLISTMAP)) {
@@ -855,7 +831,7 @@ public class RunJython {
             v.getEnumList().putAll(va.getRowList());
             return;
         }
-        error(idType + " unrecognized custom type");
+        errorLog(idType + " unrecognized custom type");
     }
 
     static private void executeForField(IJythonUIServerProperties p,
