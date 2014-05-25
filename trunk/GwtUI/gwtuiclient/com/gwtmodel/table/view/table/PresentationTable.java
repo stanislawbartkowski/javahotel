@@ -18,6 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.tools.mail.MailMessage;
+
 import com.google.common.base.Joiner;
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.ActionCell;
@@ -110,7 +112,6 @@ class PresentationTable implements IGwtTableView {
      * If column definition has been provided.
      */
 
-    private final IGetColSpan iSpan;
     private boolean columnC = false;
     final SingleSelectionModel<MutableInteger> selectionModel = new SingleSelectionModel<MutableInteger>();
     private WChoosedLine wChoosed;
@@ -132,8 +133,10 @@ class PresentationTable implements IGwtTableView {
     private final boolean async;
     private IGetStandardMessage iMess = GwtGiniInjector.getI()
             .getStandardMessage();
+    private final ColToVHeader coV = new ColToVHeader();
 
-    private final Map<Integer, VListHeaderDesc> iMap = new HashMap<Integer, VListHeaderDesc>();
+    // private final Map<Integer, VListHeaderDesc> iMap = new HashMap<Integer,
+    // VListHeaderDesc>();
 
     private class MyAsyncProvider extends AsyncDataProvider<MutableInteger> {
 
@@ -206,7 +209,14 @@ class PresentationTable implements IGwtTableView {
 
     private void setWrapCol() {
         for (int i = 0; i < table.getColumnCount(); i++) {
-            VListHeaderDesc he = iMap.get(i);
+            // VListHeaderDesc he = iMap.get(i);
+            // if (he == null) {
+            // String mess = LogT.getT().NullValueHeaderPos(i);
+            // Utils.internalErrorAlert(mess);
+            // }
+            VListHeaderDesc he = coV.getV(i);
+            if (he == null)
+                continue;
             Joiner join = Joiner.on(" ").skipNulls();
             String aClass = join.join(model.getClassNameForColumn(he.getFie()),
                     he.getColumnClass(), noWrap ? IConsts.nowrapStyle : null);
@@ -397,7 +407,6 @@ class PresentationTable implements IGwtTableView {
         this.iActionColumn = actionColumn;
         this.gValue = gValue;
         this.async = async;
-        this.iSpan = iSpan;
         selectionModel.addSelectionChangeHandler(new SelectionChange());
         // dList = dProvider.getList();
         // set selection only if iClick defined
@@ -707,7 +716,8 @@ class PresentationTable implements IGwtTableView {
                 table.addColumnSortHandler(sortHandler);
             }
             // ColumnSortEvent.fire(myTable, myTable.getColumnSortList());
-            iMap.put(colNo, he);
+            // iMap.put(colNo, he);
+            coV.addColDesc(colNo, he);
             colNo++;
         } // for
         columnC = true;
@@ -916,6 +926,7 @@ class PresentationTable implements IGwtTableView {
             if (actMode == null
                     || actMode == ChangeEditableRowsParam.ModifMode.NORMALMODE) {
                 faEdit.addActionColumn();
+                coV.setActionCol(true);
             }
         }
         faEdit.setEditable(eParam);

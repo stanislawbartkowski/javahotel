@@ -144,7 +144,7 @@ class PresentationEditCellFactory extends PresentationEditCellHelper {
 	Column constructEditTextCol(VListHeaderDesc he) {
 		final IVField v = he.getFie();
 		List<String> lis = null;
-		IGetListValues li = v.getType().getLi();
+        IGetListValues li = v.getType().getLi();
 		IEnumType e = v.getType().getE();
 		AbstractListT listT = null;
 		if (e != null) {
