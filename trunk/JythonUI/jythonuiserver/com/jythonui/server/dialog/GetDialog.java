@@ -67,8 +67,6 @@ public class GetDialog extends UtilHelper {
 
     static private URL getURLSchema(String schemaname) {
         logDebug("Search schema " + schemaname);
-        // URL ur = ReadDialog.class.getClassLoader().getResource(
-        // ISharedConsts.RESOURCES + "/" + XSDDIR + "/" + schemaname);
         URL ur = iRead.getRes(XSDDIR + "/" + schemaname);
         if (ur == null) {
             errorLog(SHolder.getM().getMess(IErrorCode.ERRORCODE16,

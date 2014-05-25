@@ -73,7 +73,6 @@ public interface ICommonConsts {
     String IMAGECOLUMN = "imagecolumn";
     String IMAGELIST = "imagelist";
     String LABEL = "label";
-    // String IJSCALL = "JS.";
     String ASXML = "asxml";
     String FORMPANEL = "formpanel";
     String AUTOHIDE = "autohide";
@@ -119,6 +118,7 @@ public interface ICommonConsts {
     String PARENT = "parent";
     String JERROR = "JERROR";
     String JMAINDIALOG = "JMAIN_DIALOG";
+    String JSACTION = "jsaction";
     String ACTIONTYPE = "actiontype";
     String ACTIONPARAM = "actionparam";
     String ACTIONPARAM1 = "actionparam1";

@@ -18,7 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.gwtmodel.table.IClickYesNo;
 import com.gwtmodel.table.ICommand;
@@ -49,6 +48,7 @@ import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.IDisclosurePanelFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.json.IJsonConvert;
 import com.gwtmodel.table.listdataview.ButtonCheckLostFocusSignal;
 import com.gwtmodel.table.panelview.IPanelView;
 import com.gwtmodel.table.rdef.FormLineContainer;
@@ -89,6 +89,7 @@ import com.jythonui.client.dialog.run.AfterUploadSubmitSignal;
 import com.jythonui.client.dialog.run.CloseDialogByImage;
 import com.jythonui.client.dialog.run.RunAction;
 import com.jythonui.client.formgrid.FormGridManagerFactory;
+import com.jythonui.client.js.ExecuteJS;
 import com.jythonui.client.listmodel.RowListDataManager;
 import com.jythonui.client.util.CreateForm;
 import com.jythonui.client.util.EnumTypesList;
@@ -880,6 +881,20 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
                         DataActionEnum.ChangeViewFormToInvalidAction))
                     return true;
             }
+            String jsA = Utils.getJS(bItem.getJsAction());
+            if (!CUtil.EmptyS(jsA)) {
+                IJsonConvert iJson = GwtGiniInjector.getI().getJsonConvert();
+                DialogVariables v = iCon.getVariables(id);
+                // v.setValueS(ICommonConsts.JSACTION, id);
+                // VVData vData = new VVData(v);
+                // String par = iJson.construct(vData);
+                // JavaScriptObject resO = Utils.callJsObjectFun(jsA, par);
+                // DialogVariables res = JSOToVariables.toV(resO);
+                DialogVariables res = ExecuteJS.execute(id, jsA, v);
+                new BackClass(id, false, w, null).onSuccess(res);
+                return true;
+            }
+
             if (bItem.isAction()) {
                 String action = bItem.getAction();
                 String param = bItem.getActionParam();
