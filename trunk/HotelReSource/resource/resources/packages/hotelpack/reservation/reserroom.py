@@ -266,6 +266,7 @@ def reseraction(action,var):
         if not _newRese(var) :          
           cutil.hideButton(var,["cancelres","checkin"],False)
           util.enableCust(var,CUST,False)
+        else :  cutil.hideButton(var,"detailreservation",True) 
         
     if action == "acceptdetails" and (var["JUPDIALOG_BUTTON"] == "accept" or var["JUPDIALOG_BUTTON"] == "acceptask"):
         xml = var["JUPDIALOG_RES"]
@@ -309,3 +310,13 @@ def reseraction(action,var):
         # restore reservation name
         var["resename"] = arese
         _checkRese(var,False)
+        
+    if action == "detailreservationaccept" :
+         pass
+
+    if action == "detailreservation" :
+        l = var["JLIST_MAP"][RESLIST]
+        xml = xmlutil.toXML({},l)
+        var["JUPDIALOG_START"] = xml
+        var["JUP_DIALOG"]="hotel/reservation/modifreservation.xml" 
+        var["JAFTERDIALOG_ACTION"] = "detailreservationaccept" 

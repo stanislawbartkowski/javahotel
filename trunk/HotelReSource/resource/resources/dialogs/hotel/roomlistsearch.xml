@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="@lofrooms">
+
+        <before />
+                        
+        <jython>
+                <import>from hotelpack import roomlist</import>
+                <method>roomlist.roomchooselist({0},{1})</method>
+        </jython>
+        
+        <buttons>
+          <button id="accept" displayname="@accept" />
+          <button id="resign" displayname="@resign" actiontype="JCLOSE_DIALOG" />
+        </buttons>  
+
+        <list id="roomlist">
+                <standbutt>TOOLS,FIND,FILTER</standbutt>
+                <columns>
+                       <column id="name" displayname="@name" />
+                       <column id="descr" displayname="@description" />
+                       <column id="noperson" type="int" displayname="@nopersons" />
+                       <column id="noextrabeds" type="int" displayname="@nofextrabeds" />
+                       <column id="nochildren" type="int" displayname="@nofchildren"  />
+                </columns>
+        </list>
+
+</dialog>

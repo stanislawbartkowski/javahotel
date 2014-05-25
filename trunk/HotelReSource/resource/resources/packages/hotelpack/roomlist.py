@@ -109,7 +109,13 @@ def _createServicesList(var):
       list.append( map )
       
     cutil.setJMapList(var,SERVLIST,list)
-                    
+
+def roomchooselist(action,var) :
+  cutil.printVar("roomchooseaction",action, var)  
+  
+  if action == "before" :
+     _createList(var)
+                  
 def roomlistaction(action,var) :
     
   cutil.printVar("roomlistaction",action, var)  

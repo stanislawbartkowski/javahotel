@@ -1,4 +1,5 @@
 from util import util
+import cutil
 
 def serviceenum(action,var):
   room = var["JDATELINE_LINE"]
@@ -21,3 +22,7 @@ def allpricelistenum(action, var):
   li = PR.getList()
   var["JLIST_MAP"] = { "allpricelist" : util.createEnumFromList(li)}
   
+def allroomsenum(action,var) :
+  li = util.ROOMLIST(var).getList()
+  f = lambda elem : [elem.getName(), elem.getName()]
+  cutil.setJMapList(var,"allroomslist",util.createEnumFromList(li,f))    

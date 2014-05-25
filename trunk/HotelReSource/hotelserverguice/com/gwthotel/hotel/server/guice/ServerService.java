@@ -27,16 +27,16 @@ import com.gwthotel.hotel.bill.ICustomerBills;
 import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.guice.HotelCommonGuice.HotelServiceModule;
 import com.gwthotel.hotel.jpa.IHotelObjectGenSymFactory;
-import com.gwthotel.hotel.jpa.bill.CustomerBillProvider;
+import com.gwthotel.hotel.jpa.bill.CustomerBillJpa;
 import com.gwthotel.hotel.jpa.clearobjects.ClearObjects;
-import com.gwthotel.hotel.jpa.customers.HotelCustomersProvider;
-import com.gwthotel.hotel.jpa.payment.PaymentOpProvider;
-import com.gwthotel.hotel.jpa.pricelist.HotelPriceListProvider;
-import com.gwthotel.hotel.jpa.prices.HotelPriceElemProvider;
-import com.gwthotel.hotel.jpa.reservation.HotelReservationProvider;
-import com.gwthotel.hotel.jpa.reservationop.ReservationOpProvider;
-import com.gwthotel.hotel.jpa.rooms.HotelRoomsProvider;
-import com.gwthotel.hotel.jpa.services.HotelServicesProvider;
+import com.gwthotel.hotel.jpa.customers.HotelJpaCustomers;
+import com.gwthotel.hotel.jpa.payment.PaymentOp;
+import com.gwthotel.hotel.jpa.pricelist.HotelJpaPriceList;
+import com.gwthotel.hotel.jpa.prices.HotelJpaPrices;
+import com.gwthotel.hotel.jpa.reservation.HotelReservations;
+import com.gwthotel.hotel.jpa.reservationop.ReservationOp;
+import com.gwthotel.hotel.jpa.rooms.HotelJpaRooms;
+import com.gwthotel.hotel.jpa.services.HotelJpaServices;
 import com.gwthotel.hotel.objectgensymimpl.HotelObjectGenSym;
 import com.gwthotel.hotel.payment.IPaymentBillOp;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
@@ -102,38 +102,31 @@ public class ServerService {
                     StorageRealmRegistryFactory.class).in(Singleton.class);
             bind(EntityManagerFactory.class).toProvider(
                     EntityManagerFactoryProvider.class).in(Singleton.class);
-//            bind(IHotelAdmin.class).toProvider(HotelAdminProvider.class).in(
-//                    Singleton.class);
             bind(Mess.class).in(Singleton.class);
             bind(IGetResourceJNDI.class).to(GetResourceJNDI.class).in(
                     Singleton.class);
-            bind(IHotelServices.class).toProvider(HotelServicesProvider.class)
-                    .in(Singleton.class);
-            bind(IHotelPriceList.class)
-                    .toProvider(HotelPriceListProvider.class).in(
-                            Singleton.class);
-            bind(IHotelPriceElem.class)
-                    .toProvider(HotelPriceElemProvider.class).in(
-                            Singleton.class);
-            bind(IHotelCustomers.class)
-                    .toProvider(HotelCustomersProvider.class).in(
-                            Singleton.class);
-            bind(IHotelRooms.class).toProvider(HotelRoomsProvider.class).in(
+            bind(IHotelServices.class).to(HotelJpaServices.class).in(
                     Singleton.class);
-//            bind(IAppInstanceHotel.class).toProvider(
-//                    HotelAppInstanceProvider.class).in(Singleton.class);
+            bind(IHotelPriceList.class).to(HotelJpaPriceList.class).in(
+                    Singleton.class);
+            bind(IHotelPriceElem.class).to(HotelJpaPrices.class).in(
+                    Singleton.class);
+            bind(IHotelCustomers.class).to(HotelJpaCustomers.class).in(
+                    Singleton.class);
+            bind(IHotelRooms.class).to(HotelJpaRooms.class).in(Singleton.class);
+            bind(ICustomerBills.class).to(CustomerBillJpa.class).in(
+                    Singleton.class);
             bind(IGetAutomPatterns.class).to(GetAutomPatterns.class).in(
                     Singleton.class);
 
-            bind(ICustomerBills.class).toProvider(CustomerBillProvider.class)
-                    .in(Singleton.class);
-            bind(IReservationForm.class).toProvider(
-                    HotelReservationProvider.class).in(Singleton.class);
-            bind(IPaymentBillOp.class).toProvider(PaymentOpProvider.class).in(
+            bind(IReservationForm.class).to(HotelReservations.class).in(
                     Singleton.class);
 
-            bind(IReservationOp.class).toProvider(ReservationOpProvider.class)
-                    .in(Singleton.class);
+            bind(IPaymentBillOp.class).to(PaymentOp.class).in(Singleton.class);
+
+            bind(IReservationOp.class).to(ReservationOp.class).in(
+                    Singleton.class);
+
             bind(IClearHotel.class).to(ClearObjects.class).in(Singleton.class);
 
             // common
@@ -153,7 +146,6 @@ public class ServerService {
                     Singleton.class);
             bind(IJythonRPCNotifier.class).to(EmptyRPCNotifier.class).in(
                     Singleton.class);
-
 
             // common
 
