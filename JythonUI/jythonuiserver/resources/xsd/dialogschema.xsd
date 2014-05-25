@@ -76,6 +76,7 @@
 			<xs:element minOccurs="0" name="id" type="idType" />
 			<xs:element minOccurs="0" name="displayname" type="xs:string" />
 			<xs:element minOccurs="0" name="validate" type="emptyT" />
+            <xs:element minOccurs="0" name="jsaction" type="xs:string" />
 			<xs:element minOccurs="0" name="actiontype" type="xs:string" />
 			<xs:element minOccurs="0" name="actionparam" type="xs:string" />
 			<xs:element minOccurs="0" name="actionparam1" type="xs:string" />
@@ -93,6 +94,7 @@
 		<xs:attribute name="id" type="idType" />
 		<xs:attribute name="displayname" type="xs:string" />
 		<xs:attribute name="validate" type="emptyT" />
+        <xs:attribute name="jsaction" type="xs:string" />
 		<xs:attribute name="actiontype" type="xs:string" />
 		<xs:attribute name="actionparam" type="xs:string" />
 		<xs:attribute name="actionparam1" type="xs:string" />

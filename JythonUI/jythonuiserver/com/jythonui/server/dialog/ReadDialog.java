@@ -82,7 +82,8 @@ class ReadDialog extends UtilHelper {
                 ICommonConsts.ACTIONPARAM2, ICommonConsts.IMPORT,
                 ICommonConsts.HIDDEN, ICommonConsts.READONLY,
                 ICommonConsts.METHOD, ICommonConsts.VALIDATE,
-                ICommonConsts.BUTTONHEADER, ICommonConsts.IMAGENAME };
+                ICommonConsts.BUTTONHEADER, ICommonConsts.IMAGENAME,
+                ICommonConsts.JSACTION };
         private final String[] fieldTag = { ICommonConsts.ID,
                 ICommonConsts.TYPE, ICommonConsts.AFTERDOT,
                 ICommonConsts.ACTIONID, ICommonConsts.DISPLAYNAME,
@@ -116,7 +117,8 @@ class ReadDialog extends UtilHelper {
                 ICommonConsts.DISPLAYNAME, ICommonConsts.PAGESIZE,
                 ICommonConsts.COLNO, ICommonConsts.DATELINEID,
                 ICommonConsts.DATELINEDEFAFILE, ICommonConsts.DATALINEFILE,
-                ICommonConsts.DATELINEDATEID, ICommonConsts.CLASSNAME,ICommonConsts.STANDBUTT };
+                ICommonConsts.DATELINEDATEID, ICommonConsts.CLASSNAME,
+                ICommonConsts.STANDBUTT };
         private final String[] formTag = { ICommonConsts.ID,
                 ICommonConsts.DATALINEFILE };
         private final String[] elemchecklistTag = checklistTag;

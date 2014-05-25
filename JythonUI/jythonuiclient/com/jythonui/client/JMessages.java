@@ -87,5 +87,7 @@ public interface JMessages extends Messages {
     String ErrorWhileUploading();
     
     String SearchFailed();
+    
+    String JavaScriptInvalideType(String type, String attr);
 
 }

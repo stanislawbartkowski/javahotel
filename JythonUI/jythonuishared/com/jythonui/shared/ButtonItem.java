@@ -44,4 +44,8 @@ public class ButtonItem extends ElemDescription {
         return getAttr(ICommonConsts.IMAGENAME);
     }
 
+    public String getJsAction() {
+        return getAttr(ICommonConsts.JSACTION);
+    }
+
 }

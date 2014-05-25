@@ -79,7 +79,4 @@ public class MapDialogVariable implements Serializable {
         return l;
     }
 
-
-
-
 }

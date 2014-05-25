@@ -72,7 +72,6 @@ import com.gwtmodel.table.listdataview.ReadChunkSignal;
 import com.gwtmodel.table.listdataview.StartNextRowSignal;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
-import com.gwtmodel.table.slotmodel.ClickButtonType.StandClickEnum;
 import com.gwtmodel.table.slotmodel.CustomStringSlot;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
@@ -92,6 +91,7 @@ import com.jythonui.client.M;
 import com.jythonui.client.dialog.ICreateBackActionFactory;
 import com.jythonui.client.dialog.IPerformClickAction;
 import com.jythonui.client.dialog.VField;
+import com.jythonui.client.js.ExecuteJS;
 import com.jythonui.client.util.CreateForm;
 import com.jythonui.client.util.CreateForm.IGetEnum;
 import com.jythonui.client.util.CreateForm.ISelectFactory;
@@ -380,9 +380,20 @@ class ListControler {
             ListUtils.addListName(v, li);
             MapDialogVariable addV = new MapDialogVariable();
             ListUtils.addListName(addV, li);
-            ExecuteAction.action(v, rM.getDialogName(), doAction,
-                    bFactory.construct(li.getId(), w, addV));
-
+            DialogFormat dF = rM.getDialogInfo().getDialog();
+            ButtonItem bu = DialogFormat.findE(dF.getActionList(), doAction);
+            CommonCallBack<DialogVariables> cBack = bFactory.construct(
+                    li.getId(), w, addV);
+            if (bu != null) {
+                String jsAction = Utils.getJS(bu.getJsAction());
+                if (!CUtil.EmptyS(jsAction)) {
+                    DialogVariables res = ExecuteJS.execute(doAction, jsAction,
+                            v);
+                    cBack.onSuccess(res);
+                    return;
+                }
+            }
+            ExecuteAction.action(v, rM.getDialogName(), doAction, cBack);
         }
 
         private class ReadList implements ISlotListener {
@@ -1181,51 +1192,8 @@ class ListControler {
                     .getDialogInfo().getDialog(), li.getStandButt());
             cList = i.getList();
             customList = i.getCustomList();
-            // String[] liButton = li.getStandButt().split(",");
-            // cList = new ArrayList<ControlButtonDesc>();
-            // for (String s : liButton) {
-            // StandClickEnum bu = null;
-            // if (s.equals(ICommonConsts.BUTT_ADD)) {
-            // bu = StandClickEnum.ADDITEM;
-            // }
-            // if (s.equals(ICommonConsts.BUTT_REMOVE)) {
-            // bu = StandClickEnum.REMOVEITEM;
-            // }
-            // if (s.equals(ICommonConsts.BUTT_MODIF)) {
-            // bu = StandClickEnum.MODIFITEM;
-            // }
-            // if (s.equals(ICommonConsts.BUTT_SHOW)) {
-            // bu = StandClickEnum.SHOWITEM;
-            // }
-            // if (s.equals(ICommonConsts.BUTT_TOOLS)) {
-            // bu = StandClickEnum.TABLEDEFAULTMENU;
-            // }
-            // if (s.equals(ICommonConsts.BUTT_FILTER)) {
-            // bu = StandClickEnum.FILTRLIST;
-            // }
-            // if (s.equals(ICommonConsts.BUTT_FIND)) {
-            // bu = StandClickEnum.FIND;
-            // }
-            // String actionButt = FieldItem.getCustomT(s);
-            // ControlButtonDesc b = null;
-            // if (!CUtil.EmptyS(actionButt)) {
-            // ButtonItem but = DialogFormat.findE(rM.getDialogInfo()
-            // .getDialog().getActionList(), actionButt);
-            // b = CreateForm.constructButton(but, true, false);
-            // // public ControlButtonDesc(final String imageHtml, final String
-            // displayName,
-            // // final ClickButtonType actionId) {
-            //
-            // customList.add(b);
-            // }
-            // if (bu != null)
-            // b = buFactory.constructButt(bu);
-            // if (b != null)
-            // cList.add(b);
-            // }
-        } else {
+        } else
             cList = crudList;
-        }
         ListOfControlDesc cButton = new ListOfControlDesc(cList);
         DisplayListControlerParam dList = tFactory.constructParam(cButton,
                 panelId, getParam(rM, da, iCon, backFactory), null, /*

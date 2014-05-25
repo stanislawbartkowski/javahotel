@@ -130,11 +130,15 @@ class ValidateDialogFormat extends UtilHelper {
             // check for editable, boolean and signalbefore
             for (FieldItem f : l.getColumns()) {
                 if (f.isColumnEditable() && f.getFieldType() == TT.BOOLEAN
-                        && f.isSignalBefore()) {
+                        && f.isSignalBefore())
                     errorLog(SHolder.getM().getMess(IErrorCode.ERRORCODE71,
                             ILogMess.CANNOTEDITBOOLEANBEFORE, d.getId(),
                             f.getId(), ICommonConsts.SIGNALBEFORE));
-                }
+
+                if (f.isHelper() && f.getCustom() != null)
+                    errorLog(SHolder.getM().getMess(IErrorCode.ERRORCODE94,
+                            ILogMess.CANNOTCUSTOMANDHELPER, d.getId(),
+                            l.getId(), f.getId()));
             }
             sId.add(id);
         }
