@@ -124,7 +124,7 @@ class PresentationEditSelectionCellFactory extends PresentationEditCellHelper {
     @SuppressWarnings("rawtypes")
     Column constructSelectionCol(VListHeaderDesc he, List<String> lis, AbstractListT listT) {
         assert !lis.isEmpty() : LogT.getT().SelectListCannotBeEmpty();
-        final IVField v = he.getFie();
+        IVField v = he.getFie();
         Column co = new TColumnEdit(v,
                 new EditSelectionCell(he, lis, listT));
         return co;

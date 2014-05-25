@@ -135,5 +135,7 @@ public interface TLogMessages extends Messages {
     String PresentationTableNullSetValObj(String id);
     
     String NoEditCheckBox();
+    
+    String NullValueHeaderPos(int pos);
 
 }
