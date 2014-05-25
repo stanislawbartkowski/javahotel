@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" >
+
+        <jscode>hotel/reservation/js/rutil.js</jscode>
+
+        <before/>
+        
+        <types>hotel/typesenum.xml,hotel/reservation/restypes.xml</types>
+
+        <jython>
+                <import>from hotelpack.reservation import modifreservation</import>
+                <method>modifreservation.dialogaction({0},{1})</method>
+        </jython>
+        
+        <actions>
+          <action id="clickimage" jsaction="JS.HELLO.hello" />
+        </actions>
+        
+                         
+         <list id="reslist" pagesize="5" >
+                <standbutt>TOOLS,FIND,FILTER</standbutt>
+                <columns>
+                       <column id="avail" type="bool" displayname="A" hidden="" />
+                       <column id="resday" type="date" displayname="@night" editable="" />
+                       <column id="chooseroom" imagecolumn="1" displayname="" imagelist="default_helpicon.gif" />
+                       <column id="resroomname" displayname="@roomname" editable="" type="custom:allroomslist"/>  
+                       <column id="rlist_roomservice"  editable="" displayname="@servicename" />
+                       <column id="rlist_roompricelist" editable="" displayname="@pricelistname"/>
+                       <column id="rlist_serviceperperson" type="bool" editable="" displayname="@perperson"  />
+                       <column id="rline_nop" type="int" displayname="@nopersons" editable=""/> 
+                       <column id="rlist_priceperson" type="decimal" displayname="@priceperperson" editable=""/>
+                       <column id="rlist_noc" type="int" displayname="@nofchildren" editable=""/>
+                       <column id="rlist_pricechildren" type="decimal" displayname="@priceperchild" editable="" />
+                       <column id="rlist_noe" type="int" displayname="@nofextrabeds" editable=""/>
+                       <column id="rlist_priceextra" type="decimal" displayname="@priceperbeds" editable="" />
+                       <column id="rlist_pricetotal" type="decimal" displayname="@price" footer="" editable=""/>
+                       <column id="rlist_pricelistperson" type="decimal" hidden="" />
+                       <column id="rlist_pricelistchildren" type="decimal" hidden = ""/>
+                       <column id="rlist_pricelistextrabeds" type="decimal" hidden="" />
+                </columns>
+        </list>
+                
+</dialog>

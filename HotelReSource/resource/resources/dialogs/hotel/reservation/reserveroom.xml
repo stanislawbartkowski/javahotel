@@ -24,6 +24,7 @@
                 <button id="checkin" displayname="@checkinbutton" actiontype="JUP_DIALOG"
                         actionparam="hotel/reservation/checkin.xml" actionparam2="aftercheckin" hidden=""/>
                 <button id="morereservation" displayname="@addnextreservation" />
+                <button id="detailreservation" displayname="Modify reservation" />
 
 	</buttons>
 
@@ -71,7 +72,7 @@
 
 	<list id="reslist" displayname="@reservationdetails" pagesize="5" jsmodifrow="JS.ROW.reservrow">
 		<standbutt>TOOLS,FIND,FILTER</standbutt>
-               <buttons-addlist>askforreservation,makereservation,morereservation,morereservationaccept</buttons-addlist> 
+               <buttons-addlist>askforreservation,makereservation,morereservation,morereservationaccept,detailreservation</buttons-addlist> 
 		<columns>
 			<column id="avail" type="bool" displayname="A" hidden=""/>
 			<column id="resroomname" displayname="@roomname" />

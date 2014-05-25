@@ -22,4 +22,8 @@
 		<method>reseenum.otherserviceenum({0},{1})</method>
 	</typedef>
 
+       <typedef id="allroomslist" type="combo" comboid="id" displayname="displayname">
+                <method>reseenum.allroomsenum({0},{1})</method>
+       </typedef>
+
 </typedefs>
