@@ -12,12 +12,19 @@
  */
 package com.jython.ui;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
+import com.jythonui.shared.ButtonItem;
 import com.jythonui.shared.DateLine;
 import com.jythonui.shared.DialogFormat;
+import com.jythonui.shared.JythonUIFatal;
 import com.jythonui.shared.ListFormat;
 
 public class Test42 extends TestHelper {
@@ -49,13 +56,36 @@ public class Test42 extends TestHelper {
         assertEquals("hello", f.getJSModifRow());
         assertEquals("CSS", d.getCssCode());
     }
-    
+
     @Test
     public void test4() {
         DialogFormat d = findDialog("test78.xml");
         assertNotNull(d);
         DateLine dL = d.getDatelineList().get(0);
         assertNotNull(dL.getStandButt());
+        assertEquals(1, d.getActionList().size());
+        ButtonItem a = d.getActionList().get(0);
+        assertNull(a.getJsAction());
+    }
+
+    @Test
+    public void test5() {
+        try {
+            DialogFormat d = findDialog("test79.xml");
+        } catch (JythonUIFatal e) {
+            // expected
+            return;
+        }
+        // failure
+        fail();
+    }
+
+    @Test
+    public void test6() {
+        DialogFormat d = findDialog("test80.xml");
+        assertEquals(1, d.getActionList().size());
+        ButtonItem a = d.getActionList().get(0);
+        assertEquals("JS.helloworld", a.getJsAction());
     }
 
 }
