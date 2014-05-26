@@ -115,6 +115,7 @@ def roomchooselist(action,var) :
   
   if action == "before" :
      _createList(var)
+     var["JSEARCH_LIST_SET_"+RLIST +"_name"] = var["JUPDIALOG_START"]
                   
 def roomlistaction(action,var) :
     
