@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="@lofrooms">
 
+        <jscode>hotel/reservation/js/chooserooms.js</jscode>
+
         <before />
                         
         <jython>
@@ -8,10 +10,16 @@
                 <method>roomlist.roomchooselist({0},{1})</method>
         </jython>
         
+                
         <buttons>
-          <button id="accept" displayname="@accept" />
+          <button id="accept" displayname="@accept" jsaction="JS.CHOOSEROOMS.acceptbutton" />
           <button id="resign" displayname="@resign" actiontype="JCLOSE_DIALOG" />
         </buttons>  
+        
+        <form>
+            <field id="filterlist" hidden=""/>
+        </form>
+
 
         <list id="roomlist">
                 <standbutt>TOOLS,FIND,FILTER</standbutt>

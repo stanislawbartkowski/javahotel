@@ -4,7 +4,7 @@ var ROW = (function() {
    my.reservrow = function (s) {
      var o = eval('(' + s + ')');
 //     alert(o.row.avail);
-     if (o.row.avail == "true") return "";
+     if (o.row.avail) return "";
      return "alreadyreserved";
    };
    return my;

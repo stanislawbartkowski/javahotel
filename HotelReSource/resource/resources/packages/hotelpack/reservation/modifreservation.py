@@ -1,7 +1,7 @@
 import cutil
 import xmlutil
 
-LI="reslist"
+LI="resmodiflist"
 
 def dialogaction(action,var) :
   cutil.printVar("modif reservation",action,var)
@@ -13,9 +13,9 @@ def dialogaction(action,var) :
         print l
       cutil.setJMapList(var, LI,li)
       cutil.setAddEditMode(var,LI,["resroomname"])
-      
-  if action == "clickimage" and var["changefield"] == "chooseroom" :
-     pass
-    
 
-  
+  if action == "roomselected" and var["JUPDIALOG_BUTTON"] == "accept" :
+    roomname = var["JUPDIALOG_RES"]
+    if roomname != var["resroomname"] :
+      var["resroomname"] = roomname
+      cutil.setCopy(var,"resroomname",LI)

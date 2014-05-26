@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <dialog xmlns="http://www.jythongwt.dialogxsd.com" >
 
-        <jscode>hotel/reservation/js/rutil.js</jscode>
+        <jscode>hotel/reservation/js/modifreservation.js</jscode>
 
         <before/>
         
@@ -13,11 +13,11 @@
         </jython>
         
         <actions>
-          <action id="clickimage" jsaction="JS.HELLO.hello" />
+          <action id="clickimage" jsaction="JS.MODIFRESERVATION.chooseroom" />
         </actions>
         
                          
-         <list id="reslist" pagesize="5" >
+         <list id="resmodiflist" pagesize="5" >
                 <standbutt>TOOLS,FIND,FILTER</standbutt>
                 <columns>
                        <column id="avail" type="bool" displayname="A" hidden="" />
