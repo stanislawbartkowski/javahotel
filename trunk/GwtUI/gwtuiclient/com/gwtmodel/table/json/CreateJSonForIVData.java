@@ -19,28 +19,40 @@ import com.gwtmodel.table.IVModelData;
 
 public class CreateJSonForIVData implements IJsonConvert {
 
-	private String construct(IVModelData line, String oName) {
-		CreateJson s = new CreateJson(oName);
-		for (IVField f : line.getF()) {
-			boolean number = false;
-			switch (f.getType().getType()) {
-			case BIGDECIMAL:
-			case LONG:
-			case INT:
-				number = true;
-				break;
-			default:
-				break;
-			}
-			String name = f.getId();
-			String val = FUtils.getValueS(line, f);
-			s.addElem(name, val, number);
-		}
-		return s.createJsonString();
-	}
+    private String construct(IVModelData line, String oName) {
+        CreateJson s = new CreateJson(oName);
+        for (IVField f : line.getF()) {
+            boolean number = false;
+            String val = null;
+            switch (f.getType().getType()) {
+            case BIGDECIMAL:
+            case LONG:
+            case INT:
+                number = true;
+                break;
+            case BOOLEAN:
+                Boolean b = (Boolean) line.getF(f);
+                if (b == null)
+                    val = "null";
+                else if (b.booleanValue())
+                    val = "true";
+                else
+                    val = "false";
+                number = true;
+                break;
+            default:
+                break;
+            }
+            String name = f.getId();
+            if (val == null)
+                val = FUtils.getValueS(line, f);
+            s.addElem(name, val, number);
+        }
+        return s.createJsonString();
+    }
 
-	@Override
-	public String construct(IVModelData line) {
-		return construct(line, IConsts.DEFJSONROW);
-	}
+    @Override
+    public String construct(IVModelData line) {
+        return construct(line, IConsts.DEFJSONROW);
+    }
 }
