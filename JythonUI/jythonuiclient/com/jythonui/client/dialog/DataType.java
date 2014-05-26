@@ -56,5 +56,12 @@ public class DataType implements IDataType {
     public String getId() {
         return id;
     }
-    
+
+    @Override
+    public String toString() {
+        if (d != null)
+            return d.getD().getId() + " " + id;
+        return id;
+    }
+
 }

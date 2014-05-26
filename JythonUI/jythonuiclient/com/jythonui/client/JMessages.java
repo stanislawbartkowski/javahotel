@@ -89,5 +89,7 @@ public interface JMessages extends Messages {
     String SearchFailed();
     
     String JavaScriptInvalideType(String type, String attr);
+    
+    String RowReferenceIsNull(String id);
 
 }
