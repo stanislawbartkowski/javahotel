@@ -37,6 +37,12 @@ def enableButton(var,li,enable=True) :
     if type(li) != list : li = [li]
     for buttid in li :
         var["JSETATTR_BUTTON_"+buttid+"_enable"] = enable
+        
+def setSpinnerMin(var,fie,val) :
+    var["JSETATTR_FIELD_"+fie +"_spinnermin"] = val
+
+def setSpinnerMax(var,fie,val) :
+    var["JSETATTR_FIELD_"+fie +"_spinnermax"] = val        
      
 def hideButton(var,li,hide=True) :
     if type(li) != list : li = [li]

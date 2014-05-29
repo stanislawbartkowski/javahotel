@@ -63,6 +63,11 @@ public interface ICommonConsts {
     String DOWNLOADTYPE = "download";
     String INTTYPE = "int";
     String LONGTYPE = "long";
+    String SPINNERTYPE = "spinner";
+    String SPINNERMIN = "spinnermin";
+    int DEFAULTSPINNERMIN = 1;
+    String SPINNERMAX = "spinnermax";
+    int DEFAULTSPINNERMAX = 5;
     String AFTERDOT = "afterdot";
     String DEFVALUE = "defvalue";
     String COLNO = "colno";

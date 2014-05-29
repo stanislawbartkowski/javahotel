@@ -6,7 +6,7 @@
 	<xs:simpleType name="typeName">
 		<xs:restriction base="xs:string">
 			<xs:pattern
-				value="int|string|textarea|richtext|bool|decimal|long|date|datetime|password|upload|download|html|custom:.*" />
+				value="int|string|textarea|richtext|bool|decimal|long|date|datetime|password|upload|download|html|spinner|custom:.*" />
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -76,7 +76,7 @@
 			<xs:element minOccurs="0" name="id" type="idType" />
 			<xs:element minOccurs="0" name="displayname" type="xs:string" />
 			<xs:element minOccurs="0" name="validate" type="emptyT" />
-            <xs:element minOccurs="0" name="jsaction" type="xs:string" />
+			<xs:element minOccurs="0" name="jsaction" type="xs:string" />
 			<xs:element minOccurs="0" name="actiontype" type="xs:string" />
 			<xs:element minOccurs="0" name="actionparam" type="xs:string" />
 			<xs:element minOccurs="0" name="actionparam1" type="xs:string" />
@@ -94,7 +94,7 @@
 		<xs:attribute name="id" type="idType" />
 		<xs:attribute name="displayname" type="xs:string" />
 		<xs:attribute name="validate" type="emptyT" />
-        <xs:attribute name="jsaction" type="xs:string" />
+		<xs:attribute name="jsaction" type="xs:string" />
 		<xs:attribute name="actiontype" type="xs:string" />
 		<xs:attribute name="actionparam" type="xs:string" />
 		<xs:attribute name="actionparam1" type="xs:string" />
@@ -216,6 +216,8 @@
 			<xs:element minOccurs="0" name="label" type="xs:string" />
 			<xs:element minOccurs="0" name="columnclass" type="xs:string" />
 			<xs:element minOccurs="0" name="headerclass" type="xs:string" />
+			<xs:element minOccurs="0" name="spinnermin" type="xs:positiveInteger" />
+			<xs:element minOccurs="0" name="spinnermax" type="xs:positiveInteger" />
 		</xs:sequence>
 	</xs:group>
 
@@ -251,6 +253,8 @@
 		<xs:attribute name="label" type="emptyT" />
 		<xs:attribute name="columnclass" type="xs:string" />
 		<xs:attribute name="headerclass" type="xs:string" />
+		<xs:attribute name="spinnermin" type="xs:positiveInteger" />
+		<xs:attribute name="spinnermax" type="xs:positiveInteger" />
 	</xs:attributeGroup>
 
 	<xs:group name="checklistG">

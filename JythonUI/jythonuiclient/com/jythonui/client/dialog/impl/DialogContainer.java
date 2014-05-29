@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IClickYesNo;
 import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.ICustomObject;
@@ -1095,21 +1096,39 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
                 public void action(String fie, String field) {
                     SplitIntoTwo t = new SplitIntoTwo();
                     t.extract(fie, field, ICommonConsts.JSETATTRFIELD);
+                    FieldItem fI = d.findFieldItem(t.id);
+                    if (fI == null)
+                        return;
+                    IVField v = VField.construct(fI);
+                    FieldValue val = arg.getValue(field);
+
+                    if (ICommonConsts.SPINNERMIN.equals(t.action)
+                            || ICommonConsts.SPINNERMAX.equals(t.action)) {
+                        IFormLineView vi = SlU.getVWidget(dType,
+                                DialogContainer.this, v);
+                        if (val.getType() != TT.INT && val.getType() != TT.LONG) {
+                            String mess = M.M().ValueForAttributeShouldBeNull(
+                                    field);
+                            Utils.errAlertB(mess);
+                        }
+                        String s = FUtils.getValueS(val.getValue(),
+                                val.getType(), val.getAfterdot());
+                        String attrName = "min";
+                        if (ICommonConsts.SPINNERMAX.equals(t.action))
+                            attrName = "max";
+                        vi.setAttr(attrName, s);
+                        return;
+                    }
                     if (!ICommonConsts.ENABLE.equals(t.action)) {
                         String mess = M.M().CheckListActionNotExpected(field,
                                 t.action);
                         Utils.errAlertB(mess);
                     }
-                    FieldValue val = arg.getValue(field);
                     if (val.getType() != TT.BOOLEAN) {
                         String mess = M.M().FooterSetValueShouldBeBoolean(
                                 field, t.action);
                         Utils.errAlertB(mess);
                     }
-                    FieldItem fI = d.findFieldItem(t.id);
-                    if (fI == null)
-                        return;
-                    IVField v = VField.construct(fI);
                     SlU.changeEnable(dType, DialogContainer.this, v,
                             val.getValueB());
                 }

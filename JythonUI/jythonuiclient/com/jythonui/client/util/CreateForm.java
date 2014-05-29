@@ -79,16 +79,19 @@ public class CreateForm {
             IVField vf = VField.construct(f);
             IFormLineView v;
             String htmlId = f.getHtmlId();
-            if (f.isUploadType()) {
+            if (f.isSpinner())
+                v = eFactory.constructSpinner(vf, htmlId, f.getSpinnerMin(),
+                        f.getSpinnerMax());
+            else if (f.isUploadType())
                 v = eFactory.constructEditFileName(vf, htmlId);
-            } else if (f.isDownloadType()) {
+            else if (f.isDownloadType())
                 v = eFactory.constructAnchorField(vf);
-            } else if (f.isHtmlType()) {
+            else if (f.isHtmlType())
                 v = eFactory.constructHTMLField(vf);
-            } else if (f.isLabel()) {
+            else if (f.isLabel())
                 v = eFactory.constructLabelField(vf,
                         iMess.getMessage(f.getDisplayName()));
-            } else if (!CUtil.EmptyS(f.getCustom())) {
+            else if (!CUtil.EmptyS(f.getCustom())) {
                 TypedefDescr te = d.findCustomType(f.getCustom());
                 if (te == null) {
                     Utils.errAlert(f.getCustom(),
