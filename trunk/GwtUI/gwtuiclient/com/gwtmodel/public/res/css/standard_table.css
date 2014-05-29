@@ -50,6 +50,10 @@
     width : 5.5em;  
 }
 
+.spinner-style {
+	width : 3em;
+}
+
 /* ----------------------
  style for datepanel
    ---------------------- */

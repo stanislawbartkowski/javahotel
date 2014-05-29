@@ -189,6 +189,11 @@ public class EditWidgetFactory {
         return constructListCombo(v, la, htmlName);
     }
 
+    public IFormLineView constructSpinner(IVField v, String htmlName, int min,
+            int max) {
+        return new SpinnerBox(cValues, v, htmlName, min, max);
+    }
+
     public IFormLineView constructEditWidget(IVField v, String htmlName) {
         FieldDataType.IFormLineViewFactory fa = v.getType().getiFactory();
         if (fa != null) {

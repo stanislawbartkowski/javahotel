@@ -39,4 +39,6 @@ public interface IFormLineView extends IGetSetVField, IGWidget {
 
     String getHtmlName();
 
+    void setAttr(String attrName, String attrValue);
+
 }
