@@ -1,10 +1,8 @@
 from com.jython.ui.server.guice import ServiceInjector
-
+import cutil
 
 def dialogaction(action,var) :
-  print "helperpa",action
-  for k in var.keys() : 
-    print k, var[k]
+  cutil.printVar("helperpa",action,var)
   
   
   if action == "copy" :
