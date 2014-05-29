@@ -21,9 +21,11 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
+import com.gwtmodel.table.common.TT;
 import com.jythonui.shared.ButtonItem;
 import com.jythonui.shared.DateLine;
 import com.jythonui.shared.DialogFormat;
+import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.JythonUIFatal;
 import com.jythonui.shared.ListFormat;
 
@@ -86,6 +88,34 @@ public class Test42 extends TestHelper {
         assertEquals(1, d.getActionList().size());
         ButtonItem a = d.getActionList().get(0);
         assertEquals("JS.helloworld", a.getJsAction());
+    }
+
+    @Test
+    public void test7() {
+        DialogFormat d = findDialog("test81.xml");
+        assertNotNull(d);
+        FieldItem i = d.findFieldItem("spin");
+        assertNotNull(i);
+        assertTrue(i.isSpinner());
+        assertEquals(TT.INT, i.getFieldType());
+    }
+
+    @Test
+    public void test8() {
+        DialogFormat d = findDialog("test82.xml");
+        assertNotNull(d);
+        FieldItem i = d.findFieldItem("spin");
+        assertNotNull(i);
+        assertTrue(i.isSpinner());
+        assertEquals(TT.INT, i.getFieldType());
+        assertEquals(5,i.getSpinnerMin());
+        assertEquals(5,i.getSpinnerMax());
+        i = d.findFieldItem("spin1");
+        assertEquals(1,i.getSpinnerMin());
+        assertEquals(15,i.getSpinnerMax());
+        i = d.findFieldItem("spin2");
+        assertEquals(24,i.getSpinnerMin());
+        assertEquals(25,i.getSpinnerMax());
     }
 
 }
