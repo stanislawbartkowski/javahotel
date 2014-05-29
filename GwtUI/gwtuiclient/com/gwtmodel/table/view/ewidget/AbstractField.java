@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.ChangeListener;
@@ -215,4 +216,11 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
         }
         return v.getId();
     }
+
+    @Override
+    public void setAttr(String attrName, String attrValue) {
+        Element e = this.getWidget().getElement();
+        e.setAttribute(attrName, attrValue);
+    }
+
 }

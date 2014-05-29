@@ -107,4 +107,10 @@ class AnchorField implements IFormLineView {
         return null;
     }
 
+    @Override
+    public void setAttr(String attrName, String attrValue) {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

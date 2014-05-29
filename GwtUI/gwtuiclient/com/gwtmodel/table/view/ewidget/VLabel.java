@@ -89,4 +89,10 @@ class VLabel implements IFormLineView {
         return v.getId();
     }
 
+    @Override
+    public void setAttr(String attrName, String attrValue) {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

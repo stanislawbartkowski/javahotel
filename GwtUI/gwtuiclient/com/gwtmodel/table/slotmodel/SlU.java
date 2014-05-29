@@ -385,6 +385,12 @@ public class SlU {
         public String getHtmlName() {
             return null;
         }
+
+        @Override
+        public void setAttr(String attrName, String attrValue) {
+            // TODO Auto-generated method stub
+            
+        }
     }
 
     public static IFormLineView contructObjectValue(Object val) {
