@@ -82,6 +82,9 @@ public class FieldItem extends ElemDescription {
         if (CUtil.EqNS(t, ICommonConsts.INTTYPE)) {
             return TT.INT;
         }
+        if (CUtil.EqNS(t, ICommonConsts.SPINNERTYPE)) {
+            return TT.INT;
+        }
         if (CUtil.EqNS(t, ICommonConsts.DECIMALTYPE)) {
             return TT.BIGDECIMAL;
         }
@@ -142,6 +145,10 @@ public class FieldItem extends ElemDescription {
 
     public boolean isTextArea() {
         return isType(ICommonConsts.TEXTAREA);
+    }
+
+    public boolean isSpinner() {
+        return isType(ICommonConsts.SPINNERTYPE);
     }
 
     public boolean isRichText() {
@@ -234,6 +241,20 @@ public class FieldItem extends ElemDescription {
 
     public String getHeaderClass() {
         return getAttr(ICommonConsts.HEADERCLASS);
+    }
+
+    public int getSpinnerMin() {
+        if (isAttr(ICommonConsts.SPINNERMIN))
+            return Integer.parseInt(getAttr(ICommonConsts.SPINNERMIN));
+        else
+            return ICommonConsts.DEFAULTSPINNERMIN;
+    }
+
+    public int getSpinnerMax() {
+        if (isAttr(ICommonConsts.SPINNERMAX))
+            return Integer.parseInt(getAttr(ICommonConsts.SPINNERMAX));
+        else
+            return ICommonConsts.DEFAULTSPINNERMAX;
     }
 
 }

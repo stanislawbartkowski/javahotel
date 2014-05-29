@@ -81,15 +81,17 @@ public interface JMessages extends Messages {
 
     String OnlyStringColumnImage(String id, String type, String typeS,
             String ima);
-    
+
     String CustomTypeIsNull(String customType);
-    
+
     String ErrorWhileUploading();
-    
+
     String SearchFailed();
-    
+
     String JavaScriptInvalideType(String type, String attr);
-    
+
     String RowReferenceIsNull(String id);
+
+    String ValueForAttributeShouldBeNull(String aName);
 
 }
