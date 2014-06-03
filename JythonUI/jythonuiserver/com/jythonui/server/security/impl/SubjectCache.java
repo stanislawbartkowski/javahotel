@@ -13,7 +13,6 @@
 package com.jythonui.server.security.impl;
 
 import java.util.UUID;
-import java.util.logging.Logger;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;

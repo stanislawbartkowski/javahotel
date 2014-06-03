@@ -12,8 +12,7 @@
  */
 package com.jythonui.server.security.resolver;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.inject.Named;
 
 import org.apache.commons.jexl2.Expression;
 import org.apache.commons.jexl2.JexlContext;
@@ -22,18 +21,30 @@ import org.apache.commons.jexl2.JexlException;
 import org.apache.commons.jexl2.MapContext;
 import org.apache.shiro.subject.Subject;
 
-import com.jythonui.server.holder.Holder;
+import com.google.inject.Inject;
+import com.jythonui.server.IConsts;
+import com.jythonui.server.IGetAppProp;
+import com.jythonui.server.ISharedConsts;
+import com.jythonui.server.UtilHelper;
+import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.server.security.ISecurityResolver;
 
-public class SecurityResolver implements ISecurityResolver {
+public class SecurityResolver extends UtilHelper implements ISecurityResolver {
 
-    private static final Logger log = Logger.getLogger(SecurityResolver.class
-            .getName());
+    private final IGetLogMess gMess;
+    private final IGetAppProp iGet;
 
-    @Override
-    public boolean isAuthorized(Subject currentUser, String permission) {
+    @Inject
+    public SecurityResolver(
+            @Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess gMess,
+            IGetAppProp iGet) {
+        this.gMess = gMess;
+        this.iGet = iGet;
+    }
+
+    private Object evaluate(Subject currentUser, String permission) {
         JexlEngine jexl = new JexlEngine();
         // Create an expression object
         String jexlExp = permission;
@@ -42,30 +53,48 @@ public class SecurityResolver implements ISecurityResolver {
         try {
             e = jexl.createExpression(jexlExp);
         } catch (JexlException j) {
-            log.log(Level.SEVERE,
-                    Holder.getM().getMess(IErrorCode.ERRORCODE7,
-                            ILogMess.JEXLERROR, permission), j);
-            return false;
+            severe(gMess.getMess(IErrorCode.ERRORCODE7, ILogMess.JEXLERROR,
+                    permission), j);
+            return null;
         }
 
         // Create a context and add data
         JexlContext jc = new MapContext();
-        jc.set("sec", new SecurityFoo(currentUser));
+        jc.set(IConsts.JECLSECFUNCTION, new SecurityFoo(currentUser));
+        jc.set(IConsts.JECLENVFUNCTION, new EnvFoo(iGet));
 
         // Now evaluate the expression, getting the result
         Object o = e.evaluate(jc);
         if (o == null) {
-            log.severe(Holder.getM().getMess(IErrorCode.ERRORCODE11,
+            severe(gMess.getMess(IErrorCode.ERRORCODE11,
                     ILogMess.JEXLERROREVALUATION, permission));
-            return false;
+            return null;
         }
+        return o;
+
+    }
+
+    @Override
+    public boolean isAuthorized(Subject currentUser, String permission) {
+        Object o = evaluate(currentUser, permission);
         if (!(o instanceof Boolean)) {
-            log.severe(Holder.getM().getMess(IErrorCode.ERRORCODE10,
+            severe(gMess.getMess(IErrorCode.ERRORCODE10,
                     ILogMess.JEXLERRORNOTBOOLEAN, permission));
             return false;
         }
         Boolean b = (Boolean) o;
         return b.booleanValue();
+    }
+
+    @Override
+    public String evaluateExpr(Subject currentUser, String expr) {
+        Object o = evaluate(currentUser, expr);
+        if (!(o instanceof String)) {
+            severe(gMess.getMess(IErrorCode.ERRORCODE95,
+                    ILogMess.JEXLERRORNOTSTRING, expr));
+            return null;
+        }
+        return (String) o;
     }
 
 }

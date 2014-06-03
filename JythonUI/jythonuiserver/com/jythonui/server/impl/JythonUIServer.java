@@ -12,17 +12,16 @@
  */
 package com.jythonui.server.impl;
 
-import java.util.List;
-
+import com.google.inject.Inject;
 import com.gwtmodel.commoncache.ICommonCache;
 import com.gwtmodel.table.common.CUtil;
+import com.jythonui.server.IExecuteJython;
+import com.jythonui.server.IGetDialog;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.Util;
 import com.jythonui.server.UtilHelper;
-import com.jythonui.server.dialog.GetDialog;
 import com.jythonui.server.holder.Holder;
-import com.jythonui.server.jython.RunJython;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.server.security.ISecurity;
@@ -32,60 +31,40 @@ import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldValue;
 import com.jythonui.shared.ICommonConsts;
-import com.jythonui.shared.ListFormat;
 import com.jythonui.shared.RequestContext;
-import com.jythonui.shared.SecurityInfo;
 
 /**
  * @author hotel
  * 
  */
-class JythonUIServer extends UtilHelper implements IJythonUIServer {
+public class JythonUIServer extends UtilHelper implements IJythonUIServer {
 
     private final IJythonUIServerProperties p;
-    private final MCached mCached;
     private final ISecurity iSec;
+    private final IGetDialog iDialog;
+    private final IExecuteJython iJython;
 
-    JythonUIServer(IJythonUIServerProperties p, ICommonCache mCache,
-            ISecurity iSec) {
+    @Inject
+    public JythonUIServer(IJythonUIServerProperties p, ICommonCache mCache,
+            ISecurity iSec, IGetDialog iDialog, IExecuteJython iJython) {
         this.p = p;
-        this.mCached = new MCached(p, mCache);
         this.iSec = iSec;
+        this.iDialog = iDialog;
+        this.iJython = iJython;
     }
 
-    private void setElemSecurityInfo(SecurityInfo si, String token,
-            List<ListFormat> lis) {
-        for (ListFormat li : lis) {
-            // columns
-            SecurityInfo sList = AddSecurityInfo.createForColumns(iSec, token,
-                    li);
-            si.getListSecur().put(li.getId(), sList);
-            // crud dialog
-            DialogFormat dElem = li.getfElem();
-            // ignore if not exist
-            if (dElem == null)
-                continue;
-            SecurityInfo sl = AddSecurityInfo.create(iSec, token, dElem);
-            li.setElemSec(sl);
-            // recursive
-            setElemSecurityInfo(sl, token, dElem.getListList());
-        }
-    }
-
+    
     @Override
     public DialogInfo findDialog(RequestContext rcontext, String dialogName) {
         Util.setContext(rcontext);
         String token = Util.getToken();
-        DialogFormat d = GetDialog.getDialog(p, mCached, token, dialogName,
-                true);
+        DialogFormat d = iDialog.getDialog(token, dialogName, true);
         if (d == null)
             return null;
-        SecurityInfo si = AddSecurityInfo.create(iSec, token, d);
         CustomMessages custMess = null;
         if (!p.isCached())
             custMess = Holder.getAppMess().getCustomMess();
-        setElemSecurityInfo(si, token, d.getListList());
-        return new DialogInfo(d, si, custMess);
+        return new DialogInfo(d, custMess);
     }
 
     @Override
@@ -102,13 +81,12 @@ class JythonUIServer extends UtilHelper implements IJythonUIServer {
         v.setSecurityToken(securityToken);
         v.setLocale(locale);
         v.setValueS(ICommonConsts.J_DIALOGNAME, dialogName);
-        DialogFormat d = GetDialog.getDialog(p, mCached, securityToken,
-                dialogName, false);
+        DialogFormat d = iDialog.getDialog(securityToken, dialogName, false);
         if (CUtil.onTheList(actionId, d.getAsXmlList())) {
             v.setValueS(ICommonConsts.JXMLCONTENT, Holder.getXMLTransformer()
                     .toXML(dialogName, v));
         }
-        RunJython.executeJython(p, mCached, v, d, actionId);
+        iJython.executeJython(v, d, actionId);
         FieldValue b = v.getValue(ICommonConsts.JXMLSETCONTENT);
         if (b != null)
             if (b.getValueB().booleanValue()) {

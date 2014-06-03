@@ -20,22 +20,26 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 import com.gwtmodel.commoncache.ICommonCache;
+import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.jython.serversecurity.IGetInstanceOObjectIdCache;
 import com.jython.serversecurity.impl.GetInstanceObjectId;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IDefaultData;
+import com.jythonui.server.IExecuteJython;
 import com.jythonui.server.IGetAppProp;
+import com.jythonui.server.IGetDialog;
 import com.jythonui.server.IGetResourceMap;
 import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.IStorageMemCache;
 import com.jythonui.server.IStorageMemContainerFactory;
+import com.jythonui.server.IUserCacheHandler;
 import com.jythonui.server.IXMLToMap;
-import com.jythonui.server.defa.CommonCacheProvider;
 import com.jythonui.server.defa.GetClientProperties;
 import com.jythonui.server.defa.StorageRealmRegistryFactory;
 import com.jythonui.server.defadata.DefaDataImpl;
+import com.jythonui.server.dialog.GetDialog;
 import com.jythonui.server.dict.DictEntry;
 import com.jythonui.server.dict.GetVatTaxes;
 import com.jythonui.server.dict.IGetLocalizedDict;
@@ -45,7 +49,8 @@ import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.holder.SHolder;
 import com.jythonui.server.impl.GetAppProperties;
-import com.jythonui.server.impl.JythonUiServerProvider;
+import com.jythonui.server.impl.JythonUIServer;
+import com.jythonui.server.jython.RunJython;
 import com.jythonui.server.logmess.MessProvider;
 import com.jythonui.server.memstorage.MemStorageCacheFactory;
 import com.jythonui.server.newblob.IAddNewBlob;
@@ -69,6 +74,7 @@ import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 import com.jythonui.server.storage.seq.ISequenceRealmGen;
 import com.jythonui.server.storage.seq.ISequenceRealmGenFactory;
 import com.jythonui.server.storage.seqimpl.SequenceRealmGenFactory;
+import com.jythonui.server.usercacheimpl.UserCacheHandler;
 import com.jythonui.server.xml.IXMLHelper;
 import com.jythonui.server.xml.IXMLToXMap;
 import com.jythonui.server.xml.IXMLTransformer;
@@ -87,15 +93,13 @@ public class JythonServerService {
     public abstract static class JythonServiceModule extends AbstractModule {
 
         protected void configureJythonUi() {
-            bind(IJythonUIServer.class)
-                    .toProvider(JythonUiServerProvider.class).in(
-                            Singleton.class);
+            bind(IJythonUIServer.class).to(JythonUIServer.class).in(
+                    Singleton.class);
+            bind(IExecuteJython.class).to(RunJython.class).in(Singleton.class);
             bind(ISecurity.class).to(SecurityJython.class).in(Singleton.class);
             bind(ISecurityResolver.class).to(SecurityResolver.class).in(
                     Singleton.class);
             bind(ObjectRegistryFactory.class).in(Singleton.class);
-            bind(ICommonCache.class).toProvider(CommonCacheProvider.class).in(
-                    Singleton.class);
             bind(IAppMess.class).annotatedWith(Names.named(IConsts.APPMESS))
                     .to(Mess.class).in(Singleton.class);
             bind(IGetLogMess.class)
@@ -106,6 +110,8 @@ public class JythonServerService {
             bind(ISequenceRealmGenFactory.class).to(
                     SequenceRealmGenFactory.class).in(Singleton.class);
             bind(IGetResourceMap.class).to(GetResourceMapImpl.class).in(
+                    Singleton.class);
+            bind(IUserCacheHandler.class).to(UserCacheHandler.class).in(
                     Singleton.class);
 
             bind(ISymGeneratorFactory.class).to(SymGeneratorFactory.class).in(
@@ -130,15 +136,14 @@ public class JythonServerService {
                     Singleton.class);
             bind(IReadResourceFactory.class).to(ReadResourceFactory.class).in(
                     Singleton.class);
+            bind(IGetDialog.class).to(GetDialog.class).in(Singleton.class);
             bind(IXMLToXMap.class).to(XMLToXMap.class).in(Singleton.class);
             // common
             bind(IStorageRegistryFactory.class).to(
                     StorageRealmRegistryFactory.class).in(Singleton.class);
             bind(IAddNewBlob.class).to(AddNewBlob.class).in(Singleton.class);
-            // GetInstanceObjectId extends UtilHelper implements
-            // IGetInstanceOObjectId
-            bind(IGetInstanceOObjectIdCache.class).to(GetInstanceObjectId.class).in(
-                    Singleton.class);
+            bind(IGetInstanceOObjectIdCache.class)
+                    .to(GetInstanceObjectId.class).in(Singleton.class);
         }
 
         @Provides
@@ -230,6 +235,13 @@ public class JythonServerService {
         IStorageMemCache getDefaDataCache(
                 final IStorageMemContainerFactory cFactory) {
             return cFactory.construct(IConsts.DEFADATAREALM);
+        }
+
+        @Provides
+        @Singleton
+        ICommonCache getCommonCache(ICommonCacheFactory cFactory) {
+            return cFactory.construct(IConsts.COMMONCACHENAME);
+
         }
 
     }

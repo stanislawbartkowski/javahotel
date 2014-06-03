@@ -33,6 +33,7 @@ import com.jythonui.server.UtilHelper;
 import com.jythonui.server.holder.SHolder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
+import com.jythonui.server.security.ISecurity;
 import com.jythonui.shared.ButtonItem;
 import com.jythonui.shared.CheckList;
 import com.jythonui.shared.DateLine;
@@ -62,6 +63,7 @@ class ReadDialog extends UtilHelper {
     private static class MyHandler extends DefaultHandler {
 
         private final IJythonUIServerProperties p;
+        private final SaxUtil.ITransformVal iT;
 
         /** DialogFormat class being built. */
         private DialogFormat dFormat = null;
@@ -154,8 +156,9 @@ class ReadDialog extends UtilHelper {
         private List<TabPanelElem> tabList = null;
         private List<DisclosureElemPanel> discList = null;
 
-        MyHandler(IJythonUIServerProperties p) {
+        MyHandler(IJythonUIServerProperties p, ISecurity iSec) {
             this.p = p;
+            iT = new EvaluateJexlValue(Util.getToken(),iSec);
         }
 
         @Override
@@ -281,7 +284,7 @@ class ReadDialog extends UtilHelper {
             }
 
             if (getAttribute && bDescr != null) {
-                SaxUtil.readAttr(bDescr.getMap(), attributes, currentT);
+                SaxUtil.readAttr(bDescr.getMap(), attributes, currentT, iT);
             }
         }
 
@@ -409,7 +412,7 @@ class ReadDialog extends UtilHelper {
                 dFormat.getCheckList().add(checkList);
                 return;
             }
-            SaxUtil.readVal(bDescr.getMap(), qName, currentT, buf);
+            SaxUtil.readVal(bDescr.getMap(), qName, currentT, buf,iT);
         }
 
         @Override
@@ -433,12 +436,12 @@ class ReadDialog extends UtilHelper {
     }
 
     static DialogFormat parseDocument(IJythonUIServerProperties p,
-            InputStream sou) throws ParserConfigurationException, SAXException,
+            InputStream sou, ISecurity iSec) throws ParserConfigurationException, SAXException,
             IOException {
         SAXParserFactory factory = SAXParserFactory.newInstance();
         SAXParser saxParser;
         saxParser = factory.newSAXParser();
-        MyHandler ma = new MyHandler(p);
+        MyHandler ma = new MyHandler(p, iSec);
         saxParser.parse(sou, ma);
         replaceFile(p, ma.dFormat, ICommonConsts.HTMLPANEL);
         replaceFile(p, ma.dFormat, ICommonConsts.JSCODE);

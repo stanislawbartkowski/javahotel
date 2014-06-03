@@ -14,11 +14,12 @@ package com.jythonui.server.security.resolver;
 
 import org.apache.shiro.subject.Subject;
 
+// must be public
 public class SecurityFoo {
     
     private final Subject currentUser;
 
-    public SecurityFoo(Subject currentUser) {
+    SecurityFoo(Subject currentUser) {
         this.currentUser = currentUser;
     }
 

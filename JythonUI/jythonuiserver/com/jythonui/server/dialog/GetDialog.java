@@ -17,23 +17,29 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
+import javax.inject.Named;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.stream.StreamSource;
 
 import org.xml.sax.SAXException;
 
+import com.google.inject.Inject;
+import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.util.VerifyXML;
+import com.jythonui.server.IGetDialog;
 import com.jythonui.server.IJythonUIServerProperties;
+import com.jythonui.server.ISharedConsts;
+import com.jythonui.server.IUserCacheHandler;
 import com.jythonui.server.Util;
 import com.jythonui.server.UtilHelper;
+import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.holder.Holder;
-import com.jythonui.server.holder.SHolder;
-import com.jythonui.server.impl.MCached;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.server.resource.IReadResource;
 import com.jythonui.server.resource.ReadResourceFactory;
+import com.jythonui.server.security.ISecurity;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.ListFormat;
@@ -43,91 +49,106 @@ import com.jythonui.shared.TypesDescr;
  * @author hotel
  * 
  */
-public class GetDialog extends UtilHelper {
+public class GetDialog extends UtilHelper implements IGetDialog {
 
-    private GetDialog() {
+    private final IJythonUIServerProperties p;
+    private final ISecurity iSec;
+    // private final ICommonCacheFactory mFactory;
+    private final IGetLogMess logMess;
+    private final IUserCacheHandler iUserCache;
 
+    @Inject
+    public GetDialog(IJythonUIServerProperties p, ISecurity iSec,
+            @Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess logMess,
+            IUserCacheHandler iUserCache) {
+        this.p = p;
+        this.iSec = iSec;
+        this.logMess = logMess;
+        this.iUserCache = iUserCache;
     }
 
     private static final String XSDDIR = "xsd";
     private static final String DIALOGXSD = "dialogschema.xsd";
     private static final String TYPESXSD = "typedefschema.xsd";
+
     private static IReadResource iRead = new ReadResourceFactory()
             .constructLoader(GetDialog.class.getClassLoader());
 
-    private static void parseError(String errCode, String param, Exception e) {
-        errorLog(
-                SHolder.getM().getMess(errCode, ILogMess.DIALOGXMLPARSERROR,
-                        param), e);
+    private void parseError(String errCode, String param, Exception e) {
+        errorLog(logMess.getMess(errCode, ILogMess.DIALOGXMLPARSERROR, param),
+                e);
     }
 
-    private static void error(String errCode, String logMess, String param) {
-        errorLog(SHolder.getM().getMess(errCode, logMess, param));
+    private void error(String errCode, String plogMess, String param) {
+        errorLog(logMess.getMess(errCode, plogMess, param));
     }
 
-    static private URL getURLSchema(String schemaname) {
+    private URL getURLSchema(String schemaname) {
         logDebug("Search schema " + schemaname);
         URL ur = iRead.getRes(XSDDIR + "/" + schemaname);
         if (ur == null) {
-            errorLog(SHolder.getM().getMess(IErrorCode.ERRORCODE16,
+            errorLog(logMess.getMess(IErrorCode.ERRORCODE16,
                     ILogMess.SCHEMANOTFOUND));
         }
         return ur;
     }
 
-    static private InputStream getXML(IJythonUIServerProperties p, String name)
-            throws FileNotFoundException {
+    private InputStream getXML(String name) throws FileNotFoundException {
         return Util.getFile(p, name);
     }
 
-    public static DialogFormat getDialog(IJythonUIServerProperties p,
-            MCached mCached, String token, String dialogName, boolean verify) {
+    @Override
+    public DialogFormat getDialog(String token, String dialogName,
+            boolean verify) {
         DialogFormat d;
         if (Holder.isAuth() && CUtil.EmptyS(token)) {
-            errorLog(SHolder.getM().getMess(IErrorCode.ERRORCODE8,
+            errorLog(logMess.getMess(IErrorCode.ERRORCODE8,
                     ILogMess.AUTOENABLEDNOTOKEN, dialogName));
             return null;
         }
-        if (mCached.isCached()) {
-            d = (DialogFormat) mCached.getC().get(dialogName);
-            if (d != null) {
-                return d;
-            }
-        }
-        d = getDialogDirectly(p, mCached, dialogName, verify);
+        d = (DialogFormat) iUserCache.get(token, dialogName);
+        if (d != null)
+            return d;
+        // if (p.isCached()) {
+        // d = (DialogFormat) mCache.get(dialogName);
+        // if (d != null) {
+        // return d;
+        // }
+        // }
+        d = getDialogDirectly(token, dialogName, verify);
         String dParentName = d.getParent();
         if (dParentName != null) {
-            DialogFormat dParent = getDialog(p, mCached, token, dParentName,
-                    false);
+            DialogFormat dParent = getDialog(token, dParentName, false);
             for (ListFormat lo : dParent.getListList()) {
                 if (lo.getfElem() != null
                         && lo.getfElem().getId().equals(dialogName)) {
                     return lo.getfElem();
                 }
             }
-            errorLog(SHolder.getM().getMess(IErrorCode.ERRORCODE9,
+            errorLog(logMess.getMess(IErrorCode.ERRORCODE9,
                     ILogMess.ELEMDOESNOTMATCHPARENT, dParentName, dialogName));
         }
         if (d != null)
-            if (mCached.isCached()) {
-                mCached.getC().put(dialogName, d);
-            }
+            iUserCache.put(token, dialogName, d);
+        // if (p.isCached()) {
+        // mCache.put(dialogName, d);
+        // }
         return d;
     }
 
-    private static DialogFormat getDialogDirectly(IJythonUIServerProperties p,
-            MCached mCached, String dialogName, boolean verify) {
+    private DialogFormat getDialogDirectly(String token, String dialogName,
+            boolean verify) {
         DialogFormat d = null;
         try {
             URL u = getURLSchema(DIALOGXSD);
             InputStream sou;
             if (verify) {
                 logDebug("Verify using xsd schema " + DIALOGXSD);
-                sou = getXML(p, dialogName);
+                sou = getXML(dialogName);
                 VerifyXML.verify(u, new StreamSource(sou));
             }
-            sou = getXML(p, dialogName);
-            d = ReadDialog.parseDocument(p, sou);
+            sou = getXML(dialogName);
+            d = ReadDialog.parseDocument(p, sou, iSec);
             if (d != null) {
                 d.setId(dialogName);
                 if (verify) {
@@ -140,11 +161,11 @@ public class GetDialog extends UtilHelper {
                 for (String typesName : tList) {
                     if (verify) {
                         u = getURLSchema(TYPESXSD);
-                        sou = getXML(p, typesName);
+                        sou = getXML(typesName);
                         VerifyXML.verify(u, new StreamSource(sou));
                     }
-                    sou = getXML(p, typesName);
-                    TypesDescr types = ReadTypes.parseDocument(sou);
+                    sou = getXML(typesName);
+                    TypesDescr types = ReadTypes.parseDocument(sou, iSec);
                     d.getTypeList().add(types);
                 }
             }
@@ -154,13 +175,12 @@ public class GetDialog extends UtilHelper {
                     if (l.getElemFormat() != null) {
                         // recursive
                         if (dialogName.equals(l.getElemFormat())) {
-                            errorLog(SHolder.getM().getMess(
-                                    IErrorCode.ERRORCODE75,
+                            errorLog(logMess.getMess(IErrorCode.ERRORCODE75,
                                     ILogMess.PARENTCANNOTBETHESAME,
                                     ICommonConsts.PARENT, dialogName));
                             return null;
                         }
-                        DialogFormat dElem = getDialogDirectly(p, mCached,
+                        DialogFormat dElem = getDialogDirectly(token,
                                 l.getElemFormat(), verify);
                         boolean wasmodified = false;
                         if (dElem.getFieldList().isEmpty()) {
@@ -191,7 +211,7 @@ public class GetDialog extends UtilHelper {
                                         + " attribute expected");
                             }
                             if (!dElem.getParent().equals(dialogName)) {
-                                String mess = SHolder.getM().getMess(
+                                String mess = logMess.getMess(
                                         IErrorCode.ERRORCODE74,
                                         ILogMess.PARENTFILEEXPECTED,
                                         dElem.getId(), ICommonConsts.PARENT,
@@ -199,8 +219,9 @@ public class GetDialog extends UtilHelper {
                                 errorLog(mess);
                             }
                             // cache again with changes
-                            if (mCached.isCached())
-                                mCached.getC().put(dElem.getId(), dElem);
+                            // if (p.isCached())
+                            // mCache.put(dElem.getId(), dElem);
+                            iUserCache.put(token, dElem.getId(), dElem);
                         }
                         l.setfElem(dElem);
                     }
@@ -214,14 +235,15 @@ public class GetDialog extends UtilHelper {
         } catch (ParserConfigurationException e) {
             parseError(IErrorCode.ERRORCODE14, dialogName, e);
         }
-        if (d == null) {
+        if (d == null)
             error(IErrorCode.ERRORCODE15, ILogMess.DIALOGNOTFOUND, dialogName);
-        } else {
-            if (mCached.isCached()) {
-                mCached.getC().put(dialogName, d);
-            }
-        }
+        else
+            // if (p.isCached()) {
+            // mCache.put(dialogName, d);
+            iUserCache.put(token, dialogName, d);
+        // }
         return d;
 
     }
+
 }

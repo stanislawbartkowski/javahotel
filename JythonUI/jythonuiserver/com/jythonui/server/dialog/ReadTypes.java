@@ -25,6 +25,8 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import com.jythonui.server.SaxUtil;
+import com.jythonui.server.Util;
+import com.jythonui.server.security.ISecurity;
 import com.jythonui.shared.ElemDescription;
 import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.ICommonConsts;
@@ -46,6 +48,11 @@ class ReadTypes {
         private String colElem[] = { ICommonConsts.ID,
                 ICommonConsts.DISPLAYNAME };
         private String[] aElem;
+        private final SaxUtil.ITransformVal iT;
+
+        MyHandler(ISecurity iSec) {
+            iT = new EvaluateJexlValue(Util.getToken(), iSec);
+        }
 
         @Override
         public void startElement(String uri, String localName, String qName,
@@ -70,7 +77,7 @@ class ReadTypes {
                 getAttribute = true;
             }
             if (getAttribute) {
-                SaxUtil.readAttr(bDescr.getMap(), attributes, aElem);
+                SaxUtil.readAttr(bDescr.getMap(), attributes, aElem, iT);
             }
         }
 
@@ -89,7 +96,7 @@ class ReadTypes {
                 aType.getColumns().add((FieldItem) bDescr);
                 return;
             }
-            SaxUtil.readVal(bDescr.getMap(), qName, aElem, buf);
+            SaxUtil.readVal(bDescr.getMap(), qName, aElem, buf, iT);
         }
 
         @Override
@@ -99,12 +106,12 @@ class ReadTypes {
         }
     }
 
-    static TypesDescr parseDocument(InputStream sou)
+    static TypesDescr parseDocument(InputStream sou, ISecurity iSec)
             throws ParserConfigurationException, SAXException, IOException {
         SAXParserFactory factory = SAXParserFactory.newInstance();
         SAXParser saxParser;
         saxParser = factory.newSAXParser();
-        MyHandler ma = new MyHandler();
+        MyHandler ma = new MyHandler(iSec);
         saxParser.parse(sou, ma);
         return ma.dTypes;
     }

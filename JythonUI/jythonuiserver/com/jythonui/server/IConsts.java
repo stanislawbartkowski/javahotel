@@ -13,11 +13,12 @@
 package com.jythonui.server;
 
 public interface IConsts {
-    
+
     String SECURITYREALM = "SecuryRealm";
     String DEFADATAREALM = "DefaultDataRealm";
 
     String COMMONCACHENAME = "CommonCache";
+    String USERCOMMONCACHENAME = "UserCommonCache";
     String CACHEDNOW = "CachedNow";
     String APPMESS = "AppBundle";
 
@@ -30,5 +31,8 @@ public interface IConsts {
     String IDTYPEDICT = "idtype";
     String PAYMENTDICT = "payment";
     String ROLES = "roles";
-    String VATDICT="vatdict";
+    String VATDICT = "vatdict";
+
+    String JECLSECFUNCTION = "sec";
+    String JECLENVFUNCTION = "env";
 }

@@ -12,8 +12,6 @@
  */
 package com.jythonui.server.security.impl;
 
-import java.util.logging.Logger;
-
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -22,6 +20,7 @@ import org.apache.shiro.subject.Subject;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.IStorageMemCache;
+import com.jythonui.server.UtilHelper;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
@@ -29,17 +28,16 @@ import com.jythonui.server.security.ISecurity;
 import com.jythonui.server.security.ISecurityResolver;
 import com.jythonui.server.security.token.ICustomSecurity;
 
-public class SecurityJython implements ISecurity {
+public class SecurityJython extends UtilHelper implements ISecurity {
 
-    private static final Logger log = Logger.getLogger(SecurityJython.class
-            .getName());
     private final IGetLogMess gMess;
 
     private final SubjectCache cCache;
     private final ISecurityResolver iResolver;
 
     @Inject
-    public SecurityJython(@Named(IConsts.SECURITYREALM) IStorageMemCache iCache,
+    public SecurityJython(
+            @Named(IConsts.SECURITYREALM) IStorageMemCache iCache,
             ISecurityResolver iResolver,
             @Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess gMess) {
         cCache = new SubjectCache(iCache, gMess);
@@ -74,8 +72,8 @@ public class SecurityJython implements ISecurity {
     public boolean isAuthorized(String token, String permission) {
         Subject currentUser = cCache.getSubject(token);
         if (currentUser == null) {
-            log.severe(gMess.getMess(IErrorCode.ERRORCODE21,
-                    ILogMess.INVALIDTOKEN, token));
+            severe(gMess.getMess(IErrorCode.ERRORCODE21, ILogMess.INVALIDTOKEN,
+                    token));
             return false;
         }
         return iResolver.isAuthorized(currentUser, permission);
@@ -89,6 +87,17 @@ public class SecurityJython implements ISecurity {
     @Override
     public String getUserName(String token) {
         return cCache.getUserName(token);
+    }
+
+    @Override
+    public String evaluateExpr(String token, String expr) {
+        Subject currentUser = cCache.getSubject(token);
+        if (currentUser == null) {
+            severe(gMess.getMess(IErrorCode.ERRORCODE96,
+                    ILogMess.INVALIDTOKEN, token));
+            return null;
+        }
+        return iResolver.evaluateExpr(currentUser, expr);
     }
 
 }

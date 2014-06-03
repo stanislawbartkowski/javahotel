@@ -10,25 +10,11 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server.security;
+package com.jythonui.server;
 
-import com.jythonui.server.security.token.ICustomSecurity;
+public interface IUserCacheHandler {
 
-public interface ISecurity {
+    Object get(String token, String key);
 
-    String authenticateToken(String realm, String userName, String password,
-            ICustomSecurity iCustom);
-
-    void logout(String token);
-
-    boolean validToken(String token);
-
-    boolean isAuthorized(String token, String permission);
-
-    ICustomSecurity getCustom(String token);
-
-    String getUserName(String token);
-
-    String evaluateExpr(String token, String expr);
-
+    void put(String token, String key, Object o);
 }

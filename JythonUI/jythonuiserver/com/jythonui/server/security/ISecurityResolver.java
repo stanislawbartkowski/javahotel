@@ -18,4 +18,6 @@ public interface ISecurityResolver {
 
     boolean isAuthorized(Subject currentUser, String permission);
 
+    String evaluateExpr(Subject currentUser, String expr);
+
 }

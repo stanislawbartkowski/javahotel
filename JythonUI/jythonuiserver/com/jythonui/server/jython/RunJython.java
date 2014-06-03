@@ -27,6 +27,8 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.inject.Named;
+
 import org.python.core.Py;
 import org.python.core.PyBoolean;
 import org.python.core.PyDictionary;
@@ -41,12 +43,14 @@ import org.python.core.PySystemState;
 import org.python.core.PyTuple;
 import org.python.util.PythonInterpreter;
 
+import com.google.inject.Inject;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.TT;
+import com.jythonui.server.IExecuteJython;
 import com.jythonui.server.IJythonUIServerProperties;
+import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.UtilHelper;
-import com.jythonui.server.holder.Holder;
-import com.jythonui.server.impl.MCached;
+import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.shared.CheckList;
@@ -73,7 +77,7 @@ import com.jythonui.shared.TypesDescr;
  *         Interface between Java code and Jython Call Jython actions and
  *         pass/gets back client data
  */
-public class RunJython extends UtilHelper {
+public class RunJython extends UtilHelper implements IExecuteJython {
 
     private final static String GGTempVariable = "GG";
     private final static String AATempVariable = "AA";
@@ -83,7 +87,17 @@ public class RunJython extends UtilHelper {
     private static final PyObject JCHECKMAP = toString(ICommonConsts.JCHECKLISTMAP);
     private static final PyObject JDATELINEMAP = toString(ICommonConsts.JDATELINEMAP);
 
-    private static Map<PyObject, PyObject> toPythonMap(MapDialogVariable v) {
+    private final IJythonUIServerProperties p;
+    private final IGetLogMess logMess;
+
+    @Inject
+    public RunJython(IJythonUIServerProperties p,
+            @Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess logMess) {
+        this.p = p;
+        this.logMess = logMess;
+    }
+
+    private Map<PyObject, PyObject> toPythonMap(MapDialogVariable v) {
         Map<PyObject, PyObject> m = new HashMap<PyObject, PyObject>();
         for (String s : v.getFields()) {
             FieldValue val = v.getValue(s);
@@ -95,7 +109,7 @@ public class RunJython extends UtilHelper {
                 case STRING:
                     String valS = val.getValueS();
                     if (valS == null)
-                        errorLog(Holder.getM().getMess(IErrorCode.ERRORCODE36,
+                        errorLog(logMess.getMess(IErrorCode.ERRORCODE36,
                                 ILogMess.STRINGVALUECANNOTBENULL, s));
 
                     valP = new PyString(valS);
@@ -103,7 +117,7 @@ public class RunJython extends UtilHelper {
                 case BOOLEAN:
                     Boolean b = val.getValueB();
                     if (b == null) {
-                        errorLog(Holder.getM().getMess(IErrorCode.ERRORCODE37,
+                        errorLog(logMess.getMess(IErrorCode.ERRORCODE37,
                                 ILogMess.BOOLEANVALUECANNOTBENULL, s));
                     }
                     valP = new PyBoolean(b.booleanValue());
@@ -131,9 +145,9 @@ public class RunJython extends UtilHelper {
                     valP = ti;
                     break;
                 default:
-                    errorLog(Holder.getM().getMess(IErrorCode.ERRORCODE33,
-                            ILogMess.TYPEMAPNOTIMPLEMENTS, s,
-                            val.getType().toString()));
+                    errorLog(logMess.getMess(IErrorCode.ERRORCODE33,
+                            ILogMess.TYPEMAPNOTIMPLEMENTS, s, val.getType()
+                                    .toString()));
                     break;
                 }
             m.put(toString(s), valP);
@@ -155,7 +169,7 @@ public class RunJython extends UtilHelper {
         return new PyString(s);
     }
 
-    private static PyList createList(List<FieldItem> cList, ListOfRows rList) {
+    private PyList createList(List<FieldItem> cList, ListOfRows rList) {
         Collection<PyDictionary> c = new ArrayList<PyDictionary>();
         RowIndex rI = new RowIndex(cList);
         for (RowContent row : rList.getRowList()) {
@@ -168,8 +182,8 @@ public class RunJython extends UtilHelper {
         return pList;
     }
 
-    private static void addListToMap(Map<PyObject, PyObject> pMap,
-            DialogFormat d, DialogVariables v) {
+    private void addListToMap(Map<PyObject, PyObject> pMap, DialogFormat d,
+            DialogVariables v) {
         Map<String, ListOfRows> rowList = v.getRowList();
         if (rowList.isEmpty()) {
             return;
@@ -181,7 +195,7 @@ public class RunJython extends UtilHelper {
             Entry<String, ListOfRows> e = iter.next();
             ListFormat fList = d.findList(e.getKey());
             if (fList == null)
-                errorLog(Holder.getM().getMess(IErrorCode.ERRORCODE34,
+                errorLog(logMess.getMess(IErrorCode.ERRORCODE34,
                         ILogMess.LISTNOTFOUND, d.getId(), e.getKey()));
             PyList pList = createList(fList.getColumns(), e.getValue());
             m.put(toString(e.getKey()), pList);
@@ -190,24 +204,24 @@ public class RunJython extends UtilHelper {
         pMap.put(JLISTMAP, pyMap);
     }
 
-    private static String getNotEmptyValueS(MapDialogVariable v, String id) {
+    private String getNotEmptyValueS(MapDialogVariable v, String id) {
         String s = v.getValueS(ICommonConsts.JDATELINEQUERYID);
         if (CUtil.EmptyS(s)) {
-            errorLog(Holder.getM().getMess(IErrorCode.ERRORCODE58,
+            errorLog(logMess.getMess(IErrorCode.ERRORCODE58,
                     ILogMess.STRINGVALUECANNOTBENULL, id));
         }
         return s;
 
     }
 
-    private static void addQueryDateLineToMap(Map<PyObject, PyObject> pMap,
+    private void addQueryDateLineToMap(Map<PyObject, PyObject> pMap,
             DialogFormat d, DialogVariables v) {
         if (v.getQueryDateLine().isEmpty())
             return;
         String id = getNotEmptyValueS(v, ICommonConsts.JDATELINEQUERYID);
         DateLine dL = d.findDateLine(id);
         if (dL == null) {
-            String mess = Holder.getM().getMess(IErrorCode.ERRORCODE59,
+            String mess = logMess.getMess(IErrorCode.ERRORCODE59,
                     ILogMess.DATELINENOTDEFINED, id, ICommonConsts.DATELINE,
                     d.getId());
             errorLog(mess);
@@ -216,7 +230,7 @@ public class RunJython extends UtilHelper {
         pMap.put(toString(ICommonConsts.JDATELINEQUERYLIST), qList);
     }
 
-    private static void addCheckListToMap(Map<PyObject, PyObject> pMap,
+    private void addCheckListToMap(Map<PyObject, PyObject> pMap,
             DialogFormat d, DialogVariables v) {
         if (v.getCheckVariables().isEmpty())
             return;
@@ -229,7 +243,7 @@ public class RunJython extends UtilHelper {
                 if (cList == null)
                     continue;
                 // 2013/10/29 :
-                // errorLog(Holder.getM().getMess(IErrorCode.ERRORCODE35,
+                // errorLog(logMess.getMess(IErrorCode.ERRORCODE35,
                 // ILogMess.CANNOTFINDCHECKLIST, d.getId(),
                 // ICommonConsts.JCHECKLISTMAP, s));
                 PyList pList = createList(cList.constructValLine(), var
@@ -243,7 +257,7 @@ public class RunJython extends UtilHelper {
     }
 
     @SuppressWarnings("rawtypes")
-    private static void extractListFromSeq(ListOfRows lRows, RowIndex rI,
+    private void extractListFromSeq(ListOfRows lRows, RowIndex rI,
             PyList pList, DialogFormat d, boolean strict) {
         ListIterator i = pList.listIterator();
         Map<Integer, FieldValue> outVal = new HashMap<Integer, FieldValue>();
@@ -257,7 +271,7 @@ public class RunJython extends UtilHelper {
                 FieldValue valF = v.getValue(s);
                 if (!rI.isField(s)) {
                     if (strict)
-                        errorLog(Holder.getM().getMess(IErrorCode.ERRORCODE28,
+                        errorLog(logMess.getMess(IErrorCode.ERRORCODE28,
                                 ILogMess.COLUMNNOTDEFINED, s, d.getId()));
                     else {
                         // row.addRow(valF);
@@ -318,7 +332,7 @@ public class RunJython extends UtilHelper {
         }
     }
 
-    private static class ExtractList extends IterateMap {
+    private class ExtractList extends IterateMap {
 
         private final DialogFormat d;
         private final String actionId;
@@ -335,21 +349,22 @@ public class RunJython extends UtilHelper {
         @Override
         void visit(String listId, PyList pList) {
             if (d.getListList().isEmpty())
-                errorLog(Holder.getM().getMess(IErrorCode.ERRORCODE38,
+                errorLog(logMess.getMess(IErrorCode.ERRORCODE38,
                         ILogMess.EMPTYLISTDEFINITION, listId, d.getId()));
 
             ListFormat lForm = d.findList(listId);
             if (lForm == null)
-                errorLog(Holder.getM().getMess(IErrorCode.ERRORCODE39,
-                        d.getId(), listId));
+                errorLog(logMess.getMess(IErrorCode.ERRORCODE39,
+                        ILogMess.LISTNOTFOUND, d.getId(), listId));
             RowIndex rI = new RowIndex(lForm.getColumns());
             ListOfRows lRows = new ListOfRows();
 
             if (pList == null) {
                 if (!lForm.isChunked()) {
-                    String errmess = Holder.getM().getMess(
-                            IErrorCode.ERRORCODE50, ILogMess.SEQUENCEEXPECTED,
-                            d.getId(), lForm.getId());
+                    String errmess = logMess
+                            .getMess(IErrorCode.ERRORCODE50,
+                                    ILogMess.SEQUENCEEXPECTED, d.getId(),
+                                    lForm.getId());
                     errorLog(errmess);
                 } else {
                     lRows.setSize(intFound);
@@ -366,13 +381,13 @@ public class RunJython extends UtilHelper {
 
     }
 
-    private static void extractList(PyDictionary pyMap, DialogVariables vOut,
+    private void extractList(PyDictionary pyMap, DialogVariables vOut,
             DialogFormat d, String actionId) {
         ExtractList eList = new ExtractList(pyMap, d, actionId, vOut);
         eList.runMap();
     }
 
-    private static class ExtractDataLineList extends IterateMap {
+    private class ExtractDataLineList extends IterateMap {
 
         private final DialogFormat d;
         private final DialogVariables vOut;
@@ -406,12 +421,9 @@ public class RunJython extends UtilHelper {
                             false);
                     vOut.getDatelineVariables().put(dL.getId(), lineVariables);
                 } else {
-                    String mess = Holder.getM().getMess(
-                            IErrorCode.ERRORCODE60,
-                            ILogMess.DATELINEGETDATACTION,
-                            d.getId(),
-                            ICommonConsts.JDATELINEMAP,
-                            listId,
+                    String mess = logMess.getMess(IErrorCode.ERRORCODE60,
+                            ILogMess.DATELINEGETDATACTION, d.getId(),
+                            ICommonConsts.JDATELINEMAP, listId,
                             ICommonConsts.JDATELINELINEDEF + " "
                                     + ICommonConsts.JDATELINEVALUES);
                     errorLog(mess);
@@ -432,7 +444,7 @@ public class RunJython extends UtilHelper {
         void visit(String listId, PyList pList) {
             DateLine dLine = d.findDateLine(listId);
             if (dLine == null) {
-                String mess = Holder.getM().getMess(IErrorCode.ERRORCODE49,
+                String mess = logMess.getMess(IErrorCode.ERRORCODE49,
                         ILogMess.DATELINENOTDEFINED, listId,
                         ICommonConsts.DATELINE, d.getId());
                 errorLog(mess);
@@ -443,7 +455,7 @@ public class RunJython extends UtilHelper {
 
     }
 
-    private static class ExtractCheckList extends IterateMap {
+    private class ExtractCheckList extends IterateMap {
 
         private final DialogFormat d;
         private final DialogVariables vOut;
@@ -468,7 +480,7 @@ public class RunJython extends UtilHelper {
             void visit(String listId, PyList pList) {
                 CheckList cList = DialogFormat.findE(d.getCheckList(), checkId);
                 if (cList == null) {
-                    errorLog(Holder.getM().getMess(IErrorCode.ERRORCODE31,
+                    errorLog(logMess.getMess(IErrorCode.ERRORCODE31,
                             ILogMess.CANNOTFINDCHECKLIST,
                             ICommonConsts.JCHECKLISTMAP, listId));
                 }
@@ -515,8 +527,8 @@ public class RunJython extends UtilHelper {
 
     }
 
-    private static void toDialogVariables(List<FieldItem> fList,
-            DialogVariables v, PyDictionary pyMap, boolean strict) {
+    private void toDialogVariables(List<FieldItem> fList, DialogVariables v,
+            PyDictionary pyMap, boolean strict) {
         PyObject item = pyMap.iteritems();
         PyIterator iter = (PyIterator) item;
         PyObject next;
@@ -582,8 +594,7 @@ public class RunJython extends UtilHelper {
                             BigInteger bi = (BigInteger) val;
                             lV = bi.longValue();
                         } else
-                            errorLog(Holder.getM().getMess(
-                                    IErrorCode.ERRORCODE40,
+                            errorLog(logMess.getMess(IErrorCode.ERRORCODE40,
                                     ILogMess.INTEGERORBITINTEGEREXPECTED, keyS));
 
                         f.setValue(lV);
@@ -599,10 +610,8 @@ public class RunJython extends UtilHelper {
                         } else if (val instanceof BigDecimal) {
                             bV = (BigDecimal) val;
                         } else
-                            errorLog(Holder.getM().getMess(
-                                    IErrorCode.ERRORCODE41,
-                                    ILogMess.INTEGERORBITINTEGEREXPECTED,
-                                    keyS,
+                            errorLog(logMess.getMess(IErrorCode.ERRORCODE41,
+                                    ILogMess.INTEGERORBITINTEGEREXPECTED, keyS,
                                     val == null ? null : val.getClass()
                                             .getName()));
 
@@ -631,14 +640,14 @@ public class RunJython extends UtilHelper {
                         f.setValue(ti);
                         break;
                     default:
-                        errorLog(Holder.getM().getMess(IErrorCode.ERRORCODE32,
+                        errorLog(logMess.getMess(IErrorCode.ERRORCODE32,
                                 ILogMess.TYPEMAPNOTIMPLEMENTS, keyS,
                                 fType.toString()));
                     }
             } else {
                 if (val == null)
                     if (strict)
-                        errorLog(Holder.getM().getMess(IErrorCode.ERRORCODE30,
+                        errorLog(logMess.getMess(IErrorCode.ERRORCODE30,
                                 ILogMess.VALUECANNOTBENULL, keyS));
                     else
                         f.setValue((String) null);
@@ -668,9 +677,9 @@ public class RunJython extends UtilHelper {
                     Date dat = new Date(dt.getTime());
                     f.setValue(dat);
                 } else {
-                    errorLog(Holder.getM().getMess(IErrorCode.ERRORCODE29,
-                            ILogMess.TYPENOTIMPLEMENTED, keyS,
-                            val.getClass().getName()));
+                    errorLog(logMess.getMess(IErrorCode.ERRORCODE29,
+                            ILogMess.TYPENOTIMPLEMENTED, keyS, val.getClass()
+                                    .getName()));
                 }
             }
             v.setValue(keyS, f);
@@ -709,8 +718,8 @@ public class RunJython extends UtilHelper {
 
     }
 
-    private static void executeJythonforDialog(IJythonUIServerProperties p,
-            MCached mCached, DialogVariables v, DialogFormat d, String actionId) {
+    private void executeJythonforDialog(DialogVariables v, DialogFormat d,
+            String actionId) {
         // checked by experience that if file.encoding is not null then
         // Jython cannot be started in Development Mode
         // but it works as expected after deploying to Google App Engine
@@ -720,7 +729,7 @@ public class RunJython extends UtilHelper {
         String methodJ = d.getJythonMethod();
         logDebug("method jython = " + methodJ);
         if (methodJ == null) {
-            errorLog(Holder.getM().getMess(IErrorCode.ERRORCODE42,
+            errorLog(logMess.getMess(IErrorCode.ERRORCODE42,
                     ILogMess.METHODNOTDEFINED, d.getId(), actionId));
         }
 
@@ -730,10 +739,10 @@ public class RunJython extends UtilHelper {
          */
         PythonInterpreter interp;
 
-//        String sysName = System.getProperty("os.name");
-//        severe("os name=" + sysName);
+        // String sysName = System.getProperty("os.name");
+        // severe("os name=" + sysName);
 
-        if (mCached.isCached()) {
+        if (p.isCached()) {
             // Checked by experience that default PythonIntepreter constructor
             // keeps compiled packages, so we cannot modify jython source code
             // dynamically, server restart is necessary
@@ -793,9 +802,8 @@ public class RunJython extends UtilHelper {
             dest.setAttr(attrName, val);
     }
 
-    private static void executeForType(IJythonUIServerProperties p,
-            MCached mCached, DialogVariables v, DialogFormat d, String idType,
-            boolean comboNow) {
+    private void executeForType(DialogVariables v, DialogFormat d,
+            String idType, boolean comboNow) {
         if (d.getTypeList() == null) {
             return;
         }
@@ -827,45 +835,41 @@ public class RunJython extends UtilHelper {
                 FieldValue val = v.getValue(f);
                 va.setValue(f, val);
             }
-            executeJythonforDialog(p, mCached, va, dd, idType);
+            executeJythonforDialog(va, dd, idType);
             v.getEnumList().putAll(va.getRowList());
             return;
         }
         errorLog(idType + " unrecognized custom type");
     }
 
-    static private void executeForField(IJythonUIServerProperties p,
-            MCached mCached, DialogVariables v, DialogFormat d,
+    private void executeForField(DialogVariables v, DialogFormat d,
             List<FieldItem> fList) {
         for (FieldItem i : fList) {
             String t = i.getCustom();
             if (CUtil.EmptyS(t)) {
                 continue;
             }
-            executeForType(p, mCached, v, d, t, true);
+            executeForType(v, d, t, true);
         }
     }
 
-    static private void executeForEnum(IJythonUIServerProperties p,
-            MCached mCached, DialogVariables v, DialogFormat d) {
-        executeForField(p, mCached, v, d, d.getFieldList());
+    private void executeForEnum(DialogVariables v, DialogFormat d) {
+        executeForField(v, d, d.getFieldList());
         for (ListFormat li : d.getListList()) {
-            executeForField(p, mCached, v, d, li.getColumns());
+            executeForField(v, d, li.getColumns());
         }
     }
 
-    // single entry point
-
-    public static void executeJython(IJythonUIServerProperties p,
-            MCached mCached, DialogVariables v, DialogFormat d, String actionId) {
+    @Override
+    public void executeJython(DialogVariables v, DialogFormat d, String actionId) {
         String cu = FieldItem.getCustomT(actionId);
         if (!CUtil.EmptyS(cu)) {
-            executeForType(p, mCached, v, d, cu, false);
+            executeForType(v, d, cu, false);
             return;
         }
-        executeJythonforDialog(p, mCached, v, d, actionId);
+        executeJythonforDialog(v, d, actionId);
         if (actionId.equals(ICommonConsts.BEFORE)) {
-            executeForEnum(p, mCached, v, d);
+            executeForEnum(v, d);
         }
     }
 
