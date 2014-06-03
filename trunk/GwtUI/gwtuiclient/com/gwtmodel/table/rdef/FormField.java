@@ -24,7 +24,6 @@ public class FormField {
     private final boolean readOnlyIfModif;
     private final boolean readOnlyIfAdd;
     private final IVField fRange;
-    private boolean disabled;
     private final String tabId;
     private final boolean modeSetAlready;
     private final boolean label;
@@ -113,21 +112,6 @@ public class FormField {
     public IVField getFRange() {
         return fRange;
 
-    }
-
-    /**
-     * @return the disabled
-     */
-    public boolean isDisabled() {
-        return disabled;
-    }
-
-    /**
-     * @param disabled
-     *            the disabled to set
-     */
-    public void setDisabled(boolean disabled) {
-        this.disabled = disabled;
     }
 
     /**

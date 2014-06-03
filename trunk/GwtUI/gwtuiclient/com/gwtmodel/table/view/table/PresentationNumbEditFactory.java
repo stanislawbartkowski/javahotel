@@ -14,7 +14,6 @@ package com.gwtmodel.table.view.table;
 
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
-import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.MutableInteger;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
@@ -30,29 +29,6 @@ class PresentationNumbEditFactory extends PresentationEditCellHelper {
             CellTable<MutableInteger> table, ILostFocusEdit lostFocus,
             EditableCol eCol, IStartEditRow iStartEdit) {
         super(errorInfo, table, lostFocus, eCol, iStartEdit);
-    }
-
-    private class EditNumberCell extends EditStringCell {
-
-        EditNumberCell(VListHeaderDesc he) {
-            super(he);
-        }
-
-        @Override
-        public Object getValObj(MutableInteger key) {
-            ViewData viewData = getViewData(key);
-            if (viewData == null) {
-                return null;
-            }
-            return FUtils.getValue(v, viewData.getCurrentValue());
-        }
-
-        @Override
-        public void setValObj(MutableInteger key, Object o) {
-            String s = FUtils.getValueOS(o, v);
-            super.setValObj(key, s);
-        }
-
     }
 
     @SuppressWarnings("rawtypes")

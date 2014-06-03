@@ -37,4 +37,5 @@ public interface IConsts {
     int MonthPanel = 12;
     String LABELPREFIX="label-";
     String IJSCALL = "JS.";
+    String SPINNERSTYLE ="spinner-style";
 }
