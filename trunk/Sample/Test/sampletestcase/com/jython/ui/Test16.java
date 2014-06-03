@@ -12,12 +12,18 @@
  */
 package com.jython.ui;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import org.junit.Test;
 
 import com.jythonui.server.holder.Holder;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogInfo;
+import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.JythonUIFatal;
 
 public class Test16 extends TestHelper {
@@ -31,80 +37,62 @@ public class Test16 extends TestHelper {
         // security enabled : null is expected
         d = null;
         try {
-           d = findDialog("test38.xml");
-           // not expected
-           fail();           
+            d = findDialog("test38.xml");
+            // not expected
+            fail();
         } catch (JythonUIFatal e) {
-            // expected            
+            // expected
         }
         assertNull(d);
     }
 
     @Test
     public void test2() {
-        String t = authenticateToken(realmIni, "darkhelmet",
-                "ludicrousspeed");
+        String t = authenticateToken(realmIni, "darkhelmet", "ludicrousspeed");
         assertNotNull(t);
         Holder.setAuth(true);
         DialogInfo i = findDialog(t, "test38.xml");
         assertNotNull(i);
-        assertEquals(1, i.getSecurity().getFieldSec().get("glob").size());
-        assertEquals(3, i.getSecurity().getFieldSec().get("globenum").size());
-        assertEquals(0, i.getSecurity().getButtSec().size());
+        FieldItem ii = i.getDialog().findFieldItem("globenum");
+        assertNotNull(ii);
     }
 
     @Test
     public void test3() {
-        String t = authenticateToken(realmIni, "darkhelmet",
-                "ludicrousspeed");
+        String t = authenticateToken(realmIni, "darkhelmet", "ludicrousspeed");
         assertNotNull(t);
         DialogInfo i = findDialog(t, "test39.xml");
         assertNotNull(i);
         // before eyes of darkhelmet not hidden
-        assertFalse(i.getSecurity().getFieldSec().get("globenum")
-                .contains("hidden"));
-        assertFalse(i.getSecurity().isFieldHidden(
-                i.getDialog().findFieldItem("globenum")));
+        assertFalse(containsAttr(i, "globenum", "hidden"));
         iSec.logout(t);
         t = authenticateToken(realmIni, "lonestarr", "vespa");
         assertNotNull(t);
         i = findDialog(t, "test39.xml");
         assertNotNull(i);
         // hidden before other mortals
-        assertTrue(i.getSecurity().getFieldSec().get("globenum")
-                .contains("hidden"));
-        assertTrue(i.getSecurity().isFieldHidden(
-                i.getDialog().findFieldItem("globenum")));
+        assertTrue(containsAttr(i, "globenum", "hidden"));
         iSec.logout(t);
     }
 
     @Test
     public void test4() {
-        String t = authenticateToken(realmIni, "darkhelmet",
-                "ludicrousspeed");
+        String t = authenticateToken(realmIni, "darkhelmet", "ludicrousspeed");
         assertNotNull(t);
         DialogInfo i = findDialog(t, "test40.xml");
         assertNotNull(i);
         // before darkhelmet neither hidden nor readonly
-        assertFalse(i.getSecurity().getButtSec().get("ID").contains("hidden"));
-        assertFalse(i.getSecurity().isButtHidden(
-                DialogFormat.findE(i.getDialog().getButtonList(), "ID")));
-        assertFalse(i.getSecurity().getButtSec().get("ID").contains("readonly"));
-        assertFalse(i.getSecurity().isButtReadOnly(
-                DialogFormat.findE(i.getDialog().getButtonList(), "ID")));
+        assertFalse(buttContainsAttr(i, "ID", "hidden"));
+        assertFalse(buttContainsAttr(i, "ID", "readonly"));
         iSec.logout(t);
         //
         t = authenticateToken(realmIni, "lonestarr", "vespa");
         assertNotNull(t);
         i = findDialog(t, "test40.xml");
         assertNotNull(i);
-        // lonestarr : hidden but readonly
-        assertFalse(i.getSecurity().getButtSec().get("ID").contains("hidden"));
-        assertFalse(i.getSecurity().isButtHidden(
-                DialogFormat.findE(i.getDialog().getButtonList(), "ID")));
-        assertTrue(i.getSecurity().getButtSec().get("ID").contains("readonly"));
-        assertTrue(i.getSecurity().isButtReadOnly(
-                DialogFormat.findE(i.getDialog().getButtonList(), "ID")));
+        // lonestarr : not hidden but readonly
+        assertFalse(buttContainsAttr(i, "ID", "hidden"));
+        assertTrue(buttContainsAttr(i, "ID", "readonly"));
         iSec.logout(t);
         iSec.logout(t);
         //
@@ -113,12 +101,8 @@ public class Test16 extends TestHelper {
         i = findDialog(t, "test40.xml");
         assertNotNull(i);
         // other hidden and not readonly
-        assertTrue(i.getSecurity().getButtSec().get("ID").contains("hidden"));
-        assertTrue(i.getSecurity().isButtHidden(
-                DialogFormat.findE(i.getDialog().getButtonList(), "ID")));
-        assertFalse(i.getSecurity().getButtSec().get("ID").contains("readonly"));
-        assertFalse(i.getSecurity().isButtReadOnly(
-                DialogFormat.findE(i.getDialog().getButtonList(), "ID")));
+        assertTrue(buttContainsAttr(i, "ID", "hidden"));
+        assertFalse(buttContainsAttr(i, "ID", "readonly"));
     }
 
 }
