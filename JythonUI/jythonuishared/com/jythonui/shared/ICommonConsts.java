@@ -267,6 +267,7 @@ public interface ICommonConsts {
     String JDATEACTIONGETVALUES = "datelinevalues";
 
     char PERMSIGN = '$';
+    char EVALSIGN = '#';
 
     String SECURITYTOKEN = "SECURITY_TOKEN";
 

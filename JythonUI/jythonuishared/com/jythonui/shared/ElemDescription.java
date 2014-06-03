@@ -19,37 +19,9 @@ import com.gwtmodel.table.map.XMap;
  * @author hotel
  * 
  */
-public abstract class ElemDescription extends XMap  {
+public abstract class ElemDescription extends XMap {
 
     private static final long serialVersionUID = 1L;
-
-    @Override
-    protected int findSecurity(String s) {
-        if (CUtil.EmptyS(s))
-            return -1;
-        int startp = 0;
-        int len = s.length();
-
-        while (true) {
-            int pos = s.indexOf(ICommonConsts.PERMSIGN, startp);
-            if (pos == -1)
-                return -1;
-            if (pos == len - 1)
-                return -1; // empty security
-            if (s.charAt(pos + 1) != ICommonConsts.PERMSIGN)
-                return pos;
-            // double (escaped) $
-            startp = pos + 2;
-        }
-    }
-
-    public String getSecuriyPart(String key) {
-        String val = attr.get(key);
-        int sec = findSecurity(val);
-        if (sec == -1)
-            return null;
-        return val.substring(sec + 1);
-    }
 
     public String getId() {
         return getAttr(ICommonConsts.ID);
