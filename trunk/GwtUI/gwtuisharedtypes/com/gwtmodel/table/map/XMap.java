@@ -22,9 +22,9 @@ import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.DecimalUtils;
 
 abstract public class XMap implements Serializable {
-    
+
     private static final long serialVersionUID = 1L;
-    
+
     // cannot be final
     protected Map<String, String> attr = new HashMap<String, String>();
 
@@ -43,19 +43,11 @@ abstract public class XMap implements Serializable {
     public Iterator<String> getKeys() {
         return attr.keySet().iterator();
     }
-        
-    protected abstract int findSecurity(String val);
-    
+
     public String getAttr(String key) {
-        String val = attr.get(key);
-        int sec = findSecurity(val);
-        if (sec == -1)
-            return val; // no security string
-        if (sec == 0)
-            return "";
-        return val.substring(0, sec - 1); // remove security part
+        return attr.get(key);
     }
-    
+
     public boolean isAttr(String attr) {
         return getAttr(attr) != null;
     }
@@ -65,14 +57,14 @@ abstract public class XMap implements Serializable {
             return defa;
         return getAttr(key);
     }
-    
+
     protected int getInt(String key, int defaultval) {
         String s = getAttr(key);
         if (CUtil.EmptyS(s))
             return defaultval;
         return CUtil.getInteger(s);
     }
-    
+
     protected BigDecimal getAttrBig(String key) {
         String s = getAttr(key);
         if (s == null)
@@ -87,6 +79,5 @@ abstract public class XMap implements Serializable {
         }
         setAttr(key, b.toString());
     }
-
 
 }
