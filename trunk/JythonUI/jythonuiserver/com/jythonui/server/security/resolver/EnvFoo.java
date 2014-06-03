@@ -10,25 +10,21 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server.security;
+package com.jythonui.server.security.resolver;
 
-import com.jythonui.server.security.token.ICustomSecurity;
+import com.jythonui.server.IGetAppProp;
 
-public interface ISecurity {
+// must be public
+public class EnvFoo {
 
-    String authenticateToken(String realm, String userName, String password,
-            ICustomSecurity iCustom);
+    private final IGetAppProp iGet;
 
-    void logout(String token);
+    EnvFoo(IGetAppProp iGet) {
+        this.iGet = iGet;
+    }
 
-    boolean validToken(String token);
-
-    boolean isAuthorized(String token, String permission);
-
-    ICustomSecurity getCustom(String token);
-
-    String getUserName(String token);
-
-    String evaluateExpr(String token, String expr);
+    public String e(String key) {
+        return iGet.get().get(key);
+    }
 
 }

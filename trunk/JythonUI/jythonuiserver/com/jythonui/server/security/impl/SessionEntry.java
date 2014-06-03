@@ -58,7 +58,5 @@ class SessionEntry implements Serializable {
     public ICustomSecurity getiCustom() {
         return iCustom;
     }
-    
-    
 
 }

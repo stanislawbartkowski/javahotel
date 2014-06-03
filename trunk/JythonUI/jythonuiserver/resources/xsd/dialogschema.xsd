@@ -22,6 +22,11 @@
 		</xs:restriction>
 	</xs:simpleType>
 
+	<xs:simpleType name="integerTypeOrFun">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="([\-\+]{0,1}[0-9]+)|(#.*)" />
+		</xs:restriction>
+	</xs:simpleType>
 
 	<xs:simpleType name="typeOpVal">
 		<xs:restriction base="xs:string">
@@ -216,8 +221,8 @@
 			<xs:element minOccurs="0" name="label" type="xs:string" />
 			<xs:element minOccurs="0" name="columnclass" type="xs:string" />
 			<xs:element minOccurs="0" name="headerclass" type="xs:string" />
-			<xs:element minOccurs="0" name="spinnermin" type="xs:positiveInteger" />
-			<xs:element minOccurs="0" name="spinnermax" type="xs:positiveInteger" />
+			<xs:element minOccurs="0" name="spinnermin" type="integerTypeOrFun" />
+			<xs:element minOccurs="0" name="spinnermax" type="integerTypeOrFun" />
 		</xs:sequence>
 	</xs:group>
 
@@ -253,8 +258,8 @@
 		<xs:attribute name="label" type="emptyT" />
 		<xs:attribute name="columnclass" type="xs:string" />
 		<xs:attribute name="headerclass" type="xs:string" />
-		<xs:attribute name="spinnermin" type="xs:positiveInteger" />
-		<xs:attribute name="spinnermax" type="xs:positiveInteger" />
+		<xs:attribute name="spinnermin" type="integerTypeOrFun" />
+		<xs:attribute name="spinnermax" type="integerTypeOrFun" />
 	</xs:attributeGroup>
 
 	<xs:group name="checklistG">
