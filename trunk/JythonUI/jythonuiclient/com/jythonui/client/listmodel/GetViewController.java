@@ -53,7 +53,6 @@ import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.ListFormat;
 import com.jythonui.shared.ListOfRows;
-import com.jythonui.shared.SecurityInfo;
 
 /**
  * @author hotel
@@ -286,12 +285,12 @@ class GetViewController implements IGetViewControllerFactory {
         DialogInfo dInfo = rM.getDialogInfo();
         DialogFormat dElem = li.getfElem();
         assert dElem != null;
-        SecurityInfo elemSec = li.getElemSec();
-        assert elemSec != null;
+        // SecurityInfo elemSec = li.getElemSec();
+        // assert elemSec != null;
         // SecurityInfo elemSec = new
         // SecurityInfo(dInfo.getSecurity().getlSecur()
         // .get(li.getId()));
-        DialogInfo elemInfo = new DialogInfo(dElem, elemSec, null);
+        DialogInfo elemInfo = new DialogInfo(dElem, null);
         // DialogContainer sLo = new DialogContainer(da, elemInfo, iCon, null,
         // addV, null, null);
         IDialogContainer sLo = DialogContainerFactory.contstruct(da, elemInfo,

@@ -80,7 +80,7 @@ public class CreateFactory {
                     l.getColumns().addAll(te.getListOfColumns());
                     l.setAttr(ICommonConsts.DISPLAYNAME, te.getDisplayName());
                     VListHeaderContainer vHeader = CreateForm.constructColumns(
-                            d.getD().getInfo().getSecurity(), l, null, null);
+                            l, null, null);
                     publish(dType, vHeader);
                 }
 

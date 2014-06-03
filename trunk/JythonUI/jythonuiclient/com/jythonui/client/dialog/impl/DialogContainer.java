@@ -623,13 +623,13 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
         PViewData pView = new PViewData(cId);
 
         M.getLeftMenu().createLeftButton(
-                constructCButton(d.getLeftButtonList()), info.getSecurity(),
+                constructCButton(d.getLeftButtonList()),
                 d.getLeftButtonList(), LeftMenu.MenuType.LEFTPANEL);
         M.getLeftMenu().createLeftButton(constructCButton(d.getUpMenuList()),
-                info.getSecurity(), d.getUpMenuList(),
+                d.getUpMenuList(),
                 LeftMenu.MenuType.UPPANELMENU);
         M.getLeftMenu().createLeftButton(
-                constructCButton(d.getLeftStackList()), info.getSecurity(),
+                constructCButton(d.getLeftStackList()),
                 d.getLeftStackList(), LeftMenu.MenuType.LEFTSTACK);
         EnumTypesList eList = new EnumTypesList(d, liManager);
         if (!d.getFieldList().isEmpty()) {
@@ -664,8 +664,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
         }
         List<ControlButtonDesc> bList = null;
         if (!d.getButtonList().isEmpty()) {
-            bList = CreateForm.constructBList(info.getSecurity(),
-                    d.getButtonList());
+            bList = CreateForm.constructBList(d.getButtonList());
             ListOfControlDesc deList = new ListOfControlDesc(bList);
             ControlButtonViewFactory bFactory = GwtGiniInjector.getI()
                     .getControlButtonViewFactory();

@@ -31,7 +31,6 @@ import com.gwtmodel.table.stackpanelcontroller.StackPanelControllerFactory;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.jythonui.client.util.CreateForm;
 import com.jythonui.shared.ButtonItem;
-import com.jythonui.shared.SecurityInfo;
 
 /**
  * @author hotel
@@ -64,11 +63,10 @@ public class LeftMenu {
         }
     }
 
-    public void createLeftButton(ISlotListener clickButton, SecurityInfo sec,
+    public void createLeftButton(ISlotListener clickButton,
             List<ButtonItem> buttList, MenuType mType) {
         if (!buttList.isEmpty()) {
-            List<ControlButtonDesc> bList = CreateForm.constructBList(sec,
-                    buttList);
+            List<ControlButtonDesc> bList = CreateForm.constructBList(buttList);
             StackPanelControllerFactory sFactory = GwtGiniInjector.getI()
                     .getStackPanelControllerFactory();
             IStackPanelController iSlo = null;

@@ -33,6 +33,7 @@ import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.ClickButtonType.StandClickEnum;
 import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.gwtmodel.table.tabledef.IColumnImageSelect;
+import com.gwtmodel.table.tabledef.IGetSpinnerRange;
 import com.gwtmodel.table.tabledef.VFooterDesc;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
@@ -40,13 +41,11 @@ import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.VField;
 import com.jythonui.shared.ButtonItem;
-import com.jythonui.shared.DialSecurityInfo;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.ListFormat;
-import com.jythonui.shared.SecurityInfo;
 import com.jythonui.shared.TypedefDescr;
 
 /**
@@ -128,11 +127,11 @@ public class CreateForm {
 
             }
             boolean modeSetAlready = false;
-            if (dInfo.getSecurity().isFieldHidden(f)) {
+            if (f.isHidden()) {
                 v.setHidden(true);
                 modeSetAlready = true;
             }
-            if (dInfo.getSecurity().isFieldReadOnly(f)) {
+            if (f.isReadOnly()) {
                 v.setReadOnly(true);
                 modeSetAlready = true;
             }
@@ -190,12 +189,13 @@ public class CreateForm {
     }
 
     public static ColumnsDesc constructColumns(List<FieldItem> fList,
-            DialSecurityInfo lInfo, ISelectFactory sFactory, IGetEnum iGet) {
+            ISelectFactory sFactory, IGetEnum iGet) {
         ColumnsDesc desc = new ColumnsDesc();
         List<VListHeaderDesc> heList = desc.hList;
-        for (FieldItem f : fList) {
+        for (final FieldItem f : fList) {
             IVField vf;
             boolean isSelect = false;
+            IGetSpinnerRange iSpinner = null;
             if (!CUtil.EmptyS(f.getCustom()))
                 if (iGet.getEnum(f.getCustom()) != null)
                     vf = VField.construct(f.getId(),
@@ -210,6 +210,21 @@ public class CreateForm {
             // TODO: can be null for combo, check it later
             IColumnImageSelect iHelper = null;
             int colNo = 0;
+            if (f.isSpinner()) {
+                iSpinner = new IGetSpinnerRange() {
+
+                    @Override
+                    public int min() {
+                        return f.getSpinnerMin();
+                    }
+
+                    @Override
+                    public int max() {
+                        return f.getSpinnerMax();
+                    }
+
+                };
+            }
             if ((f.isHelper() || isSelect || f.isImageColumn())
                     && sFactory != null) {
                 iHelper = sFactory.construct(vf, f);
@@ -224,10 +239,9 @@ public class CreateForm {
                 }
             }
             VListHeaderDesc v = new VListHeaderDesc(getDisplayName(f), vf,
-                    lInfo == null ? f.isHidden() : lInfo.isFieldHidden(f),
-                    f.getActionId(), f.isColumnEditable(), al, f.getWidth(),
-                    f.getEditClass(), f.getEditCss(), iHelper, colNo,
-                    f.getColumnClass(), f.getHeaderClass());
+                    f.isHidden(), f.getActionId(), f.isColumnEditable(), al,
+                    f.getWidth(), f.getEditClass(), f.getEditCss(), iHelper,
+                    colNo, f.getColumnClass(), f.getHeaderClass(), iSpinner);
             heList.add(v);
             if (!f.isHidden())
                 desc.colvisNo++;
@@ -243,11 +257,9 @@ public class CreateForm {
         return desc;
     }
 
-    public static VListHeaderContainer constructColumns(SecurityInfo sInfo,
-            ListFormat l, ISelectFactory sFactory, IGetEnum iGet) {
-        DialSecurityInfo lInfo = sInfo.getListSecur().get(l.getId());
-        ColumnsDesc desc = constructColumns(l.getColumns(), lInfo, sFactory,
-                iGet);
+    public static VListHeaderContainer constructColumns(ListFormat l,
+            ISelectFactory sFactory, IGetEnum iGet) {
+        ColumnsDesc desc = constructColumns(l.getColumns(), sFactory, iGet);
         String lName = l.getDisplayName();
         return new VListHeaderContainer(desc.hList, lName, l.getPageSize(),
                 l.getJSModifRow(), l.getWidth(), null, desc.footList);
@@ -267,12 +279,10 @@ public class CreateForm {
                     id), enabled, hidden);
     }
 
-    public static List<ControlButtonDesc> constructBList(SecurityInfo sInfo,
-            List<ButtonItem> iList) {
+    public static List<ControlButtonDesc> constructBList(List<ButtonItem> iList) {
         List<ControlButtonDesc> bList = new ArrayList<ControlButtonDesc>();
         for (ButtonItem b : iList) {
-            bList.add(constructButton(b, !sInfo.isButtReadOnly(b),
-                    sInfo.isButtHidden(b)));
+            bList.add(constructButton(b, !b.isReadOnly(), b.isHidden()));
         }
         return bList;
     }

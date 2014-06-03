@@ -791,9 +791,10 @@ class ListControler {
                 VModelData row = vals.getValue();
                 List<IGetSetVField> eList = SlU.getVListFromEditTable(dType,
                         DataListPersistAction.this, getI());
-                IVModelData vD = getV(); 
+                IVModelData vD = getV();
                 if (vD == null)
-                    Utils.internalErrorAlert(M.M().RowReferenceIsNull(dType.toString()));
+                    Utils.internalErrorAlert(M.M().RowReferenceIsNull(
+                            dType.toString()));
                 boolean refreshlist = false;
                 for (IVField f : row.getF()) {
                     vD.setF(f, row.getF(f));
@@ -974,8 +975,8 @@ class ListControler {
                     }
 
                 };
-                VListHeaderContainer vHeader = CreateForm.constructColumns(rM
-                        .getDialogInfo().getSecurity(), fo, iSelect, iGet);
+                VListHeaderContainer vHeader = CreateForm.constructColumns(fo,
+                        iSelect, iGet);
                 publish(dType, vHeader);
             }
 
