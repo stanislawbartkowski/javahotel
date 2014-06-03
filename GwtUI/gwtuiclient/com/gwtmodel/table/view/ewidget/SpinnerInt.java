@@ -15,6 +15,7 @@ package com.gwtmodel.table.view.ewidget;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.user.client.ui.TextBoxBase;
+import com.gwtmodel.table.IConsts;
 
 class SpinnerInt extends TextBoxBase {
 
@@ -30,7 +31,7 @@ class SpinnerInt extends TextBoxBase {
     SpinnerInt(int min, int max) {
         super(createInputElement(Document.get(), "number",
                 Integer.toString(min), Integer.toString(max)));
-        this.addStyleName("spinner-style");
+        this.addStyleName(IConsts.SPINNERSTYLE);
     }
 
 }

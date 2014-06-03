@@ -91,8 +91,13 @@ abstract class PresentationEditCellHelper extends PresentationCellHelper {
         int row(MutableInteger key);
     }
 
-    protected void addInputSb(SafeHtmlBuilder sb, MutableInteger i,
-            String value, VListHeaderDesc he) {
+    interface InsertStyleAndClass {
+
+        void set(String inputStyle, String inputClass);
+    }
+
+    protected void addInputSbI(MutableInteger i, VListHeaderDesc he,
+            InsertStyleAndClass ins) {
         String sClass = null;
         if (errorInfo.isErrorLine(i)) {
             InvalidateMess me = errorInfo.getErrContainer().findV(he.getFie());
@@ -103,8 +108,21 @@ abstract class PresentationEditCellHelper extends PresentationCellHelper {
         if (sClass == null) {
             sClass = getS(he.getInputClass());
         }
-        sb.append(templateInput.input(getS(value), getS(he.getInputStyle()),
-                sClass));
+        // sb.append(templateInput.input(getS(value), getS(he.getInputStyle()),
+        // sClass));
+        ins.set(getS(getS(he.getInputStyle())), getS(sClass));
+    }
+
+    protected void addInputSb(final SafeHtmlBuilder sb, MutableInteger i,
+            final String value, VListHeaderDesc he) {
+        addInputSbI(i, he, new InsertStyleAndClass() {
+
+            @Override
+            public void set(String inputStyle, String inputClass) {
+                sb.append(templateInput.input(getS(value), inputStyle,
+                        inputClass));
+            }
+        });
     }
 
     protected void removeErrorStyle() {
@@ -183,6 +201,10 @@ abstract class PresentationEditCellHelper extends PresentationCellHelper {
         }
     }
 
+    protected interface ICustomEditStringRender {
+        void render(SafeHtmlBuilder sb, MutableInteger i, String value);
+    };
+
     protected class EditStringCell extends TextInputCell implements IGetField {
 
         protected final IVField v;
@@ -193,8 +215,8 @@ abstract class PresentationEditCellHelper extends PresentationCellHelper {
             this.he = he;
         }
 
-        @Override
-        public void render(Context context, String value, SafeHtmlBuilder sb) {
+        protected void customRender(Context context, String value,
+                SafeHtmlBuilder sb, ICustomEditStringRender iCustom) {
             Object key = context.getKey();
             MutableInteger i = (MutableInteger) key;
             boolean editenabled = eCol.isEditable(i.intValue(), v);
@@ -205,8 +227,9 @@ abstract class PresentationEditCellHelper extends PresentationCellHelper {
             }
             String s = (viewData != null) ? viewData.getCurrentValue() : value;
             if (editenabled) {
-                addInputSb(sb, i, s, he);
+                // addInputSb(sb, i, s, he);
                 // super.render(context, value, sb);
+                iCustom.render(sb, i, s);
                 return;
             }
             // Get the view data.
@@ -217,6 +240,18 @@ abstract class PresentationEditCellHelper extends PresentationCellHelper {
             } else {
                 sb.appendHtmlConstant("");
             }
+        }
+
+        @Override
+        public void render(Context context, String value, SafeHtmlBuilder sb) {
+            customRender(context, value, sb, new ICustomEditStringRender() {
+
+                @Override
+                public void render(SafeHtmlBuilder sb, MutableInteger i,
+                        String value) {
+                    addInputSb(sb, i, value, he);
+                }
+            });
         }
 
         @Override
@@ -255,4 +290,28 @@ abstract class PresentationEditCellHelper extends PresentationCellHelper {
             this.setViewData(key, vv);
         }
     }
+
+    protected class EditNumberCell extends EditStringCell {
+
+        EditNumberCell(VListHeaderDesc he) {
+            super(he);
+        }
+
+        @Override
+        public Object getValObj(MutableInteger key) {
+            ViewData viewData = getViewData(key);
+            if (viewData == null) {
+                return null;
+            }
+            return FUtils.getValue(v, viewData.getCurrentValue());
+        }
+
+        @Override
+        public void setValObj(MutableInteger key, Object o) {
+            String s = FUtils.getValueOS(o, v);
+            super.setValObj(key, s);
+        }
+
+    }
+
 }

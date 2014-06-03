@@ -14,11 +14,7 @@ package com.gwtmodel.table.view.table;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import org.apache.tools.mail.MailMessage;
 
 import com.google.common.base.Joiner;
 import com.google.gwt.cell.client.AbstractCell;
@@ -31,6 +27,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.EventTarget;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.TableCellElement;
 import com.google.gwt.dom.client.TableRowElement;
 import com.google.gwt.safehtml.shared.SafeHtml;
@@ -134,9 +131,6 @@ class PresentationTable implements IGwtTableView {
     private IGetStandardMessage iMess = GwtGiniInjector.getI()
             .getStandardMessage();
     private final ColToVHeader coV = new ColToVHeader();
-
-    // private final Map<Integer, VListHeaderDesc> iMap = new HashMap<Integer,
-    // VListHeaderDesc>();
 
     private class MyAsyncProvider extends AsyncDataProvider<MutableInteger> {
 

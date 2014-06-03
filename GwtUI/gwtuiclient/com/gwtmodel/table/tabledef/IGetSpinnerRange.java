@@ -12,28 +12,10 @@
  */
 package com.gwtmodel.table.tabledef;
 
-import com.gwtmodel.table.FieldDataType;
-import com.gwtmodel.table.IVField;
+public interface IGetSpinnerRange {
 
-/**
- * @author hotel
- * 
- */
-public class VFooterDesc extends VListHeaderDesc {
+    int min();
 
-    private final FieldDataType fType;
-
-    public VFooterDesc(IVField fie, ColAlign align, FieldDataType fType) {
-        super(null, fie, false, null, false, align, null, null, null, null, 0,
-                null, null, null);
-        this.fType = fType;
-    }
-
-    /**
-     * @return the fType
-     */
-    public FieldDataType getfType() {
-        return fType;
-    }
+    int max();
 
 }

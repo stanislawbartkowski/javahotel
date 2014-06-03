@@ -53,278 +53,285 @@ import com.gwtmodel.table.tabledef.VListHeaderDesc;
  */
 class PresentationEditCellFactory extends PresentationEditCellHelper {
 
-	private final PresentationTable pTable;
-	private final PresentationDateEditFactory dFactory;
-	private final PresentationImageChooseFactory iFactory;
-	private final PresentationNumbEditFactory nFactory;
-	private final PresentationCheckEditFactory checkFactory;
-	private final PresentationImageButtonFactory imaFactory;
-	private final PresentationEditSelectionCellFactory selFactory;
+    private final PresentationTable pTable;
+    private final PresentationDateEditFactory dFactory;
+    private final PresentationImageChooseFactory iFactory;
+    private final PresentationNumbEditFactory nFactory;
+    private final PresentationCheckEditFactory checkFactory;
+    private final PresentationImageButtonFactory imaFactory;
+    private final PresentationEditSelectionCellFactory selFactory;
+    private final PresentationEditCellSpinnerFactory spinnerFactory;
 
-	interface IStartEditRow {
+    interface IStartEditRow {
 
-		void setEditRow(MutableInteger row, WSize w);
-	}
+        void setEditRow(MutableInteger row, WSize w);
+    }
 
-	void setModel(IGwtTableModel model) {
-		setGModel(model);
-		dFactory.setGModel(model);
-		iFactory.setGModel(model);
-		nFactory.setGModel(model);
-		checkFactory.setGModel(model);
-		imaFactory.setGModel(model);
-		selFactory.setGModel(model);
-	}
+    void setModel(IGwtTableModel model) {
+        setGModel(model);
+        dFactory.setGModel(model);
+        iFactory.setGModel(model);
+        nFactory.setGModel(model);
+        checkFactory.setGModel(model);
+        imaFactory.setGModel(model);
+        selFactory.setGModel(model);
+        spinnerFactory.setGModel(model);
+    }
 
-	/**
-	 * @return the errorInfo
-	 */
-	ErrorLineInfo getErrorInfo() {
-		return errorInfo;
-	}
+    /**
+     * @return the errorInfo
+     */
+    ErrorLineInfo getErrorInfo() {
+        return errorInfo;
+    }
 
-	// default visibility
-	void setErrorLineInfo(MutableInteger key,
-			InvalidateFormContainer errContainer, IToRowNo i) {
-		if (errContainer.getErrMess() == null)
-			errorInfo.setActive(false);
-		else {
-			errorInfo.setActive(true);
-			errorInfo.setKey(key);
-			errorInfo.setErrContainer(errContainer);
-			errorInfo.setI(i);
-		}
-		table.redrawRow(i.row(key));
-	}
+    // default visibility
+    void setErrorLineInfo(MutableInteger key,
+            InvalidateFormContainer errContainer, IToRowNo i) {
+        if (errContainer.getErrMess() == null)
+            errorInfo.setActive(false);
+        else {
+            errorInfo.setActive(true);
+            errorInfo.setKey(key);
+            errorInfo.setErrContainer(errContainer);
+            errorInfo.setI(i);
+        }
+        table.redrawRow(i.row(key));
+    }
 
-	PresentationEditCellFactory(ILostFocusEdit lostFocus,
-			CellTable<MutableInteger> table, IStartEditRow iStartEdit,
-			PresentationTable pTable, IColumnImage iIma) {
-		super(new ErrorLineInfo(), table, lostFocus, new EditableCol(),
-				iStartEdit);
-		this.pTable = pTable;
-		this.dFactory = new PresentationDateEditFactory(errorInfo, table,
-				lostFocus, eCol, iStartEdit);
-		iFactory = new PresentationImageChooseFactory(errorInfo, table,
-				lostFocus, eCol, iStartEdit);
-		nFactory = new PresentationNumbEditFactory(errorInfo, table, lostFocus,
-				eCol, iStartEdit);
-		checkFactory = new PresentationCheckEditFactory(errorInfo, table,
-				lostFocus, eCol, iStartEdit);
-		imaFactory = new PresentationImageButtonFactory(errorInfo, table,
-				lostFocus, eCol, iStartEdit, iIma);
-		selFactory = new PresentationEditSelectionCellFactory(errorInfo, table,
-				lostFocus, eCol, iStartEdit);
-	}
+    PresentationEditCellFactory(ILostFocusEdit lostFocus,
+            CellTable<MutableInteger> table, IStartEditRow iStartEdit,
+            PresentationTable pTable, IColumnImage iIma) {
+        super(new ErrorLineInfo(), table, lostFocus, new EditableCol(),
+                iStartEdit);
+        this.pTable = pTable;
+        this.dFactory = new PresentationDateEditFactory(errorInfo, table,
+                lostFocus, eCol, iStartEdit);
+        iFactory = new PresentationImageChooseFactory(errorInfo, table,
+                lostFocus, eCol, iStartEdit);
+        nFactory = new PresentationNumbEditFactory(errorInfo, table, lostFocus,
+                eCol, iStartEdit);
+        checkFactory = new PresentationCheckEditFactory(errorInfo, table,
+                lostFocus, eCol, iStartEdit);
+        imaFactory = new PresentationImageButtonFactory(errorInfo, table,
+                lostFocus, eCol, iStartEdit, iIma);
+        selFactory = new PresentationEditSelectionCellFactory(errorInfo, table,
+                lostFocus, eCol, iStartEdit);
+        spinnerFactory = new PresentationEditCellSpinnerFactory(errorInfo,
+                table, lostFocus, eCol, iStartEdit);
+    }
 
-	void setEditable(ChangeEditableRowsParam eParam) {
-		eCol.addEditData(eParam);
-	}
+    void setEditable(ChangeEditableRowsParam eParam) {
+        eCol.addEditData(eParam);
+    }
 
-	public ChangeEditableRowsParam geteParam() {
-		return eCol.geteParam();
-	}
+    public ChangeEditableRowsParam geteParam() {
+        return eCol.geteParam();
+    }
 
-	@SuppressWarnings("rawtypes")
-	Column constructNumberCol(VListHeaderDesc he) {
-		return nFactory.constructNumberCol(he);
-	}
+    @SuppressWarnings("rawtypes")
+    Column constructNumberCol(VListHeaderDesc he) {
+        if (he.getiSpinner() != null)
+            return spinnerFactory.constructSpinnerCol(he);
+        else
+            return nFactory.constructNumberCol(he);
+    }
 
-	@SuppressWarnings("rawtypes")
-	Column constructDateEditCol(VListHeaderDesc he) {
-		return dFactory.constructDateEditCol(he);
-	}
+    @SuppressWarnings("rawtypes")
+    Column constructDateEditCol(VListHeaderDesc he) {
+        return dFactory.constructDateEditCol(he);
+    }
 
-	@SuppressWarnings("rawtypes")
-	Column contructBooleanCol(IVField v, boolean handleSelection) {
-		return checkFactory.contructBooleanCol(v, handleSelection);
-	}
+    @SuppressWarnings("rawtypes")
+    Column contructBooleanCol(IVField v, boolean handleSelection) {
+        return checkFactory.contructBooleanCol(v, handleSelection);
+    }
 
-	@SuppressWarnings("rawtypes")
-	Column constructEditTextCol(VListHeaderDesc he) {
-		final IVField v = he.getFie();
-		List<String> lis = null;
+    @SuppressWarnings("rawtypes")
+    Column constructEditTextCol(VListHeaderDesc he) {
+        final IVField v = he.getFie();
+        List<String> lis = null;
         IGetListValues li = v.getType().getLi();
-		IEnumType e = v.getType().getE();
-		AbstractListT listT = null;
-		if (e != null) {
-			lis = e.getValues();
-		} else if (li != null) {
-			IGetList iGet = new IGetList() {
-				public List<IMapEntry> getL() {
-					return v.getType().getLi().getList();
-				}
-			};
-			listT = new AbstractListT(iGet) {
-			};
-			lis = listT.getListVal();
-		}
-		IColumnImageSelect cSelect = he.getiColSelect();
-		boolean isColImage = he.isImageCol();
-		Column co;
-		if (isColImage) {
-			co = imaFactory.constructImageButton(he);
-		} else if (cSelect != null) {
-			co = iFactory.construct(he);
-		} else {
-			if (lis != null) {
-				co = selFactory.constructSelectionCol(he, lis, listT);
-			} else {
-				co = new TColumnEdit(v, new EditStringCell(he));
-			}
-		}
-		return co;
-	}
+        IEnumType e = v.getType().getE();
+        AbstractListT listT = null;
+        if (e != null) {
+            lis = e.getValues();
+        } else if (li != null) {
+            IGetList iGet = new IGetList() {
+                public List<IMapEntry> getL() {
+                    return v.getType().getLi().getList();
+                }
+            };
+            listT = new AbstractListT(iGet) {
+            };
+            lis = listT.getListVal();
+        }
+        IColumnImageSelect cSelect = he.getiColSelect();
+        boolean isColImage = he.isImageCol();
+        Column co;
+        if (isColImage) {
+            co = imaFactory.constructImageButton(he);
+        } else if (cSelect != null) {
+            co = iFactory.construct(he);
+        } else {
+            if (lis != null) {
+                co = selFactory.constructSelectionCol(he, lis, listT);
+            } else {
+                co = new TColumnEdit(v, new EditStringCell(he));
+            }
+        }
+        return co;
+    }
 
-	@SuppressWarnings("incomplete-switch")
-	private SafeHtml createSafeForImage(PersistTypeEnum persist) {
-		String imageName = null;
-		String title = null;
-		switch (persist) {
-		case ADDBEFORE:
-			imageName = pResources.getRes(IWebPanelResources.ADDBEFOREROW);
-			title = MM.getL().AddRowAtTheBeginning();
-			break;
-		case ADD:
-			imageName = pResources.getRes(IWebPanelResources.ADDROW);
-			title = MM.getL().AddRowAfter();
-			break;
-		case REMOVE:
-			imageName = pResources.getRes(IWebPanelResources.DELETEROW);
-			title = MM.getL().RemoveRow();
-			break;
-		}
-		String s = Utils.getImageHTML(imageName, IConsts.actionImageHeight,
-				IConsts.actionImageWidth, persist.toString());
-		// add div to have them vertically
+    @SuppressWarnings("incomplete-switch")
+    private SafeHtml createSafeForImage(PersistTypeEnum persist) {
+        String imageName = null;
+        String title = null;
+        switch (persist) {
+        case ADDBEFORE:
+            imageName = pResources.getRes(IWebPanelResources.ADDBEFOREROW);
+            title = MM.getL().AddRowAtTheBeginning();
+            break;
+        case ADD:
+            imageName = pResources.getRes(IWebPanelResources.ADDROW);
+            title = MM.getL().AddRowAfter();
+            break;
+        case REMOVE:
+            imageName = pResources.getRes(IWebPanelResources.DELETEROW);
+            title = MM.getL().RemoveRow();
+            break;
+        }
+        String s = Utils.getImageHTML(imageName, IConsts.actionImageHeight,
+                IConsts.actionImageWidth, persist.toString());
+        // add div to have them vertically
 
-		SafeHtml html = SafeHtmlUtils.fromTrustedString("<div title=\"" + title
-				+ "\" >" + s + "</div>");
-		return html;
-	}
+        SafeHtml html = SafeHtmlUtils.fromTrustedString("<div title=\"" + title
+                + "\" >" + s + "</div>");
+        return html;
+    }
 
-	private class ButtonImageCell extends ActionCell<MutableInteger> {
+    private class ButtonImageCell extends ActionCell<MutableInteger> {
 
-		private final PersistTypeEnum persist;
+        private final PersistTypeEnum persist;
 
-		ButtonImageCell(PersistTypeEnum persist,
-				ActionCell.Delegate<MutableInteger> delegate) {
-			super("", delegate);
-			this.persist = persist;
-		}
+        ButtonImageCell(PersistTypeEnum persist,
+                ActionCell.Delegate<MutableInteger> delegate) {
+            super("", delegate);
+            this.persist = persist;
+        }
 
-		@Override
-		public void render(Context context, MutableInteger value,
-				SafeHtmlBuilder sb) {
-			// add div to have them vertically
-			SafeHtml html = createSafeForImage(persist);
-			sb.append(html);
-		}
-	}
+        @Override
+        public void render(Context context, MutableInteger value,
+                SafeHtmlBuilder sb) {
+            // add div to have them vertically
+            SafeHtml html = createSafeForImage(persist);
+            sb.append(html);
+        }
+    }
 
-	@SuppressWarnings("rawtypes")
-	private class HasCellImage implements HasCell {
+    @SuppressWarnings("rawtypes")
+    private class HasCellImage implements HasCell {
 
-		private final PersistTypeEnum persist;
+        private final PersistTypeEnum persist;
 
-		HasCellImage(PersistTypeEnum persist) {
-			this.persist = persist;
-		}
+        HasCellImage(PersistTypeEnum persist) {
+            this.persist = persist;
+        }
 
-		private class Delegate implements ActionCell.Delegate<MutableInteger> {
+        private class Delegate implements ActionCell.Delegate<MutableInteger> {
 
-			@Override
-			public void execute(MutableInteger object) {
-				if (model.getRowEditAction() != null) {
-					WSize w = pTable.getRowWidget(object.intValue());
-					model.getRowEditAction().action(w, object.intValue(),
-							persist);
-				}
-			}
-		}
+            @Override
+            public void execute(MutableInteger object) {
+                if (model.getRowEditAction() != null) {
+                    WSize w = pTable.getRowWidget(object.intValue());
+                    model.getRowEditAction().action(w, object.intValue(),
+                            persist);
+                }
+            }
+        }
 
-		@Override
-		public Cell getCell() {
-			return new ButtonImageCell(persist, new Delegate());
-		}
+        @Override
+        public Cell getCell() {
+            return new ButtonImageCell(persist, new Delegate());
+        }
 
-		@Override
-		public FieldUpdater getFieldUpdater() {
-			return null;
-		}
+        @Override
+        public FieldUpdater getFieldUpdater() {
+            return null;
+        }
 
-		@Override
-		public Object getValue(Object object) {
-			return object;
-		}
-	}
+        @Override
+        public Object getValue(Object object) {
+            return object;
+        }
+    }
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private Column constructControlColumn() {
-		// return new ImageColumn();
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    private Column constructControlColumn() {
+        // return new ImageColumn();
 
-		List<HasCell> ce = new ArrayList<HasCell>();
-		// TODO: blocked now, re-think the usage
-		// ce.add(new
-		// HasCellImage(ImageNameFactory.getImageName(ImageNameFactory.ImageType.CHANGEROW),
-		// PersistTypeEnum.MODIF));
-		ce.add(new HasCellImage(PersistTypeEnum.REMOVE));
-		ce.add(new HasCellImage(PersistTypeEnum.ADD));
-		CompositeCell<MutableInteger> cCell = new CompositeCell(ce);
-		Column<MutableInteger, MutableInteger> imageColumn = new Column<MutableInteger, MutableInteger>(
-				cCell) {
-			@Override
-			public MutableInteger getValue(MutableInteger object) {
-				return object;
-			}
-		};
-		return imageColumn;
+        List<HasCell> ce = new ArrayList<HasCell>();
+        // TODO: blocked now, re-think the usage
+        // ce.add(new
+        // HasCellImage(ImageNameFactory.getImageName(ImageNameFactory.ImageType.CHANGEROW),
+        // PersistTypeEnum.MODIF));
+        ce.add(new HasCellImage(PersistTypeEnum.REMOVE));
+        ce.add(new HasCellImage(PersistTypeEnum.ADD));
+        CompositeCell<MutableInteger> cCell = new CompositeCell(ce);
+        Column<MutableInteger, MutableInteger> imageColumn = new Column<MutableInteger, MutableInteger>(
+                cCell) {
+            @Override
+            public MutableInteger getValue(MutableInteger object) {
+                return object;
+            }
+        };
+        return imageColumn;
 
-	}
+    }
 
-	private class ElemContainer {
+    private class ElemContainer {
 
-		Element elem;
-	}
+        Element elem;
+    }
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	void addActionColumn() {
-		Column imColumn = constructControlColumn();
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    void addActionColumn() {
+        Column imColumn = constructControlColumn();
 
-		Cell headercell = new ClickableTextCell() {
-			@Override
-			public void render(Cell.Context context, SafeHtml value,
-					SafeHtmlBuilder sb) {
-				SafeHtml html = createSafeForImage(PersistTypeEnum.ADDBEFORE);
-				sb.append(html);
-			}
-		};
+        Cell headercell = new ClickableTextCell() {
+            @Override
+            public void render(Cell.Context context, SafeHtml value,
+                    SafeHtmlBuilder sb) {
+                SafeHtml html = createSafeForImage(PersistTypeEnum.ADDBEFORE);
+                sb.append(html);
+            }
+        };
 
-		final ElemContainer elemX = new ElemContainer();
-		Header head = new Header(headercell) {
-			@Override
-			public Object getValue() {
-				return null;
-			}
+        final ElemContainer elemX = new ElemContainer();
+        Header head = new Header(headercell) {
+            @Override
+            public Object getValue() {
+                return null;
+            }
 
-			@Override
-			public void onBrowserEvent(Cell.Context context, Element elem,
-					NativeEvent event) {
-				elemX.elem = elem;
-				super.onBrowserEvent(context, elem, event);
-			}
-		};
-		head.setUpdater(new ValueUpdater<String>() {
-			@Override
-			public void update(String value) {
-				if (model.getRowEditAction() != null) {
-					WSize w = new WSize(elemX.elem);
-					model.getRowEditAction().action(w, 0,
-							PersistTypeEnum.ADDBEFORE);
-				}
-			}
-		});
+            @Override
+            public void onBrowserEvent(Cell.Context context, Element elem,
+                    NativeEvent event) {
+                elemX.elem = elem;
+                super.onBrowserEvent(context, elem, event);
+            }
+        };
+        head.setUpdater(new ValueUpdater<String>() {
+            @Override
+            public void update(String value) {
+                if (model.getRowEditAction() != null) {
+                    WSize w = new WSize(elemX.elem);
+                    model.getRowEditAction().action(w, 0,
+                            PersistTypeEnum.ADDBEFORE);
+                }
+            }
+        });
 
-		table.insertColumn(0, imColumn, head);
-	}
+        table.insertColumn(0, imColumn, head);
+    }
 }

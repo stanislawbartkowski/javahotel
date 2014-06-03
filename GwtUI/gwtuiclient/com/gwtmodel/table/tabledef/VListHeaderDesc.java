@@ -36,6 +36,7 @@ public class VListHeaderDesc {
     private final int imageNo;
     private final String columnClass;
     private final String headerClass;
+    private final IGetSpinnerRange iSpinner;
 
     public VListHeaderDesc(IGHeader gHeader, IVField fie) {
         assert fie != null : LogT.getT().cannotBeNull();
@@ -53,6 +54,7 @@ public class VListHeaderDesc {
         this.imageNo = 0;
         this.columnClass = null;
         this.headerClass = null;
+        this.iSpinner = null;
     }
 
     /**
@@ -71,19 +73,19 @@ public class VListHeaderDesc {
 
     public VListHeaderDesc(String headerString, IVField fie) {
         this(headerString, fie, false, null, false, null, null, null, null,
-                null, 0, null, null);
+                null, 0, null, null, null);
     }
 
     public VListHeaderDesc(IVField fie, VListHeaderDesc v) {
         this(v.getHeaderString(), fie, v.isHidden(), v.getButtonAction(),
-                false, null, null, null, null, null, 0, null, null);
+                false, null, null, null, null, null, 0, null, null, null);
     }
 
     public VListHeaderDesc(String headerString, IVField fie, boolean hidden,
             String buttonAction, boolean editable, ColAlign align,
             String colWidth, String inputClass, String inputStyle,
             IColumnImageSelect iColSelect, int imageNo, String columnClass,
-            String headerClass) {
+            String headerClass, IGetSpinnerRange iSpinner) {
         assert fie != null : LogT.getT().cannotBeNull();
         this.headerString = headerString;
         this.fie = fie;
@@ -99,18 +101,19 @@ public class VListHeaderDesc {
         this.imageNo = imageNo;
         this.columnClass = columnClass;
         this.headerClass = headerClass;
+        this.iSpinner = iSpinner;
     }
 
     public VListHeaderDesc(String headerString, IVField fie, boolean hidden,
             String buttonAction, boolean editable, ColAlign align,
             String colWidth) {
         this(headerString, fie, hidden, buttonAction, editable, align,
-                colWidth, null, null, null, 0, null, null);
+                colWidth, null, null, null, 0, null, null, null);
     }
 
     public VListHeaderDesc(String headerString, IVField fie, boolean hidden) {
         this(headerString, fie, hidden, null, false, null, null, null, null,
-                null, 0, null, null);
+                null, 0, null, null, null);
     }
 
     public String getHeaderClass() {
@@ -188,4 +191,9 @@ public class VListHeaderDesc {
     public String getInputStyle() {
         return inputStyle;
     }
+
+    public IGetSpinnerRange getiSpinner() {
+        return iSpinner;
+    }
+
 }

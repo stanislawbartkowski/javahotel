@@ -12,8 +12,6 @@
  */
 package com.gwtmodel.table.view.table;
 
-import java.util.Map;
-
 import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.dom.builder.shared.DivBuilder;
 import com.google.gwt.dom.builder.shared.TableCellBuilder;
@@ -27,8 +25,6 @@ import com.google.gwt.user.cellview.client.RowStyles;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
 import com.google.gwt.user.client.ui.HasVerticalAlignment.VerticalAlignmentConstant;
 import com.google.gwt.view.client.SelectionModel;
-import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.tabledef.VListHeaderDesc;
 
 /**
  * Important: it is copy and paste of DefaultCellTableBuilder The only
