@@ -18,26 +18,19 @@ public class DialogInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private DialogFormat dialog;
-    private SecurityInfo security;
     private CustomMessages custMess;
 
     // default constructor
     public DialogInfo() {
     }
 
-    public DialogInfo(DialogFormat dialog, SecurityInfo security,
-            CustomMessages custMess) {
+    public DialogInfo(DialogFormat dialog, CustomMessages custMess) {
         this.dialog = dialog;
-        this.security = security;
         this.custMess = custMess;
     }
 
     public DialogFormat getDialog() {
         return dialog;
-    }
-
-    public SecurityInfo getSecurity() {
-        return security;
     }
 
     public CustomMessages getCustMess() {

@@ -48,4 +48,8 @@ public class ButtonItem extends ElemDescription {
         return getAttr(ICommonConsts.JSACTION);
     }
 
+    public boolean isHidden() {
+        return isAttr(ICommonConsts.HIDDEN);
+    }
+
 }
