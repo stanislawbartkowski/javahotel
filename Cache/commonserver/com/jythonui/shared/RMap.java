@@ -21,11 +21,6 @@ abstract public class RMap extends XMap {
 
     private static final long serialVersionUID = 1L;
 
-    @Override
-    protected int findSecurity(String val) {
-        return -1;
-    }
-
     private Long id;
 
     private Date creationDate;
