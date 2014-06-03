@@ -18,8 +18,15 @@ import org.xml.sax.Attributes;
 
 public class SaxUtil {
 
+    public interface ITransformVal {
+
+        String transform(String val);
+
+        String getSecurity(String val);
+    }
+
     public static void readAttr(Map<String, String> bDescr,
-            Attributes attributes, String[] currentT) {
+            Attributes attributes, String[] currentT, ITransformVal iT) {
         for (int i = 0; i < attributes.getLength(); i++) {
             String key = attributes.getQName(i);
             boolean set = false;
@@ -36,13 +43,19 @@ public class SaxUtil {
                 }
             if (set) {
                 String val = attributes.getValue(i);
+                if (iT != null) {
+                    val = iT.getSecurity(val);
+                    if (val == null)
+                        continue;
+                    val = iT.transform(val);
+                }
                 bDescr.put(key, val);
             }
         }
     }
 
     public static void readVal(Map<String, String> bDescr, String qName,
-            String[] currentT, StringBuffer buf) {
+            String[] currentT, StringBuffer buf, ITransformVal iT) {
         if (bDescr != null) {
             boolean set = false;
             if (currentT == null)
@@ -54,8 +67,16 @@ public class SaxUtil {
                         break;
                     }
                 }
-            if (set)
-                bDescr.put(qName, buf.toString());
+            if (set) {
+                String val = buf.toString();
+                if (iT != null) {
+                    val = iT.getSecurity(val);
+                    if (val == null)
+                        return;
+                    val = iT.transform(val);
+                }
+                bDescr.put(qName, val);
+            }
         }
 
     }

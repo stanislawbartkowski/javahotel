@@ -13,6 +13,7 @@
 package com.jythonui.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
@@ -45,9 +46,12 @@ import com.jythonui.server.storage.blob.IBlobHandler;
 import com.jythonui.server.storage.gensym.ISymGenerator;
 import com.jythonui.server.storage.seq.ISequenceRealmGen;
 import com.jythonui.server.xml.IXMLTransformer;
+import com.jythonui.shared.ButtonItem;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
+import com.jythonui.shared.FieldItem;
+import com.jythonui.shared.ListFormat;
 import com.jythonui.shared.RequestContext;
 
 abstract public class CommonTestHelper {
@@ -179,6 +183,36 @@ abstract public class CommonTestHelper {
         c.setTime(d);
         c.add(Calendar.DATE, 1);
         return c.getTime();
+    }
+
+    protected boolean containsAttr(DialogInfo i, String field, String attr) {
+        FieldItem ii = i.getDialog().findFieldItem(field);
+        assertNotNull(ii);
+        return ii.isAttr(attr);
+    }
+
+    protected boolean buttContainsAttr(DialogInfo i, String field, String attr) {
+        ButtonItem ii = DialogFormat
+                .findE(i.getDialog().getButtonList(), field);
+        assertNotNull(ii);
+        return ii.isAttr(attr);
+    }
+
+    protected boolean leftbuttContainsAttr(DialogInfo i, String field,
+            String attr) {
+        ButtonItem ii = DialogFormat.findE(i.getDialog().getLeftButtonList(),
+                field);
+        assertNotNull(ii);
+        return ii.isAttr(attr);
+    }
+
+    protected boolean listContainsAttr(DialogInfo i, String list, String col,
+            String attr) {
+        ListFormat f = i.getDialog().findList(list);
+        assertNotNull(f);
+        FieldItem ii = f.getColumn(col);
+        assertNotNull(ii);
+        return ii.isAttr(attr);
     }
 
     // ------------

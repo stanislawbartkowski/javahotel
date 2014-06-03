@@ -61,7 +61,7 @@ abstract public class UtilHelper {
     }
 
     static protected void severe(String mess, Exception e) {
-        log.log(Level.SEVERE,mess,e);
+        log.log(Level.SEVERE, mess, e);
     }
 
     static protected void traceLog(String mess) {

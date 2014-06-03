@@ -104,7 +104,7 @@ public class XMLHelper extends UtilHelper implements IXMLHelper {
                 return;
             if (qName.equals(constList[ONETAG])) {
                 role = xFactory.construct();
-                SaxUtil.readAttr(role.getMap(), attributes, tagList);
+                SaxUtil.readAttr(role.getMap(), attributes, tagList, null);
             }
         }
 
@@ -120,7 +120,7 @@ public class XMLHelper extends UtilHelper implements IXMLHelper {
             }
             if (role == null)
                 return;
-            SaxUtil.readVal(role.getMap(), qName, tagList, buf);
+            SaxUtil.readVal(role.getMap(), qName, tagList, buf, null);
         }
 
         @Override
