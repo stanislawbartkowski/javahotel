@@ -509,7 +509,7 @@ class DateLineManager implements IDateLineManager {
             @Override
             public VListHeaderContainer getHeaderList() {
                 ColumnsDesc desc = CreateForm.constructColumns(
-                        dList.getColList(), null, null, null);
+                        dList.getColList(), null, null);
                 rowCol = desc.colvisNo;
 
                 for (int i = 0; i < dList.getColNo(); i++) {
