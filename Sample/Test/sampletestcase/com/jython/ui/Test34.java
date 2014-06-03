@@ -16,24 +16,19 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
-import com.jythonui.shared.DialSecurityInfo;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.ListFormat;
 import com.jythonui.shared.RequestContext;
-import com.jythonui.shared.SecurityInfo;
 
 public class Test34 extends TestHelper {
-    
+
     @Test
     public void test1() {
         DialogFormat d = findDialog("test70.xml");
         assertNotNull(d);
         DialogInfo di = iServer.findDialog(new RequestContext(), "test70.xml");
         assertNotNull(di);
-        SecurityInfo sI = di.getSecurity();
-        DialSecurityInfo dd = sI.getListSecur().get("lista");
-        assertNotNull(dd);
         ListFormat fo = d.findList("lista");
         assertNotNull(fo);
         DialogFormat e = fo.getfElem();
@@ -41,13 +36,11 @@ public class Test34 extends TestHelper {
         // dInfo.getSecurity().getlSecur().get(li.getId())
         DialogFormat dE = fo.getfElem();
         assertNotNull(dE);
-        ListFormat foE = dE.findList("listan");        
+        ListFormat foE = dE.findList("listan");
         assertNotNull(foE);
-        assertNotNull(foE.getElemSec());
-        DialSecurityInfo ddE = fo.getElemSec().getListSecur().get("listan");
-        assertNotNull(ddE);
-        DialogInfo dEE = iServer.findDialog(new RequestContext(),foE.getElemFormat());
-        assertNotNull(dEE);        
+        DialogInfo dEE = iServer.findDialog(new RequestContext(),
+                foE.getElemFormat());
+        assertNotNull(dEE);
     }
 
 }

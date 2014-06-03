@@ -12,16 +12,16 @@
  */
 package com.jython.ui;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import com.jythonui.shared.DialSecurityInfo;
-import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldValue;
-import com.jythonui.shared.ListFormat;
 
 public class Test17 extends TestHelper {
 
@@ -33,17 +33,19 @@ public class Test17 extends TestHelper {
         DialogInfo i = findDialog(t, "test41.xml");
         assertNotNull(i);
         assertEquals(0, i.getDialog().getCheckList().size());
-        DialSecurityInfo elem = i.getSecurity().getListSecur().get("lista");
-        assertNotNull(elem);
-        assertFalse(elem.getFieldSec().get("id").contains("hidden"));
+//        DialSecurityInfo elem = i.getSecurity().getListSecur().get("lista");
+//        assertNotNull(elem);
+//        assertFalse(elem.getFieldSec().get("id").contains("hidden"));
+        assertFalse(listContainsAttr(i, "lista","id", "hidden"));
 
         String t1 = authenticateToken(realmIni, "guest", "guest");
         assertNotNull(t1);
         i = findDialog(t1, "test41.xml");
         assertNotNull(i);
-        elem = i.getSecurity().getListSecur().get("lista");
-        assertNotNull(elem);
-        assertTrue(elem.getFieldSec().get("id").contains("hidden"));
+//        elem = i.getSecurity().getListSecur().get("lista");
+//        assertNotNull(elem);
+        assertTrue(listContainsAttr(i, "lista","id", "hidden"));
+//        assertTrue(elem.getFieldSec().get("id").contains("hidden"));
         iSec.logout(t);
         iSec.logout(t1);
 
@@ -68,19 +70,25 @@ public class Test17 extends TestHelper {
         assertNotNull(t);
         DialogInfo i = findDialog(t, "test43.xml");
         assertNotNull(i);
-        assertFalse(i.getSecurity().getButtSec().get("ID").contains("hidden"));
-        assertFalse(i.getSecurity().getButtSec().get("ID1").contains("hidden"));
-        assertFalse(i.getSecurity().getButtSec().get("ID1")
-                .contains("readonly"));
+//        assertFalse(i.getSecurity().getButtSec().get("ID").contains("hidden"));
+//        assertFalse(i.getSecurity().getButtSec().get("ID1").contains("hidden"));
+//        assertFalse(i.getSecurity().getButtSec().get("ID1")
+//                .contains("readonly"));
+        assertFalse(leftbuttContainsAttr(i, "ID", "hidden"));
+        assertFalse(leftbuttContainsAttr(i, "ID1", "hidden"));
+        assertFalse(leftbuttContainsAttr(i, "ID1", "readonly"));
 
         iSec.logout(t);
 
         t = authenticateToken(realmIni, "lonestarr", "vespa");
         assertNotNull(t);
         i = findDialog(t, "test43.xml");
-        assertTrue(i.getSecurity().getButtSec().get("ID").contains("hidden"));
-        assertFalse(i.getSecurity().getButtSec().get("ID1").contains("hidden"));
-        assertTrue(i.getSecurity().getButtSec().get("ID1").contains("readonly"));
+//        assertTrue(i.getSecurity().getButtSec().get("ID").contains("hidden"));
+//        assertFalse(i.getSecurity().getButtSec().get("ID1").contains("hidden"));
+//        assertTrue(i.getSecurity().getButtSec().get("ID1").contains("readonly"));
+        assertTrue(leftbuttContainsAttr(i, "ID", "hidden"));
+        assertFalse(leftbuttContainsAttr(i, "ID1", "hidden"));
+        assertTrue(leftbuttContainsAttr(i, "ID1", "readonly"));
 
         iSec.logout(t);
 
@@ -93,20 +101,23 @@ public class Test17 extends TestHelper {
         assertNotNull(t);
         DialogInfo i = findDialog(t, "test44.xml");
         assertNotNull(i);
-        DialSecurityInfo sI = i.getSecurity().getListSecur().get("list");
-        assertNotNull(sI);
-        ListFormat li = i.getDialog().findList("list");
-        assertFalse(sI.isFieldHidden(DialogFormat.findE(li.getColumns(), "id")));
+//        DialSecurityInfo sI = i.getSecurity().getListSecur().get("list");
+//        assertNotNull(sI);
+//        ListFormat li = i.getDialog().findList("list");
+//        assertFalse(sI.isFieldHidden(DialogFormat.findE(li.getColumns(), "id")));
+        assertFalse(listContainsAttr(i, "list","id", "hidden"));
+
         iSec.logout(t);
 
         t = authenticateToken(realmIni, "lonestarr", "vespa");
         assertNotNull(t);
         i = findDialog(t, "test44.xml");
         assertNotNull(i);
-        sI = i.getSecurity().getListSecur().get("list");
-        assertNotNull(sI);
-        li = i.getDialog().findList("list");
-        assertTrue(sI.isFieldHidden(DialogFormat.findE(li.getColumns(), "id")));
+//        sI = i.getSecurity().getListSecur().get("list");
+//        assertNotNull(sI);
+//        li = i.getDialog().findList("list");
+        assertTrue(listContainsAttr(i, "list","id", "hidden"));
+//        assertTrue(sI.isFieldHidden(DialogFormat.findE(li.getColumns(), "id")));
         iSec.logout(t);
     }
 

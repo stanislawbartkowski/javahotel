@@ -17,7 +17,6 @@ import javax.persistence.EntityManagerFactory;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
-import com.gwtmodel.mapcache.SimpleMapCacheFactory;
 import com.gwtmodel.table.common.dateutil.ISetTestToday;
 import com.gwtmodel.table.common.dateutil.SetTestTodayProvider;
 import com.gwtmodel.testenhancer.ITestEnhancer;
@@ -47,6 +46,7 @@ import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.defa.EmptyConnectionProvider;
 import com.jythonui.server.defa.EmptyRPCNotifier;
 import com.jythonui.server.defa.SecurityNullConvert;
+import com.jythonui.server.guavacache.GuavaCacheFactory;
 import com.jythonui.server.guice.JythonServerService.JythonServiceModule;
 import com.jythonui.server.security.ISecurityConvert;
 import com.jythonui.server.semaphore.ISemaphore;
@@ -73,8 +73,10 @@ public class ServerService {
             bind(ITestEnhancer.class).to(TestEnhancer.class);
             bind(EntityManagerFactory.class).toProvider(
                     EntityManagerFactoryProvider.class).in(Singleton.class);
-            bind(ICommonCacheFactory.class).to(SimpleMapCacheFactory.class).in(
-                    Singleton.class);
+//            bind(ICommonCacheFactory.class).to(SimpleMapCacheFactory.class).in(
+//                    Singleton.class);
+            bind(ICommonCacheFactory.class).to(GuavaCacheFactory.class).in(
+                    Singleton.class);            
             bind(ISecurityConvert.class).to(SecurityNullConvert.class).in(
                     Singleton.class);
 
