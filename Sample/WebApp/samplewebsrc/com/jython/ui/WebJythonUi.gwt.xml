@@ -47,9 +47,7 @@
   <set-property-fallback name="locale" value="en"/>
   
   <!--  Super dev mode -->
-<!--   
   <add-linker name="xsiframe"/>
   <set-configuration-property name="devModeRedirectEnabled" value="true"/>
   <set-property name="compiler.useSourceMaps" value="true" />
--->  
 </module>

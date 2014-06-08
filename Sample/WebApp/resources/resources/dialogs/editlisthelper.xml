@@ -23,11 +23,12 @@
 			<column id="date1" displayname="Start date" type="date"
 				editable="" notempty="" />
 			<column id="nameid" displayname="Name" helper="" editable=""
-				notempty="" />
+				/>
 			<column id="comboid" displayname="Combo" type="custom:tenum"
-				editable="" notempty="" />
+				editable="" />
 			<column id="helperid" displayname="Helper" type="custom:tehelper"
 				editable="" notempty="" />
+                        <column id="coladd" displayname="Info" />                                                       
 		</columns>
 	</list>
 
