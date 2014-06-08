@@ -12,14 +12,15 @@
  */
 package com.jythonui.client.dialog;
 
+import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.MapDialogVariable;
 
 public interface ICreateBackActionFactory {
-
+    
     CommonCallBack<DialogVariables> construct(String id, WSize w,
-            MapDialogVariable addV);
+            MapDialogVariable addV, ICommand iAfter);
 
 }

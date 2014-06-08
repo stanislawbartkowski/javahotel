@@ -409,6 +409,9 @@ def setStatusMessage(var,type,s = None):
     if s == None or s == "" : return
     var["JSTATUS_TEXT_"+type] = s
 
+def setEditRowOk(var,li,stat=True) :
+    var["JEDIT_ROW_OK_" + li] = stat  
+
 class DLIST() :
   
   def __init__(self,var,list) :
