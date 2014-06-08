@@ -6,6 +6,7 @@ import datetime
 import time
 from cutil import setStandEditMode
 from cutil import setAddEditMode
+import cutil
             
 class LISTREGISTRY(RegistryFile):
 
@@ -38,7 +39,11 @@ def doaction(action,var):
         var["JLIST_EDIT_ACTIONOK_listda"] = True
         
     if action == "aftereditrow" :
+        var["JEDIT_ROW_OK_listda"] = False
+        if cutil.checkEmpty(var,["comboid","nameid"]) : return
         F.addMap(var)
+        cutil.setCopy(var,"coladd","listda")
+        var["coladd"] = "Hello " + var["helperid"]
         var["JEDIT_ROW_OK_listda"] = True
     
     if action == "helper" :
