@@ -447,8 +447,8 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 
         @Override
         public CommonCallBack<DialogVariables> construct(String id, WSize w,
-                MapDialogVariable addV) {
-            return new BackClass(id, false, w, null, addV);
+                MapDialogVariable addV, ICommand iAfter) {
+            return new BackClass(id, false, w, null, addV, iAfter);
         }
 
     }
@@ -623,14 +623,13 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
         PViewData pView = new PViewData(cId);
 
         M.getLeftMenu().createLeftButton(
-                constructCButton(d.getLeftButtonList()),
-                d.getLeftButtonList(), LeftMenu.MenuType.LEFTPANEL);
+                constructCButton(d.getLeftButtonList()), d.getLeftButtonList(),
+                LeftMenu.MenuType.LEFTPANEL);
         M.getLeftMenu().createLeftButton(constructCButton(d.getUpMenuList()),
-                d.getUpMenuList(),
-                LeftMenu.MenuType.UPPANELMENU);
+                d.getUpMenuList(), LeftMenu.MenuType.UPPANELMENU);
         M.getLeftMenu().createLeftButton(
-                constructCButton(d.getLeftStackList()),
-                d.getLeftStackList(), LeftMenu.MenuType.LEFTSTACK);
+                constructCButton(d.getLeftStackList()), d.getLeftStackList(),
+                LeftMenu.MenuType.LEFTSTACK);
         EnumTypesList eList = new EnumTypesList(d, liManager);
         if (!d.getFieldList().isEmpty()) {
             FormLineContainer fContainer = CreateForm.construct(info,
@@ -965,18 +964,20 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
         private final WSize w;
         private final EnumTypesList eList;
         private final MapDialogVariable addV;
+        private final ICommand iAfter;
 
         BackClass(String id, boolean before, WSize w, EnumTypesList eList,
-                MapDialogVariable addV) {
+                MapDialogVariable addV, ICommand iAfter) {
             this.id = id;
             this.before = before;
             this.w = w;
             this.eList = eList;
             this.addV = addV;
+            this.iAfter = iAfter;
         }
 
         BackClass(String id, boolean before, WSize w, EnumTypesList eList) {
-            this(id, before, w, eList, new MapDialogVariable());
+            this(id, before, w, eList, new MapDialogVariable(), null);
         }
 
         @Override
@@ -1193,6 +1194,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
             // JDATELINE_GOTODATE
             VerifyJError.isError(DialogContainer.this, dType, arg,
                     DialogContainer.this);
+            if (iAfter != null) iAfter.execute();
             if (before)
                 sendAfterBefore();
         }

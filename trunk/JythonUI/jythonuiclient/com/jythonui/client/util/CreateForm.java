@@ -172,7 +172,7 @@ public class CreateForm {
     }
 
     public interface IGetEnum {
-        FieldDataType.IGetListValues getEnum(String customT);
+        FieldDataType.IGetListValues getEnum(String customT, boolean addempty);
     }
 
     private static VListHeaderDesc.ColAlign getA(String a) {
@@ -197,9 +197,9 @@ public class CreateForm {
             boolean isSelect = false;
             IGetSpinnerRange iSpinner = null;
             if (!CUtil.EmptyS(f.getCustom()))
-                if (iGet.getEnum(f.getCustom()) != null)
+                if (iGet.getEnum(f.getCustom(), !f.isNotEmpty()) != null)
                     vf = VField.construct(f.getId(),
-                            iGet.getEnum(f.getCustom()));
+                            iGet.getEnum(f.getCustom(), !f.isNotEmpty()));
                 else {
                     isSelect = true;
                     vf = VField.construct(f);
