@@ -24,6 +24,8 @@ import java.util.List;
 public interface IGwtTableView extends IGWidget {
     
     void refresh();
+    
+    void redrawRow(int rowno);
 
     WChoosedLine getClicked();
 

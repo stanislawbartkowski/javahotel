@@ -33,7 +33,7 @@ import com.google.gwt.view.client.SelectionModel;
  * @param <T>
  */
 
-public class SpanCellBuilder<T> extends AbstractCellTableBuilder<T> {
+class SpanCellBuilder<T> extends AbstractCellTableBuilder<T> {
 
     interface IGetSpanColValue<T> {
         int get(T rowNo, int colNo);
@@ -51,7 +51,7 @@ public class SpanCellBuilder<T> extends AbstractCellTableBuilder<T> {
 
     private final IGetSpanColValue iSpan;
 
-    public SpanCellBuilder(AbstractCellTable<T> cellTable,
+    SpanCellBuilder(AbstractCellTable<T> cellTable,
             IGetSpanColValue iSpan) {
         super(cellTable);
 

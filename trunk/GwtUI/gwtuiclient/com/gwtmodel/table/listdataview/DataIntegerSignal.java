@@ -34,6 +34,9 @@ public class DataIntegerSignal extends CustomObjectValue<Integer> {
     private final static String SIGNAL_SET_SIZE = DataIntegerSignal.class
             .getName() + "PUBLIC_TABLE_SET_SIZE";
 
+    private final static String REDRAW_ROW = DataIntegerSignal.class.getName()
+            + "PUBLIC_TABLE_REDRAW_ROW";
+
     public static CustomStringSlot constructSlotRemoveVSignal(IDataType dType) {
         return new CustomStringDataTypeSlot(dType, SIGNAL_ID_REMOVE);
     }
@@ -44,6 +47,10 @@ public class DataIntegerSignal extends CustomObjectValue<Integer> {
 
     public static CustomStringSlot constructSlotSetTableSize(IDataType dType) {
         return new CustomStringDataTypeSlot(dType, SIGNAL_SET_SIZE);
+    }
+
+    public static CustomStringSlot constructSlotRedrawRow(IDataType dType) {
+        return new CustomStringDataTypeSlot(dType, REDRAW_ROW);
     }
 
 }
