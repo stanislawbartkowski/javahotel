@@ -31,7 +31,8 @@ import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
-import com.gwtmodel.table.view.table.PresentationEditCellHelper.IGetField;
+import com.gwtmodel.table.view.table.util.IGetField;
+import com.gwtmodel.table.view.table.util.PresentationCellHelper;
 
 /**
  * @author hotel

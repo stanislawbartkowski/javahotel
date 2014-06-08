@@ -27,7 +27,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.EventTarget;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.TableCellElement;
 import com.google.gwt.dom.client.TableRowElement;
 import com.google.gwt.safehtml.shared.SafeHtml;
@@ -78,7 +77,13 @@ import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.gwtmodel.table.tabledef.VFooterDesc;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
-import com.gwtmodel.table.view.table.PresentationEditCellHelper.IGetField;
+import com.gwtmodel.table.view.table.edit.IPresentationCellEdit;
+import com.gwtmodel.table.view.table.edit.PresentationEditCellProvider;
+import com.gwtmodel.table.view.table.util.ErrorLineInfo;
+import com.gwtmodel.table.view.table.util.IGetField;
+import com.gwtmodel.table.view.table.util.IStartEditRow;
+import com.gwtmodel.table.view.table.util.IToRowNo;
+//import com.gwtmodel.table.view.table.util.ErrorLineInfo;
 import com.gwtmodel.table.view.util.PopUpHint;
 
 /**
@@ -121,7 +126,7 @@ class PresentationTable implements IGwtTableView {
     private boolean whilefind = false;
     private IModifyRowStyle iModRow = null;
     private final PresentationCellFactory fa;
-    private final PresentationEditCellFactory faEdit;
+    private final IPresentationCellEdit faEdit;
     private final PresentationFooterFactory footFactory;
     private boolean noWrap = false;
     private IVField sortCol = null;
@@ -157,6 +162,7 @@ class PresentationTable implements IGwtTableView {
             IVField sFie = null;
             if (sList.size() > 0) {
                 asc = sList.get(0).isAscending();
+                @SuppressWarnings("rawtypes")
                 Column cSort = sList.get(0).getColumn();
                 for (int i = 0; i < table.getColumnCount(); i++) {
                     Column<MutableInteger, ?> co = table.getColumn(i);
@@ -241,8 +247,7 @@ class PresentationTable implements IGwtTableView {
         iEditFocus.lineClicked(w);
     }
 
-    private class StartEditLine implements
-            PresentationEditCellFactory.IStartEditRow {
+    private class StartEditLine implements IStartEditRow {
 
         @Override
         public void setEditRow(MutableInteger row, WSize w) {
@@ -421,8 +426,11 @@ class PresentationTable implements IGwtTableView {
         // }
         fa = new PresentationCellFactory(gValue);
         footFactory = new PresentationFooterFactory(fa);
-        faEdit = new PresentationEditCellFactory(e, table, new StartEditLine(),
-                this, iIma);
+        // faEdit = new PresentationEditCellFactory(e, table, new
+        // StartEditLine(),
+        // this, iIma);
+        faEdit = PresentationEditCellProvider.contruct(e, table,
+                new StartEditLine(), this, iIma);
         table.addRowHoverHandler(new RowHover());
         if (iSpan != null) {
             SpanCellBuilder.IGetSpanColValue<MutableInteger> i = new SpanCellBuilder.IGetSpanColValue<MutableInteger>() {
@@ -755,7 +763,6 @@ class PresentationTable implements IGwtTableView {
         // table.getRowElement(0).getCells().getItem(10).setColSpan(colSpan);
         if (async) {
             // removing and adding table is necessary to force redraw
-            int no = sPager.getPage();
             sPager.setPage(0);
             table.setRowCount((int) model.getSize(), true);
             if (aProvider.getDataDisplays().contains(table)) {
@@ -1127,7 +1134,7 @@ class PresentationTable implements IGwtTableView {
         // table.redraw();
     }
 
-    private class GetRowNo implements PresentationEditCellFactory.IToRowNo {
+    private class GetRowNo implements IToRowNo {
 
         @Override
         public int row(MutableInteger key) {
@@ -1177,5 +1184,18 @@ class PresentationTable implements IGwtTableView {
     @Override
     public void refreshHeader() {
         table.redrawHeaders();
+    }
+
+    @Override
+    public void redrawRow(int rowno) {
+        List<MutableInteger> iList = dProvider.getList();
+        int absRow = 0;
+        for (MutableInteger i : iList) {
+            if (i.intValue() == rowno) {
+                table.redrawRow(absRow);
+                return;
+            }
+            absRow++;
+        }
     }
 }

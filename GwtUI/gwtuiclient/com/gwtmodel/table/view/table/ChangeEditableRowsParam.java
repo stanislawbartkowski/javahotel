@@ -48,21 +48,21 @@ public class ChangeEditableRowsParam {
     /**
      * @return the editable
      */
-    boolean isEditable() {
+    public boolean isEditable() {
         return editable;
     }
 
     /**
      * @return the eList
      */
-    List<IVField> geteList() {
+    public List<IVField> geteList() {
         return eList;
     }
 
     /**
      * @return the row
      */
-    int getRow() {
+    public int getRow() {
         return row;
     }
 

@@ -210,6 +210,17 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
     }
 
+    private class RedrawRow implements ISlotListener {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            ICustomObject i = slContext.getCustom();
+            DataIntegerSignal sig = (DataIntegerSignal) i;
+            tableView.redrawRow(sig.getValue());
+        }
+
+    }
+
     private class RefreshList implements ISlotListener {
 
         @Override
@@ -965,6 +976,8 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                 new LostFocusFinished());
         registerSubscriber(DataIntegerSignal.constructSlotSetTableSize(dType),
                 new DrawListBySize());
+        registerSubscriber(DataIntegerSignal.constructSlotRedrawRow(dType),
+                new RedrawRow());
 
         // caller
         registerCaller(DataIntegerSignal.constructSlotGetVSignal(dType),
