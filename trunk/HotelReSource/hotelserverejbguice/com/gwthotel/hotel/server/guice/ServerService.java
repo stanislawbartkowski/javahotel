@@ -31,7 +31,6 @@ import com.gwthotel.hotel.server.autompatt.GetAutomPatterns;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.resource.GetResourceJNDI;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
-import com.gwtmodel.mapcache.SimpleMapCacheFactory;
 import com.jython.serversecurity.IOObjectAdmin;
 import com.jython.serversecurity.instance.IAppInstanceOObject;
 import com.jythonui.server.IGetConnection;
@@ -41,6 +40,7 @@ import com.jythonui.server.defa.EmptyConnectionProvider;
 import com.jythonui.server.defa.IGetResourceJNDI;
 import com.jythonui.server.defa.ServerPropertiesEnv;
 import com.jythonui.server.defa.StorageRealmRegistryFactory;
+import com.jythonui.server.guavacache.GuavaCacheFactory;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.resbundle.Mess;
 import com.jythonui.server.semaphore.ISemaphore;
@@ -61,7 +61,9 @@ public class ServerService {
             configureHotel();
             bind(IJythonUIServerProperties.class).to(ServerPropertiesEnv.class)
                     .in(Singleton.class);
-            bind(ICommonCacheFactory.class).to(SimpleMapCacheFactory.class).in(
+//            bind(ICommonCacheFactory.class).to(SimpleMapCacheFactory.class).in(
+//                    Singleton.class);
+            bind(ICommonCacheFactory.class).to(GuavaCacheFactory.class).in(
                     Singleton.class);
             bind(IStorageRegistryFactory.class).to(
                     StorageRealmRegistryFactory.class).in(Singleton.class);
