@@ -17,23 +17,23 @@
         </actions>
         
                          
-         <list id="resmodiflist" pagesize="5" >
+         <list id="resmodiflist" pagesize="5" width="1100px" aftereditrow="" >
                 <standbutt>TOOLS,FIND,FILTER</standbutt>
                 <columns>
                        <column id="avail" type="bool" displayname="A" hidden="" />
-                       <column id="resday" type="date" displayname="@night" editable="" />
-                       <column id="chooseroom" imagecolumn="1" displayname="" imagelist="default_helpicon.gif" />
-                       <column id="resroomname" displayname="@roomname" editable="" type="custom:allroomslist"/>  
-                       <column id="rlist_roomservice"  editable="" displayname="@servicename" />
-                       <column id="rlist_roompricelist" editable="" displayname="@pricelistname"/>
-                       <column id="rlist_serviceperperson" type="bool" editable="" displayname="@perperson"  />
-                       <column id="rline_nop" type="int" displayname="@nopersons" editable=""/> 
-                       <column id="rlist_priceperson" type="decimal" displayname="@priceperperson" editable=""/>
-                       <column id="rlist_noc" type="int" displayname="@nofchildren" editable=""/>
-                       <column id="rlist_pricechildren" type="decimal" displayname="@priceperchild" editable="" />
-                       <column id="rlist_noe" type="int" displayname="@nofextrabeds" editable=""/>
-                       <column id="rlist_priceextra" type="decimal" displayname="@priceperbeds" editable="" />
-                       <column id="rlist_pricetotal" type="decimal" displayname="@price" footer="" editable=""/>
+                       <column id="resday" type="date" displayname="@night" editable="" editcss="width:5.5em;" width="13%" notempty="" />
+                       <column id="chooseroom" imagecolumn="1" displayname="" imagelist="default_helpicon.gif" width="3%" />
+                       <column id="resroomname" displayname="@roomname" editable="" type="custom:allroomslist" notempty=""/>  
+                       <column id="rlist_roomservice"  editable="" displayname="@servicename" type="custom:allroomservices"  width="12%"/>
+                       <column id="rlist_roompricelist" editable="" displayname="@pricelistname" type="custom:allpricelist" width="12%" />
+                       <column id="rlist_serviceperperson" type="bool" editable="" displayname="@perperson"  width="4%" />
+                       <column id="rline_nop" type="spinner" displayname="@nopersons" editable="" editcss="width:2em;" spinnermax="#env.e('maxpersonsperroom')" notempty=""/> 
+                       <column id="rlist_priceperson" type="decimal" displayname="@priceperperson" editable="" editcss="width:3em;" width="7%" notempty=""/>
+                       <column id="rlist_noc" type="spinner" displayname="@nofchildren" editable="" editcss="width:2em;" spinnermax="#env.e('maxchildreperroom')"/>
+                       <column id="rlist_pricechildren" type="decimal" displayname="@priceperchild" editcss="width:3em;" editable="" width="7%" />
+                       <column id="rlist_noe" type="spinner" displayname="@nofextrabeds" editable="" editcss="width:2em;" spinnermax="#env.e('maxextrabedsperroom')"/>
+                       <column id="rlist_priceextra" type="decimal" displayname="@priceperbeds" editcss="width:3em;" editable="" width="7%" />
+                       <column id="rlist_pricetotal" type="decimal" displayname="@price" footer="" width="10%" />
                        <column id="rlist_pricelistperson" type="decimal" hidden="" />
                        <column id="rlist_pricelistchildren" type="decimal" hidden = ""/>
                        <column id="rlist_pricelistextrabeds" type="decimal" hidden="" />

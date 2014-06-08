@@ -95,6 +95,15 @@ def searchForRooms(var,dfrom, dto):
     return res
   
 def getPriceList(var,pricelist,serv) :
+  """ Get prices for pricelist name and service given
+  Args:
+    var 
+    pricelist Price list name
+    serv Service name
+  Returns :
+    Sequence (price, pricechild, priceextreabdes)
+    In not found return sequence of three Nones
+  """
   price = None
   pricechild = None
   priceextra = None
@@ -195,7 +204,7 @@ def setvarBefore(var,cust="cust_"):
          elif mindate > r.getResDate() : mindate = r.getResDate()
 
          list.append(map)
-         sum.add(r.getPrice())
+         sum.add(r.getPriceTotal())
 
     var["datecol"] = mindate
     var["resdays"] = len(reservation.getResDetail())

@@ -8,6 +8,11 @@
 	<typedef id="roomservice" type="combo" comboid="id" displayname="displayname">
 		<method>reseenum.serviceenum({0},{1})</method>
 	</typedef>
+        
+        <typedef id="allroomservices" type="combo" comboid="id" displayname="displayname">
+                <method>reseenum.allserviceenum({0},{1})</method>
+        </typedef>
+
 
 	<typedef id="roompricelist" type="combo" comboid="id" displayname="displayname">
 		<method>reseenum.pricelistenum({0},{1})</method>

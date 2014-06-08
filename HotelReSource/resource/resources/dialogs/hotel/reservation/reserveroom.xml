@@ -37,8 +37,8 @@
                <field id="nochildren" type="int" displayname="@nofchildren" readonly=""/>
          	<field id="datecol" type="date" displayname="@firstnight"
 			readonly="" notempty="" />
-		<field id="resdays" type="int" displayname="@numberofnights"
-			notempty="" />
+		<field id="resdays" type="spinner" displayname="@numberofnights"
+			notempty="" spinnermax="#env.e('maxnumberofnights')" />
 		<field id="roompricelist" type="custom:roompricelist"
 			displayname="@pricelist" notempty="" signalchange="" />
 		<field id="roomservice" type="custom:roomservice" displayname="@servicename"
