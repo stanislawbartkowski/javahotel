@@ -1,9 +1,12 @@
 import java.sql
-import cutil
-from com.jythonui.server.holder import Holder
-import datetime
-import con
 from java.sql import Date
+import datetime
+
+from com.jythonui.server.holder import Holder
+
+import con
+import cutil
+
 
 def getDriverName() :
   con = __getConnection()
