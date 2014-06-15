@@ -16,9 +16,15 @@
           <action id="clickimage" jsaction="JS.MODIFRESERVATION.chooseroom" />
         </actions>
         
-                         
+        <buttons>
+                <button id="accept" displayname="@accept" />
+                <button id="resign" displayname="@resign" actiontype="JCLOSE_DIALOG" />
+        </buttons>
+                                             
          <list id="resmodiflist" pagesize="5" width="1100px" aftereditrow="" >
                 <standbutt>TOOLS,FIND,FILTER</standbutt>
+                <buttons-addlist>accept</buttons-addlist>
+                <buttons-validate>accept</buttons-validate>
                 <columns>
                        <column id="avail" type="bool" displayname="A" hidden="" />
                        <column id="resday" type="date" displayname="@night" editable="" editcss="width:5.5em;" width="13%" notempty="" />
