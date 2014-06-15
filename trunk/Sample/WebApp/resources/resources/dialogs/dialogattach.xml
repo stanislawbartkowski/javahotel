@@ -20,6 +20,8 @@
 
         <list id="list" displayname="List of persons" elemformat="elemattach.xml">
                 <standbutt>TOOLS,ADD,REMOVE,MODIF,FIND,FILTER,custom:show,custom:upload</standbutt>
+                <buttons-selected>upload</buttons-selected>
+                <buttons-selectedmess>Select person first !</buttons-selectedmess>
                 <columns>
                         <column id="id" displayname="Id" type="long" readonly="" />
                         <column id="firstname" displayname="First name" notempty=""/>
