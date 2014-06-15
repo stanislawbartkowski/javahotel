@@ -12,11 +12,13 @@
  */
 package com.jython.ui;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogVariables;
+import com.jythonui.shared.ListFormat;
 
 public class Test44 extends TestHelper {
 
@@ -37,5 +39,18 @@ public class Test44 extends TestHelper {
         DialogVariables v = new DialogVariables();
         runAction(t, v,"test85.xml", "testxmllist"); 
     }
+    
+    @Test
+    public void test3() {
+        DialogFormat d = findDialog("test86.xml");
+        assertNotNull(d);
+        ListFormat l = d.findList("reslist");
+        assertNotNull(l);
+        System.out.println(l.getListButtonsSelected());
+        assertEquals("accept,select",l.getListButtonsSelected());
+        System.out.println(l.getListSelectedMess());
+        assertEquals("Hello",l.getListSelectedMess());
+    }
+
 
 }
