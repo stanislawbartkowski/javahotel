@@ -1,18 +1,10 @@
 from com.gwthotel.hotel.server.service import H
-from util.util import MESS
-from util.util import printvar
-from util.util import createArrayList
-from util.util import findElemInSeq
-from util.util import createSeq
-from util.util import clearHotel
-
-# -------------------
-from com.gwthotel.hotel.server.service import H
 import sec
 from util import util
 import cutil
 
 PERM="perm"
+M = util.MESS()
 
 class HotelAdmin(sec.ObjectAdmin) :
 
@@ -70,7 +62,7 @@ class HotelAdmin(sec.ObjectAdmin) :
      else : self.addOrModifPerson(o,roles)     
      
    def prepareRoles(self):   
-    l = util.createArrayList()
+    l = cutil.createArrayList()
     if not self.var.has_key("JCHECK_MAP") : return l         
     map = self.var["JCHECK_MAP"][PERM]
     
@@ -105,12 +97,10 @@ class HotelAdmin(sec.ObjectAdmin) :
      
 # -------------------              
 
-M = MESS()
-
 
 def hotelaction(action,var,hotel) :
 
-  printvar("hotelaction", action,var)
+  cutil.printVar("hotelaction", action,var)
   adminI = HotelAdmin(var,hotel)
   
   if action == "before" or action == "crud_readlist" :
@@ -137,7 +127,7 @@ def hotelaction(action,var,hotel) :
       
 def hotelelemaction(action,var,hotel):
 
-  printvar("hotelelemaction",action,var)  
+  cutil.printVar("hotelelemaction",action,var)  
   adminI = HotelAdmin(var,hotel)
       
   if action == "before" :
@@ -199,7 +189,7 @@ def useraction(action,var) :
 
 def userelemaction(action,var) :
 
-  printvar ("userelemaction", action,var)
+  cutil.printVar ("userelemaction", action,var)
   adminI = HotelAdmin(var)
     
   if action == "before" :

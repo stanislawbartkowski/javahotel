@@ -4,74 +4,16 @@ from util import rutil
 from util import util
 import con
 
-LI="resmodiflist"
-
-def setEditListActionOk(var,li,ok=True) :
-   var["JLIST_EDIT_ACTIONOK_" + li] = ok
-  
+LI="resmodiflist"  
 
 def _setPriceL(l,pmap,pr) :
   if l[pmap] != None : return
   l[pmap] = pr
   
-class RELINE :
-  
-  def __init__(self,li,night,roomname,servicename,pricelist,perpers,nop,pop,noc,poc,noe,poe,total) :
-    self.li = li
-    self.night = night
-    self.roomname = roomname
-    self.servicename = servicename
-    self.pricelist = pricelist
-    self.perpers = perpers
-    self.nop = nop
-    self.pop = pop
-    self.noc = noc
-    self.poc = poc
-    self.noe = noe
-    self.poe = poe
-    self.total = total
-    
-  def _testp(self,var,nop,pop) :
-    if var[nop] == None: return True
-    return not cutil.checkEmpty(var,pop) 
-    
-  def validate(self,var) :
-    print "validate",var[self.night],"!"
-    if cutil.checkEmpty(var,[self.night,self.roomname,self.nop,self.pop]) : return False
-    if not cutil.checkGreaterZero(var,self.nop) : return False
-    if not cutil.checkGreaterZero(var,self.noc) : return False
-    if not cutil.checkGreaterZero(var,self.noe) : return False
-    if not self._testp(var,self.noc,self.poc) : return False
-    if not self._testp(var,self.noe,self.poe) : return False
-    room = var[self.roomname]
-    service = var[self.servicename]
-    if room != None and service != None :
-      slist = util.ROOMLIST(var).getRoomServices(room)
-      exist = util.findElemInSeq(service,slist)
-      if not exist :
-        cutil.setErrorField(var,self.servicename,"@theserviceisnotthisroom")
-        return False
-        
-    return True
-    
-  def setPrices(self,var) :
-    pservice = var[self.servicename]
-    plist = var[self.pricelist]
-    if plist != None and pservice != None :
-      (price,pricechild,priceextra) = rutil.getPriceList(var,plist,pservice)
-      (var[self.pop],var[self.poc],var[self.poe]) = (price,pricechild,priceextra)
-      cutil.setCopy(var,[self.pop,self.poc,self.poe],self.li)
-      
-  def calculatePrice(self,var) :
-    total = rutil.calculatePrice(var[self.perpers],var[self.nop],var[self.noc],var[self.noe],var[self.pop],var[self.poc],var[self.poe])
-    var["JVALBEFORE"] = var[self.total]
-    var[self.total] = total
-    cutil.setCopy(var,self.total,self.li)    
-    cutil.modifDecimalFooter(var,self.li,self.total)
     
 ELIST = ["resroomname","resday","rlist_roompricelist","rlist_roomservice","rlist_serviceperperson","rline_nop","rlist_priceperson","rlist_noc","rlist_pricechildren","rlist_noe","rlist_priceextra","rlist_pricetotal"]
     
-RE=RELINE(LI,"resday","resroomname","rlist_roomservice","rlist_roompricelist","rlist_serviceperperson","rline_nop","rlist_priceperson","rlist_noc","rlist_pricechildren","rlist_noe","rlist_priceextra","rlist_pricetotal")
+RE=rutil.RELINE(LI,"resday","resroomname","rlist_roomservice","rlist_roompricelist","rlist_serviceperperson","rline_nop","rlist_priceperson","rlist_noc","rlist_pricechildren","rlist_noe","rlist_priceextra","rlist_pricetotal","rlist_pricetotal")
 
 def dialogaction(action,var) :
   cutil.printVar("modif reservation",action,var)
@@ -109,9 +51,19 @@ def dialogaction(action,var) :
   if action == "editlistrowaction" :
     if var["JLIST_EDIT_ACTION_" + LI] == "ADD" or var["JLIST_EDIT_ACTION_" + LI] == "ADDBEFORE" :
       var["rlist_pricetotal"] = 0      
-      setEditListActionOk(var,LI) 
+      cutil.setEditListActionOk(var,LI) 
       cutil.setCopy(var,ELIST,LI)
-      RE.calculatePrice(var)      
+      RE.calculatePrice(var)
+      
+    if var["JLIST_EDIT_ACTION_" + LI] == "REMOVE" :
+      var["JYESNO_MESSAGE"] = "@doyouwanttoremoveline"
+      var["JAFTERDIALOG_ACTION"] = "removeyesno"
+      
+  if action == "removeyesno" :
+    if var["JYESANSWER"] : 
+       cutil.setEditListActionOk(var,LI)
+       RE.calculatePriceAterRemove(var)
+    else : cutil.setEditListActionOk(var,LI,False) 
 
   if action == "roomselected" and var["JUPDIALOG_BUTTON"] == "accept" :
     roomname = var["JUPDIALOG_RES"]
@@ -122,3 +74,15 @@ def dialogaction(action,var) :
   # does not work select
   if action == "xxxcolumnchangeaction" :
     RE.setPrices(var)    
+    
+  if action == "accept" :
+   list = var["JLIST_MAP"][LI]
+   if len(list) == 0 :   
+     rutil.setAlreadyReservedNotSelected(var)
+     return
+
+   # "resroomname","resday"
+   res =  rutil.checkReseAvailibity(var,list,None,"resday","resroomname")
+   if res != None : return
+   xml = xmlutil.toXML({},list)
+   var["JCLOSE_DIALOG"] = xml

@@ -14,14 +14,10 @@ from com.gwthotel.hotel.payment import PaymentBill
 from com.gwthotel.hotel import HUtils
 from com.gwthotel.hotel.rooms import HotelRoom
 from com.gwthotel.shared import IHotelConsts
-from com.gwtmodel.table.common import CUtil
 from com.gwthotel.hotel.reservationop.IReservationOp import ResInfoType
-
 
 import cutil
 import xmlutil
-
-import rutil
 
 def setIntField(var,key,setF) :
   if var[key] == None : setF(IHotelConsts.PERSONIDNO)
@@ -448,12 +444,9 @@ def createEnumFromList(li, f = lambda elem : [elem.getName(), elem.getDescriptio
         e = f(elem)
         id = e[0]
         name = e[1]
-        if emptyS(name): name = id
+        if cutil.emptyS(name): name = id
         seq.append({"id" : id, "displayname" : name })
     return seq
-
-def emptyS(name):
-    return name == None or name == "" or CUtil.EmptyS(name)
 
 class SUMBDECIMAL :
     
@@ -489,13 +482,6 @@ def getPriceForPriceList(var,pricelist,service) :
           pPrice = p
           break
   return pPrice   
-
-def getReseName(var) :
-#  return var["resename"]
-  return rutil.getReseName(var)
-    
-def getPayments(var) :    
-  return rutil.getPayments(var)
 
 class HOTELTRANSACTION(cutil.SEMTRANSACTION) :
   

@@ -3,6 +3,9 @@ import con
 import util
 from com.gwthotel.hotel.reservationop import ResQuery
 import xmlutil
+import sets
+
+M=util.MESS()
 
 def getReseName(var) :
   return var["resename"]
@@ -118,12 +121,14 @@ def getPriceList(var,pricelist,serv) :
         priceextra = s.getExtrabedsPrice()
   return (price,pricechild,priceextra)
   
-def calculatePrice(perperson,resnop,resnoc,resextra,priceperson,pricechildren,priceextra) :  
+def calculatePrice(perperson,resnop,resnoc,resextra,priceperson,pricechildren,priceextra,priceroom=None) :  
   if perperson :
     price = con.mulIntDecimal(resnop,priceperson)
     price = con.addDecimal(price,con.mulIntDecimal(resnoc,pricechildren))
     price = con.addDecimal(price,con.mulIntDecimal(resextra,priceextra))
-  else : price = priceroom    
+  else : 
+    if priceeroom : price = priceroom    
+    else : price = priceperson
   return price
 
 def getAttrS(r,attr) :
@@ -135,9 +140,8 @@ def rescustInfo(var,res) :
    cust = util.CUSTOMERLIST(var).findElem(custName)
    assert cust != None
    dName = getAttrS(cust,"surname") + " " + getAttrS(cust,"firstname")
-   if util.emptyS(dName) : dName = cust.getName()
+   if cutil.emptyS(dName) : dName = cust.getName()
    return dName + " , " + getAttrS(cust,"country")
-
 
 # -----------------------------------
 def setvarBefore(var,cust="cust_"):
@@ -210,3 +214,134 @@ def setvarBefore(var,cust="cust_"):
     var["resdays"] = len(reservation.getResDetail())
     cutil.setJMapList(var,"reslist",list)
     cutil.setFooter(var,"reslist","rlist_pricetotal",sum.sum)
+    
+# ------------------------------------------------------
+
+def setAlreadyReserved(var) :  
+   var["JERROR_MESSAGE"] = M("ALREADYRESERVEDMESSAGE")
+   var["JMESSAGE_TITLE"] = M("ALREADYRESERVEDTITLE")
+
+def setAlreadyReservedNotAvailable(var) :  
+    var["JERROR_MESSAGE"] = M("ALREADYRESERVEDMESSAGE")
+    var["JMESSAGE_TITLE"] = "Not everything is available"
+    
+def setAlreadyReservedNotSelected(var) :  
+    var["JERROR_MESSAGE"] = M("ALREADYRESERVEDMESSAGE")
+    var["JMESSAGE_TITLE"] = "No single room selected !"
+    
+def _setDuplicatedReservation(var,resday,roomname) :  
+    var["JERROR_MESSAGE"] = M("reservationduplicated").format(str(resday),roomname)
+    
+def checkReseAvailibity(var,list,avail,resday,resroomname) :
+  """ Validate reservation
+  Args:
+    var
+    list List of reservations
+    avail If not none field with 'available' information
+    resday Field with reservation day
+    resroomname Field with room name to reserve
+  Returns: 
+    None Reservation OK
+    (date,roomname) Not valid and position of error
+  """
+  
+  # check if reservation not doubled  
+  b = sets.Set()
+  for p in list :
+    dat = p[resday]
+    roomname = p[resroomname]
+    if (dat,roomname) in b :
+        _setDuplicatedReservation(var,dat,roomname)
+        return (dat,roomname)
+    b.add((dat,roomname))
+    
+  RES = util.RESOP(var)
+  query = cutil.createArrayList()
+  for p in list :
+    dat = p[resday]
+    roomname = p[resroomname]
+    if avail != None and not p[avail] :
+      setAlreadyReservedNotAvailable(var)
+      return (dat,roomname)
+    qelem = createResQueryElem(roomname,dat,dat)
+    query.add(qelem)
+  rList = RES.queryReservation(query)
+  # analize if other reservation
+  resename = getReseName(var)
+  alreadyres = len(rList)
+  dat = None
+  roomname = None
+  if resename  :
+    alreadyres = 0
+    for r in rList :
+      if r.getResId() != resename : 
+        dat = r.getResDate()
+        roomname = r.getRoomName()
+        alreadyres = alreadyres + 1
+  if alreadyres :
+     setAlreadyReserved(var)
+     return (dat,roomname)
+  return None
+
+# ------------------------------
+class RELINE :
+  
+  def __init__(self,li,night,roomname,servicename,pricelist,perpers,nop,pop,noc,poc,noe,poe,priceroom,total) :
+    self.li = li
+    self.night = night
+    self.roomname = roomname
+    self.servicename = servicename
+    self.pricelist = pricelist
+    self.perpers = perpers
+    self.nop = nop
+    self.pop = pop
+    self.noc = noc
+    self.poc = poc
+    self.noe = noe
+    self.poe = poe
+    self.priceroom = priceroom
+    self.total = total
+    
+  def _testp(self,var,nop,pop) :
+    if var[nop] == None: return True
+    return not cutil.checkEmpty(var,pop) 
+    
+  def validate(self,var) :
+    if cutil.checkEmpty(var,[self.night,self.roomname,self.nop]) : return False
+    if var[self.perpers] :
+      if cutil.checkEmpty(var,self.pop) : return False
+      if not cutil.checkGreaterZero(var,self.nop) : return False
+      if not cutil.checkGreaterZero(var,self.noc) : return False
+      if not cutil.checkGreaterZero(var,self.noe) : return False
+      if not self._testp(var,self.noc,self.poc) : return False
+      if not self._testp(var,self.noe,self.poe) : return False
+    else :
+      if cutil.checkEmpty(var,self.priceroom) : return False
+    room = var[self.roomname]
+    service = var[self.servicename]
+    if room != None and service != None :
+      slist = util.ROOMLIST(var).getRoomServices(room)
+      exist = util.findElemInSeq(service,slist)
+      if not exist :
+        cutil.setErrorField(var,self.servicename,"@theserviceisnotthisroom")
+        return False
+        
+    return True
+    
+  def setPrices(self,var) :
+    pservice = var[self.servicename]
+    plist = var[self.pricelist]
+    if plist != None and pservice != None :
+      (price,pricechild,priceextra) = getPriceList(var,plist,pservice)
+      (var[self.pop],var[self.poc],var[self.poe]) = (price,pricechild,priceextra)
+      cutil.setCopy(var,[self.pop,self.poc,self.poe],self.li)
+      
+  def calculatePrice(self,var) :
+    total = calculatePrice(var[self.perpers],var[self.nop],var[self.noc],var[self.noe],var[self.pop],var[self.poc],var[self.poe],var[self.priceroom])
+    var["JVALBEFORE"] = var[self.total]
+    var[self.total] = total
+    cutil.setCopy(var,self.total,self.li)    
+    cutil.modifDecimalFooter(var,self.li,self.total)
+    
+  def calculatePriceAterRemove(self,var) :
+    cutil.removeDecimalFooter(var,self.li,self.total) 
