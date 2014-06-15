@@ -287,6 +287,18 @@ class ListControler {
             return vData;
         }
 
+        private class IsRowSelected implements ISlotCallerListener {
+
+            @Override
+            public ISlotSignalContext call(ISlotSignalContext slContext) {
+                IVModelData vData = getV();
+                boolean setLine = vData != null;
+                GetRowSelected g = new GetRowSelected(setLine);
+                return slContextFactory.construct(slContext.getSlType(), g);
+            }
+
+        }
+
         private class AddVarListener implements ISlotListener {
 
             @Override
@@ -947,6 +959,8 @@ class ListControler {
                     new ChangeValues());
             registerCaller(GetImageColSignal.constructSlotGetImageCol(d),
                     new GetImageCol());
+            registerCaller(GetRowSelected.constructSignal(d),
+                    new IsRowSelected());
             registerSubscriber(
                     ClickColumnImageSignal.constructSlotClickColumnSignal(d),
                     new ClickImageCol());

@@ -109,7 +109,9 @@ class ReadDialog extends UtilHelper {
                 ICommonConsts.WIDTH, ICommonConsts.CHUNKED,
                 ICommonConsts.SIGNALAFTERROW, ICommonConsts.SIGNALBEFOREROW,
                 ICommonConsts.LISTBUTTONSLIST,
-                ICommonConsts.LISTBUTTONSVALIDATE, ICommonConsts.JSMODIFROW };
+                ICommonConsts.LISTBUTTONSVALIDATE, ICommonConsts.JSMODIFROW,
+                ICommonConsts.LISTSELECTEDMESS,
+                ICommonConsts.LISTBUTTONSSELECTED };
         private final String[] valTag = { ICommonConsts.ID,
                 ICommonConsts.DISPLAYNAME, ICommonConsts.VALIDATEOP,
                 ICommonConsts.VALIDATEID1 };
@@ -158,7 +160,7 @@ class ReadDialog extends UtilHelper {
 
         MyHandler(IJythonUIServerProperties p, ISecurity iSec) {
             this.p = p;
-            iT = new EvaluateJexlValue(Util.getToken(),iSec);
+            iT = new EvaluateJexlValue(Util.getToken(), iSec);
         }
 
         @Override
@@ -412,7 +414,7 @@ class ReadDialog extends UtilHelper {
                 dFormat.getCheckList().add(checkList);
                 return;
             }
-            SaxUtil.readVal(bDescr.getMap(), qName, currentT, buf,iT);
+            SaxUtil.readVal(bDescr.getMap(), qName, currentT, buf, iT);
         }
 
         @Override
@@ -436,8 +438,8 @@ class ReadDialog extends UtilHelper {
     }
 
     static DialogFormat parseDocument(IJythonUIServerProperties p,
-            InputStream sou, ISecurity iSec) throws ParserConfigurationException, SAXException,
-            IOException {
+            InputStream sou, ISecurity iSec)
+            throws ParserConfigurationException, SAXException, IOException {
         SAXParserFactory factory = SAXParserFactory.newInstance();
         SAXParser saxParser;
         saxParser = factory.newSAXParser();
