@@ -20,9 +20,9 @@
         
          <form>
             <field id="search_from" displayname="@firstnight" type="date" notempty=""/>
-            <field id="search_nop" displayname="@nopersons" type="int" />
+            <field id="search_nop" displayname="@nopersons" type="spinner" spinnermax="#env.e('maxpersonsperroom')" />
             <field id="searchby_days" displayname="@bynumberofnights" type="bool" />
-            <field id="search_days" displayname="@numberofnights" type="int" />
+            <field id="search_days" displayname="@numberofnights" type="spinner" spinnermax="#env.e('maxnumberofnights')" />
             <field id="search_to" displayname="@lastday" type="date" />
             <field id="search_html" hidden="" />
          </form>
