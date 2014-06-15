@@ -87,9 +87,6 @@
                        <column id="rlist_roomservice"  hidden="" />
                        <column id="rlist_roompricelist" hidden="" />
                        <column id="rlist_serviceperperson" type="bool" hidden="" />
-                       <column id="rlist_pricelistperson" type="decimal" hidden="" />
-                       <column id="rlist_pricelistchildren" type="decimal" hidden="" />
-                       <column id="rlist_pricelistextrabeds" type="decimal" hidden="" />
 		</columns>
 	</list>
 

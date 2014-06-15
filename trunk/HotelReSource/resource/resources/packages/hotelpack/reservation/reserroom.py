@@ -2,14 +2,15 @@ import datetime
 
 from util import rutil
 from util import util
+from util import rbefore
 import cutil
 import con
 import xmlutil
 
 M = util.MESS()
 
-CUST="cust_"
-RESLIST="reslist"
+CUST=rbefore.RCUST
+RESLIST=rbefore.RLIST
 
 RE=rutil.RELINE(None,"datecol","name","roomservice","roompricelist","serviceperperson","resnop","respriceperson","resnochildren","respricechildren","resnoextrabeds","respriceextrabeds","respriceperroom",None)
             
@@ -53,7 +54,6 @@ def _createResData(var,new):
   rList = RES.queryReservation(query)
   allavail = True
   
-  (listprice,listpricechild,listpriceextra) = _getPriceList(var)
   resename = rutil.getReseName(var)
 
   for i in range(resdays) :
@@ -66,8 +66,7 @@ def _createResData(var,new):
               avail = allavail = False
       
       map = { "avail" : avail, "resroomname" : roomname, "resday" : dt, "rlist_pricetotal" : price, "rline_nop" : resnop,"rlist_priceperson" : priceperson,
-              "rlist_noc" : resnoc, "rlist_pricechildren" : pricechildren, "rlist_noe" : resextra, "rlist_priceextra" : priceextra,
-              "rlist_pricelistperson" : listprice, "rlist_pricelistchildren" : listpricechild, "rlist_pricelistextrabeds" : listpriceextra,
+              "rlist_noc" : resnoc, "rlist_pricechildren" : pricechildren, "rlist_noe" : resextra, "rlist_priceextra" : priceextra,              
               "rlist_serviceperperson" : perperson, "rlist_roomservice" : service, "rlist_roompricelist" : pricelist}
       list.append(map)
       dt = dt + dl
@@ -93,7 +92,7 @@ def _setAfterPriceList(var) :
   var["respricechildren"] = pricechild
   var["respriceextrabeds"] = priceextra    
   var["respriceperroom"] = price
-  cutil.setCopy(var,["respriceperson","respricechildren","respriceextrabeds"])
+  cutil.setCopy(var,["respriceperson","respricechildren","respriceextrabeds","respriceperroom"])
 
 def _setAfterPerPerson(var) :  
   cutil.enableField(var,["respriceperson","respricechildren","respriceextrabeds"],var["serviceperperson"])
@@ -102,7 +101,6 @@ def _setAfterPerPerson(var) :
 def _createListOfDays(var,new): 
   rData = _createResData(var,new)
   if rData == None : return None
-#  assert rData != None
   cutil.setJMapList(var,RESLIST,rData[0])
   cutil.setFooter(var,RESLIST,"rlist_pricetotal",rData[1])
   return rData[2]
@@ -149,6 +147,9 @@ class MAKERESE(util.HOTELTRANSACTION) :
       reselist = reservation.getResDetail()
       rlist = var["JLIST_MAP"][RESLIST]
       for re in rlist :
+        
+          (listprice,listpricechild,listpriceextra) = rutil.getPriceList(var,re["rlist_roompricelist"],re["rlist_roomservice"])
+
           r = util.newResAddPayment()
           r.setRoomName(re["resroomname"])
           r.setService(re["rlist_roomservice"])
@@ -158,15 +159,15 @@ class MAKERESE(util.HOTELTRANSACTION) :
           
           r.setNoP(re["rline_nop"])
           r.setPrice(con.toB(re["rlist_priceperson"]))
-          r.setPriceList(con.toB(re["rlist_pricelistperson"]))
+          r.setPriceList(listprice)
           
           util.setIntField(re,"rlist_noc",lambda v : r.setNoChildren(v))
           r.setPriceChildren(con.toB(re["rlist_pricechildren"]))
-          r.setPriceListChildren(con.toB(re["rlist_pricelistchildren"]))
+          r.setPriceListChildren(listpricechild)
           
           util.setIntField(re,"rlist_noe",lambda v : r.setNoExtraBeds(v))
           r.setPriceExtraBeds(con.toB(re["rlist_priceextra"]))
-          r.setPriceListExtraBeds(con.toB(re["rlist_pricelistextrabeds"]))
+          r.setPriceListExtraBeds(listpriceextra)
           
           r.setPriceTotal(con.toB(re["rlist_pricetotal"]))
           
@@ -221,7 +222,7 @@ def reseraction(action,var):
               _createListOfDays(var,True)
     
     if action=="before" :
-        rutil.setvarBefore(var)
+        rbefore.setvarBefore(var)
         if not _newRese(var) :          
           cutil.hideButton(var,["cancelres","checkin"],False)
           util.enableCust(var,CUST,False)
@@ -265,7 +266,7 @@ def reseraction(action,var):
     if action == "morereservationaccept" and var["JUPDIALOG_BUTTON"] == "toresrese" :
         arese =  var["resename"]
         var["JUPDIALOG_START"] = var["JUPDIALOG_RES"]        
-        rutil.setvarBefore(var)
+        rbefore.setvarBefore(var)
         # restore reservation name
         var["resename"] = arese
         _checkRese(var,False)
@@ -273,7 +274,7 @@ def reseraction(action,var):
     if action == "detailreservationaccept" :
         xml = var["JUPDIALOG_RES"]
 #         xmlutil.xmlToVar(var,xml,RESLIST)
-        (rmap,li) = xmlutil.toMap(xml)
+        (rmap,li) = xmlutil.toMapFiltrDialL(xml,var["J_DIALOGNAME"],RESLIST)
         cutil.setJMapList(var,RESLIST,li)
 
     if action == "detailreservation" :
