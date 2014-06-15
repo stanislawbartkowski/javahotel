@@ -71,6 +71,7 @@ import com.gwtmodel.table.tabpanelview.ITabPanelView;
 import com.gwtmodel.table.tabpanelview.TabPanelViewFactory;
 import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.gwtmodel.table.view.util.AbstractDataModel;
+import com.gwtmodel.table.view.util.OkDialog;
 import com.gwtmodel.table.view.util.YesNoDialog;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.jythonui.client.M;
@@ -91,6 +92,7 @@ import com.jythonui.client.dialog.run.CloseDialogByImage;
 import com.jythonui.client.dialog.run.RunAction;
 import com.jythonui.client.formgrid.FormGridManagerFactory;
 import com.jythonui.client.js.ExecuteJS;
+import com.jythonui.client.listmodel.GetRowSelected;
 import com.jythonui.client.listmodel.RowListDataManager;
 import com.jythonui.client.util.CreateForm;
 import com.jythonui.client.util.EnumTypesList;
@@ -603,6 +605,24 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 
     }
 
+    private void addListButt(String buttList, List<ControlButtonDesc> bList,
+            IDataType da) {
+        if (!CUtil.EmptyS(buttList)) {
+            String vList[] = buttList.split(",");
+            for (String b : vList) {
+                for (ControlButtonDesc bu : bList) {
+                    if (CUtil.EqNS(bu.getActionId().getCustomButt(), b)) {
+                        CustomStringSlot sl = ButtonCheckLostFocusSignal
+                                .constructSlotButtonCheckFocusSignal(da);
+                        ButtonCheckLostFocusSignal sign = new ButtonCheckLostFocusSignal(
+                                bu.getActionId(), dType);
+                        slMediator.getSlContainer().publish(sl, sign);
+                    }
+                }
+            }
+        }
+    }
+
     @Override
     public void startPublish(CellId cId) {
 
@@ -737,21 +757,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
         if (bList != null) {
             for (IDataType da : liManager.getList()) {
                 ListFormat li = liManager.getFormat(da);
-                String buttList = li.getListButtonsValidate();
-                if (!CUtil.EmptyS(buttList)) {
-                    String vList[] = buttList.split(",");
-                    for (String b : vList) {
-                        for (ControlButtonDesc bu : bList) {
-                            if (CUtil.EqNS(bu.getActionId().getCustomButt(), b)) {
-                                CustomStringSlot sl = ButtonCheckLostFocusSignal
-                                        .constructSlotButtonCheckFocusSignal(da);
-                                ButtonCheckLostFocusSignal sign = new ButtonCheckLostFocusSignal(
-                                        bu.getActionId(), dType);
-                                slMediator.getSlContainer().publish(sl, sign);
-                            }
-                        }
-                    }
-                }
+                addListButt(li.getListButtonsValidate(), bList, da);
             }
         }
         if (!d.isBefore())
@@ -869,6 +875,31 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
         }
 
     }
+    
+    private boolean verifyListSelected(String id, WSize w) {
+        for (IDataType da : liManager.getList()) {
+            ListFormat fo = liManager.getFormat(da);
+            if (CUtil.EmptyS(fo.getListButtonsSelected())) continue;
+            String []bl = fo.getListButtonsSelected().split(",");
+            for (String b : bl) {
+                if (CUtil.EqNS(id,b)) {
+                    CustomStringSlot sl = GetRowSelected.constructSignal(da);
+                    ISlotSignalContext si = slMediator.getSlContainer().getGetterCustom(sl);
+                    GetRowSelected g = (GetRowSelected) si.getCustom();
+                    boolean sel = g.getValue();
+                    if (! sel) {
+                        String key = "@linenotselected";
+                        if (!CUtil.EmptyS(fo.getListSelectedMess()))
+                            key = fo.getListSelectedMess();
+                        OkDialog ok = new OkDialog(key);
+                        ok.show(w);
+                        return false;
+                    }
+                }
+            } // for            
+        }
+        return true;
+    }
 
     private boolean runAction(String id, WSize w, List<ButtonItem> bList) {
         ButtonItem bItem = DialogFormat.findE(bList, id);
@@ -880,6 +911,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
                         DataActionEnum.ChangeViewFormToInvalidAction))
                     return true;
             }
+            if (!verifyListSelected(id,w)) return true;
             String jsA = Utils.getJS(bItem.getJsAction());
             if (!CUtil.EmptyS(jsA)) {
                 IJsonConvert iJson = GwtGiniInjector.getI().getJsonConvert();
@@ -1194,7 +1226,8 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
             // JDATELINE_GOTODATE
             VerifyJError.isError(DialogContainer.this, dType, arg,
                     DialogContainer.this);
-            if (iAfter != null) iAfter.execute();
+            if (iAfter != null)
+                iAfter.execute();
             if (before)
                 sendAfterBefore();
         }

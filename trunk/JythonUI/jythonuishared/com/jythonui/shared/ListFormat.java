@@ -91,6 +91,14 @@ public class ListFormat extends ElemDescription {
         return getAttr(ICommonConsts.LISTBUTTONSVALIDATE);
     }
 
+    public String getListButtonsSelected() {
+        return getAttr(ICommonConsts.LISTBUTTONSSELECTED);
+    }
+
+    public String getListSelectedMess() {
+        return getAttr(ICommonConsts.LISTSELECTEDMESS);
+    }
+
     public String getJSModifRow() {
         return getAttr(ICommonConsts.JSMODIFROW);
     }

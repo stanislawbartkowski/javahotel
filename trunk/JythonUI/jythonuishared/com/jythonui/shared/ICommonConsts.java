@@ -47,6 +47,8 @@ public interface ICommonConsts {
     String COLUMNS = "columns";
     String LISTBUTTONSLIST = "buttons-addlist";
     String LISTBUTTONSVALIDATE = "buttons-validate";
+    String LISTBUTTONSSELECTED = "buttons-selected";
+    String LISTSELECTEDMESS = "buttons-selectedmess";
     String JROWCOPY = "JROWCOPY_";
     String JCOPY = "JCOPY_";
     String JSTATUSSET = "JSTATUS_SET_";

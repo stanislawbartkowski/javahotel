@@ -157,6 +157,8 @@
 			<xs:element minOccurs="0" name="aftereditrow" type="emptyT" />
 			<xs:element minOccurs="0" name="buttons-addlist" type="listidsType" />
 			<xs:element minOccurs="0" name="buttons-validate" type="listidsType" />
+            <xs:element minOccurs="0" name="buttons-selected" type="listidsType" />
+            <xs:element minOccurs="0" name="buttons-selectedmess" type="xs:string" />
 			<xs:element minOccurs="0" name="jsmodifrow" type="xs:string" />
 		</xs:sequence>
 	</xs:group>
@@ -173,6 +175,8 @@
 		<xs:attribute name="aftereditrow" type="emptyT" />
 		<xs:attribute name="buttons-addlist" type="listidsType" />
 		<xs:attribute name="buttons-validate" type="listidsType" />
+        <xs:attribute name="buttons-selected" type="listidsType" />
+        <xs:attribute name="buttons-selectedmess" type="xs:string" />
 		<xs:attribute name="jsmodifrow" type="xs:string" />
 	</xs:attributeGroup>
 
