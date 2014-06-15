@@ -2,14 +2,17 @@ from java.util import Calendar
 from org.python.core.util import StringUtil
 import datetime
 import time
+
 from java.util import ArrayList
 from java.math import BigDecimal
 from com.jythonui.server import MUtil
 from com.gwtmodel.table.common.dateutil import DateFormatUtil
 from com.jythonui.server.holder import Holder
-import con
 from com.jythonui.server.holder import SHolder
+from com.gwtmodel.table.common import CUtil
 from com.jythonui.server.semaphore import ISemaphore
+
+import con
 
 
 LONG="long"
@@ -48,6 +51,9 @@ def hideButton(var,li,hide=True) :
     if type(li) != list : li = [li]
     for buttid in li :
       var["JSETATTR_BUTTON_"+buttid+"_hidden"] = hide  
+
+def setEditListActionOk(var,li,ok=True) :
+   var["JLIST_EDIT_ACTIONOK_" + li] = ok
 
 def getCookie(var,name):
     cname="JCOOKIE_" + name
@@ -154,7 +160,18 @@ def addDecimal(sum1,sum2,afterdot=2):
 
 def minusDecimal(sum1,sum2,afterdot=2):
    return con.minusDecimal(sum1,sum2,afterdot) 
-
+ 
+def emptyS(name):
+    return name == None or name == "" or CUtil.EmptyS(name)
+  
+def concatS(*arg) :
+  res = None
+  for r in arg :
+    if not emptyS(r) :
+      if res == None : res = r
+      else : res = res + " " + r
+  return res    
+  
 def setCopy(var,li, listt=None,prefix=None) :
   if type(li) != list :
       li = [li]  
@@ -520,3 +537,6 @@ def urlParList(var) :
 def urlPar(var,k) :
   R = Holder.getRequest().getUrlParam()
   return R.get(k)
+  
+    
+      

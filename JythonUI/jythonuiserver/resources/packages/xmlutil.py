@@ -10,6 +10,7 @@ import cutil
 import sys
 import datetime
 import con
+import jmap
 from java.util import Date
 from com.jythonui.shared import ButtonItem
 from com.jamesmurty.utils import XMLBuilder 
@@ -94,24 +95,34 @@ def toXML(ma,list = None):
     outputProperties.put(INDENT, "yes")
     return builder.root().asString(outputProperties)              
    
-def _toMap(map):
+def _toMap(map,li):
     ma = {}
     for e in map.entrySet() :
         k= e.getKey()
+        if li != None and not k in li : continue 
         v = e.getValue()
         if type(v) == Date : v = con.toJDate(v)
         ma[k] = v
     return ma     
     
-def toMap(xmls):
+def _toMapF(xmls,lid,lil):
   x = Holder.getMapXML();
   iR = x.getMap(xmls)  
-  rmap = _toMap(iR.getMap())
+  rmap = _toMap(iR.getMap(),lid)
   li = []
   for m in iR.getList() :
-      li.append(_toMap(m))
+      li.append(_toMap(m,lil))
   return (rmap,li)
-    
+     
+def toMap(xmls):
+  return _toMapF(xmls,None,None)
+  
+def _toMapFiltrL(xmls,lfiltr):
+  return _toMapF(xmls,None,lfiltr)
+
+def toMapFiltrDialL(xmls,dialogName,listname):
+    return _toMapFiltrL(xmls,jmap.getMapFieldList(dialogName,listname))
+                
 # ---------------------------------------------------------------    
             
 def listNumberToCVS(li,empty="") :
