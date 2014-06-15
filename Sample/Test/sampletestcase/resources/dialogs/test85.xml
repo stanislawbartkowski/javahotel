@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+	<before />
+
+	<jython>
+		<import>from testpack import testjmap</import>
+		<method>testjmap.dialogaction({0},{1})</method>
+	</jython>
+
+
+	<form>
+		<field id="glob1" />
+		<field id="globbool" type="bool" />
+		<field id="globint" type="int" displayname="Integer value" />
+		<field id="name" type="int" displayname="#env.e('hello')" />
+		<field id="spin2" type="spinner" spinnermin="24" spinnermax="x123" />
+	</form>
+
+	<list id="reslist" pagesize="5">
+		<standbutt>TOOLS,FIND,FILTER</standbutt>
+		<buttons-addlist>clickimage</buttons-addlist>
+		<columns>
+			<column id="avail" type="bool" displayname="A" hidden="" />
+			<column id="resday" type="date" displayname="@night" editable="" />
+			<column id="chooseroom" imagecolumn="1" displayname=""
+				imagelist="default_helpicon.gif" />
+			<column id="resroomname" displayname="@roomname" editable=""
+				type="custom:allroomslist" helper="search" />
+		</columns>
+	</list>
+
+
+</dialog>
