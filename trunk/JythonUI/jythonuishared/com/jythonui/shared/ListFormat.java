@@ -28,6 +28,16 @@ public class ListFormat extends ElemDescription {
     private List<ValidateRule> valList = new ArrayList<ValidateRule>();
     private DialogFormat fElem;
 
+    public enum ToolBarType {
+        EDIT, LISTONLY, LISTSHOWONLY
+    }
+
+    public ToolBarType getToolBarType() {
+        if (!isAttr(ICommonConsts.TOOLBARTYPE))
+            return ToolBarType.EDIT;
+        return ToolBarType.valueOf(getAttr(ICommonConsts.TOOLBARTYPE).toUpperCase());
+    }
+
     public String getElemFormat() {
         return getAttr(ICommonConsts.ELEMFORMAT);
     }
