@@ -13,7 +13,7 @@ def _setPriceL(l,pmap,pr) :
     
 ELIST = ["resroomname","resday","rlist_roompricelist","rlist_roomservice","rlist_serviceperperson","rline_nop","rlist_priceperson","rlist_noc","rlist_pricechildren","rlist_noe","rlist_priceextra","rlist_pricetotal"]
     
-RE=rutil.RELINE(LI,"resday","resroomname","rlist_roomservice","rlist_roompricelist","rlist_serviceperperson","rline_nop","rlist_priceperson","rlist_noc","rlist_pricechildren","rlist_noe","rlist_priceextra","rlist_pricetotal","rlist_pricetotal")
+RE=rutil.RELINE(LI,*rutil.RESLIST)
 
 def dialogaction(action,var) :
   cutil.printVar("modif reservation",action,var)

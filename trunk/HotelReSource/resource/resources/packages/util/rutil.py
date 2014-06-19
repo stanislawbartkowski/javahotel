@@ -211,6 +211,9 @@ def checkReseAvailibity(var,list,avail,resday,resroomname) :
   return None
 
 # ------------------------------
+
+RESLIST = ["resday","resroomname","rlist_roomservice","rlist_roompricelist","rlist_serviceperperson","rline_nop","rlist_priceperson","rlist_noc","rlist_pricechildren","rlist_noe","rlist_priceextra","rlist_pricetotal","rlist_pricetotal"]
+
 class RELINE :
   
   def __init__(self,li,night,roomname,servicename,pricelist,perpers,nop,pop,noc,poc,noe,poe,priceroom,total) :
@@ -263,12 +266,34 @@ class RELINE :
       (var[self.pop],var[self.poc],var[self.poe]) = (price,pricechild,priceextra)
       cutil.setCopy(var,[self.pop,self.poc,self.poe],self.li)
       
-  def calculatePrice(self,var) :
+  def __calculate(self,var) :
     total = calculatePrice(var[self.perpers],var[self.nop],var[self.noc],var[self.noe],var[self.pop],var[self.poc],var[self.poe],var[self.priceroom])
+    return total
+      
+  def calculatePrice(self,var) :
+    total = self.__calculate(var)
     var["JVALBEFORE"] = var[self.total]
     var[self.total] = total
     cutil.setCopy(var,self.total,self.li)    
     cutil.modifDecimalFooter(var,self.li,self.total)
+    
+  def removePricesFromMap(self,var) :
+    print var[self.noc]
+    if var[self.noc] == 0 or var[self.noc] == None : var[self.poc] = None
+    if var[self.noe] == 0 or var[self.noe] == None : var[self.poe] = None
+    
+  def initsum(self) :
+    self.sum = 0
+
+  def addsum(self,var) :
+    total = self.__calculate(var)
+    self.sum = con.addDecimal(self.sum,total)
+    
+  def tofooter(self,var) :
+    cutil.setFooter(var,self.li,self.total,self.sum)
+
+    
+    
     
   def calculatePriceAterRemove(self,var) :
     cutil.removeDecimalFooter(var,self.li,self.total) 
