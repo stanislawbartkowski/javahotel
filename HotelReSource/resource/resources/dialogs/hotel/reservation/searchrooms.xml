@@ -29,6 +29,8 @@
          
          <list id="roomlist" pagesize="15">
             <standbutt>TOOLS,FIND,FILTER</standbutt>
+            <buttons-selected>seton,tores,toresrese</buttons-selected>
+            <buttons-selectedmess>@selectroom</buttons-selectedmess>
             <columns>
                <column id="search_roomid" displayname="@roomname" />
                <column id="search_roomcapa" displayname="@roomcapacitypanel" type="int" />

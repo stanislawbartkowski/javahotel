@@ -3,6 +3,7 @@ import con
 from util import rutil
 from util import util
 from util import rpdf
+from util import rbefore
 import pdfutil
 
 from com.jythonui.server.holder import SHolder
@@ -13,7 +14,7 @@ BILLIST="billlist"
 CUST="cust_"
 
 def _listOfPayments(var) :
-  rese = util.getReseName(var)
+  rese = rutil.getReseName(var)
   li = util.RESOP(var).getResAddPaymentList(rese)
   seq = []
   sum = util.SUMBDECIMAL()  
@@ -40,10 +41,10 @@ def _countTotal(var,b,pli) :
   return total       
      
 def _ListOfBills(var) :
-   rese = util.getReseName(var)
+   rese = rutil.getReseName(var)
    bList = util.RESOP(var).findBillsForReservation(rese)
    seq = []
-   pli = util.getPayments(var)
+   pli = rutil.getPayments(var)
    sumtotal = 0.0
    footerpayments = 0.0
    CU = util.CUSTOMERLIST(var)
@@ -72,7 +73,7 @@ def _setChangedFalse(var) :
 def showstay(action,var):
    cutil.printVar("show stay",action,var)
    if action == "before" :
-     rutil.setvarBefore(var)
+     rbefore.setvarBefore(var)
      # after 
      _listOfPayments(var)
      _ListOfBills(var)

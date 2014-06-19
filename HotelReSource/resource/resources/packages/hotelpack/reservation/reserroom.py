@@ -13,6 +13,8 @@ CUST=rbefore.RCUST
 RESLIST=rbefore.RLIST
 
 RE=rutil.RELINE(None,"datecol","name","roomservice","roompricelist","serviceperperson","resnop","respriceperson","resnochildren","respricechildren","resnoextrabeds","respriceextrabeds","respriceperroom",None)
+
+RELIST=rutil.RELINE(RESLIST,*rutil.RESLIST)
             
 # --------------------          
 def _newRese(var) :
@@ -273,8 +275,14 @@ def reseraction(action,var):
         
     if action == "detailreservationaccept" :
         xml = var["JUPDIALOG_RES"]
-#         xmlutil.xmlToVar(var,xml,RESLIST)
         (rmap,li) = xmlutil.toMapFiltrDialL(xml,var["J_DIALOGNAME"],RESLIST)
+        RELIST.initsum()
+        for l in li :
+          RELIST.addsum(l)
+          RELIST.removePricesFromMap(l)
+          l["avail"] = True
+        RELIST.tofooter(var)  
+          
         cutil.setJMapList(var,RESLIST,li)
 
     if action == "detailreservation" :
