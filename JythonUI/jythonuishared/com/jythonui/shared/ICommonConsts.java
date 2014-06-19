@@ -43,6 +43,7 @@ public interface ICommonConsts {
     String CSSCODE = "csscode";
     String BEFORE = "before";
     String LIST = "list";
+    String TOOLBARTYPE ="toolbartype";
     String COLUMN = "column";
     String COLUMNS = "columns";
     String LISTBUTTONSLIST = "buttons-addlist";

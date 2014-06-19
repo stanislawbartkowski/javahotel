@@ -10,6 +10,13 @@
 		</xs:restriction>
 	</xs:simpleType>
 
+	<xs:simpleType name="toolbarType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="edit|listonly|listshowonly" />
+		</xs:restriction>
+	</xs:simpleType>
+
+
 	<xs:simpleType name="idType">
 		<xs:restriction base="xs:string">
 			<xs:pattern value="[A-Za-z0-9_\-\.]+" />
@@ -157,9 +164,11 @@
 			<xs:element minOccurs="0" name="aftereditrow" type="emptyT" />
 			<xs:element minOccurs="0" name="buttons-addlist" type="listidsType" />
 			<xs:element minOccurs="0" name="buttons-validate" type="listidsType" />
-            <xs:element minOccurs="0" name="buttons-selected" type="listidsType" />
-            <xs:element minOccurs="0" name="buttons-selectedmess" type="xs:string" />
+			<xs:element minOccurs="0" name="buttons-selected" type="listidsType" />
+			<xs:element minOccurs="0" name="buttons-selectedmess"
+				type="xs:string" />
 			<xs:element minOccurs="0" name="jsmodifrow" type="xs:string" />
+            <xs:element minOccurs="0" name="toolbartype" type="toolbarType" />
 		</xs:sequence>
 	</xs:group>
 
@@ -175,9 +184,10 @@
 		<xs:attribute name="aftereditrow" type="emptyT" />
 		<xs:attribute name="buttons-addlist" type="listidsType" />
 		<xs:attribute name="buttons-validate" type="listidsType" />
-        <xs:attribute name="buttons-selected" type="listidsType" />
-        <xs:attribute name="buttons-selectedmess" type="xs:string" />
+		<xs:attribute name="buttons-selected" type="listidsType" />
+		<xs:attribute name="buttons-selectedmess" type="xs:string" />
 		<xs:attribute name="jsmodifrow" type="xs:string" />
+        <xs:attribute name="toolbartype" type="toolbarType" />
 	</xs:attributeGroup>
 
 	<xs:group name="jythonG">

@@ -875,19 +875,21 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
         }
 
     }
-    
+
     private boolean verifyListSelected(String id, WSize w) {
         for (IDataType da : liManager.getList()) {
             ListFormat fo = liManager.getFormat(da);
-            if (CUtil.EmptyS(fo.getListButtonsSelected())) continue;
-            String []bl = fo.getListButtonsSelected().split(",");
+            if (CUtil.EmptyS(fo.getListButtonsSelected()))
+                continue;
+            String[] bl = fo.getListButtonsSelected().split(",");
             for (String b : bl) {
-                if (CUtil.EqNS(id,b)) {
+                if (CUtil.EqNS(id, b)) {
                     CustomStringSlot sl = GetRowSelected.constructSignal(da);
-                    ISlotSignalContext si = slMediator.getSlContainer().getGetterCustom(sl);
+                    ISlotSignalContext si = slMediator.getSlContainer()
+                            .getGetterCustom(sl);
                     GetRowSelected g = (GetRowSelected) si.getCustom();
                     boolean sel = g.getValue();
-                    if (! sel) {
+                    if (!sel) {
                         String key = "@linenotselected";
                         if (!CUtil.EmptyS(fo.getListSelectedMess()))
                             key = fo.getListSelectedMess();
@@ -896,7 +898,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
                         return false;
                     }
                 }
-            } // for            
+            } // for
         }
         return true;
     }
@@ -911,7 +913,8 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
                         DataActionEnum.ChangeViewFormToInvalidAction))
                     return true;
             }
-            if (!verifyListSelected(id,w)) return true;
+            if (!verifyListSelected(id, w))
+                return true;
             String jsA = Utils.getJS(bItem.getJsAction());
             if (!CUtil.EmptyS(jsA)) {
                 IJsonConvert iJson = GwtGiniInjector.getI().getJsonConvert();

@@ -24,6 +24,7 @@ import com.jythonui.shared.ButtonItem;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.ICommonConsts;
+import com.jythonui.shared.ListFormat;
 
 public class ListOfButt {
 
@@ -36,6 +37,32 @@ public class ListOfButt {
         List<ControlButtonDesc> getList();
 
         List<ControlButtonDesc> getCustomList();
+    }
+
+    public static List<ControlButtonDesc> getStandList(
+            ListFormat.ToolBarType bType) {
+        ControlButtonFactory bFactory = GwtGiniInjector.getI()
+                .getControlButtonFactory();
+        List<StandClickEnum> bList = new ArrayList<StandClickEnum>();
+        switch (bType) {
+        case EDIT:
+            return bFactory.constructCrudListButtons();
+        case LISTONLY:
+            bList.add(StandClickEnum.TABLEDEFAULTMENU);
+            bList.add(StandClickEnum.FIND);
+            bList.add(StandClickEnum.FILTRLIST);
+            break;
+        case LISTSHOWONLY:
+            bList.add(StandClickEnum.TABLEDEFAULTMENU);
+            bList.add(StandClickEnum.SHOWITEM);
+            bList.add(StandClickEnum.FIND);
+            bList.add(StandClickEnum.FILTRLIST);
+            break;
+        }
+        List<ControlButtonDesc> buttList = new ArrayList<ControlButtonDesc>();
+        for (StandClickEnum b : bList)
+            buttList.add(bFactory.constructButt(b));
+        return buttList;
     }
 
     public static IGetButtons constructList(DialogFormat d, String sButton) {
@@ -81,7 +108,7 @@ public class ListOfButt {
             if (b != null)
                 cList.add(b);
         } // for
-        
+
         return new IGetButtons() {
 
             @Override

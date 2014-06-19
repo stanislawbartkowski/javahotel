@@ -40,7 +40,6 @@ import com.gwtmodel.table.VModelData;
 import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
-import com.gwtmodel.table.buttoncontrolmodel.ControlButtonFactory;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.chooselist.ChooseListFactory;
 import com.gwtmodel.table.chooselist.ICallBackWidget;
@@ -1250,10 +1249,11 @@ class ListControler {
         // ControlButtonFactory buFactory = GwtGiniInjector.getI()
         // .getControlButtonFactory();
 
-        ControlButtonFactory bFactory = GwtGiniInjector.getI()
-                .getControlButtonFactory();
+        // ControlButtonFactory bFactory = GwtGiniInjector.getI()
+        // .getControlButtonFactory();
         ListFormat li = rM.getFormat(da);
-        List<ControlButtonDesc> crudList = bFactory.constructCrudListButtons();
+        // List<ControlButtonDesc> crudList =
+        // bFactory.constructCrudListButtons();
         List<ControlButtonDesc> cList;
         List<ControlButtonDesc> customList = new ArrayList<ControlButtonDesc>();
         if (!CUtil.EmptyS(li.getStandButt())) {
@@ -1262,7 +1262,8 @@ class ListControler {
             cList = i.getList();
             customList = i.getCustomList();
         } else
-            cList = crudList;
+            cList = ListOfButt.getStandList(li.getToolBarType());
+
         ListOfControlDesc cButton = new ListOfControlDesc(cList);
         DisplayListControlerParam dList = tFactory.constructParam(cButton,
                 panelId, getParam(rM, da, iCon, backFactory), null, /*
