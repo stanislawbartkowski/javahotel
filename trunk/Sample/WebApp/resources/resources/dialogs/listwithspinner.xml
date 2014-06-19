@@ -8,8 +8,8 @@
                 <method>listwithspinner.dialogaction({0},{1})</method>
         </jython>
 
-        <list id="list" displayname="Edit list of keys" aftereditrow="" width="40%">
-                <standbutt>TOOLS,SHOW,FIND,FILTER</standbutt>
+        <list id="list" displayname="Edit list of keys" aftereditrow="" width="40%" toolbartype="listshowonly" >
+          <!--                <standbutt>TOOLS,SHOW,FIND,FILTER</standbutt> -->
                 <columns>
                         <column id="id" displayname="storeKey" type="long" width="20%" />
                         <column id="pnumber" displayname="Number" type="spinner" editable="" notempty="" width="40%" editcss="width:3em;"/>

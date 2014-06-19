@@ -27,19 +27,19 @@ public class Test44 extends TestHelper {
         String t = authenticateToken(realmIni, "guest", "guest");
         assertNotNull(t);
         DialogVariables v = new DialogVariables();
-        runAction(t, v,"test85.xml", "testmap"); 
+        runAction(t, v, "test85.xml", "testmap");
         v = new DialogVariables();
-        runAction(t, v,"test85.xml", "testlistmap");         
+        runAction(t, v, "test85.xml", "testlistmap");
     }
-    
+
     @Test
     public void test2() {
         String t = authenticateToken(realmIni, "guest", "guest");
         assertNotNull(t);
         DialogVariables v = new DialogVariables();
-        runAction(t, v,"test85.xml", "testxmllist"); 
+        runAction(t, v, "test85.xml", "testxmllist");
     }
-    
+
     @Test
     public void test3() {
         DialogFormat d = findDialog("test86.xml");
@@ -47,10 +47,27 @@ public class Test44 extends TestHelper {
         ListFormat l = d.findList("reslist");
         assertNotNull(l);
         System.out.println(l.getListButtonsSelected());
-        assertEquals("accept,select",l.getListButtonsSelected());
+        assertEquals("accept,select", l.getListButtonsSelected());
         System.out.println(l.getListSelectedMess());
-        assertEquals("Hello",l.getListSelectedMess());
+        assertEquals("Hello", l.getListSelectedMess());
     }
 
+    @Test
+    public void test4() {
+        DialogFormat d = findDialog("test87.xml");
+        assertNotNull(d);
+        ListFormat l = d.findList("list1");
+        assertNotNull(l);
+        assertEquals(ListFormat.ToolBarType.EDIT, l.getToolBarType());
+        l = d.findList("list2");
+        assertNotNull(l);
+        assertEquals(ListFormat.ToolBarType.LISTONLY, l.getToolBarType());
+        l = d.findList("list3");
+        assertNotNull(l);
+        assertEquals(ListFormat.ToolBarType.EDIT, l.getToolBarType());
+        l = d.findList("list4");
+        assertNotNull(l);
+        assertEquals(ListFormat.ToolBarType.LISTSHOWONLY, l.getToolBarType());
+    }
 
 }

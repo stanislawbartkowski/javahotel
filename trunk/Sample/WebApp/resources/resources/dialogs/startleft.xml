@@ -29,6 +29,7 @@
   <button id="dialogdisc" displayname="Dialog with disclosure" actiontype="JMAIN_DIALOG" actionparam="dialogdisc.xml" />
   <button id="dialognext" displayname="List with custom search" actiontype="JMAIN_DIALOG" actionparam="dialoglist1.xml" />
   <button id="dialognext2" displayname="List with custom modif row" actiontype="JMAIN_DIALOG" actionparam="dialoglist2.xml" />
+  <button id="dialogurl" displayname="Url params" actiontype="JMAIN_DIALOG" actionparam="dialogurllist.xml" />
 </leftstack>
 
  <form>
