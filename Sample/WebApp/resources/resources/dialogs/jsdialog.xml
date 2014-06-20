@@ -5,7 +5,7 @@
 
  <buttons>
   <button id="close" displayname="Close" actiontype="JCLOSE_DIALOG" />
-  <button id="modeless" displayname="JS" jsaction="JS.HELLO.hello"  />
+  <button id="superaction" displayname="JS" jsaction="JS.HELLO.hello"  />
  </buttons>
 
  <form>
