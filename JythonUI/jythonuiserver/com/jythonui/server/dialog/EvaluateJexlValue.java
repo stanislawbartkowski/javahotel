@@ -12,7 +12,6 @@
  */
 package com.jythonui.server.dialog;
 
-import com.google.common.base.Optional;
 import com.gwtmodel.table.common.CUtil;
 import com.jythonui.server.SaxUtil;
 import com.jythonui.server.security.ISecurity;
@@ -68,7 +67,7 @@ class EvaluateJexlValue implements SaxUtil.ITransformVal {
         String secPart = getSecurityPart(val);
         if (secPart == null)
             return val;
-        if (!iSec.isAuthorized(token, secPart)) return null;
+        if (token == null || !iSec.isAuthorized(token, secPart)) return null;
         int sec = findSecurity(val);
         if (sec == 0)
             return "";

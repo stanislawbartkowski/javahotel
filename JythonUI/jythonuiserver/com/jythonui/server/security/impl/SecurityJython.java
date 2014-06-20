@@ -91,11 +91,14 @@ public class SecurityJython extends UtilHelper implements ISecurity {
 
     @Override
     public String evaluateExpr(String token, String expr) {
-        Subject currentUser = cCache.getSubject(token);
-        if (currentUser == null) {
-            severe(gMess.getMess(IErrorCode.ERRORCODE96,
-                    ILogMess.INVALIDTOKEN, token));
-            return null;
+        Subject currentUser = null;
+        if (token != null) {
+            currentUser = cCache.getSubject(token);
+            if (currentUser == null) {
+                severe(gMess.getMess(IErrorCode.ERRORCODE96,
+                        ILogMess.INVALIDTOKEN, token));
+                return null;
+            }
         }
         return iResolver.evaluateExpr(currentUser, expr);
     }
