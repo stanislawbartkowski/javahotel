@@ -1,16 +1,13 @@
 <?xml version="1.0"?>
 <dialog xmlns="http://www.jythongwt.dialogxsd.com" autohide="">
 
-<before />
-
-   <jython>
-       <import>from testpack import urllist</import>
-       <method>urllist.dialogaction({0},{1})</method>
-   </jython>
 
  <form>
       <field id="urlsuperpar" displayname="URL parmeter named superpar" readonly="" />
       <field id="hello" displayname="#env.e('custompar')"  />
+      <field id="forme" hidden="$sec.o('rogue')"  />
+      <field id="forgroup" hidden="$sec.g('mafia')"  />
+      <field id="forworld" hidden="$sec.p('killer,thieve')"  />
  </form>
  
         <list id="list" displayname="List of URL params" toolbartype="listonly" >
