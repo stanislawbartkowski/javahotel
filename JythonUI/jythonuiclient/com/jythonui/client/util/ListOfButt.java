@@ -20,10 +20,10 @@ import com.gwtmodel.table.buttoncontrolmodel.ControlButtonFactory;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.slotmodel.ClickButtonType.StandClickEnum;
+import com.jythonui.client.IUIConsts;
 import com.jythonui.shared.ButtonItem;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.FieldItem;
-import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.ListFormat;
 
 public class ListOfButt {
@@ -74,25 +74,25 @@ public class ListOfButt {
         final List<ControlButtonDesc> customList = new ArrayList<ControlButtonDesc>();
         for (String s : liButton) {
             StandClickEnum bu = null;
-            if (s.equals(ICommonConsts.BUTT_ADD)) {
+            if (s.equals(IUIConsts.BUTT_ADD)) {
                 bu = StandClickEnum.ADDITEM;
             }
-            if (s.equals(ICommonConsts.BUTT_REMOVE)) {
+            if (s.equals(IUIConsts.BUTT_REMOVE)) {
                 bu = StandClickEnum.REMOVEITEM;
             }
-            if (s.equals(ICommonConsts.BUTT_MODIF)) {
+            if (s.equals(IUIConsts.BUTT_MODIF)) {
                 bu = StandClickEnum.MODIFITEM;
             }
-            if (s.equals(ICommonConsts.BUTT_SHOW)) {
+            if (s.equals(IUIConsts.BUTT_SHOW)) {
                 bu = StandClickEnum.SHOWITEM;
             }
-            if (s.equals(ICommonConsts.BUTT_TOOLS)) {
+            if (s.equals(IUIConsts.BUTT_TOOLS)) {
                 bu = StandClickEnum.TABLEDEFAULTMENU;
             }
-            if (s.equals(ICommonConsts.BUTT_FILTER)) {
+            if (s.equals(IUIConsts.BUTT_FILTER)) {
                 bu = StandClickEnum.FILTRLIST;
             }
-            if (s.equals(ICommonConsts.BUTT_FIND)) {
+            if (s.equals(IUIConsts.BUTT_FIND)) {
                 bu = StandClickEnum.FIND;
             }
             String actionButt = FieldItem.getCustomT(s);

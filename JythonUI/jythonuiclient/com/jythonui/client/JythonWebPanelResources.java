@@ -34,11 +34,11 @@ class JythonWebPanelResources implements IWebPanelResources {
 
     JythonWebPanelResources(ClientProp res) {
     	this.res = res;
-        putRes(TITLE, ICommonConsts.APP_TITLE, res);
-        putRes(PRODUCTNAME, ICommonConsts.APP_PRODUCTNAME, res);
-        putRes(OWNERNAME, ICommonConsts.APP_OWNERNAME, res);
-        putRes(VERSION, ICommonConsts.APP_VERSION, res);
-        putRes(IIMAGEPRODUCT, ICommonConsts.APP_PRODUCTIMAGE, res);
+        putRes(TITLE, IUIConsts.APP_TITLE, res);
+        putRes(PRODUCTNAME, IUIConsts.APP_PRODUCTNAME, res);
+        putRes(OWNERNAME, IUIConsts.APP_OWNERNAME, res);
+        putRes(VERSION, IUIConsts.APP_VERSION, res);
+        putRes(IIMAGEPRODUCT, IUIConsts.APP_PRODUCTIMAGE, res);
     }
 
     public String getRes(String reso) {

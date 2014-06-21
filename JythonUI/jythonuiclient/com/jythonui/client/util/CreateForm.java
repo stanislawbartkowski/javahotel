@@ -38,6 +38,7 @@ import com.gwtmodel.table.tabledef.VFooterDesc;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
+import com.jythonui.client.IUIConsts;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.VField;
 import com.jythonui.shared.ButtonItem;
@@ -177,13 +178,13 @@ public class CreateForm {
 
     private static VListHeaderDesc.ColAlign getA(String a) {
         VListHeaderDesc.ColAlign al = null;
-        if (CUtil.EqNS(a, ICommonConsts.ALIGNL))
+        if (CUtil.EqNS(a, IUIConsts.ALIGNL))
             al = VListHeaderDesc.ColAlign.LEFT;
 
-        if (CUtil.EqNS(a, ICommonConsts.ALIGNR))
+        if (CUtil.EqNS(a, IUIConsts.ALIGNR))
             al = VListHeaderDesc.ColAlign.RIGHT;
 
-        if (CUtil.EqNS(a, ICommonConsts.ALIGNC))
+        if (CUtil.EqNS(a, IUIConsts.ALIGNC))
             al = VListHeaderDesc.ColAlign.CENTER;
         return al;
     }
