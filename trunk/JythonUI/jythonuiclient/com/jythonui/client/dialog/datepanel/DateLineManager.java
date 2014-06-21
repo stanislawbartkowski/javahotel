@@ -77,6 +77,7 @@ import com.gwtmodel.table.view.table.IGwtTableModel;
 import com.gwtmodel.table.view.table.IGwtTableView;
 import com.gwtmodel.table.view.table.IListClicked;
 import com.gwtmodel.table.view.table.IRowEditAction;
+import com.jythonui.client.IUIConsts;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.IDateLineManager;
 import com.jythonui.client.dialog.IDialogContainer;
@@ -389,8 +390,8 @@ class DateLineManager implements IDateLineManager {
                         String w = weekdays[d.getDay()];
                         Joiner join = Joiner.on(' ').skipNulls();
                         sb.append(headerInput.input(join.join(
-                                isToday(d) ? ICommonConsts.HEADER_TODAY : null,
-                                isWeekend(d) ? ICommonConsts.HEADER_WEEKEND
+                                isToday(d) ? IUIConsts.HEADER_TODAY : null,
+                                isWeekend(d) ? IUIConsts.HEADER_WEEKEND
                                         : null), day, m, w));
                     }
 
@@ -563,9 +564,9 @@ class DateLineManager implements IDateLineManager {
                 CVField c = (CVField) v;
                 Date d = sData.getD(c.cId);
                 Joiner join = Joiner.on(' ').skipNulls();
-                return join.join(isToday(d) ? ICommonConsts.CELL_COLUMN_TODAY
+                return join.join(isToday(d) ? IUIConsts.CELL_COLUMN_TODAY
                         : null,
-                        isWeekend(d) ? (ICommonConsts.CELL_COLUMN_WEEKEND)
+                        isWeekend(d) ? (IUIConsts.CELL_COLUMN_WEEKEND)
                                 : null);
             }
 

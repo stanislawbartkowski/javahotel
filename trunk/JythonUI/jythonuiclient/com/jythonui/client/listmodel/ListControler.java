@@ -87,6 +87,7 @@ import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.gwtmodel.table.view.table.ChangeEditableRowsParam;
 import com.gwtmodel.table.view.util.AbstractDataModel;
 import com.gwtmodel.table.view.util.ModalDialog;
+import com.jythonui.client.IUIConsts;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.ICreateBackActionFactory;
 import com.jythonui.client.dialog.IPerformClickAction;
@@ -414,10 +415,12 @@ class ListControler {
             if (bu != null) {
                 String jsAction = Utils.getJS(bu.getJsAction());
                 if (!CUtil.EmptyS(jsAction)) {
-                    DialogVariables res = ExecuteJS.execute(doAction, jsAction,
-                            v);
-                    cBack.onSuccess(res);
-                    return;
+                    ExecuteJS.IJSResult res = ExecuteJS.execute(doAction,
+                            jsAction, v);
+                    if (!res.isContinue()) {
+                        cBack.onSuccess(res.getV());
+                        return;
+                    }
                 }
             }
             ExecuteAction.action(v, rM.getDialogName(), doAction, cBack);
@@ -582,7 +585,7 @@ class ListControler {
                 }
                 DialogVariables v = iCon
                         .getVariables(ICommonConsts.SIGNALCOLUMNCHANGE);
-                v.setValueB(ICommonConsts.JCHANGESIGNALBEFORE, c.isBefore());
+                v.setValueB(IUIConsts.JCHANGESIGNALBEFORE, c.isBefore());
                 v.setValueS(ICommonConsts.SIGNALCHANGEFIELD, vv.getId());
                 FieldValue prev = new FieldValue();
                 prev.setValue(col.getFieldType(), prevO, col.getAfterDot());

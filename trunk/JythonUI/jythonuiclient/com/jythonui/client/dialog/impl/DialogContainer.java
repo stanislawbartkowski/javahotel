@@ -917,16 +917,12 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
                 return true;
             String jsA = Utils.getJS(bItem.getJsAction());
             if (!CUtil.EmptyS(jsA)) {
-                IJsonConvert iJson = GwtGiniInjector.getI().getJsonConvert();
                 DialogVariables v = iCon.getVariables(id);
-                // v.setValueS(ICommonConsts.JSACTION, id);
-                // VVData vData = new VVData(v);
-                // String par = iJson.construct(vData);
-                // JavaScriptObject resO = Utils.callJsObjectFun(jsA, par);
-                // DialogVariables res = JSOToVariables.toV(resO);
-                DialogVariables res = ExecuteJS.execute(id, jsA, v);
-                new BackClass(id, false, w, null).onSuccess(res);
-                return true;
+                ExecuteJS.IJSResult res = ExecuteJS.execute(id, jsA, v);
+                if (!res.isContinue()) {
+                    new BackClass(id, false, w, null).onSuccess(res.getV());
+                    return true;
+                }
             }
 
             if (bItem.isAction()) {

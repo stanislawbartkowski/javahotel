@@ -19,11 +19,6 @@ package com.jythonui.shared;
  */
 public interface ICommonConsts {
 
-    String CELL_COLUMN_WEEKEND = "weekend-cell-column";
-    String HEADER_WEEKEND = "header-date-weekend";
-    String CELL_COLUMN_TODAY = "today-cell-column";
-    String HEADER_TODAY = "header_date_today";
-
     String ID = "id";
     String DISPLAYNAME = "displayname";
     String UPMENU = "upmenu";
@@ -177,7 +172,6 @@ public interface ICommonConsts {
     String DISCLOSUREOPEN = "disclosureopen";
     String JSUBMITERES = "JSUBMITRES";
     String SIGNALBEFORE = "signalbefore";
-    String JCHANGESIGNALBEFORE = "JLIST_EDIT_BEFORE";
     String JVALBEFORE = "JVALBEFORE";
     String SIGNALCHANGEFIELD = "changefield";
     String SIGNALAFTERFOCUS = "changeafterfocus";
@@ -187,13 +181,6 @@ public interface ICommonConsts {
     String HELPER = "helper";
     String LINESET = "_lineset";
     String STANDBUTT = "standbutt";
-    String BUTT_TOOLS = "TOOLS";
-    String BUTT_ADD = "ADD";
-    String BUTT_MODIF = "MODIF";
-    String BUTT_REMOVE = "REMOVE";
-    String BUTT_SHOW = "SHOW";
-    String BUTT_FIND = "FIND";
-    String BUTT_FILTER = "FILTER";
     String JCRUD_DIALOG = "JCRUD_DIALOG";
     String HELPERREFRESH = "helperrefresh";
     String COMBOTYPE = "combo";
@@ -213,9 +200,6 @@ public interface ICommonConsts {
     String CLASSNAME = "cssclass";
     String PAGESIZE = "pagesize";
     String ALIGN = "align";
-    String ALIGNL = "L";
-    String ALIGNR = "R";
-    String ALIGNC = "C";
     String CHUNKED = "chunked";
     String JLISTSIZE = "JLIST_SIZE";
     String JLIST_READCHUNK = "readchunk";
@@ -246,13 +230,8 @@ public interface ICommonConsts {
     String CHECKERRORMESS = "errmess";
     String XMLROOT = "data";
 
-    String APP_TITLE = "Title";
-    String APP_PRODUCTNAME = "ProductName";
-    String APP_OWNERNAME = "OwnerName";
-    String APP_VERSION = "Version";
     String APP_FILENAME = "app.properties";
-    String APP_PRODUCTIMAGE = "ProductImage";
-
+    
     String JDATELINEQUERYID = "JDATELINE_QUERYID";
     String JDATELINEQUERYFROM = "JDATELINE_FROM";
     String JDATELINEQEURYTO = "JDATELINE_TO";

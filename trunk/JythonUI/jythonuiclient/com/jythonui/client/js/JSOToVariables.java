@@ -16,8 +16,10 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.FieldDataType;
+import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.Utils;
+import com.jythonui.client.IUIConsts;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.VField;
 import com.jythonui.shared.DialogVariables;
@@ -56,9 +58,9 @@ class JSOToVariables {
         for (int i = 0; i < a.length(); i++) {
             String key = a.get(i);
             String val = mo.get(key);
-            String type = mo.get(key + "_T");
+            String type = mo.get(key + IUIConsts.JSADDTYPE);
             FieldDataType ff = null;
-            if ("undefined".equals(type))
+            if (IConsts.JSUNDEFINED.equals(type))
                 ff = FieldDataType.constructString();
             else if (ICommonConsts.INTTYPE.equals(type))
                 ff = FieldDataType.constructInt();
@@ -73,7 +75,8 @@ class JSOToVariables {
             else if (ICommonConsts.DECIMALTYPE.equals(type))
                 ff = FieldDataType.constructBigDecimal();
             if (ff == null) {
-                String mess = M.M().JavaScriptInvalideType(type, key + "_T");
+                String mess = M.M().JavaScriptInvalideType(type,
+                        key + IUIConsts.JSADDTYPE);
                 Utils.errAlert(mess);
             }
             IVField vv = VField.construct(key, ff.getType());
