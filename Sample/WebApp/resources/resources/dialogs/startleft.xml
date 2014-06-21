@@ -18,6 +18,7 @@
   <button id="authidedialog" displayname="Autohide dialog" actiontype="JUP_DIALOG" actionparam="autodialog.xml" />
   <button id="modelessdialog" displayname="Modeless dialog" actiontype="JUP_DIALOG" actionparam="nextdialog.xml" />  
   <button id="jsdialog" displayname="Dialog with JS" actiontype="JUP_DIALOG" actionparam="jsdialog.xml" />  
+  <button id="jsdialog1" displayname="Dialog with JS partial" actiontype="JMAIN_DIALOG" actionparam="jsdialogpartial.xml" />  
   <button id="h1" displayname = "Status" header="" />  
   <button id="statustext" displayname="Status tekst" actiontype="JMAIN_DIALOG" actionparam="statusup.xml" />
   <button id="listfooter" displayname="List footer" actiontype="JMAIN_DIALOG" actionparam="listdeffooter.xml" />
