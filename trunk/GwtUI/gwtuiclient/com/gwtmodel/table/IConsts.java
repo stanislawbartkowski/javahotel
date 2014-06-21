@@ -35,7 +35,11 @@ public interface IConsts {
     String UKNOWNHTMLNAME = "XXX";
     String EMPTYCLASSSTYLE = "dialog-empty-field";
     int MonthPanel = 12;
-    String LABELPREFIX="label-";
+    String LABELPREFIX = "label-";
     String IJSCALL = "JS.";
-    String SPINNERSTYLE ="spinner-style";
+    String SPINNERSTYLE = "spinner-style";
+    String JSTRUE = "true";
+    String JSFALSE = "false";
+    String JSNULL = "null";
+    String JSUNDEFINED = "undefined";
 }

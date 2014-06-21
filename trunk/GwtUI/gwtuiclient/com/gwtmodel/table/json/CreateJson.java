@@ -13,6 +13,7 @@
 package com.gwtmodel.table.json;
 
 import com.google.gwt.core.client.JsonUtils;
+import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.common.CUtil;
 
 import java.util.HashMap;
@@ -41,6 +42,7 @@ class CreateJson {
             return number;
         }
     }
+
     private final Map<String, JsonElem> vals = new HashMap<String, JsonElem>();
 
     CreateJson(String objectName) {
@@ -65,19 +67,21 @@ class CreateJson {
             first = false;
             String val;
             if (e.getValue().getVal() == null) {
-                val = "null";
+                val = IConsts.JSNULL;
             } else {
                 if (e.getValue().isNumber()) {
                     val = e.getValue().getVal();
-                    if (CUtil.EmptyS(val)) { val = "null"; }
+                    if (CUtil.EmptyS(val)) {
+                        val = IConsts.JSNULL;
+                    }
                 } else {
                     String s = e.getValue().getVal();
                     // escape all "
                     // TODO: remove now
-                    s = s.replaceAll("\"","");
+                    s = s.replaceAll("\"", "");
                     s = s.replaceAll("'", "");
                     // escape all \n
-                    s = s.replaceAll("\n", "");                                        
+                    s = s.replaceAll("\n", "");
                     s = s.replaceAll("\r", "");
                     val = JsonUtils.escapeValue(s);
                 }
