@@ -33,11 +33,11 @@ public class CreateJSonForIVData implements IJsonConvert {
             case BOOLEAN:
                 Boolean b = (Boolean) line.getF(f);
                 if (b == null)
-                    val = "null";
+                    val = IConsts.JSNULL;
                 else if (b.booleanValue())
-                    val = "true";
+                    val = IConsts.JSTRUE;
                 else
-                    val = "false";
+                    val = IConsts.JSFALSE;
                 number = true;
                 break;
             default:
