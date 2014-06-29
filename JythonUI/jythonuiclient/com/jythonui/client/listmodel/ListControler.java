@@ -92,7 +92,9 @@ import com.jythonui.client.M;
 import com.jythonui.client.dialog.ICreateBackActionFactory;
 import com.jythonui.client.dialog.IPerformClickAction;
 import com.jythonui.client.dialog.VField;
-import com.jythonui.client.js.ExecuteJS;
+import com.jythonui.client.injector.UIGiniInjector;
+import com.jythonui.client.interfaces.IExecuteBackAction;
+import com.jythonui.client.interfaces.IExecuteJS;
 import com.jythonui.client.util.CreateForm;
 import com.jythonui.client.util.CreateForm.IGetEnum;
 import com.jythonui.client.util.CreateForm.ISelectFactory;
@@ -162,6 +164,8 @@ class ListControler {
         private final ICreateBackActionFactory bFactory;
         private final IVModelData vFooter = new VModelData();
         private final IJsonConvert iJson;
+        private final IExecuteJS executeJS;
+        private final IExecuteBackAction executeBack;
 
         private int alastRowNum;
         private int afterRowNum = -1;
@@ -403,27 +407,37 @@ class ListControler {
 
         private final Synch sy = new Synch();
 
-        private void executeAction(DialogVariables v, ListFormat li, WSize w,
-                String doAction, ICommand iLast) {
+        private void executeAction(DialogVariables v, final ListFormat li,
+                final WSize w, String doAction, final ICommand iLast) {
             ListUtils.addListName(v, li);
-            MapDialogVariable addV = new MapDialogVariable();
+            final MapDialogVariable addV = new MapDialogVariable();
             ListUtils.addListName(addV, li);
             DialogFormat dF = rM.getDialogInfo().getDialog();
             ButtonItem bu = DialogFormat.findE(dF.getActionList(), doAction);
-            CommonCallBack<DialogVariables> cBack = bFactory.construct(
-                    li.getId(), w, addV, iLast);
-            if (bu != null) {
-                String jsAction = Utils.getJS(bu.getJsAction());
-                if (!CUtil.EmptyS(jsAction)) {
-                    ExecuteJS.IJSResult res = ExecuteJS.execute(doAction,
-                            jsAction, v);
-                    if (!res.isContinue()) {
-                        cBack.onSuccess(res.getV());
-                        return;
-                    }
+            IExecuteBackAction.IBackFactory backFactory = new IExecuteBackAction.IBackFactory() {
+
+                @Override
+                public CommonCallBack<DialogVariables> construct() {
+                    return bFactory.construct(li.getId(), w, addV, iLast);
                 }
-            }
-            ExecuteAction.action(v, rM.getDialogName(), doAction, cBack);
+
+            };
+            executeBack.execute(backFactory, v, bu, rM.getDialogName(),
+                    doAction);
+            // CommonCallBack<DialogVariables> cBack = bFactory.construct(
+            // li.getId(), w, addV, iLast);
+            // if (bu != null) {
+            // String jsAction = Utils.getJS(bu.getJsAction());
+            // if (!CUtil.EmptyS(jsAction)) {
+            // IExecuteJS.IJSResult res = executeJS.execute(doAction,
+            // jsAction, v);
+            // if (!res.isContinue()) {
+            // cBack.onSuccess(res.getV());
+            // return;
+            // }
+            // }
+            // }
+            // ExecuteAction.action(v, rM.getDialogName(), doAction, cBack);
         }
 
         private class ReadList implements ISlotListener {
@@ -927,6 +941,8 @@ class ListControler {
             this.bFactory = bFactory;
             this.iCon = iCon;
             iJson = GwtGiniInjector.getI().getJsonConvert();
+            executeJS = UIGiniInjector.getI().getExecuteJS();
+            executeBack = UIGiniInjector.getI().getExecuteBackAction();
             registerSubscriber(dType, DataActionEnum.ReadListAction,
                     new ReadList());
             registerSubscriber(FormBeforeCompletedSignal.constructSignal(d),
@@ -972,7 +988,6 @@ class ListControler {
     private static class HeaderList extends AbstractSlotContainer implements
             IHeaderListContainer {
 
-        private final RowListDataManager rM;
         private final ISelectFactory iSelect;
         private final ListFormat fo;
         private final Sy sy;
@@ -1052,7 +1067,6 @@ class ListControler {
 
         HeaderList(IDataType dType, RowListDataManager rM,
                 ISelectFactory iSelect) {
-            this.rM = rM;
             this.dType = dType;
             this.iSelect = iSelect;
             fo = rM.getFormat(dType);

@@ -40,7 +40,6 @@ import com.jythonui.client.util.PerformVariableAction.VisitList;
 import com.jythonui.client.util.PerformVariableAction.VisitList.IGetFooter;
 import com.jythonui.client.util.RowVModelData;
 import com.jythonui.client.util.VerifyJError;
-import com.jythonui.client.variables.ISetGetVar;
 import com.jythonui.client.variables.IVariablesContainer;
 import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
@@ -55,7 +54,7 @@ import com.jythonui.shared.RowIndex;
  * @author hotel
  * 
  */
-public class RowListDataManager implements ISetGetVar {
+class RowListDataManager implements IRowListDataManager {
 
     private final Map<IDataType, String> listMap = new HashMap<IDataType, String>();
     private final Map<IDataType, ListFormat> lMap = new HashMap<IDataType, ListFormat>();
@@ -64,7 +63,7 @@ public class RowListDataManager implements ISetGetVar {
     private final ISlotable iSlo;
     private final IConstructCustomDataType tConstruct;
 
-    public RowListDataManager(DialogInfo dialogInfo, ISlotable iSlo,
+    RowListDataManager(DialogInfo dialogInfo, ISlotable iSlo,
             IConstructCustomDataType tConstruct) {
         this.dialogInfo = dialogInfo;
         this.iSlo = iSlo;
@@ -82,34 +81,40 @@ public class RowListDataManager implements ISetGetVar {
         return dialogInfo.getDialog().getId();
     }
 
+    @Override
     public void addList(IDataType di, String lId, ListFormat fo) {
         listMap.put(di, lId);
         lMap.put(di, fo);
         rMap.put(di, new RowIndex(fo.getColumns()));
     }
 
+    @Override
     public ListFormat getFormat(IDataType da) {
         return lMap.get(da);
     }
 
+    @Override
     public void publishBeforeForm(IDataType d, ListOfRows l) {
         FormBeforeCompletedSignal signal = new FormBeforeCompletedSignal(l);
         CustomStringSlot slot = FormBeforeCompletedSignal.constructSignal(d);
         iSlo.getSlContainer().publish(slot, signal);
     }
 
+    @Override
     public void publishBeforeFooter(IDataType d, List<IGetFooter> value) {
         DrawFooterSignal signal = new DrawFooterSignal(value);
         CustomStringSlot slot = DrawFooterSignal.constructSignal(d);
         iSlo.getSlContainer().publish(slot, signal);
     }
 
+    @Override
     public void publishBeforeListEdit(IDataType d, VisitList.EditListMode eModel) {
         ChangeToEditSignal signal = new ChangeToEditSignal(eModel);
         CustomStringSlot slot = ChangeToEditSignal.constructSignal(d);
         iSlo.getSlContainer().publish(slot, signal);
     }
 
+    @Override
     public List<IDataType> getList() {
         Iterator<IDataType> i = lMap.keySet().iterator();
         List<IDataType> l = new ArrayList<IDataType>();
@@ -119,10 +124,12 @@ public class RowListDataManager implements ISetGetVar {
         return l;
     }
 
+    @Override
     public String getLId(IDataType f) {
         return listMap.get(f);
     }
 
+    @Override
     public IDataType getLType(String fId) {
         for (Entry<IDataType, String> e : listMap.entrySet()) {
             if (e.getValue().equals(fId))
@@ -135,6 +142,7 @@ public class RowListDataManager implements ISetGetVar {
         return rMap.get(d);
     }
 
+    @Override
     public ISlotable constructListControler(IDataType da, CellId panelId,
             IVariablesContainer iCon, IPerformClickAction iAction,
             ICreateBackActionFactory bFactory, IPerformClickAction custAction) {
@@ -230,6 +238,7 @@ public class RowListDataManager implements ISetGetVar {
 
     }
 
+    @Override
     public void sendEnum(String customT, IDataListType dList) {
 
         SendEnumToList eList = new SendEnumToList(customT, dList);

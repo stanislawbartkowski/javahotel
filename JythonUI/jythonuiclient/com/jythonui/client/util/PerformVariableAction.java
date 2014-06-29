@@ -29,9 +29,8 @@ import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.VField;
 import com.jythonui.client.dialog.run.RunAction;
-import com.jythonui.client.listmodel.RowListDataManager;
+import com.jythonui.client.listmodel.IRowListDataManager;
 import com.jythonui.client.util.PerformVariableAction.VisitList.IGetFooter;
-import com.jythonui.client.variables.IBackAction;
 import com.jythonui.client.variables.IVariablesContainer;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldValue;
@@ -81,7 +80,7 @@ public class PerformVariableAction {
 
     public static void perform(IYesNoAction iYesno, ISendCloseAction iClose,
             final DialogVariables arg, IVariablesContainer iCon,
-            RowListDataManager liManager, final VisitList vis, WSize w,
+            IRowListDataManager liManager, final VisitList vis, WSize w,
             IExecuteAfterModalDialog iEx) {
         iCon.setVariablesToForm(arg);
         // lists

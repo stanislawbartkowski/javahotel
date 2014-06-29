@@ -10,17 +10,27 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.client.dialog.datepanel;
+package com.jythonui.client.impl;
 
-import com.jythonui.client.dialog.IDateLineManager;
-import com.jythonui.client.dialog.IDialogContainer;
-import com.jythonui.client.interfaces.IDateLineManagerFactory;
+import com.jythonui.client.IJythonUIClient;
+import com.jythonui.client.M;
+import com.jythonui.client.dialog.CreateFactory;
+import com.jythonui.client.dialog.LeftMenu;
+import com.jythonui.client.dialog.run.RunAction;
 
-public class DateLineManagerFactory implements IDateLineManagerFactory {
-    
-    @Override
-    public  IDateLineManager construct(IDialogContainer d) {
-        return new DateLineManager(d);        
+/**
+ * @author hotel
+ * 
+ */
+public class JythonUIClientFactory {
+
+    private JythonUIClientFactory() {
+    }
+
+    public static IJythonUIClient construct() {
+        CreateFactory.create();
+        M.setLeftMenu(new LeftMenu());
+        return new RunAction();
     }
 
 }

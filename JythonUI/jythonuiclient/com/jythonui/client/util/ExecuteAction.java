@@ -14,6 +14,7 @@ package com.jythonui.client.util;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.jythonui.client.M;
+import com.jythonui.client.injector.UIGiniInjector;
 import com.jythonui.client.variables.IVariablesContainer;
 import com.jythonui.shared.DialogVariables;
 
@@ -34,8 +35,8 @@ public class ExecuteAction {
 
     public static void action(DialogVariables v, String name, String actionId,
             AsyncCallback<DialogVariables> callback) {
-        M.JR().runAction(RequestContextFactory.construct(), v, name, actionId,
-                callback);
+        M.JR().runAction(UIGiniInjector.getI().getRequestContext(), v, name,
+                actionId, callback);
     }
 
 }

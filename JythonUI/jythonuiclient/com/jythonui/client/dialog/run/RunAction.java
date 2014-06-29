@@ -40,14 +40,14 @@ import com.jythonui.client.IJythonUIClient;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.DataType;
 import com.jythonui.client.dialog.IDialogContainer;
-import com.jythonui.client.dialog.impl.DialogContainerFactory;
 import com.jythonui.client.dialog.impl.SendCloseSignal;
 import com.jythonui.client.dialog.impl.SendDialogFormSignal;
 import com.jythonui.client.dialog.impl.SendSubmitSignal;
 import com.jythonui.client.dialog.impl.SignalAfterBefore;
+import com.jythonui.client.injector.UIGiniInjector;
+import com.jythonui.client.interfaces.IDialogContainerFactory;
 import com.jythonui.client.util.IExecuteAfterModalDialog;
 import com.jythonui.client.util.ISendCloseAction;
-import com.jythonui.client.util.RequestContextFactory;
 import com.jythonui.client.variables.IVariablesContainer;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogInfo;
@@ -351,6 +351,7 @@ public class RunAction implements IJythonUIClient {
         private final DialogVariables addV;
         private final IExecuteAfterModalDialog iEx;
         private final String startVal;
+        private final IDialogContainerFactory dialFactory;
 
         StartBack(IDataType dType, ISlotListener getW,
                 IVariablesContainer iCon, ISendCloseAction iClose,
@@ -363,16 +364,19 @@ public class RunAction implements IJythonUIClient {
             this.addV = addV;
             this.iEx = iEx;
             this.startVal = startVal;
+            dialFactory = UIGiniInjector.getI().getDialogContainterFactory();
         }
 
         @Override
         public void onMySuccess(DialogInfo arg) {
             // DialogContainer d = new DialogContainer(dType, arg, iCon, iClose,
             // addV, iEx, startVal);
-            IDialogContainer d = DialogContainerFactory.contstruct(dType, arg,
-                    iCon, iClose, addV, iEx, startVal);
-            if (sy.mainW) M.setMainD(d);
-            if (d.getD().isModelessDialog()) iEx.registerModeless(d);            
+            IDialogContainer d = dialFactory.construct(dType, arg, iCon,
+                    iClose, addV, iEx, startVal);
+            if (sy.mainW)
+                M.setMainD(d);
+            if (d.getD().isModelessDialog())
+                iEx.registerModeless(d);
             d.getSlContainer().registerSubscriber(
                     SendDialogFormSignal.constructSignal(dType),
                     new GetDialog());
@@ -390,7 +394,7 @@ public class RunAction implements IJythonUIClient {
             CellId cId = new CellId(0);
             sy.dI = d;
             sy.sl = getW;
-            d.startPublish(cId);            
+            d.startPublish(cId);
         }
     }
 
@@ -399,7 +403,7 @@ public class RunAction implements IJythonUIClient {
         IDataType dType = DataType.construct(startdialogName, null);
         sy.mainW = true;
         M.JR().getDialogFormat(
-                RequestContextFactory.construct(),
+                UIGiniInjector.getI().getRequestContext(),
                 startdialogName,
                 new StartBack(dType, new GetCenterWidget(), null, null, null,
                         null, null));
@@ -420,7 +424,7 @@ public class RunAction implements IJythonUIClient {
         IDataType dType = DataType.construct(dialogName, null);
 
         M.JR().getDialogFormat(
-                RequestContextFactory.construct(),
+                UIGiniInjector.getI().getRequestContext(),
                 dialogName,
                 new StartBack(dType, new GetUpWidget(w), iCon, null, null, iEx,
                         startVal));
@@ -431,7 +435,7 @@ public class RunAction implements IJythonUIClient {
             DialogVariables addV) {
         IDataType dType = DataType.construct(dialogName, null);
 
-        M.JR().getDialogFormat(RequestContextFactory.construct(), dialogName,
+        M.JR().getDialogFormat(UIGiniInjector.getI().getRequestContext(), dialogName,
                 new StartBack(dType, sl, iCon, iClose, addV, null, null));
     }
 

@@ -49,7 +49,6 @@ import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.IDisclosurePanelFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
-import com.gwtmodel.table.json.IJsonConvert;
 import com.gwtmodel.table.listdataview.ButtonCheckLostFocusSignal;
 import com.gwtmodel.table.panelview.IPanelView;
 import com.gwtmodel.table.rdef.FormLineContainer;
@@ -83,17 +82,17 @@ import com.jythonui.client.dialog.IFormGridManager;
 import com.jythonui.client.dialog.IPerformClickAction;
 import com.jythonui.client.dialog.LeftMenu;
 import com.jythonui.client.dialog.VField;
-import com.jythonui.client.dialog.datepanel.DateLineManagerFactory;
 import com.jythonui.client.dialog.datepanel.GotoDateSignal;
 import com.jythonui.client.dialog.datepanel.RefreshData;
 import com.jythonui.client.dialog.jsearch.JSearchFactory;
 import com.jythonui.client.dialog.run.AfterUploadSubmitSignal;
 import com.jythonui.client.dialog.run.CloseDialogByImage;
 import com.jythonui.client.dialog.run.RunAction;
-import com.jythonui.client.formgrid.FormGridManagerFactory;
-import com.jythonui.client.js.ExecuteJS;
+import com.jythonui.client.injector.UIGiniInjector;
+import com.jythonui.client.interfaces.IExecuteBackAction;
+import com.jythonui.client.interfaces.IExecuteJS;
 import com.jythonui.client.listmodel.GetRowSelected;
-import com.jythonui.client.listmodel.RowListDataManager;
+import com.jythonui.client.listmodel.IRowListDataManager;
 import com.jythonui.client.util.CreateForm;
 import com.jythonui.client.util.EnumTypesList;
 import com.jythonui.client.util.ExecuteAction;
@@ -134,7 +133,7 @@ import com.jythonui.shared.TabPanelElem;
 class DialogContainer extends AbstractSlotMediatorContainer implements
         IDialogContainer {
 
-    private final RowListDataManager liManager;
+    private final IRowListDataManager liManager;
     private final DialogInfo info;
     private final DialogFormat d;
     private final IVariablesContainer iCon;
@@ -154,19 +153,23 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
     private WSize lastWClicked = null;
     private final IDisclosurePanelFactory dFactory;
 
+    private final IExecuteJS executeJS;
+    private final IExecuteBackAction executeBack;
+
     private final List<IDialogContainer> modelessList = new ArrayList<IDialogContainer>();
 
-    public DialogContainer(IDataType dType, DialogInfo info,
-            IVariablesContainer pCon, ISendCloseAction iClose,
-            DialogVariables addV, IExecuteAfterModalDialog iEx, String startVal) {
+    DialogContainer(IDataType dType, DialogInfo info, IVariablesContainer pCon,
+            ISendCloseAction iClose, DialogVariables addV,
+            IExecuteAfterModalDialog iEx, String startVal) {
         this.info = info;
         this.d = info.getDialog();
         this.dType = dType;
         this.iEx = iEx;
         this.startVal = startVal;
-        liManager = new RowListDataManager(info, slMediator, new DTypeFactory());
+        liManager = UIGiniInjector.getI().getRowListDataManagerFactory().construct(info, slMediator, new DTypeFactory());
         // not safe, reference is escaping
-        dManager = DateLineManagerFactory.construct(this);
+        dManager = UIGiniInjector.getI().getDateLineManagerFactory()
+                .construct(this);
         if (pCon == null) {
             if (M.getVar() == null) {
                 iCon = VariableContainerFactory.construct();
@@ -180,10 +183,12 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
         }
         this.iClose = iClose;
         this.addV = addV;
-        gManager = FormGridManagerFactory.construct(this, dType);
+        gManager = UIGiniInjector.getI().getFormGridManagerFactory()
+                .construct(this, dType);
         RegisterCustom.registerCustom(info.getCustMess());
         dFactory = GwtGiniInjector.getI().getDisclosurePanelFactory();
-
+        executeJS = UIGiniInjector.getI().getExecuteJS();
+        executeBack = UIGiniInjector.getI().getExecuteBackAction();
     }
 
     private class CButton implements ISlotListener {
@@ -248,7 +253,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
         @SuppressWarnings("unchecked")
         @Override
         public void signal(ISlotSignalContext slContext) {
-            IFormLineView i = slContext.getChangedValue();
+            final IFormLineView i = slContext.getChangedValue();
             IVField fie = i.getV();
             ICustomObject cu = slContext.getCustom();
             CustomObjectValue<Boolean> coB = (CustomObjectValue<Boolean>) cu;
@@ -260,15 +265,29 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
             if (!fItem.isSignalChange()) {
                 return;
             }
+            ButtonItem bItem = DialogFormat.findE(d.getActionList(),
+                    ICommonConsts.SIGNALCHANGE);
+            // bItem can be null
             DialogVariables v = iCon.getVariables(ICommonConsts.SIGNALCHANGE);
             v.setValueS(ICommonConsts.SIGNALCHANGEFIELD, fieldid);
             FieldValue val = new FieldValue();
             val.setValue(coB.getValue());
             v.setValue(ICommonConsts.SIGNALAFTERFOCUS, val);
-            ExecuteAction
-                    .action(v, d.getId(), ICommonConsts.SIGNALCHANGE,
-                            new BackClass(null, false,
-                                    new WSize(i.getGWidget()), null));
+
+            IExecuteBackAction.IBackFactory backFactory = new IExecuteBackAction.IBackFactory() {
+
+                @Override
+                public CommonCallBack<DialogVariables> construct() {
+                    return new BackClass(null, false,
+                            new WSize(i.getGWidget()), null);
+                }
+            };
+            // ExecuteAction
+            // .action(v, d.getId(), ICommonConsts.SIGNALCHANGE,
+            // new BackClass(null, false,
+            // new WSize(i.getGWidget()), null));
+            executeBack.execute(backFactory, v, bItem, d.getId(),
+                    ICommonConsts.SIGNALCHANGE);
         }
 
     }
@@ -903,7 +922,8 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
         return true;
     }
 
-    private boolean runAction(String id, WSize w, List<ButtonItem> bList) {
+    private boolean runAction(final String id, final WSize w,
+            List<ButtonItem> bList) {
         ButtonItem bItem = DialogFormat.findE(bList, id);
         // it can be call from several places
         // so filter out not relevant
@@ -915,15 +935,6 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
             }
             if (!verifyListSelected(id, w))
                 return true;
-            String jsA = Utils.getJS(bItem.getJsAction());
-            if (!CUtil.EmptyS(jsA)) {
-                DialogVariables v = iCon.getVariables(id);
-                ExecuteJS.IJSResult res = ExecuteJS.execute(id, jsA, v);
-                if (!res.isContinue()) {
-                    new BackClass(id, false, w, null).onSuccess(res.getV());
-                    return true;
-                }
-            }
 
             if (bItem.isAction()) {
                 String action = bItem.getAction();
@@ -936,8 +947,30 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
                         new AfterModal());
                 return true;
             }
-            ExecuteAction.action(iCon, d.getId(), id, new BackClass(id, false,
-                    w, null));
+
+            IExecuteBackAction.IBackFactory backFactory = new IExecuteBackAction.IBackFactory() {
+
+                @Override
+                public CommonCallBack<DialogVariables> construct() {
+                    return new BackClass(id, false, w, null);
+                }
+            };
+
+            // String jsA = Utils.getJS(bItem.getJsAction());
+            // if (!CUtil.EmptyS(jsA)) {
+            // DialogVariables v = iCon.getVariables(id);
+            // IExecuteJS.IJSResult res = executeJS.execute(id, jsA, v);
+            // if (!res.isContinue()) {
+            // new BackClass(id, false, w, null).onSuccess(res.getV());
+            // return true;
+            // }
+            // }
+            //
+            // ExecuteAction.action(iCon, d.getId(), id, new BackClass(id,
+            // false,
+            // w, null));
+            executeBack.execute(backFactory, iCon.getVariables(id), bItem,
+                    d.getId(), id);
             return true;
         }
         return false;
