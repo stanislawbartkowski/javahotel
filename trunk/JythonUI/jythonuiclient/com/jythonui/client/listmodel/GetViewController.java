@@ -39,7 +39,8 @@ import com.gwtmodel.table.view.callback.ICommonCallBackFactory;
 import com.gwtmodel.table.view.util.YesNoDialog;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.IDialogContainer;
-import com.jythonui.client.dialog.impl.DialogContainerFactory;
+import com.jythonui.client.injector.UIGiniInjector;
+import com.jythonui.client.interfaces.IDialogContainerFactory;
 import com.jythonui.client.util.ExecuteAction;
 import com.jythonui.client.util.ISendCloseAction;
 import com.jythonui.client.util.IYesNoAction;
@@ -64,6 +65,7 @@ class GetViewController implements IGetViewControllerFactory {
     private final IDataModelFactory dFactory;
     private final RowListDataManager rM;
     private final IVariablesContainer iCon;
+    private final IDialogContainerFactory dialFactory;
 
     private String getCrudId(PersistTypeEnum e) {
         String eCrud = null;
@@ -282,19 +284,11 @@ class GetViewController implements IGetViewControllerFactory {
         String eCrud = getCrudId(iContext.getPersistTypeEnum());
         addV.setValueS(ICommonConsts.JCRUD_DIALOG, eCrud);
 
-        DialogInfo dInfo = rM.getDialogInfo();
         DialogFormat dElem = li.getfElem();
         assert dElem != null;
-        // SecurityInfo elemSec = li.getElemSec();
-        // assert elemSec != null;
-        // SecurityInfo elemSec = new
-        // SecurityInfo(dInfo.getSecurity().getlSecur()
-        // .get(li.getId()));
         DialogInfo elemInfo = new DialogInfo(dElem, null);
-        // DialogContainer sLo = new DialogContainer(da, elemInfo, iCon, null,
-        // addV, null, null);
-        IDialogContainer sLo = DialogContainerFactory.contstruct(da, elemInfo,
-                iCon, null, addV, null, null);
+        IDialogContainer sLo = dialFactory.construct(da, elemInfo, iCon, null,
+                addV, null, null);
         ComposeControllerType cType = new ComposeControllerType(sLo, da, 0, 0);
         i.registerControler(cType);
 
@@ -316,6 +310,7 @@ class GetViewController implements IGetViewControllerFactory {
         this.dFactory = dFactory;
         this.rM = rM;
         this.iCon = iCon;
+        dialFactory = UIGiniInjector.getI().getDialogContainterFactory();
     }
 
 }

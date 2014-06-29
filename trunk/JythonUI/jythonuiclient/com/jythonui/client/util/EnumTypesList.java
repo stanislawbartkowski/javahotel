@@ -23,7 +23,7 @@ import com.gwtmodel.table.SynchronizeList;
 import com.gwtmodel.table.Utils;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.VField;
-import com.jythonui.client.listmodel.RowListDataManager;
+import com.jythonui.client.listmodel.IRowListDataManager;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.ICommonConsts;
@@ -34,9 +34,9 @@ import com.jythonui.shared.TypedefDescr;
 public class EnumTypesList {
 
     private final DialogFormat d;
-    private final RowListDataManager r;
+    private final IRowListDataManager r;
 
-    public EnumTypesList(DialogFormat d, RowListDataManager r) {
+    public EnumTypesList(DialogFormat d, IRowListDataManager r) {
         this.d = d;
         this.r = r;
     }

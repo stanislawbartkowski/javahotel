@@ -1,21 +1,21 @@
+from java.math import BigDecimal
+from java.util import Properties
+from com.jamesmurty.utils import XMLBuilder 
+from javax.xml.transform.OutputKeys import INDENT
+from java.util import Date
+
 from com.jythonui.server.holder import Holder
 from com.jythonui.server.holder import SHolder
 from com.jythonui.shared import DialogVariables
 from com.gwtmodel.table.common import TT
 from com.jythonui.server import BUtil
-from cutil import BigDecimalToDecimal
-from cutil import toJDate
-from cutil import toJDateTime
+from com.jythonui.shared import ButtonItem
+
 import cutil
 import sys
 import datetime
 import con
-import jmap
-from java.util import Date
-from com.jythonui.shared import ButtonItem
-from com.jamesmurty.utils import XMLBuilder 
-from java.util import Properties
-from javax.xml.transform.OutputKeys import INDENT
+import miscutil
 
 def getVar(map,dialogname,xml,listv):
     """ Set map with values read from xml string for dialog form.
@@ -44,7 +44,7 @@ def getVar(map,dialogname,xml,listv):
             continue
         if val.getType() == TT.BIGDECIMAL :
             b = val.getValueBD()
-            map[vname] = BigDecimalToDecimal(b)
+            map[vname] = con.BigDecimalToDecimal(b)
             continue
         if val.getType() == TT.BOOLEAN :
             b = val.getValueB()
@@ -54,10 +54,10 @@ def getVar(map,dialogname,xml,listv):
             map[vname] = val.getValue()
             continue
         if val.getType() == TT.DATE :
-            map[vname] = toJDate(val.getValue())
+            map[vname] = con.toJDate(val.getValue())
             continue
         if val.getType() == TT.DATETIME :
-            map[vname] = toJDateTime(val.getValue())
+            map[vname] = con.toJDateTime(val.getValue())
             continue         
 
 
@@ -69,7 +69,7 @@ def _toXML(builder,ma):
         val = ma[k]
         atype = None
         if type(val) == int or type(val) == long : atype = cutil.LONG
-        elif type(val) == float : atype = cutil.DECIMAL
+        elif type(val) == float or type(val) == BigDecimal : atype = cutil.DECIMAL
         elif type(val) == bool : 
             atype = cutil.BOOL
             if val : val = 1
@@ -121,7 +121,7 @@ def _toMapFiltrL(xmls,lfiltr):
   return _toMapF(xmls,None,lfiltr)
 
 def toMapFiltrDialL(xmls,dialogName,listname):
-    return _toMapFiltrL(xmls,jmap.getMapFieldList(dialogName,listname))
+    return _toMapFiltrL(xmls,cutil.getMapFieldList(dialogName,listname))
                 
 # ---------------------------------------------------------------    
             

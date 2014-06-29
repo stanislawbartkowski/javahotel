@@ -66,7 +66,7 @@ public class M {
         return jythonService;
     }
 
-    static void setLeftMenu(LeftMenu l) {
+    public static void setLeftMenu(LeftMenu l) {
         leftMenu = l;
     }
 

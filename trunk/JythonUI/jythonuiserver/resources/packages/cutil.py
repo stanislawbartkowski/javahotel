@@ -163,6 +163,10 @@ def minusDecimal(sum1,sum2,afterdot=2):
  
 def emptyS(name):
     return name == None or name == "" or CUtil.EmptyS(name)
+
+def ifnull(val1,val2) :
+  if val1 == None : return val2
+  return val1
   
 def concatS(*arg) :
   res = None
@@ -383,13 +387,13 @@ class RegistryFile:
            self.__removeEntries(RR)
         self.__removeEntries(R)
 
-
 def allEmpty(var,list):
     for l in list :
         if not var.has_key(l) : continue
         if var[l] == None : continue
         return False
     return True
+
 
 def printVar(name,action,var):
   print "================ " + name
@@ -537,6 +541,31 @@ def urlParList(var) :
 def urlPar(var,k) :
   R = Holder.getRequest().getUrlParam()
   return R.get(k)
+  
+# =============================
+def getMapFieldList(dialogName,list=None):
+  """ Extract list of fields (columns) name from dialog
+    Args:
+      dialogName : dialog
+      list : if None list of fields from dialog
+             if not None list of columns from list 
+  """    
+  i = Holder.getiServer()
+  dInfo =  i.findDialog(Holder.getRequest(), dialogName)
+  assert dInfo != None
+  dFormat = dInfo.getDialog()
+  if list == None :
+      flist = dFormat.getFieldList()
+  else :
+    lform = dFormat.findList(list)
+    assert lform != None
+    flist = lform.getColumns()  
+          
+  l = []
+  for f in flist :
+      name = f.getId()
+      l.append(name)
+  return l    
   
     
       

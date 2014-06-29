@@ -15,14 +15,12 @@ package com.jythonui.client.formgrid;
 import com.gwtmodel.table.IDataType;
 import com.jythonui.client.dialog.IDialogContainer;
 import com.jythonui.client.dialog.IFormGridManager;
+import com.jythonui.client.interfaces.IFormGridManagerFactory;
 
-public class FormGridManagerFactory {
+public class FormGridManagerFactory implements IFormGridManagerFactory {
 
-    private FormGridManagerFactory() {
-
-    }
-
-    public static IFormGridManager construct(IDialogContainer dContainer,
+    @Override
+    public IFormGridManager construct(IDialogContainer dContainer,
             IDataType publishType) {
         return new FormGridManager(dContainer, publishType);
     }

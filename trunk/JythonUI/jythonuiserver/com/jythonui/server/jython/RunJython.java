@@ -265,7 +265,7 @@ public class RunJython extends UtilHelper implements IExecuteJython {
             Object e = i.next();
             PyDictionary vMap = (PyDictionary) e;
             DialogVariables v = new DialogVariables();
-            toDialogVariables(rI.getColList(), v, vMap, strict);
+            toDialogVariables(rI.getColList(), null, v, vMap, strict);
             RowContent row = rI.constructRow();
             for (String s : v.getFields()) {
                 FieldValue valF = v.getValue(s);
@@ -527,8 +527,9 @@ public class RunJython extends UtilHelper implements IExecuteJython {
 
     }
 
-    private void toDialogVariables(List<FieldItem> fList, DialogVariables v,
-            PyDictionary pyMap, boolean strict) {
+    private void toDialogVariables(List<FieldItem> fList,
+            List<ListFormat> listList, DialogVariables v, PyDictionary pyMap,
+            boolean strict) {
         PyObject item = pyMap.iteritems();
         PyIterator iter = (PyIterator) item;
         PyObject next;
@@ -554,6 +555,12 @@ public class RunJython extends UtilHelper implements IExecuteJython {
             FieldItem ffItem = null;
             if (fList != null)
                 ffItem = DialogFormat.findE(fList, keyS);
+            if ((ffItem == null) && listList != null)
+                for (ListFormat f : listList) {
+                    ffItem = DialogFormat.findE(f.getColumns(), keyS);
+                    if (ffItem != null)
+                        break;
+                }
             int afterdot = ICommonConsts.DEFAULTAFTERDOT;
             if (valFF != null) {
                 fType = valFF.getType();
@@ -777,7 +784,7 @@ public class RunJython extends UtilHelper implements IExecuteJython {
         }
         logDebug(s);
         interp.exec(s);
-        toDialogVariables(d.getFieldList(), v, pyMap, true);
+        toDialogVariables(d.getFieldList(), d.getListList(), v, pyMap, true);
         if (pyMap.has_key(JLISTMAP)) {
             PyObject o = pyMap.__getitem__(JLISTMAP);
             extractList((PyDictionary) o, v, d, actionId);

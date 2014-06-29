@@ -10,17 +10,20 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.client.dialog.datepanel;
+package com.jythonui.client.interfaces;
 
-import com.jythonui.client.dialog.IDateLineManager;
+import com.gwtmodel.table.IDataType;
 import com.jythonui.client.dialog.IDialogContainer;
-import com.jythonui.client.interfaces.IDateLineManagerFactory;
+import com.jythonui.client.util.IExecuteAfterModalDialog;
+import com.jythonui.client.util.ISendCloseAction;
+import com.jythonui.client.variables.IVariablesContainer;
+import com.jythonui.shared.DialogInfo;
+import com.jythonui.shared.DialogVariables;
 
-public class DateLineManagerFactory implements IDateLineManagerFactory {
+public interface IDialogContainerFactory {
     
-    @Override
-    public  IDateLineManager construct(IDialogContainer d) {
-        return new DateLineManager(d);        
-    }
+    IDialogContainer construct(IDataType dType, DialogInfo info,
+            IVariablesContainer pCon, ISendCloseAction iClose,
+            DialogVariables addV, IExecuteAfterModalDialog iEx, String startVal);
 
 }

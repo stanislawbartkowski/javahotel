@@ -12,7 +12,6 @@
  */
 package com.jythonui.client.js;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.common.CUtil;
@@ -20,23 +19,14 @@ import com.gwtmodel.table.common.TT;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.json.IJsonConvert;
 import com.jythonui.client.IUIConsts;
+import com.jythonui.client.interfaces.IExecuteJS;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldValue;
 import com.jythonui.shared.ICommonConsts;
 
-public class ExecuteJS {
+public class ExecuteJS implements IExecuteJS {
 
-    private ExecuteJS() {
-
-    }
-
-    public interface IJSResult {
-        DialogVariables getV();
-
-        boolean isContinue();
-    }
-
-    private static class JSResult implements IJSResult {
+    private class JSResult implements IJSResult {
 
         private final DialogVariables v;
 
@@ -62,11 +52,13 @@ public class ExecuteJS {
         }
     }
 
-    public static IJSResult execute(String id, String jsA, DialogVariables v) {
+    @Override
+    public IJSResult execute(String id, String jsA, DialogVariables v) {
         IJsonConvert iJson = GwtGiniInjector.getI().getJsonConvert();
         v.setValueS(ICommonConsts.JSACTION, id);
         String par = iJson.construct(new VVData(v));
-        DialogVariables res = JSOToVariables.toV(Utils.callJsObjectFun(jsA, par));
+        DialogVariables res = JSOToVariables.toV(Utils
+                .callJsObjectFun(jsA, par));
         return new JSResult(res);
     }
 

@@ -10,17 +10,12 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.client.dialog.datepanel;
+package com.jythonui.client.start;
 
-import com.jythonui.client.dialog.IDateLineManager;
-import com.jythonui.client.dialog.IDialogContainer;
-import com.jythonui.client.interfaces.IDateLineManagerFactory;
+import com.jythonui.shared.CustomSecurity;
 
-public class DateLineManagerFactory implements IDateLineManagerFactory {
-    
-    @Override
-    public  IDateLineManager construct(IDialogContainer d) {
-        return new DateLineManager(d);        
-    }
+public interface IJythonClientStart {
+
+    void start(String startXML, CustomSecurity iCustom);
 
 }
