@@ -11,6 +11,8 @@ RLIST="reslist"
 def setvarBefore(var,cust=RCUST):
     nop = None
     resdays = 1
+    roomservice = None
+    roompricelist = None
     
     if var.has_key("JUPDIALOG_START") and var["JUPDIALOG_START"] != None :
       xml = var["JUPDIALOG_START"]
@@ -20,6 +22,9 @@ def setvarBefore(var,cust=RCUST):
       var["JDATELINE_LINE"] = m["roomname"]
       var["JDATELINE_DATE"] = m["firstday"]
       resdays = m["nodays"]
+      roomservice = m["roomservice"]
+      roompricelist = m["roompricelist"]
+      rutil.setServicePriceList(var,roomservice,roompricelist)
       
     R = util.ROOMLIST(var)
     roomname = var["JDATELINE_LINE"]
@@ -69,10 +74,14 @@ def setvarBefore(var,cust=RCUST):
               
          if mindate == None : mindate = r.getResDate()
          elif mindate > r.getResDate() : mindate = r.getResDate()
+         roomservice = cutil.ifnull(roomservice,r.getService())
+         roompricelist = cutil.ifnull(roompricelist,r.getPriceListName())
 
          list.append(map)
          sum.add(r.getPriceTotal())
 
+    print "=========",roomservice,roompricelist
+    rutil.setServicePriceList(var,roomservice,roompricelist)
     var["datecol"] = mindate
     var["resdays"] = len(reservation.getResDetail())
     cutil.setJMapList(var,RLIST,list)

@@ -10,6 +10,12 @@ M=util.MESS()
 def getReseName(var) :
   return var["resename"]
 
+def setServicePriceList(var,roomservice,pricelist) :
+  var["roompricelist"] = pricelist
+  var["roomservice"] = roomservice
+#  print pricelist,roomservice
+  cutil.setCopy(var,["roompricelist","roomservice"])
+
 def createResQueryElem(roomname,dfrom,dto):
     q = ResQuery()
     q.setFromRes(cutil.toDate(dfrom))
@@ -291,9 +297,6 @@ class RELINE :
     
   def tofooter(self,var) :
     cutil.setFooter(var,self.li,self.total,self.sum)
-
-    
-    
     
   def calculatePriceAterRemove(self,var) :
     cutil.removeDecimalFooter(var,self.li,self.total) 

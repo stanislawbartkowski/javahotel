@@ -1,6 +1,7 @@
 import cutil
-from util import util
 import con
+
+from util import util
 from util import rutil
 
 def billdesc(action,var) :
@@ -12,7 +13,7 @@ def billdesc(action,var) :
      LI = rutil.BILLPOSADD(var,"billlist")
      billname = var["billname"]
      b = util.BILLLIST(var).findElem(billname)
-     pli = util.getPayments(var)
+     pli = rutil.getPayments(var)
      for idp in b.getPayList() :
        for pa in pli :
          if con.eqUL(idp,pa.getId()) : 
