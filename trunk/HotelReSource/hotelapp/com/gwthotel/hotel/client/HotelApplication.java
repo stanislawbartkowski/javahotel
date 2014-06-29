@@ -15,7 +15,7 @@ package com.gwthotel.hotel.client;
 import com.google.gwt.core.client.EntryPoint;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.table.Utils;
-import com.jythonui.client.JythonClientStart;
+import com.jythonui.client.injector.UIGiniInjector;
 import com.jythonui.server.ISharedConsts;
 import com.jythonui.shared.CustomSecurity;
 
@@ -28,7 +28,7 @@ public class HotelApplication implements EntryPoint {
         CustomSecurity sec = new CustomSecurity();
         sec.setAttr(IHotelConsts.HOTELNAME, hotelName);
         sec.setAttr(IHotelConsts.INSTANCEID, ISharedConsts.INSTANCEDEFAULT);
-        JythonClientStart.start(null, sec);
+        UIGiniInjector.getI().getJythonClientStart().start(null, sec);
     }
 
 }
