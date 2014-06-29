@@ -31,7 +31,7 @@ import org.junit.runners.Suite.SuiteClasses;
         Test35.class, Test36.class, Test37.class, Test38.class, Test39.class,
         Test40.class, Test41.class, Test42.class, Test43.class, Test44.class,
         Test45.class })
-//@SuiteClasses({ Test45.class })
+// @SuiteClasses({ Test45.class })
 public class AllTests {
 
 }
