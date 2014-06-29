@@ -13,7 +13,7 @@
 package com.jython.ui.client;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.jythonui.client.JythonClientStart;
+import com.jythonui.client.injector.UIGiniInjector;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -21,7 +21,7 @@ import com.jythonui.client.JythonClientStart;
 public class WebJythonUi implements EntryPoint {
 
     public void onModuleLoad() {
-        JythonClientStart.start(null, null);
+        UIGiniInjector.getI().getJythonClientStart().start(null, null);
     }
 
 }

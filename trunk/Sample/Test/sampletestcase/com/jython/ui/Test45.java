@@ -12,29 +12,35 @@
  */
 package com.jython.ui;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
+import com.gwtmodel.table.common.TT;
 import com.jythonui.shared.DialogFormat;
+import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldItem;
+import com.jythonui.shared.FieldValue;
 
-public class Test45  extends TestHelper {
-    
+public class Test45 extends TestHelper {
+
     @Test
     public void test1() {
-        
+
         DialogFormat d = findDialog("test88.xml");
         assertNotNull(d);
         FieldItem f = d.findFieldItem("hello");
         assertNotNull(f);
         System.out.println(f.getDisplayName());
-        assertEquals("Hello custom par",f.getDisplayName());        
+        assertEquals("Hello custom par", f.getDisplayName());
     }
 
     @Test
     public void test2() {
-        
+
         DialogFormat d = findDialog("test89.xml");
         assertNotNull(d);
         FieldItem f = d.findFieldItem("forme");
@@ -51,5 +57,30 @@ public class Test45  extends TestHelper {
         assertFalse(f.isHidden());
     }
 
-}
+    @Test
+    public void test3() {
 
+        DialogFormat d = findDialog("test90.xml");
+        assertNotNull(d);
+        DialogVariables v = new DialogVariables();
+        runAction(v, "test90.xml", "set");
+        FieldValue val = v.getValue("id");
+        assertNotNull(val);
+        assertEquals(TT.STRING, val.getType());
+        assertNull(val.getValue());
+    }
+
+    @Test
+    public void test4() {
+
+        String t = authenticateToken(realmIni, "guest", "guest");
+        assertNotNull(t);
+        DialogFormat d = findDialog("test90.xml");
+        assertNotNull(d);
+        DialogVariables v = new DialogVariables();
+        runAction(t, v, "test90.xml", "setmap");
+        v = new DialogVariables();
+        runAction(t, v, "test90.xml", "getmap");
+        assertOK(v);
+    }
+}
