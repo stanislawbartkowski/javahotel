@@ -1,11 +1,12 @@
 import datetime
 
-from util import rutil
-from util import util
-from util import rbefore
 import cutil
 import con
 import xmlutil
+
+from util import rutil
+from util import util
+from util import rbefore
 
 M = util.MESS()
 
@@ -15,10 +16,63 @@ RESLIST=rbefore.RLIST
 RE=rutil.RELINE(None,"datecol","name","roomservice","roompricelist","serviceperperson","resnop","respriceperson","resnochildren","respricechildren","resnoextrabeds","respriceextrabeds","respriceperroom",None)
 
 RELIST=rutil.RELINE(RESLIST,*rutil.RESLIST)
-            
-# --------------------          
+
+D = util.HOTELDEFADATA()
+
 def _newRese(var) :
   return rutil.getReseName(var) == None
+
+#--------------------
+# ---- validation ---
+# --------------------
+def _okServiceForRoom(var) :
+  room = var["name"]
+  service = var["roomservice"]
+  if service == None : return True
+  (servlist,pricelist) = util.getServicesForRoom(var,room)
+  p = util.findElemInSeq(service,servlist)
+  if p == None :
+    # theserviceisnotthisroom
+    cutil.setErrorField(var,"roomservice","@theserviceisnotthisroom")
+    return False
+  return True      
+
+def _okPriceList(var) :
+  room = var["name"]
+  service = var["roomservice"]
+  roompricelist = var["roompricelist"]
+  if service == None or roompricelist == None : return True
+  (servlist,pricelist) = util.getServicesForRoom(var,room)
+  print servlist,pricelist
+  if roompricelist in pricelist : return True
+  cutil.setErrorField(var,"roompricelist","@thepricelistnotforthisservice")
+  return False  
+
+def _checkAvailibity(var) :
+  list = var["JLIST_MAP"][RESLIST]  
+  res =  rutil.checkReseAvailibity(var,list,"avail","resday","resroomname")
+  if res == None : return True
+  return False
+
+def _checkRese(var,new=True):
+  if not RE.validate(var) : return False    
+  if _createListOfDays(var,new) : return True
+  rutil.setAlreadyReserved(var)
+  return False
+
+def _checkCurrentRese(var) :
+  list = var["JLIST_MAP"][RESLIST]
+  if len(list) == 0:
+    rutil.setAlreadyReservedNotSelected(var)  
+    return False
+  for elem in list :
+    avail = elem["avail"]
+    if not avail :
+     rutil.setAlreadyReserved(var)
+     return False
+  return True          
+            
+# --------------------          
 
 def _createResData(var,new):
   service = var["roomservice"]
@@ -76,6 +130,7 @@ def _createResData(var,new):
     
   return [list,sum.sum,allavail]    
 
+
 def _getPriceList(var) :
   pricelist = var["roompricelist"]
   serv = var["roomservice"]
@@ -99,25 +154,23 @@ def _setAfterPriceList(var) :
 def _setAfterPerPerson(var) :  
   cutil.enableField(var,["respriceperson","respricechildren","respriceextrabeds"],var["serviceperperson"])
   cutil.enableField(var,"respriceperroom",not var["serviceperperson"])
+  
+def _setPriceAndService(var) :
+  room = var["name"]
+  (servicelistlist, pricelistlist) = util.getServicesForRoom(var,room)
+  servicelist = util.createListOfNames(servicelistlist) 
+  roomservice = D.getDataH(30)
+  pricelist = D.getDataH(31)
+  if roomservice == None or not roomservice in servicelist : roomservice = servicelist[0]
+  if pricelist == None or not pricelist in pricelistlist : pricelist = pricelistlist[0]
+  rutil.setServicePriceList(var,roomservice,pricelist)
 
 def _createListOfDays(var,new): 
   rData = _createResData(var,new)
   if rData == None : return None
   cutil.setJMapList(var,RESLIST,rData[0])
   cutil.setFooter(var,RESLIST,"rlist_pricetotal",rData[1])
-  return rData[2]
- 
-def _checkRese(var,new=True):
-  if not RE.validate(var) : return False    
-  if _createListOfDays(var,new) : return True
-  rutil.setAlreadyReserved(var)
-  return False
-  
-def _checkAvailibity(var) :
-  list = var["JLIST_MAP"][RESLIST]  
-  res =  rutil.checkReseAvailibity(var,list,"avail","resday","resroomname")
-  if res == None : return True
-  return False
+  return rData[2]  
   
 class MAKERESE(util.HOTELTRANSACTION) :
   
@@ -127,6 +180,11 @@ class MAKERESE(util.HOTELTRANSACTION) :
    def run(self,var) :     
       if not _checkAvailibity(var) : return
       # customer firstly
+      service = var["roomservice"]
+      pricelist = var["roompricelist"]
+      D.putDataH(30,service)
+      D.putDataH(31,pricelist)
+      
       cust = util.customerFromVar(var,CUST)
       R = util.CUSTOMERLIST(var)
       name = var["cust_name"]
@@ -180,19 +238,7 @@ class MAKERESE(util.HOTELTRANSACTION) :
       else : RFORM.addElem(reservation)
       var["JCLOSE_DIALOG"] = True
       var["JREFRESH_DATELINE_reservation"] = ""
-        
-def _checkCurrentRese(var) :
-  list = var["JLIST_MAP"][RESLIST]
-  if len(list) == 0:
-    rutil.setAlreadyReservedNotSelected(var)  
-    return False
-  for elem in list :
-    avail = elem["avail"]
-    if not avail :
-     rutil.setAlreadyReserved(var)
-     return False
-  return True          
-    
+            
 def reseraction(action,var):
     cutil.printVar("reseraction",action,var)
     
@@ -206,30 +252,38 @@ def reseraction(action,var):
        var["JREFRESH_DATELINE_reservation"] = ""
        var["JCLOSE_DIALOG"] = True        
     
-    if action == "signalchange" :
+    if action == "signalchange" and var["changeafterfocus"]:
         if var["changefield"] == "serviceperperson" :
           _setAfterPerPerson(var)
           
-        if var["changefield"] == "roomservice" : 
+        if var["changefield"] == "roomservice" :
+            print "check"
+            if not _okServiceForRoom(var) : return
             _setAfterServiceName(var)
             _setAfterPriceList(var)
-            if not var["changeafterfocus"] and _newRese(var) : 
-               _setAfterPerPerson(var)
-               _createListOfDays(var,True)
+
         if var["changefield"] == "roompricelist" : 
+            if not _okServiceForRoom(var) or not _okPriceList(var) : return
             _setAfterPriceList(var)
-            if not var["changeafterfocus"] and _newRese(var): 
-              _setAfterServiceName(var)
-              _setAfterPerPerson(var)
-              _createListOfDays(var,True)
+            
     
     if action=="before" :
         rbefore.setvarBefore(var)
         if not _newRese(var) :          
           cutil.hideButton(var,["cancelres","checkin"],False)
           util.enableCust(var,CUST,False)
-        else :  cutil.hideButton(var,"detailreservation",True) 
-        
+          _setAfterPriceList(var)
+        else :  
+          cutil.hideButton(var,"detailreservation",True)
+          _setPriceAndService(var)
+          _setAfterPriceList(var)
+          _setAfterServiceName(var)
+          _setAfterPerPerson(var)
+          _createListOfDays(var,True)
+
+# --------------------
+# customer
+# --------------------
     if action == "acceptdetails" and (var["JUPDIALOG_BUTTON"] == "accept" or var["JUPDIALOG_BUTTON"] == "acceptask"):
         xml = var["JUPDIALOG_RES"]
         util.xmlToVar(var,xml,util.getCustFieldIdAll(),CUST)
@@ -243,9 +297,18 @@ def reseraction(action,var):
         var["JAFTERDIALOG_ACTION"] = "acceptdetails" 
         if _newRese(var) : util.customerDetailsActive(var,CUST)
         else : util.showCustomerDetailstoActive(var,var[CUST+"name"])
-            
+
+# --------------------
+# -- add reservation
+# --------------------
+
     if action == "checkaval" :
+        if not _okServiceForRoom(var) or not _okPriceList(var) : return
         _checkRese(var)
+
+# ------------------
+# reservation
+# ------------------
 
     if action == "askforreservation" :
 
@@ -257,7 +320,10 @@ def reseraction(action,var):
     if action == "makereservation" and var["JYESANSWER"] :
       TRAN = MAKERESE(var)
       TRAN.doTrans()
-      
+
+# -----------------------
+# additional reservation
+# -----------------------
     if action == "morereservation" :
         l = var["JLIST_MAP"][RESLIST]
         xml = xmlutil.toXML({},l)
@@ -271,9 +337,13 @@ def reseraction(action,var):
         rbefore.setvarBefore(var)
         # restore reservation name
         var["resename"] = arese
+        _setAfterPriceList(var)
         _checkRese(var,False)
-        
-    if action == "detailreservationaccept" :
+
+# ------------------------
+# modify detail reservation
+# ------------------------
+    if action == "detailreservationaccept" and var["JUPDIALOG_BUTTON"] == "accept" :
         xml = var["JUPDIALOG_RES"]
         (rmap,li) = xmlutil.toMapFiltrDialL(xml,var["J_DIALOGNAME"],RESLIST)
         RELIST.initsum()
@@ -285,7 +355,7 @@ def reseraction(action,var):
           
         cutil.setJMapList(var,RESLIST,li)
 
-    if action == "detailreservation" :
+    if action == "detailreservation"  :
         l = var["JLIST_MAP"][RESLIST]
         xml = xmlutil.toXML({},l)
         var["JUPDIALOG_START"] = xml

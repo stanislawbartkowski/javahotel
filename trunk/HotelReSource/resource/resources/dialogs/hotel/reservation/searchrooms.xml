@@ -27,8 +27,7 @@
             <field id="search_html" hidden="" />
          </form>
          
-         <list id="roomlist" pagesize="15">
-            <standbutt>TOOLS,FIND,FILTER</standbutt>
+         <list id="roomlist" pagesize="15" toolbartype="listonly">
             <buttons-selected>seton,tores,toresrese</buttons-selected>
             <buttons-selectedmess>@selectroom</buttons-selectedmess>
             <columns>

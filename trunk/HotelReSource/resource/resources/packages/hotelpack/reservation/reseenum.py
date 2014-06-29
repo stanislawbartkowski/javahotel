@@ -9,7 +9,6 @@ def serviceenum(action,var):
 def allserviceenum(action,var):
   li = util.SERVICES(var).getRoomServices()
   cutil.setJMapList(var,"allroomservices",util.createEnumFromList(li))
-#  var["JLIST_MAP"] = { "roomservice" : util.createEnumFromList(li[0])}
   
 def otherserviceenum(action,var):  
   li = util.SERVICES(var).getOtherServices()
@@ -31,6 +30,3 @@ def allroomsenum(action,var) :
   li = util.ROOMLIST(var).getList()
   f = lambda elem : [elem.getName(), elem.getName()]
   cutil.setJMapList(var,"allroomslist",util.createEnumFromList(li,f))    
-  
-  
-  allserviceenum

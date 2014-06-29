@@ -14,7 +14,7 @@ PAY="payer_"
 class PAID :
   
   def __init__(self,var) :
-    rese = util.getReseName(var)
+    rese = rutil.getReseName(var)
     bli = util.RESOP(var).findBillsForReservation(rese)
     self.se = Set()
     for b in bli :
@@ -25,7 +25,7 @@ class PAID :
     return id in self.se
     
 def _createPosList(var) :
-  pli = util.getPayments(var)
+  pli = rutil.getPayments(var)
   P = PAID(var)
   L1 = rutil.BILLPOSADD(var,LIST)
   L2 = rutil.BILLPOSADD(var,NOPAID)
@@ -58,7 +58,7 @@ class HOTELBILLSAVE(util.HOTELTRANSACTION) :
      cust_name = var["payer_name"]
      b.setGensymbol(True);
      b.setPayer(cust_name)
-     b.setReseName(util.getReseName(var))
+     b.setReseName(rutil.getReseName(var))
      b.setIssueDate(cutil.toDate(cutil.today()))
      for m in var["JLIST_MAP"][NOPAID] :
        if m["add"] :
@@ -82,7 +82,7 @@ def doaction(action,var) :
   if action == "before" :
     _createPosList(var)
     # payer
-    rese = util.getReseName(var)
+    rese = rutil.getReseName(var)
     R = util.RESFORM(var)
     r = R.findElem(rese)
     payername = r.getCustomerName()

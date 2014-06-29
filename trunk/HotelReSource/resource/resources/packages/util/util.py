@@ -51,6 +51,9 @@ class HOTELDEFADATA(cutil.DEFAULTDATA) :
     elif what == 22 : return "lastroomnochildren"
     elif what == 23 : return "lastroomnoextrabeds"
     
+    elif what == 30 : return "lastreseroomservice"
+    elif what == 31 : return "lastresepricelist"
+    
   def getDataH(self,what,defa=None) :
     return self.getData(self.__getV(what),defa)
   
@@ -337,6 +340,18 @@ def eqDate(d1,d2):
 
 def toB(value):
     return cutil.toB(value)
+  
+def createListOfNames(li) :
+  """ Create list of names from PropDescription
+  Args:
+    li : list of PropDescription objects
+  Returns :
+    list of extracted names (getName())
+  """
+  se = []
+  for l in li : se.append(l.getName())
+  return se
+
 
 def createSeq(list,addName=False, displayname=None):    
     seq = []
@@ -415,6 +430,15 @@ def setCopy(var,li) :
   cutil.setCopy(var,li)  
         
 def getServicesForRoom(var,room):
+  """ Get services and pricelist for room
+  Args :
+    var
+    room : room name
+  Returns:
+    (servicelist, pricelist)
+    servicelist : list of HotelServices objects
+    pricelist : list of names
+  """
   RO = ROOMLIST(var)
   services = RO.getRoomServices(room)
   if len(services) == 0 : return None
@@ -436,6 +460,8 @@ def getServicesForRoom(var,room):
   if len(li) == 0 : return None
   f = lambda(e) : e[0] == e[1]
   liList = cutil.removeDuplicates(liList,f)
+  ff = lambda(e) : e[0].getName() == e[1].getName()
+  li = cutil.removeDuplicates(li,ff)
   return [li,liList]  
   
 def createEnumFromList(li, f = lambda elem : [elem.getName(), elem.getDescription()]):

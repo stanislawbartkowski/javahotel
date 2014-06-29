@@ -24,7 +24,7 @@
 		<button id="addpayment" displayname="@addpaymentbutton" />
                 <button id="createbill" displayname="@createbill" actiontype="JUP_DIALOG"
                         actionparam="hotel/reservation/createbill.xml" actionparam2="afterbill"/>
-                <button id="checkedguests" displayname="Guests" actiontype="JUP_DIALOG"
+                <button id="checkedguests" displayname="@guests" actiontype="JUP_DIALOG"
                         actionparam="hotel/reservation/checkin.xml" actionparam2="aftercheckin"/>
 	</buttons>
 
@@ -57,8 +57,7 @@
                 <field id="cust_docnumb" displayname="@docnumb" hidden="" />
 	</form>
 
-	<list id="reslist" pagesize="5">
-		<standbutt>TOOLS,FIND,FILTER</standbutt>
+	<list id="reslist" pagesize="5" toolbartype="listonly">
 		<columns>
                        <column id="avail" type="bool" hidden="" />
                        <column id="resroomname" displayname="@roomname" />
@@ -79,8 +78,7 @@
 		</columns>
 	</list>
         
-        <list id="paymentlist" pagesize = "5">
-                <standbutt>TOOLS,FIND,FILTER</standbutt>
+        <list id="paymentlist" pagesize = "5" toolbartype="listonly">
                 <columns>
                         <column id="roomid" displayname="@roomname" />
                         <column id="guest_name" displayname="@guestid" actionid="guestdetail" />
@@ -95,6 +93,8 @@
 
         <list id="billlist" pagesize="5" elemformat="hotel/reservation/billdesc.xml">
                 <standbutt>TOOLS,FIND,FILTER,SHOW,REMOVE,custom:printbill,custom:listpdf</standbutt>
+                <buttons-selected>printbill,listpdf</buttons-selected>
+                <buttons-selectedmess>@selectbill</buttons-selectedmess>
                 <columns>
                         <column id="billname" displayname="@billname" />
                         <column id="payer_name" displayname="@billpayerid" actionid="payerdetail" />

@@ -13,6 +13,10 @@
 		<import>from hotelpack.reservation import reserroom</import>
 		<method>reserroom.reseraction({0},{1})</method>
 	</jython>
+        
+        <actions>
+          <action id="signalchange" jsaction="JS.RESECHANGEAFTER.afterchange" />
+        </actions>          
 
 	<buttons>
 		<button id="checkaval" displayname="@checkavailability" validate="" />
@@ -24,8 +28,7 @@
                 <button id="checkin" displayname="@checkinbutton" actiontype="JUP_DIALOG"
                         actionparam="hotel/reservation/checkin.xml" actionparam2="aftercheckin" hidden=""/>
                 <button id="morereservation" displayname="@addnextreservation" />
-                <button id="detailreservation" displayname="Modify reservation" />
-
+                <button id="detailreservation" displayname="@modifyreservation" />
 	</buttons>
 
 	<form>
@@ -39,17 +42,17 @@
 			readonly="" notempty="" />
 		<field id="resdays" type="spinner" displayname="@numberofnights"
 			notempty="" spinnermax="#env.e('maxnumberofnights')" />
-		<field id="roompricelist" type="custom:roompricelist"
+		<field id="roompricelist" type="custom:allpricelist"
 			displayname="@pricelist" notempty="" signalchange="" />
-		<field id="roomservice" type="custom:roomservice" displayname="@servicename"
+		<field id="roomservice" type="custom:allroomservices" displayname="@servicename"
 			notempty="" signalchange="" />
                 <field id="serviceperperson" type="bool" displayname="@perperson" notempty="" signalchange="" />
                 <field id="respriceperroom" type="decimal" displayname="@priceperroom" />
-                <field id="resnop" type="int" displayname="@nopersons" notempty="" />
+                <field id="resnop" type="spinner" displayname="@nopersons" notempty="" spinnermax="#env.e('maxpersonsperroom')" />
                 <field id="respriceperson" type="decimal" displayname="@priceperperson" />
-                <field id="resnochildren" type="int" displayname="@nofchildren" />
+                <field id="resnochildren" type="spinner" displayname="@nofchildren" spinnermax="#env.e('maxchildreperroom')" />
                 <field id="respricechildren" type="decimal" displayname="@priceperchild" />
-                <field id="resnoextrabeds" type="int" displayname="@nofextrabeds" />
+                <field id="resnoextrabeds" type="spinner" displayname="@nofextrabeds" spinnermax="#env.e('maxextrabedsperroom')" />
                 <field id="respriceextrabeds" type="decimal" displayname="@priceperbeds" />
 		<!-- cust description -->
                 <field id="cust_name" displayname="@guestid" readonly="" />

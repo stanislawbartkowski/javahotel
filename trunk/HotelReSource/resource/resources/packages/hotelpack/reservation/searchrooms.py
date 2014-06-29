@@ -1,8 +1,9 @@
 import cutil
 import con
+import xmlutil
+
 from util import rutil
 from util import util
-import xmlutil
 
 LISTID="roomlist"
 
@@ -32,6 +33,8 @@ def _setStartRes(var) :
      m["firstday"] = var["search_from"]
      m["nodays"] = var["search_days"]
      m["nop"] = var["search_nop"]
+     m["roomservice"] = var["search_roomservice"]
+     m["roompricelist"] = var["search_roompricelist"]
      return xmlutil.toXML(m)    
    
 def dialogaction(action,var) :
@@ -41,7 +44,8 @@ def dialogaction(action,var) :
     var["search_from"] = con.today()
     var["searchby_days"] = True
     var["search_nop"] = 2
-    cutil.setCopy(var,["search_from","searchby_days","search_nop"])
+    var["search_days"] = 1
+    cutil.setCopy(var,["search_from","searchby_days","search_nop","search_days"])
     if var["JUPDIALOG_START"] != None :
       html = var["JUPDIALOG_START"]
       var["search_html"] = html
