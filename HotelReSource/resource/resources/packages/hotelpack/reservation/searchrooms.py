@@ -78,7 +78,7 @@ def dialogaction(action,var) :
       util.addRoom(var,l,map,"search_roomcapa","search_roomdesc")
       ss = util.getServicesForRoom(var,l)
       if ss != None:
-        map["search_roomservice"] = cutil.concatS(ss[0][0].getName(),ss[0][0].getDescription())
+        map["search_roomservice"] = ss[0][0].getName()
         map["search_roompricelist"] = ss[1][0]
         (price,pricechild,priceextra) = rutil.getPriceList(var,ss[1][0],ss[0][0].getName())
         perperson = ss[0][0].isPerperson()

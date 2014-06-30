@@ -3,6 +3,7 @@ import datetime
 import cutil
 import con
 import xmlutil
+import clog
 
 from util import rutil
 from util import util
@@ -43,7 +44,7 @@ def _okPriceList(var) :
   roompricelist = var["roompricelist"]
   if service == None or roompricelist == None : return True
   (servlist,pricelist) = util.getServicesForRoom(var,room)
-  print servlist,pricelist
+#  clog.info("okpricelist",servlist,pricelist)
   if roompricelist in pricelist : return True
   cutil.setErrorField(var,"roompricelist","@thepricelistnotforthisservice")
   return False  
@@ -149,6 +150,7 @@ def _setAfterPriceList(var) :
   var["respricechildren"] = pricechild
   var["respriceextrabeds"] = priceextra    
   var["respriceperroom"] = price
+#  clog.info("afterpricelist",price,pricechild,priceextra)
   cutil.setCopy(var,["respriceperson","respricechildren","respriceextrabeds","respriceperroom"])
 
 def _setAfterPerPerson(var) :  
@@ -257,7 +259,6 @@ def reseraction(action,var):
           _setAfterPerPerson(var)
           
         if var["changefield"] == "roomservice" :
-            print "check"
             if not _okServiceForRoom(var) : return
             _setAfterServiceName(var)
             _setAfterPriceList(var)

@@ -80,7 +80,6 @@ def setvarBefore(var,cust=RCUST):
          list.append(map)
          sum.add(r.getPriceTotal())
 
-    print "=========",roomservice,roompricelist
     rutil.setServicePriceList(var,roomservice,roompricelist)
     var["datecol"] = mindate
     var["resdays"] = len(reservation.getResDetail())

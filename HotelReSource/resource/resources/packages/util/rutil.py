@@ -1,9 +1,8 @@
-import cutil
-import con
-import util
-from com.gwthotel.hotel.reservationop import ResQuery
-import xmlutil
 import sets
+
+from com.gwthotel.hotel.reservationop import ResQuery
+
+import cutil,con,util,clog,xmlutil
 
 M=util.MESS()
 
@@ -113,6 +112,7 @@ def getPriceList(var,pricelist,serv) :
     Sequence (price, pricechild, priceextreabdes)
     In not found return sequence of three Nones
   """
+#  clog.info("getPricList",pricelist,serv)
   price = None
   pricechild = None
   priceextra = None
@@ -121,6 +121,7 @@ def getPriceList(var,pricelist,serv) :
     prices = P.getPricesForPriceList(pricelist)
     for s in prices :
       id = s.getService()
+#      clog.info("id=",id,"serv=",serv)
       if id == serv :
         price = s.getPrice()
         pricechild = s.getChildrenPrice()
