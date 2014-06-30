@@ -13,6 +13,7 @@ from com.gwtmodel.table.common import CUtil
 from com.jythonui.server.semaphore import ISemaphore
 
 import con
+import clog
 
 
 LONG="long"
@@ -394,12 +395,19 @@ def allEmpty(var,list):
         return False
     return True
 
-
-def printVar(name,action,var):
+def OLDprintVar(name,action,var):
   print "================ " + name
   print "action = " + action
   for k in var.keys() : 
     print k + " = " + str(var[k])
+
+
+def printVar(name,action,var):
+  clog.info("==============",name)
+  clog.info("action = ",action)
+  for k in var.keys() :
+      clog.info(k,"=",str(var[k]))
+  
 
 def removeDuplicates(li,thesame):
     newli = []

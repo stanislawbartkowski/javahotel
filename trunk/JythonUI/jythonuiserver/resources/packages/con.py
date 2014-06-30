@@ -1,8 +1,14 @@
 from java.util import Calendar
-from com.gwtmodel.table.common.dateutil import DateFormatUtil
 from java.math import BigDecimal
+
 import datetime
+
+from com.gwtmodel.table.common.dateutil import DateFormatUtil
+from com.gwtmodel.containertype import ContainerInfo
 from com.jythonui.server import MUtil
+
+def isAppEngine() :
+    return not ContainerInfo.TransactionContainer()
 
 def eqUL(l1,l2) :
     return toL(l1) == toL(l2)
