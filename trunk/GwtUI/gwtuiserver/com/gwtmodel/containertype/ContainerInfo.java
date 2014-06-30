@@ -13,7 +13,6 @@
 package com.gwtmodel.containertype;
 
 import java.io.File;
-import java.util.logging.Logger;
 
 /**
  * 
@@ -23,9 +22,6 @@ public class ContainerInfo {
 
     private ContainerInfo() {
     }
-
-    static final private Logger log = Logger.getLogger(ContainerInfo.class
-            .getName());
 
     private static boolean isJarOnPath(String classPath, final String jarName) {
         String[] pat = classPath.split(File.pathSeparator);
