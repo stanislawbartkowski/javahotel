@@ -23,6 +23,7 @@ import com.jythonui.server.holder.SHolder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.shared.ButtonItem;
+import com.jythonui.shared.ChartFormat;
 import com.jythonui.shared.CheckList;
 import com.jythonui.shared.DateLine;
 import com.jythonui.shared.DialogFormat;
@@ -105,11 +106,25 @@ class ValidateDialogFormat extends UtilHelper {
 
     }
 
+    static <T extends ElemDescription> void verifyDuplicatedID(Set<String> sId,
+            List<T> eList, String tagId) {
+        for (T t : eList) {
+            String id = t.getId();
+            if (sId.contains(id))
+                errorLog(SHolder.getM().getMess(IErrorCode.ERRORCODE27,
+                        ILogMess.TAGDUPLICATEDITENDTIFIER, tagId,
+                        ICommonConsts.FIELD, id));
+            sId.add(id);
+        }
+    }
+
     static void validate(DialogFormat d) {
         validateL(ICommonConsts.LEFTMENU, ICommonConsts.BUTTON,
                 d.getLeftButtonList());
         validateL(ICommonConsts.CHECKLIST, ICommonConsts.CHECKLIST,
                 d.getCheckList());
+        validateL(ICommonConsts.CHARTTYPE, ICommonConsts.COLUMN,
+                d.getChartList());
         validateL(ICommonConsts.FORM, ICommonConsts.FIELD, d.getFieldList());
         for (ListFormat l : d.getListList()) {
             idNotNull(ICommonConsts.LIST, l);
@@ -142,6 +157,7 @@ class ValidateDialogFormat extends UtilHelper {
             }
             sId.add(id);
         }
+        verifyDuplicatedID(sId, d.getChartList(), ICommonConsts.CHARTLIST);
         for (ListFormat l : d.getListList())
             checkListCustomButton(d, l);
         for (CheckList c : d.getCheckList()) {

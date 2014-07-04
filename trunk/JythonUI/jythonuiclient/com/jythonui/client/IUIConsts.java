@@ -30,17 +30,23 @@ public interface IUIConsts {
     String BUTT_SHOW = "SHOW";
     String BUTT_FIND = "FIND";
     String BUTT_FILTER = "FILTER";
-    
-    String JSADDTYPE="_T";
+
+    String JSADDTYPE = "_T";
 
     String ALIGNL = "L";
     String ALIGNR = "R";
     String ALIGNC = "C";
-    
+
     String APP_TITLE = "Title";
     String APP_PRODUCTNAME = "ProductName";
     String APP_OWNERNAME = "OwnerName";
     String APP_VERSION = "Version";
     String APP_PRODUCTIMAGE = "ProductImage";
+
+    String STARTPAGE = "Start";
+    String STARTPAGEQUERY = "start";
+    String STARTPAGES = "StartPages";
+    String LOGINDELIMITER = ",";
+
 
 }

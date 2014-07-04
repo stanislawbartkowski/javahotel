@@ -212,6 +212,12 @@ class GetViewController implements IGetViewControllerFactory {
 
                 }
 
+                @Override
+                public void acceptChartValues(IDataType da, ListOfRows lRows) {
+                    // TODO Auto-generated method stub
+
+                }
+
             }
 
             JBack(PersistTypeEnum e, WSize w, executeCrud exe,
@@ -229,7 +235,7 @@ class GetViewController implements IGetViewControllerFactory {
                     return;
                 }
                 PerformVariableAction.perform(new YesNo(), new CloseD(), arg,
-                        iCon, rM, new Vis(), w, null);
+                        iCon, rM, null, new Vis(), w, null);
             }
         }
 

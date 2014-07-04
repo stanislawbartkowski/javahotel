@@ -16,7 +16,9 @@ import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
 import com.gwtmodel.table.login.LoginViewFactory;
+import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.jythonui.client.IJythonUIClient;
+import com.jythonui.client.interfaces.IChartManagerFactory;
 import com.jythonui.client.interfaces.IDateLineManagerFactory;
 import com.jythonui.client.interfaces.IDialogContainerFactory;
 import com.jythonui.client.interfaces.IExecuteBackAction;
@@ -56,4 +58,8 @@ public interface UIInjector extends Ginjector {
     IJythonClientStart getJythonClientStart();
     
     ITableAbstractFactories getTFactories();
+    
+    IGetStandardMessage getGetStandardMessage();
+    
+    IChartManagerFactory getChartManagerFactory();
 }

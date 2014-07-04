@@ -18,13 +18,16 @@ import com.google.inject.Singleton;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.login.LoginViewFactory;
+import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.jythonui.client.IJythonUIClient;
+import com.jythonui.client.charts.ChartManagerFactory;
 import com.jythonui.client.dialog.datepanel.DateLineManagerFactory;
 import com.jythonui.client.dialog.execute.ExecuteBackAction;
 import com.jythonui.client.dialog.impl.DialogContainerFactory;
 import com.jythonui.client.formgrid.FormGridManagerFactory;
 import com.jythonui.client.impl.JythonUIClientFactory;
 import com.jythonui.client.impl.WebPanelResourcesFactory;
+import com.jythonui.client.interfaces.IChartManagerFactory;
 import com.jythonui.client.interfaces.IDateLineManagerFactory;
 import com.jythonui.client.interfaces.IDialogContainerFactory;
 import com.jythonui.client.interfaces.IExecuteBackAction;
@@ -63,7 +66,8 @@ public class UIInjectModule extends AbstractGinModule {
                 .to(WebPanelResourcesFactory.class).in(Singleton.class);
         bind(IJythonClientStart.class).to(JythonClientStart.class).in(
                 Singleton.class);
-
+        bind(IChartManagerFactory.class).to(ChartManagerFactory.class).in(
+                Singleton.class);
     }
 
     @Provides
@@ -82,6 +86,12 @@ public class UIInjectModule extends AbstractGinModule {
     @Singleton
     ITableAbstractFactories getFactories() {
         return GwtGiniInjector.getI().getITableAbstractFactories();
+    }
+
+    @Provides
+    @Singleton
+    IGetStandardMessage getStandardMess() {
+        return GwtGiniInjector.getI().getStandardMessage();
     }
 
 }

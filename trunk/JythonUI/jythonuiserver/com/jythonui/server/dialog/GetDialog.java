@@ -24,7 +24,6 @@ import javax.xml.transform.stream.StreamSource;
 import org.xml.sax.SAXException;
 
 import com.google.inject.Inject;
-import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.util.VerifyXML;
 import com.jythonui.server.IGetDialog;
@@ -109,12 +108,6 @@ public class GetDialog extends UtilHelper implements IGetDialog {
         d = (DialogFormat) iUserCache.get(token, dialogName);
         if (d != null)
             return d;
-        // if (p.isCached()) {
-        // d = (DialogFormat) mCache.get(dialogName);
-        // if (d != null) {
-        // return d;
-        // }
-        // }
         d = getDialogDirectly(token, dialogName, verify);
         String dParentName = d.getParent();
         if (dParentName != null) {
@@ -130,9 +123,6 @@ public class GetDialog extends UtilHelper implements IGetDialog {
         }
         if (d != null)
             iUserCache.put(token, dialogName, d);
-        // if (p.isCached()) {
-        // mCache.put(dialogName, d);
-        // }
         return d;
     }
 
@@ -219,8 +209,6 @@ public class GetDialog extends UtilHelper implements IGetDialog {
                                 errorLog(mess);
                             }
                             // cache again with changes
-                            // if (p.isCached())
-                            // mCache.put(dElem.getId(), dElem);
                             iUserCache.put(token, dElem.getId(), dElem);
                         }
                         l.setfElem(dElem);
@@ -238,8 +226,6 @@ public class GetDialog extends UtilHelper implements IGetDialog {
         if (d == null)
             error(IErrorCode.ERRORCODE15, ILogMess.DIALOGNOTFOUND, dialogName);
         else
-            // if (p.isCached()) {
-            // mCache.put(dialogName, d);
             iUserCache.put(token, dialogName, d);
         // }
         return d;

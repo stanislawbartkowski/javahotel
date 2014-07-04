@@ -27,6 +27,7 @@ import com.gwtmodel.table.view.table.ChangeEditableRowsParam;
 import com.gwtmodel.table.view.util.OkDialog;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.jythonui.client.M;
+import com.jythonui.client.charts.IChartManager;
 import com.jythonui.client.dialog.VField;
 import com.jythonui.client.dialog.run.RunAction;
 import com.jythonui.client.listmodel.IRowListDataManager;
@@ -76,13 +77,24 @@ public class PerformVariableAction {
         void acceptFooter(IDataType da, List<IGetFooter> fList);
 
         void acceptEditListMode(IDataType da, EditListMode e);
+
+        void acceptChartValues(IDataType da, ListOfRows lRows);
+
     }
 
     public static void perform(IYesNoAction iYesno, ISendCloseAction iClose,
             final DialogVariables arg, IVariablesContainer iCon,
-            IRowListDataManager liManager, final VisitList vis, WSize w,
-            IExecuteAfterModalDialog iEx) {
+            IRowListDataManager liManager, IChartManager chManager,
+            final VisitList vis, WSize w, IExecuteAfterModalDialog iEx) {
         iCon.setVariablesToForm(arg);
+        // charts
+        if (chManager != null)
+            for (IDataType da : chManager.getList()) {
+                String s = chManager.getId(da);
+                ListOfRows lRows = arg.getChartList().get(s);
+                if (lRows != null)
+                    vis.acceptChartValues(da, lRows);
+            }
         // lists
         for (final IDataType da : liManager.getList()) {
             final String s = liManager.getLId(da);
@@ -255,7 +267,8 @@ public class PerformVariableAction {
             return;
         }
         if (action.equals(ICommonConsts.JMAINDIALOG)) {
-            if (M.getMainD() != null) M.getMainD().close();
+            if (M.getMainD() != null)
+                M.getMainD().close();
             M.setMainD(null);
             new RunAction().start(param);
             return;

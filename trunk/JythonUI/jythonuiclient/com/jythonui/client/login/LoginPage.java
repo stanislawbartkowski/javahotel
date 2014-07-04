@@ -147,10 +147,6 @@ public class LoginPage implements ILoginPage {
     public void login(String shiroRealm, CustomSecurity iCustom, ICommand ok) {
         IDataType dType = Empty.getDataType();
         CellId ce = new CellId(0);
-        // LoginViewFactory lFactory = GwtGiniInjector.getI()
-        // .getLoginViewFactory();
-        // LoginViewFactory lFactory =
-        // UIGiniInjector.getI().getLoginViewFactory();
         LoginDataModelFactory logFactory = new LoginDataModelFactory();
         FormLineContainer lForm = lFactory.construct();
         ILoginDataView lView = lFactory.contructView(ce, dType, lForm,

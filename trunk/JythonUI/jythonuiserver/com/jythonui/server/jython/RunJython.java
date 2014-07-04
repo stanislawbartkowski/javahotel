@@ -53,6 +53,7 @@ import com.jythonui.server.UtilHelper;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
+import com.jythonui.shared.ChartFormat;
 import com.jythonui.shared.CheckList;
 import com.jythonui.shared.DateLine;
 import com.jythonui.shared.DateLineVariables;
@@ -86,6 +87,7 @@ public class RunJython extends UtilHelper implements IExecuteJython {
     private static final PyObject JLISTMAP = toString(ICommonConsts.JLISTMAP);
     private static final PyObject JCHECKMAP = toString(ICommonConsts.JCHECKLISTMAP);
     private static final PyObject JDATELINEMAP = toString(ICommonConsts.JDATELINEMAP);
+    private static final PyObject JCHARTMAP = toString(ICommonConsts.JCHARTMAP);
 
     private final IJythonUIServerProperties p;
     private final IGetLogMess logMess;
@@ -387,6 +389,44 @@ public class RunJython extends UtilHelper implements IExecuteJython {
         eList.runMap();
     }
 
+    private class ExtractChart extends IterateMap {
+
+        private final DialogFormat d;
+        private final String actionId;
+        private final DialogVariables vOut;
+
+        ExtractChart(PyDictionary pyMap, DialogFormat d, String actionId,
+                DialogVariables vOut) {
+            super(pyMap, true, false);
+            this.d = d;
+            this.actionId = actionId;
+            this.vOut = vOut;
+        }
+
+        @Override
+        void visit(String listId, PyList pList) {
+            if (d.getChartList().isEmpty())
+                errorLog(logMess.getMess(IErrorCode.ERRORCODE97,
+                        ILogMess.EMPTYCHARTLISTDEFINITION, listId, d.getId()));
+
+            ChartFormat lChart = d.findChart(listId);
+            if (lChart == null)
+                errorLog(logMess.getMess(IErrorCode.ERRORCODE98,
+                        ILogMess.CHARTNOTFOUND, d.getId(), listId));
+            RowIndex rI = new RowIndex(lChart.getColList());
+            ListOfRows lRows = new ListOfRows();
+
+            extractListFromSeq(lRows, rI, pList, d, true);
+            vOut.setChartList(listId, lRows);
+        }
+    }
+
+    private void extractChart(PyDictionary pyMap, DialogVariables vOut,
+            DialogFormat d, String actionId) {
+        ExtractChart eList = new ExtractChart(pyMap, d, actionId, vOut);
+        eList.runMap();
+    }
+
     private class ExtractDataLineList extends IterateMap {
 
         private final DialogFormat d;
@@ -538,6 +578,9 @@ public class RunJython extends UtilHelper implements IExecuteJython {
             Object key = tu.get(0);
             Object val = tu.get(1);
             if (key.equals(ICommonConsts.JLISTMAP)) {
+                continue;
+            }
+            if (key.equals(ICommonConsts.JCHARTMAP)) {
                 continue;
             }
             if (key.equals(ICommonConsts.JCHECKLISTMAP)) {
@@ -788,6 +831,10 @@ public class RunJython extends UtilHelper implements IExecuteJython {
         if (pyMap.has_key(JLISTMAP)) {
             PyObject o = pyMap.__getitem__(JLISTMAP);
             extractList((PyDictionary) o, v, d, actionId);
+        }
+        if (pyMap.has_key(JCHARTMAP)) {
+            PyObject o = pyMap.__getitem__(JCHARTMAP);
+            extractChart((PyDictionary) o, v, d, actionId);
         }
         if (pyMap.has_key(JCHECKMAP)) {
             PyObject o = pyMap.__getitem__(JCHECKMAP);
