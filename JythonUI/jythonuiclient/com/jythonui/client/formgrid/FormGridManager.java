@@ -114,8 +114,6 @@ class FormGridManager implements IFormGridManager {
         @Override
         public void startPublish(CellId cellId) {
             publish(publishType, cellId, gView);
-            //
-            // SlU.publishWidget(dType, this, gView);
         }
 
     }

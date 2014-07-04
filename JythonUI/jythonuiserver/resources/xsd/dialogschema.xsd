@@ -44,6 +44,19 @@
 			<xs:enumeration value="ge" />
 		</xs:restriction>
 	</xs:simpleType>
+	
+    <xs:simpleType name="chartType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="PIE" />
+            <xs:enumeration value="AREA" />
+            <xs:enumeration value="BARS" />
+            <xs:enumeration value="COLUMNS" />
+            <xs:enumeration value="LINE" />            
+            <xs:enumeration value="SCATTER" />
+        </xs:restriction>
+    </xs:simpleType>
+
+	
 
 	<xs:simpleType name="typeAlign">
 		<xs:restriction base="xs:string">
@@ -150,6 +163,26 @@
 		<xs:attribute name="autohide" type="emptyT" />
 		<xs:attribute name="modeless" type="emptyT" />
 	</xs:attributeGroup>
+	
+	<xs:group name="chartG">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="id" type="idType" />
+            <xs:element minOccurs="0" name="displayname" type="xs:string" />
+            <xs:element minOccurs="0" name="charttype" type="chartType" />
+            <xs:element minOccurs="0" name="width" type="xs:positiveInteger" />
+            <xs:element minOccurs="0" name="height" type="xs:positiveInteger" />
+            <xs:element minOccurs="0" name="not3d" type="emptyT" />
+        </xs:sequence>
+	</xs:group>
+	
+	  <xs:attributeGroup name="chartattrG">
+        <xs:attribute name="id" type="idType" />
+        <xs:attribute name="displayname" type="xs:string" />
+        <xs:attribute name="charttype" type="chartType" />
+        <xs:attribute name="width" type="xs:positiveInteger" />
+        <xs:attribute name="height" type="xs:positiveInteger" />
+        <xs:attribute name="notpie3d" type="emptyT" />       
+	  </xs:attributeGroup>
 
 	<xs:group name="listG">
 		<xs:sequence>
@@ -400,6 +433,30 @@
 		</xs:complexType>
 
 	</xs:element>
+
+    <xs:element name="chart">
+        <xs:complexType>
+
+            <xs:sequence>
+                <xs:group ref="chartG" />
+                <xs:element minOccurs="1" name="columns">
+                    <xs:complexType>
+                        <xs:sequence minOccurs="1" maxOccurs="unbounded">
+                            <xs:element name="column">
+                                <xs:complexType>
+                                    <xs:group ref="fieldG" />
+                                    <xs:attributeGroup ref="fieldattrG" />
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+            </xs:sequence>
+           <xs:attributeGroup ref="chartattrG" />
+           
+        </xs:complexType>
+    </xs:element>
 
 	<xs:element name="jython">
 		<xs:complexType>
@@ -653,6 +710,8 @@
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="tabpanel" />
 
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="disclosurepanel" />
+				
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="chart" />				
 
 			</xs:sequence>
 			<xs:attributeGroup ref="dialogattrG" />

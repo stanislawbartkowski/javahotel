@@ -74,6 +74,8 @@ import com.gwtmodel.table.view.util.OkDialog;
 import com.gwtmodel.table.view.util.YesNoDialog;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.jythonui.client.M;
+import com.jythonui.client.charts.DrawChartSignal;
+import com.jythonui.client.charts.IChartManager;
 import com.jythonui.client.dialog.DataType;
 import com.jythonui.client.dialog.ICreateBackActionFactory;
 import com.jythonui.client.dialog.IDateLineManager;
@@ -110,6 +112,7 @@ import com.jythonui.client.variables.ISetGetVar;
 import com.jythonui.client.variables.IVariablesContainer;
 import com.jythonui.client.variables.VariableContainerFactory;
 import com.jythonui.shared.ButtonItem;
+import com.jythonui.shared.ChartFormat;
 import com.jythonui.shared.CheckList;
 import com.jythonui.shared.DateLine;
 import com.jythonui.shared.DateLineVariables;
@@ -142,6 +145,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
     // not safe !
     private final IFormGridManager gManager;
     private final IDateLineManager dManager;
+    private final IChartManager chManager;
 
     private final IExecuteAfterModalDialog iEx;
 
@@ -166,10 +170,13 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
         this.dType = dType;
         this.iEx = iEx;
         this.startVal = startVal;
-        liManager = UIGiniInjector.getI().getRowListDataManagerFactory().construct(info, slMediator, new DTypeFactory());
+        liManager = UIGiniInjector.getI().getRowListDataManagerFactory()
+                .construct(info, slMediator, new DTypeFactory());
         // not safe, reference is escaping
         dManager = UIGiniInjector.getI().getDateLineManagerFactory()
                 .construct(this);
+        chManager = UIGiniInjector.getI().getChartManagerFactory()
+                .construct(this, dType);
         if (pCon == null) {
             if (M.getVar() == null) {
                 iCon = VariableContainerFactory.construct();
@@ -282,10 +289,6 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
                             new WSize(i.getGWidget()), null);
                 }
             };
-            // ExecuteAction
-            // .action(v, d.getId(), ICommonConsts.SIGNALCHANGE,
-            // new BackClass(null, false,
-            // new WSize(i.getGWidget()), null));
             executeBack.execute(backFactory, v, bItem, d.getId(),
                     ICommonConsts.SIGNALCHANGE);
         }
@@ -745,6 +748,14 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
                 slMediator.registerSlotContainer(panelId,
                         gManager.constructSlotable(id));
             }
+        if (!d.getChartList().isEmpty())
+            for (ChartFormat ch : d.getChartList()) {
+                String id = ch.getId();
+                IDataType da = DataType.construct(id, this);
+                CellId panelId = pView.addElemC(id, dType);
+                slMediator.registerSlotContainer(panelId,
+                        chManager.constructSlotable(id, da));
+            }
 
         iCon.addFormVariables(new BAction(), new DialogVariablesGetSet(),
                 liManager, gManager, dManager);
@@ -1073,10 +1084,17 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
                     liManager.publishBeforeListEdit(da, e);
                 }
 
+                @Override
+                public void acceptChartValues(IDataType da, ListOfRows lRows) {
+                    CustomStringSlot sl = DrawChartSignal.constructSlot(da);
+                    DrawChartSignal sig = new DrawChartSignal(lRows);
+                    slMediator.getSlContainer().publish(sl, sig);
+                }
+
             };
             PerformVariableAction.perform(new HandleYesNoDialog(addV, null),
-                    new CloseDialog(id), arg, iCon, liManager, vis, w,
-                    new AfterModal());
+                    new CloseDialog(id), arg, iCon, liManager, chManager, vis,
+                    w, new AfterModal());
             if (!arg.getCheckVariables().isEmpty()) {
                 gManager.addLinesAndColumns(id, arg);
             }

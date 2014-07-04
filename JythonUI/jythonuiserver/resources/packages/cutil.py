@@ -67,6 +67,10 @@ def setCookie(var,name,val=None):
     if val : var["JCOOKIE_" + name] = val
     else : var["JCOOKIE_" + name] = ""
     
+def setJChartList(var,list,seq):
+  if var.has_key("JCHART_MAP") : var["JCHART_MAP"][list] = seq
+  else : var["JCHART_MAP"] = { list : seq }
+    
 def setJMapList(var,list,seq):
   if var.has_key("JLIST_MAP") : var["JLIST_MAP"][list] = seq
   else : var["JLIST_MAP"] = { list : seq }

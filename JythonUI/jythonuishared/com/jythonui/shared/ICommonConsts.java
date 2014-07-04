@@ -38,7 +38,7 @@ public interface ICommonConsts {
     String CSSCODE = "csscode";
     String BEFORE = "before";
     String LIST = "list";
-    String TOOLBARTYPE ="toolbartype";
+    String TOOLBARTYPE = "toolbartype";
     String COLUMN = "column";
     String COLUMNS = "columns";
     String LISTBUTTONSLIST = "buttons-addlist";
@@ -103,6 +103,7 @@ public interface ICommonConsts {
     String EDITCOL = "editable";
     int DEFAULTAFTERDOT = 2;
     String JLISTMAP = "JLIST_MAP";
+    String JCHARTMAP = "JCHART_MAP";
     String JCHECKLISTMAP = "JCHECK_MAP";
     String JDATELINEMAP = "JDATELINE_MAP";
     String ELEMFORMAT = "elemformat";
@@ -231,7 +232,7 @@ public interface ICommonConsts {
     String XMLROOT = "data";
 
     String APP_FILENAME = "app.properties";
-    
+
     String JDATELINEQUERYID = "JDATELINE_QUERYID";
     String JDATELINEQUERYFROM = "JDATELINE_FROM";
     String JDATELINEQEURYTO = "JDATELINE_TO";
@@ -248,17 +249,20 @@ public interface ICommonConsts {
 
     String JDATEACTIONGETVALUES = "datelinevalues";
 
+    int CHART_DEFAULTWIDTH = 400;
+    int CHART_DEFAULTHEIGHT = 240;
+    String CHARTHEIGHT = "height";
+    String CHARTPIENOT3D = "notpie3d";
+    String CHARTTYPE = "charttype";
+    String CHARTLIST = "chart";
+
     char PERMSIGN = '$';
     char EVALSIGN = '#';
 
     String SECURITYTOKEN = "SECURITY_TOKEN";
 
     String LOGINPAGE = "LoginPages";
-    String LOGINDELIMITER = ",";
-    String STARTPAGEQUERY = "start";
     String SHIROREALM = "Shirorealm";
-    String STARTPAGES = "StartPages";
-    String STARTPAGE = "Start";
 
     String JSETATTRCHECK = "JSETATTR_CHECKLIST_";
     String JVALATTRCHECK = "JVALATTR_CHECKLIST_";

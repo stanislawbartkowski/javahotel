@@ -35,6 +35,7 @@ import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.server.security.ISecurity;
 import com.jythonui.shared.ButtonItem;
+import com.jythonui.shared.ChartFormat;
 import com.jythonui.shared.CheckList;
 import com.jythonui.shared.DateLine;
 import com.jythonui.shared.DialogFormat;
@@ -133,6 +134,10 @@ class ReadDialog extends UtilHelper {
         private final String[] disclosureelemTag = { ICommonConsts.ID,
                 ICommonConsts.DISPLAYNAME, ICommonConsts.HTMLPANEL,
                 ICommonConsts.SIGNALCHANGE };
+        private final String[] chartTag = { ICommonConsts.ID,
+                ICommonConsts.DISPLAYNAME, ICommonConsts.CHARTHEIGHT,
+                ICommonConsts.WIDTH, ICommonConsts.CHARTPIENOT3D,
+                ICommonConsts.CHARTTYPE };
 
         /** Currently recognized set of tags. */
         /*
@@ -182,6 +187,13 @@ class ReadDialog extends UtilHelper {
                 ListFormat li = new ListFormat();
                 bDescr = li;
                 formRules = li.getValList();
+                fList = new ArrayList<FieldItem>();
+                getAttribute = true;
+            }
+            if (qName.equals(ICommonConsts.CHARTLIST)) {
+                currentT = chartTag;
+                ChartFormat li = new ChartFormat();
+                bDescr = li;
                 fList = new ArrayList<FieldItem>();
                 getAttribute = true;
             }
@@ -389,6 +401,14 @@ class ReadDialog extends UtilHelper {
                 bList = null;
                 return;
             }
+
+            if (qName.equals(ICommonConsts.CHARTLIST)) {
+                ChartFormat ch = (ChartFormat) beforeCol;
+                ch.getColList().addAll(fList);
+                dFormat.getChartList().add(ch);
+                fList = null;
+            }
+
             if (qName.equals(ICommonConsts.LIST)) {
                 ListFormat li = (ListFormat) beforeCol;
                 li.getColumns().addAll(fList);

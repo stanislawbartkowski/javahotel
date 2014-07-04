@@ -47,6 +47,8 @@ public class DialogFormat extends ElemDescription {
 
     private List<DisclosureElemPanel> discList = new ArrayList<DisclosureElemPanel>();
 
+    private List<ChartFormat> chartList = new ArrayList<ChartFormat>();
+
     /**
      * @return the actionList
      */
@@ -91,6 +93,10 @@ public class DialogFormat extends ElemDescription {
 
     public ListFormat findList(String id) {
         return findE(listList, id);
+    }
+
+    public ChartFormat findChart(String id) {
+        return findE(chartList, id);
     }
 
     public boolean isBefore() {
@@ -227,6 +233,10 @@ public class DialogFormat extends ElemDescription {
 
     public void setDiscList(List<DisclosureElemPanel> discList) {
         this.discList = discList;
+    }
+
+    public List<ChartFormat> getChartList() {
+        return chartList;
     }
 
 }

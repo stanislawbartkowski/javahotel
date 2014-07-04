@@ -25,6 +25,8 @@ public class DialogVariables extends MapDialogVariable {
 
     private Map<String, ListOfRows> rowList = new HashMap<String, ListOfRows>();
 
+    private Map<String, ListOfRows> chartList = new HashMap<String, ListOfRows>();
+
     private Map<String, ListOfRows> enumList = new HashMap<String, ListOfRows>();
 
     private Map<String, DialogCheckVariables> checkVariables = new HashMap<String, DialogCheckVariables>();
@@ -51,6 +53,10 @@ public class DialogVariables extends MapDialogVariable {
     public void setRowList(String id, ListOfRows rows) {
         rowList.put(id, rows);
     }
+    
+    public void setChartList(String id, ListOfRows rows) {
+        chartList.put(id, rows);
+    }
 
     public ListOfRows getList(String id) {
         return rowList.get(id);
@@ -74,6 +80,10 @@ public class DialogVariables extends MapDialogVariable {
 
     public ListOfRows getQueryDateLine() {
         return queryDateLine;
+    }
+
+    public Map<String, ListOfRows> getChartList() {
+        return chartList;
     }
 
 }

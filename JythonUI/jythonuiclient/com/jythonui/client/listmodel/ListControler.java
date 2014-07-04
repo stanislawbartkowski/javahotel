@@ -424,20 +424,6 @@ class ListControler {
             };
             executeBack.execute(backFactory, v, bu, rM.getDialogName(),
                     doAction);
-            // CommonCallBack<DialogVariables> cBack = bFactory.construct(
-            // li.getId(), w, addV, iLast);
-            // if (bu != null) {
-            // String jsAction = Utils.getJS(bu.getJsAction());
-            // if (!CUtil.EmptyS(jsAction)) {
-            // IExecuteJS.IJSResult res = executeJS.execute(doAction,
-            // jsAction, v);
-            // if (!res.isContinue()) {
-            // cBack.onSuccess(res.getV());
-            // return;
-            // }
-            // }
-            // }
-            // ExecuteAction.action(v, rM.getDialogName(), doAction, cBack);
         }
 
         private class ReadList implements ISlotListener {
@@ -1207,9 +1193,15 @@ class ListControler {
                         // TODO Auto-generated method stub
 
                     }
+
+                    @Override
+                    public void acceptChartValues(IDataType da, ListOfRows lRows) {
+                        // TODO Auto-generated method stub
+
+                    }
                 };
-                PerformVariableAction.perform(null, null, arg, iCon, rM, vis,
-                        null, null);
+                PerformVariableAction.perform(null, null, arg, iCon, rM, null,
+                        vis, null, null);
 
             }
         }
