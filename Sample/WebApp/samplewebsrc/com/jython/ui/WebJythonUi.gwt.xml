@@ -38,6 +38,8 @@
   <inherits name="com.google.gwt.user.theme.standard.Standard"/>
   <inherits name="com.google.gwt.http.HTTP"/>
   <inherits name="com.google.gwt.inject.Inject"/>
+  <inherits name='com.google.gwt.visualization.Visualization'/>
+  
   <inherits name="com.gwtmodel.table" />
   <inherits name="com.jythonui.jythonuiclient" />
   <inherits name="com.jythonui.jythonuicommon" />
@@ -47,7 +49,9 @@
   <set-property-fallback name="locale" value="en"/>
   
   <!--  Super dev mode -->
+<!--   
   <add-linker name="xsiframe"/>
   <set-configuration-property name="devModeRedirectEnabled" value="true"/>
   <set-property name="compiler.useSourceMaps" value="true" />
+-->  
 </module>
