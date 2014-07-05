@@ -36,6 +36,7 @@
   <button id="dialogchart" displayname="Pie chart" actiontype="JMAIN_DIALOG" actionparam="dialogchart.xml" />
   <button id="dialogarea" displayname="Area chart" actiontype="JMAIN_DIALOG" actionparam="dialogarea.xml" />
   <button id="dialogscatter" displayname="Scatter chart" actiontype="JMAIN_DIALOG" actionparam="dialogscatter.xml" />
+  <button id="dialogcircle" displayname="Circle chart" actiontype="JMAIN_DIALOG" actionparam="dialogcircle.xml" />
 </leftstack>
 
  <form>
