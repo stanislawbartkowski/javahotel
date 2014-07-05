@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+<before/>
+ 
+ <jython>
+   <import>from testpack import filescatter</import>
+   <method>filescatter.dialogaction({0},{1})</method>
+ </jython>  
+ 
+ <buttons>
+   <button id="refresh" displayname="Refresh" />
+ </buttons>   
+
+     <list id="list" displayname="Plot"  toolbartype="listonly" buttons-addlist="refresh">
+        <columns>
+            <column id="num1" type="int" displayname="Num1" editable= "" />
+            <column id="num2" type="int" displayname="Num2" editable= ""/>
+        </columns>
+     </list>
+
+  
+   <chart id="chart" displayname="My working day" charttype="SCATTER" >
+        <columns>
+            <column id="num1" type="int" displayname="Num1" />
+            <column id="num2" type="int" displayname="Num2" />
+        </columns>
+   </chart>
+
+ </dialog>

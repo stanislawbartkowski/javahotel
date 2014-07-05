@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+<before/>
+ 
+ <jython>
+   <import>from testpack import filecircle</import>
+   <method>filecircle.dialogaction({0},{1})</method>
+ </jython>  
+ 
+ <buttons>
+   <button id="refresh" displayname="Refresh" />
+ </buttons>   
+
+   <form>
+     <field id="radius" displayname="Radius" type="int" notempty=""/>
+     <field id="nop" displayname="Number of points" type="int" notempty="" />
+   </form>  
+  
+   <chart id="chart" displayname="Circle" charttype="SCATTER" width="400" height="400" >
+        <columns>
+            <column id="posx" type="decimal" displayname="posx" />
+            <column id="posy" type="decimal" displayname="posy" />
+        </columns>
+   </chart>
+
+ </dialog>
+ 
+ 
+ 
