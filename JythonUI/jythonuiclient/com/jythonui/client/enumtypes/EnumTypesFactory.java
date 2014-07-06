@@ -10,22 +10,17 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.client.variables;
+package com.jythonui.client.enumtypes;
 
-import com.jythonui.client.interfaces.IVariableContainerFactory;
+import com.jythonui.client.dialog.IEnumTypesList;
+import com.jythonui.client.listmodel.IRowListDataManager;
+import com.jythonui.shared.DialogFormat;
 
-/**
- * @author hotel
- * 
- */
-public class VariableContainerFactory implements IVariableContainerFactory {
+public class EnumTypesFactory implements IEnumTypesFactory {
 
-    public IVariablesContainer construct() {
-        return new VariableContainer();
+    @Override
+    public IEnumTypesList construct(DialogFormat d, IRowListDataManager r) {
+        return new EnumTypesList(d, r);
     }
 
-    public IVariablesContainer clone(IVariablesContainer sou) {
-        VariableContainer v = (VariableContainer) sou;
-        return v.cloneIt();
-    }
 }

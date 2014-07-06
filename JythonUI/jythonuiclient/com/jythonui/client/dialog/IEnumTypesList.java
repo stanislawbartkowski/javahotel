@@ -10,22 +10,18 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.client.variables;
+package com.jythonui.client.dialog;
 
-import com.jythonui.client.interfaces.IVariableContainerFactory;
+import com.gwtmodel.table.IGetDataListCallBack;
+import com.gwtmodel.table.IVField;
+import com.jythonui.shared.ListOfRows;
 
-/**
- * @author hotel
- * 
- */
-public class VariableContainerFactory implements IVariableContainerFactory {
+public interface IEnumTypesList {
 
-    public IVariablesContainer construct() {
-        return new VariableContainer();
-    }
+    void add(IVField v, String customType);
 
-    public IVariablesContainer clone(IVariablesContainer sou) {
-        VariableContainer v = (VariableContainer) sou;
-        return v.cloneIt();
-    }
+    void add(IVField v, IGetDataListCallBack iCallBack);
+
+    void add(String customType, ListOfRows lRows);
+
 }

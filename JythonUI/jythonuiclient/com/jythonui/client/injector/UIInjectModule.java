@@ -24,6 +24,8 @@ import com.jythonui.client.charts.ChartManagerFactory;
 import com.jythonui.client.dialog.datepanel.DateLineManagerFactory;
 import com.jythonui.client.dialog.execute.ExecuteBackAction;
 import com.jythonui.client.dialog.impl.DialogContainerFactory;
+import com.jythonui.client.enumtypes.EnumTypesFactory;
+import com.jythonui.client.enumtypes.IEnumTypesFactory;
 import com.jythonui.client.formgrid.FormGridManagerFactory;
 import com.jythonui.client.impl.JythonUIClientFactory;
 import com.jythonui.client.impl.WebPanelResourcesFactory;
@@ -35,6 +37,7 @@ import com.jythonui.client.interfaces.IExecuteJS;
 import com.jythonui.client.interfaces.IFormGridManagerFactory;
 import com.jythonui.client.interfaces.ILoginPage;
 import com.jythonui.client.interfaces.IRowListDataManagerFactory;
+import com.jythonui.client.interfaces.IVariableContainerFactory;
 import com.jythonui.client.interfaces.IWebPanelResourcesFactory;
 import com.jythonui.client.js.ExecuteJS;
 import com.jythonui.client.listmodel.RowListDataManagerFactory;
@@ -42,6 +45,7 @@ import com.jythonui.client.login.LoginPage;
 import com.jythonui.client.requestcontext.RequestContextFactory;
 import com.jythonui.client.start.IJythonClientStart;
 import com.jythonui.client.start.impl.JythonClientStart;
+import com.jythonui.client.variables.VariableContainerFactory;
 import com.jythonui.shared.RequestContext;
 
 public class UIInjectModule extends AbstractGinModule {
@@ -68,6 +72,10 @@ public class UIInjectModule extends AbstractGinModule {
                 Singleton.class);
         bind(IChartManagerFactory.class).to(ChartManagerFactory.class).in(
                 Singleton.class);
+        bind(IEnumTypesFactory.class).to(EnumTypesFactory.class).in(
+                Singleton.class);
+        bind(IVariableContainerFactory.class)
+                .to(VariableContainerFactory.class).in(Singleton.class);
     }
 
     @Provides

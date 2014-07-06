@@ -80,6 +80,7 @@ import com.jythonui.client.dialog.DataType;
 import com.jythonui.client.dialog.ICreateBackActionFactory;
 import com.jythonui.client.dialog.IDateLineManager;
 import com.jythonui.client.dialog.IDialogContainer;
+import com.jythonui.client.dialog.IEnumTypesList;
 import com.jythonui.client.dialog.IFormGridManager;
 import com.jythonui.client.dialog.IPerformClickAction;
 import com.jythonui.client.dialog.LeftMenu;
@@ -93,10 +94,10 @@ import com.jythonui.client.dialog.run.RunAction;
 import com.jythonui.client.injector.UIGiniInjector;
 import com.jythonui.client.interfaces.IExecuteBackAction;
 import com.jythonui.client.interfaces.IExecuteJS;
+import com.jythonui.client.interfaces.IVariableContainerFactory;
 import com.jythonui.client.listmodel.GetRowSelected;
 import com.jythonui.client.listmodel.IRowListDataManager;
 import com.jythonui.client.util.CreateForm;
-import com.jythonui.client.util.EnumTypesList;
 import com.jythonui.client.util.ExecuteAction;
 import com.jythonui.client.util.IConstructCustomDataType;
 import com.jythonui.client.util.IExecuteAfterModalDialog;
@@ -177,16 +178,18 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
                 .construct(this);
         chManager = UIGiniInjector.getI().getChartManagerFactory()
                 .construct(this, dType);
+        IVariableContainerFactory iVar = UIGiniInjector.getI()
+                .getVariableContainerFactory();
         if (pCon == null) {
             if (M.getVar() == null) {
-                iCon = VariableContainerFactory.construct();
+                iCon = iVar.construct();
                 M.setVar(iCon);
             } else {
-                iCon = VariableContainerFactory.clone(M.getVar());
+                iCon = iVar.clone(M.getVar());
             }
         } else {
             // clone
-            this.iCon = VariableContainerFactory.clone(pCon);
+            this.iCon = iVar.clone(pCon);
         }
         this.iClose = iClose;
         this.addV = addV;
@@ -242,9 +245,9 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 
     private class GetEnumList implements IGetDataList {
 
-        private final EnumTypesList eList;
+        private final IEnumTypesList eList;
 
-        GetEnumList(EnumTypesList eList) {
+        GetEnumList(IEnumTypesList eList) {
             this.eList = eList;
         }
 
@@ -672,7 +675,8 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
         M.getLeftMenu().createLeftButton(
                 constructCButton(d.getLeftStackList()), d.getLeftStackList(),
                 LeftMenu.MenuType.LEFTSTACK);
-        EnumTypesList eList = new EnumTypesList(d, liManager);
+        IEnumTypesList eList = UIGiniInjector.getI().getEnumTypesFactory()
+                .construct(d, liManager);
         if (!d.getFieldList().isEmpty()) {
             FormLineContainer fContainer = CreateForm.construct(info,
                     new GetEnumList(eList), eList, new HelperW(),
@@ -1037,11 +1041,11 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
         private final String id;
         private final boolean before;
         private final WSize w;
-        private final EnumTypesList eList;
+        private final IEnumTypesList eList;
         private final MapDialogVariable addV;
         private final ICommand iAfter;
 
-        BackClass(String id, boolean before, WSize w, EnumTypesList eList,
+        BackClass(String id, boolean before, WSize w, IEnumTypesList eList,
                 MapDialogVariable addV, ICommand iAfter) {
             this.id = id;
             this.before = before;
@@ -1051,7 +1055,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
             this.iAfter = iAfter;
         }
 
-        BackClass(String id, boolean before, WSize w, EnumTypesList eList) {
+        BackClass(String id, boolean before, WSize w, IEnumTypesList eList) {
             this(id, before, w, eList, new MapDialogVariable(), null);
         }
 

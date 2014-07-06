@@ -10,22 +10,15 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.client.variables;
+package com.jythonui.client.interfaces;
 
-import com.jythonui.client.interfaces.IVariableContainerFactory;
+import com.jythonui.client.variables.IVariablesContainer;
 
-/**
- * @author hotel
- * 
- */
-public class VariableContainerFactory implements IVariableContainerFactory {
+public interface IVariableContainerFactory {
+    
+    IVariablesContainer construct();
 
-    public IVariablesContainer construct() {
-        return new VariableContainer();
-    }
+    IVariablesContainer clone(IVariablesContainer sou);
 
-    public IVariablesContainer clone(IVariablesContainer sou) {
-        VariableContainer v = (VariableContainer) sou;
-        return v.cloneIt();
-    }
+
 }
