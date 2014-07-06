@@ -22,8 +22,8 @@
   
    <chart id="chart" displayname="My working day" charttype="SCATTER" >
         <columns>
-            <column id="num1" type="int" displayname="Num1" />
-            <column id="num2" type="int" displayname="Num2" />
+            <column id="num1" type="int"  />
+            <column id="num2" type="int" displayname="Numbers" />
         </columns>
    </chart>
 

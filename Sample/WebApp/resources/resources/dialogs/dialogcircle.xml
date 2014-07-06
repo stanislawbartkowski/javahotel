@@ -19,8 +19,8 @@
   
    <chart id="chart" displayname="Circle" charttype="SCATTER" width="400" height="400" >
         <columns>
-            <column id="posx" type="decimal" displayname="posx" />
-            <column id="posy" type="decimal" displayname="posy" />
+            <column id="posx" type="decimal" />
+            <column id="posy" type="decimal" displayname="Circle" />
         </columns>
    </chart>
 
