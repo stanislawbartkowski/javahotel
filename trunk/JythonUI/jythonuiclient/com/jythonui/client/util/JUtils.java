@@ -19,7 +19,6 @@ import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.Utils;
-import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.datalisttype.DataListTypeFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.jythonui.client.M;

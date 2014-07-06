@@ -40,6 +40,7 @@ import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.jythonui.client.IUIConsts;
 import com.jythonui.client.M;
+import com.jythonui.client.dialog.IEnumTypesList;
 import com.jythonui.client.dialog.VField;
 import com.jythonui.shared.ButtonItem;
 import com.jythonui.shared.DialogFormat;
@@ -67,7 +68,7 @@ public class CreateForm {
     }
 
     public static FormLineContainer construct(DialogInfo dInfo,
-            IGetDataList iGet, EnumTypesList eList, IRequestForGWidget iHelper,
+            IGetDataList iGet, IEnumTypesList eList, IRequestForGWidget iHelper,
             IConstructCustomDataType fType) {
         DialogFormat d = dInfo.getDialog();
         List<FieldItem> iList = d.getFieldList();

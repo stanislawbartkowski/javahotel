@@ -18,6 +18,7 @@ import com.gwtmodel.table.factories.ITableAbstractFactories;
 import com.gwtmodel.table.login.LoginViewFactory;
 import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.jythonui.client.IJythonUIClient;
+import com.jythonui.client.enumtypes.IEnumTypesFactory;
 import com.jythonui.client.interfaces.IChartManagerFactory;
 import com.jythonui.client.interfaces.IDateLineManagerFactory;
 import com.jythonui.client.interfaces.IDialogContainerFactory;
@@ -26,6 +27,7 @@ import com.jythonui.client.interfaces.IExecuteJS;
 import com.jythonui.client.interfaces.IFormGridManagerFactory;
 import com.jythonui.client.interfaces.ILoginPage;
 import com.jythonui.client.interfaces.IRowListDataManagerFactory;
+import com.jythonui.client.interfaces.IVariableContainerFactory;
 import com.jythonui.client.interfaces.IWebPanelResourcesFactory;
 import com.jythonui.client.start.IJythonClientStart;
 import com.jythonui.shared.RequestContext;
@@ -62,4 +64,8 @@ public interface UIInjector extends Ginjector {
     IGetStandardMessage getGetStandardMessage();
     
     IChartManagerFactory getChartManagerFactory();
+    
+    IEnumTypesFactory getEnumTypesFactory();
+    
+    IVariableContainerFactory getVariableContainerFactory();
 }
