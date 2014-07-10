@@ -19,6 +19,7 @@ public class ClientProp extends ElemDescription {
 
 	private static final long serialVersionUID = 1L;
 	private CustomMessages customM = null;
+	private boolean isCached = false;
 
 	public CustomMessages getCustomM() {
 		return customM;
@@ -50,5 +51,15 @@ public class ClientProp extends ElemDescription {
 	public String getLoginPage() {
 		return getAttr(ICommonConsts.LOGINPAGE);
 	}
+
+    public boolean isCached() {
+        return isCached;
+    }
+
+    public void setCached(boolean isCached) {
+        this.isCached = isCached;
+    }
+	
+	
 
 }

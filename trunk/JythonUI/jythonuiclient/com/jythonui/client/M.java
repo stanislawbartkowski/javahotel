@@ -40,6 +40,8 @@ public class M {
 
     private static String secToken;
 
+    private static boolean cached = false;
+
     public static JLabel J() {
         return jLab;
     }
@@ -97,5 +99,13 @@ public class M {
     public static void setMainD(IDialogContainer mainD) {
         M.mainD = mainD;
     }
-    
+
+    public static boolean isCached() {
+        return cached;
+    }
+
+    public static void setCached(boolean cached) {
+        M.cached = cached;
+    }
+
 }
