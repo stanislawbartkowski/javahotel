@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="@lofcustomer" >
 
+        <jscode>hotel/reservation/js/customerjs.js</jscode>
+ 
 	<before />
 
         <types>hotel/typesenum.xml</types>
@@ -9,6 +11,10 @@
 		<import>from hotelpack import customerlist</import>
 		<method>customerlist.customerlistaction({0},{1})</method>
 	</jython>
+        
+        <actions>
+          <action id="info" jsaction="JS.CUSTOMERLIST.customerinfo" />
+        </actions>
 
 
 	<list id="customerlist" elemformat="hotel/elemcustomerlist.xml">
@@ -29,7 +35,7 @@
                        <column id="fax" displayname="@fax" hidden=""/>
                        <column id="doctype" displayname="@doctype" type="custom:idtypes" notempty="" hidden="" />
                        <column id="docnumb" displayname="@docnumb" hidden="" />
-                       <column id="info" defvalue="Info" actionid="info" />
+                       <column id="info" displayname="" defvalue="@info" actionid="info" />
 		</columns>
 	</list>
 

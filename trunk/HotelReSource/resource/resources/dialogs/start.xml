@@ -1,8 +1,9 @@
 <?xml version="1.0"?>
 <dialog xmlns="http://www.jythongwt.dialogxsd.com">
 
-<before />
+<jscode>hotel/reservation/js/rutil.js</jscode>
 
+<before />
 		
 <jython>
 	<import>from hotelpack import start</import>
