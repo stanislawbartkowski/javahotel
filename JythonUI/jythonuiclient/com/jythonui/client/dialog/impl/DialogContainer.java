@@ -111,7 +111,6 @@ import com.jythonui.client.util.VerifyJError;
 import com.jythonui.client.variables.IBackAction;
 import com.jythonui.client.variables.ISetGetVar;
 import com.jythonui.client.variables.IVariablesContainer;
-import com.jythonui.client.variables.VariableContainerFactory;
 import com.jythonui.shared.ButtonItem;
 import com.jythonui.shared.ChartFormat;
 import com.jythonui.shared.CheckList;
@@ -158,7 +157,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
     private WSize lastWClicked = null;
     private final IDisclosurePanelFactory dFactory;
 
-    private final IExecuteJS executeJS;
+    // private final IExecuteJS executeJS;
     private final IExecuteBackAction executeBack;
 
     private final List<IDialogContainer> modelessList = new ArrayList<IDialogContainer>();
@@ -197,7 +196,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
                 .construct(this, dType);
         RegisterCustom.registerCustom(info.getCustMess());
         dFactory = GwtGiniInjector.getI().getDisclosurePanelFactory();
-        executeJS = UIGiniInjector.getI().getExecuteJS();
+        // executeJS = UIGiniInjector.getI().getExecuteJS();
         executeBack = UIGiniInjector.getI().getExecuteBackAction();
     }
 
@@ -231,14 +230,30 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
         }
 
         @Override
-        public void click(String id, WSize w) {
+        public void click(final String id, final WSize w) {
             ListFormat fo = liManager.getFormat(dList);
             FieldItem fie = DialogFormat.findE(fo.getColumns(), id);
             assert fie != null : LogT.getT().cannotBeNull();
             String actionId = fie.getActionId();
             assert actionId != null : LogT.getT().cannotBeNull();
-            ExecuteAction.action(iCon, d.getId(), actionId, new BackClass(id,
-                    false, w, null));
+
+            // ExecuteAction.action(iCon, d.getId(), actionId, new BackClass(id,
+            // false, w, null));
+
+            // ButtonItem bu = DialogFormat.findE(d.getActionList(), actionId);
+            //
+            // IExecuteBackAction.IBackFactory backFactory = new
+            // IExecuteBackAction.IBackFactory() {
+            //
+            // @Override
+            // public CommonCallBack<DialogVariables> construct() {
+            // return new BackClass(id, false, w, null);
+            // }
+            //
+            // };
+            // DialogVariables v = iCon.getVariables(actionId);
+            // executeBack.execute(backFactory, v, bu, d.getId(), actionId);
+            runAction(actionId, w, d.getActionList(), true);
         }
 
     }
@@ -373,11 +388,11 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 
         @Override
         public void click(String actionId, WSize w) {
-            if (runAction(actionId, w, d.getActionList()))
-                return;
-            ExecuteAction.action(iCon, d.getId(), actionId, new BackClass(
-                    actionId, false, w, null));
-
+            // if (runAction(actionId, w, d.getActionList(),true))
+            // return;
+            // ExecuteAction.action(iCon, d.getId(), actionId, new BackClass(
+            // actionId, false, w, null));
+            runAction(actionId, w, d.getActionList(), true);
         }
 
     }
@@ -938,7 +953,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
     }
 
     private boolean runAction(final String id, final WSize w,
-            List<ButtonItem> bList) {
+            List<ButtonItem> bList, boolean go) {
         ButtonItem bItem = DialogFormat.findE(bList, id);
         // it can be call from several places
         // so filter out not relevant
@@ -971,22 +986,13 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
                 }
             };
 
-            // String jsA = Utils.getJS(bItem.getJsAction());
-            // if (!CUtil.EmptyS(jsA)) {
-            // DialogVariables v = iCon.getVariables(id);
-            // IExecuteJS.IJSResult res = executeJS.execute(id, jsA, v);
-            // if (!res.isContinue()) {
-            // new BackClass(id, false, w, null).onSuccess(res.getV());
-            // return true;
-            // }
-            // }
-            //
-            // ExecuteAction.action(iCon, d.getId(), id, new BackClass(id,
-            // false,
-            // w, null));
             executeBack.execute(backFactory, iCon.getVariables(id), bItem,
                     d.getId(), id);
             return true;
+        }
+        if (go) {
+            ExecuteAction.action(iCon, d.getId(), id, new BackClass(id, false,
+                    w, null));
         }
         return false;
         // 2012-04-03 : in order to add action from list
@@ -1011,7 +1017,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
             if (id == null) {
                 return;
             }
-            runAction(id, w, bList);
+            runAction(id, w, bList, false);
         }
     }
 

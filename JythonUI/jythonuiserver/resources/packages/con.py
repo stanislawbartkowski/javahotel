@@ -92,3 +92,21 @@ def incDays(date,days = 1) :
 def nofDays(dfrom,dto) :
   return (dto-dfrom).days
   
+def todayYear() :
+  return today().year
+
+def lastDay(year,month) :
+  C = Calendar.getInstance()
+  C.set(Calendar.YEAR,year)
+  C.set(Calendar.MONTH,month-1)
+  C.set(Calendar.DATE,1)
+  C.add(Calendar.MONTH,1)
+  C.add(Calendar.DATE,-1)
+  return C.get(Calendar.DATE)
+ 
+def getPeriod(year1,month1,year2,month2) :
+   dstart = datetime.date(year1,month1,1)
+   dend = datetime.date(year2,month2,lastDay(year2,month2))
+   return (dstart,dend)
+  
+  

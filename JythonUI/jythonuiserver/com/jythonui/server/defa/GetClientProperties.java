@@ -20,8 +20,8 @@ import javax.inject.Named;
 
 import com.jythonui.server.IGetAppProp;
 import com.jythonui.server.IJythonClientRes;
+import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.ISharedConsts;
-import com.jythonui.server.MUtil;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.resbundle.IAppMess;
@@ -37,13 +37,15 @@ public class GetClientProperties implements IJythonClientRes {
     @SuppressWarnings("unused")
     private final IGetLogMess gMess;
     private final IGetAppProp iApp;
+    private final IJythonUIServerProperties iProp;
 
     @Inject
     public GetClientProperties(
             @Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess gMess,
-            IGetAppProp iApp) {
+            IGetAppProp iApp, IJythonUIServerProperties iProp) {
         this.gMess = gMess;
         this.iApp = iApp;
+        this.iProp = iProp;
     }
 
     @Override
@@ -57,6 +59,7 @@ public class GetClientProperties implements IJythonClientRes {
         CustomMessages mess = custMess.getCustomMess();
         if (mess != null)
             map.setCustomM(mess);
+        map.setCached(iProp.isCached());
         return map;
     }
 }

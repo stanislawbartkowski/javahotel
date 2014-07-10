@@ -20,6 +20,7 @@ import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.login.LoginViewFactory;
 import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.jythonui.client.IJythonUIClient;
+import com.jythonui.client.cache.MemCache;
 import com.jythonui.client.charts.ChartManagerFactory;
 import com.jythonui.client.dialog.datepanel.DateLineManagerFactory;
 import com.jythonui.client.dialog.execute.ExecuteBackAction;
@@ -27,6 +28,7 @@ import com.jythonui.client.dialog.impl.DialogContainerFactory;
 import com.jythonui.client.enumtypes.EnumTypesFactory;
 import com.jythonui.client.enumtypes.IEnumTypesFactory;
 import com.jythonui.client.formgrid.FormGridManagerFactory;
+import com.jythonui.client.getformat.GetDialogFormat;
 import com.jythonui.client.impl.JythonUIClientFactory;
 import com.jythonui.client.impl.WebPanelResourcesFactory;
 import com.jythonui.client.interfaces.IChartManagerFactory;
@@ -35,7 +37,9 @@ import com.jythonui.client.interfaces.IDialogContainerFactory;
 import com.jythonui.client.interfaces.IExecuteBackAction;
 import com.jythonui.client.interfaces.IExecuteJS;
 import com.jythonui.client.interfaces.IFormGridManagerFactory;
+import com.jythonui.client.interfaces.IGetDialogFormat;
 import com.jythonui.client.interfaces.ILoginPage;
+import com.jythonui.client.interfaces.IMemCache;
 import com.jythonui.client.interfaces.IRowListDataManagerFactory;
 import com.jythonui.client.interfaces.IVariableContainerFactory;
 import com.jythonui.client.interfaces.IWebPanelResourcesFactory;
@@ -76,6 +80,9 @@ public class UIInjectModule extends AbstractGinModule {
                 Singleton.class);
         bind(IVariableContainerFactory.class)
                 .to(VariableContainerFactory.class).in(Singleton.class);
+        bind(IGetDialogFormat.class).to(GetDialogFormat.class).in(
+                Singleton.class);
+        bind(IMemCache.class).to(MemCache.class);
     }
 
     @Provides

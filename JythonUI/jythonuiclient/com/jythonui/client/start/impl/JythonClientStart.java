@@ -156,6 +156,7 @@ public class JythonClientStart implements IJythonClientStart {
         }
 
         public void go(ClientProp result) {
+            M.setCached(result.isCached());
             // resolve root dialog
             if (CUtil.EmptyS(startX)) {
                 startX = Utils.getURLParam(IUIConsts.STARTPAGEQUERY);
@@ -187,8 +188,7 @@ public class JythonClientStart implements IJythonClientStart {
                 if (!CUtil.EmptyS(authPages)) {
                     // verify if starting page on the list of pages requiring
                     // authentication
-                    String[] pList = authPages
-                            .split(IUIConsts.LOGINDELIMITER);
+                    String[] pList = authPages.split(IUIConsts.LOGINDELIMITER);
                     for (String s : pList) {
                         if (s.equals(startX)) {
                             auth = true;
@@ -231,6 +231,7 @@ public class JythonClientStart implements IJythonClientStart {
             }
         };
 
-        VisualizationUtils.loadVisualizationApi(onLoadCallback, CoreChart.PACKAGE);
+        VisualizationUtils.loadVisualizationApi(onLoadCallback,
+                CoreChart.PACKAGE);
     }
 }

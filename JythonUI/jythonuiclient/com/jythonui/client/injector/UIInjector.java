@@ -25,6 +25,7 @@ import com.jythonui.client.interfaces.IDialogContainerFactory;
 import com.jythonui.client.interfaces.IExecuteBackAction;
 import com.jythonui.client.interfaces.IExecuteJS;
 import com.jythonui.client.interfaces.IFormGridManagerFactory;
+import com.jythonui.client.interfaces.IGetDialogFormat;
 import com.jythonui.client.interfaces.ILoginPage;
 import com.jythonui.client.interfaces.IRowListDataManagerFactory;
 import com.jythonui.client.interfaces.IVariableContainerFactory;
@@ -68,4 +69,6 @@ public interface UIInjector extends Ginjector {
     IEnumTypesFactory getEnumTypesFactory();
     
     IVariableContainerFactory getVariableContainerFactory();
+    
+    IGetDialogFormat getDialogFormatHandler();
 }
