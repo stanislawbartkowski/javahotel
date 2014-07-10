@@ -17,6 +17,17 @@ var HELLO = (function() {
 var RUTIL = (function() {
    var my = {};
    
+    my.gotodialog = function(startname,dialogname,afterdialog) {
+     var res = {};
+     res.JUP_DIALOG = dialogname;
+     res.JUPDIALOG_START = startname;
+     if (afterdialog) {
+        res.JAFTERDIALOG_ACTION = afterdialog;
+     }   
+     return res;
+   };
+
+   
    my.chooseroom = function(roomname,afterdialog) {
      var res = {};
      res.JUP_DIALOG ="hotel/roomlistsearch.xml";
@@ -35,6 +46,8 @@ var RUTIL = (function() {
      }
      return res;
    }
+   
+   
    
    return my;
 }());

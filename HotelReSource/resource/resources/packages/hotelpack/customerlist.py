@@ -24,8 +24,7 @@ def customerlistaction(action,var):
     custname = var["name"]
     var["JUPDIALOG_START"] = custname
     var["JUP_DIALOG"]="hotel/reservation/customerresinfo.xml"
-    
-    
+        
 def elemcustomeraction(action,var):
   cutil.printVar("elemcustomeraction",action,var)
   R = util.CUSTOMERLIST(var)

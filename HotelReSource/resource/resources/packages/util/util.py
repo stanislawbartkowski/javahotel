@@ -499,6 +499,11 @@ def getVatName(vat):
   if vat == None : return ""
   return vat.getDescription()
 
+def getRoomInfo(var,roomname) :
+  R = ROOMLIST(var).findElem(roomname)
+  return roomname + cutil.ifnull(R.getDescription(),"")
+  
+
 def getPriceForPriceList(var,pricelist,service) :
   PE = PRICEELEM(var)
   peList = PE.getPricesForPriceList(pricelist)
