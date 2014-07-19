@@ -45,10 +45,8 @@ import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.defa.EmptyConnectionProvider;
 import com.jythonui.server.defa.EmptyRPCNotifier;
-import com.jythonui.server.defa.SecurityNullConvert;
 import com.jythonui.server.guavacache.GuavaCacheFactory;
 import com.jythonui.server.guice.JythonServerService.JythonServiceModule;
-import com.jythonui.server.security.ISecurityConvert;
 import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.server.semaphore.impl.SemaphoreSynch;
 import com.jythonui.server.storage.blob.IBlobHandler;
@@ -73,12 +71,8 @@ public class ServerService {
             bind(ITestEnhancer.class).to(TestEnhancer.class);
             bind(EntityManagerFactory.class).toProvider(
                     EntityManagerFactoryProvider.class).in(Singleton.class);
-//            bind(ICommonCacheFactory.class).to(SimpleMapCacheFactory.class).in(
-//                    Singleton.class);
             bind(ICommonCacheFactory.class).to(GuavaCacheFactory.class).in(
                     Singleton.class);            
-            bind(ISecurityConvert.class).to(SecurityNullConvert.class).in(
-                    Singleton.class);
 
             // common
             bind(IStorageJpaRegistryFactory.class).to(

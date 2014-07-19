@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+<displayname>Numbers</displayname>
+<parent>differentnumbers.xml</parent>
+
+ <form>
+                        <field id="id" displayname="storeKey" type="long" hidden="" />
+                        <field id="number0" displayname="Number" type="long" />
+                        <field id="number1" displayname="Number 1" type="decimal" afterdot="1" />
+                        <field id="number2" displayname="Number 2" type="decimal" afterdot="2" />
+                        <field id="number3" displayname="Number 3" type="decimal" afterdot="3" />
+                        <field id="number4" displayname="Number 4" type="decimal" afterdot="4" />
+
+ </form>
+
+</dialog>

@@ -36,7 +36,12 @@ public class ServerProperties extends AbstractServerProperties {
 
     @Override
     public IReadResource getResource() {
-        return iFactory
-                .constructLoader(TestHelper.class.getClassLoader());
+        return iFactory.constructLoader(TestHelper.class.getClassLoader());
     }
+
+    @Override
+    public boolean isSerialized() {
+        return M.isJythonSerialized();
+    }
+
 }
