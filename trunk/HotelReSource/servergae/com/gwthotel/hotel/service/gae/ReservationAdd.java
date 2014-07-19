@@ -26,7 +26,7 @@ import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
 import com.gwthotel.hotel.service.gae.entities.EHotelReservation;
 import com.gwthotel.hotel.service.gae.entities.EResDetails;
 import com.gwtmodel.table.common.CUtil;
-import com.jython.serversecurity.OObjectId;
+import com.jython.serversecurity.cache.OObjectId;
 import com.jython.ui.server.gae.security.entities.EObject;
 import com.jython.ui.server.gae.security.impl.EntUtil;
 import com.jythonui.server.BUtil;
