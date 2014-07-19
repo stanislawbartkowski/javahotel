@@ -10,28 +10,16 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server;
+package com.jythonui.server.authrealm;
 
-import com.jythonui.server.resource.IReadResource;
+import com.jythonui.server.holder.Holder;
+import com.jythonui.server.objectauth.ObjectAuthRealm;
 
-/**
- * @author hotel
- * 
- */
-public interface IJythonUIServerProperties {
+public class AppObjectAuthRealm extends ObjectAuthRealm {
 
-    IReadResource getResource();
-
-    String getJythonPackageDirectory();
-
-    String getJythonSharedDirectory();
-
-    String getEJBHost();
-
-    String getEJBPort();
-
-    boolean isCached();
-    
-    boolean isSerialized();
+    public AppObjectAuthRealm() {
+        this.setiRes(new ObjectAuthResources());
+        this.setiGet(Holder.getInstanceCache());
+    }
 
 }

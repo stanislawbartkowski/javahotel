@@ -10,28 +10,14 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server;
+package com.jythonui.server.objectauth;
 
-import com.jythonui.server.resource.IReadResource;
+import com.jython.serversecurity.IOObjectAdmin;
+import com.jythonui.server.getmess.IGetLogMess;
 
-/**
- * @author hotel
- * 
- */
-public interface IJythonUIServerProperties {
-
-    IReadResource getResource();
-
-    String getJythonPackageDirectory();
-
-    String getJythonSharedDirectory();
-
-    String getEJBHost();
-
-    String getEJBPort();
-
-    boolean isCached();
+public interface IRealmResources {
+        
+    IOObjectAdmin getAdmin();
     
-    boolean isSerialized();
-
+    IGetLogMess getLogMess();
 }

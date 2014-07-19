@@ -23,7 +23,7 @@ abstract public class AbstractServerProperties extends UtilHelper implements
         IJythonUIServerProperties {
 
     protected final IReadResourceFactory iFactory;
-    
+
     @Override
     public String getEJBHost() {
         return null;
@@ -34,11 +34,10 @@ abstract public class AbstractServerProperties extends UtilHelper implements
         return null;
     }
 
-
     protected AbstractServerProperties(IReadResourceFactory iFactory) {
         this.iFactory = iFactory;
     }
-    
+
     @Override
     public String getJythonPackageDirectory() {
         return Util.getJythonPackageDirectory(getResource());
@@ -50,7 +49,11 @@ abstract public class AbstractServerProperties extends UtilHelper implements
                 .constructLoader(AbstractServerProperties.class
                         .getClassLoader());
         return Util.getJythonPackageDirectory(iRead);
+    }
 
+    @Override
+    public boolean isSerialized() {
+        return false;
     }
 
 }

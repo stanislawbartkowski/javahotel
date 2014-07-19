@@ -15,6 +15,7 @@ package com.jythonui.client.injector;
 import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.login.LoginViewFactory;
@@ -40,12 +41,14 @@ import com.jythonui.client.interfaces.IFormGridManagerFactory;
 import com.jythonui.client.interfaces.IGetDialogFormat;
 import com.jythonui.client.interfaces.ILoginPage;
 import com.jythonui.client.interfaces.IMemCache;
+import com.jythonui.client.interfaces.IRegisterCustom;
 import com.jythonui.client.interfaces.IRowListDataManagerFactory;
 import com.jythonui.client.interfaces.IVariableContainerFactory;
 import com.jythonui.client.interfaces.IWebPanelResourcesFactory;
 import com.jythonui.client.js.ExecuteJS;
 import com.jythonui.client.listmodel.RowListDataManagerFactory;
 import com.jythonui.client.login.LoginPage;
+import com.jythonui.client.registercustom.RegisterCustom;
 import com.jythonui.client.requestcontext.RequestContextFactory;
 import com.jythonui.client.start.IJythonClientStart;
 import com.jythonui.client.start.impl.JythonClientStart;
@@ -83,6 +86,8 @@ public class UIInjectModule extends AbstractGinModule {
         bind(IGetDialogFormat.class).to(GetDialogFormat.class).in(
                 Singleton.class);
         bind(IMemCache.class).to(MemCache.class);
+        bind(IRegisterCustom.class).to(RegisterCustom.class)
+                .in(Singleton.class);
     }
 
     @Provides
@@ -109,4 +114,10 @@ public class UIInjectModule extends AbstractGinModule {
         return GwtGiniInjector.getI().getStandardMessage();
     }
 
+    @Provides
+    @Singleton
+    IGetCustomValues getGetCustomValues() {
+        return GwtGiniInjector.getI().getTableFactoriesContainer()
+                .getGetCustomValuesNotDefault();
+    }
 }

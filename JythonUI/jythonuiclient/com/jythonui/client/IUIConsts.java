@@ -46,7 +46,8 @@ public interface IUIConsts {
     String STARTPAGE = "Start";
     String STARTPAGEQUERY = "start";
     String STARTPAGES = "StartPages";
+    String NOCHARTSQUERY = "nocharts";
+    String NOCHARTSYES = "Y";
     String LOGINDELIMITER = ",";
-
 
 }

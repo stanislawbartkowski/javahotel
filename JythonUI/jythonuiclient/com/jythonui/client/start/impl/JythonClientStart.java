@@ -32,9 +32,9 @@ import com.jythonui.client.IUIConsts;
 import com.jythonui.client.M;
 import com.jythonui.client.injector.UIGiniInjector;
 import com.jythonui.client.interfaces.ILoginPage;
+import com.jythonui.client.interfaces.IRegisterCustom;
 import com.jythonui.client.interfaces.IWebPanelResourcesFactory;
 import com.jythonui.client.start.IJythonClientStart;
-import com.jythonui.client.util.RegisterCustom;
 import com.jythonui.shared.ClientProp;
 import com.jythonui.shared.CustomSecurity;
 import com.jythonui.shared.ICommonConsts;
@@ -47,16 +47,18 @@ public class JythonClientStart implements IJythonClientStart {
     private final IWebPanelResourcesFactory iResFactory;
     private final WebPanelFactory wFactory;
     private final ITableAbstractFactories tFactories;
+    private final IRegisterCustom iRegister;
 
     @Inject
     public JythonClientStart(IJythonUIClient iClient, ILoginPage loginPage,
             IWebPanelResourcesFactory iResFactory, WebPanelFactory wFactory,
-            ITableAbstractFactories tFactories) {
+            ITableAbstractFactories tFactories, IRegisterCustom iRegister) {
         this.iClient = iClient;
         this.loginPage = loginPage;
         this.iResFactory = iResFactory;
         this.wFactory = wFactory;
         this.tFactories = tFactories;
+        this.iRegister = iRegister;
     }
 
     private class Sync extends SynchronizeList {
@@ -204,7 +206,7 @@ public class JythonClientStart implements IJythonClientStart {
 
             // initialize several factories
             tFactories.registerWebPanelResources(iResFactory.construct(result));
-            RegisterCustom.registerCustom(result);
+            iRegister.registerCustom(result);
 
             // construct WebPanel handler
             IWebPanel wPan = wFactory.construct(new LogOut(auth));
@@ -217,8 +219,16 @@ public class JythonClientStart implements IJythonClientStart {
 
     }
 
+    private void recognizeNoCharts() {
+        String noCharts = Utils.getURLParam(IUIConsts.NOCHARTSQUERY);
+        if (CUtil.EqNS(noCharts, IUIConsts.NOCHARTSYES)) {
+            M.setNocharts(true);
+        }
+    }
+
     @Override
     public void start(String startXML, CustomSecurity iCustom) {
+        recognizeNoCharts();
         final Sync sy = new Sync();
         sy.go = new GoStart(startXML, iCustom);
 
@@ -231,7 +241,10 @@ public class JythonClientStart implements IJythonClientStart {
             }
         };
 
-        VisualizationUtils.loadVisualizationApi(onLoadCallback,
-                CoreChart.PACKAGE);
+        if (M.isNocharts())
+            sy.signalDone();
+        else
+            VisualizationUtils.loadVisualizationApi(onLoadCallback,
+                    CoreChart.PACKAGE);
     }
 }

@@ -27,6 +27,7 @@ import com.jythonui.client.interfaces.IExecuteJS;
 import com.jythonui.client.interfaces.IFormGridManagerFactory;
 import com.jythonui.client.interfaces.IGetDialogFormat;
 import com.jythonui.client.interfaces.ILoginPage;
+import com.jythonui.client.interfaces.IRegisterCustom;
 import com.jythonui.client.interfaces.IRowListDataManagerFactory;
 import com.jythonui.client.interfaces.IVariableContainerFactory;
 import com.jythonui.client.interfaces.IWebPanelResourcesFactory;
@@ -59,16 +60,18 @@ public interface UIInjector extends Ginjector {
     IWebPanelResourcesFactory getWebPanelResourcesFactory();
 
     IJythonClientStart getJythonClientStart();
-    
+
     ITableAbstractFactories getTFactories();
-    
+
     IGetStandardMessage getGetStandardMessage();
-    
+
     IChartManagerFactory getChartManagerFactory();
-    
+
     IEnumTypesFactory getEnumTypesFactory();
-    
+
     IVariableContainerFactory getVariableContainerFactory();
-    
+
     IGetDialogFormat getDialogFormatHandler();
+
+    IRegisterCustom getRegisterCustom();
 }

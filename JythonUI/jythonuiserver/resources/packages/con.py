@@ -75,6 +75,9 @@ def minusDecimal(sum1,sum2,afterdot=2):
    if sum2 == None : return sum1
    return round(sum1 - sum2,afterdot)
 
+def fToS(f) :
+  return '%.4f' % f
+
 def toS(val): 
     s  = val
     f = None
@@ -82,8 +85,7 @@ def toS(val):
     elif type(val) == datetime.date : s = str(val)
     elif type(val) == int : s = str(val)    
     elif type(val) == float : f = val
-    if f != None :
-        s = '%.2f' % f
+    if f != None : s = fToS(f)
     return s
 
 def incDays(date,days = 1) :

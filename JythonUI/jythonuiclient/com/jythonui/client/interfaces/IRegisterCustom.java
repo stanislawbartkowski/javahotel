@@ -10,28 +10,15 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server;
+package com.jythonui.client.interfaces;
 
-import com.jythonui.server.resource.IReadResource;
+import com.jythonui.shared.ClientProp;
+import com.jythonui.shared.CustomMessages;
 
-/**
- * @author hotel
- * 
- */
-public interface IJythonUIServerProperties {
+public interface IRegisterCustom {
 
-    IReadResource getResource();
+    void registerCustom(ClientProp prop);
 
-    String getJythonPackageDirectory();
-
-    String getJythonSharedDirectory();
-
-    String getEJBHost();
-
-    String getEJBPort();
-
-    boolean isCached();
-    
-    boolean isSerialized();
+    void registerCustom(CustomMessages cust);
 
 }
