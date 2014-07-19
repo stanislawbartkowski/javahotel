@@ -97,6 +97,7 @@ import com.jythonui.client.interfaces.IExecuteJS;
 import com.jythonui.client.interfaces.IVariableContainerFactory;
 import com.jythonui.client.listmodel.GetRowSelected;
 import com.jythonui.client.listmodel.IRowListDataManager;
+import com.jythonui.client.registercustom.RegisterCustom;
 import com.jythonui.client.util.CreateForm;
 import com.jythonui.client.util.ExecuteAction;
 import com.jythonui.client.util.IConstructCustomDataType;
@@ -105,7 +106,6 @@ import com.jythonui.client.util.ISendCloseAction;
 import com.jythonui.client.util.IYesNoAction;
 import com.jythonui.client.util.JUtils;
 import com.jythonui.client.util.PerformVariableAction;
-import com.jythonui.client.util.RegisterCustom;
 import com.jythonui.client.util.ValidateForm;
 import com.jythonui.client.util.VerifyJError;
 import com.jythonui.client.variables.IBackAction;
@@ -194,7 +194,8 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
         this.addV = addV;
         gManager = UIGiniInjector.getI().getFormGridManagerFactory()
                 .construct(this, dType);
-        RegisterCustom.registerCustom(info.getCustMess());
+        UIGiniInjector.getI().getRegisterCustom()
+                .registerCustom(info.getCustMess());
         dFactory = GwtGiniInjector.getI().getDisclosurePanelFactory();
         // executeJS = UIGiniInjector.getI().getExecuteJS();
         executeBack = UIGiniInjector.getI().getExecuteBackAction();

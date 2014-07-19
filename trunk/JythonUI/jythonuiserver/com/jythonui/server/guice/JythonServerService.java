@@ -21,8 +21,10 @@ import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 import com.gwtmodel.commoncache.ICommonCache;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
-import com.jython.serversecurity.IGetInstanceOObjectIdCache;
+import com.jython.serversecurity.IOObjectAdmin;
+import com.jython.serversecurity.cache.IGetInstanceOObjectIdCache;
 import com.jython.serversecurity.impl.GetInstanceObjectId;
+import com.jython.serversecurity.persons.SecurityForPersons;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IDefaultData;
 import com.jythonui.server.IExecuteJython;
@@ -31,6 +33,7 @@ import com.jythonui.server.IGetDialog;
 import com.jythonui.server.IGetResourceMap;
 import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonUIServer;
+import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.IStorageMemCache;
 import com.jythonui.server.IStorageMemContainerFactory;
@@ -51,10 +54,13 @@ import com.jythonui.server.holder.SHolder;
 import com.jythonui.server.impl.GetAppProperties;
 import com.jythonui.server.impl.JythonUIServer;
 import com.jythonui.server.jython.RunJython;
+import com.jythonui.server.jython.DecoratorRunJython;
 import com.jythonui.server.logmess.MessProvider;
 import com.jythonui.server.memstorage.MemStorageCacheFactory;
 import com.jythonui.server.newblob.IAddNewBlob;
 import com.jythonui.server.newblob.impl.AddNewBlob;
+import com.jythonui.server.objectauth.PersonSecurityConverter;
+import com.jythonui.server.objectauth.SecurityConverter;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.registry.object.ObjectRegistryFactory;
 import com.jythonui.server.resbundle.IAppMess;
@@ -63,6 +69,7 @@ import com.jythonui.server.resimpl.GetResourceMapImpl;
 import com.jythonui.server.resource.IReadResourceFactory;
 import com.jythonui.server.resource.ReadResourceFactory;
 import com.jythonui.server.security.ISecurity;
+import com.jythonui.server.security.ISecurityConvert;
 import com.jythonui.server.security.ISecurityResolver;
 import com.jythonui.server.security.impl.SecurityJython;
 import com.jythonui.server.security.resolver.SecurityResolver;
@@ -95,7 +102,11 @@ public class JythonServerService {
         protected void configureJythonUi() {
             bind(IJythonUIServer.class).to(JythonUIServer.class).in(
                     Singleton.class);
-            bind(IExecuteJython.class).to(RunJython.class).in(Singleton.class);
+            bind(IExecuteJython.class)
+                    .annotatedWith(Names.named(IConsts.GENERICRUNJYTHON))
+                    .to(RunJython.class).in(Singleton.class);
+            bind(IExecuteJython.class)
+                    .to(DecoratorRunJython.class).in(Singleton.class);
             bind(ISecurity.class).to(SecurityJython.class).in(Singleton.class);
             bind(ISecurityResolver.class).to(SecurityResolver.class).in(
                     Singleton.class);
@@ -126,6 +137,10 @@ public class JythonServerService {
             bind(IGetLocalizedDict.class)
                     .annotatedWith(Names.named(IConsts.COUNTRIESDICT))
                     .to(ListOfCountries.class).in(Singleton.class);
+            bind(IOObjectAdmin.class)
+                    .annotatedWith(
+                            Names.named(ISharedConsts.PERSONSONLYSECURITY))
+                    .to(SecurityForPersons.class).in(Singleton.class);
             bind(IGetLocalizedDict.class)
                     .annotatedWith(Names.named(IConsts.VATDICT))
                     .to(GetVatTaxes.class).in(Singleton.class);
@@ -144,6 +159,12 @@ public class JythonServerService {
             bind(IAddNewBlob.class).to(AddNewBlob.class).in(Singleton.class);
             bind(IGetInstanceOObjectIdCache.class)
                     .to(GetInstanceObjectId.class).in(Singleton.class);
+            bind(ISecurityConvert.class)
+                    .annotatedWith(
+                            Names.named(ISharedConsts.PERSONSONLYSECURITY))
+                    .to(PersonSecurityConverter.class).in(Singleton.class);
+            bind(ISecurityConvert.class).to(SecurityConverter.class).in(
+                    Singleton.class);
         }
 
         @Provides

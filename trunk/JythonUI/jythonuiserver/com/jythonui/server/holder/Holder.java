@@ -15,8 +15,8 @@ package com.jythonui.server.holder;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.jython.serversecurity.IGetInstanceOObjectIdCache;
 import com.jython.serversecurity.IOObjectAdmin;
+import com.jython.serversecurity.cache.IGetInstanceOObjectIdCache;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IDefaultData;
 import com.jythonui.server.IGetConnection;
@@ -24,6 +24,7 @@ import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.IJythonUIServerProperties;
+import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.IXMLToMap;
 import com.jythonui.server.dict.IGetLocalizedDict;
 import com.jythonui.server.getmess.IGetLogMess;
@@ -70,6 +71,10 @@ public class Holder {
     private static ISecurityConvert iConvert;
 
     @Inject
+    @Named(ISharedConsts.PERSONSONLYSECURITY)
+    private static ISecurityConvert iPersonConvert;
+
+    @Inject
     private static IXMLToMap xmlMap;
 
     @Inject
@@ -104,6 +109,10 @@ public class Holder {
 
     @Inject
     private static IDefaultData dData;
+
+    @Inject
+    @Named(ISharedConsts.PERSONSONLYSECURITY)
+    protected static IOObjectAdmin iPerson;
 
     private static final ThreadLocal<RequestContext> locale = new ThreadLocal<RequestContext>();
 
@@ -141,6 +150,10 @@ public class Holder {
 
     public static ISecurityConvert getSecurityConvert() {
         return iConvert;
+    }
+
+    public static ISecurityConvert getPersonSecurityConvert() {
+        return iPersonConvert;
     }
 
     public static IGetLogMess getM() {
@@ -205,6 +218,10 @@ public class Holder {
 
     public static IGetInstanceOObjectIdCache getInstanceCache() {
         return iICache;
+    }
+
+    public static IOObjectAdmin getAdminPerson() {
+        return iPerson;
     }
 
 }

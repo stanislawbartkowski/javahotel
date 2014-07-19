@@ -73,4 +73,26 @@ def createObjectOrPerson(object,name,desc):
 
 def createObjectRoles(o):
     return OObjectRoles(o)
-    
+        
+class PersonAdmin(ObjectAdmin) :
+
+    def __init__(self,app) :
+      ObjectAdmin.__init__(self,app)  
+      self.adminI = Holder.getAdminPerson()
+         
+    def addOrModifPerson(self,person,roles):
+      ro = []  
+      o = OObjectRoles()
+      ro.append(o)
+      for r in roles :
+          o.getRoles().add(r)
+      ObjectAdmin.addOrModifPerson(self, person, ro)
+      
+    def getListOfRolesForPerson(self,person):
+      rol = ObjectAdmin.getListOfRolesForPerson(self,person)
+      ro = rol[0]
+      roles = []
+      for r in ro.getRoles() : roles.append(r)
+      return roles  
+
+      

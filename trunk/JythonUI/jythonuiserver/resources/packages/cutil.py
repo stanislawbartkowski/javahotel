@@ -355,18 +355,20 @@ class RegistryFile:
         self.__removeEntries(RR)
             
         for id in self.__map.keys() :
-            type = self.__map[id]
+            ttype = self.__map[id]
             if var.has_key(id) :
                 val = var[id]
-                if type == LONG :
-                    vals = str(val)
-                elif type == DATE :
-                    if val == None : vals = None
-                    else : vals = self.__tostr(val)
-                elif type == DECIMAL :
-                    vals = str(val)    
-                else : vals = val
+                if val == None : vals = None
+                else :
+                  if ttype == LONG :                
+                      vals = str(val)
+                  elif ttype == DATE :
+                      vals = self.__tostr(val)
+                  elif ttype == DECIMAL :
+                      vals = con.toS(val)    
+                  else : vals = val
                 RR.putEntry(id,vals)
+
         R.putEntry(k,"")
         
     def saveList(self,var):
@@ -398,13 +400,6 @@ def allEmpty(var,list):
         if var[l] == None : continue
         return False
     return True
-
-def OLDprintVar(name,action,var):
-  print "================ " + name
-  print "action = " + action
-  for k in var.keys() : 
-    print k + " = " + str(var[k])
-
 
 def printVar(name,action,var):
   clog.info("==============",name)

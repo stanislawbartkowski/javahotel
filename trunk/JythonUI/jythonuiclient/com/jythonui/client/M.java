@@ -41,6 +41,7 @@ public class M {
     private static String secToken;
 
     private static boolean cached = false;
+    private static boolean nocharts = false;
 
     public static JLabel J() {
         return jLab;
@@ -106,6 +107,14 @@ public class M {
 
     public static void setCached(boolean cached) {
         M.cached = cached;
+    }
+
+    public static boolean isNocharts() {
+        return nocharts;
+    }
+
+    public static void setNocharts(boolean nocharts) {
+        M.nocharts = nocharts;
     }
 
 }
