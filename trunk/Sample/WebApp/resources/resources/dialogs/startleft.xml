@@ -25,6 +25,7 @@
   <button id="listfooter" displayname="List footer" actiontype="JMAIN_DIALOG" actionparam="listdeffooter.xml" />
   <button id="spinner" displayname="Spinner" actiontype="JMAIN_DIALOG" actionparam="listspinner.xml" />
   <button id="spinnerlist" displayname="List with spinner" actiontype="JMAIN_DIALOG" actionparam="listwithspinner.xml" />
+  <button id="checkbignumbers" displayname="Big numbers" actiontype="JMAIN_DIALOG" actionparam="checkbignumbers.xml" />  
   <button id="listnext" displayname="Different lists" header="" />
   <button id="listwithcustom" displayname="List with custom" actiontype="JMAIN_DIALOG" actionparam="listwithcustom.xml" />
   <button id="dialogattach" displayname="Dialog with attachment" actiontype="JMAIN_DIALOG" actionparam="dialogattach.xml" />
@@ -32,6 +33,7 @@
   <button id="dialognext" displayname="List with custom search" actiontype="JMAIN_DIALOG" actionparam="dialoglist1.xml" />
   <button id="dialognext2" displayname="List with custom modif row" actiontype="JMAIN_DIALOG" actionparam="dialoglist2.xml" />
   <button id="dialogurl" displayname="Url params" actiontype="JMAIN_DIALOG" actionparam="dialogurllist.xml" />
+  <button id="listnumber" displayname="List with different numbers" actiontype="JMAIN_DIALOG" actionparam="differentnumbers.xml" />
   <button id="c" displayname = "Charts" header="" />  
   <button id="dialogchart" displayname="Pie chart" actiontype="JMAIN_DIALOG" actionparam="dialogchart.xml" />
   <button id="dialogarea" displayname="Area chart" actiontype="JMAIN_DIALOG" actionparam="dialogarea.xml" />
