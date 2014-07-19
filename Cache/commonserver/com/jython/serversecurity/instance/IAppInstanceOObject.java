@@ -13,7 +13,7 @@
 package com.jython.serversecurity.instance;
 
 import com.jython.serversecurity.AppInstanceId;
-import com.jython.serversecurity.OObjectId;
+import com.jython.serversecurity.cache.OObjectId;
 
 public interface IAppInstanceOObject {
 

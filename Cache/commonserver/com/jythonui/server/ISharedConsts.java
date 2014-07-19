@@ -51,4 +51,7 @@ public interface ISharedConsts {
     String INSTANCEDEFAULT = "AppInstanceDefault";
     String INSTANCETEST = "AppInstanceTest";
 
+    String SINGLEOBJECTHOLDER = "SingleObjectHolder";
+    String PERSONSONLYSECURITY = "PersonsOnlySecurity";
+
 }

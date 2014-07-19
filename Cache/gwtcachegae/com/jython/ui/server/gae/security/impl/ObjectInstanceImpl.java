@@ -20,7 +20,7 @@ import javax.inject.Named;
 import com.googlecode.objectify.LoadResult;
 import com.googlecode.objectify.ObjectifyService;
 import com.jython.serversecurity.AppInstanceId;
-import com.jython.serversecurity.OObjectId;
+import com.jython.serversecurity.cache.OObjectId;
 import com.jython.serversecurity.instance.IAppInstanceOObject;
 import com.jython.ui.server.gae.security.entities.EInstance;
 import com.jython.ui.server.gae.security.entities.EObject;

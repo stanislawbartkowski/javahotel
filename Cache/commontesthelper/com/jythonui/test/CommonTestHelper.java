@@ -27,9 +27,9 @@ import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.gwtmodel.table.common.dateutil.ISetTestToday;
 import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.jython.serversecurity.AppInstanceId;
-import com.jython.serversecurity.IGetInstanceOObjectIdCache;
 import com.jython.serversecurity.IOObjectAdmin;
-import com.jython.serversecurity.OObjectId;
+import com.jython.serversecurity.cache.IGetInstanceOObjectIdCache;
+import com.jython.serversecurity.cache.OObjectId;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IDefaultData;
 import com.jythonui.server.IJythonUIServer;
@@ -41,12 +41,14 @@ import com.jythonui.server.newblob.IAddNewBlob;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.resbundle.IAppMess;
 import com.jythonui.server.security.ISecurity;
+import com.jythonui.server.security.token.ICustomSecurity;
 import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.server.storage.blob.IBlobHandler;
 import com.jythonui.server.storage.gensym.ISymGenerator;
 import com.jythonui.server.storage.seq.ISequenceRealmGen;
 import com.jythonui.server.xml.IXMLTransformer;
 import com.jythonui.shared.ButtonItem;
+import com.jythonui.shared.CustomSecurity;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
@@ -96,6 +98,9 @@ abstract public class CommonTestHelper {
     protected static IOObjectAdmin iAdmin;
     @Inject
     protected static IGetInstanceOObjectIdCache iGetI;
+    @Inject
+    @Named(ISharedConsts.PERSONSONLYSECURITY)
+    protected static IOObjectAdmin iPerson;
 
     protected CommonTestHelper() {
         iListC = Holder.getListOfCountries();
@@ -231,6 +236,13 @@ abstract public class CommonTestHelper {
 
     protected OObjectId getH1(String objectName) {
         return iGetI.getOObject(TESTINSTANCE, objectName, "modifuser");
+    }
+    
+    protected ICustomSecurity getPersonSec() {
+        CustomSecurity cust = new CustomSecurity();
+        cust.setAttr(IConsts.INSTANCEID, TESTINSTANCE);
+        ICustomSecurity cu = Holder.getPersonSecurityConvert().construct(cust);
+        return cu;
     }
 
 }

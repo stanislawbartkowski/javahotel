@@ -20,7 +20,7 @@ import javax.persistence.Query;
 
 import com.google.inject.Inject;
 import com.jython.serversecurity.AppInstanceId;
-import com.jython.serversecurity.OObjectId;
+import com.jython.serversecurity.cache.OObjectId;
 import com.jython.serversecurity.instance.IAppInstanceOObject;
 import com.jython.serversecurity.jpa.entities.EInstance;
 import com.jython.serversecurity.jpa.entities.EObject;

@@ -23,7 +23,7 @@ import javax.interceptor.Interceptors;
 
 import com.google.inject.Inject;
 import com.jython.serversecurity.AppInstanceId;
-import com.jython.serversecurity.OObjectId;
+import com.jython.serversecurity.cache.OObjectId;
 import com.jython.serversecurity.instance.IAppInstanceOObject;
 import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.defa.GuiceInterceptor;
