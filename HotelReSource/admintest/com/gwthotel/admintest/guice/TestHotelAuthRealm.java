@@ -12,9 +12,9 @@
  */
 package com.gwthotel.admintest.guice;
 
-import com.gwthotel.auth.HotelAuthRealm;
+import com.jythonui.server.objectauth.ObjectAuthRealm;
 
-public class TestHotelAuthRealm extends HotelAuthRealm {
+public class TestHotelAuthRealm extends ObjectAuthRealm {
 
     public TestHotelAuthRealm() {
         super();

@@ -23,10 +23,10 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.gwthotel.auth.HotelCustom;
 import com.jython.serversecurity.OObject;
 import com.jython.serversecurity.OObjectRoles;
 import com.jython.serversecurity.Person;
+import com.jythonui.server.objectauth.ObjectCustom;
 import com.jythonui.server.security.token.ICustomSecurity;
 
 public class Test5 extends TestHelper {
@@ -76,8 +76,8 @@ public class Test5 extends TestHelper {
 
         ICustomSecurity cus = iSec.getCustom(token);
         assertNotNull(cus);
-        HotelCustom h = (HotelCustom) cus;
-        assertEquals("hotel", h.getHotelName());
+        ObjectCustom h = (ObjectCustom) cus;
+        assertEquals("hotel", h.getObjectName());
     }
 
     @Test

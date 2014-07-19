@@ -15,9 +15,9 @@ package com.gwthotel.mess;
 public interface IHError {
 
     String HERROR001 = "H001";
-    String HERROR002 = "H002";
-    String HERROR003 = "H003";
-    String HERROR004 = "H004";
+    //String HERROR002 = "H002";
+    //String HERROR003 = "H003";
+    // String HERROR004 = "H004";
     String HERROR005 = "H005";
     String HERROR006 = "H006";
     String HERROR007 = "H007";
@@ -36,6 +36,6 @@ public interface IHError {
     String HERROR020 = "H020";
     String HERROR021 = "H021";
     String HERROR022 = "H022";
-    String HERROR023 = "H023";
+//    String HERROR023 = "H023";
     String HERROR024 = "H023";
 }

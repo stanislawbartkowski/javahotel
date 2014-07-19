@@ -14,7 +14,7 @@ package com.gwthotel.admintest.guice;
 
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.IGetAutomPatterns;
-import com.jython.serversecurity.OObjectId;
+import com.jython.serversecurity.cache.OObjectId;
 
 public class GetTestPatterns implements IGetAutomPatterns {
 
