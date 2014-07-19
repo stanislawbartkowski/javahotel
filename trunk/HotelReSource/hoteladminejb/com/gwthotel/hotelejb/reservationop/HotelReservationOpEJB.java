@@ -32,7 +32,7 @@ import com.gwthotel.hotel.reservationop.ResData;
 import com.gwthotel.hotel.reservationop.ResQuery;
 import com.gwthotel.hotel.stay.ResGuest;
 import com.gwthotel.shared.IHotelConsts;
-import com.jython.serversecurity.OObjectId;
+import com.jython.serversecurity.cache.OObjectId;
 import com.jythonui.server.defa.GuiceInterceptor;
 
 @Stateless

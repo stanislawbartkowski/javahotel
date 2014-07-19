@@ -29,8 +29,8 @@ import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.shared.IHotelConsts;
 import com.jython.serversecurity.AppInstanceId;
-import com.jython.serversecurity.IGetInstanceOObjectIdCache;
-import com.jython.serversecurity.OObjectId;
+import com.jython.serversecurity.cache.IGetInstanceOObjectIdCache;
+import com.jython.serversecurity.cache.OObjectId;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.resbundle.Mess;
 

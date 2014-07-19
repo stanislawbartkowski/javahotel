@@ -17,7 +17,7 @@ import java.util.Properties;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.IGetAutomPatterns;
 import com.gwthotel.shared.IHotelConsts;
-import com.jython.serversecurity.OObjectId;
+import com.jython.serversecurity.cache.OObjectId;
 import com.jythonui.server.Util;
 
 public class GetAutomPatterns implements IGetAutomPatterns {

@@ -16,7 +16,7 @@ import java.util.List;
 
 import com.gwthotel.hotel.prices.HotelPriceElem;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
-import com.jython.serversecurity.OObjectId;
+import com.jython.serversecurity.cache.OObjectId;
 
 abstract class AbstractHotelPriceElemEJB implements IHotelPriceElem {
 

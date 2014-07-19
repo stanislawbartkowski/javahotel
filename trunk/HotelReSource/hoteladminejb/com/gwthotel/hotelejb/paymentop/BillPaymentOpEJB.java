@@ -27,7 +27,7 @@ import com.google.inject.Inject;
 import com.gwthotel.hotel.payment.IPaymentBillOp;
 import com.gwthotel.hotel.payment.PaymentBill;
 import com.gwthotel.shared.IHotelConsts;
-import com.jython.serversecurity.OObjectId;
+import com.jython.serversecurity.cache.OObjectId;
 import com.jythonui.server.defa.GuiceInterceptor;
 
 @Stateless
