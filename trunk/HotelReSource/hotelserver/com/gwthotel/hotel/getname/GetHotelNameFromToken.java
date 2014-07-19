@@ -14,11 +14,11 @@ package com.gwthotel.hotel.getname;
 
 import javax.inject.Inject;
 
-import com.gwthotel.auth.HotelCustom;
 import com.gwthotel.hotel.IHotelGetName;
 import com.jython.serversecurity.AppInstanceId;
-import com.jython.serversecurity.IGetInstanceOObjectIdCache;
-import com.jython.serversecurity.OObjectId;
+import com.jython.serversecurity.cache.IGetInstanceOObjectIdCache;
+import com.jython.serversecurity.cache.OObjectId;
+import com.jythonui.server.objectauth.ObjectCustom;
 import com.jythonui.server.security.ISecurity;
 import com.jythonui.server.security.token.ICustomSecurity;
 
@@ -36,16 +36,16 @@ public class GetHotelNameFromToken implements IHotelGetName {
     @Override
     public OObjectId getHotel(String token) {
         ICustomSecurity sec = iSec.getCustom(token);
-        HotelCustom cust = (HotelCustom) sec;
+        ObjectCustom cust = (ObjectCustom) sec;
         String instanceId = cust.getInstanceId();
-        String hotelName = cust.getHotelName();
+        String hotelName = cust.getObjectName();
         return iGet.getOObject(instanceId, hotelName, iSec.getUserName(token));
     }
 
     @Override
     public AppInstanceId getInstance(String token) {
         ICustomSecurity sec = iSec.getCustom(token);
-        HotelCustom cust = (HotelCustom) sec;
+        ObjectCustom cust = (ObjectCustom) sec;
         String instanceId = cust.getInstanceId();
         return iGet.getInstance(instanceId, iSec.getUserName(token));
     }

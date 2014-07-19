@@ -12,7 +12,7 @@
  */
 package com.gwthotel.hotel;
 
-import com.jython.serversecurity.OObjectId;
+import com.jython.serversecurity.cache.OObjectId;
 
 public interface IGetAutomPatterns {
 

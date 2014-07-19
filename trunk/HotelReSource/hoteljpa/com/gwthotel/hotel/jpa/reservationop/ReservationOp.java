@@ -38,7 +38,7 @@ import com.gwthotel.hotel.reservationop.ResData;
 import com.gwthotel.hotel.reservationop.ResQuery;
 import com.gwthotel.hotel.stay.ResGuest;
 import com.gwtmodel.table.common.CUtil;
-import com.jython.serversecurity.OObjectId;
+import com.jython.serversecurity.cache.OObjectId;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaTransaction;
 

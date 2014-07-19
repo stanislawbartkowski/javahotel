@@ -30,7 +30,7 @@ import com.gwthotel.hotel.jpa.entities.EHotelCustomer;
 import com.gwthotel.hotel.jpa.entities.EHotelReservation;
 import com.gwthotel.mess.IHError;
 import com.gwthotel.mess.IHMess;
-import com.jython.serversecurity.OObjectId;
+import com.jython.serversecurity.cache.OObjectId;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 
 public class CustomerBillJpa extends AbstractJpaCrud<CustomerBill, ECustomerBill>

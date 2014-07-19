@@ -14,7 +14,7 @@ package com.gwthotel.hotel;
 
 import java.util.Date;
 
-import com.jython.serversecurity.OObjectId;
+import com.jython.serversecurity.cache.OObjectId;
 
 public interface IClearHotel {
 

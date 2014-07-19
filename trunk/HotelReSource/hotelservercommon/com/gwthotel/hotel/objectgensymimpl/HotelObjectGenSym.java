@@ -21,7 +21,7 @@ import com.gwthotel.mess.IHError;
 import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.PropDescription;
 import com.gwtmodel.table.common.CUtil;
-import com.jython.serversecurity.OObjectId;
+import com.jython.serversecurity.cache.OObjectId;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.storage.gensym.ISymGenerator;
 import com.jythonui.shared.JythonUIFatal;

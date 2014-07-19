@@ -14,7 +14,7 @@ package com.gwthotel.hotel;
 
 import java.util.List;
 
-import com.jython.serversecurity.OObjectId;
+import com.jython.serversecurity.cache.OObjectId;
 import com.jythonui.shared.RMap;
 
 public interface IHotelProp<T extends RMap> {

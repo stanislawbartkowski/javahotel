@@ -14,7 +14,7 @@ package com.gwthotel.hotel.payment;
 
 import java.util.List;
 
-import com.jython.serversecurity.OObjectId;
+import com.jython.serversecurity.cache.OObjectId;
 
 public interface IPaymentBillOp {
 

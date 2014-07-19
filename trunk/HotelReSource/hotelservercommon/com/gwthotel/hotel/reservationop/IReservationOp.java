@@ -18,7 +18,7 @@ import com.gwthotel.hotel.bill.CustomerBill;
 import com.gwthotel.hotel.reservation.ResStatus;
 import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
 import com.gwthotel.hotel.stay.ResGuest;
-import com.jython.serversecurity.OObjectId;
+import com.jython.serversecurity.cache.OObjectId;
 
 public interface IReservationOp {
 

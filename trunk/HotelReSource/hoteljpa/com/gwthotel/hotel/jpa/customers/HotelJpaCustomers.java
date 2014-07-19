@@ -25,7 +25,7 @@ import com.gwthotel.hotel.jpa.JUtils;
 import com.gwthotel.hotel.jpa.entities.EHotelCustomer;
 import com.gwthotel.mess.IHError;
 import com.gwthotel.mess.IHMess;
-import com.jython.serversecurity.OObjectId;
+import com.jython.serversecurity.cache.OObjectId;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 
 public class HotelJpaCustomers extends AbstractJpaCrud<HotelCustomer, EHotelCustomer>
