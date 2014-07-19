@@ -13,9 +13,9 @@
  */
 package com.gwthotel.admintest.guice;
 
-import com.gwthotel.auth.IRealmResources;
 import com.jython.serversecurity.IOObjectAdmin;
 import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.server.objectauth.IRealmResources;
 
 public class HotelAuthResources implements IRealmResources {
 

@@ -46,9 +46,10 @@ import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.jython.serversecurity.OObject;
-import com.jython.serversecurity.OObjectId;
 import com.jython.serversecurity.OObjectRoles;
 import com.jython.serversecurity.Person;
+import com.jython.serversecurity.cache.OObjectId;
+import com.jythonui.server.IConsts;
 import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.security.token.ICustomSecurity;
@@ -108,7 +109,7 @@ public class TestHelper extends CommonTestHelper {
         iPriceElem = ServiceInjector.getHotelPriceElem();
         iRooms = ServiceInjector.getHotelRooms();
         iCustomers = ServiceInjector.getHotelCustomers();
-//        iGetI = H.getInstanceHotelId();
+        // iGetI = H.getInstanceHotelId();
         iHGen = ServiceInjector.getHotelGenSym();
         hObjects = ServiceInjector.getHotelObjects();
         iRes = ServiceInjector.getReservationForm();
@@ -151,8 +152,8 @@ public class TestHelper extends CommonTestHelper {
 
     protected ICustomSecurity getSec(String hotel) {
         CustomSecurity cust = new CustomSecurity();
-        cust.setAttr(IHotelConsts.HOTELNAME, hotel);
-        cust.setAttr(IHotelConsts.INSTANCEID, TESTINSTANCE);
+        cust.setAttr(IConsts.OBJECTNAME, hotel);
+        cust.setAttr(IConsts.INSTANCEID, TESTINSTANCE);
         ICustomSecurity cu = Holder.getSecurityConvert().construct(cust);
         return cu;
     }
