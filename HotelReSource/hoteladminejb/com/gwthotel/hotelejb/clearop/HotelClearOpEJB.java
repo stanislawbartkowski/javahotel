@@ -28,7 +28,7 @@ import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.table.common.dateutil.ISetTestToday;
-import com.jython.serversecurity.OObjectId;
+import com.jython.serversecurity.cache.OObjectId;
 import com.jythonui.server.defa.GuiceInterceptor;
 
 @Stateless

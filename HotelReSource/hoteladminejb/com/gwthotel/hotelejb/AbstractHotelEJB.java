@@ -16,7 +16,7 @@ import java.util.List;
 
 import com.gwthotel.hotel.IHotelProp;
 import com.gwthotel.shared.PropDescription;
-import com.jython.serversecurity.OObjectId;
+import com.jython.serversecurity.cache.OObjectId;
 
 abstract public class AbstractHotelEJB<T extends PropDescription> implements
         IHotelProp<T> {
