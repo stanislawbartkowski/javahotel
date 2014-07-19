@@ -34,10 +34,10 @@ public interface IHotelConsts {
     String HOTELBILLJNDI = "java:global/HotelBills";
     String HOTELPAYMENTOPJNDI = "java:global/HotelPaymentOp";
 
-    String HOTELREALM = "HotelRealm";
+//    String HOTELREALM = "HotelRealm";
 
-    String HOTELNAME = "hotelloginname";
-    String INSTANCEID = "hotelinstanceid";
+//    String HOTELNAME = "hotelloginname";
+//    String INSTANCEID = "hotelinstanceid";
 
     String HOTELURLQUERY = "hotel";
 

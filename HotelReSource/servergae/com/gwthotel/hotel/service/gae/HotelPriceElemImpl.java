@@ -27,7 +27,7 @@ import com.gwthotel.hotel.prices.HotelPriceElem;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
 import com.gwthotel.hotel.service.gae.entities.EHotelPriceElem;
 import com.gwthotel.shared.IHotelConsts;
-import com.jython.serversecurity.OObjectId;
+import com.jython.serversecurity.cache.OObjectId;
 import com.jython.ui.server.gae.security.entities.EObject;
 import com.jythonui.server.getmess.IGetLogMess;
 

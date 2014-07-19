@@ -35,7 +35,7 @@ import com.gwthotel.mess.IHError;
 import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.table.common.CUtil;
-import com.jython.serversecurity.OObjectId;
+import com.jython.serversecurity.cache.OObjectId;
 import com.jython.ui.server.gae.security.entities.EInstance;
 import com.jython.ui.server.gae.security.entities.EObject;
 import com.jython.ui.server.gae.security.impl.EntUtil;
