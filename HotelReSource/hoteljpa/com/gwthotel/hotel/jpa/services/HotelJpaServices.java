@@ -23,7 +23,7 @@ import com.gwthotel.hotel.jpa.entities.EHotelServices;
 import com.gwthotel.hotel.services.HotelServices;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.shared.IHotelConsts;
-import com.jython.serversecurity.OObjectId;
+import com.jython.serversecurity.cache.OObjectId;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 
 public class HotelJpaServices extends AbstractJpaCrud<HotelServices, EHotelServices>

@@ -18,7 +18,6 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.name.Names;
 import com.gwthotel.admin.holder.HHolder;
-import com.gwthotel.auth.SecurityConverter;
 import com.gwthotel.hotel.IHotelGetName;
 import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.IHotelObjectsFactory;
@@ -30,6 +29,7 @@ import com.gwthotel.mess.HotelMessProvider;
 import com.gwthotel.shared.IHotelConsts;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.guice.JythonServerService.JythonServiceModule;
+import com.jythonui.server.objectauth.SecurityConverter;
 import com.jythonui.server.security.ISecurityConvert;
 import com.jythonui.server.storage.gensym.ISymGenerator;
 

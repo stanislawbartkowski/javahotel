@@ -29,7 +29,7 @@ import com.gwthotel.hotel.jpa.entities.EHotelServices;
 import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.HotelServices;
-import com.jython.serversecurity.OObjectId;
+import com.jython.serversecurity.cache.OObjectId;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 
 public class HotelJpaRooms extends AbstractJpaCrud<HotelRoom, EHotelRoom> implements

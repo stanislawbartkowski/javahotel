@@ -13,7 +13,7 @@
 package com.gwthotel.hotel;
 
 import com.gwthotel.shared.PropDescription;
-import com.jython.serversecurity.OObjectId;
+import com.jython.serversecurity.cache.OObjectId;
 
 public interface IHotelObjectGenSym {
 

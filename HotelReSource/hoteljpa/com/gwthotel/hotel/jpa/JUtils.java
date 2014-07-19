@@ -39,7 +39,7 @@ import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwthotel.shared.PropDescription;
 import com.gwtmodel.table.common.CUtil;
-import com.jython.serversecurity.OObjectId;
+import com.jython.serversecurity.cache.OObjectId;
 import com.jython.serversecurity.jpa.PropUtils;
 import com.jythonui.server.RUtils;
 import com.jythonui.shared.JythonUIFatal;

@@ -16,7 +16,7 @@ import java.util.List;
 
 import com.gwthotel.hotel.IHotelProp;
 import com.gwthotel.hotel.services.HotelServices;
-import com.jython.serversecurity.OObjectId;
+import com.jython.serversecurity.cache.OObjectId;
 
 public interface IHotelRooms extends IHotelProp<HotelRoom> {
     

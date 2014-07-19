@@ -29,7 +29,7 @@ import com.gwthotel.hotel.jpa.entities.EHotelReservation;
 import com.gwthotel.hotel.jpa.entities.EHotelRoom;
 import com.gwthotel.hotel.jpa.entities.EHotelServices;
 import com.gwtmodel.table.common.dateutil.ISetTestToday;
-import com.jython.serversecurity.OObjectId;
+import com.jython.serversecurity.cache.OObjectId;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaTransaction;
 

@@ -22,7 +22,7 @@ import com.gwthotel.hotel.jpa.JUtils;
 import com.gwthotel.hotel.jpa.entities.EHotelPriceList;
 import com.gwthotel.hotel.pricelist.HotelPriceList;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
-import com.jython.serversecurity.OObjectId;
+import com.jython.serversecurity.cache.OObjectId;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 
 public class HotelJpaPriceList extends

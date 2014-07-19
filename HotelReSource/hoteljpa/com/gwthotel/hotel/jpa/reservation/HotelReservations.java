@@ -29,7 +29,7 @@ import com.gwthotel.hotel.jpa.entities.EHotelReservationDetail;
 import com.gwthotel.hotel.reservation.IReservationForm;
 import com.gwthotel.hotel.reservation.ReservationForm;
 import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
-import com.jython.serversecurity.OObjectId;
+import com.jython.serversecurity.cache.OObjectId;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 
 public class HotelReservations extends

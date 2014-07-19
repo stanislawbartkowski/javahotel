@@ -24,7 +24,7 @@ import com.gwthotel.hotel.jpa.entities.EBillPayment;
 import com.gwthotel.hotel.jpa.entities.ECustomerBill;
 import com.gwthotel.hotel.payment.IPaymentBillOp;
 import com.gwthotel.hotel.payment.PaymentBill;
-import com.jython.serversecurity.OObjectId;
+import com.jython.serversecurity.cache.OObjectId;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaTransaction;
 import com.jythonui.server.BUtil;

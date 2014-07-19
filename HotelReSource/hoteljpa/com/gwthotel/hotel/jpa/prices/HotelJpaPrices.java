@@ -28,7 +28,7 @@ import com.gwthotel.hotel.jpa.entities.EHotelPriceList;
 import com.gwthotel.hotel.jpa.entities.EHotelServices;
 import com.gwthotel.hotel.prices.HotelPriceElem;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
-import com.jython.serversecurity.OObjectId;
+import com.jython.serversecurity.cache.OObjectId;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaTransaction;
 
