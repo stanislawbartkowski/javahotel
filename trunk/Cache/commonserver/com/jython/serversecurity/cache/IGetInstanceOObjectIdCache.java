@@ -10,35 +10,16 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jython.serversecurity;
+package com.jython.serversecurity.cache;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import com.jython.serversecurity.AppInstanceId;
 
-import com.jythonui.shared.RMap;
+public interface IGetInstanceOObjectIdCache {
 
-public class OObjectRoles implements Serializable {
+    AppInstanceId getInstance(String instanceName, String userName);
 
-    private static final long serialVersionUID = 1L;
+    OObjectId getOObject(String instanceName, String objectName, String userName);
 
-    private final RMap object;
-    private final List<String> roles = new ArrayList<String>();
-
-    public OObjectRoles(RMap object) {
-        this.object = object;
-    }
-
-    public OObjectRoles() {
-        this(null);
-    }
-
-    public RMap getObject() {
-        return object;
-    }
-
-    public List<String> getRoles() {
-        return roles;
-    }
+    void invalidateCache();
 
 }
