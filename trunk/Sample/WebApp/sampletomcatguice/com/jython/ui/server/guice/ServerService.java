@@ -43,11 +43,8 @@ import com.jythonui.server.defa.EmptyConnectionProvider;
 import com.jythonui.server.defa.EmptyRPCNotifier;
 import com.jythonui.server.defa.IGetResourceJNDI;
 import com.jythonui.server.defa.IsCached;
-import com.jythonui.server.defa.SecurityNullConvert;
 import com.jythonui.server.defa.ServerPropertiesEnv;
-import com.jythonui.server.defa.StorageRealmRegistryFactory;
 import com.jythonui.server.guice.JythonServerService;
-import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.security.ISecurityConvert;
 import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.server.semaphore.impl.SemaphoreSynch;
@@ -77,8 +74,6 @@ public class ServerService {
                     Singleton.class);
             bind(EntityManagerFactory.class).toProvider(
                     EntityManagerFactoryProvider.class).in(Singleton.class);
-            bind(ISecurityConvert.class).to(SecurityNullConvert.class).in(
-                    Singleton.class);
             bind(IGetResourceJNDI.class).to(GetResourceJNDI.class).in(
                     Singleton.class);
             bind(ISemaphore.class).to(SemaphoreSynch.class).in(Singleton.class);
