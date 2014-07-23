@@ -12,28 +12,13 @@
  */
 package com.jythonui.server;
 
-import com.jythonui.server.resource.IReadResource;
+import com.jython.serversecurity.AppInstanceId;
+import com.jython.serversecurity.cache.OObjectId;
 
-/**
- * @author hotel
- * 
- */
-public interface IJythonUIServerProperties {
+public interface IResolveNameFromToken {
 
-	IReadResource getResource();
-
-	String getJythonPackageDirectory();
-
-	String getJythonSharedDirectory();
-
-	String getEJBHost();
-
-	String getEJBPort();
-
-	boolean isCached();
-
-	boolean isSerialized();
-
-	String getAppPropertiesFile();
+    OObjectId getObject(String token);
+    
+    AppInstanceId getInstance(String token);
 
 }

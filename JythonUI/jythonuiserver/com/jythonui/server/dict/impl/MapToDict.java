@@ -10,30 +10,33 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server;
+package com.jythonui.server.dict.impl;
 
-import com.jythonui.server.resource.IReadResource;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
-/**
- * @author hotel
- * 
- */
-public interface IJythonUIServerProperties {
+import com.jythonui.server.dict.DictEntry;
 
-	IReadResource getResource();
+public class MapToDict {
 
-	String getJythonPackageDirectory();
+	private MapToDict() {
+	}
 
-	String getJythonSharedDirectory();
+	static List<DictEntry> toDict(Map<String, String> mess) {
 
-	String getEJBHost();
+		List<DictEntry> cList = new ArrayList<DictEntry>();
 
-	String getEJBPort();
-
-	boolean isCached();
-
-	boolean isSerialized();
-
-	String getAppPropertiesFile();
+		for (Entry<String, String> e : mess.entrySet()) {
+			String key = (String) e.getKey();
+			String name = (String) e.getValue();
+			DictEntry c = new DictEntry();
+			c.setName(key);
+			c.setDescription(name);
+			cList.add(c);
+		}
+		return cList;
+	}
 
 }

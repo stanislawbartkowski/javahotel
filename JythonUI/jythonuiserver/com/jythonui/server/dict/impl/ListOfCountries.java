@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server.dict;
+package com.jythonui.server.dict.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,6 +20,8 @@ import java.util.Locale;
 
 import com.gwtmodel.table.common.CUtil;
 import com.jythonui.server.Util;
+import com.jythonui.server.dict.DictEntry;
+import com.jythonui.server.dict.IGetLocalizedDict;
 
 public class ListOfCountries implements IGetLocalizedDict {
 

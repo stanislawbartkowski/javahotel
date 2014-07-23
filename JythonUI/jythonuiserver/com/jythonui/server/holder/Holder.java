@@ -24,9 +24,11 @@ import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.IJythonUIServerProperties;
+import com.jythonui.server.IResolveNameFromToken;
 import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.IXMLToMap;
 import com.jythonui.server.dict.IGetLocalizedDict;
+import com.jythonui.server.dict.IReadDictFromFile;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.resbundle.IAppMess;
@@ -37,191 +39,205 @@ import com.jythonui.shared.RequestContext;
 
 public class Holder {
 
-    @Inject
-    private static IJythonUIServer iServer;
+	@Inject
+	private static IJythonUIServer iServer;
 
-    @Inject
-    private static IJythonClientRes iClient;
+	@Inject
+	private static IJythonClientRes iClient;
 
-    @Inject
-    private static ISecurity iSec;
+	@Inject
+	private static ISecurity iSec;
 
-    @Inject
-    private static IXMLTransformer iXml;
+	@Inject
+	private static IXMLTransformer iXml;
 
-    @Inject
-    private static IGetConnection getConnection;
+	@Inject
+	private static IGetConnection getConnection;
 
-    @Inject
-    private static IJythonUIServerProperties iJython;
+	@Inject
+	private static IJythonUIServerProperties iJython;
 
-    @Inject
-    private static IStorageRegistryFactory regFactory;
+	@Inject
+	private static IStorageRegistryFactory regFactory;
 
-    @Inject
-    private static IJythonRPCNotifier iRPC;
+	@Inject
+	private static IJythonRPCNotifier iRPC;
 
-    private static boolean auth = false;
+	private static boolean auth = false;
 
-    @Inject
-    @Named(IConsts.APPMESS)
-    private static IAppMess appMess;
+	@Inject
+	@Named(IConsts.APPMESS)
+	private static IAppMess appMess;
 
-    @Inject
-    private static ISecurityConvert iConvert;
+	@Inject
+	private static ISecurityConvert iConvert;
 
-    @Inject
-    @Named(ISharedConsts.PERSONSONLYSECURITY)
-    private static ISecurityConvert iPersonConvert;
+	@Inject
+	@Named(ISharedConsts.PERSONSONLYSECURITY)
+	private static ISecurityConvert iPersonConvert;
 
-    @Inject
-    private static IXMLToMap xmlMap;
+	@Inject
+	private static IXMLToMap xmlMap;
 
-    @Inject
-    @Named(IConsts.COUNTRIESDICT)
-    private static IGetLocalizedDict iListC;
+	@Inject
+	@Named(IConsts.COUNTRIESDICT)
+	private static IGetLocalizedDict iListC;
 
-    @Inject
-    @Named(IConsts.TITLESDICT)
-    private static IGetLocalizedDict iListT;
+	@Inject
+	@Named(IConsts.TITLESDICT)
+	private static IGetLocalizedDict iListT;
 
-    @Inject
-    @Named(IConsts.IDTYPEDICT)
-    private static IGetLocalizedDict iListI;
+	@Inject
+	@Named(IConsts.IDTYPEDICT)
+	private static IGetLocalizedDict iListI;
 
-    @Inject
-    @Named(IConsts.PAYMENTDICT)
-    private static IGetLocalizedDict iListP;
+	@Inject
+	@Named(IConsts.PAYMENTDICT)
+	private static IGetLocalizedDict iListP;
 
-    @Inject
-    @Named(IConsts.ROLES)
-    private static IGetLocalizedDict iListR;
+	@Inject
+	@Named(IConsts.ROLES)
+	private static IGetLocalizedDict iListR;
 
-    @Inject
-    @Named(IConsts.VATDICT)
-    private static IGetLocalizedDict iListV;
+	@Inject
+	@Named(IConsts.VATDICT)
+	private static IGetLocalizedDict iListV;
 
-    @Inject
-    private static IOObjectAdmin iAdmin;
+	@Inject
+	private static IOObjectAdmin iAdmin;
 
-    @Inject
-    private static IGetInstanceOObjectIdCache iICache;
+	@Inject
+	private static IGetInstanceOObjectIdCache iICache;
 
-    @Inject
-    private static IDefaultData dData;
+	@Inject
+	private static IDefaultData dData;
 
-    @Inject
-    @Named(ISharedConsts.PERSONSONLYSECURITY)
-    protected static IOObjectAdmin iPerson;
+	@Inject
+	@Named(ISharedConsts.PERSONSONLYSECURITY)
+	private static IOObjectAdmin iPerson;
 
-    private static final ThreadLocal<RequestContext> locale = new ThreadLocal<RequestContext>();
+	@Inject
+	private static IResolveNameFromToken iToken;
 
-    public static boolean isAuth() {
-        return auth;
-    }
+	@Inject
+	private static IReadDictFromFile iReadDict;
 
-    public static void setAuth(boolean pauth) {
-        auth = pauth;
-    }
+	private static final ThreadLocal<RequestContext> locale = new ThreadLocal<RequestContext>();
 
-    public static IJythonUIServer getiServer() {
-        return iServer;
-    }
+	public static boolean isAuth() {
+		return auth;
+	}
 
-    public static IJythonClientRes getiClient() {
-        return iClient;
-    }
+	public static void setAuth(boolean pauth) {
+		auth = pauth;
+	}
 
-    public static ISecurity getiSec() {
-        return iSec;
-    }
+	public static IJythonUIServer getiServer() {
+		return iServer;
+	}
 
-    public static void setContext(RequestContext req) {
-        locale.set(req);
-    }
+	public static IJythonClientRes getiClient() {
+		return iClient;
+	}
 
-    public static RequestContext getRequest() {
-        return locale.get();
-    }
+	public static ISecurity getiSec() {
+		return iSec;
+	}
 
-    public static IAppMess getAppMess() {
-        return appMess;
-    }
+	public static void setContext(RequestContext req) {
+		locale.set(req);
+	}
 
-    public static ISecurityConvert getSecurityConvert() {
-        return iConvert;
-    }
+	public static RequestContext getRequest() {
+		return locale.get();
+	}
 
-    public static ISecurityConvert getPersonSecurityConvert() {
-        return iPersonConvert;
-    }
+	public static IAppMess getAppMess() {
+		return appMess;
+	}
 
-    public static IGetLogMess getM() {
-        return SHolder.getM();
-    }
+	public static ISecurityConvert getSecurityConvert() {
+		return iConvert;
+	}
 
-    public static IXMLTransformer getXMLTransformer() {
-        return iXml;
-    }
+	public static ISecurityConvert getPersonSecurityConvert() {
+		return iPersonConvert;
+	}
 
-    public static IGetConnection getJDBCConnection() {
-        return getConnection;
-    }
+	public static IGetLogMess getM() {
+		return SHolder.getM();
+	}
 
-    public static IXMLToMap getMapXML() {
-        return xmlMap;
-    }
+	public static IXMLTransformer getXMLTransformer() {
+		return iXml;
+	}
 
-    public static IGetLocalizedDict getListOfCountries() {
-        return iListC;
-    }
+	public static IGetConnection getJDBCConnection() {
+		return getConnection;
+	}
 
-    public static IGetLocalizedDict getListOfTitles() {
-        return iListT;
-    }
+	public static IXMLToMap getMapXML() {
+		return xmlMap;
+	}
 
-    public static IGetLocalizedDict getListOfIdTypes() {
-        return iListI;
-    }
+	public static IGetLocalizedDict getListOfCountries() {
+		return iListC;
+	}
 
-    public static IGetLocalizedDict getListOfPayment() {
-        return iListP;
-    }
+	public static IGetLocalizedDict getListOfTitles() {
+		return iListT;
+	}
 
-    public static IGetLocalizedDict IGetListOfDefaultRoles() {
-        return iListR;
-    }
+	public static IGetLocalizedDict getListOfIdTypes() {
+		return iListI;
+	}
 
-    public static IGetLocalizedDict IGetListOfVat() {
-        return iListV;
-    }
+	public static IGetLocalizedDict getListOfPayment() {
+		return iListP;
+	}
 
-    public static IDefaultData getDefaultData() {
-        return dData;
-    }
+	public static IGetLocalizedDict IGetListOfDefaultRoles() {
+		return iListR;
+	}
 
-    public static IJythonUIServerProperties getIJython() {
-        return iJython;
-    }
+	public static IGetLocalizedDict IGetListOfVat() {
+		return iListV;
+	}
 
-    public static IStorageRegistryFactory getRegFactory() {
-        return regFactory;
-    }
+	public static IDefaultData getDefaultData() {
+		return dData;
+	}
 
-    public static IJythonRPCNotifier getRPC() {
-        return iRPC;
-    }
+	public static IJythonUIServerProperties getIJython() {
+		return iJython;
+	}
 
-    public static IOObjectAdmin getAdmin() {
-        return iAdmin;
-    }
+	public static IStorageRegistryFactory getRegFactory() {
+		return regFactory;
+	}
 
-    public static IGetInstanceOObjectIdCache getInstanceCache() {
-        return iICache;
-    }
+	public static IJythonRPCNotifier getRPC() {
+		return iRPC;
+	}
 
-    public static IOObjectAdmin getAdminPerson() {
-        return iPerson;
-    }
+	public static IOObjectAdmin getAdmin() {
+		return iAdmin;
+	}
+
+	public static IGetInstanceOObjectIdCache getInstanceCache() {
+		return iICache;
+	}
+
+	public static IOObjectAdmin getAdminPerson() {
+		return iPerson;
+	}
+
+	public static IResolveNameFromToken getNameFromToken() {
+		return iToken;
+	}
+
+	public static IReadDictFromFile getReadDict() {
+		return iReadDict;
+	}
 
 }
