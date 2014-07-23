@@ -16,6 +16,6 @@ import com.jythonui.shared.CustomSecurity;
 
 public interface IJythonClientStart {
 
-    void start(String startXML, CustomSecurity iCustom);
+    void start(CustomSecurity iCustom);
 
 }
