@@ -20,33 +20,43 @@ import javax.inject.Inject;
 
 import com.gwtmodel.commoncache.ICommonCache;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
+import com.gwtmodel.table.common.CUtil;
 import com.jythonui.server.IGetAppProp;
+import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.MUtil;
 import com.jythonui.server.Util;
 import com.jythonui.shared.ICommonConsts;
 
 public class GetAppProperties implements IGetAppProp {
 
-    private final ICommonCache iCache;
+	private final ICommonCache iCache;
+	private final IJythonUIServerProperties iProp;
 
-    @Inject
-    public GetAppProperties(ICommonCacheFactory cFactory) {
-        this.iCache = cFactory.construct(ICommonConsts.APP_FILENAME);
-    }
+	@Inject
+	public GetAppProperties(ICommonCacheFactory cFactory,
+			IJythonUIServerProperties iProp) {
+		this.iCache = cFactory.construct(ICommonConsts.APP_FILENAME);
+		this.iProp = iProp;
+	}
 
-    @Override
-    public Map<String, String> get() {
-        @SuppressWarnings("unchecked")
-        Map<String, String> m = (Map<String, String>) iCache
-                .get(ICommonConsts.APP_FILENAME);
-        if (m != null)
-            return m;
-        Properties prop = Util.getProperties(ICommonConsts.APP_FILENAME);
-        m = new HashMap<String, String>();
-        if (prop != null)
-            MUtil.toElem(m, prop);
-        iCache.put(ICommonConsts.APP_FILENAME, m);
-        return m;
-    }
+	@Override
+	public Map<String, String> get() {
+		@SuppressWarnings("unchecked")
+		Map<String, String> m = (Map<String, String>) iCache
+				.get(ICommonConsts.APP_FILENAME);
+		if (m != null)
+			return m;
+		Properties prop = Util.getProperties(ICommonConsts.APP_FILENAME);
+		m = new HashMap<String, String>();
+		if (prop != null)
+			MUtil.toElem(m, prop);
+		if (!CUtil.EmptyS(iProp.getAppPropertiesFile())) {
+			prop = Util.getPropertiesFromFile(iProp.getAppPropertiesFile());
+			if (prop != null)
+				MUtil.toElem(m, prop);
+		}
+		iCache.put(ICommonConsts.APP_FILENAME, m);
+		return m;
+	}
 
 }

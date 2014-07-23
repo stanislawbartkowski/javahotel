@@ -24,7 +24,6 @@ import com.jythonui.server.UtilHelper;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
-import com.jythonui.server.security.ISecurity;
 import com.jythonui.shared.CustomMessages;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogInfo;
@@ -40,15 +39,13 @@ import com.jythonui.shared.RequestContext;
 public class JythonUIServer extends UtilHelper implements IJythonUIServer {
 
     private final IJythonUIServerProperties p;
-    private final ISecurity iSec;
     private final IGetDialog iDialog;
     private final IExecuteJython iJython;
 
     @Inject
     public JythonUIServer(IJythonUIServerProperties p, ICommonCache mCache,
-            ISecurity iSec, IGetDialog iDialog, IExecuteJython iJython) {
+            IGetDialog iDialog, IExecuteJython iJython) {
         this.p = p;
-        this.iSec = iSec;
         this.iDialog = iDialog;
         this.iJython = iJython;
     }

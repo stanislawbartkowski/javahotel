@@ -10,30 +10,12 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server;
+package com.jythonui.server.dict;
 
-import com.jythonui.server.resource.IReadResource;
+import java.util.List;
 
-/**
- * @author hotel
- * 
- */
-public interface IJythonUIServerProperties {
+public interface IReadDictFromFile {
 
-	IReadResource getResource();
-
-	String getJythonPackageDirectory();
-
-	String getJythonSharedDirectory();
-
-	String getEJBHost();
-
-	String getEJBPort();
-
-	boolean isCached();
-
-	boolean isSerialized();
-
-	String getAppPropertiesFile();
+	List<DictEntry> getDict(String dir, String dicname);
 
 }

@@ -81,6 +81,10 @@ def setJCheckList(var,list,seq):
     else : var["JCHECK_MAP"][list] = seq
   else : var["JCHECK_MAP"] = { list : seq }
 
+def disableJCheckList(var,id,disable=True) :
+       var["JSETATTR_CHECKLIST_" + id +"_readonly"] = disable
+       var["JVALATTR_CHECKLIST_"+ id +"_readonly"] = "" 
+
 def createArrayList() :
   return ArrayList()   
   
@@ -425,6 +429,20 @@ def concatDict(dic1,dic2):
     for key in dic2.keys() :
         res[key] = dic2[key]
     return res    
+
+def createSeq(list,addName=False, displayname=None):    
+    seq = []
+    for s in list :
+        m = {}
+        m["id"] = s.getName()
+        if displayname : m["displayname"] = displayname(s)
+        else :
+          if s.getDescription() == None : m["displayname"] = m["id"]
+          else :
+            if addName :  m["displayname"] = s.getName() + " " + s.getDescription()
+            else : m["displayname"] = s.getDescription()
+        seq.append(m)
+    return seq       
     
 def today():
     return con.today()
@@ -504,6 +522,10 @@ def getDicName(what,id):
         if c.getName().upper() == id.upper() : return c.getDescription()
     return None
 
+def getDictFromFile(dire,dictname) :
+  i = Holder.getReadDict()
+  seq = i.getDict(dire, dictname)
+  return seq
 
 class DEFAULTDATA :
   
@@ -536,7 +558,7 @@ class DEFAULTDATA :
   def putDataB(self,key,val) :
     if val : self.putData(key,"1")
     else : self.putData(key,"0")    
-   
+       
 # ==========================
 
 def urlParList(var) :
@@ -574,5 +596,13 @@ def getMapFieldList(dialogName,list=None):
       l.append(name)
   return l    
   
+# =============================
+def getPerson(var):
+    token = var["SECURITY_TOKEN"]
+    return Holder.getNameFromToken().getInstance(token).getPerson()
+
+def getAppId(var):
+    token = var["SECURITY_TOKEN"]
+    return Holder.getNameFromToken().getInstance(token)
     
       

@@ -12,8 +12,6 @@
  */
 package com.jythonui.server.resimpl;
 
-import java.io.File;
-import java.net.MalformedURLException;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -47,22 +45,7 @@ public class GetResourceMapImpl implements IGetResourceMap {
             map = (Map<String, String>) iCache.get(keyCache);
         }
         if (map == null) {
-//            ReadBundle.ILocaleBundle i = ReadBundle.getLocale(loc, dir, bundle);
             map = ReadBundle.getBundle(iRead, loc, dir, bundle);
-//            if (cl != null) {
-//                map = ReadBundle.getBundle(cl.getResource(i.getDefa()),
-//                        i.getLoc() == null ? null : cl.getResource(i.getLoc()));
-//            } else {
-//                try {
-//                    map = ReadBundle.getBundle(new File(i.getDefa()).toURI()
-//                            .toURL(),
-//                            i.getLoc() == null ? null : new File(i.getLoc())
-//                                    .toURI().toURL());
-//                } catch (MalformedURLException e) {
-//                    // TODO Auto-generated catch block
-//                    e.printStackTrace();
-//                }
-//            }
         }
         if (iRes.isCached())
             iCache.put(keyCache, map);

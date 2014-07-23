@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server.dict;
+package com.jythonui.server.dict.impl;
 
 import java.util.List;
 
@@ -19,10 +19,10 @@ import javax.inject.Named;
 
 import com.gwtmodel.table.map.XMap;
 import com.jythonui.server.ISharedConsts;
-import com.jythonui.server.getmess.IGetLogMess;
-import com.jythonui.server.resource.IReadResourceFactory;
+import com.jythonui.server.dict.DictEntry;
+import com.jythonui.server.dict.IGetLocalizedDict;
+import com.jythonui.server.dict.VatTax;
 import com.jythonui.server.xml.IXMLHelper;
-import com.jythonui.server.xml.IXMLToXMap;
 import com.jythonui.server.xml.IXMapFactory;
 
 public class GetVatTaxes implements IGetLocalizedDict {
