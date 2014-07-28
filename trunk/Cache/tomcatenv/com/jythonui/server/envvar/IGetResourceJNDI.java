@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server.defa;
+package com.jythonui.server.envvar;
 
 public interface IGetResourceJNDI {
 
