@@ -26,7 +26,10 @@ import javax.mail.internet.MimeMessage;
  * 
  * @author perseus
  */
-public class SendMail {
+
+// TODO: remove later
+
+class SendMail {
 
 	public static final String PROTOCOL = "mail.transport.protocol";
 	public static final String USER = "mail.smtp.user";

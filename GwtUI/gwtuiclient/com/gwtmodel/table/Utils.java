@@ -39,7 +39,6 @@ import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
-import com.jythonui.shared.ICommonConsts;
 
 public class Utils {
 
@@ -442,4 +441,5 @@ public class Utils {
     public static void RemoveCookie(String key) {
         Cookies.removeCookie(jPrefix() + key);
     }
+
 }

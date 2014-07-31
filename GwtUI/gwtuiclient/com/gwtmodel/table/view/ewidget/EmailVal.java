@@ -10,24 +10,25 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.mail;
+package com.gwtmodel.table.view.ewidget;
 
-import com.gwtmodel.table.ICustomObject;
-import com.gwtmodel.table.mailcommon.CListOfMailProperties;
-import java.util.List;
-import java.util.Map;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.InputElement;
+import com.google.gwt.user.client.ui.TextBoxBase;
+import com.gwtmodel.table.IConsts;
 
-/**
- *
- * @author perseus
- */
-@SuppressWarnings("serial")
-public class ListOfMailProperties extends CListOfMailProperties implements ICustomObject {
+class EmailVal extends TextBoxBase {
 
+    public static native InputElement createInputElement(Document doc,
+            String type) /*-{
+		var e = doc.createElement("INPUT");
+		e.type = type;
+		return e;
+    }-*/;
 
-    public ListOfMailProperties(List<Map<String, String>> mList, String errMess) {
-    	setmList(mList);
-    	setErrMess(errMess);
+    EmailVal() {
+        super(createInputElement(Document.get(), "email"));
+        this.addStyleName(IConsts.EMAILSTYLE);
     }
 
 }
