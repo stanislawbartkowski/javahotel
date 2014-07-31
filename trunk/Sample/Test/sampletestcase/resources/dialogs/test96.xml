@@ -9,6 +9,7 @@
     <form>
         <field id="bignumber" type="decimal" afterdot="4" />
         <field id="no" type="int" />
+        <field id="email" type="email" />
     </form>        
 
 </dialog>

@@ -21,7 +21,7 @@ import com.jythonui.client.injector.UIGiniInjector;
 public class WebJythonUi implements EntryPoint {
 
     public void onModuleLoad() {
-        UIGiniInjector.getI().getJythonClientStart().start(null, null);
+        UIGiniInjector.getI().getJythonClientStart().start(null);
     }
 
 }

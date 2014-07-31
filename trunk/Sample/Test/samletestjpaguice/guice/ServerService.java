@@ -12,6 +12,7 @@
  */
 package guice;
 
+import javax.mail.Session;
 import javax.persistence.EntityManagerFactory;
 
 import com.google.inject.Provides;
@@ -45,6 +46,7 @@ import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.defa.EmptyConnectionProvider;
 import com.jythonui.server.defa.EmptyRPCNotifier;
+import com.jythonui.server.defa.JavaMailSessionProvider;
 import com.jythonui.server.guavacache.GuavaCacheFactory;
 import com.jythonui.server.guice.JythonServerService.JythonServiceModule;
 import com.jythonui.server.semaphore.ISemaphore;
@@ -72,7 +74,7 @@ public class ServerService {
             bind(EntityManagerFactory.class).toProvider(
                     EntityManagerFactoryProvider.class).in(Singleton.class);
             bind(ICommonCacheFactory.class).to(GuavaCacheFactory.class).in(
-                    Singleton.class);            
+                    Singleton.class);
 
             // common
             bind(IStorageJpaRegistryFactory.class).to(
@@ -91,6 +93,8 @@ public class ServerService {
                     Singleton.class);
             bind(IOObjectAdmin.class).to(OObjectAdminJpa.class).in(
                     Singleton.class);
+            bind(Session.class).toProvider(JavaMailSessionProvider.class).in(
+                    Singleton.class);            
             requestStatic();
             requestStaticInjection(TestHelper.class);
 

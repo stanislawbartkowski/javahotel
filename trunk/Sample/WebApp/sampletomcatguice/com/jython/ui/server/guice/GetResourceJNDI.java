@@ -12,30 +12,21 @@
  */
 package com.jython.ui.server.guice;
 
-import com.gwtmodel.containertype.ContainerInfo;
-import com.gwtmodel.containertype.ContainerType;
-import com.jythonui.server.defa.IGetResourceJNDI;
+import com.jythonui.server.envvar.IGetResourceJNDI;
 
 public class GetResourceJNDI implements IGetResourceJNDI {
 
     private final static String RESOURCEDIR = "sampleapp/resource";
     private final static String CACHED = "sampleapp/cached";
-    private final static String COMP = "java:comp/env/";
-
-    private String getRes(String res) {
-        if (ContainerInfo.getContainerType() == ContainerType.TOMCAT)
-            return COMP + res;
-        return res;
-    }
 
     @Override
     public String getResourceDir() {
-        return getRes(RESOURCEDIR);
+        return RESOURCEDIR;
     }
 
     @Override
     public String getCachedValue() {
-        return getRes(CACHED);
+        return CACHED;
     }
 
     @Override
