@@ -66,6 +66,7 @@ public interface ICommonConsts {
     int DEFAULTSPINNERMIN = 1;
     String SPINNERMAX = "spinnermax";
     int DEFAULTSPINNERMAX = 5;
+    String EMAILTYPE = "email";
     String AFTERDOT = "afterdot";
     String DEFVALUE = "defvalue";
     String COLNO = "colno";

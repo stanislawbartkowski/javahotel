@@ -15,6 +15,7 @@ package com.jythonui.server.holder;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.google.inject.Provider;
 import com.jython.serversecurity.IOObjectAdmin;
 import com.jython.serversecurity.cache.IGetInstanceOObjectIdCache;
 import com.jythonui.server.IConsts;
@@ -24,6 +25,7 @@ import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.IJythonUIServerProperties;
+import com.jythonui.server.IMailSendGet;
 import com.jythonui.server.IResolveNameFromToken;
 import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.IXMLToMap;
@@ -121,6 +123,9 @@ public class Holder {
 
 	@Inject
 	private static IReadDictFromFile iReadDict;
+	
+	@Inject
+	private static Provider<IMailSendGet> pMail;
 
 	private static final ThreadLocal<RequestContext> locale = new ThreadLocal<RequestContext>();
 
@@ -238,6 +243,10 @@ public class Holder {
 
 	public static IReadDictFromFile getReadDict() {
 		return iReadDict;
+	}
+	
+	public static IMailSendGet getMail() {
+	    return pMail.get();
 	}
 
 }

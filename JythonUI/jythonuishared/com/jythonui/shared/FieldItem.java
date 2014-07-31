@@ -12,6 +12,9 @@
  */
 package com.jythonui.shared;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.TT;
 
@@ -22,6 +25,19 @@ import com.gwtmodel.table.common.TT;
 public class FieldItem extends ElemDescription {
 
     private static final long serialVersionUID = 1L;
+
+    private static final Set<String> stringType = new HashSet<String>();
+
+    static {
+        stringType.add(ICommonConsts.EMAILTYPE);
+        stringType.add(ICommonConsts.STRINGTYPE);
+        stringType.add(ICommonConsts.TEXTAREA);
+        stringType.add(ICommonConsts.RICHTEXT);
+        stringType.add(ICommonConsts.UPLOADTYPE);
+        stringType.add(ICommonConsts.DOWNLOADTYPE);
+        stringType.add(ICommonConsts.HTMLTYPE);
+        stringType.add(ICommonConsts.PASSWORD);
+    }
 
     public String getTypeName() {
         return getAttr(ICommonConsts.TYPE);
@@ -55,15 +71,8 @@ public class FieldItem extends ElemDescription {
     }
 
     private TT getFieldType(String t) {
-        if (CUtil.EmptyS(t) || CUtil.EqNS(t, ICommonConsts.STRINGTYPE)
-                || CUtil.EqNS(t, ICommonConsts.TEXTAREA)
-                || CUtil.EqNS(t, ICommonConsts.RICHTEXT)
-                || CUtil.EqNS(t, ICommonConsts.UPLOADTYPE)
-                || CUtil.EqNS(t, ICommonConsts.DOWNLOADTYPE)
-                || CUtil.EqNS(t, ICommonConsts.HTMLTYPE)
-                || CUtil.EqNS(t, ICommonConsts.PASSWORD)) {
+        if (CUtil.EmptyS(t) || stringType.contains(t))
             return TT.STRING;
-        }
         if (getCustom() != null) {
             return TT.STRING;
         }
@@ -109,6 +118,10 @@ public class FieldItem extends ElemDescription {
 
     public boolean isUploadType() {
         return isType(ICommonConsts.UPLOADTYPE);
+    }
+
+    public boolean isEmailType() {
+        return isType(ICommonConsts.EMAILTYPE);
     }
 
     public boolean isDownloadType() {

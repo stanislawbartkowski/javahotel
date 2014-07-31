@@ -27,18 +27,8 @@ public class ReadDict {
 			.constructLoader(ReadDict.class.getClassLoader());
 
 	public static List<DictEntry> getList(IGetResourceMap iGet, String resName) {
-		// List<DictEntry> cList = new ArrayList<DictEntry>();
 		Map<String, String> mess = iGet
 				.getResourceMap(iRead, dictName, resName);
 		return MapToDict.toDict(mess);
-		// for (Entry<String, String> e : mess.entrySet()) {
-		// String key = (String) e.getKey();
-		// String name = (String) e.getValue();
-		// DictEntry c = new DictEntry();
-		// c.setName(key);
-		// c.setDescription(name);
-		// cList.add(c);
-		// }
-		// return cList;
 	}
 }

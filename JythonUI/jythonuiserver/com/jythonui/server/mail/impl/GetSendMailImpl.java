@@ -10,34 +10,28 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server;
+package com.jythonui.server.mail.impl;
 
-import java.net.URL;
+import javax.mail.Session;
 
-import com.jythonui.server.resource.IReadResource;
+import com.google.inject.Inject;
+import com.jythonui.server.IMailSendGet;
+import com.jythonui.server.mail.SendMail;
 
-/**
- * @author hotel
- * 
- */
-public interface IJythonUIServerProperties {
+public class GetSendMailImpl implements IMailSendGet {
 
-	IReadResource getResource();
+    private final Session session;
 
-	String getJythonPackageDirectory();
+    @Inject
+    public GetSendMailImpl(Session session) {
+        this.session = session;
+    }
 
-	String getJythonSharedDirectory();
-
-	String getEJBHost();
-
-	String getEJBPort();
-
-	boolean isCached();
-
-	boolean isSerialized();
-
-	URL getAppPropertiesFile();
-	
-	URL getMailPropertiesFile();
+    @Override
+    public String postMail(boolean text, String[] recipients, String subject,
+            String message, String from) {
+        return SendMail.postMail(session, text, recipients, subject, message,
+                from);
+    }
 
 }
