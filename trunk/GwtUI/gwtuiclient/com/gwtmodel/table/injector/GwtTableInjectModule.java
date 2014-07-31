@@ -31,7 +31,6 @@ import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.factories.IWebPanelResources;
 import com.gwtmodel.table.factories.customvalues.CustomValuesProvider;
 import com.gwtmodel.table.factories.customvalues.WebPanelResources;
-import com.gwtmodel.table.factories.mailtest.MailTestFactory;
 import com.gwtmodel.table.htmlview.HtmlPanelFactory;
 import com.gwtmodel.table.json.CreateJSonForIVData;
 import com.gwtmodel.table.json.IJsonConvert;
@@ -99,7 +98,6 @@ public class GwtTableInjectModule extends AbstractGinModule {
         bind(ISlotMediator.class).toProvider(SlotMediatorFactory.class);
         bind(ICallContext.class).to(CallContext.class);
         bind(StackPanelButtonFactory.class).in(Singleton.class);
-        bind(MailTestFactory.class).in(Singleton.class);
         bind(StackPanelControllerFactory.class).in(Singleton.class);
         bind(EditChooseRecordFactory.class).in(Singleton.class);
         bind(SplitViewFactory.class).in(Singleton.class);

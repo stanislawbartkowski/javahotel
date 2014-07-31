@@ -28,7 +28,6 @@ import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.factories.IWebPanelResources;
-import com.gwtmodel.table.factories.mailtest.MailTestFactory;
 import com.gwtmodel.table.htmlview.HtmlPanelFactory;
 import com.gwtmodel.table.json.IJsonConvert;
 import com.gwtmodel.table.login.LoginViewFactory;
@@ -103,8 +102,6 @@ public interface GwtTableInjector extends Ginjector {
     ICallContext getCallContext();
 
     StackPanelButtonFactory getStackPanelButtonFactory();
-
-    MailTestFactory getMailTestFactory();
 
     StackPanelFactory getStackPanelFactory();
 

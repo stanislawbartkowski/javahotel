@@ -191,7 +191,12 @@ public class EditWidgetFactory {
 
     public IFormLineView constructSpinner(IVField v, String htmlName, int min,
             int max) {
-        return new SpinnerBox(cValues, v, htmlName, min, max);
+        // return new SpinnerBox(cValues, v, htmlName, min, max);
+        return new TextWidgetBox(cValues, v, htmlName, new SpinnerInt(min, max));
+    }
+
+    public IFormLineView constructEmail(IVField v, String htmlName) {
+        return new TextWidgetBox(cValues, v, htmlName, new EmailVal());
     }
 
     public IFormLineView constructEditWidget(IVField v, String htmlName) {

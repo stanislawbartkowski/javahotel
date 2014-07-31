@@ -12,21 +12,179 @@
  */
 package com.gwtmodel.util;
 
-import com.gwtmodel.table.common.CUtil;
-import com.gwtmodel.table.mailcommon.CMailToSend;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import javax.mail.*;
+
+import javax.mail.Address;
+import javax.mail.Flags;
+import javax.mail.Folder;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.NoSuchProviderException;
+import javax.mail.Part;
+import javax.mail.Session;
+import javax.mail.Store;
 import javax.mail.internet.InternetAddress;
 
+import com.gwtmodel.table.common.CUtil;
+
 /**
- *
+ * 
  * @author perseus
  */
-public class CGetMailFrom {
+
+// TODO: remove later
+
+class CGetMailFrom {
+
+    static class CMailToSend implements Serializable {
+
+        private static final long serialVersionUID = 1L;
+
+        private Map<String, String> box;
+        private String boxName;
+        private String header;
+        private String content;
+        private String to;
+        private String from;
+        private boolean text;
+        private boolean isSeen;
+        private Date sentDate;
+        private String person;
+
+        public void setBoxName(String boxName) {
+            this.boxName = boxName;
+        }
+
+        public void setHeader(String header) {
+            this.header = header;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
+        }
+
+        public void setTo(String to) {
+            this.to = to;
+        }
+
+        public void setFrom(String from) {
+            this.from = from;
+        }
+
+        public void setText(boolean text) {
+            this.text = text;
+        }
+
+        /**
+         * @return the box
+         */
+        public Map<String, String> getBox() {
+            return box;
+        }
+
+        /**
+         * @return the header
+         */
+        public String getHeader() {
+            return header;
+        }
+
+        /**
+         * @return the content
+         */
+        public String getContent() {
+            return content;
+        }
+
+        /**
+         * @return the to
+         */
+        public String getTo() {
+            return to;
+        }
+
+        /**
+         * @return the from
+         */
+        public String getFrom() {
+            return from;
+        }
+
+        /**
+         * @return the text
+         */
+        public boolean isText() {
+            return text;
+        }
+
+        /**
+         * @return the boxName
+         */
+        public String getBoxName() {
+            return boxName;
+        }
+
+        /**
+         * @param box
+         *            the box to set
+         */
+        public void setBox(Map<String, String> box) {
+            this.box = box;
+        }
+
+        /**
+         * @return the isSeen
+         */
+        public boolean isIsSeen() {
+            return isSeen;
+        }
+
+        /**
+         * @param isSeen
+         *            the isSeen to set
+         */
+        public void setIsSeen(boolean isSeen) {
+            this.isSeen = isSeen;
+        }
+
+        /**
+         * @return the sentDate
+         */
+        public Date getSentDate() {
+            return sentDate;
+        }
+
+        /**
+         * @param sentDate
+         *            the sentDate to set
+         */
+        public void setSentDate(Date sentDate) {
+            this.sentDate = sentDate;
+        }
+
+        /**
+         * @return the person
+         */
+        public String getPerson() {
+            return person;
+        }
+
+        /**
+         * @param person
+         *            the person to set
+         */
+        public void setPerson(String person) {
+            this.person = person;
+        }
+
+    }
 
     @SuppressWarnings("serial")
     public static class CGetMailFromException extends Exception {
@@ -35,6 +193,7 @@ public class CGetMailFrom {
             super(t);
         }
     }
+
     public static final String HOST = "mail.in.host";
     public static final String USER = "mail.in.user";
     public static final String PASSWORD = "mail.in.password";
@@ -44,7 +203,8 @@ public class CGetMailFrom {
     private CGetMailFrom() {
     }
 
-    private static List<CMailToSend> ingetMail(Properties properties) throws NoSuchProviderException, MessagingException, IOException {
+    private static List<CMailToSend> ingetMail(Properties properties)
+            throws NoSuchProviderException, MessagingException, IOException {
 
         List<CMailToSend> liM = new ArrayList<CMailToSend>();
         String host = properties.getProperty(HOST);
@@ -52,7 +212,6 @@ public class CGetMailFrom {
         String password = properties.getProperty(PASSWORD);
         String debug = properties.getProperty(MAILDEBUG);
         String numb = properties.getProperty(MAILNUMB);
-
 
         // Get the default Session object.
         Session session = Session.getDefaultInstance(properties);
@@ -62,10 +221,11 @@ public class CGetMailFrom {
 
         Store store = session.getStore();
 
-        //Connect to the current host using the specified username and password.
+        // Connect to the current host using the specified username and
+        // password.
         store.connect(host, user, password);
 
-        //Create a Folder object corresponding to the given name.
+        // Create a Folder object corresponding to the given name.
         Folder folder = store.getFolder("inbox");
 
         // Open the Folder.
@@ -132,7 +292,8 @@ public class CGetMailFrom {
         return liM;
     }
 
-    public static List<CMailToSend> getMail(Properties properties) throws CGetMailFromException {
+    public static List<CMailToSend> getMail(Properties properties)
+            throws CGetMailFromException {
         try {
             List<CMailToSend> mLi = ingetMail(properties);
             return mLi;
@@ -145,7 +306,8 @@ public class CGetMailFrom {
         }
     }
 
-    public static List<CMailToSend> getMail(Map<String, String> ma) throws CGetMailFromException {
+    public static List<CMailToSend> getMail(Map<String, String> ma)
+            throws CGetMailFromException {
         Properties prop = FileUtil.MapToProperty(ma);
         return getMail(prop);
     }

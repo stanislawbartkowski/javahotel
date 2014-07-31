@@ -38,6 +38,7 @@ public interface IConsts {
     String LABELPREFIX = "label-";
     String IJSCALL = "JS.";
     String SPINNERSTYLE = "spinner-style";
+    String EMAILSTYLE = "email-style";
     String JSTRUE = "true";
     String JSFALSE = "false";
     String JSNULL = "null";

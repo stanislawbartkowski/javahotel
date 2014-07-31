@@ -14,33 +14,27 @@ package com.gwtmodel.table.view.ewidget;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.user.client.ui.TextBoxBase;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.IGetCustomValues;
 
-//        <label for="age">
-//            I am   
-//            <input type="number" name="age" id="age"
-//                min="18" max="120" step="1" value="18">
-//             years old
-//        </label>
+class TextWidgetBox extends AbstractField {
 
-class SpinnerBox extends AbstractField {
-
-    private final SpinnerInt t;
+    private final TextBoxBase t;
 
     private class CHandler implements ChangeHandler {
 
         @Override
         public void onChange(ChangeEvent event) {
-            runOnChange(SpinnerBox.this, true);
+            runOnChange(TextWidgetBox.this, true);
         }
     }
 
-    SpinnerBox(IGetCustomValues cValues, IVField v, String htmlName, int min,
-            int max) {
+    TextWidgetBox(IGetCustomValues cValues, IVField v, String htmlName,
+            TextBoxBase t) {
         super(cValues, v, htmlName);
-        t = new SpinnerInt(min, max);
+        this.t = t;
         t.addChangeHandler(new CHandler());
         initWidget(t);
     }
