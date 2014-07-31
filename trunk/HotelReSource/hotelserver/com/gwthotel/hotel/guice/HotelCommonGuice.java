@@ -18,10 +18,8 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.name.Names;
 import com.gwthotel.admin.holder.HHolder;
-import com.gwthotel.hotel.IHotelGetName;
 import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.IHotelObjectsFactory;
-import com.gwthotel.hotel.getname.GetHotelNameFromToken;
 import com.gwthotel.hotel.objectfactoryimpl.HotelObjectsFactory;
 import com.gwthotel.hotel.objectgensymimpl.HotelObjectGenSym;
 import com.gwthotel.hotel.server.service.H;
@@ -44,8 +42,8 @@ public class HotelCommonGuice {
                     .toProvider(HotelMessProvider.class).in(Singleton.class);
             bind(ISecurityConvert.class).to(SecurityConverter.class).in(
                     Singleton.class);
-            bind(IHotelGetName.class).to(GetHotelNameFromToken.class).in(
-                    Singleton.class);
+//            bind(IHotelGetName.class).to(GetHotelNameFromToken.class).in(
+//                    Singleton.class);
             bind(IHotelObjectsFactory.class).to(HotelObjectsFactory.class).in(
                     Singleton.class);
             requestStaticInjection(HHolder.class);

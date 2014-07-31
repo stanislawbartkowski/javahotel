@@ -12,42 +12,44 @@
  */
 package com.gwthotel.hotel.getname;
 
-import javax.inject.Inject;
+//import javax.inject.Inject;
+//
+//import com.gwthotel.hotel.IHotelGetName;
+//import com.jython.serversecurity.AppInstanceId;
+//import com.jython.serversecurity.cache.IGetInstanceOObjectIdCache;
+//import com.jython.serversecurity.cache.OObjectId;
+//import com.jythonui.server.objectauth.ObjectCustom;
+//import com.jythonui.server.security.ISecurity;
+//import com.jythonui.server.security.token.ICustomSecurity;
 
-import com.gwthotel.hotel.IHotelGetName;
-import com.jython.serversecurity.AppInstanceId;
-import com.jython.serversecurity.cache.IGetInstanceOObjectIdCache;
-import com.jython.serversecurity.cache.OObjectId;
-import com.jythonui.server.objectauth.ObjectCustom;
-import com.jythonui.server.security.ISecurity;
-import com.jythonui.server.security.token.ICustomSecurity;
+// TODO: remove
 
-public class GetHotelNameFromToken implements IHotelGetName {
-
-    private final ISecurity iSec;
-    private final IGetInstanceOObjectIdCache iGet;
-
-    @Inject
-    public GetHotelNameFromToken(ISecurity iSec, IGetInstanceOObjectIdCache iGet) {
-        this.iSec = iSec;
-        this.iGet = iGet;
-    }
-
-    @Override
-    public OObjectId getHotel(String token) {
-        ICustomSecurity sec = iSec.getCustom(token);
-        ObjectCustom cust = (ObjectCustom) sec;
-        String instanceId = cust.getInstanceId();
-        String hotelName = cust.getObjectName();
-        return iGet.getOObject(instanceId, hotelName, iSec.getUserName(token));
-    }
-
-    @Override
-    public AppInstanceId getInstance(String token) {
-        ICustomSecurity sec = iSec.getCustom(token);
-        ObjectCustom cust = (ObjectCustom) sec;
-        String instanceId = cust.getInstanceId();
-        return iGet.getInstance(instanceId, iSec.getUserName(token));
-    }
-
-}
+//class GetHotelNameFromToken implements IHotelGetName {
+//
+//    private final ISecurity iSec;
+//    private final IGetInstanceOObjectIdCache iGet;
+//
+//    @Inject
+//    public GetHotelNameFromToken(ISecurity iSec, IGetInstanceOObjectIdCache iGet) {
+//        this.iSec = iSec;
+//        this.iGet = iGet;
+//    }
+//
+//    @Override
+//    public OObjectId getHotel(String token) {
+//        ICustomSecurity sec = iSec.getCustom(token);
+//        ObjectCustom cust = (ObjectCustom) sec;
+//        String instanceId = cust.getInstanceId();
+//        String hotelName = cust.getObjectName();
+//        return iGet.getOObject(instanceId, hotelName, iSec.getUserName(token));
+//    }
+//
+//    @Override
+//    public AppInstanceId getInstance(String token) {
+//        ICustomSecurity sec = iSec.getCustom(token);
+//        ObjectCustom cust = (ObjectCustom) sec;
+//        String instanceId = cust.getInstanceId();
+//        return iGet.getInstance(instanceId, iSec.getUserName(token));
+//    }
+//
+//}

@@ -37,8 +37,4 @@ public class ServiceInjector {
         return injector.getInstance(IJythonUIServer.class);
     }
     
-//    public static IGetInstanceHotelId getInstanceHotel() {
-//        return injector.getInstance(IGetInstanceHotelId.class);
-//    }
-
 }

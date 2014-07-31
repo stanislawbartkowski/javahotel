@@ -15,7 +15,9 @@ package com.gwthotel.hotel;
 import com.jython.serversecurity.AppInstanceId;
 import com.jython.serversecurity.cache.OObjectId;
 
-public interface IHotelGetName {
+// TODO : remove
+
+interface IHotelGetName {
 
     OObjectId getHotel(String token);
 

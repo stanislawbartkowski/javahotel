@@ -291,8 +291,9 @@ def getHotelName(var):
     Returns:
       com.gwthotel.admin.HotelId clas
     """
-    token = var["SECURITY_TOKEN"]
-    return H.getHotelName(token)
+#    token = var["SECURITY_TOKEN"]
+#    return H.getHotelName(token)
+    return cutil.getObject(var)
 
 def getHotel(var) :
     """ Get hotel name for current session
@@ -303,12 +304,14 @@ def getHotel(var) :
     return getHotelName(var).getObject()
 
 def getPerson(var):
-    token = var["SECURITY_TOKEN"]
-    return H.getInstanceId(token).getPerson()
+#    token = var["SECURITY_TOKEN"]
+#    return H.getInstanceId(token).getPerson()
+    return cutil.getPerson(var)
 
 def getAppId(var):
-    token = var["SECURITY_TOKEN"]
-    return H.getInstanceId(token)
+#    token = var["SECURITY_TOKEN"]
+#    return H.getInstanceId(token)
+    return cutil.getAppId(var)
 
 def __toV(s,prefix) :
   if prefix : return prefix + s
