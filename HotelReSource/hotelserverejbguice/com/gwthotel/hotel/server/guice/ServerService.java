@@ -37,9 +37,11 @@ import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.defa.EmptyConnectionProvider;
-import com.jythonui.server.defa.IGetResourceJNDI;
-import com.jythonui.server.defa.ServerPropertiesEnv;
 import com.jythonui.server.defa.StorageRealmRegistryFactory;
+import com.jythonui.server.envvar.IGetEnvVariable;
+import com.jythonui.server.envvar.IGetResourceJNDI;
+import com.jythonui.server.envvar.impl.GetEnvVariables;
+import com.jythonui.server.envvar.impl.ServerPropertiesEnv;
 import com.jythonui.server.guavacache.GuavaCacheFactory;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.resbundle.Mess;
@@ -61,8 +63,8 @@ public class ServerService {
             configureHotel();
             bind(IJythonUIServerProperties.class).to(ServerPropertiesEnv.class)
                     .in(Singleton.class);
-//            bind(ICommonCacheFactory.class).to(SimpleMapCacheFactory.class).in(
-//                    Singleton.class);
+            // bind(ICommonCacheFactory.class).to(SimpleMapCacheFactory.class).in(
+            // Singleton.class);
             bind(ICommonCacheFactory.class).to(GuavaCacheFactory.class).in(
                     Singleton.class);
             bind(IStorageRegistryFactory.class).to(
@@ -79,8 +81,8 @@ public class ServerService {
             bind(IGetConnection.class)
                     .toProvider(EmptyConnectionProvider.class).in(
                             Singleton.class);
-            // bind(IBeanLocator.class).to(EjbLocatorGlassfish.class).in(
-            // Singleton.class);
+            bind(IGetEnvVariable.class).to(GetEnvVariables.class).in(
+                    Singleton.class);
 
             bind(IBeanLocator.class).to(EjbLocatorWildFly.class).in(
                     Singleton.class);

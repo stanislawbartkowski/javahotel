@@ -12,46 +12,34 @@
  */
 package com.gwthotel.resource;
 
-import com.gwtmodel.containertype.ContainerInfo;
-import com.gwtmodel.containertype.ContainerType;
-import com.jythonui.server.defa.IGetResourceJNDI;
+import com.jythonui.server.envvar.IGetResourceJNDI;
 
 public class GetResourceJNDI implements IGetResourceJNDI {
 
     private final static String RESOURCEDIR = "hotelapp/resource";
     private final static String CACHED = "hotelapp/cached";
-    private final static String COMP = "java:comp/env/";
-    private final static String GLOBAL = "java:global/";
     private final static String EJBHOST = "hotelapp/ejbhost";
     private final static String EJBPORT = "hotelapp/ejbport";
 
-    private String getRes(String res) {
-        ContainerType ta = ContainerInfo.getContainerType();
-        if (ta == ContainerType.TOMCAT || ta == ContainerType.JETTY)
-            return COMP + res;
-        if (ta == ContainerType.JBOSS)
-            return GLOBAL + res;
-        return res;
-    }
 
     @Override
     public String getResourceDir() {
-        return getRes(RESOURCEDIR);
+        return RESOURCEDIR;
     }
 
     @Override
     public String getCachedValue() {
-        return getRes(CACHED);
+        return CACHED;
     }
 
     @Override
     public String getEJBHost() {
-        return getRes(EJBHOST);
+        return EJBHOST;
     }
 
     @Override
     public String getEJBPort() {
-        return getRes(EJBPORT);
+        return EJBPORT;
     }
 
 }

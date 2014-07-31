@@ -29,7 +29,7 @@ public class HotelApplication implements EntryPoint {
         CustomSecurity sec = new CustomSecurity();
         sec.setAttr(IConsts.OBJECTNAME, hotelName);
         sec.setAttr(IConsts.INSTANCEID, ISharedConsts.INSTANCEDEFAULT);
-        UIGiniInjector.getI().getJythonClientStart().start(null, sec);
+        UIGiniInjector.getI().getJythonClientStart().start(sec);
     }
 
 }
