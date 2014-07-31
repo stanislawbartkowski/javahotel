@@ -14,7 +14,6 @@ package com.jython.ui;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
@@ -48,7 +47,6 @@ public class Test50 extends TestHelper {
         assertTrue(iSec.isAuthorized(token, "sec.u('user')"));
         assertTrue(iSec.isAuthorized(token, "sec.r('role2')"));
         assertFalse(iSec.isAuthorized(token, "sec.r('xxxxxxxxxx')"));
-
     }
 
 }

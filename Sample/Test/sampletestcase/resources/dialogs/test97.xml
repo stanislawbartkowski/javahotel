@@ -2,13 +2,14 @@
 <dialog xmlns="http://www.jythongwt.dialogxsd.com">
 
     <jython>
-        <import>from testpack import testsecp</import>
-        <method>testsecp.dialogaction({0},{1})</method>
+        <import>from testpack import testmail</import>
+        <method>testmail.dialogaction({0},{1})</method>
     </jython>
     
     <form>
         <field id="bignumber" type="decimal" afterdot="4" />
         <field id="no" type="int" />
+        <field id="email" type="email" />
     </form>        
 
 </dialog>

@@ -41,11 +41,12 @@ import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.defa.EmptyConnectionProvider;
 import com.jythonui.server.defa.EmptyRPCNotifier;
-import com.jythonui.server.defa.IGetResourceJNDI;
 import com.jythonui.server.defa.IsCached;
-import com.jythonui.server.defa.ServerPropertiesEnv;
+import com.jythonui.server.envvar.IGetEnvVariable;
+import com.jythonui.server.envvar.IGetResourceJNDI;
+import com.jythonui.server.envvar.impl.GetEnvVariables;
+import com.jythonui.server.envvar.impl.ServerPropertiesEnv;
 import com.jythonui.server.guice.JythonServerService;
-import com.jythonui.server.security.ISecurityConvert;
 import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.server.semaphore.impl.SemaphoreSynch;
 import com.jythonui.server.storage.blob.IBlobHandler;
@@ -94,6 +95,9 @@ public class ServerService {
                     Singleton.class);
             bind(IOObjectAdmin.class).to(OObjectAdminJpa.class).in(
                     Singleton.class);
+            bind(IGetEnvVariable.class).to(GetEnvVariables.class).in(
+                    Singleton.class);
+
             // -----
 
             requestStatic();

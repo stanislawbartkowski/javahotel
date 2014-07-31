@@ -12,6 +12,10 @@
  */
 package com.jython.ui;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+
 import javax.inject.Inject;
 
 import com.jythonui.server.defa.AbstractServerProperties;
@@ -42,6 +46,12 @@ public class ServerProperties extends AbstractServerProperties {
     @Override
     public boolean isSerialized() {
         return M.isJythonSerialized();
+    }
+
+    @Override
+    public URL getMailPropertiesFile() {
+        IReadResource r = getResource();
+        return r.getRes("mail/mailbox.properties");
     }
 
 }

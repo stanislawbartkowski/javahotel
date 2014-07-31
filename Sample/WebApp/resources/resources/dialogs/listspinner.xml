@@ -26,6 +26,7 @@
                 
                 <field id="min" displayname="Min" type="int" />
                 <field id="max" displayname="Max" type="int" />
+                <field id="from" displayname="From mail" type="email" />                
         </form>
 
 
