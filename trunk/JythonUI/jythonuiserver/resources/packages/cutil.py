@@ -604,5 +604,9 @@ def getPerson(var):
 def getAppId(var):
     token = var["SECURITY_TOKEN"]
     return Holder.getNameFromToken().getInstance(token)
+
+def getObject(var):
+    token = var["SECURITY_TOKEN"]
+    return Holder.getNameFromToken().getObject(token)
     
       

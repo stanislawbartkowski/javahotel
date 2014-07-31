@@ -68,8 +68,8 @@ public class CreateForm {
     }
 
     public static FormLineContainer construct(DialogInfo dInfo,
-            IGetDataList iGet, IEnumTypesList eList, IRequestForGWidget iHelper,
-            IConstructCustomDataType fType) {
+            IGetDataList iGet, IEnumTypesList eList,
+            IRequestForGWidget iHelper, IConstructCustomDataType fType) {
         DialogFormat d = dInfo.getDialog();
         List<FieldItem> iList = d.getFieldList();
         EditWidgetFactory eFactory = GwtGiniInjector.getI()
@@ -80,7 +80,9 @@ public class CreateForm {
             IVField vf = VField.construct(f);
             IFormLineView v;
             String htmlId = f.getHtmlId();
-            if (f.isSpinner())
+            if (f.isEmailType())
+                v = eFactory.constructEmail(vf, htmlId);
+            else if (f.isSpinner())
                 v = eFactory.constructSpinner(vf, htmlId, f.getSpinnerMin(),
                         f.getSpinnerMax());
             else if (f.isUploadType())
