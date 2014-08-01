@@ -49,9 +49,15 @@ public class ServerProperties extends AbstractServerProperties {
     }
 
     @Override
-    public URL getMailPropertiesFile() {
+    public URL getSendMailPropertiesFile() {
         IReadResource r = getResource();
         return r.getRes("mail/mailbox.properties");
+    }
+    
+    @Override
+    public URL getGetMailPropertiesFile() {
+        IReadResource r = getResource();
+        return r.getRes("mail/pop3mailbox.properties");
     }
 
 }
