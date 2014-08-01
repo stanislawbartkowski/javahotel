@@ -29,39 +29,30 @@ import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
 
-public class JavaMailSessionProvider extends UtilHelper implements
+public class JavaGetMailSessionProvider extends UtilHelper implements
         Provider<Session> {
 
     private final IJythonUIServerProperties iProp;
     private final IGetLogMess gMess;
 
     @Inject
-    public JavaMailSessionProvider(
+    public JavaGetMailSessionProvider(
             @Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess gMess,
             IJythonUIServerProperties iProp) {
         this.gMess = gMess;
         this.iProp = iProp;
     }
 
-    // mail.smtp.user=javahotel.testing@gmail.com
-    // mail.smtp.password=javahotel
     @Override
     public Session get() {
-        if (iProp.getSendMailPropertiesFile() == null)
+        if (iProp.getGetMailPropertiesFile() == null)
             return null;
         try {
             Properties prop = ReadUTF8Properties.readProperties(iProp
-                    .getSendMailPropertiesFile().openStream());
-            final String user = prop.getProperty("mail.smtp.user");
-            final String password = prop.getProperty("mail.smtp.password");
-            return Session.getDefaultInstance(prop,
-                    new javax.mail.Authenticator() {
-                        protected PasswordAuthentication getPasswordAuthentication() {
-                            return new PasswordAuthentication(user, password);
-                        }
-                    });
+                    .getGetMailPropertiesFile().openStream());
+            return Session.getDefaultInstance(prop);
         } catch (IOException e) {
-            errorMess(gMess, IErrorCode.ERRORCODE105,
+            errorMess(gMess, IErrorCode.ERRORCODE108,
                     ILogMess.MAILERRORPROPERTIES, e);
             return null;
         }

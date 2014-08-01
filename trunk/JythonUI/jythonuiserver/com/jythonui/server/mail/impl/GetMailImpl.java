@@ -10,36 +10,28 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server;
+package com.jythonui.server.mail.impl;
 
-import java.net.URL;
+import javax.mail.Session;
 
-import com.jythonui.server.resource.IReadResource;
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
+import com.jythonui.server.IConsts;
+import com.jythonui.server.IMailGet;
+import com.jythonui.server.mail.GetMail;
 
-/**
- * @author hotel
- * 
- */
-public interface IJythonUIServerProperties {
+public class GetMailImpl implements IMailGet {
 
-    IReadResource getResource();
+    private final Session getsession;
 
-    String getJythonPackageDirectory();
+    @Inject
+    public GetMailImpl(@Named(IConsts.GETMAIL) Session getsession) {
+        this.getsession = getsession;
+    }
 
-    String getJythonSharedDirectory();
-
-    String getEJBHost();
-
-    String getEJBPort();
-
-    boolean isCached();
-
-    boolean isSerialized();
-
-    URL getAppPropertiesFile();
-
-    URL getSendMailPropertiesFile();
-
-    URL getGetMailPropertiesFile();
+    @Override
+    public IResMail getMail(int from, int to) {
+        return GetMail.getMail(getsession, from, to);
+    }
 
 }

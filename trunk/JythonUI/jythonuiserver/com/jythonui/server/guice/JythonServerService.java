@@ -33,7 +33,8 @@ import com.jythonui.server.IGetDialog;
 import com.jythonui.server.IGetResourceMap;
 import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonUIServer;
-import com.jythonui.server.IMailSendGet;
+import com.jythonui.server.IMailGet;
+import com.jythonui.server.IMailSend;
 import com.jythonui.server.IResolveNameFromToken;
 import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.IStorageMemCache;
@@ -60,7 +61,8 @@ import com.jythonui.server.impl.JythonUIServer;
 import com.jythonui.server.jython.DecoratorRunJython;
 import com.jythonui.server.jython.RunJython;
 import com.jythonui.server.logmess.MessProvider;
-import com.jythonui.server.mail.impl.GetSendMailImpl;
+import com.jythonui.server.mail.impl.GetMailImpl;
+import com.jythonui.server.mail.impl.SendMailImpl;
 import com.jythonui.server.memstorage.MemStorageCacheFactory;
 import com.jythonui.server.newblob.IAddNewBlob;
 import com.jythonui.server.newblob.impl.AddNewBlob;
@@ -174,8 +176,8 @@ public class JythonServerService {
                     .to(PersonSecurityConverter.class).in(Singleton.class);
             bind(ISecurityConvert.class).to(SecurityConverter.class).in(
                     Singleton.class);
-            bind(IMailSendGet.class).to(GetSendMailImpl.class).in(
-                    Singleton.class);
+            bind(IMailSend.class).to(SendMailImpl.class).in(Singleton.class);
+            bind(IMailGet.class).to(GetMailImpl.class).in(Singleton.class);
         }
 
         @Provides

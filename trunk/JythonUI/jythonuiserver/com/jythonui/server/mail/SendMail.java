@@ -22,8 +22,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import com.jythonui.server.UtilHelper;
-import com.jythonui.server.getmess.IGetLogMess;
-import com.jythonui.server.holder.SHolder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
 
@@ -36,10 +34,6 @@ public class SendMail extends UtilHelper {
     private SendMail() {
     }
     
-    private static IGetLogMess L() {
-        return SHolder.getM();
-    }
-
     private static class T implements TransportListener {
 
         private String errMess = null;
@@ -97,10 +91,10 @@ public class SendMail extends UtilHelper {
         try {
             postmail(session, li, text, recipients, subject, message, from);
         } catch (MessagingException ex) {
-            severe(L().getMess(IErrorCode.ERRORCODE103, ILogMess.MAILDELIVERERROR));
+            severe(L().getMess(IErrorCode.ERRORCODE103, ILogMess.MAILDELIVERERROR),ex);
             return ex.getMessage();
         } catch (Exception e) {
-            severe(L().getMess(IErrorCode.ERRORCODE104, ILogMess.MAILDELIVERERROR));
+            severe(L().getMess(IErrorCode.ERRORCODE104, ILogMess.MAILDELIVERERROR),e);
             return e.getMessage();
         }
         if (li.getErrMess() != null) {

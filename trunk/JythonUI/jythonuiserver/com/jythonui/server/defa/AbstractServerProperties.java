@@ -64,7 +64,12 @@ abstract public class AbstractServerProperties extends UtilHelper implements
     }
 
     @Override
-    public URL getMailPropertiesFile() {
+    public URL getSendMailPropertiesFile() {
+        return null;
+    }
+
+    @Override
+    public URL getGetMailPropertiesFile() {
         return null;
     }
 
