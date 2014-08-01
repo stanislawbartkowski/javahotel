@@ -17,6 +17,7 @@ import javax.persistence.EntityManagerFactory;
 
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.google.inject.name.Names;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.gwtmodel.table.common.dateutil.ISetTestToday;
 import com.gwtmodel.table.common.dateutil.SetTestTodayProvider;
@@ -41,11 +42,13 @@ import com.jythonui.datastore.DateLineOp;
 import com.jythonui.datastore.DateRecordOp;
 import com.jythonui.datastore.EntityManagerFactoryProvider;
 import com.jythonui.datastore.PersonOp;
+import com.jythonui.server.IConsts;
 import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.defa.EmptyConnectionProvider;
 import com.jythonui.server.defa.EmptyRPCNotifier;
+import com.jythonui.server.defa.JavaGetMailSessionProvider;
 import com.jythonui.server.defa.JavaMailSessionProvider;
 import com.jythonui.server.guavacache.GuavaCacheFactory;
 import com.jythonui.server.guice.JythonServerService.JythonServiceModule;
@@ -93,8 +96,12 @@ public class ServerService {
                     Singleton.class);
             bind(IOObjectAdmin.class).to(OObjectAdminJpa.class).in(
                     Singleton.class);
-            bind(Session.class).toProvider(JavaMailSessionProvider.class).in(
-                    Singleton.class);            
+            bind(Session.class).annotatedWith(Names.named(IConsts.SENDMAIL))
+                    .toProvider(JavaMailSessionProvider.class)
+                    .in(Singleton.class);
+            bind(Session.class).annotatedWith(Names.named(IConsts.GETMAIL))
+                    .toProvider(JavaGetMailSessionProvider.class)
+                    .in(Singleton.class);
             requestStatic();
             requestStaticInjection(TestHelper.class);
 

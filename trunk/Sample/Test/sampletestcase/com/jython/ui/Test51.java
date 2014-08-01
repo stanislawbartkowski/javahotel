@@ -20,7 +20,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import com.gwtmodel.table.common.TT;
-import com.jythonui.server.IMailSendGet;
+import com.jythonui.server.IMailGet;
+import com.jythonui.server.IMailSend;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogVariables;
@@ -40,7 +41,7 @@ public class Test51 extends TestHelper {
 
     @Test
     public void test2() {
-        IMailSendGet iiMail = Holder.getMail();
+        IMailSend iiMail = Holder.getMail();
         String res = iiMail.postMail(true,
                 new String[] { "stanislawbartkowski@gmail.com" }, "hello",
                 "my first note", "hello.x");
@@ -56,5 +57,18 @@ public class Test51 extends TestHelper {
         runAction(v, "test97.xml", "sendmail");
         assertOK(v);
     }
+    
+    @Test
+    public void test4() {
+        IMailGet iiMail = Holder.getGetMail();
+        IMailGet.IResMail res = iiMail.getMail(-1, -1);
+        System.out.println(res.getNo());
+//        assertTrue(res.getNo() > 1);
+        res = iiMail.getMail(-1, 0);
+        for (IMailGet.IMailNote no : res.getList()) {
+            System.out.println(no.getHeader());
+        }
+     }
+    
 
 }
