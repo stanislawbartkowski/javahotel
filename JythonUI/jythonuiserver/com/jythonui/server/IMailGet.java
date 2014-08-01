@@ -12,34 +12,36 @@
  */
 package com.jythonui.server;
 
-import java.net.URL;
+import java.util.Date;
+import java.util.List;
 
-import com.jythonui.server.resource.IReadResource;
+public interface IMailGet {
 
-/**
- * @author hotel
- * 
- */
-public interface IJythonUIServerProperties {
+    interface IMailNote {
 
-    IReadResource getResource();
+        String getHeader();
 
-    String getJythonPackageDirectory();
+        String getContent();
 
-    String getJythonSharedDirectory();
+        String getFrom();
 
-    String getEJBHost();
+        boolean isText();
 
-    String getEJBPort();
+        boolean isIsSeen();
 
-    boolean isCached();
+        Date getSentDate();
 
-    boolean isSerialized();
+        String getPerson();
+    }
 
-    URL getAppPropertiesFile();
+    interface IResMail {
+        String getErrMess();
 
-    URL getSendMailPropertiesFile();
+        int getNo();
 
-    URL getGetMailPropertiesFile();
+        List<IMailGet.IMailNote> getList();
+    }
+
+    IResMail getMail(int from, int to);
 
 }

@@ -12,34 +12,11 @@
  */
 package com.jythonui.server;
 
-import java.net.URL;
 
-import com.jythonui.server.resource.IReadResource;
+public interface IMailSend {
 
-/**
- * @author hotel
- * 
- */
-public interface IJythonUIServerProperties {
 
-    IReadResource getResource();
-
-    String getJythonPackageDirectory();
-
-    String getJythonSharedDirectory();
-
-    String getEJBHost();
-
-    String getEJBPort();
-
-    boolean isCached();
-
-    boolean isSerialized();
-
-    URL getAppPropertiesFile();
-
-    URL getSendMailPropertiesFile();
-
-    URL getGetMailPropertiesFile();
+    String postMail(boolean text, String recipients[], String subject,
+            String message, String from);
 
 }

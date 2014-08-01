@@ -35,12 +35,15 @@ public interface IConsts {
 
     String JECLSECFUNCTION = "sec";
     String JECLENVFUNCTION = "env";
-    
+
     String OBJECTNAME = "objectloginname";
     String INSTANCEID = "objectinstanceid";
-    
+
     String OBJECTREALM = "ObjectRealm";
-    
+
     String GENERICRUNJYTHON = "GenericRunJython";
-    
+
+    String SENDMAIL = "SendMail";
+    String GETMAIL = "GetMail";
+
 }
