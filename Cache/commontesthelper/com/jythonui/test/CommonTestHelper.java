@@ -33,7 +33,7 @@ import com.jython.serversecurity.cache.OObjectId;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IDefaultData;
 import com.jythonui.server.IJythonUIServer;
-import com.jythonui.server.IMailSendGet;
+import com.jythonui.server.IMailSend;
 import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.IXMLToMap;
 import com.jythonui.server.dict.IGetLocalizedDict;
