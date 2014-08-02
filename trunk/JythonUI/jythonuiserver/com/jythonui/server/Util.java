@@ -12,10 +12,12 @@
  */
 package com.jythonui.server;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Properties;
 
@@ -111,7 +113,7 @@ public class Util extends UtilHelper {
 			return u.openStream();
 		} catch (IOException e) {
 			errorLog(
-					SHolder.getM().getMess(IErrorCode.ERRORCODE54,
+					L().getMess(IErrorCode.ERRORCODE54,
 							ILogMess.FILENOTFOUND, u.toString() + " " + name),
 					e);
 			return null;
@@ -120,5 +122,14 @@ public class Util extends UtilHelper {
 
 	public static String getJythonPackageDirectory(IReadResource iRes) {
 		return iRes.getRes(IConsts.PACKAGEDIR).getPath();
+	}
+
+	public static URL fileNameToURL(String fileName) {
+		try {
+			return new File(fileName).toURI().toURL();
+		} catch (MalformedURLException e) {
+			errorLog(L().getMess(IErrorCode.ERRORCODE109, ILogMess.ERRORINFILENAMETOURL, fileName),e);
+			return null;
+		}
 	}
 }
