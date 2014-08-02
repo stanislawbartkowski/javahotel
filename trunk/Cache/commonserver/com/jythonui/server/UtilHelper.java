@@ -16,12 +16,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.server.holder.Holder;
 import com.jythonui.shared.JythonUIFatal;
 
 abstract public class UtilHelper {
 
     static final private Logger log = Logger.getLogger(UtilHelper.class
             .getName());
+
+    protected static IGetLogMess L() {
+        return Holder.getM();
+    }
 
     protected static void errorLog(String mess, Exception e)
             throws JythonUIFatal {
