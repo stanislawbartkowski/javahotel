@@ -121,4 +121,5 @@ public interface IErrorCode {
     String ERRORCODE106 = "E0106";
     String ERRORCODE107 = "E0107";
     String ERRORCODE108 = "E0108";
+    String ERRORCODE109 = "E0109";
 }
