@@ -42,8 +42,6 @@ public class HotelCommonGuice {
                     .toProvider(HotelMessProvider.class).in(Singleton.class);
             bind(ISecurityConvert.class).to(SecurityConverter.class).in(
                     Singleton.class);
-//            bind(IHotelGetName.class).to(GetHotelNameFromToken.class).in(
-//                    Singleton.class);
             bind(IHotelObjectsFactory.class).to(HotelObjectsFactory.class).in(
                     Singleton.class);
             requestStaticInjection(HHolder.class);
