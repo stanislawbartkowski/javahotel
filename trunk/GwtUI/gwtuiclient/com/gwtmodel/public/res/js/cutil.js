@@ -24,21 +24,19 @@ var CUTIL = (function() {
    
    my.setcontinue = function(o) {
 	     o.JYTHONCONTINUE = true;
-   }
-   
-   function addStyle(str) {
-       var pa = document.getElementsByTagName('head')[0];
-       var el = document.createElement('style');
-       el.type = 'text/css';
-       if (el.styleSheet)
-           el.styleSheet.cssText = str;// IE method
-       else
-           el.appendChild(document.createTextNode(str));// others
-       pa.appendChild(el);
-       return el;
-   }
-
-
+   }   
         
    return my;
 }());
+
+function addStyle(str) {
+    var pa = document.getElementsByTagName('head')[0];
+    var el = document.createElement('style');
+    el.type = 'text/css';
+    if (el.styleSheet)
+        el.styleSheet.cssText = str;// IE method
+    else
+        el.appendChild(document.createTextNode(str));// others
+    pa.appendChild(el);
+    return el;
+}
