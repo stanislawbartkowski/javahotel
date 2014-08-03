@@ -12,7 +12,11 @@
  */
 package com.jython.ui.server.guice;
 
+import javax.mail.Session;
+
+import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import com.gwtmodel.commoncache.CommonCacheFactory;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.jython.serversecurity.IOObjectAdmin;
@@ -28,6 +32,7 @@ import com.jython.ui.server.gae.security.impl.ObjectAdminGae;
 import com.jython.ui.server.gae.security.impl.ObjectInstanceImpl;
 import com.jython.ui.server.gaestoragekey.BlobStorage;
 import com.jython.ui.server.gaestoragekey.GaeStorageRegistry;
+import com.jythonui.server.IConsts;
 import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonRPCNotifier;
@@ -36,10 +41,8 @@ import com.jythonui.server.defa.EmptyConnectionProvider;
 import com.jythonui.server.defa.EmptyRPCNotifier;
 import com.jythonui.server.defa.GetClientProperties;
 import com.jythonui.server.defa.IsCached;
-import com.jythonui.server.defa.SecurityNullConvert;
 import com.jythonui.server.defa.ServerProperties;
 import com.jythonui.server.guice.JythonServerService.JythonServiceModule;
-import com.jythonui.server.security.ISecurityConvert;
 import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.server.semaphore.impl.SemaphoreRegistry;
 import com.jythonui.server.storage.blob.IBlobHandler;
@@ -65,8 +68,6 @@ public class ServerService {
                     Singleton.class);
             bind(ICommonCacheFactory.class).to(CommonCacheFactory.class).in(
                     Singleton.class);
-            bind(ISecurityConvert.class).to(SecurityNullConvert.class).in(
-                    Singleton.class);
             bind(IDateRecordOp.class).to(DateRecordOp.class)
                     .in(Singleton.class);
             bind(ISemaphore.class).to(SemaphoreRegistry.class).in(
@@ -86,6 +87,21 @@ public class ServerService {
 
             requestStatic();
         }
+        
+        @Provides
+        @Named(IConsts.GETMAIL)
+        @Singleton
+        Session getGetSession() {
+            return null;
+        }
+
+        @Provides
+        @Named(IConsts.SENDMAIL)
+        @Singleton
+        Session getSendSession() {
+            return null;
+        }
+
     }
 
 }
