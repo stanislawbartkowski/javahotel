@@ -12,10 +12,12 @@
  */
 package com.jython.ui.server.guice;
 
+import javax.mail.Session;
 import javax.persistence.EntityManagerFactory;
 
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.gwtmodel.mapcache.SimpleMapCacheFactory;
 import com.jython.serversecurity.IOObjectAdmin;
@@ -36,6 +38,7 @@ import com.jythonui.datastore.DateLineOp;
 import com.jythonui.datastore.DateRecordOp;
 import com.jythonui.datastore.EntityManagerFactoryProvider;
 import com.jythonui.datastore.PersonOp;
+import com.jythonui.server.IConsts;
 import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServerProperties;
@@ -123,6 +126,21 @@ public class ServerService {
                 }
             };
         }
+        
+        @Provides
+        @Named(IConsts.GETMAIL)
+        @Singleton
+        Session getGetSession() {
+            return null;
+        }
+
+        @Provides
+        @Named(IConsts.SENDMAIL)
+        @Singleton
+        Session getSendSession() {
+            return null;
+        }
+
 
     }
 
