@@ -14,12 +14,13 @@ package com.gwthotel.hotel.server.guice;
 
 import java.util.Date;
 
-import javax.inject.Named;
+import javax.mail.Session;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.IGetAutomPatterns;
 import com.gwthotel.hotel.IHotelObjectGenSym;
@@ -63,6 +64,7 @@ import com.jython.ui.server.jpatrans.ITransactionContext;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaEmTransactionContext;
 import com.jython.ui.server.jpatrans.JpaTransactionContext;
+import com.jythonui.server.IConsts;
 import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServerProperties;
@@ -220,6 +222,20 @@ public class ServerService {
                 }
 
             };
+        }
+        
+        @Provides
+        @Named(IConsts.GETMAIL)
+        @Singleton
+        Session getGetSession() {
+            return null;
+        }
+
+        @Provides
+        @Named(IConsts.SENDMAIL)
+        @Singleton
+        Session getSendSession() {
+            return null;
         }
 
     }
