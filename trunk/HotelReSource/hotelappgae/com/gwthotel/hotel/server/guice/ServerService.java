@@ -12,7 +12,11 @@
  */
 package com.gwthotel.hotel.server.guice;
 
+import javax.mail.Session;
+
+import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.IGetAutomPatterns;
 import com.gwthotel.hotel.bill.ICustomerBills;
@@ -48,6 +52,7 @@ import com.jython.ui.server.gae.security.impl.ObjectInstanceImpl;
 import com.jython.ui.server.gaecached.Cached;
 import com.jython.ui.server.gaestoragekey.BlobStorage;
 import com.jython.ui.server.gaestoragekey.GaeStorageRegistry;
+import com.jythonui.server.IConsts;
 import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServerProperties;
@@ -123,6 +128,21 @@ public class ServerService {
             requestStatic();
             requestStaticInjection(H.class);
         }
+        
+        @Provides
+        @Named(IConsts.GETMAIL)
+        @Singleton
+        Session getGetSession() {
+            return null;
+        }
+
+        @Provides
+        @Named(IConsts.SENDMAIL)
+        @Singleton
+        Session getSendSession() {
+            return null;
+        }
+
     }
 
 }
