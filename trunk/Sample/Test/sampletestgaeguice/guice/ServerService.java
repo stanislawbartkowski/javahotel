@@ -12,12 +12,19 @@
  */
 package guice;
 
+import javax.mail.Session;
+
+import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
+import com.google.inject.name.Names;
 import com.gwtmodel.commoncache.CommonCacheFactory;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.gwtmodel.table.common.dateutil.ISetTestToday;
 import com.gwtmodel.table.common.dateutil.SetTestTodayProvider;
 import com.gwtmodel.testenhancer.ITestEnhancer;
+import com.jython.serversecurity.IOObjectAdmin;
+import com.jython.serversecurity.instance.IAppInstanceOObject;
 import com.jython.ui.ServerProperties;
 import com.jython.ui.TestHelper;
 import com.jython.ui.server.datastore.IDateLineOp;
@@ -26,16 +33,19 @@ import com.jython.ui.server.datastore.IPersonOp;
 import com.jython.ui.server.datastore.gae.DateLineOp;
 import com.jython.ui.server.datastore.gae.DateRecordOp;
 import com.jython.ui.server.datastore.gae.PersonOp;
+import com.jython.ui.server.gae.security.impl.ObjectAdminGae;
+import com.jython.ui.server.gae.security.impl.ObjectInstanceImpl;
 import com.jython.ui.server.gaestoragekey.BlobStorage;
 import com.jython.ui.server.gaestoragekey.GaeStorageRegistry;
+import com.jythonui.server.IConsts;
 import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.defa.EmptyConnectionProvider;
 import com.jythonui.server.defa.EmptyRPCNotifier;
-import com.jythonui.server.defa.SecurityNullConvert;
+import com.jythonui.server.defa.JavaGetMailSessionProvider;
+import com.jythonui.server.defa.JavaMailSessionProvider;
 import com.jythonui.server.guice.JythonServerService.JythonServiceModule;
-import com.jythonui.server.security.ISecurityConvert;
 import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.server.semaphore.impl.SemaphoreRegistry;
 import com.jythonui.server.storage.blob.IBlobHandler;
@@ -59,11 +69,7 @@ public class ServerService {
             bind(ITestEnhancer.class).to(LocalDataStoreTestEnvironment.class);
             bind(ICommonCacheFactory.class).to(CommonCacheFactory.class).in(
                     Singleton.class);
-            bind(ISecurityConvert.class).to(SecurityNullConvert.class).in(
-                    Singleton.class);
             // common
-            // bind(IStorageRegistryFactory.class).to(
-            // StorageRealmRegistryFactory.class).in(Singleton.class);
             bind(IBlobHandler.class).to(BlobStorage.class).in(Singleton.class);
             bind(IStorageRealmRegistry.class).to(GaeStorageRegistry.class).in(
                     Singleton.class);
@@ -78,6 +84,17 @@ public class ServerService {
                     .in(Singleton.class);
             bind(IJythonRPCNotifier.class).to(EmptyRPCNotifier.class).in(
                     Singleton.class);
+            bind(IOObjectAdmin.class).to(ObjectAdminGae.class).in(
+                    Singleton.class);
+            bind(IAppInstanceOObject.class).to(ObjectInstanceImpl.class).in(
+                    Singleton.class);
+            bind(Session.class).annotatedWith(Names.named(IConsts.SENDMAIL))
+                    .toProvider(JavaMailSessionProvider.class)
+                    .in(Singleton.class);
+            bind(Session.class).annotatedWith(Names.named(IConsts.GETMAIL))
+                    .toProvider(JavaGetMailSessionProvider.class)
+                    .in(Singleton.class);
+
             requestStatic();
             requestStaticInjection(TestHelper.class);
         }

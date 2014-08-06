@@ -18,6 +18,7 @@ import javax.persistence.EntityManagerFactory;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
+import com.google.inject.name.Names;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.gwtmodel.mapcache.SimpleMapCacheFactory;
 import com.jython.serversecurity.IOObjectAdmin;
@@ -50,6 +51,7 @@ import com.jythonui.server.envvar.IGetResourceJNDI;
 import com.jythonui.server.envvar.impl.GetEnvVariables;
 import com.jythonui.server.envvar.impl.ServerPropertiesEnv;
 import com.jythonui.server.guice.JythonServerService;
+import com.jythonui.server.ressession.ResGetMailSessionProvider;
 import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.server.semaphore.impl.SemaphoreSynch;
 import com.jythonui.server.storage.blob.IBlobHandler;
@@ -100,6 +102,9 @@ public class ServerService {
                     Singleton.class);
             bind(IGetEnvVariable.class).to(GetEnvVariables.class).in(
                     Singleton.class);
+            bind(Session.class).annotatedWith(Names.named(IConsts.SENDMAIL))
+                    .toProvider(ResGetMailSessionProvider.class)
+                    .in(Singleton.class);
 
             // -----
 
@@ -126,21 +131,20 @@ public class ServerService {
                 }
             };
         }
-        
-        @Provides
-        @Named(IConsts.GETMAIL)
-        @Singleton
-        Session getGetSession() {
-            return null;
-        }
 
-        @Provides
+         @Provides
+         @Named(IConsts.GETMAIL)
+         @Singleton
+         Session getGetSession() {
+         return null;
+         }
+
+/*        @Provides
         @Named(IConsts.SENDMAIL)
         @Singleton
         Session getSendSession() {
             return null;
-        }
-
+        }*/
 
     }
 

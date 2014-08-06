@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+ <jython>
+   <import>from testpack import sendmail</import>
+   <method>sendmail.dialogaction({0},{1})</method>
+ </jython>  
+
+ <buttons>
+   <button id="send" displayname="Send" validate="" />
+ </buttons>  
+ 
+ <form>
+   <field id="subject" displayname="Subject" />
+   <field id="to" type="email" displayname="Recipient" notempty="" />
+   <field id="from" displayname="From" />
+   <field id="content" type="textarea" displayname="Content" />
+ </form>  
+
+ 
+</dialog>

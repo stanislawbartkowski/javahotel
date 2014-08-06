@@ -17,10 +17,16 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 
 import com.gwtmodel.table.common.TT;
-import com.jythonui.server.IMailGet;
 import com.jythonui.server.IMailSend;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.shared.DialogFormat;
@@ -44,11 +50,11 @@ public class Test51 extends TestHelper {
         IMailSend iiMail = Holder.getMail();
         String res = iiMail.postMail(true,
                 new String[] { "stanislawbartkowski@gmail.com" }, "hello",
-                "my first note", "hello.x");
+                "my first note", "hello.x", null);
         System.out.println(res);
         assertNull(res);
     }
-    
+
     @Test
     public void test3() {
         DialogFormat d = findDialog("test97.xml");
@@ -57,18 +63,40 @@ public class Test51 extends TestHelper {
         runAction(v, "test97.xml", "sendmail");
         assertOK(v);
     }
+
+    @Test
+    public void test4() throws IOException {
+        IMailSend iiMail = Holder.getMail();
+        URL u = iResServer.getResource().getRes("testdata/attach.txt");
+        assertNotNull(u);
+        int i = 0;
+        InputStream is = u.openStream();
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        byte[] a = new byte[100];
+        int no = is.read(a);
+        while (no != -1) {
+            out.write(a, 0, no);
+            no = is.read(a);
+        }
+        String bKey = iAddBlob.addNewBlob("PDFTEMP","ATTACH",out.toByteArray());
+        assertNotNull(bKey);
+        IMailSend.AttachElem atta = new IMailSend.AttachElem("PDFTEMP",bKey,"attach.txt");
+        List<IMailSend.AttachElem> aList = new ArrayList<IMailSend.AttachElem>();
+        aList.add(atta);
+        String res = iiMail.postMail(true,
+                new String[] { "stanislawbartkowski@gmail.com" }, "Note with single attachment",
+                "This is my first not with one attachment", "hello.x", aList);
+        System.out.println(res);
+        assertNull(res);            
+    }
     
     @Test
-    public void test4() {
-        IMailGet iiMail = Holder.getGetMail();
-        IMailGet.IResMail res = iiMail.getMail(-1, -1);
-        System.out.println(res.getNo());
-//        assertTrue(res.getNo() > 1);
-        res = iiMail.getMail(-1, 0);
-        for (IMailGet.IMailNote no : res.getList()) {
-            System.out.println(no.getHeader());
-        }
-     }
-    
+    public void test5() {
+        DialogVariables v = new DialogVariables();
+        runAction(v, "test97.xml", "sendmailattachment");
+        assertOK(v);
+    }
+
+
 
 }

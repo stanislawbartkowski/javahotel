@@ -17,6 +17,7 @@ import javax.mail.Session;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
+import com.google.inject.name.Names;
 import com.gwtmodel.commoncache.CommonCacheFactory;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.jython.serversecurity.IOObjectAdmin;
@@ -41,6 +42,7 @@ import com.jythonui.server.defa.EmptyConnectionProvider;
 import com.jythonui.server.defa.EmptyRPCNotifier;
 import com.jythonui.server.defa.GetClientProperties;
 import com.jythonui.server.defa.IsCached;
+import com.jythonui.server.defa.JavaMailSessionProvider;
 import com.jythonui.server.defa.ServerProperties;
 import com.jythonui.server.guice.JythonServerService.JythonServiceModule;
 import com.jythonui.server.semaphore.ISemaphore;
@@ -62,8 +64,8 @@ public class ServerService {
             bind(IsCached.class).to(Cached.class).in(Singleton.class);
             bind(IPersonOp.class).to(PersonOp.class).in(Singleton.class);
             bind(IDateLineOp.class).to(DateLineOp.class).in(Singleton.class);
-            bind(IJythonUIServerProperties.class).to(ServerProperties.class)
-                    .in(Singleton.class);
+            bind(IJythonUIServerProperties.class).to(
+                    GaeSampleAppServerProperties.class).in(Singleton.class);
             bind(IJythonClientRes.class).to(GetClientProperties.class).in(
                     Singleton.class);
             bind(ICommonCacheFactory.class).to(CommonCacheFactory.class).in(
@@ -84,10 +86,12 @@ public class ServerService {
                     Singleton.class);
             bind(IJythonRPCNotifier.class).to(EmptyRPCNotifier.class).in(
                     Singleton.class);
-
+            bind(Session.class).annotatedWith(Names.named(IConsts.SENDMAIL))
+                    .toProvider(JavaMailSessionProvider.class)
+                    .in(Singleton.class);
             requestStatic();
         }
-        
+
         @Provides
         @Named(IConsts.GETMAIL)
         @Singleton
@@ -95,12 +99,12 @@ public class ServerService {
             return null;
         }
 
-        @Provides
-        @Named(IConsts.SENDMAIL)
-        @Singleton
-        Session getSendSession() {
-            return null;
-        }
+        // @Provides
+        // @Named(IConsts.SENDMAIL)
+        // @Singleton
+        // Session getSendSession() {
+        // return null;
+        // }
 
     }
 
