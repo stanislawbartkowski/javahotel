@@ -33,7 +33,7 @@ import com.jython.serversecurity.cache.OObjectId;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IDefaultData;
 import com.jythonui.server.IJythonUIServer;
-import com.jythonui.server.IMailSend;
+import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.IXMLToMap;
 import com.jythonui.server.dict.IGetLocalizedDict;
@@ -61,6 +61,8 @@ abstract public class CommonTestHelper {
 
     @Inject
     protected static IJythonUIServer iServer;
+    @Inject
+    protected static IJythonUIServerProperties iResServer;
     // @Inject
     // This first one inject directly in the constructor
     protected static ITestEnhancer iTest;
@@ -79,10 +81,10 @@ abstract public class CommonTestHelper {
     protected static IXMLTransformer iXml;
     @Inject
     protected static ISemaphore iSem;
-    @Inject    
+    @Inject
     protected static IAddNewBlob iAddBlob;
-//    @Inject
-//    protected static IMailSendGet iMail;
+    // @Inject
+    // protected static IMailSendGet iMail;
     protected final IGetLocalizedDict iListC;
     protected final IGetLocalizedDict iListT;
     protected final IGetLocalizedDict iListI;
@@ -240,7 +242,7 @@ abstract public class CommonTestHelper {
     protected OObjectId getH1(String objectName) {
         return iGetI.getOObject(TESTINSTANCE, objectName, "modifuser");
     }
-    
+
     protected ICustomSecurity getPersonSec() {
         CustomSecurity cust = new CustomSecurity();
         cust.setAttr(IConsts.INSTANCEID, TESTINSTANCE);

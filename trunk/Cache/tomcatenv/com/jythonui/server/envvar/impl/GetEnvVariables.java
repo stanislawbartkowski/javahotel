@@ -16,6 +16,7 @@ import java.io.Serializable;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.mail.Session;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -51,12 +52,15 @@ public class GetEnvVariables extends UtilHelper implements IGetEnvVariable {
         boolean resL;
         String resS;
         boolean empty = true;
+        Session session;
 
         String toS() {
             if (empty)
                 return "empty";
             if (resS != null)
                 return resS;
+            if (session != null)
+                return session.toString();
             return new Boolean(resL).toString();
         }
 
@@ -74,10 +78,15 @@ public class GetEnvVariables extends UtilHelper implements IGetEnvVariable {
         public boolean isEmpty() {
             return empty;
         }
+
+        @Override
+        public Session getSession() {
+            return session;
+        }
     }
 
     @SuppressWarnings("incomplete-switch")
-    private EnvVar getEnvStringDirect(String tName, boolean logVal,
+    private EnvVar getEnvStringDirect(String tName, ResType rType,
             boolean throwerror) {
         Context initCtx;
         EnvVar r = new EnvVar();
@@ -104,10 +113,17 @@ public class GetEnvVariables extends UtilHelper implements IGetEnvVariable {
                 else
                     return r;
             r.empty = false;
-            if (logVal)
+            switch (rType) {
+            case LOG:
                 r.resL = (Boolean) res;
-            else
+                break;
+            case STRING:
                 r.resS = (String) res;
+                break;
+            case MAIL:
+                r.session = (Session) res;
+                break;
+            }
             // ENVVARIABLEFOUND
             infoMess(gMess, ILogMess.ENVVARIABLEFOUND, eName, r.toS());
             initCtx.close();
@@ -123,7 +139,7 @@ public class GetEnvVariables extends UtilHelper implements IGetEnvVariable {
     }
 
     @Override
-    public IEnvVar getEnvString(String name, boolean logVal, boolean throwerror) {
+    public IEnvVar getEnvString(String name, ResType rType, boolean throwerror) {
         Object o = iCache.get(name);
         EnvVar r = (EnvVar) o;
         if (r != null) {
@@ -131,7 +147,7 @@ public class GetEnvVariables extends UtilHelper implements IGetEnvVariable {
             traceLog(name + " already cached " + r.toS());
             return r;
         }
-        r = getEnvStringDirect(name, logVal, throwerror);
+        r = getEnvStringDirect(name, rType, throwerror);
         iCache.put(name, r);
         traceLog(name + " to cache " + r.toS());
         return r;

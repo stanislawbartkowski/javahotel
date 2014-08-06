@@ -1,5 +1,7 @@
 package com.jythonui.server.envvar;
 
+import javax.mail.Session;
+
 
 public interface IGetEnvVariable {
 	
@@ -7,8 +9,13 @@ public interface IGetEnvVariable {
 		boolean getL();
 		String getS();
 		boolean isEmpty();
+		Session  getSession();
 	}
 	
-    IEnvVar getEnvString(String name, boolean logVal, boolean throwerror);
+	enum ResType {
+	  LOG,STRING,MAIL  
+	}
+	
+    IEnvVar getEnvString(String name, ResType rType, boolean throwerror);
 
 }
