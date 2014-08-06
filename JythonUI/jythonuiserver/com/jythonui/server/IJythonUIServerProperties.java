@@ -41,5 +41,5 @@ public interface IJythonUIServerProperties {
     URL getSendMailPropertiesFile();
 
     URL getGetMailPropertiesFile();
-
+    
 }

@@ -12,11 +12,35 @@
  */
 package com.jythonui.server;
 
+import java.util.List;
 
 public interface IMailSend {
 
+    class AttachElem {
+        private final String realM;
+        private final String blobId;
+        private final String fileName;
+
+        public AttachElem(String realM, String blobId, String fileName) {
+            this.realM = realM;
+            this.blobId = blobId;
+            this.fileName = fileName;
+        }
+
+        public String getBlobId() {
+            return blobId;
+        }
+
+        public String getFileName() {
+            return fileName;
+        }
+
+        public String getRealM() {
+            return realM;
+        }
+    }
 
     String postMail(boolean text, String recipients[], String subject,
-            String message, String from);
+            String message, String from, List<AttachElem> aList);
 
 }

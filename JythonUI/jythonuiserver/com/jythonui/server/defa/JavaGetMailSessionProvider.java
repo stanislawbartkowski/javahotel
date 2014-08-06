@@ -17,7 +17,6 @@ import java.util.Properties;
 
 import javax.inject.Named;
 import javax.inject.Provider;
-import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 
 import com.google.inject.Inject;
@@ -50,7 +49,7 @@ public class JavaGetMailSessionProvider extends UtilHelper implements
         try {
             Properties prop = ReadUTF8Properties.readProperties(iProp
                     .getGetMailPropertiesFile().openStream());
-            return Session.getDefaultInstance(prop);
+            return Session.getInstance(prop);
         } catch (IOException e) {
             errorMess(gMess, IErrorCode.ERRORCODE108,
                     ILogMess.MAILERRORPROPERTIES, e);

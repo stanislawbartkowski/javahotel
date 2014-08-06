@@ -13,16 +13,12 @@
 package com.jythonui.server.defa;
 
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import com.jythonui.server.IGetAppProp;
 import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonUIServerProperties;
-import com.jythonui.server.ISharedConsts;
-import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.resbundle.IAppMess;
 import com.jythonui.shared.ClientProp;
@@ -31,19 +27,11 @@ import com.jythonui.shared.RequestContext;
 
 public class GetClientProperties implements IJythonClientRes {
 
-    @SuppressWarnings("unused")
-    static final private Logger log = Logger
-            .getLogger(GetClientProperties.class.getName());
-    @SuppressWarnings("unused")
-    private final IGetLogMess gMess;
     private final IGetAppProp iApp;
     private final IJythonUIServerProperties iProp;
 
     @Inject
-    public GetClientProperties(
-            @Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess gMess,
-            IGetAppProp iApp, IJythonUIServerProperties iProp) {
-        this.gMess = gMess;
+    public GetClientProperties(IGetAppProp iApp, IJythonUIServerProperties iProp) {
         this.iApp = iApp;
         this.iProp = iProp;
     }
