@@ -39,6 +39,8 @@
   <button id="dialogarea" displayname="Area chart" actiontype="JMAIN_DIALOG" actionparam="dialogarea.xml" />
   <button id="dialogscatter" displayname="Scatter chart" actiontype="JMAIN_DIALOG" actionparam="dialogscatter.xml" />
   <button id="dialogcircle" displayname="Circle chart" actiontype="JMAIN_DIALOG" actionparam="dialogcircle.xml" />
+  <button id="x" displayname="Mail" header="" />  
+  <button id="sendmail" displayname="Send mail" actiontype="JMAIN_DIALOG" actionparam="sendmail.xml" />  
 </leftstack>
 
  <form>

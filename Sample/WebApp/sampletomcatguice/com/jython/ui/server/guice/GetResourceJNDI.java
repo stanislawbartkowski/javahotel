@@ -41,4 +41,9 @@ public class GetResourceJNDI implements IGetResourceJNDI {
         return null;
     }
 
+    @Override
+    public String getMailName() {
+        return "mail/Session";
+    }
+
 }

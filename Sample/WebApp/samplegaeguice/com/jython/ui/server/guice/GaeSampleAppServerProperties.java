@@ -10,13 +10,14 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jython.ui;
+package com.jython.ui.server.guice;
 
 import java.net.URL;
 
 import javax.inject.Inject;
 
 import com.jythonui.server.defa.AbstractServerProperties;
+import com.jythonui.server.defa.IsCached;
 import com.jythonui.server.resource.IReadResource;
 import com.jythonui.server.resource.IReadResourceFactory;
 
@@ -24,39 +25,34 @@ import com.jythonui.server.resource.IReadResourceFactory;
  * @author hotel
  * 
  */
-public class ServerProperties extends AbstractServerProperties {
+public class GaeSampleAppServerProperties extends AbstractServerProperties {
+
+    private final IsCached isC;
 
     @Inject
-    public ServerProperties(IReadResourceFactory iFactory) {
+    public GaeSampleAppServerProperties(IsCached isC,
+            IReadResourceFactory iFactory) {
         super(iFactory);
+        this.isC = isC;
     }
 
     @Override
     public boolean isCached() {
-        return true;
+        if (isC == null)
+            return false;
+        return isC.isCached();
     }
 
     @Override
     public IReadResource getResource() {
-        return iFactory.constructLoader(TestHelper.class.getClassLoader());
-    }
-
-    @Override
-    public boolean isSerialized() {
-        return M.isJythonSerialized();
+        return iFactory.constructLoader(GaeSampleAppServerProperties.class
+                .getClassLoader());
     }
 
     @Override
     public URL getSendMailPropertiesFile() {
         IReadResource r = getResource();
         return r.getRes("mail/mailbox.properties");
-    }
-    
-    @Override
-    public URL getGetMailPropertiesFile() {
-        IReadResource r = getResource();
-//        return r.getRes("mail/pop3mailbox.properties");
-      return r.getRes("mail/imapmailbox.properties");
     }
 
 }
