@@ -154,7 +154,7 @@ public class GetMail extends UtilHelper {
         if (fromN == -1)
             message = folder.getMessages();
         else
-            message = folder.getMessages(fromN, toN);
+            message = folder.getMessages(res.no-toN, res.no-fromN);
 
         // Display message.
         for (Message me : message) {
@@ -187,19 +187,12 @@ public class GetMail extends UtilHelper {
             // extract address part only without personal name
             Address from = me.getFrom()[0];
             InternetAddress f = (InternetAddress) from;
-            // ma.setFrom(f.getAddress());
-            // ma.setPerson(f.getPersonal());
-
-            // ma.setHeader(me.getSubject());
-            // ma.setSentDate(me.getSentDate());
-            // ma.setText(!textIsHtml);
-            // ma.setContent(s);
             boolean isSeen = me.isSet(Flags.Flag.SEEN);
-            // ma.setIsSeen(isSeen);
             CMailToSend ma = new CMailToSend(me.getSubject(), s,
                     f.getAddress(), !textIsHtml, isSeen, me.getSentDate(),
                     f.getPersonal());
             res.list.add(0, ma);
+//            res.list.add(ma);
         }
         folder.close(true);
         store.close();

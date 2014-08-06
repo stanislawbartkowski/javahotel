@@ -43,8 +43,6 @@ public class JavaMailSessionProvider extends UtilHelper implements
         this.iProp = iProp;
     }
 
-    // mail.smtp.user=javahotel.testing@gmail.com
-    // mail.smtp.password=javahotel
     @Override
     public Session get() {
         if (iProp.getSendMailPropertiesFile() == null)
@@ -54,7 +52,7 @@ public class JavaMailSessionProvider extends UtilHelper implements
                     .getSendMailPropertiesFile().openStream());
             final String user = prop.getProperty("mail.smtp.user");
             final String password = prop.getProperty("mail.smtp.password");
-            return Session.getDefaultInstance(prop,
+            return Session.getInstance(prop,
                     new javax.mail.Authenticator() {
                         protected PasswordAuthentication getPasswordAuthentication() {
                             return new PasswordAuthentication(user, password);

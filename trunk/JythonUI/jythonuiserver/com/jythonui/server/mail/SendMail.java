@@ -12,6 +12,11 @@
  */
 package com.jythonui.server.mail;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.List;
+
+import javax.activation.DataHandler;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -19,8 +24,12 @@ import javax.mail.Transport;
 import javax.mail.event.TransportEvent;
 import javax.mail.event.TransportListener;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import javax.mail.util.ByteArrayDataSource;
 
+import com.gwtmodel.table.common.CUtil;
 import com.jythonui.server.UtilHelper;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
@@ -33,7 +42,15 @@ public class SendMail extends UtilHelper {
 
     private SendMail() {
     }
-    
+
+    public interface IAttachment {
+        String getFileName();
+
+        byte[] getAttach();
+
+        String getContentType();
+    }
+
     private static class T implements TransportListener {
 
         private String errMess = null;
@@ -58,15 +75,17 @@ public class SendMail extends UtilHelper {
     }
 
     private static void postmail(Session session, T li, boolean text,
-            String recipients[], String subject, String message, String from)
-            throws MessagingException {
+            String recipients[], String subject, String message, String from,
+            List<IAttachment> aList) throws MessagingException, IOException {
 
         // create a message
         Message msg = new MimeMessage(session);
-            
+
         // set the from and to address
-        InternetAddress addressFrom = new InternetAddress(from);
-        msg.setFrom(addressFrom);
+        if (!CUtil.EmptyS(from)) {
+            InternetAddress addressFrom = new InternetAddress(from);
+            msg.setFrom(addressFrom);
+        }
 
         InternetAddress[] addressTo = new InternetAddress[recipients.length];
         for (int i = 0; i < recipients.length; i++) {
@@ -76,26 +95,61 @@ public class SendMail extends UtilHelper {
 
         // Setting the Subject and Content Type
         msg.setSubject(subject);
-        if (text) {
-            msg.setContent(message, "text/plain;charset=UTF-8");
-        } else {
-            msg.setContent(message, "text/html;charset=UTF-8");
+
+        if (CUtil.EmptyS(message))
+            message = "";
+
+        if (aList == null || aList.isEmpty())
+            if (text) {
+                msg.setContent(message, "text/plain;charset=UTF-8");
+            } else {
+                msg.setContent(message, "text/html;charset=UTF-8");
+            }
+        else {
+            MimeMultipart mu = new MimeMultipart();
+            MimeBodyPart tPart = new MimeBodyPart();
+            if (text) {
+                tPart.setContent(message, "text/plain;charset=UTF-8");
+            } else {
+                tPart.setContent(message, "text/html;charset=UTF-8");
+            }
+            mu.addBodyPart(tPart);
+            for (IAttachment a : aList) {
+                MimeBodyPart attach = new MimeBodyPart();
+                ByteArrayDataSource ds = new ByteArrayDataSource(
+                        new ByteArrayInputStream(a.getAttach()),
+                        a.getContentType());
+                attach.setDataHandler(new DataHandler(ds));
+                attach.setFileName(a.getFileName());
+                mu.addBodyPart(attach);
+            }
+            msg.setContent(mu);
         }
 
         Transport.send(msg);
     }
 
+    private static String errMess(Exception e) {
+        if (!CUtil.EmptyS(e.getMessage()))
+            return e.getMessage();
+        return L().getMessN(ILogMess.MAILDELIVERERRORSERVERLOGS);
+    }
+
     public static String postMail(Session session, boolean text,
-            String recipients[], String subject, String message, String from) {
+            String recipients[], String subject, String message, String from,
+            List<IAttachment> aList) {
         T li = new T();
         try {
-            postmail(session, li, text, recipients, subject, message, from);
+            postmail(session, li, text, recipients, subject, message, from,
+                    aList);
         } catch (MessagingException ex) {
-            severe(L().getMess(IErrorCode.ERRORCODE103, ILogMess.MAILDELIVERERROR),ex);
-            return ex.getMessage();
+            severe(L().getMess(IErrorCode.ERRORCODE103,
+                    ILogMess.MAILDELIVERERROR), ex);
+            return errMess(ex);
         } catch (Exception e) {
-            severe(L().getMess(IErrorCode.ERRORCODE104, ILogMess.MAILDELIVERERROR),e);
-            return e.getMessage();
+            severe(L().getMess(IErrorCode.ERRORCODE104,
+                    ILogMess.MAILDELIVERERROR), e);
+            return errMess(e);
         }
         if (li.getErrMess() != null) {
             return li.getErrMess();

@@ -14,7 +14,6 @@ package com.jythonui.server.upload;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -51,7 +50,8 @@ public class DownloadFile extends HttpServlet {
         String filename = param[2];
         String realM = param[0];
         String key = param[1];
-        String e = mim.getContentType(new File(filename));
+        // String e = mim.getContentType(new File(filename));
+        String e = mim.getContentType(filename);
         response.setContentType(e);
         response.setHeader("Content-Disposition", "attachment; filename=\""
                 + filename + '\"');
