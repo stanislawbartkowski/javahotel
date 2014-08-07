@@ -3,7 +3,7 @@ from com.jythonui.server.IMailSend import AttachElem
 
 import cutil
 
-def sendMail(subject,content,to,froma,text=True,attachList=None) :
+def sendMail(subject,content,to,froma,attachList=None,text=True) :
     iM = Holder.getMail()
     res = iM.postMail(text,[to,],subject,content,froma,attachList)
     return res
@@ -14,13 +14,16 @@ def getMailNo():
     assert res.getErrMess() == None
     return res.getNo()
 
-def sendMailSingleAttach(subject,content,to,froma,text,realM,bKey,a) :
-    aList = cutil.createArrayList()
-    elem = AttachElem(realM,bKey,a)
+def createAttachList(aList,realM,bKey,filename):
+    if aList == None : aList = cutil.createArrayList()
+    elem = AttachElem(realM,bKey,filename)
     aList.add(elem)
-    return sendMail(subject,content,to,froma,text,aList)
-    
-    
+    return aList    
+
+def sendMailSingleAttach(subject,content,to,froma,realM,bKey,filename,text=True) :
+    aList = createAttachList(None,realM,bKey,filename)
+    return sendMail(subject,content,to,froma,aList,text)
+        
 def getMailList(fromm = -1,to = 0):
     """ get list of mail from input box
     Args:
