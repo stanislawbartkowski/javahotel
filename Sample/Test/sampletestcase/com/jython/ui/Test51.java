@@ -29,6 +29,7 @@ import org.junit.Test;
 import com.gwtmodel.table.common.TT;
 import com.jythonui.server.IMailSend;
 import com.jythonui.server.holder.Holder;
+import com.jythonui.server.security.token.ICustomSecurity;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldItem;
@@ -97,6 +98,25 @@ public class Test51 extends TestHelper {
         assertOK(v);
     }
 
+    @Test
+    public void test6() {
+        DialogVariables v = new DialogVariables();
+        runAction(v, "test97.xml", "sendmailattachment3");
+        assertOK(v);
+    }
+
+    @Test
+    public void test7() {
+        ICustomSecurity cu = getPersonSec();
+        String t = iSec.authenticateToken(realmIni, "guest", "guest", cu);
+        assertNotNull(t);
+        DialogVariables v = new DialogVariables();
+        runAction(t,v, "test97.xml", "createbloblist");
+        assertOK(v);
+        v = new DialogVariables();
+        runAction(t,v, "test97.xml", "sendbloblist");
+        assertOK(v);
+    }
 
 
 }
