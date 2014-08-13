@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" >
+
+<before/>
+
+ <jython>
+   <import>from testpack import sendmaillist</import>
+   <method>sendmaillist.dialogaction({0},{1})</method>
+ </jython>  
+
+ 
+ <list id="list" elemformat="noteelem.xml" >
+   <standbutt>TOOLS,SHOW,ADD,REMOVE,FIND,FILTER</standbutt>
+   <columns>
+   <column id="name" hidden="" />     
+   <column id="subject" displayname="Subject" />
+   <column id="to" displayname="Recipient"/>
+   <column id="from" displayname="From" />
+   <column id="content" displayname="Content" />
+   <column id="res" displayname="Send result" defvalue="OK" />
+ </columns>
+ </list>  
+
+ 
+</dialog>

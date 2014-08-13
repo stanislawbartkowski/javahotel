@@ -17,12 +17,15 @@ import javax.persistence.EntityManagerFactory;
 
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.gwtmodel.table.common.dateutil.ISetTestToday;
 import com.gwtmodel.table.common.dateutil.SetTestTodayProvider;
 import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.gwtmodel.testenhancer.notgae.TestEnhancer;
+import com.jython.jpautil.crudimpl.gensym.IJpaObjectGenSymFactory;
+import com.jython.jpautil.crudimpl.gensym.JpaObjectGenSymFactoryImpl;
 import com.jython.serversecurity.IOObjectAdmin;
 import com.jython.serversecurity.instance.IAppInstanceOObject;
 import com.jython.serversecurity.jpa.OObjectAdminInstance;
@@ -32,6 +35,7 @@ import com.jython.ui.TestHelper;
 import com.jython.ui.server.datastore.IDateLineOp;
 import com.jython.ui.server.datastore.IDateRecordOp;
 import com.jython.ui.server.datastore.IPersonOp;
+import com.jython.ui.server.jpanote.JpaNoteStorage;
 import com.jython.ui.server.jpastoragekey.BlobEntryJpaHandler;
 import com.jython.ui.server.jpastoragekey.IStorageJpaRegistryFactory;
 import com.jython.ui.server.jpastoragekey.StorageJpaRegistryFactory;
@@ -46,15 +50,21 @@ import com.jythonui.server.IConsts;
 import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServerProperties;
+import com.jythonui.server.ISharedConsts;
+import com.jythonui.server.crud.ICrudObjectGenSym;
 import com.jythonui.server.defa.EmptyConnectionProvider;
 import com.jythonui.server.defa.EmptyRPCNotifier;
 import com.jythonui.server.defa.JavaGetMailSessionProvider;
 import com.jythonui.server.defa.JavaMailSessionProvider;
+import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.guavacache.GuavaCacheFactory;
 import com.jythonui.server.guice.JythonServerService.JythonServiceModule;
+import com.jythonui.server.mail.INoteStorage;
+import com.jythonui.server.objectgensymimpl.CrudObjectGenSym;
 import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.server.semaphore.impl.SemaphoreSynch;
 import com.jythonui.server.storage.blob.IBlobHandler;
+import com.jythonui.server.storage.gensym.ISymGenerator;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 
 /**
@@ -102,6 +112,10 @@ public class ServerService {
             bind(Session.class).annotatedWith(Names.named(IConsts.GETMAIL))
                     .toProvider(JavaGetMailSessionProvider.class)
                     .in(Singleton.class);
+            bind(IJpaObjectGenSymFactory.class).to(
+                    JpaObjectGenSymFactoryImpl.class).in(Singleton.class);
+            bind(INoteStorage.class).to(JpaNoteStorage.class).in(
+                    Singleton.class);
             requestStatic();
             requestStaticInjection(TestHelper.class);
 
@@ -127,6 +141,14 @@ public class ServerService {
                 }
             };
         }
+        
+        @Provides
+        @Singleton
+        ICrudObjectGenSym getCrudObjectGenSym(ISymGenerator iGen,
+                @Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess lMess) {
+            return new CrudObjectGenSym(iGen, lMess);
+        }
+
 
         // -----
 

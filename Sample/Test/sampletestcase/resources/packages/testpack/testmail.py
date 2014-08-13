@@ -79,6 +79,35 @@ def dialogaction(action,var):
         print res
         assert res == None
         var["OK"] = True
+        
+    if action == "setxmail" :
+        M = cmail.CMAIL(var)
+        res = M.sendMail("hello","Sending from CMAIL class","stanislawbartkowski@gmail.com","test.jython")
+        print res;
+        assert res == None
+        var["OK"] = True
+        
+    if action == "readxmail" :
+        M = cmail.CMAIL(var)
+        li = M.getList()
+        print li
+        for l in li : print l.getDescription()
+        assert len(li) == 1
+        var["OK"] = True
+        
+    if action == "removexmail" :
+        M = cmail.CMAIL(var)
+        li = M.getList()
+        assert len(li) == 1
+        li = M.getList()
+        l = li[0]
+        M.deleteElem(l)
+        li = M.getList()
+        assert len(li) == 0
+        var["OK"] = True
+        
             
+        
+                        
         
         

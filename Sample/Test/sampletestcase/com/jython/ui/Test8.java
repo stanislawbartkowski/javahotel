@@ -89,6 +89,7 @@ public class Test8 extends TestHelper {
 
         ListOfRows li = v.getList("list");
         assertNotNull(li);
+        // GAE: can fail (99)
         assertEquals(100, li.getRowList().size());
     }
 }
