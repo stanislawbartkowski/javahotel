@@ -14,6 +14,9 @@ package com.jython.ui.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.jythonui.client.injector.UIGiniInjector;
+import com.jythonui.server.IConsts;
+import com.jythonui.server.ISharedConsts;
+import com.jythonui.shared.CustomSecurity;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -21,6 +24,9 @@ import com.jythonui.client.injector.UIGiniInjector;
 public class WebJythonUi implements EntryPoint {
 
     public void onModuleLoad() {
+//        CustomSecurity sec = new CustomSecurity();
+//        sec.setAttr(IConsts.OBJECTNAME, ISharedConsts.);
+//        sec.setAttr(IConsts.INSTANCEID, ISharedConsts.INSTANCEDEFAULT);
         UIGiniInjector.getI().getJythonClientStart().start(null);
     }
 

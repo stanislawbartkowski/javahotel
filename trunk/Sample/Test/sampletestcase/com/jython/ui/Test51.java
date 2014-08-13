@@ -33,6 +33,7 @@ import com.jythonui.server.security.token.ICustomSecurity;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldItem;
+import com.jythonui.shared.RequestContext;
 
 public class Test51 extends TestHelper {
 
@@ -79,18 +80,21 @@ public class Test51 extends TestHelper {
             out.write(a, 0, no);
             no = is.read(a);
         }
-        String bKey = iAddBlob.addNewBlob("PDFTEMP","ATTACH",out.toByteArray());
+        String bKey = iAddBlob.addNewBlob("PDFTEMP", "ATTACH",
+                out.toByteArray());
         assertNotNull(bKey);
-        IMailSend.AttachElem atta = new IMailSend.AttachElem("PDFTEMP",bKey,"attach.txt");
+        IMailSend.AttachElem atta = new IMailSend.AttachElem("PDFTEMP", bKey,
+                "attach.txt");
         List<IMailSend.AttachElem> aList = new ArrayList<IMailSend.AttachElem>();
         aList.add(atta);
         String res = iiMail.postMail(true,
-                new String[] { "stanislawbartkowski@gmail.com" }, "Note with single attachment",
+                new String[] { "stanislawbartkowski@gmail.com" },
+                "Note with single attachment",
                 "This is my first not with one attachment", "hello.x", aList);
         System.out.println(res);
-        assertNull(res);            
+        assertNull(res);
     }
-    
+
     @Test
     public void test5() {
         DialogVariables v = new DialogVariables();
@@ -110,13 +114,13 @@ public class Test51 extends TestHelper {
         ICustomSecurity cu = getPersonSec();
         String t = iSec.authenticateToken(realmIni, "guest", "guest", cu);
         assertNotNull(t);
+
         DialogVariables v = new DialogVariables();
-        runAction(t,v, "test97.xml", "createbloblist");
+        runAction(t, v, "test97.xml", "createbloblist");
         assertOK(v);
         v = new DialogVariables();
-        runAction(t,v, "test97.xml", "sendbloblist");
+        runAction(t, v, "test97.xml", "sendbloblist");
         assertOK(v);
     }
-
 
 }

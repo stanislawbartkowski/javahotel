@@ -21,6 +21,8 @@ import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.gwtmodel.mapcache.SimpleMapCacheFactory;
+import com.jython.jpautil.crudimpl.gensym.IJpaObjectGenSymFactory;
+import com.jython.jpautil.crudimpl.gensym.JpaObjectGenSymFactoryImpl;
 import com.jython.serversecurity.IOObjectAdmin;
 import com.jython.serversecurity.instance.IAppInstanceOObject;
 import com.jython.serversecurity.jpa.OObjectAdminInstance;
@@ -29,6 +31,7 @@ import com.jython.ui.server.Cached;
 import com.jython.ui.server.datastore.IDateLineOp;
 import com.jython.ui.server.datastore.IDateRecordOp;
 import com.jython.ui.server.datastore.IPersonOp;
+import com.jython.ui.server.jpanote.JpaNoteStorage;
 import com.jython.ui.server.jpastoragekey.BlobEntryJpaHandler;
 import com.jython.ui.server.jpastoragekey.IStorageJpaRegistryFactory;
 import com.jython.ui.server.jpastoragekey.StorageJpaRegistryFactory;
@@ -51,6 +54,7 @@ import com.jythonui.server.envvar.IGetResourceJNDI;
 import com.jythonui.server.envvar.impl.GetEnvVariables;
 import com.jythonui.server.envvar.impl.ServerPropertiesEnv;
 import com.jythonui.server.guice.JythonServerService;
+import com.jythonui.server.mail.INoteStorage;
 import com.jythonui.server.ressession.ResGetMailSessionProvider;
 import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.server.semaphore.impl.SemaphoreSynch;
@@ -105,7 +109,10 @@ public class ServerService {
             bind(Session.class).annotatedWith(Names.named(IConsts.SENDMAIL))
                     .toProvider(ResGetMailSessionProvider.class)
                     .in(Singleton.class);
-
+            bind(IJpaObjectGenSymFactory.class).to(
+                    JpaObjectGenSymFactoryImpl.class).in(Singleton.class);
+            bind(INoteStorage.class).to(JpaNoteStorage.class).in(
+                    Singleton.class);
             // -----
 
             requestStatic();
@@ -132,19 +139,20 @@ public class ServerService {
             };
         }
 
-         @Provides
-         @Named(IConsts.GETMAIL)
-         @Singleton
-         Session getGetSession() {
-         return null;
-         }
-
-/*        @Provides
-        @Named(IConsts.SENDMAIL)
+        @Provides
+        @Named(IConsts.GETMAIL)
         @Singleton
-        Session getSendSession() {
+        Session getGetSession() {
             return null;
-        }*/
+        }
+
+        /*
+         * @Provides
+         * 
+         * @Named(IConsts.SENDMAIL)
+         * 
+         * @Singleton Session getSendSession() { return null; }
+         */
 
     }
 
