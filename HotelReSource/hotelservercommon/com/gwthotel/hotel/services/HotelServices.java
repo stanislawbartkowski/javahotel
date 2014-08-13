@@ -14,7 +14,7 @@ package com.gwthotel.hotel.services;
 
 import com.gwthotel.hotel.ServiceType;
 import com.gwthotel.shared.IHotelConsts;
-import com.gwthotel.shared.PropDescription;
+import com.jythonui.shared.PropDescription;
 
 public class HotelServices extends PropDescription {
 

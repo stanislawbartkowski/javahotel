@@ -12,8 +12,8 @@
  */
 package com.gwthotel.hotel.pricelist;
 
-import com.gwthotel.hotel.IHotelProp;
+import com.jythonui.server.crud.IObjectCrud;
 
-public interface IHotelPriceList extends IHotelProp<HotelPriceList> {
+public interface IHotelPriceList extends IObjectCrud<HotelPriceList> {
 
 }

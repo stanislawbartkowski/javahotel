@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import com.gwthotel.shared.IHotelConsts;
-import com.gwthotel.shared.PropDescription;
+import com.jythonui.shared.PropDescription;
 
 public class PaymentBill extends PropDescription {
 

@@ -12,8 +12,8 @@
  */
 package com.gwthotel.hotel;
 
-import com.gwthotel.shared.PropDescription;
 import com.jython.serversecurity.cache.OObjectId;
+import com.jythonui.shared.PropDescription;
 
 public interface IHotelObjectsFactory {
 
