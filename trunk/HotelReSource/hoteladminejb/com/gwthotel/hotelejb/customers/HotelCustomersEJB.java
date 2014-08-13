@@ -24,9 +24,9 @@ import javax.interceptor.Interceptors;
 import com.google.inject.Inject;
 import com.gwthotel.hotel.customer.HotelCustomer;
 import com.gwthotel.hotel.customer.IHotelCustomers;
-import com.gwthotel.hotelejb.AbstractHotelEJB;
 import com.gwthotel.shared.IHotelConsts;
 import com.jythonui.server.defa.GuiceInterceptor;
+import com.jythonui.server.ejb.crud.AbstractCrudEJB;
 
 //import javax.inject.Inject;
 
@@ -36,7 +36,7 @@ import com.jythonui.server.defa.GuiceInterceptor;
 @EJB(name = IHotelConsts.HOTELCUSTOMERSJNDI, beanInterface = IHotelCustomers.class)
 @Remote
 @Interceptors(value = { GuiceInterceptor.class })
-public class HotelCustomersEJB extends AbstractHotelEJB<HotelCustomer>
+public class HotelCustomersEJB extends AbstractCrudEJB<HotelCustomer>
         implements IHotelCustomers {
 
     @Inject

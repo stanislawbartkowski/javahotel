@@ -51,9 +51,6 @@ public class H {
     private static IHotelServices iServices;
 
 
-//    @Inject
-//    private static IHotelGetName iGetHotelName;
-
     @Inject
     private static IHotelPriceList iPriceList;
 
@@ -98,14 +95,6 @@ public class H {
     public static IHotelServices getHotelServices() {
         return iServices;
     }
-
-//    public static OObjectId getHotelName(String token) {
-//        return iGetHotelName.getHotel(token);
-//    }
-
-//    public static AppInstanceId getInstanceId(String token) {
-//        return iGetHotelName.getInstance(token);
-//    }
 
     public static IHotelPriceList getHotelPriceList() {
         return iPriceList;

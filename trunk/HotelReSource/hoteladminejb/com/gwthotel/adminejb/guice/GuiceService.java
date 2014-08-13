@@ -12,18 +12,14 @@
  */
 package com.gwthotel.adminejb.guice;
 
-import javax.inject.Named;
 import javax.inject.Singleton;
-import javax.persistence.EntityManager;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.name.Names;
 import com.gwthotel.hotel.IClearHotel;
-import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.bill.ICustomerBills;
 import com.gwthotel.hotel.customer.IHotelCustomers;
-import com.gwthotel.hotel.jpa.IHotelObjectGenSymFactory;
 import com.gwthotel.hotel.jpa.bill.CustomerBillJpa;
 import com.gwthotel.hotel.jpa.clearobjects.ClearObjects;
 import com.gwthotel.hotel.jpa.customers.HotelJpaCustomers;
@@ -34,7 +30,6 @@ import com.gwthotel.hotel.jpa.reservation.HotelReservations;
 import com.gwthotel.hotel.jpa.reservationop.ReservationOp;
 import com.gwthotel.hotel.jpa.rooms.HotelJpaRooms;
 import com.gwthotel.hotel.jpa.services.HotelJpaServices;
-import com.gwthotel.hotel.objectgensymimpl.HotelObjectGenSym;
 import com.gwthotel.hotel.payment.IPaymentBillOp;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
@@ -46,26 +41,30 @@ import com.gwthotel.mess.HotelMessProvider;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.table.common.dateutil.ISetTestToday;
 import com.gwtmodel.table.common.dateutil.SetTestTodayProvider;
+import com.jython.jpautil.crudimpl.gensym.IJpaObjectGenSymFactory;
+import com.jython.jpautil.crudimpl.gensym.JpaObjectGenSymFactoryImpl;
 import com.jython.serversecurity.IOObjectAdmin;
 import com.jython.serversecurity.instance.IAppInstanceOObject;
 import com.jython.serversecurity.jpa.OObjectAdminInstance;
 import com.jython.serversecurity.jpa.OObjectAdminJpa;
+import com.jython.ui.server.jpanote.JpaNoteStorage;
 import com.jython.ui.server.jpastoragekey.BlobEntryJpaHandler;
 import com.jython.ui.server.jpastoragekey.IStorageJpaRegistryFactory;
 import com.jython.ui.server.jpastoragekey.StorageJpaRegistryFactory;
 import com.jython.ui.server.jpatrans.ITransactionContext;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
-import com.jython.ui.server.jpatrans.JpaEmTransactionContext;
 import com.jython.ui.server.jpatrans.JpaNonTransactionContext;
 import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.logmess.MessProvider;
+import com.jythonui.server.mail.INoteStorage;
+import com.jythonui.server.newblob.IAddNewBlob;
+import com.jythonui.server.newblob.impl.AddNewBlob;
 import com.jythonui.server.resource.IReadResourceFactory;
 import com.jythonui.server.resource.ReadResourceFactory;
 import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.server.semaphore.impl.SemaphoreRegistry;
 import com.jythonui.server.storage.blob.IBlobHandler;
-import com.jythonui.server.storage.gensym.ISymGenerator;
 import com.jythonui.server.storage.gensym.ISymGeneratorFactory;
 import com.jythonui.server.storage.gensymimpl.SymGeneratorFactory;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
@@ -79,19 +78,16 @@ public class GuiceService {
         @Override
         protected void configure() {
 
-            bind(IHotelServices.class).to(HotelJpaServices.class)
-                    .in(Singleton.class);
-
-            bind(IHotelPriceList.class)
-                    .to(HotelJpaPriceList.class).in(
-                            Singleton.class);
-
-            bind(IHotelPriceElem.class)
-                    .to(HotelJpaPrices.class).in(
-                            Singleton.class);
-
-            bind(IHotelRooms.class).to(HotelJpaRooms.class).in(
+            bind(IHotelServices.class).to(HotelJpaServices.class).in(
                     Singleton.class);
+
+            bind(IHotelPriceList.class).to(HotelJpaPriceList.class).in(
+                    Singleton.class);
+
+            bind(IHotelPriceElem.class).to(HotelJpaPrices.class).in(
+                    Singleton.class);
+
+            bind(IHotelRooms.class).to(HotelJpaRooms.class).in(Singleton.class);
 
             bind(IHotelCustomers.class).to(HotelJpaCustomers.class).in(
                     Singleton.class);
@@ -104,16 +100,15 @@ public class GuiceService {
                     .annotatedWith(Names.named(ISharedConsts.JYTHONMESSSERVER))
                     .toProvider(MessProvider.class).in(Singleton.class);
 
-            bind(IReservationForm.class).to(
-                    HotelReservations.class).in(Singleton.class);
+            bind(IReservationForm.class).to(HotelReservations.class).in(
+                    Singleton.class);
 
-            bind(IReservationOp.class).to(ReservationOp.class)
-                    .in(Singleton.class);
+            bind(IReservationOp.class).to(ReservationOp.class).in(
+                    Singleton.class);
             bind(IClearHotel.class).to(ClearObjects.class).in(Singleton.class);
             bind(ICustomerBills.class).to(CustomerBillJpa.class).in(
                     Singleton.class);
-            bind(IPaymentBillOp.class).to(PaymentOp.class).in(
-                    Singleton.class);
+            bind(IPaymentBillOp.class).to(PaymentOp.class).in(Singleton.class);
             // common
             bind(IStorageJpaRegistryFactory.class).to(
                     StorageJpaRegistryFactory.class).in(Singleton.class);
@@ -134,6 +129,11 @@ public class GuiceService {
                     Singleton.class);
             bind(IOObjectAdmin.class).to(OObjectAdminJpa.class).in(
                     Singleton.class);
+            bind(INoteStorage.class).to(JpaNoteStorage.class).in(
+                    Singleton.class);
+            bind(IJpaObjectGenSymFactory.class).to(
+                    JpaObjectGenSymFactoryImpl.class).in(Singleton.class);
+            bind(IAddNewBlob.class).to(AddNewBlob.class).in(Singleton.class);
             // -----
 
         }
@@ -158,34 +158,12 @@ public class GuiceService {
             };
         }
 
-        // -----
-
         @Provides
         @Singleton
-        IHotelObjectGenSymFactory getHotelObjectGenSymFactory(
-                final ISequenceRealmGenFactory seqFactory,
-                final ISymGeneratorFactory symFactory,
-                final IStorageJpaRegistryFactory regFactory,
-                final ISemaphore iSem,
-                final @Named(IHotelConsts.MESSNAMED) IGetLogMess lMess) {
-            return new IHotelObjectGenSymFactory() {
-
-                @Override
-                public IHotelObjectGenSym construct(final EntityManager em) {
-                    ITransactionContextFactory tFactory = new ITransactionContextFactory() {
-
-                        @Override
-                        public ITransactionContext construct() {
-                            return new JpaEmTransactionContext(em);
-                        }
-                    };
-                    IStorageRealmRegistry iReg = regFactory.construct(tFactory);
-                    ISequenceRealmGen iSeq = seqFactory.construct(iReg, iSem);
-                    ISymGenerator iSym = symFactory.construct(iSeq);
-                    return new HotelObjectGenSym(iSym, lMess);
-                }
-
-            };
+        ISequenceRealmGen getSequenceRealmGen(
+                ISequenceRealmGenFactory seqFactory,
+                IStorageRealmRegistry iReg, ISemaphore iSem) {
+            return seqFactory.construct(iReg, iSem);
         }
 
     }
