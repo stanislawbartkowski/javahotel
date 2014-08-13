@@ -24,10 +24,10 @@ import javax.interceptor.Interceptors;
 import com.google.inject.Inject;
 import com.gwthotel.hotel.pricelist.HotelPriceList;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
-import com.gwthotel.hotelejb.AbstractHotelEJB;
 import com.gwthotel.shared.IHotelConsts;
 import com.jythonui.server.defa.GuiceInterceptor;
 //import javax.inject.Inject;
+import com.jythonui.server.ejb.crud.AbstractCrudEJB;
 
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
@@ -35,7 +35,7 @@ import com.jythonui.server.defa.GuiceInterceptor;
 @EJB(name = IHotelConsts.HOTELPRICELISTJNDI, beanInterface = IHotelPriceList.class)
 @Remote
 @Interceptors(value = { GuiceInterceptor.class })
-public class HotelPriceListEJB extends AbstractHotelEJB<HotelPriceList> implements
+public class HotelPriceListEJB extends AbstractCrudEJB<HotelPriceList> implements
         IHotelPriceList {
 
     @Inject

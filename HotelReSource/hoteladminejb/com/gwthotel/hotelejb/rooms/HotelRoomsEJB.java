@@ -27,10 +27,10 @@ import com.google.inject.Inject;
 import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.HotelServices;
-import com.gwthotel.hotelejb.AbstractHotelEJB;
 import com.gwthotel.shared.IHotelConsts;
 import com.jython.serversecurity.cache.OObjectId;
 import com.jythonui.server.defa.GuiceInterceptor;
+import com.jythonui.server.ejb.crud.AbstractCrudEJB;
 
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
@@ -38,7 +38,7 @@ import com.jythonui.server.defa.GuiceInterceptor;
 @EJB(name = IHotelConsts.HOTELROOMSJNDI, beanInterface = IHotelRooms.class)
 @Remote
 @Interceptors(value = { GuiceInterceptor.class })
-public class HotelRoomsEJB extends AbstractHotelEJB<HotelRoom> implements
+public class HotelRoomsEJB extends AbstractCrudEJB<HotelRoom> implements
         IHotelRooms {
 
     private IHotelRooms iRooms;

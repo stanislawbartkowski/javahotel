@@ -19,14 +19,14 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
-import com.google.inject.Inject;
 import javax.interceptor.Interceptors;
 
+import com.google.inject.Inject;
 import com.gwthotel.hotel.services.HotelServices;
 import com.gwthotel.hotel.services.IHotelServices;
-import com.gwthotel.hotelejb.AbstractHotelEJB;
 import com.gwthotel.shared.IHotelConsts;
 import com.jythonui.server.defa.GuiceInterceptor;
+import com.jythonui.server.ejb.crud.AbstractCrudEJB;
 
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
@@ -34,7 +34,7 @@ import com.jythonui.server.defa.GuiceInterceptor;
 @EJB(name = IHotelConsts.HOTELSERVICESJNDI, beanInterface = IHotelServices.class)
 @Remote
 @Interceptors(value = { GuiceInterceptor.class })
-public class HotelServicesEJB extends AbstractHotelEJB<HotelServices> implements IHotelServices {
+public class HotelServicesEJB extends AbstractCrudEJB<HotelServices> implements IHotelServices {
 
     @Inject
     public void injectHotelServices(IHotelServices injectedServices) {
