@@ -15,7 +15,6 @@ package com.gwthotel.hotel.server.guice;
 import java.util.Date;
 
 import javax.mail.Session;
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 import com.google.inject.Provides;
@@ -23,11 +22,9 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.IGetAutomPatterns;
-import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.bill.ICustomerBills;
 import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.guice.HotelCommonGuice.HotelServiceModule;
-import com.gwthotel.hotel.jpa.IHotelObjectGenSymFactory;
 import com.gwthotel.hotel.jpa.bill.CustomerBillJpa;
 import com.gwthotel.hotel.jpa.clearobjects.ClearObjects;
 import com.gwthotel.hotel.jpa.customers.HotelJpaCustomers;
@@ -38,7 +35,6 @@ import com.gwthotel.hotel.jpa.reservation.HotelReservations;
 import com.gwthotel.hotel.jpa.reservationop.ReservationOp;
 import com.gwthotel.hotel.jpa.rooms.HotelJpaRooms;
 import com.gwthotel.hotel.jpa.services.HotelJpaServices;
-import com.gwthotel.hotel.objectgensymimpl.HotelObjectGenSym;
 import com.gwthotel.hotel.payment.IPaymentBillOp;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
@@ -50,19 +46,20 @@ import com.gwthotel.hotel.server.provider.EntityManagerFactoryProvider;
 import com.gwthotel.hotel.server.service.H;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.resource.GetResourceJNDI;
-import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.gwtmodel.table.common.dateutil.ISetTestToday;
+import com.jython.jpautil.crudimpl.gensym.IJpaObjectGenSymFactory;
+import com.jython.jpautil.crudimpl.gensym.JpaObjectGenSymFactoryImpl;
 import com.jython.serversecurity.IOObjectAdmin;
 import com.jython.serversecurity.instance.IAppInstanceOObject;
 import com.jython.serversecurity.jpa.OObjectAdminInstance;
 import com.jython.serversecurity.jpa.OObjectAdminJpa;
+import com.jython.ui.server.jpanote.JpaNoteStorage;
 import com.jython.ui.server.jpastoragekey.BlobEntryJpaHandler;
 import com.jython.ui.server.jpastoragekey.IStorageJpaRegistryFactory;
 import com.jython.ui.server.jpastoragekey.StorageJpaRegistryFactory;
 import com.jython.ui.server.jpatrans.ITransactionContext;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
-import com.jython.ui.server.jpatrans.JpaEmTransactionContext;
 import com.jython.ui.server.jpatrans.JpaTransactionContext;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IGetConnection;
@@ -75,18 +72,14 @@ import com.jythonui.server.envvar.IGetEnvVariable;
 import com.jythonui.server.envvar.IGetResourceJNDI;
 import com.jythonui.server.envvar.impl.GetEnvVariables;
 import com.jythonui.server.envvar.impl.ServerPropertiesEnv;
-import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.guavacache.GuavaCacheFactory;
+import com.jythonui.server.mail.INoteStorage;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.resbundle.Mess;
 import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.server.semaphore.impl.SemaphoreSynch;
 import com.jythonui.server.storage.blob.IBlobHandler;
-import com.jythonui.server.storage.gensym.ISymGenerator;
-import com.jythonui.server.storage.gensym.ISymGeneratorFactory;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
-import com.jythonui.server.storage.seq.ISequenceRealmGen;
-import com.jythonui.server.storage.seq.ISequenceRealmGenFactory;
 
 /**
  * @author hotel
@@ -153,7 +146,10 @@ public class ServerService {
                     Singleton.class);
             bind(IJythonRPCNotifier.class).to(EmptyRPCNotifier.class).in(
                     Singleton.class);
-
+            bind(IJpaObjectGenSymFactory.class).to(
+                    JpaObjectGenSymFactoryImpl.class).in(Singleton.class);
+            bind(INoteStorage.class).to(JpaNoteStorage.class).in(
+                    Singleton.class);
             // common
 
             requestStatic();
@@ -195,34 +191,6 @@ public class ServerService {
         }
 
         // -----
-
-        @Provides
-        @Singleton
-        IHotelObjectGenSymFactory getHotelObjectGenSymFactory(
-                final ISequenceRealmGenFactory seqFactory,
-                final ISymGeneratorFactory symFactory,
-                final IStorageJpaRegistryFactory regFactory,
-                final ISemaphore iSem,
-                final @Named(IHotelConsts.MESSNAMED) IGetLogMess lMess) {
-            return new IHotelObjectGenSymFactory() {
-
-                @Override
-                public IHotelObjectGenSym construct(final EntityManager em) {
-                    ITransactionContextFactory tFactory = new ITransactionContextFactory() {
-
-                        @Override
-                        public ITransactionContext construct() {
-                            return new JpaEmTransactionContext(em);
-                        }
-                    };
-                    IStorageRealmRegistry iReg = regFactory.construct(tFactory);
-                    ISequenceRealmGen iSeq = seqFactory.construct(iReg, iSem);
-                    ISymGenerator iSym = symFactory.construct(iSeq);
-                    return new HotelObjectGenSym(iSym, lMess);
-                }
-
-            };
-        }
         
         @Provides
         @Named(IConsts.GETMAIL)

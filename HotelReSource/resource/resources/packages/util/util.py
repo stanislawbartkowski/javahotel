@@ -87,7 +87,9 @@ def clearHotel(var,hotel) :
    hi = iGet.getOObject(instance, hotel, aid.getPerson());
    H.getClearHotel().clearObjects(hi)
 
-class CRUDLIST :
+# TODO: remove
+
+class XXX_CRUDLIST :
     def __init__(self,var):
         self.serviceS = None
         self.var = var
@@ -120,9 +122,9 @@ class CRUDLIST :
         self.deleteElem(elem)
 
   
-class SERVICES(CRUDLIST) :
+class SERVICES(cutil.CRUDLIST) :
     def __init__(self,var):
-        CRUDLIST.__init__(self,var)
+        cutil.CRUDLIST.__init__(self,var)
         self.serviceS = H.getHotelServices()
         
     def getOtherServices(self):
@@ -131,28 +133,28 @@ class SERVICES(CRUDLIST) :
     def getRoomServices(self):
         return self.getModifiedList(lambda e: e.getServiceType() == ServiceType.HOTEL);
      
-class PRICELIST(CRUDLIST) :
+class PRICELIST(cutil.CRUDLIST) :
 
     def __init__(self,var):
-        CRUDLIST.__init__(self,var)
+        cutil.CRUDLIST.__init__(self,var)
         self.serviceS = H.getHotelPriceList()
         
-class CUSTOMERLIST(CRUDLIST) :
+class CUSTOMERLIST(cutil.CRUDLIST) :
 
     def __init__(self,var):
-        CRUDLIST.__init__(self,var)
+        cutil.CRUDLIST.__init__(self,var)
         self.serviceS = H.getHotelCustomers()
         
-class BILLLIST(CRUDLIST) :
+class BILLLIST(cutil.CRUDLIST) :
 
     def __init__(self,var):
-        CRUDLIST.__init__(self,var)
+        cutil.CRUDLIST.__init__(self,var)
         self.serviceS = H.getCustomerBills()
 
                 
-class ROOMLIST(CRUDLIST):        
+class ROOMLIST(cutil.CRUDLIST):        
     def __init__(self,var):
-        CRUDLIST.__init__(self,var)
+        cutil.CRUDLIST.__init__(self,var)
         self.serviceS = H.getHotelRooms()
   
     def setRoomServices(self,roomName,services):
@@ -248,10 +250,10 @@ class RESOP :
      def getReseForPayer(self,customer) :
          return self.getReseForInfoType(ResInfoType.FORPAYER,customer)
        
-class RESFORM(CRUDLIST) :
+class RESFORM(cutil.CRUDLIST) :
 
     def __init__(self,var):
-        CRUDLIST.__init__(self,var)
+        cutil.CRUDLIST.__init__(self,var)
         self.serviceS = H.getResForm()
         
     def changeCustName(self,resename,custname) :
