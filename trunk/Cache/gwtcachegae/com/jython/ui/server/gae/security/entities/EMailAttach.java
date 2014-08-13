@@ -10,29 +10,30 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jython.ui.server.gaestoragekey;
+package com.jython.ui.server.gae.security.entities;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import com.googlecode.objectify.annotation.Embed;
 
-import com.googlecode.objectify.ObjectifyService;
-import com.jythonui.server.ISharedConsts;
-import com.jythonui.server.getmess.IGetLogMess;
+@Embed
+public class EMailAttach {
 
-public class GaeStorageRegistry extends AbstractStorageRegistry {
+    private String blobId;
+    private String fileName;
 
-    static {
-        ObjectifyService.register(RegistryEntry.class);
+    public String getBlobId() {
+        return blobId;
     }
 
-    @Inject
-    public GaeStorageRegistry(@Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess gMess) {
-        super(gMess,RegistryEntry.class);
+    public void setBlobId(String blobId) {
+        this.blobId = blobId;
     }
 
-    @Override
-    AbstractRegistryEntry construct() {
-        return new RegistryEntry();
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
 }

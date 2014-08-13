@@ -10,13 +10,10 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jython.ui.server.jpastoragekey;
+package com.jythonui.server.mail;
 
-import com.jython.ui.server.jpatrans.ITransactionContextFactory;
-import com.jythonui.server.storage.blob.IBlobHandler;
-import com.jythonui.server.storage.registry.IStorageRealmRegistry;
+import com.jythonui.server.crud.IObjectCrud;
 
-public interface IStorageJpaRegistryFactory {
+public interface INoteStorage extends IObjectCrud<Note> {
     
-    IStorageRealmRegistry construct(ITransactionContextFactory iC);
 }

@@ -17,8 +17,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -28,6 +30,8 @@ import com.gwtmodel.table.common.dateutil.ISetTestToday;
 import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.jython.serversecurity.AppInstanceId;
 import com.jython.serversecurity.IOObjectAdmin;
+import com.jython.serversecurity.OObject;
+import com.jython.serversecurity.OObjectRoles;
 import com.jython.serversecurity.cache.IGetInstanceOObjectIdCache;
 import com.jython.serversecurity.cache.OObjectId;
 import com.jythonui.server.IConsts;
@@ -36,8 +40,10 @@ import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.IXMLToMap;
+import com.jythonui.server.crud.ICrudObjectGenSym;
 import com.jythonui.server.dict.IGetLocalizedDict;
 import com.jythonui.server.holder.Holder;
+import com.jythonui.server.mail.INoteStorage;
 import com.jythonui.server.newblob.IAddNewBlob;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.resbundle.IAppMess;
@@ -106,6 +112,10 @@ abstract public class CommonTestHelper {
     @Inject
     @Named(ISharedConsts.PERSONSONLYSECURITY)
     protected static IOObjectAdmin iPerson;
+    @Inject
+    protected static INoteStorage iNoteStorage;
+    @Inject
+    protected static ICrudObjectGenSym iGenSym;
 
     protected CommonTestHelper() {
         iListC = Holder.getListOfCountries();
@@ -114,6 +124,19 @@ abstract public class CommonTestHelper {
         iListP = Holder.getListOfPayment();
         iListR = Holder.IGetListOfDefaultRoles();
         iListV = Holder.IGetListOfVat();
+    }
+    
+    protected void createObjects() {
+        iGetI.invalidateCache();
+        iAdmin.clearAll(getI());
+        String[] hNames = new String[] { HOTEL, HOTEL1 };
+        for (String s : hNames) {
+            OObject ho = new OObject();
+            ho.setName(s);
+            ho.setDescription("Pod Pieskiem");
+            List<OObjectRoles> roles = new ArrayList<OObjectRoles>();
+            iAdmin.addOrModifObject(getI(), ho, roles);
+        }
     }
 
     protected void putLocale(String lang) {

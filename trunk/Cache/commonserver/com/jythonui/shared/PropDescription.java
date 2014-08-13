@@ -10,29 +10,35 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jython.ui.server.gaestoragekey;
+package com.jythonui.shared;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-
-import com.googlecode.objectify.ObjectifyService;
 import com.jythonui.server.ISharedConsts;
-import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.shared.RMap;
 
-public class GaeStorageRegistry extends AbstractStorageRegistry {
+abstract public class PropDescription extends RMap {
 
-    static {
-        ObjectifyService.register(RegistryEntry.class);
+    private static final long serialVersionUID = 1L;
+
+    private boolean gensymbol = false;
+
+    public String getAutomPattern() {
+        return getAttr(ISharedConsts.PATTPROP);
     }
 
-    @Inject
-    public GaeStorageRegistry(@Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess gMess) {
-        super(gMess,RegistryEntry.class);
+    public boolean isGensymbol() {
+        return gensymbol;
     }
 
-    @Override
-    AbstractRegistryEntry construct() {
-        return new RegistryEntry();
+    public void setGensymbol(boolean gensymbol) {
+        this.gensymbol = gensymbol;
+    }
+
+    public void setOOBjectId(String object) {
+        setAttr(ISharedConsts.OBJECTPROP, object);
+    }
+
+    public String getOObjectId() {
+        return getAttr(ISharedConsts.OBJECTPROP);
     }
 
 }

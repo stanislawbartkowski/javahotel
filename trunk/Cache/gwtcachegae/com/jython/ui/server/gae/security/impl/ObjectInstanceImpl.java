@@ -59,7 +59,7 @@ public class ObjectInstanceImpl extends UtilHelper implements
                 ofy().save().entity((EInstance) e).now();
             } else {
                 errorMess(lMess, IErrorCode.ERRORCODE92,
-                        ILogMess.INSTANCENOTFOUND, null, instanceName);
+                        ILogMess.INSTANCENOTFOUND, instanceName);
             }
         } else
             e = p.now();
@@ -73,12 +73,12 @@ public class ObjectInstanceImpl extends UtilHelper implements
     @Override
     public OObjectId getOObjectId(AppInstanceId instanceId, String hotelName,
             String userName) {
-        EInstance ei = EntUtil.findI(lMess, instanceId);
+        EInstance ei = EntUtil.findI(instanceId);
         LoadResult<EObject> p = ofy().load().type(EObject.class).ancestor(ei)
                 .filter("name ==", hotelName).first();
         if (p.now() == null) {
             errorMess(lMess, IErrorCode.ERRORCODE93,
-                    ILogMess.OBJECTCANNOTBEFOUND, null, hotelName);
+                    ILogMess.OBJECTCANNOTBEFOUND, hotelName);
         }
         OObjectId ho = new OObjectId();
         ho.setObject(hotelName);

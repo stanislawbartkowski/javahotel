@@ -21,7 +21,6 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(uniqueConstraints=@UniqueConstraint(columnNames={"instanceId","name"}))
 @NamedQueries({
-//        @NamedQuery(name = "findObjectByLong", query = "SELECT x FROM EObject x WHERE x.id = ?1"),
         @NamedQuery(name = "findAllObjects", query = "SELECT x FROM EObject x WHERE x.instanceId = ?1"),
         @NamedQuery(name = "removeAllObjects", query = "DELETE FROM EObject x WHERE x.instanceId= ?1"),
         @NamedQuery(name = "findObjectByName", query = "SELECT x FROM EObject x WHERE x.instanceId= ?1 AND x.name = ?2") })

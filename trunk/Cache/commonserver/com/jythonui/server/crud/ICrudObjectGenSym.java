@@ -10,13 +10,15 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jython.ui.server.jpastoragekey;
+package com.jythonui.server.crud;
 
-import com.jython.ui.server.jpatrans.ITransactionContextFactory;
-import com.jythonui.server.storage.blob.IBlobHandler;
-import com.jythonui.server.storage.registry.IStorageRealmRegistry;
+import com.jython.serversecurity.cache.OObjectId;
+import com.jythonui.shared.PropDescription;
 
-public interface IStorageJpaRegistryFactory {
-    
-    IStorageRealmRegistry construct(ITransactionContextFactory iC);
+public interface ICrudObjectGenSym {
+
+    void genSym(OObjectId hotelid, PropDescription o, String objectName);
+
+    void reset(OObjectId hotelid, String objectName);
+
 }

@@ -122,4 +122,12 @@ public interface IErrorCode {
     String ERRORCODE107 = "E0107";
     String ERRORCODE108 = "E0108";
     String ERRORCODE109 = "E0109";
+    String ERRORCODE110 = "E0110";
+    String ERRORCODE111 = "E0111";
+    String ERRORCODE112 = "E0112";
+    String ERRORCODE113 = "E0113";
+    String ERRORCODE114 = "E0114";
+    String ERRORCODE115 = "E0115";
+    String ERRORCODE116 = "E0116";
+    String ERRORCODE117 = "E0117";
 }
