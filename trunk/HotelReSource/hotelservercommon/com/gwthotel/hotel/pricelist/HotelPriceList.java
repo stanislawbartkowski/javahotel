@@ -14,7 +14,7 @@ package com.gwthotel.hotel.pricelist;
 
 import java.util.Date;
 
-import com.gwthotel.shared.PropDescription;
+import com.jythonui.shared.PropDescription;
 
 public class HotelPriceList extends PropDescription {
 

@@ -12,8 +12,8 @@
  */
 package com.gwthotel.hotel.reservation;
 
-import com.gwthotel.hotel.IHotelProp;
+import com.jythonui.server.crud.IObjectCrud;
 
-public interface IReservationForm extends IHotelProp<ReservationForm> {
+public interface IReservationForm extends IObjectCrud<ReservationForm> {
 
 }

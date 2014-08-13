@@ -15,7 +15,7 @@ package com.gwthotel.hotel.prices;
 import java.math.BigDecimal;
 
 import com.gwthotel.shared.IHotelConsts;
-import com.gwthotel.shared.PropDescription;
+import com.jythonui.shared.PropDescription;
 
 public class HotelPriceElem extends PropDescription {
 

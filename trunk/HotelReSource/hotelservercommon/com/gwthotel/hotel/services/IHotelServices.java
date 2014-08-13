@@ -12,8 +12,8 @@
  */
 package com.gwthotel.hotel.services;
 
-import com.gwthotel.hotel.IHotelProp;
+import com.jythonui.server.crud.IObjectCrud;
 
-public interface IHotelServices extends IHotelProp<HotelServices> {
+public interface IHotelServices extends IObjectCrud<HotelServices> {
 
 }

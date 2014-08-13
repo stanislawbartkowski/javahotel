@@ -13,7 +13,7 @@
 package com.gwthotel.hotel.rooms;
 
 import com.gwthotel.shared.IHotelConsts;
-import com.gwthotel.shared.PropDescription;
+import com.jythonui.shared.PropDescription;
 
 public class HotelRoom extends PropDescription {
 

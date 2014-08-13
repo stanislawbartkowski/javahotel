@@ -12,57 +12,15 @@
  */
 package com.gwthotel.hotel;
 
-import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
-import java.util.Date;
 
-import org.apache.commons.beanutils.PropertyUtils;
-
-import com.google.common.base.Optional;
-import com.gwthotel.admin.holder.HHolder;
-import com.gwthotel.mess.IHError;
-import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.IHotelConsts;
-import com.gwthotel.shared.PropDescription;
-import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.MUtil;
 import com.jythonui.server.UtilHelper;
-import com.jythonui.shared.RMap;
 
 public class HUtils extends UtilHelper {
 
     private HUtils() {
-    }
-
-    public static <T extends RMap> void toEProperties(String[] prop,
-            Object dest, T sou) {
-        for (String key : prop) {
-            String val = sou.getAttr(key);
-            try {
-                PropertyUtils.setSimpleProperty(dest, key, val);
-            } catch (IllegalAccessException | InvocationTargetException
-                    | NoSuchMethodException e) {
-                String mess = HHolder.getHM().getMess(IHError.HERROR007,
-                        IHMess.BEANCANNOTSETPROPERTY, key, val);
-                errorLog(mess, e);
-            }
-        }
-    }
-
-    public static <T extends RMap> void toTProperties(String[] prop,
-            T dest, Object sou) {
-        for (String key : prop) {
-            String val = null;
-            try {
-                val = (String) PropertyUtils.getSimpleProperty(sou, key);
-            } catch (IllegalAccessException | InvocationTargetException
-                    | NoSuchMethodException e) {
-                String mess = HHolder.getHM().getMess(IHError.HERROR008,
-                        IHMess.BEANCANNOTGETPROPERTY, key);
-                errorLog(mess, e);
-            }
-            dest.setAttr(key, val);
-        }
     }
 
     public static String[] getCustomerFields() {
@@ -82,45 +40,4 @@ public class HUtils extends UtilHelper {
     public static BigDecimal roundB(BigDecimal b) {
         return MUtil.roundB(b);
     }
-
-/*    
-    private static Optional<Date> retrieveD(Object o, String propName) {
-        Date d = null;
-        try {
-            d = (Date) PropertyUtils.getProperty(o, propName);
-        } catch (IllegalAccessException | InvocationTargetException
-                | NoSuchMethodException e) {
-            return null;
-        }
-        return Optional.fromNullable(d);
-    }
-
-    private static Optional<String> retrieveS(Object o, String propName) {
-        String v = null;
-        try {
-            v = (String) PropertyUtils.getProperty(o, propName);
-        } catch (IllegalAccessException | InvocationTargetException
-                | NoSuchMethodException e) {
-            return null;
-        }
-        return Optional.fromNullable(v);
-    }
-
-    public static void retrieveCreateModif(PropDescription dest, Object sou) {
-        Optional<Date> d = retrieveD(sou, ISharedConsts.CREATIONDATEPROPERTY);
-        if (d != null)
-            dest.setCreationDate(d.orNull());
-        d = retrieveD(sou, ISharedConsts.MODIFDATEPROPERTY);
-        if (d != null)
-            dest.setModifDate(d.orNull());
-        Optional<String> s = retrieveS(sou,
-                ISharedConsts.CREATIONPERSONPROPERTY);
-        if (s != null)
-            dest.setCreationPerson(s.orNull());
-        s = retrieveS(sou, ISharedConsts.MODIFPERSONPROPERTY);
-        if (s != null)
-            dest.setModifPerson(s.orNull());
-
-    }
-*/
 }

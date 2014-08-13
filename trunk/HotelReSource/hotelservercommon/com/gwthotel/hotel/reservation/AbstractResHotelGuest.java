@@ -13,7 +13,7 @@
 package com.gwthotel.hotel.reservation;
 
 import com.gwthotel.shared.IHotelConsts;
-import com.gwthotel.shared.PropDescription;
+import com.jythonui.shared.PropDescription;
 
 @SuppressWarnings("serial")
 public abstract class AbstractResHotelGuest extends PropDescription {

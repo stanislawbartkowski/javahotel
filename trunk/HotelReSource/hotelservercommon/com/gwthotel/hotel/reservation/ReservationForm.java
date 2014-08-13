@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gwthotel.shared.IHotelConsts;
-import com.gwthotel.shared.PropDescription;
+import com.jythonui.shared.PropDescription;
 
 public class ReservationForm extends PropDescription {
 
