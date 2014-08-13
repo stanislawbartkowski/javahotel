@@ -35,6 +35,7 @@ import com.jython.serversecurity.instance.IAppInstanceOObject;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.UtilHelper;
+import com.jythonui.server.mail.INoteStorage;
 import com.jythonui.server.storage.blob.IBlobHandler;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 import com.jythonui.server.storage.seq.ISequenceRealmGen;
@@ -157,6 +158,12 @@ public class EjbLocatorGlassfish extends UtilHelper implements IBeanLocator {
     @Override
     public IPaymentBillOp getBillPaymentOp() {
         return construct(IHotelConsts.HOTELPAYMENTOPJNDI);
+    }
+
+    @Override
+    public INoteStorage getNoteStorage() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

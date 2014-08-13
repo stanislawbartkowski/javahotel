@@ -12,7 +12,10 @@
  */
 package com.gwthotel.admintest.suite;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -21,6 +24,7 @@ import org.junit.Test;
 
 import com.gwthotel.hotel.services.HotelServices;
 import com.gwthotel.shared.IHotelConsts;
+import com.jythonui.server.ISharedConsts;
 
 public class Test6 extends TestHelper {
 
@@ -55,7 +59,7 @@ public class Test6 extends TestHelper {
         assertEquals(1, hList.size());
         ho = hList.get(0);
         assertEquals("1p1", ho.getName());
-        assertEquals(HOTEL, ho.getAttr(IHotelConsts.HOTELPROP));
+        assertEquals(HOTEL, ho.getAttr(ISharedConsts.OBJECTPROP));
         assertEquals("One person in one person room", ho.getDescription());
         assertEquals(2, ho.getNoPersons());
         assertEquals("7%", ho.getAttr(IHotelConsts.VATPROP));

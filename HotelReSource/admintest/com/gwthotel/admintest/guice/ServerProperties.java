@@ -12,6 +12,8 @@
  */
 package com.gwthotel.admintest.guice;
 
+import java.net.URL;
+
 import javax.inject.Inject;
 
 import com.jythonui.server.defa.AbstractServerProperties;
@@ -40,4 +42,11 @@ public class ServerProperties extends AbstractServerProperties {
     public boolean isCached() {
         return false;
     }
+    
+    @Override
+    public URL getSendMailPropertiesFile() {
+        IReadResource r = getResource();
+        return r.getRes("mail/mailbox.properties");
+    }
+
 }
