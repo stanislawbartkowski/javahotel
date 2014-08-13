@@ -20,8 +20,7 @@ import javax.persistence.Query;
 import com.google.inject.Inject;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.ServiceType;
-import com.gwthotel.hotel.jpa.AbstractJpaCrud;
-import com.gwthotel.hotel.jpa.IHotelObjectGenSymFactory;
+import com.gwthotel.hotel.jpa.HotelAbstractJpaCrud;
 import com.gwthotel.hotel.jpa.JUtils;
 import com.gwthotel.hotel.jpa.entities.EHotelCustomer;
 import com.gwthotel.hotel.jpa.entities.EHotelReservation;
@@ -29,16 +28,18 @@ import com.gwthotel.hotel.jpa.entities.EHotelReservationDetail;
 import com.gwthotel.hotel.reservation.IReservationForm;
 import com.gwthotel.hotel.reservation.ReservationForm;
 import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
+import com.jython.jpautil.JpaUtils;
+import com.jython.jpautil.crudimpl.gensym.IJpaObjectGenSymFactory;
 import com.jython.serversecurity.cache.OObjectId;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 
 public class HotelReservations extends
-        AbstractJpaCrud<ReservationForm, EHotelReservation> implements
+        HotelAbstractJpaCrud<ReservationForm, EHotelReservation> implements
         IReservationForm {
 
     @Inject
     public HotelReservations(ITransactionContextFactory eFactory,
-            IHotelObjectGenSymFactory iGen) {
+            IJpaObjectGenSymFactory iGen) {
         super(new String[] { "findAllReservations", "findOneReservation" },
                 eFactory, HotelObjects.RESERVATION, iGen,
                 EHotelReservation.class);
@@ -91,7 +92,7 @@ public class HotelReservations extends
     protected void toE(EHotelReservation dest, ReservationForm sou,
             EntityManager em, OObjectId hotel) {
         String custName = sou.getCustomerName();
-        EHotelCustomer cust = JUtils.getElemE(em, hotel, "findOneCustomer",
+        EHotelCustomer cust = JpaUtils.getElemE(em, hotel, "findOneCustomer",
                 custName);
         dest.setCustomer(cust);
         dest.setStatus(sou.getStatus());

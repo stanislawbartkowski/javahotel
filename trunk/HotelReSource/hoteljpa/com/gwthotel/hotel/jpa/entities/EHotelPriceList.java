@@ -22,13 +22,15 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
+import com.jython.serversecurity.jpa.entities.EObjectDict;
+
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "hotel", "name" }))
 @NamedQueries({
         @NamedQuery(name = "findAllPriceLists", query = "SELECT x FROM EHotelPriceList x WHERE x.hotel = ?1"),
         @NamedQuery(name = "deleteAllPriceLists", query = "DELETE FROM EHotelPriceList x WHERE x.hotel = ?1"),
         @NamedQuery(name = "findOnePriceList", query = "SELECT x FROM EHotelPriceList x WHERE x.hotel = ?1 AND x.name = ?2") })
-public class EHotelPriceList extends EHotelDict {
+public class EHotelPriceList extends EObjectDict {
 
     @Temporal(TemporalType.DATE)
     private Date priceFrom;

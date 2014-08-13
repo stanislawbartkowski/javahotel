@@ -22,23 +22,24 @@ import com.google.inject.Inject;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.bill.CustomerBill;
 import com.gwthotel.hotel.bill.ICustomerBills;
-import com.gwthotel.hotel.jpa.AbstractJpaCrud;
-import com.gwthotel.hotel.jpa.IHotelObjectGenSymFactory;
+import com.gwthotel.hotel.jpa.HotelAbstractJpaCrud;
 import com.gwthotel.hotel.jpa.JUtils;
 import com.gwthotel.hotel.jpa.entities.ECustomerBill;
 import com.gwthotel.hotel.jpa.entities.EHotelCustomer;
 import com.gwthotel.hotel.jpa.entities.EHotelReservation;
 import com.gwthotel.mess.IHError;
 import com.gwthotel.mess.IHMess;
+import com.jython.jpautil.crudimpl.gensym.IJpaObjectGenSymFactory;
 import com.jython.serversecurity.cache.OObjectId;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 
-public class CustomerBillJpa extends AbstractJpaCrud<CustomerBill, ECustomerBill>
-        implements ICustomerBills {
+public class CustomerBillJpa extends
+        HotelAbstractJpaCrud<CustomerBill, ECustomerBill> implements
+        ICustomerBills {
 
     @Inject
     public CustomerBillJpa(ITransactionContextFactory eFactory,
-            IHotelObjectGenSymFactory iGen) {
+            IJpaObjectGenSymFactory iGen) {
         super(new String[] { "findAllBills", "findOneBill" }, eFactory,
                 HotelObjects.BILL, iGen, ECustomerBill.class);
     }
@@ -68,8 +69,8 @@ public class CustomerBillJpa extends AbstractJpaCrud<CustomerBill, ECustomerBill
                 BigInteger b = (BigInteger) o;
                 dest.add(b.longValue());
             } else
-                errorMess(lMess, IHError.HERROR024, IHMess.CUSTOMERBILLJPA,
-                        null, o.getClass().getName());
+                errorMess(hMess, IHError.HERROR024, IHMess.CUSTOMERBILLJPA, o
+                        .getClass().getName());
 
         }
         return dest;

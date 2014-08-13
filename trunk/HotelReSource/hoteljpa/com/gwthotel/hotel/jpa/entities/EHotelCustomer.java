@@ -19,13 +19,15 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import com.jython.serversecurity.jpa.entities.EObjectDict;
+
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "hotel", "name" }))
 @NamedQueries({
         @NamedQuery(name = "findAllCustomers", query = "SELECT x FROM EHotelCustomer x WHERE x.hotel = ?1"),
         @NamedQuery(name = "deleteAllCustomers", query = "DELETE FROM EHotelCustomer x WHERE x.hotel = ?1"),
         @NamedQuery(name = "findOneCustomer", query = "SELECT x FROM EHotelCustomer x WHERE x.hotel = ?1 AND x.name = ?2") })
-public class EHotelCustomer extends EHotelDict {
+public class EHotelCustomer extends EObjectDict {
 
     private String firstname;
     private String surname;
