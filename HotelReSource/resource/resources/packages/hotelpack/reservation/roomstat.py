@@ -72,13 +72,12 @@ def _getMonthStat(var,name) :
      y = dstart.year
      m = dstart.month
      dpocz = datetime.date(y,m,1)
-#     print y,m,lastDay(y,m)
      dkon = datetime.date(y,m,con.lastDay(y,m))
      per[(y,m)] = (con.nofDays(dpocz,dkon)+1,0,0)
      
    for r in G.seq :
      status = util.resStatus(r[0])
-     date = con.toJDateTime(r[1].getResDate())
+     date = con.toJDate(r[1].getResDate())
      key = (date.year,date.month)
      (nofdays,staydays,resdays) = per[key]
      if status == 1 : staydays = staydays + 1
