@@ -19,9 +19,10 @@ import java.util.List;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
+import com.jython.ui.server.gae.security.entities.EObjectDict;
 
 @Entity
-public class ECustomerBill extends EHotelDict {
+public class ECustomerBill extends EObjectDict {
 
     private Ref<EHotelCustomer> payer;
     @Index

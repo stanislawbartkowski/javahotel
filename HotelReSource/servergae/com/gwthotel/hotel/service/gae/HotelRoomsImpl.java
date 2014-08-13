@@ -18,27 +18,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import com.googlecode.objectify.LoadResult;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.VoidWork;
 import com.gwthotel.admin.gae.DictUtil;
 import com.gwthotel.hotel.HotelObjects;
-import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwthotel.hotel.rooms.IHotelRooms;
-import com.gwthotel.hotel.service.gae.crud.CrudGaeAbstract;
+import com.gwthotel.hotel.service.gae.crud.HotelCrudGaeAbstract;
 import com.gwthotel.hotel.service.gae.entities.EHotelRoom;
 import com.gwthotel.hotel.service.gae.entities.EHotelRoomServices;
 import com.gwthotel.hotel.service.gae.entities.EHotelServices;
 import com.gwthotel.hotel.services.HotelServices;
-import com.gwthotel.shared.IHotelConsts;
 import com.jython.serversecurity.cache.OObjectId;
 import com.jython.ui.server.gae.security.entities.EObject;
-import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.server.crud.ICrudObjectGenSym;
 
-public class HotelRoomsImpl extends CrudGaeAbstract<HotelRoom, EHotelRoom>
+public class HotelRoomsImpl extends HotelCrudGaeAbstract<HotelRoom, EHotelRoom>
         implements IHotelRooms {
 
     static {
@@ -47,9 +44,8 @@ public class HotelRoomsImpl extends CrudGaeAbstract<HotelRoom, EHotelRoom>
     }
 
     @Inject
-    public HotelRoomsImpl(@Named(IHotelConsts.MESSNAMED) IGetLogMess lMess,
-            IHotelObjectGenSym iGen) {
-        super(lMess, EHotelRoom.class, HotelObjects.ROOM, iGen);
+    public HotelRoomsImpl(ICrudObjectGenSym iGen) {
+        super(EHotelRoom.class, HotelObjects.ROOM, iGen);
     }
 
     @Override

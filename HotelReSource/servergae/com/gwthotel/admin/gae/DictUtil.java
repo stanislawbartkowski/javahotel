@@ -35,33 +35,15 @@ import com.gwthotel.mess.IHError;
 import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.table.common.CUtil;
-import com.jython.serversecurity.cache.OObjectId;
-import com.jython.ui.server.gae.security.entities.EInstance;
 import com.jython.ui.server.gae.security.entities.EObject;
 import com.jython.ui.server.gae.security.impl.EntUtil;
 import com.jythonui.server.RUtils;
 import com.jythonui.server.UtilHelper;
-import com.jythonui.server.getmess.IGetLogMess;
 
 public class DictUtil extends UtilHelper {
 
     private DictUtil() {
 
-    }
-
-    public static EObject findEHotel(IGetLogMess lMess, OObjectId hotel) {
-        EInstance eI = EntUtil.findI(lMess, hotel.getInstanceId());
-        LoadResult<EObject> p = ofy().load().type(EObject.class).parent(eI)
-                .id(hotel.getId());
-        // System.out.println("Hotel " + hotel.getId() + " instance :" +
-        // hotel.getInstanceId().getId() );
-        if (p.now() == null) {
-            String mess = lMess.getMess(IHError.HERROR005,
-                    IHMess.HOTELBYIDNOTFOUND, hotel.getId().toString(), eI
-                            .getId().toString());
-            errorLog(mess);
-        }
-        return p.now();
     }
 
     public static HotelServices toS(EHotelServices e) {
@@ -74,15 +56,6 @@ public class DictUtil extends UtilHelper {
         h.setPerperson(e.isPerperson());
         EntUtil.toProp(h, e);
         return h;
-    }
-
-    public static <E> E findE(EObject eh, String name, Class<E> cl) {
-        LoadResult<E> p = ofy().load().type(cl).ancestor(eh)
-                .filter("name == ", name).first();
-        if (p == null) {
-            return null;
-        }
-        return p.now();
     }
 
     public static <E> E findEE(EObject eh, String name, Class<E> cl) {

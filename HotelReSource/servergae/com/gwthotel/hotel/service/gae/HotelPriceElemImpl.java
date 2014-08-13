@@ -17,19 +17,15 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.VoidWork;
 import com.gwthotel.admin.gae.DictUtil;
 import com.gwthotel.hotel.prices.HotelPriceElem;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
 import com.gwthotel.hotel.service.gae.entities.EHotelPriceElem;
-import com.gwthotel.shared.IHotelConsts;
 import com.jython.serversecurity.cache.OObjectId;
 import com.jython.ui.server.gae.security.entities.EObject;
-import com.jythonui.server.getmess.IGetLogMess;
+import com.jython.ui.server.gae.security.impl.EntUtil;
 
 public class HotelPriceElemImpl implements IHotelPriceElem {
 
@@ -37,15 +33,8 @@ public class HotelPriceElemImpl implements IHotelPriceElem {
         ObjectifyService.register(EHotelPriceElem.class);
     }
 
-    private final IGetLogMess lMess;
-
-    @Inject
-    public HotelPriceElemImpl(@Named(IHotelConsts.MESSNAMED) IGetLogMess lMess) {
-        this.lMess = lMess;
-    }
-
     private EObject findEHotel(OObjectId hotel) {
-        return DictUtil.findEHotel(lMess, hotel);
+        return EntUtil.findEOObject(hotel);
     }
 
     @Override

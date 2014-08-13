@@ -48,21 +48,14 @@ import com.jythonui.server.getmess.IGetLogMess;
 
 public class ReservationOpImpl implements IReservationOp {
 
-    private final IGetLogMess lMess;
-
     static {
         ObjectifyService.register(EHotelGuest.class);
-    }
-
-    @Inject
-    public ReservationOpImpl(@Named(IHotelConsts.MESSNAMED) IGetLogMess lMess) {
-        this.lMess = lMess;
     }
 
     @Override
     public List<ResData> queryReservation(OObjectId hotel, List<ResQuery> rQuery) {
         List<ResData> resList = new ArrayList<ResData>();
-        EObject eh = DictUtil.findEHotel(lMess, hotel);
+        EObject eh = EntUtil.findEOObject(hotel);
         for (ResQuery r : rQuery) {
             List<EResDetails> re = ofy().load().type(EResDetails.class)
                     .ancestor(eh).filter("resDate >=", r.getFromRes())
@@ -86,7 +79,7 @@ public class ReservationOpImpl implements IReservationOp {
     @Override
     public void changeStatus(OObjectId hotel, String resName,
             ResStatus newStatus) {
-        EObject eh = DictUtil.findEHotel(lMess, hotel);
+        EObject eh = EntUtil.findEOObject(hotel);
         final EHotelReservation e = DictUtil.findReservation(eh, resName);
         e.setStatus(newStatus);
         ofy().save().entity(e).now();
@@ -101,7 +94,7 @@ public class ReservationOpImpl implements IReservationOp {
     @Override
     public void setResGuestList(OObjectId hotel, String resName,
             List<ResGuest> gList) {
-        EObject eh = DictUtil.findEHotel(lMess, hotel);
+        EObject eh = EntUtil.findEOObject(hotel);
         final List<EHotelGuest> li = findGuestsForRes(eh, resName);
         final List<EHotelGuest> nLi = new ArrayList<EHotelGuest>();
         EHotelReservation re = DictUtil.findReservation(eh, resName);
@@ -123,7 +116,7 @@ public class ReservationOpImpl implements IReservationOp {
 
     @Override
     public List<ResGuest> getResGuestList(OObjectId hotel, String resName) {
-        EObject eh = DictUtil.findEHotel(lMess, hotel);
+        EObject eh = EntUtil.findEOObject(hotel);
         List<ResGuest> resLi = new ArrayList<ResGuest>();
         List<EHotelGuest> li = findGuestsForRes(eh, resName);
         for (EHotelGuest g : li) {
@@ -138,7 +131,7 @@ public class ReservationOpImpl implements IReservationOp {
     @Override
     public void addResAddPayment(OObjectId hotel, String resName,
             ReservationPaymentDetail add) {
-        EObject eh = DictUtil.findEHotel(lMess, hotel);
+        EObject eh = EntUtil.findEOObject(hotel);
         EHotelReservation re = DictUtil.findReservation(eh, resName);
         add.setServiceType(ServiceType.OTHER);
         EResDetails eRes = DictUtil.toEResDetail(eh, re, add);
@@ -149,7 +142,7 @@ public class ReservationOpImpl implements IReservationOp {
     @Override
     public List<ReservationPaymentDetail> getResAddPaymentList(OObjectId hotel,
             String resName) {
-        EObject eh = DictUtil.findEHotel(lMess, hotel);
+        EObject eh = EntUtil.findEOObject(hotel);
         List<EResDetails> li = DictUtil.findResDetailsForRes(eh, resName,
                 ServiceType.OTHER);
         List<ReservationPaymentDetail> rList = new ArrayList<ReservationPaymentDetail>();
@@ -160,7 +153,7 @@ public class ReservationOpImpl implements IReservationOp {
     @Override
     public List<CustomerBill> findBillsForReservation(OObjectId hotel,
             String resName) {
-        EObject eh = DictUtil.findEHotel(lMess, hotel);
+        EObject eh = EntUtil.findEOObject(hotel);
         List<ECustomerBill> re = DictUtil.findBillsForRese(eh, resName);
         List<CustomerBill> bList = new ArrayList<CustomerBill>();
         for (ECustomerBill b : re) {
@@ -175,7 +168,7 @@ public class ReservationOpImpl implements IReservationOp {
     public List<ResData> searchReservation(OObjectId hotel, ResQuery rQuery) {
         Date dFrom = rQuery.getFromRes();
         Date dTo = rQuery.getToRes();
-        EObject eh = DictUtil.findEHotel(lMess, hotel);
+        EObject eh = EntUtil.findEOObject(hotel);
         List<EHotelRoom> li = ofy().load().type(EHotelRoom.class).ancestor(eh)
                 .list();
         List<ResQuery> ql = new ArrayList<ResQuery>();
@@ -285,7 +278,7 @@ public class ReservationOpImpl implements IReservationOp {
     @Override
     public List<String> getReseForInfoType(OObjectId hotel, ResInfoType iType,
             String iName) {
-        EObject eh = DictUtil.findEHotel(lMess, hotel);
+        EObject eh = EntUtil.findEOObject(hotel);
         switch (iType) {
         case FORSERVICE:
         case FORROOM:

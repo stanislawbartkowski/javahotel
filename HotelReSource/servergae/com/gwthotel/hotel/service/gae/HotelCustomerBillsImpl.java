@@ -15,32 +15,28 @@ package com.gwthotel.hotel.service.gae;
 import java.math.BigInteger;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import com.googlecode.objectify.ObjectifyService;
 import com.gwthotel.admin.gae.DictUtil;
 import com.gwthotel.hotel.HotelObjects;
-import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.bill.CustomerBill;
 import com.gwthotel.hotel.bill.ICustomerBills;
-import com.gwthotel.hotel.service.gae.crud.CrudGaeAbstract;
+import com.gwthotel.hotel.service.gae.crud.HotelCrudGaeAbstract;
 import com.gwthotel.hotel.service.gae.entities.ECustomerBill;
-import com.gwthotel.shared.IHotelConsts;
 import com.jython.ui.server.gae.security.entities.EObject;
-import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.server.crud.ICrudObjectGenSym;
 
 public class HotelCustomerBillsImpl extends
-        CrudGaeAbstract<CustomerBill, ECustomerBill> implements ICustomerBills {
+        HotelCrudGaeAbstract<CustomerBill, ECustomerBill> implements
+        ICustomerBills {
 
     static {
         ObjectifyService.register(ECustomerBill.class);
     }
 
     @Inject
-    public HotelCustomerBillsImpl(
-            @Named(IHotelConsts.MESSNAMED) IGetLogMess lMess,
-            IHotelObjectGenSym iGen) {
-        super(lMess, ECustomerBill.class, HotelObjects.BILL, iGen);
+    public HotelCustomerBillsImpl(ICrudObjectGenSym iGen) {
+        super(ECustomerBill.class, HotelObjects.BILL, iGen);
     }
 
     @Override

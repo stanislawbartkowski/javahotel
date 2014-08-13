@@ -14,9 +14,10 @@ package com.gwthotel.hotel.service.gae.entities;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.gwthotel.hotel.ServiceType;
+import com.jython.ui.server.gae.security.entities.EObjectDict;
 
 @Entity
-public class EHotelServices extends EHotelDict {
+public class EHotelServices extends EObjectDict {
 
     private String vat;
     private int noperson;
