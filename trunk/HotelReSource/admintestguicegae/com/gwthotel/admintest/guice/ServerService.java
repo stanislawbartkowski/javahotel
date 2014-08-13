@@ -12,7 +12,12 @@
  */
 package com.gwthotel.admintest.guice;
 
+import javax.mail.Session;
+
+import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
+import com.google.inject.name.Names;
 import com.gwthotel.admintest.suite.TestHelper;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.IGetAutomPatterns;
@@ -43,20 +48,30 @@ import com.gwtmodel.table.common.dateutil.SetTestTodayProvider;
 import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.jython.serversecurity.IOObjectAdmin;
 import com.jython.serversecurity.instance.IAppInstanceOObject;
+import com.jython.ui.server.gae.noteimpl.NoteStoreImpl;
 import com.jython.ui.server.gae.security.impl.ObjectAdminGae;
 import com.jython.ui.server.gae.security.impl.ObjectInstanceImpl;
 import com.jython.ui.server.gaestoragekey.BlobStorage;
 import com.jython.ui.server.gaestoragekey.GaeStorageRegistry;
+import com.jythonui.server.IConsts;
 import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServerProperties;
+import com.jythonui.server.ISharedConsts;
+import com.jythonui.server.crud.ICrudObjectGenSym;
 import com.jythonui.server.defa.EmptyConnectionProvider;
 import com.jythonui.server.defa.EmptyRPCNotifier;
+import com.jythonui.server.defa.JavaGetMailSessionProvider;
+import com.jythonui.server.defa.JavaMailSessionProvider;
 import com.jythonui.server.defa.StorageRealmRegistryFactory;
+import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.server.mail.INoteStorage;
+import com.jythonui.server.objectgensymimpl.CrudObjectGenSym;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.server.semaphore.impl.SemaphoreRegistry;
 import com.jythonui.server.storage.blob.IBlobHandler;
+import com.jythonui.server.storage.gensym.ISymGenerator;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 import com.table.testenhancer.gae.LocalDataStoreTestEnvironment;
 
@@ -118,11 +133,27 @@ public class ServerService {
                     Singleton.class);
             bind(ISetTestToday.class).toProvider(SetTestTodayProvider.class)
                     .in(Singleton.class);
+            bind(Session.class).annotatedWith(Names.named(IConsts.SENDMAIL))
+                    .toProvider(JavaMailSessionProvider.class)
+                    .in(Singleton.class);
+            bind(Session.class).annotatedWith(Names.named(IConsts.GETMAIL))
+                    .toProvider(JavaGetMailSessionProvider.class)
+                    .in(Singleton.class);
+            bind(INoteStorage.class).to(NoteStoreImpl.class)
+                    .in(Singleton.class);
 
             // --
             requestStaticInjection(TestHelper.class);
             requestStatic();
         }
+
+        @Provides
+        @Singleton
+        ICrudObjectGenSym getCrudObjectGenSym(ISymGenerator iGen,
+                @Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess lMess) {
+            return new CrudObjectGenSym(iGen, lMess);
+        }
+
     }
 
 }

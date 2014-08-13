@@ -14,8 +14,12 @@ package com.gwthotel.admintest.guice;
 
 import java.util.Date;
 
+import javax.mail.Session;
+
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
+import com.google.inject.name.Names;
 import com.gwthotel.admin.ejblocator.IBeanLocator;
 import com.gwthotel.admin.ejblocator.impl.EjbLocatorWildFly;
 import com.gwthotel.admintest.suite.TestHelper;
@@ -39,16 +43,25 @@ import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.gwtmodel.testenhancer.notgae.TestEnhancer;
 import com.jython.serversecurity.IOObjectAdmin;
 import com.jython.serversecurity.instance.IAppInstanceOObject;
+import com.jythonui.server.IConsts;
 import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServerProperties;
+import com.jythonui.server.ISharedConsts;
+import com.jythonui.server.crud.ICrudObjectGenSym;
 import com.jythonui.server.defa.EmptyConnectionProvider;
 import com.jythonui.server.defa.EmptyRPCNotifier;
+import com.jythonui.server.defa.JavaGetMailSessionProvider;
+import com.jythonui.server.defa.JavaMailSessionProvider;
 import com.jythonui.server.defa.StorageRealmRegistryFactory;
+import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.server.mail.INoteStorage;
+import com.jythonui.server.objectgensymimpl.CrudObjectGenSym;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.server.semaphore.impl.SemaphoreRegistry;
 import com.jythonui.server.storage.blob.IBlobHandler;
+import com.jythonui.server.storage.gensym.ISymGenerator;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 
 /**
@@ -79,13 +92,26 @@ public class ServerService {
                             Singleton.class);
             bind(IJythonRPCNotifier.class).to(EmptyRPCNotifier.class).in(
                     Singleton.class);
-//            bind(IBeanLocator.class).to(EjbLocatorGlassfish.class).in(
-//                    Singleton.class);
+            // bind(IBeanLocator.class).to(EjbLocatorGlassfish.class).in(
+            // Singleton.class);
             bind(IBeanLocator.class).to(EjbLocatorWildFly.class).in(
                     Singleton.class);
+            bind(Session.class).annotatedWith(Names.named(IConsts.SENDMAIL))
+                    .toProvider(JavaMailSessionProvider.class)
+                    .in(Singleton.class);
+            // bind(Session.class).annotatedWith(Names.named(IConsts.GETMAIL))
+            // .toProvider(JavaGetMailSessionProvider.class)
+            // .in(Singleton.class);
 
             requestStatic();
             requestStaticInjection(TestHelper.class);
+        }
+
+        @Provides
+        @Singleton
+        @Named(IConsts.GETMAIL)
+        Session getGetMail() {
+            return null;
         }
 
         @Provides
@@ -123,53 +149,66 @@ public class ServerService {
         IBlobHandler getBlobHandler(IBeanLocator iBean) {
             return iBean.getBlobHandler();
         }
-        
+
+        @Provides
+        @Singleton
+        INoteStorage getNoteStorage(IBeanLocator iBean) {
+            return iBean.getNoteStorage();
+        }
+
         @Provides
         @Singleton
         IAppInstanceOObject getAppHotel(IBeanLocator iBean) {
             return iBean.getAppInstanceObject();
         }
-        
+
         @Provides
         @Singleton
         IOObjectAdmin getHotelAdmin(IBeanLocator iBean) {
             return iBean.getObjectAdmin();
         }
-        
+
         @Provides
         @Singleton
         IStorageRealmRegistry getRealmRegistry(IBeanLocator iBean) {
             return iBean.getStorageRealm();
         }
-        
+
         @Provides
         @Singleton
         IHotelServices getHotelServices(IBeanLocator iBean) {
             return iBean.getHotelServices();
         }
-        
+
         @Provides
         @Singleton
         IHotelPriceList getHotelPriceList(IBeanLocator iBean) {
             return iBean.getHotelPriceList();
         }
-        
+
         @Provides
         @Singleton
         IHotelPriceElem getPriceElem(IBeanLocator iBean) {
             return iBean.getHotelPriceElem();
         }
-        
+
         @Provides
         @Singleton
         IHotelRooms getHotelRooms(IBeanLocator iBean) {
             return iBean.getHotelRooms();
         }
-        
+
         @Provides
         @Singleton
         IHotelCustomers getHotelCustomers(IBeanLocator iBean) {
             return iBean.getHotelCustomers();
+        }
+
+        @Provides
+        @Singleton
+        ICrudObjectGenSym getCrudObjectGenSym(ISymGenerator iGen,
+                @Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess lMess) {
+            return new CrudObjectGenSym(iGen, lMess);
         }
 
         @Provides
