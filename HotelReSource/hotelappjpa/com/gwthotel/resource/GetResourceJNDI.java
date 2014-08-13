@@ -42,4 +42,9 @@ public class GetResourceJNDI implements IGetResourceJNDI {
         return EJBPORT;
     }
 
+    @Override
+    public String getMailName() {
+        return null;
+    }
+
 }
