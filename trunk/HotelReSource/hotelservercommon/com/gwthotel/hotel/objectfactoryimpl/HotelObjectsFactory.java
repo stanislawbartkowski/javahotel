@@ -24,8 +24,8 @@ import com.gwthotel.hotel.reservation.ReservationForm;
 import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwthotel.hotel.services.HotelServices;
 import com.gwthotel.shared.IHotelConsts;
-import com.gwthotel.shared.PropDescription;
 import com.jython.serversecurity.cache.OObjectId;
+import com.jythonui.shared.PropDescription;
 
 public class HotelObjectsFactory implements IHotelObjectsFactory {
 

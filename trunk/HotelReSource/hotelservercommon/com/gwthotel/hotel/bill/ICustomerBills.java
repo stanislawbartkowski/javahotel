@@ -12,8 +12,8 @@
  */
 package com.gwthotel.hotel.bill;
 
-import com.gwthotel.hotel.IHotelProp;
+import com.jythonui.server.crud.IObjectCrud;
 
-public interface ICustomerBills extends IHotelProp<CustomerBill> {
+public interface ICustomerBills extends IObjectCrud<CustomerBill> {
 
 }

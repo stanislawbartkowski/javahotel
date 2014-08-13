@@ -12,8 +12,8 @@
  */
 package com.gwthotel.hotel.customer;
 
-import com.gwthotel.shared.PropDescription;
 import com.jythonui.server.ISharedConsts;
+import com.jythonui.shared.PropDescription;
 
 /**
  * @author hotel
