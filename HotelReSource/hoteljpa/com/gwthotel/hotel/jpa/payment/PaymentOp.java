@@ -19,11 +19,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import com.google.inject.Inject;
-import com.gwthotel.hotel.jpa.JUtils;
 import com.gwthotel.hotel.jpa.entities.EBillPayment;
 import com.gwthotel.hotel.jpa.entities.ECustomerBill;
 import com.gwthotel.hotel.payment.IPaymentBillOp;
 import com.gwthotel.hotel.payment.PaymentBill;
+import com.jython.jpautil.JpaUtils;
 import com.jython.serversecurity.cache.OObjectId;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaTransaction;
@@ -50,7 +50,7 @@ public class PaymentOp implements IPaymentBillOp {
         }
 
         ECustomerBill findBill(EntityManager em) {
-            return JUtils.getElemE(em, hotel, "findOneBill", billName);
+            return JpaUtils.getElemE(em, hotel, "findOneBill", billName);
         }
 
         PaymentBill toB(EBillPayment e) {
@@ -75,8 +75,9 @@ public class PaymentOp implements IPaymentBillOp {
 
         @Override
         protected void dosth(EntityManager em) {
-            Query q = JUtils.createObjectQuery(em, findBill(em),"findAllPaymentsForBill");
-//            q.setParameter(2, findBill(em));
+            Query q = JpaUtils.createObjectQuery(em, findBill(em),
+                    "findAllPaymentsForBill");
+            // q.setParameter(2, findBill(em));
             List<EBillPayment> rList = q.getResultList();
             for (EBillPayment e : rList)
                 pList.add(toB(e));
@@ -135,7 +136,7 @@ public class PaymentOp implements IPaymentBillOp {
         @Override
         protected void dosth(EntityManager em) {
             // only as additional test
-            //findBill(em);
+            // findBill(em);
             EBillPayment e = em.find(EBillPayment.class, paymentId);
             em.remove(e);
         }

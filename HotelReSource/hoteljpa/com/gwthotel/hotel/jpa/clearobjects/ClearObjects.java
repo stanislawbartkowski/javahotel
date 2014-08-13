@@ -29,6 +29,7 @@ import com.gwthotel.hotel.jpa.entities.EHotelReservation;
 import com.gwthotel.hotel.jpa.entities.EHotelRoom;
 import com.gwthotel.hotel.jpa.entities.EHotelServices;
 import com.gwtmodel.table.common.dateutil.ISetTestToday;
+import com.jython.jpautil.JpaUtils;
 import com.jython.serversecurity.cache.OObjectId;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaTransaction;
@@ -138,7 +139,7 @@ public class ClearObjects implements IClearHotel {
 
         @Override
         protected void dosth(EntityManager em) {
-            Query q = JUtils.createHotelQuery(em, hotel, st);
+            Query q = JpaUtils.createObjectIdQuery(em, hotel, st);
             l = (Long) q.getSingleResult();
         }
     }

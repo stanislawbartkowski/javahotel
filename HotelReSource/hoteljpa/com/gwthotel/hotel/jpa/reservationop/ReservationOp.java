@@ -24,7 +24,6 @@ import com.gwthotel.hotel.bill.CustomerBill;
 import com.gwthotel.hotel.jpa.JUtils;
 import com.gwthotel.hotel.jpa.entities.ECustomerBill;
 import com.gwthotel.hotel.jpa.entities.EHotelCustomer;
-import com.gwthotel.hotel.jpa.entities.EHotelDict;
 import com.gwthotel.hotel.jpa.entities.EHotelGuest;
 import com.gwthotel.hotel.jpa.entities.EHotelReservation;
 import com.gwthotel.hotel.jpa.entities.EHotelReservationDetail;
@@ -37,8 +36,9 @@ import com.gwthotel.hotel.reservationop.IReservationOp;
 import com.gwthotel.hotel.reservationop.ResData;
 import com.gwthotel.hotel.reservationop.ResQuery;
 import com.gwthotel.hotel.stay.ResGuest;
-import com.gwtmodel.table.common.CUtil;
+import com.jython.jpautil.JpaUtils;
 import com.jython.serversecurity.cache.OObjectId;
+import com.jython.serversecurity.jpa.entities.EObjectDict;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaTransaction;
 
@@ -73,17 +73,17 @@ public class ReservationOp implements IReservationOp {
         }
 
         protected EHotelReservation getRes(EntityManager em) {
-            EHotelReservation r = JUtils.getElem(em, hotel,
+            EHotelReservation r = JpaUtils.getElem(em, hotel,
                     "findOneReservation", resName);
             return r;
         }
 
         protected void toE(EntityManager em, EHotelRoomCustomer dest,
                 AbstractResHotelGuest sou) {
-            EHotelCustomer cu = JUtils.getElemE(em, hotel, "findOneCustomer",
+            EHotelCustomer cu = JpaUtils.getElemE(em, hotel, "findOneCustomer",
                     sou.getGuestName());
             dest.setCustomer(cu);
-            EHotelRoom room = JUtils.getElemE(em, hotel, "findOneRoom",
+            EHotelRoom room = JpaUtils.getElemE(em, hotel, "findOneRoom",
                     sou.getRoomName());
             dest.setRoom(room);
         }
@@ -364,7 +364,7 @@ public class ReservationOp implements IReservationOp {
 
         @Override
         protected void dosth(EntityManager em) {
-            EHotelDict e = null;
+            EObjectDict e = null;
             String queryName = null;
             switch (iType) {
             case FORSERVICE:

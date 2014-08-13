@@ -28,6 +28,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
+import com.jython.serversecurity.jpa.entities.EObjectDict;
+
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "hotel", "name" }))
 @NamedQueries({
@@ -37,7 +39,7 @@ import javax.persistence.UniqueConstraint;
         @NamedQuery(name = "findAllBills", query = "SELECT x FROM ECustomerBill x WHERE x.hotel = ?1"),
         @NamedQuery(name = "deleteAllBills", query = "DELETE FROM ECustomerBill x WHERE x.hotel = ?1"),
         @NamedQuery(name = "findOneBill", query = "SELECT x FROM ECustomerBill x WHERE x.hotel = ?1 AND x.name = ?2") })
-public class ECustomerBill extends EHotelDict {
+public class ECustomerBill extends EObjectDict {
 
     // 2014/04/18
     @ManyToOne(fetch = FetchType.LAZY)

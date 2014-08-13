@@ -20,6 +20,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import com.gwthotel.hotel.ServiceType;
+import com.jython.serversecurity.jpa.entities.EObjectDict;
 
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "hotel", "name" }))
@@ -27,7 +28,7 @@ import com.gwthotel.hotel.ServiceType;
         @NamedQuery(name = "findAllServices", query = "SELECT x FROM EHotelServices x WHERE x.hotel = ?1"),
         @NamedQuery(name = "deleteAllServices", query = "DELETE FROM EHotelServices x WHERE x.hotel = ?1"),
         @NamedQuery(name = "findOneService", query = "SELECT x FROM EHotelServices x WHERE x.hotel = ?1 AND x.name = ?2") })
-public class EHotelServices extends EHotelDict {
+public class EHotelServices extends EObjectDict {
 
     @Column(nullable = false)
     private String vat;

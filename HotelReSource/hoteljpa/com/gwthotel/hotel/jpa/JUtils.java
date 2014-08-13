@@ -25,7 +25,6 @@ import com.gwthotel.hotel.HUtils;
 import com.gwthotel.hotel.bill.CustomerBill;
 import com.gwthotel.hotel.jpa.entities.ECustomerBill;
 import com.gwthotel.hotel.jpa.entities.EHotelCustomer;
-import com.gwthotel.hotel.jpa.entities.EHotelDict;
 import com.gwthotel.hotel.jpa.entities.EHotelPriceList;
 import com.gwthotel.hotel.jpa.entities.EHotelReservation;
 import com.gwthotel.hotel.jpa.entities.EHotelReservationDetail;
@@ -37,19 +36,19 @@ import com.gwthotel.hotel.services.HotelServices;
 import com.gwthotel.mess.IHError;
 import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.IHotelConsts;
-import com.gwthotel.shared.PropDescription;
 import com.gwtmodel.table.common.CUtil;
+import com.jython.jpautil.JpaUtils;
 import com.jython.serversecurity.cache.OObjectId;
 import com.jython.serversecurity.jpa.PropUtils;
 import com.jythonui.server.RUtils;
 import com.jythonui.shared.JythonUIFatal;
+import com.jythonui.shared.PropDescription;
 
 public class JUtils {
 
     private JUtils() {
     }
 
-    static final private Logger log = Logger.getLogger(JUtils.class.getName());
 
     public static HotelServices toT(EHotelServices sou) {
         HotelServices ho = new HotelServices();
@@ -64,48 +63,21 @@ public class JUtils {
         return ho;
     }
 
-    public static void copyToEDict(OObjectId hotel, EHotelDict pers,
-            PropDescription elem) {
-        PropUtils.copyToEDict(pers, elem);
-        pers.setHotel(hotel.getId());
-    }
-
     public static void copyE(EHotelRoom dest, HotelRoom sou) {
         dest.setNoPersons(sou.getNoPersons());
     }
 
-    public static <E extends EHotelDict> E getElem(EntityManager em,
-            OObjectId hotel, String qName, String name) {
-        Query q = createHotelQuery(em, hotel, qName);
-        q.setParameter(2, name);
-        try {
-            @SuppressWarnings("unchecked")
-            E pers = (E) q.getSingleResult();
-            return pers;
-        } catch (NoResultException e) {
-            return null;
-        }
-    }
 
-    public static <E extends EHotelDict> E getElemE(EntityManager em,
-            OObjectId hotel, String qName, String name) {
-        E e = getElem(em, hotel, qName, name);
-        if (e != null)
-            return e;
-        String mess = HHolder.getHM().getMess(IHError.HERROR021,
-                IHMess.OBJECTBYNAMECANNOTBEFOUND, name, hotel.getObject());
-        log.log(Level.SEVERE, mess, e);
-        throw new JythonUIFatal(mess);
-    }
-
-    public static Query createObjectQuery(EntityManager em, Object o,
+    // TODO: remove
+    private static Query createObjectQuery(EntityManager em, Object o,
             String query) {
         Query q = em.createNamedQuery(query);
         q.setParameter(1, o);
         return q;
     }
 
-    public static Query createHotelQuery(EntityManager em, OObjectId hotel,
+    // TODO: remove
+    private static Query createHotelQuery(EntityManager em, OObjectId hotel,
             String query) {
         return createObjectQuery(em, hotel.getId(), query);
     }
@@ -124,28 +96,30 @@ public class JUtils {
 
     public static EHotelServices findService(EntityManager em, OObjectId hotel,
             String s) {
-        return getElemE(em, hotel, "findOneService", s);
+        return JpaUtils.getElemE(em, hotel, "findOneService", s);
     }
 
     public static EHotelPriceList findPriceList(EntityManager em,
             OObjectId hotel, String s) {
-        return getElemE(em, hotel, "findOnePriceList", s);
+        return JpaUtils.getElemE(em, hotel, "findOnePriceList", s);
     }
 
-    public static EHotelCustomer findCustomer(EntityManager em, OObjectId hotel,
-            String s) {
-        EHotelCustomer cu = getElemE(em, hotel, "findOneCustomer", s);
+    public static EHotelCustomer findCustomer(EntityManager em,
+            OObjectId hotel, String s) {
+        EHotelCustomer cu = JpaUtils.getElemE(em, hotel, "findOneCustomer", s);
         return cu;
     }
 
-    public static EHotelRoom findRoom(EntityManager em, OObjectId hotel, String s) {
-        EHotelRoom room = getElemE(em, hotel, "findOneRoom", s);
+    public static EHotelRoom findRoom(EntityManager em, OObjectId hotel,
+            String s) {
+        EHotelRoom room = JpaUtils.getElemE(em, hotel, "findOneRoom", s);
         return room;
     }
 
     public static EHotelReservation findReservation(EntityManager em,
             OObjectId hotel, String s) {
-        EHotelReservation res = getElemE(em, hotel, "findOneReservation", s);
+        EHotelReservation res = JpaUtils.getElemE(em, hotel,
+                "findOneReservation", s);
         return res;
     }
 

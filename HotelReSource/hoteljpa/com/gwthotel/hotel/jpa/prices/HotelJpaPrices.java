@@ -28,6 +28,7 @@ import com.gwthotel.hotel.jpa.entities.EHotelPriceList;
 import com.gwthotel.hotel.jpa.entities.EHotelServices;
 import com.gwthotel.hotel.prices.HotelPriceElem;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
+import com.jython.jpautil.JpaUtils;
 import com.jython.serversecurity.cache.OObjectId;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaTransaction;
@@ -63,7 +64,7 @@ public class HotelJpaPrices implements IHotelPriceElem {
 
         @Override
         protected void dosth(EntityManager em) {
-            Query q = JUtils.createHotelQuery(em, hotel,
+            Query q = JpaUtils.createObjectIdQuery(em, hotel,
                     "findPricesForPriceList");
             q.setParameter(2, priceList);
             // do not catch exception,
@@ -155,8 +156,8 @@ public class HotelJpaPrices implements IHotelPriceElem {
 
         @Override
         protected void dosth(EntityManager em) {
-            Query q = JUtils
-                    .createHotelQuery(em, hotel, "deletePricesForHotel");
+            Query q = JpaUtils.createObjectIdQuery(em, hotel,
+                    "deletePricesForHotel");
             q.executeUpdate();
 
         }

@@ -14,14 +14,15 @@ package com.gwthotel.hotel.jpa;
 
 import javax.inject.Inject;
 
+import com.jython.jpautil.crudimpl.gensym.IJpaObjectGenSymFactory;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 
 abstract public class AbstractCrudProvider {
 
     @Inject
     protected ITransactionContextFactory eFactory;
-    
-    @Inject 
-    protected IHotelObjectGenSymFactory iGen;
-        
+
+    @Inject
+    protected IJpaObjectGenSymFactory iGen;
+
 }

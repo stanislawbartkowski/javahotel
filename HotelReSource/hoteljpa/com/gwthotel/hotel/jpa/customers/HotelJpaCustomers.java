@@ -19,21 +19,22 @@ import com.gwthotel.hotel.HUtils;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.customer.HotelCustomer;
 import com.gwthotel.hotel.customer.IHotelCustomers;
-import com.gwthotel.hotel.jpa.AbstractJpaCrud;
-import com.gwthotel.hotel.jpa.IHotelObjectGenSymFactory;
+import com.gwthotel.hotel.jpa.HotelAbstractJpaCrud;
 import com.gwthotel.hotel.jpa.JUtils;
 import com.gwthotel.hotel.jpa.entities.EHotelCustomer;
 import com.gwthotel.mess.IHError;
 import com.gwthotel.mess.IHMess;
+import com.jython.jpautil.crudimpl.gensym.IJpaObjectGenSymFactory;
 import com.jython.serversecurity.cache.OObjectId;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 
-public class HotelJpaCustomers extends AbstractJpaCrud<HotelCustomer, EHotelCustomer>
-        implements IHotelCustomers {
+public class HotelJpaCustomers extends
+        HotelAbstractJpaCrud<HotelCustomer, EHotelCustomer> implements
+        IHotelCustomers {
 
     @Inject
     public HotelJpaCustomers(ITransactionContextFactory eFactory,
-            IHotelObjectGenSymFactory iGen) {
+            IJpaObjectGenSymFactory iGen) {
         super(new String[] { "findAllCustomers", "findOneCustomer" }, eFactory,
                 HotelObjects.CUSTOMER, iGen, EHotelCustomer.class);
     }
@@ -58,7 +59,7 @@ public class HotelJpaCustomers extends AbstractJpaCrud<HotelCustomer, EHotelCust
             EntityManager em, OObjectId hotel) {
         toEProperties(HUtils.getCustomerFields(), dest, sou);
         if ((sou.getDoctype() == 0) || (sou.getSex() == 0)) {
-            String mess = lMess.getMess(IHError.HERROR022,
+            String mess = hMess.getMess(IHError.HERROR022,
                     IHMess.CUSTOMERSEXDOCNULL);
             errorLog(mess);
         }

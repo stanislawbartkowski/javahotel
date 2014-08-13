@@ -20,8 +20,7 @@ import javax.persistence.Query;
 
 import com.google.inject.Inject;
 import com.gwthotel.hotel.HotelObjects;
-import com.gwthotel.hotel.jpa.AbstractJpaCrud;
-import com.gwthotel.hotel.jpa.IHotelObjectGenSymFactory;
+import com.gwthotel.hotel.jpa.HotelAbstractJpaCrud;
 import com.gwthotel.hotel.jpa.JUtils;
 import com.gwthotel.hotel.jpa.entities.EHotelRoom;
 import com.gwthotel.hotel.jpa.entities.EHotelRoomServices;
@@ -29,15 +28,17 @@ import com.gwthotel.hotel.jpa.entities.EHotelServices;
 import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.HotelServices;
+import com.jython.jpautil.JpaUtils;
+import com.jython.jpautil.crudimpl.gensym.IJpaObjectGenSymFactory;
 import com.jython.serversecurity.cache.OObjectId;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 
-public class HotelJpaRooms extends AbstractJpaCrud<HotelRoom, EHotelRoom> implements
+public class HotelJpaRooms extends HotelAbstractJpaCrud<HotelRoom, EHotelRoom> implements
         IHotelRooms {
 
     @Inject
     public HotelJpaRooms(ITransactionContextFactory eFactory,
-            IHotelObjectGenSymFactory iGen) {
+            IJpaObjectGenSymFactory iGen) {
         super(new String[] { "findAllRooms", "findOneRoom" }, eFactory,
                 HotelObjects.ROOM, iGen, EHotelRoom.class);
     }
@@ -121,7 +122,7 @@ public class HotelJpaRooms extends AbstractJpaCrud<HotelRoom, EHotelRoom> implem
 
         @Override
         protected void dosth(EntityManager em) {
-            Query q = JUtils.createHotelQuery(em, hotel, "findServicesForRoom");
+            Query q = JpaUtils.createObjectIdQuery(em, hotel, "findServicesForRoom");
             q.setParameter(2, roomName);
             @SuppressWarnings("unchecked")
             List<EHotelRoomServices> rList = q.getResultList();

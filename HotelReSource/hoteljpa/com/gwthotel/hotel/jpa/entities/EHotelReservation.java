@@ -25,6 +25,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import com.gwthotel.hotel.reservation.ResStatus;
+import com.jython.serversecurity.jpa.entities.EObjectDict;
 
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "hotel", "name" }))
@@ -33,7 +34,7 @@ import com.gwthotel.hotel.reservation.ResStatus;
         @NamedQuery(name = "findAllReservations", query = "SELECT x FROM EHotelReservation x WHERE x.hotel = ?1"),
         @NamedQuery(name = "deleteAllReservations", query = "DELETE FROM EHotelReservation x WHERE x.hotel = ?1"),
         @NamedQuery(name = "findOneReservation", query = "SELECT x FROM EHotelReservation x WHERE x.hotel = ?1 AND x.name = ?2") })
-public class EHotelReservation extends EHotelDict {
+public class EHotelReservation extends EObjectDict {
 
     @Column(nullable = false)
     @Enumerated(EnumType.ORDINAL)

@@ -16,22 +16,22 @@ import javax.persistence.EntityManager;
 
 import com.google.inject.Inject;
 import com.gwthotel.hotel.HotelObjects;
-import com.gwthotel.hotel.jpa.AbstractJpaCrud;
-import com.gwthotel.hotel.jpa.IHotelObjectGenSymFactory;
+import com.gwthotel.hotel.jpa.HotelAbstractJpaCrud;
 import com.gwthotel.hotel.jpa.JUtils;
 import com.gwthotel.hotel.jpa.entities.EHotelPriceList;
 import com.gwthotel.hotel.pricelist.HotelPriceList;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
+import com.jython.jpautil.crudimpl.gensym.IJpaObjectGenSymFactory;
 import com.jython.serversecurity.cache.OObjectId;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 
 public class HotelJpaPriceList extends
-        AbstractJpaCrud<HotelPriceList, EHotelPriceList> implements
+        HotelAbstractJpaCrud<HotelPriceList, EHotelPriceList> implements
         IHotelPriceList {
 
     @Inject
     public HotelJpaPriceList(ITransactionContextFactory eFactory,
-            IHotelObjectGenSymFactory iGen) {
+            IJpaObjectGenSymFactory iGen) {
         super(new String[] { "findAllPriceLists", "findOnePriceList" },
                 eFactory, HotelObjects.PRICELIST, iGen, EHotelPriceList.class);
     }
