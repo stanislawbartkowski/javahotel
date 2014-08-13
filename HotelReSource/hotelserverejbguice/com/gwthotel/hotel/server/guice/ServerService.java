@@ -12,8 +12,12 @@
  */
 package com.gwthotel.hotel.server.guice;
 
+import javax.mail.Session;
+
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
+import com.google.inject.name.Names;
 import com.gwthotel.admin.ejblocator.IBeanLocator;
 import com.gwthotel.admin.ejblocator.impl.EjbLocatorWildFly;
 import com.gwthotel.hotel.IClearHotel;
@@ -33,16 +37,19 @@ import com.gwthotel.resource.GetResourceJNDI;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.jython.serversecurity.IOObjectAdmin;
 import com.jython.serversecurity.instance.IAppInstanceOObject;
+import com.jythonui.server.IConsts;
 import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.defa.EmptyConnectionProvider;
+import com.jythonui.server.defa.JavaMailSessionProvider;
 import com.jythonui.server.defa.StorageRealmRegistryFactory;
 import com.jythonui.server.envvar.IGetEnvVariable;
 import com.jythonui.server.envvar.IGetResourceJNDI;
 import com.jythonui.server.envvar.impl.GetEnvVariables;
 import com.jythonui.server.envvar.impl.ServerPropertiesEnv;
 import com.jythonui.server.guavacache.GuavaCacheFactory;
+import com.jythonui.server.mail.INoteStorage;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.resbundle.Mess;
 import com.jythonui.server.semaphore.ISemaphore;
@@ -83,6 +90,9 @@ public class ServerService {
                             Singleton.class);
             bind(IGetEnvVariable.class).to(GetEnvVariables.class).in(
                     Singleton.class);
+            bind(Session.class).annotatedWith(Names.named(IConsts.SENDMAIL))
+                    .toProvider(JavaMailSessionProvider.class)
+                    .in(Singleton.class);
 
             bind(IBeanLocator.class).to(EjbLocatorWildFly.class).in(
                     Singleton.class);
@@ -93,8 +103,21 @@ public class ServerService {
 
         @Provides
         @Singleton
+        @Named(IConsts.GETMAIL)
+        Session getGetMail() {
+            return null;
+        }
+
+        @Provides
+        @Singleton
         IReservationForm getReservationForm(IBeanLocator iBean) {
             return iBean.getReservationForm();
+        }
+
+        @Provides
+        @Singleton
+        INoteStorage getNoteStorage(IBeanLocator iBean) {
+            return iBean.getNoteStorage();
         }
 
         @Provides
