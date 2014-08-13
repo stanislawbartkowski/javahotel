@@ -19,18 +19,16 @@ import java.util.List;
 import com.googlecode.objectify.VoidWork;
 import com.gwthotel.admin.gae.DictUtil;
 import com.gwthotel.hotel.HotelObjects;
-import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.ServiceType;
 import com.gwthotel.hotel.reservation.ReservationForm;
 import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
 import com.gwthotel.hotel.service.gae.entities.EHotelReservation;
 import com.gwthotel.hotel.service.gae.entities.EResDetails;
-import com.gwtmodel.table.common.CUtil;
 import com.jython.serversecurity.cache.OObjectId;
 import com.jython.ui.server.gae.security.entities.EObject;
 import com.jython.ui.server.gae.security.impl.EntUtil;
 import com.jythonui.server.BUtil;
-import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.server.crud.ICrudObjectGenSym;
 
 class ReservationAdd {
 
@@ -39,28 +37,26 @@ class ReservationAdd {
     private final OObjectId hotel;
     private final boolean change;
     private List<EResDetails> deList;
-    private final IHotelObjectGenSym iGen;
+    private final ICrudObjectGenSym iGen;
 
-    ReservationAdd(OObjectId hotel, IGetLogMess lMess, ReservationForm elem,
-            boolean change, IHotelObjectGenSym iGen) {
+    ReservationAdd(OObjectId hotel, ReservationForm elem, boolean change,
+            ICrudObjectGenSym iGen) {
         this.elem = elem;
         this.hotel = hotel;
-        ho = DictUtil.findEHotel(lMess, hotel);
+        ho = EntUtil.findEOObject(hotel);
         this.change = change;
         this.iGen = iGen;
     }
 
     void beforeAdd() {
-        for (ReservationPaymentDetail d : elem.getResDetail()) {
-//            if (CUtil.EmptyS(d.getGuestName()))
-//                d.setGuestName(elem.getCustomerName());
+        for (ReservationPaymentDetail d : elem.getResDetail())
             d.setServiceType(ServiceType.HOTEL);
-        }
+
         if (change)
             deList = DictUtil.findResDetailsForRes(ho, elem.getName(),
                     ServiceType.HOTEL);
         else
-            iGen.genSym(hotel, elem, HotelObjects.RESERVATION);
+            iGen.genSym(hotel, elem, HotelObjects.RESERVATION.name());
 
     }
 
@@ -81,7 +77,7 @@ class ReservationAdd {
                 if (change)
                     ofy().delete().entities(deList);
                 else
-                    e.setHotel(ho);
+                    e.setObject(ho);
                 ofy().save().entity(e).now();
                 for (EResDetails r : eRes) {
                     r.setReservation(e);

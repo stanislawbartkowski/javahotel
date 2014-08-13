@@ -17,9 +17,6 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 import com.gwthotel.admin.gae.DictUtil;
@@ -27,10 +24,9 @@ import com.gwthotel.hotel.payment.IPaymentBillOp;
 import com.gwthotel.hotel.payment.PaymentBill;
 import com.gwthotel.hotel.service.gae.entities.EBillPayment;
 import com.gwthotel.hotel.service.gae.entities.ECustomerBill;
-import com.gwthotel.shared.IHotelConsts;
 import com.jython.serversecurity.cache.OObjectId;
 import com.jython.ui.server.gae.security.entities.EObject;
-import com.jythonui.server.getmess.IGetLogMess;
+import com.jython.ui.server.gae.security.impl.EntUtil;
 
 public class PaymentBillImpl implements IPaymentBillOp {
 
@@ -38,19 +34,12 @@ public class PaymentBillImpl implements IPaymentBillOp {
         ObjectifyService.register(EBillPayment.class);
     }
 
-    private final IGetLogMess lMess;
-
-    @Inject
-    public PaymentBillImpl(@Named(IHotelConsts.MESSNAMED) IGetLogMess lMess) {
-        this.lMess = lMess;
-    }
-
     @Override
     public List<PaymentBill> getPaymentsForBill(OObjectId hotel, String billName) {
-        EObject ho = DictUtil.findEHotel(lMess, hotel);
-//        List<EBillPayment> li = ofy().load().type(EBillPayment.class)
-//                .ancestor(ho).filter("billName == ", billName).list();
-        List<EBillPayment> li = DictUtil.findPaymentsForBill(ho,billName);
+        EObject ho = EntUtil.findEOObject(hotel);
+        // List<EBillPayment> li = ofy().load().type(EBillPayment.class)
+        // .ancestor(ho).filter("billName == ", billName).list();
+        List<EBillPayment> li = DictUtil.findPaymentsForBill(ho, billName);
         List<PaymentBill> bList = new ArrayList<PaymentBill>();
         for (EBillPayment b : li) {
             PaymentBill bi = new PaymentBill();
@@ -68,7 +57,7 @@ public class PaymentBillImpl implements IPaymentBillOp {
     @Override
     public void addPaymentForBill(OObjectId hotel, String billName,
             PaymentBill payment) {
-        EObject ho = DictUtil.findEHotel(lMess, hotel);
+        EObject ho = EntUtil.findEOObject(hotel);
         ECustomerBill eB = DictUtil.findCustomerBill(ho, billName);
         EBillPayment pa = new EBillPayment();
         pa.setCustomerBill(eB);
@@ -83,7 +72,7 @@ public class PaymentBillImpl implements IPaymentBillOp {
     @Override
     public void removePaymentForBill(OObjectId hotel, String billName,
             Long paymentId) {
-        EObject ho = DictUtil.findEHotel(lMess, hotel);
+        EObject ho = EntUtil.findEOObject(hotel);
         Key<EBillPayment> bKey = Key.create(Key.create(ho), EBillPayment.class,
                 paymentId);
         EBillPayment b = ofy().load().key(bKey).now();

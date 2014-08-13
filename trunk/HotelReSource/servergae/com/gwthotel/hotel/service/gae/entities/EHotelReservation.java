@@ -15,9 +15,10 @@ package com.gwthotel.hotel.service.gae.entities;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.gwthotel.hotel.reservation.ResStatus;
+import com.jython.ui.server.gae.security.entities.EObjectDict;
 
 @Entity
-public class EHotelReservation extends EHotelDict {
+public class EHotelReservation extends EObjectDict {
 
     private Ref<EHotelCustomer> customer;
 

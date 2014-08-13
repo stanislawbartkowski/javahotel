@@ -16,9 +16,10 @@ package com.gwthotel.hotel.service.gae.entities;
 import java.util.Date;
 
 import com.googlecode.objectify.annotation.Entity;
+import com.jython.ui.server.gae.security.entities.EObjectDict;
 
 @Entity
-public class EHotelPriceList extends EHotelDict {
+public class EHotelPriceList extends EObjectDict {
 
     private Date priceFrom;
     private Date priceTo;

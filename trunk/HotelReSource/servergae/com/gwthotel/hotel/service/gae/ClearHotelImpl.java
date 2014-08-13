@@ -39,20 +39,14 @@ import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.jython.serversecurity.cache.OObjectId;
 import com.jython.ui.server.gae.security.entities.EObject;
+import com.jython.ui.server.gae.security.impl.EntUtil;
 import com.jythonui.server.getmess.IGetLogMess;
 
 public class ClearHotelImpl implements IClearHotel {
 
-    private final IGetLogMess lMess;
-
-    @Inject
-    public ClearHotelImpl(@Named(IHotelConsts.MESSNAMED) IGetLogMess lMess) {
-        this.lMess = lMess;
-    }
-
     @Override
     public void clearObjects(OObjectId hotel) {
-        final EObject eh = DictUtil.findEHotel(lMess, hotel);
+        final EObject eh = EntUtil.findEOObject(hotel);
         ofy().transact(new VoidWork() {
             public void vrun() {
                 // partial list
@@ -110,7 +104,7 @@ public class ClearHotelImpl implements IClearHotel {
         boolean nof = true;
         if (nof) {
             List li = ofy().load().type(cl)
-                    .ancestor(DictUtil.findEHotel(lMess, hotel)).list();
+                    .ancestor(EntUtil.findEOObject(hotel)).list();
             return li.size();
         }
         return 0;
