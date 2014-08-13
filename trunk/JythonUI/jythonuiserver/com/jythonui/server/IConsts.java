@@ -45,5 +45,4 @@ public interface IConsts {
 
     String SENDMAIL = "SendMail";
     String GETMAIL = "GetMail";
-
-}
+ }

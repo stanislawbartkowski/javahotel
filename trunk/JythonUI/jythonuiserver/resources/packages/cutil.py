@@ -606,7 +606,44 @@ def getAppId(var):
     return Holder.getNameFromToken().getInstance(token)
 
 def getObject(var):
-    token = var["SECURITY_TOKEN"]
-    return Holder.getNameFromToken().getObject(token)
+#    token = var["SECURITY_TOKEN"]
+#    return Holder.getNameFromToken().getObject(token)
+    return Holder.getO()
     
+# -----------------
+
+class CRUDLIST :
+    def __init__(self,var):
+        self.serviceS = None
+        self.var = var
+        
+    def _getO(self):
+        return getObject(self.var)        
+        
+    def getList(self):
+        return self.serviceS.getList(self._getO()) 
+    
+    def getModifiedList(self,f):
+        li = self.getList()
+        nli = createArrayList()
+        for l in li :
+            if not f(l) : continue
+            nli.add(l)
+        return nli    
+    
+    def addElem(self,elem):
+        return self.serviceS.addElem(self._getO(),elem)
+       
+    def changeElem(self,elem):
+        self.serviceS.changeElem(self._getO(),elem)
+            
+    def deleteElem(self,elem):
+        self.serviceS.deleteElem(self._getO(),elem)
+        
+    def findElem(self,name):
+        return self.serviceS.findElem(self._getO(),name)    
+      
+    def deleteElemByName(self,name) :
+        elem = self.findElem(name)
+        self.deleteElem(elem)    
       

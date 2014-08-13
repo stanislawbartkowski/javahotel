@@ -77,8 +77,6 @@ class SubjectCache extends UtilHelper {
     private Result authenticate(SessionEntry se, String tokenS) {
         SecurityManager securityManager = constructManager(se.getRealm());
         SecurityUtils.setSecurityManager(securityManager);
-        // Subject currentUser = SecurityUtils.getSubject();
-        // currentUser = new Subject.Builder().buildSubject();
         Subject currentUser = buildSubject();
         PasswordSecurityToken token = new PasswordSecurityToken(se.getUser(),
                 se.getPassword(), se.getiCustom());

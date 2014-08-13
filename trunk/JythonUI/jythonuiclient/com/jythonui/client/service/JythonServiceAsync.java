@@ -36,4 +36,6 @@ public interface JythonServiceAsync {
             CustomSecurity iCustom, AsyncCallback<String> callback);
 
     void logout(String token, AsyncCallback<Void> callback);
+
+    void withoutlogin(CustomSecurity iCustom, AsyncCallback<String> callback);
 }
