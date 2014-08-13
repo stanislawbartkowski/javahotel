@@ -38,6 +38,7 @@ import com.jython.serversecurity.instance.IAppInstanceOObject;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.UtilHelper;
+import com.jythonui.server.mail.INoteStorage;
 import com.jythonui.server.storage.blob.IBlobHandler;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 import com.jythonui.server.storage.seq.ISequenceRealmGen;
@@ -62,6 +63,8 @@ public class EjbLocatorWildFly extends UtilHelper implements IBeanLocator {
                 "StorageJpaRegistryEJB!com.jythonui.server.storage.registry.IStorageRealmRegistry");
         jndiM.put(ISharedConsts.COMMONBEANBLOBJNDI,
                 "StorageBlobRegistryEJB!com.jythonui.server.storage.blob.IBlobHandler");
+        jndiM.put(ISharedConsts.COMMONNOTESTORAGEJNDI,
+                "NoteStorageEJB!com.jythonui.server.mail.INoteStorage");
         jndiM.put(IHotelConsts.HOTELSERVICESJNDI,
                 "HotelServicesEJB!com.gwthotel.hotel.services.IHotelServices");
         jndiM.put(IHotelConsts.HOTELPRICELISTJNDI,
@@ -92,7 +95,7 @@ public class EjbLocatorWildFly extends UtilHelper implements IBeanLocator {
             Properties props = null;
             traceLog("Search for EJB " + bName);
             String eHost = iServer.getEJBHost();
-//            eHost = "think";
+            // eHost = "think";
             if (eHost != null) {
                 info("EJB on host " + eHost);
                 props = new Properties();
@@ -113,13 +116,18 @@ public class EjbLocatorWildFly extends UtilHelper implements IBeanLocator {
         }
         return null;
     }
-
     
+    @Override
+    public INoteStorage getNoteStorage() {
+        return construct(ISharedConsts.COMMONNOTESTORAGEJNDI);
+    }
+
+
     @Override
     public IOObjectAdmin getObjectAdmin() {
         return construct(ISharedConsts.COMMONOBJECTADMINJNDI);
     }
-    
+
     @Override
     public IAppInstanceOObject getAppInstanceObject() {
         return construct(ISharedConsts.COMMONAPPINSTANCEJNDI);
@@ -192,5 +200,5 @@ public class EjbLocatorWildFly extends UtilHelper implements IBeanLocator {
     public IPaymentBillOp getBillPaymentOp() {
         return construct(IHotelConsts.HOTELPAYMENTOPJNDI);
     }
-
+    
 }

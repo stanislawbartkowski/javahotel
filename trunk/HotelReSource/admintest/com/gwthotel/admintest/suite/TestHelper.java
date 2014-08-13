@@ -26,7 +26,6 @@ import org.junit.BeforeClass;
 import com.gwthotel.admintest.guice.ServiceInjector;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.IClearHotel;
-import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.IHotelObjectsFactory;
 import com.gwthotel.hotel.bill.CustomerBill;
 import com.gwthotel.hotel.bill.ICustomerBills;
@@ -43,14 +42,12 @@ import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.server.service.H;
 import com.gwthotel.hotel.services.IHotelServices;
-import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.jython.serversecurity.OObject;
 import com.jython.serversecurity.OObjectRoles;
 import com.jython.serversecurity.Person;
 import com.jython.serversecurity.cache.OObjectId;
 import com.jythonui.server.IConsts;
-import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.security.token.ICustomSecurity;
 import com.jythonui.shared.CustomSecurity;
@@ -67,18 +64,19 @@ public class TestHelper extends CommonTestHelper {
     protected final IHotelPriceElem iPriceElem;
     protected final IHotelRooms iRooms;
     protected final IHotelCustomers iCustomers;
-    protected final IHotelObjectGenSym iHGen;
+//    protected final IHotelObjectGenSym iHGen;
     protected final IHotelObjectsFactory hObjects;
     protected final IReservationForm iRes;
     protected final IReservationOp iResOp;
     protected final IClearHotel iClear;
     protected final ICustomerBills iBills;
     protected final IPaymentBillOp iPayOp;
+    
 
-    protected static final String HOTEL = "hotel";
-    protected static final String HOTEL1 = "hotel1";
+//    protected static final String HOTEL = "hotel";
+//    protected static final String HOTEL1 = "hotel1";
 
-    protected static final String TESTINSTANCE = ISharedConsts.INSTANCETEST;
+//    protected static final String TESTINSTANCE = ISharedConsts.INSTANCETEST;
 
     @Before
     public void before() {
@@ -88,16 +86,17 @@ public class TestHelper extends CommonTestHelper {
     }
 
     protected void createHotels() {
-        iGetI.invalidateCache();
-        iAdmin.clearAll(getI());
-        String[] hNames = new String[] { HOTEL, HOTEL1 };
-        for (String s : hNames) {
-            OObject ho = new OObject();
-            ho.setName(s);
-            ho.setDescription("Pod Pieskiem");
-            List<OObjectRoles> roles = new ArrayList<OObjectRoles>();
-            iAdmin.addOrModifObject(getI(), ho, roles);
-        }
+        super.createObjects();
+//        iGetI.invalidateCache();
+//        iAdmin.clearAll(getI());
+//        String[] hNames = new String[] { HOTEL, HOTEL1 };
+//        for (String s : hNames) {
+//            OObject ho = new OObject();
+//            ho.setName(s);
+//            ho.setDescription("Pod Pieskiem");
+//            List<OObjectRoles> roles = new ArrayList<OObjectRoles>();
+//            iAdmin.addOrModifObject(getI(), ho, roles);
+//        }
     }
 
     protected final String realM = "classpath:resources/shiro/hoteluser.ini";
@@ -110,7 +109,7 @@ public class TestHelper extends CommonTestHelper {
         iRooms = ServiceInjector.getHotelRooms();
         iCustomers = ServiceInjector.getHotelCustomers();
         // iGetI = H.getInstanceHotelId();
-        iHGen = ServiceInjector.getHotelGenSym();
+//        iHGen = ServiceInjector.getHotelGenSym();
         hObjects = ServiceInjector.getHotelObjects();
         iRes = ServiceInjector.getReservationForm();
         iResOp = ServiceInjector.getReservationOp();
@@ -141,7 +140,7 @@ public class TestHelper extends CommonTestHelper {
         for (OObject ho : aList) {
             OObjectId hotel = getH(ho.getName());
             iClear.clearObjects(hotel);
-            iHGen.clearAll(hotel);
+//            iHGen.clearAll(hotel);
         }
 
     }

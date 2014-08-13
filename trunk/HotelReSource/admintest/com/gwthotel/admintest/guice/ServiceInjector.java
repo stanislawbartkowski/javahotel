@@ -17,7 +17,6 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.name.Names;
 import com.gwthotel.hotel.IClearHotel;
-import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.IHotelObjectsFactory;
 import com.gwthotel.hotel.bill.ICustomerBills;
 import com.gwthotel.hotel.customer.IHotelCustomers;
@@ -53,10 +52,6 @@ public class ServiceInjector {
         return injector.getInstance(IOObjectAdmin.class);
     }
 
-//    public static IGetHotelRoles constructHotelRoles() {
-//        return injector.getInstance(IGetHotelRoles.class);
-//    }
-
     public static ITestEnhancer constructITestEnhancer() {
         return injector.getInstance(ITestEnhancer.class);
     }
@@ -77,10 +72,6 @@ public class ServiceInjector {
         return injector.getInstance(Key.get(IGetLogMess.class,
                 Names.named(IHotelConsts.MESSNAMED)));
     }
-
-//    public static IGetVatTaxes getVatTaxes() {
-//        return injector.getInstance(IGetVatTaxes.class);
-//    }
 
     public static IHotelPriceList getHotelPriceList() {
         return injector.getInstance(IHotelPriceList.class);
@@ -106,10 +97,6 @@ public class ServiceInjector {
         return injector.getInstance(ISequenceRealmGen.class);
     }
 
-    public static IHotelObjectGenSym getHotelGenSym() {
-        return injector.getInstance(IHotelObjectGenSym.class);
-    }
-
     public static IHotelObjectsFactory getHotelObjects() {
         return injector.getInstance(IHotelObjectsFactory.class);
     }
@@ -129,7 +116,7 @@ public class ServiceInjector {
     public static IXMLToMap getXMLToMap() {
         return injector.getInstance(IXMLToMap.class);
     }
-    
+
     public static ICustomerBills getCustomerBills() {
         return injector.getInstance(ICustomerBills.class);
     }

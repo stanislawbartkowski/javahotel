@@ -33,13 +33,13 @@ public class Test11 extends TestHelper {
     }
 
     @Test
-    public void test1() {
+    public void test1() {        
         HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL),
                 HotelObjects.CUSTOMER);
         p.setGensymbol(true);
-//        p.setName("2013 / 2 /C");
         p.setDescription("Hejka");
         p.setDoctype('X');
+        iGenSym.reset(getH(HOTEL), HotelObjects.CUSTOMER.name());
         p = iCustomers.addElem(getH(HOTEL), p);
         System.out.println(p.getName());
         assertEquals("2013 / 1 /C", p.getName());

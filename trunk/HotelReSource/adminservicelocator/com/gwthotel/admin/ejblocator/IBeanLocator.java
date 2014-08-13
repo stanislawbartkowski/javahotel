@@ -24,6 +24,7 @@ import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.jython.serversecurity.IOObjectAdmin;
 import com.jython.serversecurity.instance.IAppInstanceOObject;
+import com.jythonui.server.mail.INoteStorage;
 import com.jythonui.server.storage.blob.IBlobHandler;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 import com.jythonui.server.storage.seq.ISequenceRealmGen;
@@ -59,5 +60,7 @@ public interface IBeanLocator {
     ICustomerBills getCustomerBills();
 
     IPaymentBillOp getBillPaymentOp();
+
+    INoteStorage getNoteStorage();
 
 }
