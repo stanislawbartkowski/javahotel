@@ -14,7 +14,9 @@ package com.gwthotel.shared;
 
 import com.jythonui.shared.RMap;
 
-abstract public class PropDescription extends RMap {
+// TODO: remove
+
+abstract class PropDescription extends RMap {
 
     private static final long serialVersionUID = 1L;
 
