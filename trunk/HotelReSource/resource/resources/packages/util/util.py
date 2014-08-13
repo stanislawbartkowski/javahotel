@@ -86,41 +86,6 @@ def clearHotel(var,hotel) :
    instance = aid.getInstanceName()
    hi = iGet.getOObject(instance, hotel, aid.getPerson());
    H.getClearHotel().clearObjects(hi)
-
-# TODO: remove
-
-class XXX_CRUDLIST :
-    def __init__(self,var):
-        self.serviceS = None
-        self.var = var
-        
-    def getList(self):
-        return self.serviceS.getList(getHotelName(self.var)) 
-    
-    def getModifiedList(self,f):
-        li = self.getList()
-        nli = cutil.createArrayList()
-        for l in li :
-            if not f(l) : continue
-            nli.add(l)
-        return nli    
-    
-    def addElem(self,elem):
-        return self.serviceS.addElem(getHotelName(self.var),elem)
-       
-    def changeElem(self,elem):
-        self.serviceS.changeElem(getHotelName(self.var),elem)
-            
-    def deleteElem(self,elem):
-        self.serviceS.deleteElem(getHotelName(self.var),elem)
-        
-    def findElem(self,name):
-        return self.serviceS.findElem(getHotelName(self.var),name)    
-      
-    def deleteElemByName(self,name) :
-        elem = self.findElem(name)
-        self.deleteElem(elem)
-
   
 class SERVICES(cutil.CRUDLIST) :
     def __init__(self,var):
