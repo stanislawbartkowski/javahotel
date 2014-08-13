@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.gwthotel.shared.IHotelConsts;
-import com.gwthotel.shared.PropDescription;
+import com.jythonui.shared.PropDescription;
 
 public class CustomerBill extends PropDescription {
 
