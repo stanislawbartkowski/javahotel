@@ -12,16 +12,11 @@
  */
 package com.gwthotel.hotel.guice;
 
-import javax.inject.Named;
-
-import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.name.Names;
 import com.gwthotel.admin.holder.HHolder;
-import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.IHotelObjectsFactory;
 import com.gwthotel.hotel.objectfactoryimpl.HotelObjectsFactory;
-import com.gwthotel.hotel.objectgensymimpl.HotelObjectGenSym;
 import com.gwthotel.hotel.server.service.H;
 import com.gwthotel.mess.HotelMessProvider;
 import com.gwthotel.shared.IHotelConsts;
@@ -29,7 +24,6 @@ import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.guice.JythonServerService.JythonServiceModule;
 import com.jythonui.server.objectauth.SecurityConverter;
 import com.jythonui.server.security.ISecurityConvert;
-import com.jythonui.server.storage.gensym.ISymGenerator;
 
 public class HotelCommonGuice {
 
@@ -48,11 +42,5 @@ public class HotelCommonGuice {
             requestStaticInjection(H.class);
         }
 
-        @Provides
-        @Singleton
-        IHotelObjectGenSym getHotelObjectsTrans(ISymGenerator iGen,
-                @Named(IHotelConsts.MESSNAMED) IGetLogMess lMess) {
-            return new HotelObjectGenSym(iGen, lMess);
-        }
     }
 }
