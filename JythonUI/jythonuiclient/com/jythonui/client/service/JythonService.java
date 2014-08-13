@@ -34,6 +34,8 @@ public interface JythonService extends RemoteService {
     ClientProp getClientRes(RequestContext context);
 
     String login(String shiroRealm, String user, String password,CustomSecurity iCustom);
+    
+    String withoutlogin(CustomSecurity iCustom);
 
     void logout(String token);
 

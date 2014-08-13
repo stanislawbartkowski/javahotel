@@ -45,5 +45,14 @@ def getMailList(fromm = -1,to = 0):
     assert res.getErrMess() == None
     return res.getList()
 
-
+class CMAIL(cutil.CRUDLIST):
     
+    def __init__(self,var) :
+        cutil.CRUDLIST.__init__(self,var)
+        self.i = Holder.getSaveMail()
+        self.serviceS = Holder.getNoteStorage()
+        
+    def sendMail(self,subject,content,to,froma,attachList=None,text=True):
+        res = self.i.postMail(text,[to,],subject,content,froma,attachList)
+        return res
+

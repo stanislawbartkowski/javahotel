@@ -18,6 +18,7 @@ import javax.inject.Named;
 import com.google.inject.Provider;
 import com.jython.serversecurity.IOObjectAdmin;
 import com.jython.serversecurity.cache.IGetInstanceOObjectIdCache;
+import com.jython.serversecurity.cache.OObjectId;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IDefaultData;
 import com.jythonui.server.IGetConnection;
@@ -33,6 +34,7 @@ import com.jythonui.server.IXMLToMap;
 import com.jythonui.server.dict.IGetLocalizedDict;
 import com.jythonui.server.dict.IReadDictFromFile;
 import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.server.mail.INoteStorage;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.resbundle.IAppMess;
 import com.jythonui.server.security.ISecurity;
@@ -130,6 +132,13 @@ public class Holder {
 
     @Inject
     private static Provider<IMailGet> getMail;
+
+    @Inject
+    @Named(ISharedConsts.SAVESENDMAIL)
+    private static Provider<IMailSend> getSendMail;
+
+    @Inject
+    private static INoteStorage iNoteStorage;
 
     private static final ThreadLocal<RequestContext> locale = new ThreadLocal<RequestContext>();
 
@@ -253,8 +262,20 @@ public class Holder {
         return pMail.get();
     }
 
+    public static IMailSend getSaveMail() {
+        return getSendMail.get();
+    }
+
     public static IMailGet getGetMail() {
         return getMail.get();
+    }
+
+    public static INoteStorage getNoteStorage() {
+        return iNoteStorage;
+    }
+
+    public static OObjectId getO() {
+        return iToken.getObject(getRequest().getToken());
     }
 
 }

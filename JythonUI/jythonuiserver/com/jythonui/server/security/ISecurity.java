@@ -31,4 +31,6 @@ public interface ISecurity {
 
     String evaluateExpr(String token, String expr);
 
+    String withoutlogin(ICustomSecurity iCustom);
+
 }

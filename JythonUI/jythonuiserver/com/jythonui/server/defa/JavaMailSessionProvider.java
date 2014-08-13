@@ -45,19 +45,21 @@ public class JavaMailSessionProvider extends UtilHelper implements
 
     @Override
     public Session get() {
-        if (iProp.getSendMailPropertiesFile() == null)
+        if (iProp.getSendMailPropertiesFile() == null) {
+            errorMess(gMess, IErrorCode.ERRORCODE117,
+                    ILogMess.MAILBOXPROPERTYNOTDEFINED);
             return null;
+        }
         try {
             Properties prop = ReadUTF8Properties.readProperties(iProp
                     .getSendMailPropertiesFile().openStream());
             final String user = prop.getProperty("mail.smtp.user");
             final String password = prop.getProperty("mail.smtp.password");
-            return Session.getInstance(prop,
-                    new javax.mail.Authenticator() {
-                        protected PasswordAuthentication getPasswordAuthentication() {
-                            return new PasswordAuthentication(user, password);
-                        }
-                    });
+            return Session.getInstance(prop, new javax.mail.Authenticator() {
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(user, password);
+                }
+            });
         } catch (IOException e) {
             errorMess(gMess, IErrorCode.ERRORCODE105,
                     ILogMess.MAILERRORPROPERTIES, e);

@@ -14,9 +14,11 @@ package com.jythonui.server.service;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.jythonui.client.service.JythonService;
+import com.jythonui.server.IConsts;
 import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServer;
+import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.security.ISecurity;
 import com.jythonui.server.security.token.ICustomSecurity;
@@ -67,6 +69,18 @@ public class JythonServiceImpl extends RemoteServiceServlet implements
     public void logout(String token) {
         ISecurity iSec = Holder.getiSec();
         iSec.logout(token);
+    }
+
+    @Override
+    public String withoutlogin(CustomSecurity custom) {
+        ICustomSecurity cu;
+        if (custom == null) {
+            CustomSecurity cust = new CustomSecurity();
+            cust.setAttr(IConsts.INSTANCEID, ISharedConsts.INSTANCEDEFAULT);
+            cu = Holder.getPersonSecurityConvert().construct(cust);
+        } else
+            cu = Holder.getSecurityConvert().construct(custom);
+        return Holder.getiSec().withoutlogin(cu);
     }
 
 }

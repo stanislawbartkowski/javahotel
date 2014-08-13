@@ -12,6 +12,8 @@
  */
 package com.jythonui.server.security.impl;
 
+import java.util.UUID;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -34,6 +36,7 @@ public class SecurityJython extends UtilHelper implements ISecurity {
 
     private final SubjectCache cCache;
     private final ISecurityResolver iResolver;
+    private final IStorageMemCache iCache;
 
     @Inject
     public SecurityJython(
@@ -43,6 +46,7 @@ public class SecurityJython extends UtilHelper implements ISecurity {
         cCache = new SubjectCache(iCache, gMess);
         this.iResolver = iResolver;
         this.gMess = gMess;
+        this.iCache = iCache;
     }
 
     @Override
@@ -50,6 +54,15 @@ public class SecurityJython extends UtilHelper implements ISecurity {
             String password, ICustomSecurity iCustom) {
         SessionEntry se = new SessionEntry(userName, password, realm, iCustom);
         return cCache.authenticateS(se);
+    }
+
+    @Override
+    public String withoutlogin(ICustomSecurity iCustom) {
+        UUID i = UUID.randomUUID();
+        String tokenS = i.toString();
+        SessionEntry se = new SessionEntry(null, null, null, iCustom);
+        iCache.put(tokenS, se);
+        return tokenS;
     }
 
     @Override

@@ -63,6 +63,7 @@ import com.jythonui.server.jython.RunJython;
 import com.jythonui.server.logmess.MessProvider;
 import com.jythonui.server.mail.impl.GetMailImpl;
 import com.jythonui.server.mail.impl.SendMailImpl;
+import com.jythonui.server.mailsave.impl.MailSaveImpl;
 import com.jythonui.server.memstorage.MemStorageCacheFactory;
 import com.jythonui.server.newblob.IAddNewBlob;
 import com.jythonui.server.newblob.impl.AddNewBlob;
@@ -178,6 +179,9 @@ public class JythonServerService {
                     Singleton.class);
             bind(IMailSend.class).to(SendMailImpl.class).in(Singleton.class);
             bind(IMailGet.class).to(GetMailImpl.class).in(Singleton.class);
+            bind(IMailSend.class)
+                    .annotatedWith(Names.named(ISharedConsts.SAVESENDMAIL))
+                    .to(MailSaveImpl.class).in(Singleton.class);
         }
 
         @Provides
