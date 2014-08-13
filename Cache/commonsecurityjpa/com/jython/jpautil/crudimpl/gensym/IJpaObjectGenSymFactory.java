@@ -10,13 +10,14 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jython.ui.server.jpastoragekey;
+package com.jython.jpautil.crudimpl.gensym;
 
-import com.jython.ui.server.jpatrans.ITransactionContextFactory;
-import com.jythonui.server.storage.blob.IBlobHandler;
-import com.jythonui.server.storage.registry.IStorageRealmRegistry;
+import javax.persistence.EntityManager;
 
-public interface IStorageJpaRegistryFactory {
-    
-    IStorageRealmRegistry construct(ITransactionContextFactory iC);
+import com.jythonui.server.crud.ICrudObjectGenSym;
+
+public interface IJpaObjectGenSymFactory {
+
+    ICrudObjectGenSym construct(EntityManager em);
+
 }

@@ -10,29 +10,26 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jython.ui.server.gaestoragekey;
+package com.jython.ui.server.gae.security.entities;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import com.googlecode.objectify.Key;
+import com.googlecode.objectify.annotation.Parent;
+import com.jython.ui.server.gae.security.entities.EDictionary;
+import com.jython.ui.server.gae.security.entities.EInstance;
+import com.jython.ui.server.gae.security.entities.EObject;
 
-import com.googlecode.objectify.ObjectifyService;
-import com.jythonui.server.ISharedConsts;
-import com.jythonui.server.getmess.IGetLogMess;
+public abstract class EObjectDict extends EDictionary {
 
-public class GaeStorageRegistry extends AbstractStorageRegistry {
+    @Parent
+    private Key<EObject> hotel;
 
-    static {
-        ObjectifyService.register(RegistryEntry.class);
+    public void setObject(EObject ho) {
+        Key<EInstance> pa = ho.getI();
+        hotel = Key.create(pa, EObject.class, ho.getId());
     }
 
-    @Inject
-    public GaeStorageRegistry(@Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess gMess) {
-        super(gMess,RegistryEntry.class);
-    }
-
-    @Override
-    AbstractRegistryEntry construct() {
-        return new RegistryEntry();
+    public boolean isObjectSet() {
+        return hotel != null;
     }
 
 }

@@ -68,7 +68,7 @@ public class ObjectAdminGae implements IOObjectAdmin {
     }
 
     private EInstance getI(AppInstanceId i) {
-        return EntUtil.findI(lMess, i);
+        return EntUtil.findI(i);
     }
 
     @Override

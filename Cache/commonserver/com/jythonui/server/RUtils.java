@@ -18,9 +18,11 @@ import java.util.Date;
 import org.apache.commons.beanutils.PropertyUtils;
 
 import com.google.common.base.Optional;
+import com.jythonui.server.logmess.IErrorCode;
+import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.shared.RMap;
 
-public class RUtils {
+public class RUtils extends UtilHelper {
 
     private RUtils() {
 
@@ -62,7 +64,35 @@ public class RUtils {
         s = retrieveS(sou, ISharedConsts.MODIFPERSONPROPERTY);
         if (s != null)
             dest.setModifPerson(s.orNull());
+    }
 
+    public static <T extends RMap> void toEProperties(String[] prop,
+            Object dest, T sou) {
+        for (String key : prop) {
+            String val = sou.getAttr(key);
+            try {
+                PropertyUtils.setSimpleProperty(dest, key, val);
+            } catch (IllegalAccessException | InvocationTargetException
+                    | NoSuchMethodException e) {
+                errorMess(L(), IErrorCode.ERRORCODE111,
+                        ILogMess.BEANCANNOTSETPROPERTY, key, val);
+            }
+        }
+    }
+
+    public static <T extends RMap> void toTProperties(String[] prop, T dest,
+            Object sou) {
+        for (String key : prop) {
+            String val = null;
+            try {
+                val = (String) PropertyUtils.getSimpleProperty(sou, key);
+            } catch (IllegalAccessException | InvocationTargetException
+                    | NoSuchMethodException e) {
+                errorMess(L(), IErrorCode.ERRORCODE112,
+                        ILogMess.BEANCANNOTGETPROPERTY, key);
+            }
+            dest.setAttr(key, val);
+        }
     }
 
 }

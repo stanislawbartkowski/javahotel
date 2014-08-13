@@ -20,8 +20,6 @@ import java.io.ObjectOutputStream;
 import java.util.Date;
 
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
-import com.jythonui.server.getmess.IGetLogMess;
-import com.jythonui.server.holder.SHolder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
 
@@ -34,7 +32,6 @@ public class UObjects extends UtilHelper {
     public static Object get(byte[] value, String keyInfo) {
         if (value == null)
             return null;
-        IGetLogMess gMess = SHolder.getM();
         ByteArrayInputStream bu = new ByteArrayInputStream(value);
         ObjectInputStream inp;
         try {
@@ -43,18 +40,19 @@ public class UObjects extends UtilHelper {
             inp.close();
             return val;
         } catch (IOException e) {
-            errorLog(gMess.getMess(IErrorCode.ERRORCODE19,
-                    ILogMess.GETOBJECTREGISTRYERROR, keyInfo), e);
+            errorLog(
+                    L().getMess(IErrorCode.ERRORCODE19,
+                            ILogMess.GETOBJECTREGISTRYERROR, keyInfo), e);
 
         } catch (ClassNotFoundException e) {
-            errorLog(gMess.getMess(IErrorCode.ERRORCODE20,
-                    ILogMess.GETOBJECTREGISTRYERROR, keyInfo), e);
+            errorLog(
+                    L().getMess(IErrorCode.ERRORCODE20,
+                            ILogMess.GETOBJECTREGISTRYERROR, keyInfo), e);
         }
         return null;
     }
 
     public static byte[] put(Object o, String keyInfo) {
-        IGetLogMess gMess = SHolder.getM();
         ByteArrayOutputStream bu = new ByteArrayOutputStream();
         ObjectOutputStream outP;
         try {
@@ -62,8 +60,9 @@ public class UObjects extends UtilHelper {
             outP.writeObject(o);
             outP.close();
         } catch (IOException e) {
-            errorLog(gMess.getMess(IErrorCode.ERRORCODE18,
-                    ILogMess.PUTOBJECTREGISTRYERROR, keyInfo), e);
+            errorLog(
+                    L().getMess(IErrorCode.ERRORCODE18,
+                            ILogMess.PUTOBJECTREGISTRYERROR, keyInfo), e);
             return null;
         }
         return bu.toByteArray();

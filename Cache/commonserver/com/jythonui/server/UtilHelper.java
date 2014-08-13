@@ -16,7 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.jythonui.server.getmess.IGetLogMess;
-import com.jythonui.server.holder.Holder;
+import com.jythonui.server.holder.SHolder;
 import com.jythonui.shared.JythonUIFatal;
 
 abstract public class UtilHelper {
@@ -25,7 +25,7 @@ abstract public class UtilHelper {
             .getName());
 
     protected static IGetLogMess L() {
-        return Holder.getM();
+        return SHolder.getM();
     }
 
     protected static void errorLog(String mess, Exception e)
@@ -53,6 +53,12 @@ abstract public class UtilHelper {
             String messId, Exception e, String... par) throws JythonUIFatal {
         String mess = gMess.getMess(errId, messId, par);
         errorLog(mess, e);
+    }
+
+    static protected void errorMess(IGetLogMess gMess, String errId,
+            String messId, String... par) throws JythonUIFatal {
+        String mess = gMess.getMess(errId, messId, par);
+        errorLog(mess);
     }
 
     static protected void infoMess(IGetLogMess gMess, String messid,
