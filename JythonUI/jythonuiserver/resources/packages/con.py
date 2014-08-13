@@ -1,5 +1,6 @@
 from java.util import Calendar
 from java.math import BigDecimal
+import java
 
 import datetime
 
@@ -34,12 +35,15 @@ def toJDate(value):
     m = DateFormatUtil.getM(value)
     d = DateFormatUtil.getD(value)
     return datetime.date(y,m,d)
-    
+        
 def toJDateTime(value):
     if value == None : return None
+    if type(value) == java.sql.Date : raise Exception("toJDateTime cannot be applied to java.sql.Date")        
     y = DateFormatUtil.getY(value)
     m = DateFormatUtil.getM(value)
     d = DateFormatUtil.getD(value)
+    # works only for java.util.Data
+    # not for java.sql.Date
     hh = value.getHours()
     mm = value.getMinutes()
     ss = value.getSeconds()
