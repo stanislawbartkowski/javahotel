@@ -22,4 +22,10 @@
 		</columns>
 	</list>
 
+    <list id="blistnowrap" nowrap="">
+        <columns>
+            <column id="id" type="long" />
+        </columns>
+    </list>
+
 </dialog>
