@@ -50,6 +50,7 @@ import com.gwtmodel.table.factories.IDisclosurePanelFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.listdataview.ButtonCheckLostFocusSignal;
+import com.gwtmodel.table.listdataview.IsBooleanSignalNow;
 import com.gwtmodel.table.panelview.IPanelView;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
@@ -93,11 +94,9 @@ import com.jythonui.client.dialog.run.CloseDialogByImage;
 import com.jythonui.client.dialog.run.RunAction;
 import com.jythonui.client.injector.UIGiniInjector;
 import com.jythonui.client.interfaces.IExecuteBackAction;
-import com.jythonui.client.interfaces.IExecuteJS;
 import com.jythonui.client.interfaces.IVariableContainerFactory;
 import com.jythonui.client.listmodel.GetRowSelected;
 import com.jythonui.client.listmodel.IRowListDataManager;
-import com.jythonui.client.registercustom.RegisterCustom;
 import com.jythonui.client.util.CreateForm;
 import com.jythonui.client.util.ExecuteAction;
 import com.jythonui.client.util.IConstructCustomDataType;
@@ -237,23 +236,6 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
             assert fie != null : LogT.getT().cannotBeNull();
             String actionId = fie.getActionId();
             assert actionId != null : LogT.getT().cannotBeNull();
-
-            // ExecuteAction.action(iCon, d.getId(), actionId, new BackClass(id,
-            // false, w, null));
-
-            // ButtonItem bu = DialogFormat.findE(d.getActionList(), actionId);
-            //
-            // IExecuteBackAction.IBackFactory backFactory = new
-            // IExecuteBackAction.IBackFactory() {
-            //
-            // @Override
-            // public CommonCallBack<DialogVariables> construct() {
-            // return new BackClass(id, false, w, null);
-            // }
-            //
-            // };
-            // DialogVariables v = iCon.getVariables(actionId);
-            // executeBack.execute(backFactory, v, bu, d.getId(), actionId);
             runAction(actionId, w, d.getActionList(), true);
         }
 
@@ -389,10 +371,6 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 
         @Override
         public void click(String actionId, WSize w) {
-            // if (runAction(actionId, w, d.getActionList(),true))
-            // return;
-            // ExecuteAction.action(iCon, d.getId(), actionId, new BackClass(
-            // actionId, false, w, null));
             runAction(actionId, w, d.getActionList(), true);
         }
 
@@ -758,6 +736,12 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
                 slMediator.getSlContainer().registerSubscriber(dType,
                         ClickButtonType.StandClickEnum.ALL,
                         constructCButton(d.getLeftButtonList()));
+                if (f.isNoWrap()) {
+                    CustomStringSlot sl = IsBooleanSignalNow
+                            .constructSlotSetLineNoWrap(da);
+                    IsBooleanSignalNow sig = new IsBooleanSignalNow(true);
+                    slMediator.getSlContainer().publish(sl, sig);
+                }
             }
         if (!d.getCheckList().isEmpty())
             for (CheckList c : d.getCheckList()) {
