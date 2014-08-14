@@ -112,7 +112,8 @@ class ReadDialog extends UtilHelper {
                 ICommonConsts.LISTBUTTONSLIST,
                 ICommonConsts.LISTBUTTONSVALIDATE, ICommonConsts.JSMODIFROW,
                 ICommonConsts.LISTSELECTEDMESS,
-                ICommonConsts.LISTBUTTONSSELECTED, ICommonConsts.TOOLBARTYPE };
+                ICommonConsts.LISTBUTTONSSELECTED, ICommonConsts.TOOLBARTYPE,
+                ICommonConsts.NOWRAPLIST };
         private final String[] valTag = { ICommonConsts.ID,
                 ICommonConsts.DISPLAYNAME, ICommonConsts.VALIDATEOP,
                 ICommonConsts.VALIDATEID1 };

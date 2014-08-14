@@ -202,6 +202,7 @@
 				type="xs:string" />
 			<xs:element minOccurs="0" name="jsmodifrow" type="xs:string" />
             <xs:element minOccurs="0" name="toolbartype" type="toolbarType" />
+            <xs:element minOccurs="0" name="nowrap" type="emptyT" />
 		</xs:sequence>
 	</xs:group>
 
@@ -221,6 +222,7 @@
 		<xs:attribute name="buttons-selectedmess" type="xs:string" />
 		<xs:attribute name="jsmodifrow" type="xs:string" />
         <xs:attribute name="toolbartype" type="toolbarType" />
+        <xs:attribute name="nowrap" type="emptyT" />
 	</xs:attributeGroup>
 
 	<xs:group name="jythonG">

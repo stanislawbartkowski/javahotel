@@ -39,6 +39,7 @@ public interface ICommonConsts {
     String BEFORE = "before";
     String LIST = "list";
     String TOOLBARTYPE = "toolbartype";
+    String NOWRAPLIST = "nowrap";
     String COLUMN = "column";
     String COLUMNS = "columns";
     String LISTBUTTONSLIST = "buttons-addlist";

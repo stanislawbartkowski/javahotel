@@ -35,7 +35,8 @@ public class ListFormat extends ElemDescription {
     public ToolBarType getToolBarType() {
         if (!isAttr(ICommonConsts.TOOLBARTYPE))
             return ToolBarType.EDIT;
-        return ToolBarType.valueOf(getAttr(ICommonConsts.TOOLBARTYPE).toUpperCase());
+        return ToolBarType.valueOf(getAttr(ICommonConsts.TOOLBARTYPE)
+                .toUpperCase());
     }
 
     public String getElemFormat() {
@@ -111,6 +112,10 @@ public class ListFormat extends ElemDescription {
 
     public String getJSModifRow() {
         return getAttr(ICommonConsts.JSMODIFROW);
+    }
+
+    public boolean isNoWrap() {
+        return isAttr(ICommonConsts.NOWRAPLIST);
     }
 
 }
