@@ -268,18 +268,6 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         @Override
         public void signal(ISlotSignalContext slContext) {
             IOkModelData iOk = slContext.getIOkModelData();
-            /*
-             * IOkModelData iOk = slContext.getIOkModelData(); assert iOk !=
-             * null : LogT.getT().FilterCannotbeNull(); WChoosedLine w =
-             * tableView.getClicked(); int aLine = -1; if (w.isChoosed() &&
-             * !begin) { aLine = w.getChoosedLine() - 1; } if (next) { aLine++;
-             * } boolean found = false; // order in while predicate evaluation
-             * is important ! while (!found && (++aLine <
-             * tableView.getViewModel().getSize())) { IVModelData v =
-             * tableView.getViewModel().get(aLine); found = iOk.OkData(v); } if
-             * (!found) { publish(dType, DataActionEnum.NotFoundSignal); return;
-             * } tableView.setClicked(aLine, true);
-             */
             if (!SearchTable.search(dType, iOk, tableView, begin, next))
                 publish(dType, DataActionEnum.NotFoundSignal);
         }
@@ -845,9 +833,6 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
         @Override
         public void click(WSize w, int row, IVField v, int imno) {
-            // WChoosedLine wC = tableView.getClicked();
-            // if (wC == null || wC.getChoosedLine() != row)
-            // tableView.setClicked(row, false);
             ISlotCustom sl = ClickColumnImageSignal
                     .constructSlotClickColumnSignal(dType);
             ClickColumnImageSignal sig = new ClickColumnImageSignal(w, row, v,
