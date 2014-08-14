@@ -33,7 +33,6 @@ import com.jythonui.server.security.token.ICustomSecurity;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldItem;
-import com.jythonui.shared.RequestContext;
 
 public class Test51 extends TestHelper {
 
