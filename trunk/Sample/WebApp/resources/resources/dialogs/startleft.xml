@@ -42,7 +42,7 @@
   <button id="dialogcircle" displayname="Circle chart" actiontype="JMAIN_DIALOG" actionparam="dialogcircle.xml" />
   <button id="x" displayname="Mail" header="" />  
   <button id="sendmail" displayname="Send mail single attachment" actiontype="JMAIN_DIALOG" actionparam="sendmail.xml" />  
-  <button id="sendmailmulti" displayname="Send mail (save)" actiontype="JMAIN_DIALOG" actionparam="sendmailmulti.xml" />  
+  <button id="sendmailmulti" displayname="Send mail (save)" actiontype="JMAIN_DIALOG" actionparam="mail/sendmailmulti.xml" />  
 </leftstack>
 
  <form>
