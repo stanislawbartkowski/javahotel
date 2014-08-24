@@ -806,7 +806,9 @@ public class RunJython extends UtilHelper implements IExecuteJython {
         }
 
         // check sys.path
-        addIfNotExisttoPath(interp, p.getJythonPackageDirectory());
+        String[] packageList = p.getJythonPackageDirectory().split(",");
+        for (String p : packageList)
+            addIfNotExisttoPath(interp, p);
         String commPath = p.getJythonSharedDirectory();
         addIfNotExisttoPath(interp, commPath);
         // add common directory

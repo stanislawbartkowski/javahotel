@@ -18,11 +18,11 @@ import java.util.Set;
 import com.gwtmodel.table.IOkModelData;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.injector.LogT;
+import com.jythonui.client.IUIConsts;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.FieldValue;
-import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.ListFormat;
 
 public class CreateSearchVar {
@@ -41,7 +41,7 @@ public class CreateSearchVar {
     public static void addSearchVar(DialogVariables v, ListFormat li,
             IOkModelData iOk) {
         boolean added = false;
-        String searchV = ICommonConsts.JFILTR_SEARCH;
+        String searchV = IUIConsts.JFILTR_SEARCH;
         Set<String> sSet = new HashSet<String>();
         if (iOk != null) {
             for (IOkModelData.ValidationData va : iOk.getValList()) {
@@ -54,11 +54,10 @@ public class CreateSearchVar {
                     v.setValueB(searchV, true);
                     added = true;
                 }
-                setV(v, fie, ICommonConsts.JSEARCH_FROM, fItem, va.getValFrom());
-                setV(v, fie, ICommonConsts.JSEARCH_TO, fItem, va.getValTo());
-                v.setValueB(ICommonConsts.JSEARCH_EQ + fie.getId(),
-                        va.isCheck());
-                v.setValueB(ICommonConsts.JSEARCH_SET + fie.getId(), true);
+                setV(v, fie, IUIConsts.JSEARCH_FROM, fItem, va.getValFrom());
+                setV(v, fie, IUIConsts.JSEARCH_TO, fItem, va.getValTo());
+                v.setValueB(IUIConsts.JSEARCH_EQ + fie.getId(), va.isCheck());
+                v.setValueB(IUIConsts.JSEARCH_SET + fie.getId(), true);
             }
         }
         if (!added) {
@@ -66,7 +65,7 @@ public class CreateSearchVar {
         }
         for (FieldItem f : li.getColumns()) {
             if (!sSet.contains(f.getId())) {
-                v.setValueB(ICommonConsts.JSEARCH_SET + f.getId(), false);
+                v.setValueB(IUIConsts.JSEARCH_SET + f.getId(), false);
             }
         }
     }

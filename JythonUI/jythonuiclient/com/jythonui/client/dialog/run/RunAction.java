@@ -183,11 +183,6 @@ public class RunAction implements IJythonUIClient {
                 return;
             }
 
-            // String files[] = res.split(",");
-            // for (String s : files) {
-            // String file[] = s.split(":");
-            // int i = 0;
-            // }
             AfterUploadSubmitSignal sig = new AfterUploadSubmitSignal(res, wS,
                     submitId);
             CustomStringSlot sl = AfterUploadSubmitSignal
@@ -402,15 +397,11 @@ public class RunAction implements IJythonUIClient {
     public void start(String startdialogName) {
         IDataType dType = DataType.construct(startdialogName, null);
         sy.mainW = true;
-        // M.JR().getDialogFormat(
-        // UIGiniInjector.getI().getRequestContext(),
-        // startdialogName,
-        // new StartBack(dType, new GetCenterWidget(), null, null, null,
-        // null, null));
         UIGiniInjector
                 .getI()
                 .getDialogFormatHandler()
                 .getDialogFormat(
+                        null,
                         startdialogName,
                         new StartBack(dType, new GetCenterWidget(), null, null,
                                 null, null, null));
@@ -431,15 +422,11 @@ public class RunAction implements IJythonUIClient {
             IExecuteAfterModalDialog iEx, String startVal) {
         IDataType dType = DataType.construct(dialogName, null);
 
-        // M.JR().getDialogFormat(
-        // UIGiniInjector.getI().getRequestContext(),
-        // dialogName,
-        // new StartBack(dType, new GetUpWidget(w), iCon, null, null, iEx,
-        // startVal));
         UIGiniInjector
                 .getI()
                 .getDialogFormatHandler()
                 .getDialogFormat(
+                        iCon.getDialogName(),
                         dialogName,
                         new StartBack(dType, new GetUpWidget(w), iCon, null,
                                 null, iEx, startVal));
@@ -450,13 +437,11 @@ public class RunAction implements IJythonUIClient {
             DialogVariables addV) {
         IDataType dType = DataType.construct(dialogName, null);
 
-        // M.JR().getDialogFormat(UIGiniInjector.getI().getRequestContext(),
-        // dialogName,
-        // new StartBack(dType, sl, iCon, iClose, addV, null, null));
         UIGiniInjector
                 .getI()
                 .getDialogFormatHandler()
                 .getDialogFormat(
+                        iCon.getDialogName(),
                         dialogName,
                         new StartBack(dType, sl, iCon, iClose, addV, null, null));
 

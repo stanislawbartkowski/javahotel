@@ -48,6 +48,10 @@ public interface IRowListDataManager extends ISetGetVar {
     void publishBeforeListEdit(IDataType d, VisitList.EditListMode eModel);
 
     void sendEnum(String customT, IDataListType dList);
-    
+
     String getLId(IDataType f);
+
+    void enableButton(String buttid, boolean enable);
+
+    void hideButton(String buttid, boolean hide);
 }

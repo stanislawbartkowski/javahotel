@@ -112,14 +112,8 @@ public interface ICommonConsts {
     String NOTEMPTY = "notempty";
     String HIDDEN = "hidden";
     String READONLY = "readonly";
-    String ENABLE = "enable";
     String READONLYADD = "readonlyadd";
     String READONLYCHANGE = "readonlychange";
-    String CRUD_ADD = "crud_add";
-    String CRUD_REMOVE = "crud_remove";
-    String CRUD_CHANGE = "crud_change";
-    String CRUD_SHOW = "crud_show";
-    String CRUD_READLIST = "crud_readlist";
     String JLIST_NAME = "JLIST_NAME";
     String PARENT = "parent";
     String JERROR = "JERROR";
@@ -204,19 +198,6 @@ public interface ICommonConsts {
     String PAGESIZE = "pagesize";
     String ALIGN = "align";
     String CHUNKED = "chunked";
-    String JLISTSIZE = "JLIST_SIZE";
-    String JLIST_READCHUNK = "readchunk";
-    String JLIST_READCHUNKSTART = "JLIST_FROM";
-    String JLIST_READCHUNKLENGTH = "JLIST_LENGTH";
-    String JLIST_SORTLIST = "JLIST_SORTLIST";
-    String JLIST_SORTASC = "JLIST_SORTASC";
-    String JLIST_GETSIZE = "listgetsize";
-    String JSEARCH_FROM = "JSEARCH_FROM_";
-    String JSEARCH_TO = "JSEARCH_TO_";
-    String JSEARCH_EQ = "JSEARCH_EQ_";
-    String JFILTR_SEARCH = "JSEARCH_FILTR";
-    String JSEARCH_SET = "JSEARCH_SET_";
-    String JSEARCH_LIST_SET = "JSEARCH_LIST_SET_";
     String PASSWORD = "password";
     String HTMLID = "htmlid";
     String AUTHENTICATE = "Authenticate";
@@ -258,19 +239,11 @@ public interface ICommonConsts {
     String CHARTTYPE = "charttype";
     String CHARTLIST = "chart";
 
-    char PERMSIGN = '$';
-    char EVALSIGN = '#';
-
     String SECURITYTOKEN = "SECURITY_TOKEN";
 
     String LOGINPAGE = "LoginPages";
     String SHIROREALM = "Shirorealm";
-
-    String JSETATTRCHECK = "JSETATTR_CHECKLIST_";
-    String JVALATTRCHECK = "JVALATTR_CHECKLIST_";
-    String JSETATTRBUTTON = "JSETATTR_BUTTON_";
-    String JSETATTRFIELD = "JSETATTR_FIELD_";
-
+    
     String JREFRESHDATELINE = "JREFRESH_DATELINE_";
 
     String GWT_LOCALE = "GWT_LOCALE";
@@ -283,4 +256,7 @@ public interface ICommonConsts {
 
     String DOWNLOADSERVLET = "downLoadHandler";
     String UPLOADSERVLET = "upLoadHandler";
+    
+    char RELCHAR = '?';
+
 }

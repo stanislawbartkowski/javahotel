@@ -29,7 +29,7 @@ public class ListFormat extends ElemDescription {
     private DialogFormat fElem;
 
     public enum ToolBarType {
-        EDIT, LISTONLY, LISTSHOWONLY
+        EDIT, LISTONLY, LISTSHOWONLY,EMPTY
     }
 
     public ToolBarType getToolBarType() {

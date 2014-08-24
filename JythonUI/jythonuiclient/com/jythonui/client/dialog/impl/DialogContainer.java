@@ -74,6 +74,7 @@ import com.gwtmodel.table.view.util.AbstractDataModel;
 import com.gwtmodel.table.view.util.OkDialog;
 import com.gwtmodel.table.view.util.YesNoDialog;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
+import com.jythonui.client.IUIConsts;
 import com.jythonui.client.M;
 import com.jythonui.client.charts.DrawChartSignal;
 import com.jythonui.client.charts.IChartManager;
@@ -415,6 +416,9 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 
         @Override
         public void addToVar(DialogVariables v, String buttonId) {
+            // Data: 2014/08/24
+            if (!CUtil.EmptyS(buttonId))
+                liManager.addToVar(v, buttonId);
             IVModelData vData = new VModelData();
             vData = getSlContainer().getGetterIVModelData(dType,
                     GetActionEnum.GetViewModelEdited, vData);
@@ -594,6 +598,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 
             DialogVariables v = iCon.getVariables(submitId);
             v.setValueS(ICommonConsts.JSUBMITERES, res);
+            liManager.addToVar(v, ICommonConsts.AFTERSUBMIT);
             ExecuteAction.action(v, d.getId(), ICommonConsts.AFTERSUBMIT,
                     new BackClass(null, false, ws, null));
         }
@@ -761,8 +766,8 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
                         chManager.constructSlotable(id, da));
             }
 
-        iCon.addFormVariables(new BAction(), new DialogVariablesGetSet(),
-                liManager, gManager, dManager);
+        iCon.addFormVariables(d.getId(), new BAction(),
+                new DialogVariablesGetSet(), liManager, gManager, dManager);
 
         pView.createView(cId);
         slMediator.startPublish(cId);
@@ -1120,7 +1125,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
                 @Override
                 public void action(String fie, String field) {
                     SplitIntoTwo t = new SplitIntoTwo();
-                    t.extract(fie, field, ICommonConsts.JSETATTRCHECK);
+                    t.extract(fie, field, IUIConsts.JSETATTRCHECK);
                     CheckList cList = d.findCheckList(t.id);
                     if (cList == null) {
                         String mess = M.M().CannotFindCheckList(field, t.id);
@@ -1135,15 +1140,15 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
                     gManager.modifAttr(t.id, t.action, val);
                 }
             };
-            JUtils.visitListOfFields(arg, ICommonConsts.JSETATTRCHECK, visC);
+            JUtils.visitListOfFields(arg, IUIConsts.JSETATTRCHECK, visC);
 
             JUtils.IVisitor visB = new JUtils.IVisitor() {
 
                 @Override
                 public void action(String fie, String field) {
                     SplitIntoTwo t = new SplitIntoTwo();
-                    t.extract(fie, field, ICommonConsts.JSETATTRBUTTON);
-                    if (!ICommonConsts.ENABLE.equals(t.action)
+                    t.extract(fie, field, IUIConsts.JSETATTRBUTTON);
+                    if (!IUIConsts.ENABLE.equals(t.action)
                             && !ICommonConsts.HIDDEN.equals(t.action)) {
                         String mess = M.M().CheckListActionNotExpected(field,
                                 t.action);
@@ -1155,24 +1160,28 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
                                 field, t.action);
                         Utils.errAlertB(mess);
                     }
-                    if (ICommonConsts.ENABLE.equals(t.action))
+                    if (IUIConsts.ENABLE.equals(t.action)) {
                         SlU.buttonEnable(dType, DialogContainer.this, t.id,
                                 val.getValueB());
-                    if (ICommonConsts.HIDDEN.equals(t.action))
+                        liManager.enableButton(t.id, val.getValueB());
+                    }
+                    if (ICommonConsts.HIDDEN.equals(t.action)) {
                         SlU.buttonHidden(dType, DialogContainer.this, t.id,
                                 val.getValueB());
+                        liManager.hideButton(t.id, val.getValueB());
+                    }
 
                 }
 
             };
-            JUtils.visitListOfFields(arg, ICommonConsts.JSETATTRBUTTON, visB);
+            JUtils.visitListOfFields(arg, IUIConsts.JSETATTRBUTTON, visB);
 
             JUtils.IVisitor visF = new JUtils.IVisitor() {
 
                 @Override
                 public void action(String fie, String field) {
                     SplitIntoTwo t = new SplitIntoTwo();
-                    t.extract(fie, field, ICommonConsts.JSETATTRFIELD);
+                    t.extract(fie, field, IUIConsts.JSETATTRFIELD);
                     FieldItem fI = d.findFieldItem(t.id);
                     if (fI == null)
                         return;
@@ -1196,7 +1205,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
                         vi.setAttr(attrName, s);
                         return;
                     }
-                    if (!ICommonConsts.ENABLE.equals(t.action)) {
+                    if (!IUIConsts.ENABLE.equals(t.action)) {
                         String mess = M.M().CheckListActionNotExpected(field,
                                 t.action);
                         Utils.errAlertB(mess);
@@ -1212,14 +1221,14 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 
             };
 
-            JUtils.visitListOfFields(arg, ICommonConsts.JSETATTRFIELD, visF);
+            JUtils.visitListOfFields(arg, IUIConsts.JSETATTRFIELD, visF);
 
             JUtils.IVisitor searchListSet = new JUtils.IVisitor() {
 
                 @Override
                 public void action(String fie, String field) {
                     SplitIntoTwo t = new SplitIntoTwo();
-                    t.extract(fie, field, ICommonConsts.JSEARCH_LIST_SET);
+                    t.extract(fie, field, IUIConsts.JSEARCH_LIST_SET);
                     String listid = t.id;
                     String fieldid = t.action;
                     FieldValue val = arg.getValue(field);
@@ -1229,7 +1238,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
                         a.publishSearch(listid, jS);
                 }
             };
-            JUtils.visitListOfFields(arg, ICommonConsts.JSEARCH_LIST_SET,
+            JUtils.visitListOfFields(arg, IUIConsts.JSEARCH_LIST_SET,
                     searchListSet);
 
             // refresh dateline

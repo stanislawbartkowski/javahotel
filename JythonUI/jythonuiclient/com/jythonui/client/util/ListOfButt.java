@@ -45,6 +45,8 @@ public class ListOfButt {
                 .getControlButtonFactory();
         List<StandClickEnum> bList = new ArrayList<StandClickEnum>();
         switch (bType) {
+        case EMPTY:
+            break;
         case EDIT:
             return bFactory.constructCrudListButtons();
         case LISTONLY:

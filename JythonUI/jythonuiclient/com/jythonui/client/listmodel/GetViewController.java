@@ -37,6 +37,7 @@ import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.gwtmodel.table.view.callback.ICommonCallBackFactory;
 import com.gwtmodel.table.view.util.YesNoDialog;
+import com.jythonui.client.IUIConsts;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.IDialogContainer;
 import com.jythonui.client.injector.UIGiniInjector;
@@ -71,16 +72,16 @@ class GetViewController implements IGetViewControllerFactory {
         String eCrud = null;
         switch (e) {
         case ADD:
-            eCrud = ICommonConsts.CRUD_ADD;
+            eCrud = IUIConsts.CRUD_ADD;
             break;
         case MODIF:
-            eCrud = ICommonConsts.CRUD_CHANGE;
+            eCrud = IUIConsts.CRUD_CHANGE;
             break;
         case REMOVE:
-            eCrud = ICommonConsts.CRUD_REMOVE;
+            eCrud = IUIConsts.CRUD_REMOVE;
             break;
         case SHOWONLY:
-            eCrud = ICommonConsts.CRUD_SHOW;
+            eCrud = IUIConsts.CRUD_SHOW;
             break;
         default:
             assert false : LogT.getT().notExpected();
@@ -143,10 +144,8 @@ class GetViewController implements IGetViewControllerFactory {
                     CommonCallBack<DialogVariables> back) {
                 v.setValueB(ICommonConsts.JCRUD_AFTERCONF, afterConfirm);
                 ListUtils.addListName(v, li);
+                rM.addToVar(v, eCrud);
                 ExecuteAction.action(v, li.getfElem().getId(), eCrud, back);
-
-                // ListUtils.executeCrudAction(v, li, li.getfElem().getId(),
-                // eCrud, back);
             }
 
         }
@@ -246,8 +245,8 @@ class GetViewController implements IGetViewControllerFactory {
                 final PersistTypeEnum e = slContext.getPersistType();
                 final WSize w = new WSize(slContext.getGwtWidget());
                 IVariablesContainer iCon = dC.getiCon();
-                DialogVariables v = iCon.getVariables(e.name());
                 String eCrud = getCrudId(e);
+                DialogVariables v = iCon.getVariables(eCrud);
                 ListFormat li = rM.getFormat(dType);
                 final executeCrud exe = new CommandCrud(v, li, eCrud);
 
