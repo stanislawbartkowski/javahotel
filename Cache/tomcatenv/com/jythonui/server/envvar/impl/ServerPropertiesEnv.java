@@ -63,7 +63,7 @@ public class ServerPropertiesEnv extends AbstractServerProperties {
         IEnvVar e = getEnvString(getJNDI.getResourceDir(),
                 IGetEnvVariable.ResType.STRING, false);
         if (!e.isEmpty())
-            return iFactory.constructDir(e.getS());
+            return iFactory.constructDirLoader(e.getS());
         return iFactory.constructLoader(this.getClass().getClassLoader());
     }
 
