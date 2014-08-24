@@ -73,9 +73,9 @@ public class Test14 extends TestHelper {
         assertEquals(20, ro.getSize());
         assertTrue(ro.getRowList().isEmpty());
         v = new DialogVariables();
-        v.setValueL(ICommonConsts.JLIST_READCHUNKSTART, 0);
-        v.setValueL(ICommonConsts.JLIST_READCHUNKLENGTH, 30);
-        runAction(v, "test35.xml", ICommonConsts.JLIST_READCHUNK);
+        v.setValueL("JLIST_FROM", 0);
+        v.setValueL("JLIST_LENGTH", 30);
+        runAction(v, "test35.xml", "readchunk");
         ro = v.getList("list");
         assertEquals(30, ro.getRowList().size());
     }
