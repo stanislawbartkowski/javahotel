@@ -16,5 +16,5 @@ public interface IReadResourceFactory {
 
     public IReadResource constructLoader(final ClassLoader cl);
 
-    public IReadResource constructDir(final String baseDir);
+    public IReadResource constructDirLoader(final String baseDir);
 }
