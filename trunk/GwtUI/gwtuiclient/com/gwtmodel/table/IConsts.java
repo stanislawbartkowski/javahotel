@@ -42,5 +42,5 @@ public interface IConsts {
     String JSTRUE = "true";
     String JSFALSE = "false";
     String JSNULL = "null";
-    String JSUNDEFINED = "undefined";
+    String JSUNDEFINED = "undefined";    
 }
