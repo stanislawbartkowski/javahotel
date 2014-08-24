@@ -34,15 +34,18 @@ class VariableContainer implements IVariablesContainer {
     private class FormContainer {
         ISetGetVar l[];
         IBackAction iAction;
+        String dialogName;
     }
 
     private final List<FormContainer> fList = new ArrayList<FormContainer>();
 
     @Override
-    public void addFormVariables(IBackAction iAction, ISetGetVar... vars) {
+    public void addFormVariables(String dialogName, IBackAction iAction,
+            ISetGetVar... vars) {
         FormContainer f = new FormContainer();
         f.l = vars;
         f.iAction = iAction;
+        f.dialogName = dialogName;
         fList.add(f);
 
     }
@@ -113,5 +116,12 @@ class VariableContainer implements IVariablesContainer {
             bList.add(0, f.iAction);
         }
         return bList;
+    }
+
+    @Override
+    public String getDialogName() {
+        if (fList.isEmpty())
+            return null;
+        return fList.get(fList.size() - 1).dialogName;
     }
 }

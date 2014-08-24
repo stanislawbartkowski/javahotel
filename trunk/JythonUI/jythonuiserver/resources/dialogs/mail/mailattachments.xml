@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" >
+
+<before/>
+
+ <jython>
+   <import>from mail import maillist</import>
+   <method>maillist.dialogattach({0},{1})</method>
+ </jython>  
+ 
+ <actions>
+   <action id="download" actiontype="JUP_DIALOG" actionparam="?attachdownload.xml" />
+ </actions>  
+
+ 
+ <list id="listattach"  toolbartype="empty" displayname="@listofattachments"  >
+   <columns>
+    <column id="filename" displayname="@filename" actionid="download" />
+    <column id="realm" hidden="" />
+    <column id="key" hidden="" />
+   </columns>
+ </list>  
+
+ 
+</dialog>

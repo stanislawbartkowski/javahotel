@@ -42,6 +42,7 @@ import com.jythonui.server.security.ISecurity;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.ListFormat;
+import com.jythonui.shared.SUtil;
 import com.jythonui.shared.TypesDescr;
 
 /**
@@ -111,7 +112,8 @@ public class GetDialog extends UtilHelper implements IGetDialog {
         d = getDialogDirectly(token, dialogName, verify);
         String dParentName = d.getParent();
         if (dParentName != null) {
-            DialogFormat dParent = getDialog(token, dParentName, false);
+            String pName = SUtil.getFileName(dialogName, dParentName);
+            DialogFormat dParent = getDialog(token, pName, false);
             for (ListFormat lo : dParent.getListList()) {
                 if (lo.getfElem() != null
                         && lo.getfElem().getId().equals(dialogName)) {
@@ -170,8 +172,10 @@ public class GetDialog extends UtilHelper implements IGetDialog {
                                     ICommonConsts.PARENT, dialogName));
                             return null;
                         }
-                        DialogFormat dElem = getDialogDirectly(token,
-                                l.getElemFormat(), verify);
+                        String elemName = SUtil.getFileName(dialogName,
+                                l.getElemFormat());
+                        DialogFormat dElem = getDialogDirectly(token, elemName,
+                                verify);
                         boolean wasmodified = false;
                         if (dElem.getFieldList().isEmpty()) {
                             // if there is no field list in the XML

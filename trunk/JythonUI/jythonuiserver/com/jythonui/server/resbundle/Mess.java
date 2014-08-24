@@ -55,9 +55,6 @@ public class Mess implements IAppMess {
 
     private void setMess() {
         if ((iMess == null) || !iRes.isCached() || localeChanged()) {
-            // URL u =
-            // Mess.class.getClassLoader().getResource(ISharedConsts.RESOURCES +
-            // "/mess");
             // use full path
             commonmess = iGet.getResourceMap(
                     iFactory.constructLoader(Mess.class.getClassLoader()),

@@ -50,4 +50,29 @@ public interface IUIConsts {
     String NOCHARTSYES = "Y";
     String LOGINDELIMITER = ",";
 
+    String CRUD_ADD = "crud_add";
+    String CRUD_REMOVE = "crud_remove";
+    String CRUD_CHANGE = "crud_change";
+    String CRUD_SHOW = "crud_show";
+    String CRUD_READLIST = "crud_readlist";
+    String ENABLE = "enable";
+
+    String JLIST_READCHUNK = "readchunk";
+    String JLIST_READCHUNKSTART = "JLIST_FROM";
+    String JLIST_READCHUNKLENGTH = "JLIST_LENGTH";
+    String JLIST_SORTLIST = "JLIST_SORTLIST";
+    String JLIST_SORTASC = "JLIST_SORTASC";
+    String JLIST_GETSIZE = "listgetsize";
+    String JSEARCH_FROM = "JSEARCH_FROM_";
+    String JSEARCH_TO = "JSEARCH_TO_";
+    String JSEARCH_EQ = "JSEARCH_EQ_";
+    String JFILTR_SEARCH = "JSEARCH_FILTR";
+    String JSEARCH_SET = "JSEARCH_SET_";
+    String JSEARCH_LIST_SET = "JSEARCH_LIST_SET_";
+
+    String JSETATTRCHECK = "JSETATTR_CHECKLIST_";
+    String JVALATTRCHECK = "JVALATTR_CHECKLIST_";
+    String JSETATTRBUTTON = "JSETATTR_BUTTON_";
+    String JSETATTRFIELD = "JSETATTR_FIELD_";
+
 }

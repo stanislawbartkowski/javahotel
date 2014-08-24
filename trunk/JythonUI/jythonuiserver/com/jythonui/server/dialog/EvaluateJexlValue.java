@@ -13,9 +13,9 @@
 package com.jythonui.server.dialog;
 
 import com.gwtmodel.table.common.CUtil;
+import com.jythonui.server.IConsts;
 import com.jythonui.server.SaxUtil;
 import com.jythonui.server.security.ISecurity;
-import com.jythonui.shared.ICommonConsts;
 
 class EvaluateJexlValue implements SaxUtil.ITransformVal {
 
@@ -31,7 +31,7 @@ class EvaluateJexlValue implements SaxUtil.ITransformVal {
     public String transform(String val) {
         if (CUtil.EmptyS(val))
             return val;
-        if (val.length() <= 1 || val.charAt(0) != ICommonConsts.EVALSIGN)
+        if (val.length() <= 1 || val.charAt(0) != IConsts.EVALSIGN)
             return val;
         return iSec.evaluateExpr(token, val.substring(1));
     }
@@ -43,12 +43,12 @@ class EvaluateJexlValue implements SaxUtil.ITransformVal {
         int len = s.length();
 
         while (true) {
-            int pos = s.indexOf(ICommonConsts.PERMSIGN, startp);
+            int pos = s.indexOf(IConsts.PERMSIGN, startp);
             if (pos == -1)
                 return -1;
             if (pos == len - 1)
                 return -1; // empty security
-            if (s.charAt(pos + 1) != ICommonConsts.PERMSIGN)
+            if (s.charAt(pos + 1) != IConsts.PERMSIGN)
                 return pos;
             // double (escaped) $
             startp = pos + 2;
@@ -67,7 +67,8 @@ class EvaluateJexlValue implements SaxUtil.ITransformVal {
         String secPart = getSecurityPart(val);
         if (secPart == null)
             return val;
-        if (token == null || !iSec.isAuthorized(token, secPart)) return null;
+        if (token == null || !iSec.isAuthorized(token, secPart))
+            return null;
         int sec = findSecurity(val);
         if (sec == 0)
             return "";

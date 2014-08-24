@@ -14,12 +14,14 @@ package com.jythonui.client.getformat;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
+import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.common.CUtil;
 import com.jythonui.client.M;
 import com.jythonui.client.injector.UIGiniInjector;
 import com.jythonui.client.interfaces.IGetDialogFormat;
 import com.jythonui.client.interfaces.IMemCache;
 import com.jythonui.shared.DialogInfo;
+import com.jythonui.shared.SUtil;
 
 public class GetDialogFormat implements IGetDialogFormat {
 
@@ -56,16 +58,24 @@ public class GetDialogFormat implements IGetDialogFormat {
     }
 
     @Override
-    public void getDialogFormat(String dialogName,
+    public void getDialogFormat(String parentDialogName, String pdialogName,
             AsyncCallback<DialogInfo> callback) {
+        String dialogName = SUtil.getFileName(parentDialogName, pdialogName);
+        if (dialogName == null) {
+            Utils.errAlert(M.M().RelativeDialogNameNotAllowed(pdialogName));
+            return;
+        }
+
         if (!M.isCached()) {
             M.JR().getDialogFormat(UIGiniInjector.getI().getRequestContext(),
                     dialogName, callback);
             return;
         }
         boolean theSame = false;
-        if (lastUser == null && M.getUserName() == null) theSame = true;
-        if (lastUser != null && M.getUserName() != null) theSame = CUtil.EqNS(lastUser,M.getUserName());
+        if (lastUser == null && M.getUserName() == null)
+            theSame = true;
+        if (lastUser != null && M.getUserName() != null)
+            theSame = CUtil.EqNS(lastUser, M.getUserName());
         if (!theSame) {
             mCache.clear();
             lastUser = M.getUserName();

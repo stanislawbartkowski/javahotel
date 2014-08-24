@@ -30,6 +30,7 @@ import com.gwtmodel.table.common.TT;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.CustomStringSlot;
 import com.gwtmodel.table.slotmodel.ISlotable;
+import com.gwtmodel.table.slotmodel.SlU;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.ICreateBackActionFactory;
 import com.jythonui.client.dialog.IPerformClickAction;
@@ -161,7 +162,18 @@ class RowListDataManager implements IRowListDataManager {
             CustomStringSlot sl = AddVarList.constructSignal(dType);
             iSlo.getSlContainer().publish(sl, signal);
         }
+    }
 
+    @Override
+    public void enableButton(String buttid, boolean enable) {
+        for (IDataType dType : getList())
+            SlU.buttonEnable(dType, iSlo, buttid, enable);
+    }
+
+    @Override
+    public void hideButton(String buttid, boolean hide) { 
+        for (IDataType dType : getList())
+            SlU.buttonHidden(dType, iSlo, buttid, hide);
     }
 
     @Override

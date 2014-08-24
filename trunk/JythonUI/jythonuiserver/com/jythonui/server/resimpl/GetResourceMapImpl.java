@@ -47,7 +47,7 @@ public class GetResourceMapImpl implements IGetResourceMap {
         if (map == null) {
             map = ReadBundle.getBundle(iRead, loc, dir, bundle);
         }
-        if (iRes.isCached())
+        if (iRes.isCached() && map != null)
             iCache.put(keyCache, map);
         return map;
     }

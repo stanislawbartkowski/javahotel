@@ -432,12 +432,12 @@ class ListControler {
             public void signal(ISlotSignalContext slContext) {
                 if (sy.signalledAlready()) {
                     DialogVariables v = iCon
-                            .getVariables(ICommonConsts.CRUD_READLIST);
+                            .getVariables(IUIConsts.CRUD_READLIST);
                     ListFormat li = rM.getFormat(dType);
                     IOkModelData iOk = SlU.getOkModelData(dType,
                             DataListPersistAction.this);
                     CreateSearchVar.addSearchVar(v, li, iOk);
-                    executeAction(v, li, null, ICommonConsts.CRUD_READLIST,
+                    executeAction(v, li, null, IUIConsts.CRUD_READLIST,
                             null);
                 } else {
                     sy.signalDone();
@@ -471,10 +471,10 @@ class ListControler {
             public void signal(ISlotSignalContext slContext) {
                 IOkModelData iOk = slContext.getIOkModelData();
                 DialogVariables v = iCon
-                        .getVariables(ICommonConsts.JLIST_GETSIZE);
+                        .getVariables(IUIConsts.JLIST_GETSIZE);
                 ListFormat li = rM.getFormat(dType);
                 CreateSearchVar.addSearchVar(v, li, iOk);
-                executeAction(v, li, null, ICommonConsts.JLIST_GETSIZE, null);
+                executeAction(v, li, null, IUIConsts.JLIST_GETSIZE, null);
             }
 
         }
@@ -1213,21 +1213,21 @@ class ListControler {
             int start = r.getStart();
             int size = r.getSize();
             DialogVariables v = iCon
-                    .getVariables(ICommonConsts.JLIST_READCHUNK);
-            v.setValueL(ICommonConsts.JLIST_READCHUNKSTART, start);
-            v.setValueL(ICommonConsts.JLIST_READCHUNKLENGTH, size);
+                    .getVariables(IUIConsts.JLIST_READCHUNK);
+            v.setValueL(IUIConsts.JLIST_READCHUNKSTART, start);
+            v.setValueL(IUIConsts.JLIST_READCHUNKLENGTH, size);
             IVField fSort = r.getfSort();
             if (fSort == null)
-                v.setValueS(ICommonConsts.JLIST_SORTLIST, null);
+                v.setValueS(IUIConsts.JLIST_SORTLIST, null);
 
             else
-                v.setValueS(ICommonConsts.JLIST_SORTLIST, fSort.getId());
-            v.setValueB(ICommonConsts.JLIST_SORTASC, r.isAsc());
+                v.setValueS(IUIConsts.JLIST_SORTLIST, fSort.getId());
+            v.setValueB(IUIConsts.JLIST_SORTASC, r.isAsc());
             ListFormat li = rM.getFormat(dType);
             CreateSearchVar.addSearchVar(v, li, r.getOkData());
             ListUtils.addListName(v, li);
             ExecuteAction.action(v, rM.getDialogName(),
-                    ICommonConsts.JLIST_READCHUNK, new ReadRowsChunk(r));
+                    IUIConsts.JLIST_READCHUNK, new ReadRowsChunk(r));
         }
 
     }
@@ -1255,14 +1255,7 @@ class ListControler {
             IPerformClickAction custClick) {
         TableDataControlerFactory tFactory = GwtGiniInjector.getI()
                 .getTableDataControlerFactory();
-        // ControlButtonFactory buFactory = GwtGiniInjector.getI()
-        // .getControlButtonFactory();
-
-        // ControlButtonFactory bFactory = GwtGiniInjector.getI()
-        // .getControlButtonFactory();
         ListFormat li = rM.getFormat(da);
-        // List<ControlButtonDesc> crudList =
-        // bFactory.constructCrudListButtons();
         List<ControlButtonDesc> cList;
         List<ControlButtonDesc> customList = new ArrayList<ControlButtonDesc>();
         if (!CUtil.EmptyS(li.getStandButt())) {

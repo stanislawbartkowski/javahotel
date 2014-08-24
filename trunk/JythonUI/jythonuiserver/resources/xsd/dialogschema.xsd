@@ -12,7 +12,7 @@
 
 	<xs:simpleType name="toolbarType">
 		<xs:restriction base="xs:string">
-			<xs:pattern value="edit|listonly|listshowonly" />
+			<xs:pattern value="edit|listonly|listshowonly|empty" />
 		</xs:restriction>
 	</xs:simpleType>
 

@@ -14,11 +14,10 @@ package com.jythonui.client.interfaces;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.jythonui.shared.DialogInfo;
-import com.jythonui.shared.RequestContext;
 
 public interface IGetDialogFormat {
 
-    void getDialogFormat(String name,
+    void getDialogFormat(String parentDialogName, String dialogName,
             AsyncCallback<DialogInfo> callback);
 
 }

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" formpanel="">
+ 
+  <jython>
+   <import>from mail import maillist</import>
+    <method>maillist.elemaction({0},{1})</method>
+  </jython>  
+
+   <buttons>
+       <button id="attach" displayname="@attachbutton" validate="" /> 
+   </buttons>
+
+   <form>
+       <field id="uploadfile" displayname="@attachfile" type="upload" notempty="" />
+   </form>
+
+</dialog>

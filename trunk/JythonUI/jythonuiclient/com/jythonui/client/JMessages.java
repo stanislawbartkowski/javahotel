@@ -94,4 +94,6 @@ public interface JMessages extends Messages {
 
     String ValueForAttributeShouldBeNull(String aName);
 
+    String RelativeDialogNameNotAllowed(String dialogName);
+
 }
