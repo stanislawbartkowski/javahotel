@@ -5,13 +5,6 @@ LI = "list"
 ALIST="attachlist"
 ATALIST="listattach"
 
-def splitsubmitres(submitres) :
-    elems = submitres.split(":")
-    realm = elems[0]
-    key = elems[1]
-    filename = elems[2]
-    return (realm,key,filename)
-
 def dialogattach(action,var) :
     cutil.printVar("dialog attach",action,var)
     
@@ -57,7 +50,7 @@ def elemaction(action,var) :
     
     if action == "addnewattach" and var["JUPDIALOG_BUTTON"] == "attach" :
       li = var["JLIST_MAP"][ALIST]
-      (realm,key,filename) = splitsubmitres(var["JUPDIALOG_RES"])
+      (realm,key,filename) = cutil.splitsubmitres(var["JUPDIALOG_RES"])
       li.append({"filename" : filename,"realm" : realm, "key" : key})
       cutil.setJMapList(var,ALIST,li)
       

@@ -405,6 +405,13 @@ def allEmpty(var,list):
         return False
     return True
 
+def splitsubmitres(submitres) :
+    elems = submitres.split(":")
+    realm = elems[0]
+    key = elems[1]
+    filename = elems[2]
+    return (realm,key,filename)
+
 def printVar(name,action,var):
   clog.info("==============",name)
   clog.info("action = ",action)
