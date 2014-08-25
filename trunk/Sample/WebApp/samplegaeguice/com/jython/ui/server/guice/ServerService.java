@@ -29,6 +29,7 @@ import com.jython.ui.server.datastore.IPersonOp;
 import com.jython.ui.server.datastore.gae.DateLineOp;
 import com.jython.ui.server.datastore.gae.DateRecordOp;
 import com.jython.ui.server.datastore.gae.PersonOp;
+import com.jython.ui.server.gae.noteimpl.NoteStoreImpl;
 import com.jython.ui.server.gae.security.impl.ObjectAdminGae;
 import com.jython.ui.server.gae.security.impl.ObjectInstanceImpl;
 import com.jython.ui.server.gaestoragekey.BlobStorage;
@@ -38,16 +39,21 @@ import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServerProperties;
+import com.jythonui.server.ISharedConsts;
+import com.jythonui.server.crud.ICrudObjectGenSym;
 import com.jythonui.server.defa.EmptyConnectionProvider;
 import com.jythonui.server.defa.EmptyRPCNotifier;
 import com.jythonui.server.defa.GetClientProperties;
 import com.jythonui.server.defa.IsCached;
 import com.jythonui.server.defa.JavaMailSessionProvider;
-import com.jythonui.server.defa.ServerProperties;
+import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.guice.JythonServerService.JythonServiceModule;
+import com.jythonui.server.mail.INoteStorage;
+import com.jythonui.server.objectgensymimpl.CrudObjectGenSym;
 import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.server.semaphore.impl.SemaphoreRegistry;
 import com.jythonui.server.storage.blob.IBlobHandler;
+import com.jythonui.server.storage.gensym.ISymGenerator;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 
 /**
@@ -89,7 +95,17 @@ public class ServerService {
             bind(Session.class).annotatedWith(Names.named(IConsts.SENDMAIL))
                     .toProvider(JavaMailSessionProvider.class)
                     .in(Singleton.class);
+            bind(INoteStorage.class).to(NoteStoreImpl.class)
+                    .in(Singleton.class);
+
             requestStatic();
+        }
+        
+        @Provides
+        @Singleton
+        ICrudObjectGenSym getObjectGen(ISymGenerator iGen,
+                @Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess lMess) {
+            return new CrudObjectGenSym(iGen, lMess);
         }
 
         @Provides
@@ -98,13 +114,6 @@ public class ServerService {
         Session getGetSession() {
             return null;
         }
-
-        // @Provides
-        // @Named(IConsts.SENDMAIL)
-        // @Singleton
-        // Session getSendSession() {
-        // return null;
-        // }
 
     }
 
