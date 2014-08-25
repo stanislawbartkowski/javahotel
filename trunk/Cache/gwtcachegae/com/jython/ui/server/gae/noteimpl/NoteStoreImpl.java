@@ -81,7 +81,7 @@ public class NoteStoreImpl extends CrudGaeAbstract<Note, EMailNote> implements
     @Override
     protected void toE(EObject ho, EMailNote e, Note t) {
         String realM = createRealm(e.getName(), ho);
-        e.setDescription(t.getName());
+        e.setDescription(t.getDescription());
         e.setName(t.getName());
         e.setContent(t.getContent());
         e.setText(t.isText());

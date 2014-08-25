@@ -34,6 +34,8 @@ public class JpaNoteStorage extends AbstractJpaCrud<Note, EMailNote> implements
 
     private final IAddNewBlob iAdd;
     private final IBlobHandler hBlob;
+    
+    private final static int MAXSIZE=255;
 
     @Inject
     public JpaNoteStorage(ITransactionContextFactory eFactory,
@@ -75,7 +77,9 @@ public class JpaNoteStorage extends AbstractJpaCrud<Note, EMailNote> implements
             OObjectId hotel) {
         dest.setContent(sou.getContent());
         dest.setMailFrom(sou.getFrom());
-        dest.setSendRes(sou.getSendResult());
+        if (!CUtil.EmptyS(sou.getSendResult()))
+            // restrict to 256
+          dest.setSendRes(sou.getSendResult().substring(0, MAXSIZE));
         dest.setText(sou.isText());
         dest.getRecipientsList().addAll(sou.getRecipientsList());
     }
