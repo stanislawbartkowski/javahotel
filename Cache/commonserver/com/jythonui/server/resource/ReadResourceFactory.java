@@ -20,7 +20,6 @@ import java.net.URL;
 
 import com.jythonui.server.BUtil;
 import com.jythonui.server.UtilHelper;
-import com.jythonui.server.defa.AbstractServerProperties;
 
 public class ReadResourceFactory extends UtilHelper implements
         IReadResourceFactory {
@@ -50,7 +49,7 @@ public class ReadResourceFactory extends UtilHelper implements
 
         final String[] b = baseDir.split(",");
         final IReadResource iC = new ClassL(
-                AbstractServerProperties.class.getClassLoader());
+                ReadResourceFactory.class.getClassLoader());
 
         return new IReadResource() {
 
