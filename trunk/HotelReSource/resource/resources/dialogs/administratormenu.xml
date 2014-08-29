@@ -9,6 +9,7 @@
   <button id="pricelist" displayname="@pricelist" actiontype="JMAIN_DIALOG" actionparam="hotel/pricelist.xml"/>
   <button id="roomlist" displayname="@lofrooms" actiontype="JMAIN_DIALOG" actionparam="hotel/roomslist.xml"/>
   <button id="customerlist" displayname="@lofcustomer" actiontype="JMAIN_DIALOG" actionparam="hotel/customerlist.xml"/>
+  <button id="mailtest" displayname="Mail test" actiontype="JMAIN_DIALOG" actionparam="mail/sendmailmulti.xml"/>
 </leftmenu>
 
 </dialog>

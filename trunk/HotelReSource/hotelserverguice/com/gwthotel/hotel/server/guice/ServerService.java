@@ -20,6 +20,7 @@ import javax.persistence.EntityManagerFactory;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
+import com.google.inject.name.Names;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.IGetAutomPatterns;
 import com.gwthotel.hotel.bill.ICustomerBills;
@@ -76,6 +77,7 @@ import com.jythonui.server.guavacache.GuavaCacheFactory;
 import com.jythonui.server.mail.INoteStorage;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.resbundle.Mess;
+import com.jythonui.server.ressession.ResGetMailSessionProvider;
 import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.server.semaphore.impl.SemaphoreSynch;
 import com.jythonui.server.storage.blob.IBlobHandler;
@@ -151,6 +153,9 @@ public class ServerService {
             bind(INoteStorage.class).to(JpaNoteStorage.class).in(
                     Singleton.class);
             // common
+            bind(Session.class).annotatedWith(Names.named(IConsts.SENDMAIL))
+                    .toProvider(ResGetMailSessionProvider.class)
+                    .in(Singleton.class);
 
             requestStatic();
             requestStaticInjection(H.class);
@@ -191,7 +196,7 @@ public class ServerService {
         }
 
         // -----
-        
+
         @Provides
         @Named(IConsts.GETMAIL)
         @Singleton
@@ -199,12 +204,12 @@ public class ServerService {
             return null;
         }
 
-        @Provides
-        @Named(IConsts.SENDMAIL)
-        @Singleton
-        Session getSendSession() {
-            return null;
-        }
+        // @Provides
+        // @Named(IConsts.SENDMAIL)
+        // @Singleton
+        // Session getSendSession() {
+        // return null;
+        // }
 
     }
 

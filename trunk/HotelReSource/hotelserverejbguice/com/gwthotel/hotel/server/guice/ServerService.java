@@ -52,6 +52,7 @@ import com.jythonui.server.guavacache.GuavaCacheFactory;
 import com.jythonui.server.mail.INoteStorage;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.resbundle.Mess;
+import com.jythonui.server.ressession.ResGetMailSessionProvider;
 import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.server.semaphore.impl.SemaphoreRegistry;
 import com.jythonui.server.storage.blob.IBlobHandler;
@@ -91,7 +92,7 @@ public class ServerService {
             bind(IGetEnvVariable.class).to(GetEnvVariables.class).in(
                     Singleton.class);
             bind(Session.class).annotatedWith(Names.named(IConsts.SENDMAIL))
-                    .toProvider(JavaMailSessionProvider.class)
+                    .toProvider(ResGetMailSessionProvider.class)
                     .in(Singleton.class);
 
             bind(IBeanLocator.class).to(EjbLocatorWildFly.class).in(
