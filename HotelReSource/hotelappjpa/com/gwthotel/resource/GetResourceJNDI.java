@@ -20,7 +20,7 @@ public class GetResourceJNDI implements IGetResourceJNDI {
     private final static String CACHED = "hotelapp/cached";
     private final static String EJBHOST = "hotelapp/ejbhost";
     private final static String EJBPORT = "hotelapp/ejbport";
-
+    private final static String MAILSESSION = "mail/Session";
 
     @Override
     public String getResourceDir() {
@@ -44,7 +44,7 @@ public class GetResourceJNDI implements IGetResourceJNDI {
 
     @Override
     public String getMailName() {
-        return null;
+        return MAILSESSION;
     }
 
 }
