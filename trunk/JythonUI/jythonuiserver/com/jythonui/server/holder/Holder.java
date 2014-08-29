@@ -142,6 +142,10 @@ public class Holder {
 
     private static final ThreadLocal<RequestContext> locale = new ThreadLocal<RequestContext>();
 
+    public static void releaseThredData() {
+        locale.remove();
+    }
+    
     public static boolean isAuth() {
         return auth;
     }
