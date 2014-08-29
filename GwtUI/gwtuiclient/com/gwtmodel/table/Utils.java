@@ -117,8 +117,14 @@ public class Utils {
         return ".";
     }
 
-    public static String getImageHTML(final String imageUrl, int w, int h,
+    public static String getImageHTML(final String imageUrlPar, int w, int h,
             String name) {
+        String[] im = imageUrlPar.split(",");
+        String imageUrl = im[0];
+        if (im.length >= 2)
+            w = CUtil.getInteger(im[1]);
+        if (im.length >= 3)
+            h = CUtil.getInteger(im[2]);
         String s = "<img src='" + getImageAdr(imageUrl) + "'";
         if (w != 0) {
             s += " width='" + w + "px'";

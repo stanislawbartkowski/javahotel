@@ -12,7 +12,13 @@
  */
 package com.gwtmodel.table;
 
-import com.google.gwt.http.client.*;
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.RequestException;
+import com.google.gwt.http.client.RequestTimeoutException;
+import com.google.gwt.http.client.Response;
+import com.gwtmodel.table.injector.LogT;
 
 /**
  *
@@ -31,12 +37,16 @@ public class ReadRequestHtml {
     private static class RequestCallbackM implements RequestCallback {
 
         private final ISetRequestText iSet;
+        private final String url;
 
-        RequestCallbackM(ISetRequestText iSet) {
+        RequestCallbackM(ISetRequestText iSet, String url) {
             this.iSet = iSet;
+            this.url = url;
         }
+
         private static final int STATUS_CODE_OK = 200;
 
+        @Override
         public void onError(Request request, Throwable exception) {
             if (exception instanceof RequestTimeoutException) {
                 // handle a request timeout
@@ -44,14 +54,19 @@ public class ReadRequestHtml {
                 // handle other request errors
             }
             String s = exception.getMessage();
+            Utils.errAlert(LogT.getT().CannotReadThisUrl(url), s);
             iSet.setText(s);
         }
 
+        @Override
         public void onResponseReceived(Request request, Response response) {
             String text = response.getText();
             if (STATUS_CODE_OK == response.getStatusCode()) {
                 iSet.setText(text);
             } else {
+                Utils.errAlert(
+                        LogT.getT().CannotReadThisUrlCode(url,
+                                response.getStatusCode()));
                 iSet.setText(text);
             }
         }
@@ -61,7 +76,7 @@ public class ReadRequestHtml {
         RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, url);
         try {
             Request response = builder.sendRequest(null, new RequestCallbackM(
-                    iSet));
+                    iSet, url));
         } catch (RequestException e) {
             iSet.setText(e.getMessage());
         }

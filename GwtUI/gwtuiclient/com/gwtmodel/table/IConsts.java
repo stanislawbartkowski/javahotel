@@ -43,4 +43,6 @@ public interface IConsts {
     String JSFALSE = "false";
     String JSNULL = "null";
     String JSUNDEFINED = "undefined";    
+    int headerImageWidth = 20;
+    int headerImageHeight = 20;
 }
