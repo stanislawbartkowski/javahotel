@@ -125,17 +125,21 @@ public interface TLogMessages extends Messages {
     String NewEditLineFocus(String wChoose);
 
     String NextClickedAction(String place, String wChoose);
-    
+
     String TablePresentationSetEditRow(int rowno);
-    
+
     String TablePresentationSelectionChange(int rowno);
-    
+
     String TablePresentationSelectionChangeNow(int rowno);
-    
+
     String PresentationTableNullSetValObj(String id);
-    
+
     String NoEditCheckBox();
-    
+
     String NullValueHeaderPos(int pos);
+
+    String CannotReadThisUrl(String url);
+
+    String CannotReadThisUrlCode(String url, int errocode);
 
 }
