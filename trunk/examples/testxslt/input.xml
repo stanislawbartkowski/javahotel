@@ -1,0 +1,28 @@
+<root>
+<lines>
+<line>
+  <name>AMD Athlon</name>
+  <price>580.00</price>
+  <qty>6</qty>
+  <amount>3480.00</amount>
+</line>  
+<line>
+  <name>PDC-E5300</name>
+  <price>645.00</price>
+  <qty>4</qty>
+  <amount>2580.00</amount>
+</line>  
+<line>
+  <name>LG 18.5" WLCD</name>
+  <price>230.00</price>
+  <qty>10</qty>
+  <amount>2300.00</amount>
+</line>  
+<line>
+  <name>HP LaserJet 5200</name>
+  <price>1100.00</price>
+  <qty>1</qty>
+  <amount>1100.00</amount>
+</line>  
+</lines>
+</root>
