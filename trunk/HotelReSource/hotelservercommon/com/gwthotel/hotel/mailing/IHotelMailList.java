@@ -10,31 +10,10 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.shared;
+package com.gwthotel.hotel.mailing;
 
-import com.jythonui.shared.RMap;
+import com.jythonui.server.crud.IObjectCrud;
 
-// TODO: remove
-
-abstract class PropDescription extends RMap {
-
-    private static final long serialVersionUID = 1L;
-
-
-    private boolean gensymbol = false;
-    
-
-    public String getAutomPattern() {
-        return getAttr(IHotelConsts.PATTPROP);
-    }
-
-    public boolean isGensymbol() {
-        return gensymbol;
-    }
-
-    public void setGensymbol(boolean gensymbol) {
-        this.gensymbol = gensymbol;
-    }
-
+public interface IHotelMailList extends IObjectCrud<HotelMailElem> {
 
 }

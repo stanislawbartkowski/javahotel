@@ -53,11 +53,6 @@ public class HotelJpaRooms extends HotelAbstractJpaCrud<HotelRoom, EHotelRoom> i
     }
 
     @Override
-    protected EHotelRoom constructE(EntityManager em, OObjectId hotel) {
-        return new EHotelRoom();
-    }
-
-    @Override
     protected void toE(EHotelRoom dest, HotelRoom sou, EntityManager em,
             OObjectId hotel) {
         dest.setNoPersons(sou.getNoPersons());

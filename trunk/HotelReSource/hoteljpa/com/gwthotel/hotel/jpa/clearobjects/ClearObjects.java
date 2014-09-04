@@ -24,6 +24,7 @@ import com.gwthotel.hotel.jpa.JUtils;
 import com.gwthotel.hotel.jpa.entities.EBillPayment;
 import com.gwthotel.hotel.jpa.entities.ECustomerBill;
 import com.gwthotel.hotel.jpa.entities.EHotelCustomer;
+import com.gwthotel.hotel.jpa.entities.EHotelMail;
 import com.gwthotel.hotel.jpa.entities.EHotelPriceList;
 import com.gwthotel.hotel.jpa.entities.EHotelReservation;
 import com.gwthotel.hotel.jpa.entities.EHotelRoom;
@@ -64,7 +65,8 @@ public class ClearObjects implements IClearHotel {
             // statement)
             // Hibernate does not remove embedded list automatically
             JUtils.removeList(em, hotel.getId(), "findAllBills");
-            String[] remQuery = { "deleteAllGuestsReservationFromHotel",
+            String[] remQuery = { "deleteAllHotelmails",
+                    "deleteAllGuestsReservationFromHotel",
                     "deleteAllReservationDetails", "deleteAllReservations",
                     "deleteAllCustomers", "deleteAllRoomServices",
                     "deletePricesForHotel", "deleteAllRooms",
@@ -83,26 +85,6 @@ public class ClearObjects implements IClearHotel {
     @Override
     public void setTestDataToday(Date d) {
         iSetToday.setToday(d);
-    }
-
-    private Class getClass(HotelObjects o) {
-        switch (o) {
-        case RESERVATION:
-            return EHotelReservation.class;
-        case CUSTOMER:
-            return EHotelCustomer.class;
-        case PRICELIST:
-            return EHotelPriceList.class;
-        case ROOM:
-            return EHotelRoom.class;
-        case SERVICE:
-            return EHotelServices.class;
-        case BILL:
-            return ECustomerBill.class;
-        case PAYMENTS:
-            return EBillPayment.class;
-        }
-        return null;
     }
 
     private class CountHotelObject extends JpaTransaction {
@@ -146,7 +128,7 @@ public class ClearObjects implements IClearHotel {
 
     @Override
     public long numberOf(OObjectId hotel, HotelObjects o) {
-        Class cl = getClass(o);
+        Class cl = JUtils.getClass(o);
         if (o == HotelObjects.RESERVATION || o == HotelObjects.CUSTOMER
                 || o == HotelObjects.PRICELIST || o == HotelObjects.ROOM
                 || o == HotelObjects.SERVICE || o == HotelObjects.BILL) {

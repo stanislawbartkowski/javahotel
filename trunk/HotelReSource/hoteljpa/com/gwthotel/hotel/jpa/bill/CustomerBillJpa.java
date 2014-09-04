@@ -52,11 +52,6 @@ public class CustomerBillJpa extends
         return dest;
     }
 
-    @Override
-    protected ECustomerBill constructE(EntityManager em, OObjectId hotel) {
-        return new ECustomerBill();
-    }
-
     // Hibernate
     // Convert BigInteger to Long (if exists)
     // otherwise Hibernate breaks

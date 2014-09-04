@@ -11,6 +11,7 @@ from com.gwthotel.hotel.stay import ResGuest
 from com.gwthotel.hotel import ServiceType
 from com.gwthotel.hotel.services import HotelServices
 from com.gwthotel.hotel.payment import PaymentBill
+from com.gwthotel.hotel.mailing import HotelMailElem
 from com.gwthotel.hotel import HUtils
 from com.gwthotel.hotel.rooms import HotelRoom
 from com.gwthotel.shared import IHotelConsts
@@ -128,6 +129,12 @@ class ROOMLIST(cutil.CRUDLIST):
     def getRoomServices(self,roomName):
         return self.serviceS.getRoomServices(getHotelName(self.var),roomName)
     
+        
+class HOTELMAILLIST(cutil.CRUDLIST) :
+
+    def __init__(self,var):
+        cutil.CRUDLIST.__init__(self,var)
+        self.serviceS = H.getHotelMail()
         
 class PRICEELEM :
     
@@ -366,6 +373,7 @@ class ConstructObject :
         o = self.factory.construct(self.hotel,oType)
         o.setGensymbol(True)
         return o
+        
     
 def newResForm(var):
     c = ConstructObject(var)
@@ -395,6 +403,9 @@ def newHotelService(var):
   
 def newResAddPayment() :
     return ReservationPaymentDetail()
+
+def newHotelMailElem():
+    return HotelMailElem()
   
 def setCopy(var,li) :
   cutil.setCopy(var,li)  

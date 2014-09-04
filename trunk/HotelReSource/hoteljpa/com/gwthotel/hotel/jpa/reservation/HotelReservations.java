@@ -67,11 +67,6 @@ public class HotelReservations extends
     }
 
     @Override
-    protected EHotelReservation constructE(EntityManager em, OObjectId hotel) {
-        return new EHotelReservation();
-    }
-
-    @Override
     protected void afterAddChange(EntityManager em, OObjectId hotel,
             ReservationForm prop, EHotelReservation elem, boolean add) {
         Query q = em.createNamedQuery("deleteAllReservationsForReservation");
