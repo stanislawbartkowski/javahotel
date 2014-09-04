@@ -15,6 +15,7 @@ package com.gwthotel.admin.ejblocator;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.bill.ICustomerBills;
 import com.gwthotel.hotel.customer.IHotelCustomers;
+import com.gwthotel.hotel.mailing.IHotelMailList;
 import com.gwthotel.hotel.payment.IPaymentBillOp;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
@@ -62,5 +63,7 @@ public interface IBeanLocator {
     IPaymentBillOp getBillPaymentOp();
 
     INoteStorage getNoteStorage();
+
+    IHotelMailList getHotelMail();
 
 }

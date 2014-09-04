@@ -13,7 +13,6 @@
 package com.gwthotel.admintest.suite;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -27,7 +26,6 @@ import com.gwthotel.hotel.bill.CustomerBill;
 import com.gwthotel.hotel.customer.HotelCustomer;
 import com.gwthotel.hotel.payment.PaymentBill;
 import com.gwthotel.hotel.reservation.ReservationForm;
-import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
 import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwthotel.hotel.stay.ResGuest;
 
@@ -40,48 +38,6 @@ public class Test26 extends TestHelper {
         createHotels();
     }
     
-    
-    private CustomerBill OLDcreateP() {
-
-        HotelRoom ho = new HotelRoom();
-        ho.setName("P10");
-        ho.setNoPersons(3);
-        iRooms.addElem(getH(HOTEL), ho);
-        HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL),
-                HotelObjects.CUSTOMER);
-        p.setGensymbol(true);
-        p.setAttr("country", "gb");
-        p = iCustomers.addElem(getH(HOTEL), p);
-        ReservationForm r = (ReservationForm) hObjects.construct(getH(HOTEL),
-                HotelObjects.RESERVATION);
-        r.setCustomerName(p.getName());
-        r.setGensymbol(true);
-        ReservationPaymentDetail det = new ReservationPaymentDetail();
-        det.setNoP(3);
-        det.setPrice(new BigDecimal("100.0"));
-        det.setPriceTotal(new BigDecimal("100.0"));
-        det.setPriceList(new BigDecimal("200.0"));
-        det.setRoomName("P10");
-        det.setResDate(toDate(2013, 4, 10));
-        r.getResDetail().add(det);
-        r = iRes.addElem(getH(HOTEL), r);
-        String sym = r.getName();
-
-        CustomerBill b = (CustomerBill) hObjects.construct(getH(HOTEL),
-                HotelObjects.BILL);
-        b.setGensymbol(true);
-        b.setPayer(p.getName());
-        b.setReseName(sym);
-        b.setIssueDate(toDate(2010, 10, 12));
-        for (ReservationPaymentDetail d : r.getResDetail()) {
-            b.getPayList().add(d.getId());
-        }
-        b = iBills.addElem(getH(HOTEL), b);
-        assertNotNull(b);
-        System.out.println(b.getName());
-        return b;
-    }
-
     @Test
     public void test1() {
         Long l = iClear.numberOf(getH(HOTEL), HotelObjects.ROOM);

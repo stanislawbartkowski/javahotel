@@ -25,6 +25,7 @@ import com.gwthotel.admin.ejblocator.IBeanLocator;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.bill.ICustomerBills;
 import com.gwthotel.hotel.customer.IHotelCustomers;
+import com.gwthotel.hotel.mailing.IHotelMailList;
 import com.gwthotel.hotel.payment.IPaymentBillOp;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
@@ -87,6 +88,8 @@ public class EjbLocatorWildFly extends UtilHelper implements IBeanLocator {
                 "CustomerBillEJB!com.gwthotel.hotel.bill.ICustomerBills");
         jndiM.put(IHotelConsts.HOTELPAYMENTOPJNDI,
                 "BillPaymentOpEJB!com.gwthotel.hotel.payment.IPaymentBillOp");
+        jndiM.put(IHotelConsts.HOTELMAILJNDI,
+                "HotelMailingEJB!com.gwthotel.hotel.mailing.IHotelMailList");
     }
 
     private <T> T construct(String bName) {
@@ -116,12 +119,11 @@ public class EjbLocatorWildFly extends UtilHelper implements IBeanLocator {
         }
         return null;
     }
-    
+
     @Override
     public INoteStorage getNoteStorage() {
         return construct(ISharedConsts.COMMONNOTESTORAGEJNDI);
     }
-
 
     @Override
     public IOObjectAdmin getObjectAdmin() {
@@ -200,5 +202,10 @@ public class EjbLocatorWildFly extends UtilHelper implements IBeanLocator {
     public IPaymentBillOp getBillPaymentOp() {
         return construct(IHotelConsts.HOTELPAYMENTOPJNDI);
     }
-    
+
+    @Override
+    public IHotelMailList getHotelMail() {
+        return construct(IHotelConsts.HOTELMAILJNDI);
+    }
+
 }

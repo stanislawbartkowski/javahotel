@@ -17,18 +17,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.bill.CustomerBill;
-import com.gwthotel.hotel.customer.HotelCustomer;
-import com.gwthotel.hotel.reservation.ReservationForm;
-import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
-import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.jythonui.server.security.token.ICustomSecurity;
 import com.jythonui.shared.DialogFormat;

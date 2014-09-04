@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+    <before />
+
+    <jython>
+        <import>from testpack import testresemail</import>
+        <method>testresemail.dialogaction({0},{1})</method>
+    </jython>
+
+    <list id="blist">
+        <columns>
+            <column id="id" type="long" />
+            <column id="blob_key" />
+            <column id="blob_comment" />
+            <column id="blob_person" />
+            <column id="blob_date" type="date" />
+        </columns>
+    </list>
+
+
+</dialog>
