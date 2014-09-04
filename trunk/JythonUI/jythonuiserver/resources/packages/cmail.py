@@ -54,5 +54,7 @@ class CMAIL(cutil.CRUDLIST):
         
     def sendMail(self,subject,content,to,froma,attachList=None,text=True):
         res = self.i.postMail(text,[to,],subject,content,froma,attachList)
+        assert res != None
+        assert res.getName() != None
         return res
 

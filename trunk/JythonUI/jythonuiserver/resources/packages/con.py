@@ -89,6 +89,9 @@ def toS(val):
     elif type(val) == datetime.date : s = str(val)
     elif type(val) == int : s = str(val)    
     elif type(val) == float : f = val
+    elif type(val) == java.sql.Date : s = str(toJDate(val))
+    elif type(val) == java.util.Date : s = str(toJDate(val))
+    elif type(val) == java.sql.Timestamp : s = str(toJDate(val))        
     if f != None : s = fToS(f)
     return s
 

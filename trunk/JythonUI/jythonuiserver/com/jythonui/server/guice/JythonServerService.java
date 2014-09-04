@@ -35,6 +35,7 @@ import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.IMailGet;
 import com.jythonui.server.IMailSend;
+import com.jythonui.server.IMailSendSave;
 import com.jythonui.server.IResolveNameFromToken;
 import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.IStorageMemCache;
@@ -179,9 +180,8 @@ public class JythonServerService {
                     Singleton.class);
             bind(IMailSend.class).to(SendMailImpl.class).in(Singleton.class);
             bind(IMailGet.class).to(GetMailImpl.class).in(Singleton.class);
-            bind(IMailSend.class)
-                    .annotatedWith(Names.named(ISharedConsts.SAVESENDMAIL))
-                    .to(MailSaveImpl.class).in(Singleton.class);
+            bind(IMailSendSave.class).to(MailSaveImpl.class)
+                    .in(Singleton.class);
         }
 
         @Provides

@@ -16,12 +16,14 @@ import java.util.List;
 
 import com.google.inject.Inject;
 import com.jythonui.server.IMailSend;
+import com.jythonui.server.IMailSend.AttachElem;
+import com.jythonui.server.IMailSendSave;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.mail.INoteStorage;
 import com.jythonui.server.mail.Note;
 import com.jythonui.server.mail.NoteAttach;
 
-public class MailSaveImpl implements IMailSend {
+public class MailSaveImpl implements IMailSendSave {
 
     private final IMailSend iSend;
     private final INoteStorage iStor;
@@ -33,7 +35,7 @@ public class MailSaveImpl implements IMailSend {
     }
 
     @Override
-    public String postMail(boolean text, String[] recipients, String subject,
+    public Note postMail(boolean text, String[] recipients, String subject,
             String message, String from, List<AttachElem> aList) {
         String res = iSend.postMail(text, recipients, subject, message, from,
                 aList);
@@ -54,8 +56,10 @@ public class MailSaveImpl implements IMailSend {
             }
         if (res != null)
             no.setSendResult(res);
-        iStor.addElem(Holder.getO(), no);
-        return res;
+        // important assignment : otherwise EJB does not work
+        no = iStor.addElem(Holder.getO(), no);
+        return no;
     }
+
 
 }
