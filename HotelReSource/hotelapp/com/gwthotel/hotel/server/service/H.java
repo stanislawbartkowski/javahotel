@@ -20,6 +20,7 @@ import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.IHotelObjectsFactory;
 import com.gwthotel.hotel.bill.ICustomerBills;
 import com.gwthotel.hotel.customer.IHotelCustomers;
+import com.gwthotel.hotel.mailing.IHotelMailList;
 import com.gwthotel.hotel.payment.IPaymentBillOp;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
@@ -28,9 +29,7 @@ import com.gwthotel.hotel.reservationop.IReservationOp;
 import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.shared.IHotelConsts;
-import com.jython.serversecurity.AppInstanceId;
 import com.jython.serversecurity.cache.IGetInstanceOObjectIdCache;
-import com.jython.serversecurity.cache.OObjectId;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.resbundle.Mess;
 
@@ -83,6 +82,9 @@ public class H {
 
     @Inject
     private static IClearHotel iClear;
+    
+    @Inject
+    private static IHotelMailList iHotelMail;
 
     public static IGetLogMess getL() {
         return lMess;
@@ -143,5 +145,10 @@ public class H {
     public static IGetInstanceOObjectIdCache getInstanceObjectId() {
         return iGet;
     }
+    
+    public static IHotelMailList getHotelMail() {
+        return iHotelMail;
+    }
+
 
 }
