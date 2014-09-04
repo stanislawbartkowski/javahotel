@@ -28,6 +28,7 @@ import com.gwthotel.hotel.guice.HotelCommonGuice.HotelServiceModule;
 import com.gwthotel.hotel.jpa.bill.CustomerBillJpa;
 import com.gwthotel.hotel.jpa.clearobjects.ClearObjects;
 import com.gwthotel.hotel.jpa.customers.HotelJpaCustomers;
+import com.gwthotel.hotel.jpa.hotelmail.HotelMailing;
 import com.gwthotel.hotel.jpa.payment.PaymentOp;
 import com.gwthotel.hotel.jpa.pricelist.HotelJpaPriceList;
 import com.gwthotel.hotel.jpa.prices.HotelJpaPrices;
@@ -35,6 +36,7 @@ import com.gwthotel.hotel.jpa.reservation.HotelReservations;
 import com.gwthotel.hotel.jpa.reservationop.ReservationOp;
 import com.gwthotel.hotel.jpa.rooms.HotelJpaRooms;
 import com.gwthotel.hotel.jpa.services.HotelJpaServices;
+import com.gwthotel.hotel.mailing.IHotelMailList;
 import com.gwthotel.hotel.payment.IPaymentBillOp;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
@@ -69,7 +71,6 @@ import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.crud.ICrudObjectGenSym;
 import com.jythonui.server.defa.EmptyConnectionProvider;
 import com.jythonui.server.defa.EmptyRPCNotifier;
-import com.jythonui.server.defa.JavaGetMailSessionProvider;
 import com.jythonui.server.defa.JavaMailSessionProvider;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.mail.INoteStorage;
@@ -152,6 +153,8 @@ public class ServerService {
             bind(IJpaObjectGenSymFactory.class).to(
                     JpaObjectGenSymFactoryImpl.class).in(Singleton.class);
             bind(INoteStorage.class).to(JpaNoteStorage.class).in(
+                    Singleton.class);
+            bind(IHotelMailList.class).to(HotelMailing.class).in(
                     Singleton.class);
 
             requestStatic();
