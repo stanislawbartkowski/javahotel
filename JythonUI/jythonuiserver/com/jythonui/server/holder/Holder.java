@@ -28,6 +28,7 @@ import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.IMailGet;
 import com.jythonui.server.IMailSend;
+import com.jythonui.server.IMailSendSave;
 import com.jythonui.server.IResolveNameFromToken;
 import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.IXMLToMap;
@@ -134,8 +135,7 @@ public class Holder {
     private static Provider<IMailGet> getMail;
 
     @Inject
-    @Named(ISharedConsts.SAVESENDMAIL)
-    private static Provider<IMailSend> getSendMail;
+    private static Provider<IMailSendSave> getSendMail;
 
     @Inject
     private static INoteStorage iNoteStorage;
@@ -145,7 +145,7 @@ public class Holder {
     public static void releaseThredData() {
         locale.remove();
     }
-    
+
     public static boolean isAuth() {
         return auth;
     }
@@ -266,7 +266,7 @@ public class Holder {
         return pMail.get();
     }
 
-    public static IMailSend getSaveMail() {
+    public static IMailSendSave getSaveMail() {
         return getSendMail.get();
     }
 
