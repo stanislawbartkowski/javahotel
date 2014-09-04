@@ -15,6 +15,7 @@ package com.jython.ui.server.jpastoragekey.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
@@ -23,6 +24,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import com.jython.serversecurity.jpa.entities.EObjectDict;
+import com.jythonui.server.ISharedConsts;
 
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "hotel", "name" }))
@@ -32,6 +34,7 @@ import com.jython.serversecurity.jpa.entities.EObjectDict;
         @NamedQuery(name = "findOneMail", query = "SELECT x FROM EMailNote x WHERE x.hotel = ?1 AND x.name = ?2") })
 public class EMailNote extends EObjectDict {
 
+    @Column(length=ISharedConsts.MAILCONTENTSIZE)  
     private String content;
     private String mailFrom;
     private String sendRes;

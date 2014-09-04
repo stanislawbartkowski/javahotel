@@ -125,7 +125,7 @@ abstract public class CommonTestHelper {
         iListR = Holder.IGetListOfDefaultRoles();
         iListV = Holder.IGetListOfVat();
     }
-    
+
     protected void createObjects() {
         iGetI.invalidateCache();
         iAdmin.clearAll(getI());

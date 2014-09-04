@@ -23,6 +23,8 @@ import com.jython.ui.server.jpastoragekey.entity.EMailAttach;
 import com.jython.ui.server.jpastoragekey.entity.EMailNote;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jythonui.server.ISharedConsts;
+import com.jythonui.server.logmess.IErrorCode;
+import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.server.mail.INoteStorage;
 import com.jythonui.server.mail.Note;
 import com.jythonui.server.mail.NoteAttach;
@@ -34,8 +36,8 @@ public class JpaNoteStorage extends AbstractJpaCrud<Note, EMailNote> implements
 
     private final IAddNewBlob iAdd;
     private final IBlobHandler hBlob;
-    
-    private final static int MAXSIZE=255;
+
+    private final static int MAXSIZE = 255;
 
     @Inject
     public JpaNoteStorage(ITransactionContextFactory eFactory,
@@ -52,7 +54,6 @@ public class JpaNoteStorage extends AbstractJpaCrud<Note, EMailNote> implements
         Note no = new Note();
         no.setContent(sou.getContent());
         no.setFrom(sou.getMailFrom());
-        // no.setRecipient(sou.getRecipient());
         no.getRecipientsList().addAll(sou.getRecipientsList());
         no.setText(sou.isText());
         no.setSendResult(sou.getSendRes());
@@ -75,11 +76,18 @@ public class JpaNoteStorage extends AbstractJpaCrud<Note, EMailNote> implements
     @Override
     protected void toE(EMailNote dest, Note sou, EntityManager em,
             OObjectId hotel) {
+        if (!CUtil.EmptyS(sou.getContent())
+                && sou.getContent().length() >= ISharedConsts.MAILCONTENTSIZE)
+            errorMess(L(), IErrorCode.ERRORCODE118,
+                    ILogMess.MAILCONTENTTOOLONG,
+                    CUtil.NumbToS(sou.getContent().length()),
+                    CUtil.NumbToS(ISharedConsts.MAILCONTENTSIZE));
+
         dest.setContent(sou.getContent());
         dest.setMailFrom(sou.getFrom());
         if (!CUtil.EmptyS(sou.getSendResult()))
             // restrict to 256
-          dest.setSendRes(sou.getSendResult().substring(0, MAXSIZE));
+            dest.setSendRes(sou.getSendResult().substring(0, MAXSIZE));
         dest.setText(sou.isText());
         dest.getRecipientsList().addAll(sou.getRecipientsList());
     }
