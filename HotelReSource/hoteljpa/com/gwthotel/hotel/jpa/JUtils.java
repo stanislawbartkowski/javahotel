@@ -12,19 +12,21 @@
  */
 package com.gwthotel.hotel.jpa;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import com.gwthotel.admin.holder.HHolder;
 import com.gwthotel.hotel.HUtils;
+import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.bill.CustomerBill;
+import com.gwthotel.hotel.jpa.entities.EBillPayment;
 import com.gwthotel.hotel.jpa.entities.ECustomerBill;
 import com.gwthotel.hotel.jpa.entities.EHotelCustomer;
+import com.gwthotel.hotel.jpa.entities.EHotelMail;
 import com.gwthotel.hotel.jpa.entities.EHotelPriceList;
 import com.gwthotel.hotel.jpa.entities.EHotelReservation;
 import com.gwthotel.hotel.jpa.entities.EHotelReservationDetail;
@@ -41,14 +43,12 @@ import com.jython.jpautil.JpaUtils;
 import com.jython.serversecurity.cache.OObjectId;
 import com.jython.serversecurity.jpa.PropUtils;
 import com.jythonui.server.RUtils;
-import com.jythonui.shared.JythonUIFatal;
-import com.jythonui.shared.PropDescription;
+import com.jythonui.server.UtilHelper;
 
-public class JUtils {
+public class JUtils extends UtilHelper {
 
     private JUtils() {
     }
-
 
     public static HotelServices toT(EHotelServices sou) {
         HotelServices ho = new HotelServices();
@@ -67,23 +67,8 @@ public class JUtils {
         dest.setNoPersons(sou.getNoPersons());
     }
 
-
-    // TODO: remove
-    private static Query createObjectQuery(EntityManager em, Object o,
-            String query) {
-        Query q = em.createNamedQuery(query);
-        q.setParameter(1, o);
-        return q;
-    }
-
-    // TODO: remove
-    private static Query createHotelQuery(EntityManager em, OObjectId hotel,
-            String query) {
-        return createObjectQuery(em, hotel.getId(), query);
-    }
-
     public static void removeList(EntityManager em, Object o, String query) {
-        Query q = createObjectQuery(em, o, query);
+        Query q = JpaUtils.createObjectQuery(em, o, query);
 
         @SuppressWarnings({ "rawtypes" })
         List list = q.getResultList();
@@ -126,7 +111,7 @@ public class JUtils {
     public static void runQueryForObject(EntityManager em, Object o,
             String... remQuery) {
         for (String r : remQuery) {
-            Query q = createObjectQuery(em, o, r);
+            Query q = JpaUtils.createObjectQuery(em, o, r);
             // q.setParameter(1, o);
             q.executeUpdate();
         }
@@ -217,4 +202,41 @@ public class JUtils {
         dest.setDateOfPayment(sou.getDateOfPayment());
         RUtils.retrieveCreateModif(dest, sou);
     }
+
+    public static Class getClass(HotelObjects o) {
+        switch (o) {
+        case RESERVATION:
+            return EHotelReservation.class;
+        case CUSTOMER:
+            return EHotelCustomer.class;
+        case PRICELIST:
+            return EHotelPriceList.class;
+        case ROOM:
+            return EHotelRoom.class;
+        case SERVICE:
+            return EHotelServices.class;
+        case BILL:
+            return ECustomerBill.class;
+        case PAYMENTS:
+            return EBillPayment.class;
+        case HOTELMAIL:
+            return EHotelMail.class;
+        }
+        return null;
+    }
+
+    public static Object create(HotelObjects o) {
+        Class cl = getClass(o);
+        Constructor[] c = cl.getConstructors();
+        // assume there is only default constructor
+        try {
+            return c[0].newInstance();
+        } catch (InstantiationException | IllegalAccessException
+                | IllegalArgumentException | InvocationTargetException e) {
+            errorMess(HHolder.getHM(),IHError.HERROR001,IHMess.CANNOTINITIATEOBJECT,e,o.name());
+
+        }
+        return null;
+    }
+
 }

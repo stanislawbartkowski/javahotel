@@ -19,12 +19,13 @@ import com.gwthotel.hotel.IGetAutomPatterns;
 import com.gwthotel.hotel.IHotelObjectsFactory;
 import com.gwthotel.hotel.bill.CustomerBill;
 import com.gwthotel.hotel.customer.HotelCustomer;
+import com.gwthotel.hotel.mailing.HotelMailElem;
 import com.gwthotel.hotel.pricelist.HotelPriceList;
 import com.gwthotel.hotel.reservation.ReservationForm;
 import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwthotel.hotel.services.HotelServices;
-import com.gwthotel.shared.IHotelConsts;
 import com.jython.serversecurity.cache.OObjectId;
+import com.jythonui.server.ISharedConsts;
 import com.jythonui.shared.PropDescription;
 
 public class HotelObjectsFactory implements IHotelObjectsFactory {
@@ -58,12 +59,15 @@ public class HotelObjectsFactory implements IHotelObjectsFactory {
         case BILL:
             outo = new CustomerBill();
             break;
+        case HOTELMAIL:
+            outo = new HotelMailElem();
+            break;
         }
         if (outo == null)
             return null;
         String patt = iPatt.getPatt(hotel, o);
         if (patt != null)
-            outo.setAttr(IHotelConsts.PATTPROP, patt);
+            outo.setAttr(ISharedConsts.PATTPROP, patt);
         return outo;
     }
 

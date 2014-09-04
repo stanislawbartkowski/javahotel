@@ -25,6 +25,7 @@ import com.gwthotel.hotel.IGetAutomPatterns;
 import com.gwthotel.hotel.bill.ICustomerBills;
 import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.guice.HotelCommonGuice.HotelServiceModule;
+import com.gwthotel.hotel.mailing.IHotelMailList;
 import com.gwthotel.hotel.payment.IPaymentBillOp;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
@@ -197,6 +198,12 @@ public class ServerService {
         @Singleton
         IHotelCustomers getHotelCustomers(IBeanLocator iBean) {
             return iBean.getHotelCustomers();
+        }
+
+        @Provides
+        @Singleton
+        IHotelMailList getHotelMailing(IBeanLocator iBean) {
+            return iBean.getHotelMail();
         }
 
         @Provides

@@ -12,10 +12,13 @@
  */
 package com.gwthotel.hotel.jpa;
 
+import javax.persistence.EntityManager;
+
 import com.gwthotel.admin.holder.HHolder;
 import com.gwthotel.hotel.HotelObjects;
 import com.jython.jpautil.crudimpl.AbstractJpaCrud;
 import com.jython.jpautil.crudimpl.gensym.IJpaObjectGenSymFactory;
+import com.jython.serversecurity.cache.OObjectId;
 import com.jython.serversecurity.jpa.entities.EObjectDict;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jythonui.server.crud.IObjectCrud;
@@ -26,12 +29,20 @@ public abstract class HotelAbstractJpaCrud<T extends PropDescription, E extends 
         extends AbstractJpaCrud<T, E> implements IObjectCrud<T> {
 
     protected final IGetLogMess hMess;
+    private final HotelObjects hO;
 
     protected HotelAbstractJpaCrud(String[] queryMap,
             ITransactionContextFactory eFactory, HotelObjects tObject,
             IJpaObjectGenSymFactory iGenFactory, Class<E> cl) {
         super(queryMap, iGenFactory, tObject.name(), eFactory, cl);
         this.hMess = HHolder.getHM();
+        this.hO = tObject;
     }
+    
+    @Override
+    protected E constructE(EntityManager em, OObjectId hotel) {
+        return (E) JUtils.create(hO);
+    }
+
 
 }

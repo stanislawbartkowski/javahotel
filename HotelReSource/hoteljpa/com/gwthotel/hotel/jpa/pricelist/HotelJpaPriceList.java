@@ -46,11 +46,6 @@ public class HotelJpaPriceList extends
     }
 
     @Override
-    protected EHotelPriceList constructE(EntityManager em, OObjectId hotel) {
-        return new EHotelPriceList();
-    }
-
-    @Override
     protected void toE(EHotelPriceList dest, HotelPriceList sou,
             EntityManager em, OObjectId hotel) {
         dest.setPriceFrom(sou.getFromDate());

@@ -44,11 +44,6 @@ public class HotelJpaServices extends
     }
 
     @Override
-    protected EHotelServices constructE(EntityManager em, OObjectId hotel) {
-        return new EHotelServices();
-    }
-
-    @Override
     protected void toE(EHotelServices dest, HotelServices sou,
             EntityManager em, OObjectId hotel) {
         dest.setNoPersons(sou.getNoPersons());

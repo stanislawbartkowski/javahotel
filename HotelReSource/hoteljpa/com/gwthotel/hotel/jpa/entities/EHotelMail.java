@@ -12,43 +12,44 @@
  */
 package com.gwthotel.hotel.jpa.entities;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
-@MappedSuperclass
-public abstract class EHotelRoomCustomer {
+import com.gwthotel.hotel.mailing.HotelMailElem;
+import com.jython.serversecurity.jpa.entities.EObjectDict;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Entity
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "hotel", "name" }))
+@NamedQueries({
+        @NamedQuery(name = "findAllHotelMails", query = "SELECT x FROM EHotelMail x WHERE x.hotel = ?1"),
+        @NamedQuery(name = "deleteAllHotelmails", query = "DELETE FROM EHotelMail x WHERE x.hotel = ?1"),
+        @NamedQuery(name = "findOneHotelMail", query = "SELECT x FROM EHotelMail x WHERE x.hotel = ?1 AND x.name = ?2") })
+public class EHotelMail extends EObjectDict {
 
-    // 2014/04/18
+    @Column(nullable = false)
+    private HotelMailElem.MailType mType;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    // nullable on purpose
-    @JoinColumn(name = "room_id", nullable = true)
-    private EHotelRoom room;
-
-    // 2014/04/18
-    @ManyToOne(fetch = FetchType.LAZY)
-    // nullable on purpose
-    @JoinColumn(name = "customer_id", nullable = true)
+    @JoinColumn(name = "customer_id", nullable = false)
     private EHotelCustomer customer;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reservation_id")
+    @ManyToOne
+    @JoinColumn(name = "reservation_id", nullable = true)
     private EHotelReservation reservation;
 
-    public EHotelRoom getRoom() {
-        return room;
+    public HotelMailElem.MailType getmType() {
+        return mType;
     }
 
-    public void setRoom(EHotelRoom room) {
-        this.room = room;
+    public void setmType(HotelMailElem.MailType mType) {
+        this.mType = mType;
     }
 
     public EHotelCustomer getCustomer() {
@@ -65,10 +66,6 @@ public abstract class EHotelRoomCustomer {
 
     public void setReservation(EHotelReservation reservation) {
         this.reservation = reservation;
-    }
-
-    public Long getId() {
-        return id;
     }
 
 }

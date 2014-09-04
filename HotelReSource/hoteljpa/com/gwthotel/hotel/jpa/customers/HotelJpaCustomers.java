@@ -50,11 +50,6 @@ public class HotelJpaCustomers extends
     }
 
     @Override
-    protected EHotelCustomer constructE(EntityManager em, OObjectId hotel) {
-        return new EHotelCustomer();
-    }
-
-    @Override
     protected void toE(EHotelCustomer dest, HotelCustomer sou,
             EntityManager em, OObjectId hotel) {
         toEProperties(HUtils.getCustomerFields(), dest, sou);

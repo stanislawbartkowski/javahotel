@@ -13,10 +13,9 @@
 package com.gwthotel.hotel;
 
 import com.jython.serversecurity.cache.OObjectId;
-import com.jythonui.shared.PropDescription;
 
 public interface IHotelObjectsFactory {
 
-    PropDescription construct(OObjectId hotel, HotelObjects o);
+    Object construct(OObjectId hotel, HotelObjects o);
 
 }
