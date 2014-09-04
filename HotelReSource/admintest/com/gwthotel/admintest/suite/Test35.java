@@ -19,8 +19,8 @@ import org.junit.Test;
 import com.jythonui.server.security.token.ICustomSecurity;
 import com.jythonui.shared.DialogVariables;
 
-public class Test33 extends TestHelper {
-    
+public class Test35 extends TestHelper {
+
     @Test
     public void test1() {
         setUserPassword();
@@ -28,39 +28,10 @@ public class Test33 extends TestHelper {
         String token = iSec.authenticateToken(realM, "user", "secret", cu);
         assertNotNull(token);
         DialogVariables v = new DialogVariables();
-        runAction(token, v, "dialog8.xml", "sendmail");
+        runAction(token, v, "dialog9.xml", "createxml");
         assertOK(v);
         v = new DialogVariables();
-        runAction(token, v, "dialog8.xml", "checkmail");
+        runAction(token, v, "dialog9.xml", "listxml");
         assertOK(v);
     }
-    
-    @Test
-    public void test2() {
-        setUserPassword();
-        ICustomSecurity cu = getSec(HOTEL);
-        String token = iSec.authenticateToken(realM, "user", "secret", cu);
-        assertNotNull(token);
-        DialogVariables v = new DialogVariables();
-        runAction(token, v, "dialog8.xml", "sendmailattach");
-        assertOK(v);
-        v = new DialogVariables();
-        runAction(token, v, "dialog8.xml", "checkmailattach");
-        assertOK(v);
-    }
-
-    @Test
-    public void test3() {
-        setUserPassword();
-        ICustomSecurity cu = getSec(HOTEL);
-        String token = iSec.authenticateToken(realM, "user", "secret", cu);
-        assertNotNull(token);
-        DialogVariables v = new DialogVariables();
-        runAction(token, v, "dialog8.xml", "sendmultiattach");
-        assertOK(v);
-        v = new DialogVariables();
-        runAction(token, v, "dialog8.xml", "checkmultiattach");
-        assertOK(v);
-    }
-
 }

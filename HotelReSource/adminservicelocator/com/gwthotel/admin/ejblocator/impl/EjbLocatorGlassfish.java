@@ -22,6 +22,7 @@ import com.gwthotel.admin.ejblocator.IBeanLocator;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.bill.ICustomerBills;
 import com.gwthotel.hotel.customer.IHotelCustomers;
+import com.gwthotel.hotel.mailing.IHotelMailList;
 import com.gwthotel.hotel.payment.IPaymentBillOp;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
@@ -162,6 +163,12 @@ public class EjbLocatorGlassfish extends UtilHelper implements IBeanLocator {
 
     @Override
     public INoteStorage getNoteStorage() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public IHotelMailList getHotelMail() {
         // TODO Auto-generated method stub
         return null;
     }

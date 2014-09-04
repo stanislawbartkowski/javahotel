@@ -28,6 +28,7 @@ import com.gwthotel.hotel.IGetAutomPatterns;
 import com.gwthotel.hotel.bill.ICustomerBills;
 import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.guice.HotelCommonGuice.HotelServiceModule;
+import com.gwthotel.hotel.mailing.IHotelMailList;
 import com.gwthotel.hotel.payment.IPaymentBillOp;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
@@ -51,7 +52,6 @@ import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.crud.ICrudObjectGenSym;
 import com.jythonui.server.defa.EmptyConnectionProvider;
 import com.jythonui.server.defa.EmptyRPCNotifier;
-import com.jythonui.server.defa.JavaGetMailSessionProvider;
 import com.jythonui.server.defa.JavaMailSessionProvider;
 import com.jythonui.server.defa.StorageRealmRegistryFactory;
 import com.jythonui.server.getmess.IGetLogMess;
@@ -99,6 +99,7 @@ public class ServerService {
             bind(Session.class).annotatedWith(Names.named(IConsts.SENDMAIL))
                     .toProvider(JavaMailSessionProvider.class)
                     .in(Singleton.class);
+
             // bind(Session.class).annotatedWith(Names.named(IConsts.GETMAIL))
             // .toProvider(JavaGetMailSessionProvider.class)
             // .in(Singleton.class);
@@ -202,6 +203,12 @@ public class ServerService {
         @Singleton
         IHotelCustomers getHotelCustomers(IBeanLocator iBean) {
             return iBean.getHotelCustomers();
+        }
+
+        @Provides
+        @Singleton
+        IHotelMailList getHotelMailing(IBeanLocator iBean) {
+            return iBean.getHotelMail();
         }
 
         @Provides

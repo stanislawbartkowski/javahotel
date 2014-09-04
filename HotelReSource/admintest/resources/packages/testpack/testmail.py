@@ -12,8 +12,9 @@ def dialogaction(action,var):
     if action == "sendmail" :
         C = cmail.CMAIL(var)
         res = C.sendMail("Mail from hotel","What do you think about us ?","stanislawbartkowski@gmail.com","Jython")
-        print res
-        assert res == None
+        print res.getSendResult()
+        assert res.getSendResult() == None
+        assert res.getName() != None
         var["OK"] = True
         
     if action == "checkmail":    
@@ -36,8 +37,8 @@ def dialogaction(action,var):
         key = ADDBLOB.addNewBlob(cutil.PDFTEMPORARY,"TESTJ",StringUtil.toBytes(s))
         aList = cmail.createAttachList(None,cutil.PDFTEMPORARY,key,"attach.txt")
         res = C.sendMail("Mail from hotel with attachment","Nothing interesting ","stanislawbartkowski@gmail.com","Jython",aList)
-        print res
-        assert res == None
+        print res.getSendResult()
+        assert res.getSendResult() == None
         var["OK"] = True
         
     if action == "checkmailattach" :
@@ -72,8 +73,8 @@ def dialogaction(action,var):
           aList = cmail.createAttachList(aList,cutil.PDFTEMPORARY,key,"attach" + str(i) + ".txt")
           
         res = C.sendMail("Mail from hotel with 20 attachment","Nothing interesting inside ","stanislawbartkowski@gmail.com","Jython",aList)
-        print res
-        assert res == None
+        print res.getSendResult()
+        assert res.getSendResult() == None
         var["OK"] = True
 
     if action == "checkmultiattach" :

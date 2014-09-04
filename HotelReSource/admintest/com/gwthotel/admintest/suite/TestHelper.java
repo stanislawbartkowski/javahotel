@@ -31,6 +31,7 @@ import com.gwthotel.hotel.bill.CustomerBill;
 import com.gwthotel.hotel.bill.ICustomerBills;
 import com.gwthotel.hotel.customer.HotelCustomer;
 import com.gwthotel.hotel.customer.IHotelCustomers;
+import com.gwthotel.hotel.mailing.IHotelMailList;
 import com.gwthotel.hotel.payment.IPaymentBillOp;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
@@ -64,19 +65,13 @@ public class TestHelper extends CommonTestHelper {
     protected final IHotelPriceElem iPriceElem;
     protected final IHotelRooms iRooms;
     protected final IHotelCustomers iCustomers;
-//    protected final IHotelObjectGenSym iHGen;
     protected final IHotelObjectsFactory hObjects;
     protected final IReservationForm iRes;
     protected final IReservationOp iResOp;
     protected final IClearHotel iClear;
     protected final ICustomerBills iBills;
     protected final IPaymentBillOp iPayOp;
-    
-
-//    protected static final String HOTEL = "hotel";
-//    protected static final String HOTEL1 = "hotel1";
-
-//    protected static final String TESTINSTANCE = ISharedConsts.INSTANCETEST;
+    protected final IHotelMailList iHotelMail;
 
     @Before
     public void before() {
@@ -87,16 +82,6 @@ public class TestHelper extends CommonTestHelper {
 
     protected void createHotels() {
         super.createObjects();
-//        iGetI.invalidateCache();
-//        iAdmin.clearAll(getI());
-//        String[] hNames = new String[] { HOTEL, HOTEL1 };
-//        for (String s : hNames) {
-//            OObject ho = new OObject();
-//            ho.setName(s);
-//            ho.setDescription("Pod Pieskiem");
-//            List<OObjectRoles> roles = new ArrayList<OObjectRoles>();
-//            iAdmin.addOrModifObject(getI(), ho, roles);
-//        }
     }
 
     protected final String realM = "classpath:resources/shiro/hoteluser.ini";
@@ -108,14 +93,13 @@ public class TestHelper extends CommonTestHelper {
         iPriceElem = ServiceInjector.getHotelPriceElem();
         iRooms = ServiceInjector.getHotelRooms();
         iCustomers = ServiceInjector.getHotelCustomers();
-        // iGetI = H.getInstanceHotelId();
-//        iHGen = ServiceInjector.getHotelGenSym();
         hObjects = ServiceInjector.getHotelObjects();
         iRes = ServiceInjector.getReservationForm();
         iResOp = ServiceInjector.getReservationOp();
         iClear = H.getClearHotel();
         iBills = ServiceInjector.getCustomerBills();
         iPayOp = H.getPaymentsOp();
+        iHotelMail = ServiceInjector.getHotelMail();
 
     }
 
@@ -140,7 +124,6 @@ public class TestHelper extends CommonTestHelper {
         for (OObject ho : aList) {
             OObjectId hotel = getH(ho.getName());
             iClear.clearObjects(hotel);
-//            iHGen.clearAll(hotel);
         }
 
     }

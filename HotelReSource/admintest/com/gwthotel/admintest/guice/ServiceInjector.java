@@ -20,6 +20,7 @@ import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.IHotelObjectsFactory;
 import com.gwthotel.hotel.bill.ICustomerBills;
 import com.gwthotel.hotel.customer.IHotelCustomers;
+import com.gwthotel.hotel.mailing.IHotelMailList;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
 import com.gwthotel.hotel.reservation.IReservationForm;
@@ -119,6 +120,10 @@ public class ServiceInjector {
 
     public static ICustomerBills getCustomerBills() {
         return injector.getInstance(ICustomerBills.class);
+    }
+
+    public static IHotelMailList getHotelMail() {
+        return injector.getInstance(IHotelMailList.class);
     }
 
 }
