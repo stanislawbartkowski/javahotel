@@ -69,5 +69,5 @@ public interface ISharedConsts {
     String MAILNOTEPATT = "MAIL (Y) / (M) / (N)";
     String MAILNOTEREALM = "MAIL NOTES REALM";
 
-    String SAVESENDMAIL = "SAVESENDMAIL";
+    int MAILCONTENTSIZE = 1000;
 }
