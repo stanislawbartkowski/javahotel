@@ -189,6 +189,7 @@ public interface ICommonConsts {
     String VALIDATEOP = "op";
     String VALIDATEID1 = "id1";
     String WIDTH = "width";
+    String VISLINES = "vislines";
     String EDITCLASS = "editclass";
     String EDITCSS = "editcss";
     String COLUMNCLASS = "columnclass";
@@ -243,7 +244,7 @@ public interface ICommonConsts {
 
     String LOGINPAGE = "LoginPages";
     String SHIROREALM = "Shirorealm";
-    
+
     String JREFRESHDATELINE = "JREFRESH_DATELINE_";
 
     String GWT_LOCALE = "GWT_LOCALE";
@@ -256,7 +257,7 @@ public interface ICommonConsts {
 
     String DOWNLOADSERVLET = "downLoadHandler";
     String UPLOADSERVLET = "upLoadHandler";
-    
+
     char RELCHAR = '?';
 
 }

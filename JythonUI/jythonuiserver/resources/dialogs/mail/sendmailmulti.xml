@@ -17,10 +17,9 @@
    <column id="to" displayname="@recipient"/>
    <column id="from" displayname="@from" />
    <column id="content" displayname="@content" />
-   <column id="res" displayname="@sendresult" defvalue="OK" />
+   <column id="res" displayname="@sendresult" defvalue="@ok" />
    <column id="noattach" displayname="@attachments" type="int" actionid="attachlist" />
  </columns>
  </list>  
-
  
 </dialog>

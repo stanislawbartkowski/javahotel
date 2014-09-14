@@ -80,6 +80,9 @@ def xsltHtml(xslt,xmlcontent) :
     transformer.transform(StreamSource(reader),StreamResult(out))
     return out
 
+def xsltHtmlS(xslt,xmlcontent) :
+    return xsltHtml(xslt,xmlcontent).toString() 
+
 def createPDFXSLT(xslt,xmlcontent, map = {}):
     out = xsltHtml(xslt,xmlcontent)
     fis = ByteArrayInputStream(out.toByteArray())

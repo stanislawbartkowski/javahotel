@@ -139,6 +139,13 @@ public class CreateForm {
                 v.setReadOnly(true);
                 modeSetAlready = true;
             }
+            // 2014/09/06
+            if (!CUtil.EmptyS(f.getWidth())) {
+                v.getGWidget().setWidth(f.getWidth());
+            }
+            if (!CUtil.EmptyS(f.getVisLines())) {
+                v.setAttr("rows", f.getVisLines());
+            }
 
             String name = null;
             IVField fRange = null;
