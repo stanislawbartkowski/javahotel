@@ -12,7 +12,10 @@
  */
 package com.jython.ui;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -20,7 +23,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.jython.serversecurity.cache.OObjectId;
-import com.jythonui.server.IMailSend;
+import com.jythonui.server.IMailSendSave;
 import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.mail.Note;
@@ -29,17 +32,17 @@ import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.RequestContext;
 
 public class Test54 extends TestHelper {
-    
+
     @Before
     public void setUp() {
         super.setUp();
         createObjects();
     }
-    
-    private OObjectId getP() {
-        return iGetI.getOObject(TESTINSTANCE, ISharedConsts.SINGLEOBJECTHOLDER, "user");
-    }
 
+    private OObjectId getP() {
+        return iGetI.getOObject(TESTINSTANCE, ISharedConsts.SINGLEOBJECTHOLDER,
+                "user");
+    }
 
     @Test
     public void test1() {
@@ -50,32 +53,32 @@ public class Test54 extends TestHelper {
         req.setToken(t);
         Holder.setContext(req);
 
-        IMailSend iiMail = Holder.getSaveMail();
+        IMailSendSave iiMail = Holder.getSaveMail();
         String res = iiMail.postMail(true,
                 new String[] { "stanislawbartkowski@gmail.com" }, "hello",
-                "my first note", "hello.x", null);
+                "my first note", "hello.x", null).getSendResult();
         System.out.println(res);
         assertNull(res);
         List<Note> nList = iNoteStorage.getList(getP());
-        assertEquals(1,nList.size());   
+        assertEquals(1, nList.size());
         Note no = nList.get(0);
         assertTrue(no.isText());
-        assertEquals("stanislawbartkowski@gmail.com",no.getRecipient());
+        assertEquals("stanislawbartkowski@gmail.com", no.getRecipient());
     }
-    
+
     @Test
     public void test2() {
         ICustomSecurity cu = getPersonSec();
         String t = iSec.authenticateToken(realmIni, "guest", "guest", cu);
         assertNotNull(t);
         DialogVariables v = new DialogVariables();
-        runAction(t,v, "test97.xml", "setxmail");
+        runAction(t, v, "test97.xml", "setxmail");
         assertOK(v);
         v = new DialogVariables();
-        runAction(t,v, "test97.xml", "readxmail");
+        runAction(t, v, "test97.xml", "readxmail");
         assertOK(v);
         v = new DialogVariables();
-        runAction(t,v, "test97.xml", "removexmail");
+        runAction(t, v, "test97.xml", "removexmail");
         assertOK(v);
     }
 

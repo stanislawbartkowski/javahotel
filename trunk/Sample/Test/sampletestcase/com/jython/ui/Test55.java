@@ -17,6 +17,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import com.jythonui.shared.DialogFormat;
+import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.ListFormat;
 
 public class Test55 extends TestHelper {
@@ -32,6 +33,16 @@ public class Test55 extends TestHelper {
         li = d.findList("blistnowrap");
         assertNotNull(li);
         assertTrue(li.isNoWrap());
+    }
+
+    @Test
+    public void test2() {
+
+        DialogFormat d = findDialog("test98.xml");
+        assertNotNull(d);
+        FieldItem i = d.findFieldItem("content");
+        assertNotNull(i);
+        assertEquals("10", i.getVisLines());
     }
 
 }
