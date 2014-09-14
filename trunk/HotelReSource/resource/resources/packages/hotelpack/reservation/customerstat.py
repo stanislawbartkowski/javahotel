@@ -2,12 +2,16 @@ import cutil
 import con
 from util import util
 from util import rutil
+from util import hmail
+from util import diallaunch
+from util import rpdf
 
 M = util.MESS()
 CUST="i_"
 CLIST="custlist"
 GLIST="guestlist"
 PLIST="payerlist"
+MLIST="emaillist"
 
 def _createReseLine(var,map,rname) :
     R = util.RESFORM(var)
@@ -20,22 +24,22 @@ def _createReseLine(var,map,rname) :
     elif sta == 2: n = M("statusopen")
     else : n = M("statuscanceled")
     map["rstatus"] = n
-    dfrom = None
-    dto = None
-    room = None
-    for dl in r.getResDetail() :
-      d = dl.getResDate()
-      if dfrom == None : 
-        dfrom = d
-        dto = d
-      elif d < dfrom : dfrom = d
-      elif d > dto : dto = d
-      if room == None : room = dl.getRoomName()
-      elif room != dl.getRoomName() : room = "*"
+    (dfrom,dto,room,rate) = rpdf.getReseDate(var,r)
+    
     map["rfrom"] = dfrom
-    map["rto"] = con.incDays(con.toJDate(dto))
+    map["rto"] = con.incDays(dto)
     map["room"] = room
 
+def _createListOfMail(var) :
+   H = hmail.HotelMail(var)
+   li = H.getListForCustomer(var["i_name"])
+   seq = []
+   for l in li :
+     mm = H.getCMail(l.getName())
+     res = mm.getSendResult()
+     if cutil.emptyS(res) : res = None
+     seq.append({ "mailname" : l.getName(), "resename" : l.getReseName(),"datesend" : mm.getCreationDate(), "subject" : mm.getDescription(), "res" : res })
+   cutil.setJMapList(var,MLIST,seq)  
 
 def _createListOfRes(var,li,lname) :
   seq = []
@@ -61,7 +65,10 @@ def dialinfo(action,var) :
       _createListOfRes(var,l,CLIST)
       _createListOfRes(var,l1,GLIST)
       _createListOfRes(var,l2,PLIST)
+      _createListOfMail(var)
       
+  if action == "shownote" :
+     diallaunch.showmailnote(var,var["mailname"])      
 
 
 

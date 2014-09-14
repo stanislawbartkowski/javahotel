@@ -9,6 +9,10 @@
                 <import>from hotelpack.reservation import customerstat</import>
                 <method>customerstat.dialinfo({0},{1})</method>
         </jython>
+	
+	<actions>
+	  <action id="shownote" displayname="@shownote" />
+        </actions>  
 
         <form>
                 <field id="i_name" displayname="@custid" readonly="" />
@@ -21,7 +25,7 @@
                 <field id="i_postalcode" displayname="@postalcode" readonly="" hidden=""/>
                 <field id="i_city" displayname="@city" readonly="" hidden=""/>
                 <field id="i_street" displayname="@street" readonly="" hidden=""/>
-                <field id="i_email" displayname="@email" readonly="" hidden=""/>
+                <field id="i_email" displayname="@email" readonly="" type="email" />
                 <field id="i_phone1" displayname="@phone1" readonly="" hidden=""/>
                 <field id="i_phone2" displayname="@phone2" readonly="" hidden=""/>
                 <field id="i_fax" displayname="@fax" readonly="" hidden=""/>
@@ -67,10 +71,23 @@
                 </columns>
         </list>  
 
+        <list id="emaillist" pagesize = "5">
+                <standbutt>TOOLS,FIND,FILTER,custom:shownote</standbutt>
+		<buttons-selected>shownote</buttons-selected>
+                <columns>
+		        <column id="mailname" hidden="" />
+                        <column id="resename" displayname="@reservation" />
+			<column id="datesend" displayname="@datesend" type="date" />
+			<column id="subject" displayname="@subject" />
+			<column id="res" displayname="@sendresult" defvalue="@ok" />
+                </columns>
+        </list>  
+
         <tabpanel id="tab">
                 <tabelem id="custlist" displayname="@customer" />
                 <tabelem id="guestlist" displayname="@guest" />
                 <tabelem id="payerlist" displayname="@payer" /> 
+                <tabelem id="emaillist" displayname="@emaillist" /> 
         </tabpanel>
         
 </dialog>
