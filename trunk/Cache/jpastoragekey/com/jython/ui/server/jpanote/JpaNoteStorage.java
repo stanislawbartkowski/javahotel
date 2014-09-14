@@ -85,9 +85,12 @@ public class JpaNoteStorage extends AbstractJpaCrud<Note, EMailNote> implements
 
         dest.setContent(sou.getContent());
         dest.setMailFrom(sou.getFrom());
-        if (!CUtil.EmptyS(sou.getSendResult()))
-            // restrict to 256
-            dest.setSendRes(sou.getSendResult().substring(0, MAXSIZE));
+        String res = sou.getSendResult();
+        if (!CUtil.EmptyS(res)) {
+            if (res.length() > MAXSIZE)
+                res = res.substring(0, MAXSIZE);
+            dest.setSendRes(res);
+        }
         dest.setText(sou.isText());
         dest.getRecipientsList().addAll(sou.getRecipientsList());
     }
