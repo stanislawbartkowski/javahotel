@@ -29,6 +29,7 @@
                         actionparam="hotel/reservation/checkin.xml" actionparam2="aftercheckin" hidden=""/>
                 <button id="morereservation" displayname="@addnextreservation" />
                 <button id="detailreservation" displayname="@modifyreservation" />
+                <button id="sendmail" displayname="Send confirmation email" />
 	</buttons>
 
 	<form>
@@ -56,6 +57,7 @@
                 <field id="respriceextrabeds" type="decimal" displayname="@priceperbeds" />
 		<!-- cust description -->
                 <field id="cust_name" displayname="@guestid" readonly="" />
+                <field id="cust_email" displayname="@email" type = "email" />
                 <field id="cust_descr" displayname="@description" hidden="" />
                 <field id="cust_title" displayname="@title" type="custom:titles" notempty="" />
                 <field id="cust_surname" displayname="@surname" />
@@ -65,7 +67,6 @@
                 <field id="cust_postalcode" displayname="@postalcode" hidden=""/>
                 <field id="cust_city" displayname="@city" hidden=""/>
                 <field id="cust_street" displayname="@street" hidden=""/>
-                <field id="cust_email" displayname="@email" hidden=""/>
                 <field id="cust_phone1" displayname="@phone1" hidden=""/>
                 <field id="cust_phone2" displayname="@phone2" hidden=""/>
                 <field id="cust_fax" displayname="@fax" hidden=""/>

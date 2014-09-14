@@ -76,7 +76,7 @@ public interface IHotelConsts {
     String PAYMENTBILLNAME = "paymentbillname";
     String PAYMENTMETHOD = "paymentmethod";
 
-    // String PROPAUTOM = "autompatterns.properties";
+    String PROPAUTOM = "autompatterns.properties";
 
     String PERSISTENCE_UNIT_NAME = "hoteladmin";    
 }

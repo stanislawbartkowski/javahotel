@@ -12,11 +12,10 @@ class HotelMail(util.HOTELMAILLIST):
     # mtype 0 : reservation confirmation         
     def sendMail(self,mtype,resname,custname,subject,content,to,froma,attachList=None,text=True):
         if mtype == 0 : mtype = HotelMailElem.MailType.RESCONFIRMATION
+        if mtype == 1 : mtype = HotelMailElem.MailType.RECEIPTSENT
         res = self.M.sendMail(subject,content,to,froma,attachList,text)
-        print res
         assert res != None
         name = res.getName()
-        print name
         assert name != None
         H = util.newHotelMailElem()
         H.setmType(mtype)
@@ -26,3 +25,14 @@ class HotelMail(util.HOTELMAILLIST):
         hres = self.addElem(H)
         return hres
 
+    def getCMail(self,name) :
+        CC = self.M.findElem(name)
+        assert CC != None
+        return CC
+
+    def getListForCustomer(self,custname) :
+        li = self.getList()
+        out = []
+        for l in li : 
+	  if l.getCustomerName() == custname : out.append(l)
+	return out  

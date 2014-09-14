@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" >
+
+   <before />
+   
+   <jython>
+	<import>from hotelpack.reservation import reserroom</import>
+	<method>reserroom.mailquestion({0},{1})</method>
+   </jython>
+   
+   <buttons>
+      <button id="sendmail" displayname="@sendconfirmationemail" />
+      <button id="resign" displayname="@sendlater" actiontype="JCLOSE_DIALOG" />
+   </buttons>  
+   
+   <form>
+        <field id="n_resename" hidden="" />
+        <field id="n_info" label="" type="html" />
+   </form>	
+   
+</dialog>   

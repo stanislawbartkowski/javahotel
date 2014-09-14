@@ -8,6 +8,7 @@ import clog
 from util import rutil
 from util import util
 from util import rbefore
+from util import diallaunch
 
 M = util.MESS()
 
@@ -237,9 +238,12 @@ class MAKERESE(util.HOTELTRANSACTION) :
           
       RFORM = util.RESFORM(var)
       if resename : RFORM.changeElem(reservation)
-      else : RFORM.addElem(reservation)
+      else : resename = RFORM.addElem(reservation).getName()
       var["JCLOSE_DIALOG"] = True
       var["JREFRESH_DATELINE_reservation"] = ""
+      
+      var["JUPDIALOG_START"] = resename
+      var["JUP_DIALOG"]="?sentconfirmationquestion.xml" 
             
 def reseraction(action,var):
     cutil.printVar("reseraction",action,var)
@@ -362,3 +366,24 @@ def reseraction(action,var):
         var["JUPDIALOG_START"] = xml
         var["JUP_DIALOG"]="hotel/reservation/modifreservation.xml" 
         var["JAFTERDIALOG_ACTION"] = "detailreservationaccept" 
+
+#--------------------------
+# confirmation mail
+#--------------------------
+    if action == "sendmail" :
+      rese = rutil.getReseName(var)
+      diallaunch.confirmationmail(var,rese)
+
+def mailquestion(action,var) :
+   
+   cutil.printVar("mail question",action,var)
+   
+   if action == "before" :
+     var["n_resename"] = var["JUPDIALOG_START"]
+     var["n_info"] = M("htmlconfirmationquestion")
+     cutil.setCopy(var,["n_resename","n_info"])
+     
+   if action == "sendmail" :
+     var["JCLOSE_DIALOG"] = True
+     resename = var["n_resename"]
+     diallaunch.confirmationmail(var,resename)
