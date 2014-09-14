@@ -9,7 +9,7 @@
  </jython>  
  
  <actions>
-   <action id="download" actiontype="JUP_DIALOG" actionparam="?attachdownload.xml" />
+    <action id="download"  jsaction="JS.JSAMPLE.download" />
  </actions>  
 
  

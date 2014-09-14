@@ -103,7 +103,7 @@ class ReadDialog extends UtilHelper {
                 ICommonConsts.EDITCLASS, ICommonConsts.EDITCSS,
                 ICommonConsts.LABEL, ICommonConsts.COLUMNCLASS,
                 ICommonConsts.SPINNERMIN, ICommonConsts.HEADERCLASS,
-                ICommonConsts.SPINNERMAX, };
+                ICommonConsts.SPINNERMAX, ICommonConsts.VISLINES };
         private final String[] listTag = { ICommonConsts.ID,
                 ICommonConsts.DISPLAYNAME, ICommonConsts.ELEMFORMAT,
                 ICommonConsts.STANDBUTT, ICommonConsts.PAGESIZE,

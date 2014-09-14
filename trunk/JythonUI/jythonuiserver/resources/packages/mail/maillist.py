@@ -40,8 +40,8 @@ def dialogaction(action,var) :
         note = M.findElem(var["name"])
         l = note.getaList()
         if len(l) == 0 :
-	  var["JOK_MESSAGE"] = "@noattachmentsmessage"
-	  return
+    	  var["JOK_MESSAGE"] = "@noattachmentsmessage"
+          return
         var["JUP_DIALOG"] = "?mailattachments.xml"
       
       
@@ -120,7 +120,7 @@ def attachdownload(action,var) :
     cutil.printVar("attach download",action,var)
     
     if action == "before" :
-       key = var["realm"] + ":" + var["key"] + ":" + var["filename"]
+       key =  var["JUPDIALOG_START"]
        var["download"] = key
        cutil.setCopy(var,"download")
      

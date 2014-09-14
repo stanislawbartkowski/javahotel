@@ -176,6 +176,10 @@ public class FieldItem extends ElemDescription {
         return getAttr(ICommonConsts.FROM);
     }
 
+    public String getVisLines() {
+        return getAttr(ICommonConsts.VISLINES);
+    }
+
     public String getAlign() {
         return getAttr(ICommonConsts.ALIGN);
     }
