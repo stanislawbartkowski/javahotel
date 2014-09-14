@@ -30,8 +30,14 @@ public class Test35 extends TestHelper {
         DialogVariables v = new DialogVariables();
         runAction(token, v, "dialog9.xml", "createxml");
         assertOK(v);
+        
         v = new DialogVariables();
         runAction(token, v, "dialog9.xml", "listxml");
         assertOK(v);
+        
+        v = new DialogVariables();
+        runAction(token, v, "dialog9.xml", "testfailed");
+        assertOK(v);
     }
+    
 }

@@ -6,6 +6,7 @@ import datetime
 import con
 import pdfutil
 from util import hmail
+import cmail
 
 def dialogaction(action,var):
     cutil.printVar("testresemail",action,var)
@@ -44,11 +45,11 @@ def dialogaction(action,var):
         print re.getName()
         s = rpdf.buildResXML(var,re.getName())
         print s
-        tt = pdfutil.xsltHtml("mailxslt/reseconfirmation.xslt",s)
-        print tt.toString()
+        tt = pdfutil.xsltHtmlS("mailxslt/reseconfirmation.xslt",s)
+        print tt
         H = hmail.HotelMail(var)
 #        H.    def sendMail(self,mtype,resname,custname,subject,content,to,froma,attachList=None,text=True):
-        hh = H.sendMail(0,re.getName(),CC.getName(),"Reservation",tt.toString(),"stanislawbartkowski@gmail.com","hotel")
+        hh = H.sendMail(0,re.getName(),CC.getName(),"Reservation",tt,"stanislawbartkowski@gmail.com","hotel")
         assert hh != None        
         var["OK"] = True
            
@@ -61,6 +62,24 @@ def dialogaction(action,var):
             print l.getName()
             print l.getReseName()
         var["OK"] = True
+        
+    if action == "testfailed" :
+        H = hmail.HotelMail(var)
+        li = H.getList()
+        h = li[0]
+        # should fail because to space in 'from' address
+        hh = H.sendMail(0,h.getReseName(),h.getCustomerName(),"Reservation","Hi Hi - good joke","stanislawbartkowski@gmail.com","Java hotel")
+        assert hh != None
+        mailName = hh.getName()
+        print mailName
+        M = H.getCMail(mailName)
+        assert M != None
+        res = M.getSendResult()
+        print res
+        assert res != None
+        var["OK"] = True 
+        
+            
             
        
          

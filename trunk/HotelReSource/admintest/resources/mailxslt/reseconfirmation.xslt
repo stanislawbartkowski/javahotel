@@ -3,11 +3,8 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:fun="java://com.jythonui.server.xslt.XSLTFun"
     xmlns:java="http://xml.apache.org/xslt/java">
-	
 	<xsl:output method="text" encoding="UTF-8" />
-
 	<xsl:template match="/reservation">
-
 New Reservation
 Reservation Id: <xsl:value-of select="resid" />
 Booked on:<xsl:value-of select="resdate" />
