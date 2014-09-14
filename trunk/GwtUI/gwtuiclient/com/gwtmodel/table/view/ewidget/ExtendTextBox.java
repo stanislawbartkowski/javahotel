@@ -132,8 +132,8 @@ class ExtendTextBox extends AbstractField {
             if (rArea == null) {
                 tBox.setName(nameId);
             } else {
-//                rArea.setN
-//                Utils.setId(rArea, nameId);
+                // rArea.setN
+                // Utils.setId(rArea, nameId);
             }
         }
 

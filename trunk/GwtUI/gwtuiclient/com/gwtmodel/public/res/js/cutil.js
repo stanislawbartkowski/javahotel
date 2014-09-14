@@ -14,7 +14,7 @@ var CUTIL = (function() {
    my.closeifchoosen = function(o,list,closeval) {
      var key = list +"_lineset";
      var b = o.row[key]
-//     alert(b);
+// alert(b);
      var res = {};
      if (b) {        
         res.JCLOSE_DIALOG = closeval;
@@ -24,10 +24,33 @@ var CUTIL = (function() {
    
    my.setcontinue = function(o) {
 	     o.JYTHONCONTINUE = true;
-   }   
-        
+   }
+   
+   my.launchdialog = function(startparam,dialog) {
+	   return my.gotodialog(startparam,dialog,undefined);
+   }
+	
+   
+   my.download = function(param) {
+	   return my.launchdialog(param,"mail/attachdownload.xml");
+   }
+   
    return my;
 }());
+
+
+var JSAMPLE = (function() {
+	   var my = {};
+	   
+	   my.download =function(s) {
+		   var o = eval('(' + s + ')');
+		   var key = o.row.realm + ":" + o.row.key + ":" + o.row.filename;
+//		   alert(s + " " + key);
+		   return CUTIL.download(key);
+	   }	   
+	   return my;
+}());
+
 
 function addStyle(str) {
     var pa = document.getElementsByTagName('head')[0];
