@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="@emailname">
+  
+<before />
+
+<jython>
+  <import>from hotelpack.info import showlistofmails</import>
+  <method>showlistofmails.dialogaction({0},{1})</method>
+</jython>
+
+<actions>
+  <action id="shownote" displayname="@shownote" />
+</actions>  
+
+<list id="emaillist" pagesize = "5">
+      <standbutt>TOOLS,FIND,FILTER,custom:shownote</standbutt>
+      <buttons-selected>shownote</buttons-selected>
+      <columns>
+	        <column id="mailname" hidden="" />
+                <column id="resename" displayname="@reservation" />
+                <column id="custname" displayname="@customer" />
+		<column id="datesend" displayname="@datesend" type="date" />
+		<column id="subject" displayname="@subject" />
+		<column id="res" displayname="@sendresult" defvalue="@ok" />
+      </columns>
+</list>  
+ 
+  
+</dialog>

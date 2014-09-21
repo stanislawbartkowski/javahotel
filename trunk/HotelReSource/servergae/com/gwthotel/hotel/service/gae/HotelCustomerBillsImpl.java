@@ -44,10 +44,10 @@ public class HotelCustomerBillsImpl extends
         return DictUtil.toCustomerBill(e);
     }
 
-    @Override
-    protected ECustomerBill constructE() {
-        return new ECustomerBill();
-    }
+//    @Override
+//    protected ECustomerBill constructE() {
+//        return new ECustomerBill();
+//    }
 
     @Override
     protected void toE(EObject ho, ECustomerBill e, CustomerBill t) {

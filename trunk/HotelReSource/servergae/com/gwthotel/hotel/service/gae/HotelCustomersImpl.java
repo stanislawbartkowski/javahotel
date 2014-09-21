@@ -47,10 +47,10 @@ public class HotelCustomersImpl extends
         return cu;
     }
 
-    @Override
-    protected EHotelCustomer constructE() {
-        return new EHotelCustomer();
-    }
+//    @Override
+//    protected EHotelCustomer constructE() {
+//        return new EHotelCustomer();
+//    }
 
     @Override
     protected void toE(EObject ho, EHotelCustomer e, HotelCustomer t) {

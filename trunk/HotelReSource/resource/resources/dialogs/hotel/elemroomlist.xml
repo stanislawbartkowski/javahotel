@@ -21,7 +21,7 @@
 
         <list id="services" pagesize="10" elemformat="hotel/elemserviceshow.xml">
                 <standbutt>TOOLS,FIND,FILTER,SHOW</standbutt>
-                <buttons-addlist>ADD,MODIF</buttons-addlist>
+                <buttons-addlist>crud_change,crud_add</buttons-addlist>
                 <columns>
                       <column id="check" displayname="@perperson" type="bool" editable="" signalchange="" />
                       <column id="service" displayname="@servicename" />

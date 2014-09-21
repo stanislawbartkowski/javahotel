@@ -303,6 +303,7 @@ def findElemInSeq(pname,seq, getN = None):
     if getN == None : getN = lambda s : s.getName()
     for s in seq : 
        name = getN(s)
+       print pname,s,name
        if name == pname : return s
     return None  
           

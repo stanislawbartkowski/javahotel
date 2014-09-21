@@ -16,6 +16,7 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.List;
 
+import com.gwthotel.admin.gae.DictUtil;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.service.gae.entities.EHotelPriceElem;
 import com.gwthotel.hotel.service.gae.entities.EHotelRoomServices;
@@ -24,6 +25,7 @@ import com.jython.ui.server.gae.crudimpl.CrudGaeAbstract;
 import com.jython.ui.server.gae.security.entities.EObject;
 import com.jython.ui.server.gae.security.entities.EObjectDict;
 import com.jython.ui.server.gae.security.impl.EntUtil;
+import com.jythonui.server.BUtil;
 import com.jythonui.server.crud.ICrudObjectGenSym;
 import com.jythonui.server.crud.IObjectCrud;
 import com.jythonui.shared.PropDescription;
@@ -31,16 +33,26 @@ import com.jythonui.shared.PropDescription;
 abstract public class HotelCrudGaeAbstract<T extends PropDescription, E extends EObjectDict>
         extends CrudGaeAbstract<T, E> implements IObjectCrud<T> {
 
-    protected HotelCrudGaeAbstract(Class<E> cl,
-            HotelObjects ho, ICrudObjectGenSym iGen) {
+    private final HotelObjects ho;
+
+    protected HotelCrudGaeAbstract(Class<E> cl, HotelObjects ho,
+            ICrudObjectGenSym iGen) {
         super(cl, ho.name(), iGen);
+        this.ho = ho;
     }
 
-    protected class DeleteItem {
+    @Override
+    protected E constructE() {
+        Class cl = DictUtil.getClass(ho);
+        return (E) BUtil.construct(cl);
+    }
+
+    protected class DeleteItem implements IDeleteElem {
         public List<EHotelPriceElem> pList = null;
         public List<EHotelRoomServices> sList = null;
 
-        void removeItems() {
+        @Override
+        public void remove() {
             if (pList != null)
                 ofy().delete().entities(pList);
             if (sList != null)
@@ -57,8 +69,7 @@ abstract public class HotelCrudGaeAbstract<T extends PropDescription, E extends 
                     .list();
         }
     }
-    
-    
+
     protected EObject findEHotel(OObjectId hotel) {
         return EntUtil.findEOObject(hotel);
     }
@@ -66,9 +77,10 @@ abstract public class HotelCrudGaeAbstract<T extends PropDescription, E extends 
     protected abstract void beforeDelete(DeleteItem i, EObject ho, E elem);
 
     @Override
-    protected void beforeDelete(EObject ho, E elem) {
+    protected IDeleteElem beforeDelete(EObject ho, E elem) {
         final DeleteItem i = new DeleteItem();
         beforeDelete(i, ho, elem);
+        return i;
     }
 
 }

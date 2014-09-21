@@ -11,6 +11,17 @@ import cmail
 M = util.MESS()
 ALIST="atachlist"
 
+def _getCust(var,ma) :
+    cust = None
+    rese = ma["resename"]
+    if ma.has_key("custname") : cust = ma["custname"]
+    rform = util.RESFORM(var).findElem(rese)
+    assert rform != None
+    if cust == None : cust = rform.getCustomerName()
+    C = util.CUSTOMERLIST(var).findElem(cust)
+    assert C != None
+    return (C,rform)
+
 def dialogaction(action,var) :
   cutil.printVar("rese mail",action,var)
   
@@ -19,13 +30,14 @@ def dialogaction(action,var) :
     (ma,alist) = xmlutil.toMap(xml)
     rese = ma["resename"]
     mtype = ma["mailtype"]
-    cust = None
-    if ma.has_key("custname") : cust = ma["custname"]
-    rform = util.RESFORM(var).findElem(rese)
-    assert rform != None
-    if cust == None : cust = rform.getCustomerName()
-    C = util.CUSTOMERLIST(var).findElem(cust)
-    assert C != None
+#    cust = None
+#    if ma.has_key("custname") : cust = ma["custname"]
+#    rform = util.RESFORM(var).findElem(rese)
+#    assert rform != None
+#    if cust == None : cust = rform.getCustomerName()
+#    C = util.CUSTOMERLIST(var).findElem(cust)
+#    assert C != None
+    (C,rform) = _getCust(var,ma)
     var["to"] = C.getAttr("email")
     var["from"] = M("confirmationfrom")
     var["xml"] = xml
@@ -52,13 +64,15 @@ def dialogaction(action,var) :
     xml = var["xml"]
     (ma,alist) = xmlutil.toMap(xml)
     rese = ma["resename"]
-    custname = ma["custname"]
+#    custname = ma["custname"]
+    (C,rform) = _getCust(var,ma)
+    custname = C.getName()
     mtype = ma["mailtype"]
     to = var["to"]
     fromc = var["from"]
     content = var["content"]
     subject = var["subject"]
-    C = util.CUSTOMERLIST(var).findElem(custname)
+#    C = util.CUSTOMERLIST(var).findElem(custname)
     C.setAttr("email",to)
     util.CUSTOMERLIST(var).changeElem(C)
     attachL = None

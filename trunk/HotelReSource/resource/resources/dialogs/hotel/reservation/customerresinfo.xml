@@ -77,13 +77,14 @@
                 <columns>
 		        <column id="mailname" hidden="" />
                         <column id="resename" displayname="@reservation" />
+                        <column id="custname" hidden=""  />
 			<column id="datesend" displayname="@datesend" type="date" />
 			<column id="subject" displayname="@subject" />
 			<column id="res" displayname="@sendresult" defvalue="@ok" />
                 </columns>
         </list>  
 
-        <tabpanel id="tab">
+        <tabpanel id="tab">	        
                 <tabelem id="custlist" displayname="@customer" />
                 <tabelem id="guestlist" displayname="@guest" />
                 <tabelem id="payerlist" displayname="@payer" /> 

@@ -19,26 +19,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.googlecode.objectify.LoadResult;
-import com.gwthotel.admin.holder.HHolder;
+import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.ServiceType;
 import com.gwthotel.hotel.bill.CustomerBill;
 import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
 import com.gwthotel.hotel.service.gae.entities.EBillPayment;
 import com.gwthotel.hotel.service.gae.entities.ECustomerBill;
 import com.gwthotel.hotel.service.gae.entities.EHotelCustomer;
+import com.gwthotel.hotel.service.gae.entities.EHotelGuest;
+import com.gwthotel.hotel.service.gae.entities.EHotelMail;
+import com.gwthotel.hotel.service.gae.entities.EHotelPriceList;
 import com.gwthotel.hotel.service.gae.entities.EHotelReservation;
 import com.gwthotel.hotel.service.gae.entities.EHotelRoom;
 import com.gwthotel.hotel.service.gae.entities.EHotelServices;
 import com.gwthotel.hotel.service.gae.entities.EResDetails;
 import com.gwthotel.hotel.services.HotelServices;
-import com.gwthotel.mess.IHError;
-import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.table.common.CUtil;
 import com.jython.ui.server.gae.security.entities.EObject;
+import com.jython.ui.server.gae.security.entities.EObjectDict;
 import com.jython.ui.server.gae.security.impl.EntUtil;
 import com.jythonui.server.RUtils;
 import com.jythonui.server.UtilHelper;
+import com.jythonui.server.logmess.IErrorCode;
+import com.jythonui.server.logmess.ILogMess;
 
 public class DictUtil extends UtilHelper {
 
@@ -64,9 +68,8 @@ public class DictUtil extends UtilHelper {
         E e = p.now();
         if (e != null)
             return e;
-        String mess = HHolder.getHM().getMess(IHError.HERROR021,
-                IHMess.OBJECTBYNAMECANNOTBEFOUND, name, eh.getName());
-        errorLog(mess);
+        errorMess(L(), IErrorCode.ERRORCODE110,
+                ILogMess.OBJECTBYNAMECANNOTBEFOUND, name, eh.getName());
         return null;
     }
 
@@ -208,5 +211,34 @@ public class DictUtil extends UtilHelper {
         bi.setId(e.getId());
         RUtils.retrieveCreateModif(bi, e);
         return bi;
+    }
+
+    @SuppressWarnings("rawtypes")
+    public static Class getClass(HotelObjects o) {
+        switch (o) {
+        case ROOM:
+            return EHotelRoom.class;
+        case PAYMENTS:
+            return EBillPayment.class;
+        case BILL:
+            return ECustomerBill.class;
+        case CUSTOMER:
+            return EHotelCustomer.class;
+        case GUESTS:
+            return EHotelGuest.class;
+        case PRICELIST:
+            return EHotelPriceList.class;
+        case RESERVATION:
+            return EHotelReservation.class;
+        case RESERVATIONDETAILS:
+            return EResDetails.class;
+        case SERVICE:
+            return EHotelServices.class;
+        case HOTELMAIL:
+            return EHotelMail.class;
+        default:
+            break;
+        }
+        return null;
     }
 }

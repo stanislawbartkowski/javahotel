@@ -33,12 +33,13 @@ def _createReseLine(var,map,rname) :
 def _createListOfMail(var) :
    H = hmail.HotelMail(var)
    li = H.getListForCustomer(var["i_name"])
-   seq = []
-   for l in li :
-     mm = H.getCMail(l.getName())
-     res = mm.getSendResult()
-     if cutil.emptyS(res) : res = None
-     seq.append({ "mailname" : l.getName(), "resename" : l.getReseName(),"datesend" : mm.getCreationDate(), "subject" : mm.getDescription(), "res" : res })
+#   seq = []
+#   for l in li :
+#     mm = H.getCMail(l.getName())
+#     res = mm.getSendResult()
+#     if cutil.emptyS(res) : res = None
+#     seq.append({ "mailname" : l.getName(), "resename" : l.getReseName(),"datesend" : mm.getCreationDate(), "subject" : mm.getDescription(), "res" : res })
+   seq = hmail.createMailSeq(var,li)
    cutil.setJMapList(var,MLIST,seq)  
 
 def _createListOfRes(var,li,lname) :

@@ -17,9 +17,6 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 import java.util.Date;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import com.googlecode.objectify.VoidWork;
 import com.gwthotel.admin.gae.DictUtil;
 import com.gwthotel.hotel.HotelObjects;
@@ -35,12 +32,10 @@ import com.gwthotel.hotel.service.gae.entities.EHotelRoom;
 import com.gwthotel.hotel.service.gae.entities.EHotelRoomServices;
 import com.gwthotel.hotel.service.gae.entities.EHotelServices;
 import com.gwthotel.hotel.service.gae.entities.EResDetails;
-import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.jython.serversecurity.cache.OObjectId;
 import com.jython.ui.server.gae.security.entities.EObject;
 import com.jython.ui.server.gae.security.impl.EntUtil;
-import com.jythonui.server.getmess.IGetLogMess;
 
 public class ClearHotelImpl implements IClearHotel {
 
@@ -71,36 +66,9 @@ public class ClearHotelImpl implements IClearHotel {
     }
 
     @SuppressWarnings("rawtypes")
-    private Class getClass(HotelObjects o) {
-        switch (o) {
-        case ROOM:
-            return EHotelRoom.class;
-        case PAYMENTS:
-            return EBillPayment.class;
-        case BILL:
-            return ECustomerBill.class;
-        case CUSTOMER:
-            return EHotelCustomer.class;
-        case GUESTS:
-            return EHotelGuest.class;
-        case PRICELIST:
-            return EHotelPriceList.class;
-        case RESERVATION:
-            return EHotelReservation.class;
-        case RESERVATIONDETAILS:
-            return EResDetails.class;
-        case SERVICE:
-            return EHotelServices.class;
-        default:
-            break;
-        }
-        return null;
-    }
-
-    @SuppressWarnings("rawtypes")
     @Override
     public long numberOf(OObjectId hotel, HotelObjects o) {
-        Class cl = getClass(o);
+        Class cl = DictUtil.getClass(o);
         boolean nof = true;
         if (nof) {
             List li = ofy().load().type(cl)

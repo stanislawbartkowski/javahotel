@@ -29,7 +29,7 @@
                         actionparam="hotel/reservation/checkin.xml" actionparam2="aftercheckin" hidden=""/>
                 <button id="morereservation" displayname="@addnextreservation" />
                 <button id="detailreservation" displayname="@modifyreservation" />
-                <button id="sendmail" displayname="Send confirmation email" />
+                <button id="sendmail" displayname="@sendconfirmationemail" />
 	</buttons>
 
 	<form>

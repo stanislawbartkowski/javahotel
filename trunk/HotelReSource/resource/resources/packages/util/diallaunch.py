@@ -5,6 +5,7 @@ def confirmationmail(var,rese) :
     ma["resename"] = rese
     ma["mailtype"] = 0
     xml = xmlutil.mapToXML(ma)
+    print xml
     var["JUPDIALOG_START"] = xml
     var["JUP_DIALOG"]="hotel/info/sendconfirmationmail.xml" 
 
@@ -25,5 +26,10 @@ def showmailnote(var,name) :
 def pdfdownload(var,blobkey) :
     var["JUPDIALOG_START"] = blobkey
     var["JUP_DIALOG"]="mail/attachdownload.xml" 
+    
+def showlistofmail(var,resename) :
+    var["JUPDIALOG_START"] = resename
+    var["JUP_DIALOG"]="hotel/info/showlistofmails.xml" 
+    
    
   

@@ -17,11 +17,13 @@ import javax.mail.Session;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
+import com.google.inject.name.Names;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.IGetAutomPatterns;
 import com.gwthotel.hotel.bill.ICustomerBills;
 import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.guice.HotelCommonGuice.HotelServiceModule;
+import com.gwthotel.hotel.mailing.IHotelMailList;
 import com.gwthotel.hotel.payment.IPaymentBillOp;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
@@ -33,6 +35,7 @@ import com.gwthotel.hotel.server.service.H;
 import com.gwthotel.hotel.service.gae.ClearHotelImpl;
 import com.gwthotel.hotel.service.gae.HotelCustomerBillsImpl;
 import com.gwthotel.hotel.service.gae.HotelCustomersImpl;
+import com.gwthotel.hotel.service.gae.HotelMailImpl;
 import com.gwthotel.hotel.service.gae.HotelPriceElemImpl;
 import com.gwthotel.hotel.service.gae.HotelPriceListImpl;
 import com.gwthotel.hotel.service.gae.HotelReservationImpl;
@@ -47,6 +50,7 @@ import com.gwtmodel.table.common.dateutil.ISetTestToday;
 import com.gwtmodel.table.common.dateutil.SetTestTodayProvider;
 import com.jython.serversecurity.IOObjectAdmin;
 import com.jython.serversecurity.instance.IAppInstanceOObject;
+import com.jython.ui.server.gae.noteimpl.NoteStoreImpl;
 import com.jython.ui.server.gae.security.impl.ObjectAdminGae;
 import com.jython.ui.server.gae.security.impl.ObjectInstanceImpl;
 import com.jython.ui.server.gaecached.Cached;
@@ -56,15 +60,23 @@ import com.jythonui.server.IConsts;
 import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServerProperties;
+import com.jythonui.server.ISharedConsts;
+import com.jythonui.server.crud.ICrudObjectGenSym;
 import com.jythonui.server.defa.EmptyConnectionProvider;
 import com.jythonui.server.defa.EmptyRPCNotifier;
 import com.jythonui.server.defa.IsCached;
+import com.jythonui.server.defa.JavaGetMailSessionProvider;
+import com.jythonui.server.defa.JavaMailSessionProvider;
 import com.jythonui.server.defa.ServerProperties;
 import com.jythonui.server.defa.StorageRealmRegistryFactory;
+import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.server.mail.INoteStorage;
+import com.jythonui.server.objectgensymimpl.CrudObjectGenSym;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.server.semaphore.impl.SemaphoreRegistry;
 import com.jythonui.server.storage.blob.IBlobHandler;
+import com.jythonui.server.storage.gensym.ISymGenerator;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 
 /**
@@ -106,6 +118,8 @@ public class ServerService {
                     Singleton.class);
             bind(IClearHotel.class).to(ClearHotelImpl.class)
                     .in(Singleton.class);
+            bind(IHotelMailList.class).to(HotelMailImpl.class).in(
+                    Singleton.class);
 
             bind(IGetAutomPatterns.class).to(GetAutomPatterns.class).in(
                     Singleton.class);
@@ -124,23 +138,24 @@ public class ServerService {
                     Singleton.class);
             bind(ISetTestToday.class).toProvider(SetTestTodayProvider.class)
                     .in(Singleton.class);
+            bind(INoteStorage.class).to(NoteStoreImpl.class)
+                    .in(Singleton.class);
+            bind(Session.class).annotatedWith(Names.named(IConsts.SENDMAIL))
+                    .toProvider(JavaMailSessionProvider.class)
+                    .in(Singleton.class);
+            bind(Session.class).annotatedWith(Names.named(IConsts.GETMAIL))
+                    .toProvider(JavaGetMailSessionProvider.class)
+                    .in(Singleton.class);
 
             requestStatic();
             requestStaticInjection(H.class);
         }
-        
-        @Provides
-        @Named(IConsts.GETMAIL)
-        @Singleton
-        Session getGetSession() {
-            return null;
-        }
 
         @Provides
-        @Named(IConsts.SENDMAIL)
         @Singleton
-        Session getSendSession() {
-            return null;
+        ICrudObjectGenSym getCrudObjectGenSym(ISymGenerator iGen,
+                @Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess lMess) {
+            return new CrudObjectGenSym(iGen, lMess);
         }
 
     }

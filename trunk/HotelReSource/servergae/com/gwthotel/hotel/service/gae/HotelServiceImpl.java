@@ -47,10 +47,10 @@ public class HotelServiceImpl extends
         return DictUtil.toS(e);
     }
 
-    @Override
-    protected EHotelServices constructE() {
-        return new EHotelServices();
-    }
+//    @Override
+//    protected EHotelServices constructE() {
+//        return new EHotelServices();
+//    }
 
     @Override
     protected void toE(EObject ho, EHotelServices e, HotelServices t) {
