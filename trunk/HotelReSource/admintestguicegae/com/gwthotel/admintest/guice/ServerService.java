@@ -24,6 +24,7 @@ import com.gwthotel.hotel.IGetAutomPatterns;
 import com.gwthotel.hotel.bill.ICustomerBills;
 import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.guice.HotelCommonGuice.HotelServiceModule;
+import com.gwthotel.hotel.mailing.IHotelMailList;
 import com.gwthotel.hotel.payment.IPaymentBillOp;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
@@ -33,6 +34,7 @@ import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.service.gae.ClearHotelImpl;
 import com.gwthotel.hotel.service.gae.HotelCustomerBillsImpl;
 import com.gwthotel.hotel.service.gae.HotelCustomersImpl;
+import com.gwthotel.hotel.service.gae.HotelMailImpl;
 import com.gwthotel.hotel.service.gae.HotelPriceElemImpl;
 import com.gwthotel.hotel.service.gae.HotelPriceListImpl;
 import com.gwthotel.hotel.service.gae.HotelReservationImpl;
@@ -115,6 +117,8 @@ public class ServerService {
                     Singleton.class);
             bind(IClearHotel.class).to(ClearHotelImpl.class)
                     .in(Singleton.class);
+            bind(IHotelMailList.class).to(HotelMailImpl.class).in(
+                    Singleton.class);
 
             // common
             bind(IGetAutomPatterns.class).to(GetTestPatterns.class).in(
