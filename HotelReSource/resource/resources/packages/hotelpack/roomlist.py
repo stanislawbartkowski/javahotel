@@ -40,7 +40,7 @@ def _createList(var):
        
     cutil.setJMapList(var,RLIST,list)
 
-def _duplicatedPriceList(var):    
+def _duplicatedRoomName(var):    
     R = util.ROOMLIST(var)
     seq = R.getList()
     if util.findElemInSeq(var["name"],seq) != None :
@@ -144,7 +144,7 @@ def elemroomaction(action,var) :
       if var["JCRUD_DIALOG"] == "crud_add" or var["JCRUD_DIALOG"] == "crud_change" : cutil.setStandEditMode(var,SERVLIST,"check")
     
   if action == "crud_add"  and not var["JCRUD_AFTERCONF"] :
-      if _duplicatedPriceList(var) or _notValidRoomDesc(var): return
+      if _duplicatedRoomName(var) or _notValidRoomDesc(var): return
       var["JYESNO_MESSAGE"] = M("ADDNEWROOMASK")
       var["JMESSAGE_TITLE"] = ""  
       return

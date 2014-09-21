@@ -42,6 +42,7 @@ import com.gwtmodel.table.common.CUtil;
 import com.jython.jpautil.JpaUtils;
 import com.jython.serversecurity.cache.OObjectId;
 import com.jython.serversecurity.jpa.PropUtils;
+import com.jythonui.server.BUtil;
 import com.jythonui.server.RUtils;
 import com.jythonui.server.UtilHelper;
 
@@ -227,16 +228,7 @@ public class JUtils extends UtilHelper {
 
     public static Object create(HotelObjects o) {
         Class cl = getClass(o);
-        Constructor[] c = cl.getConstructors();
-        // assume there is only default constructor
-        try {
-            return c[0].newInstance();
-        } catch (InstantiationException | IllegalAccessException
-                | IllegalArgumentException | InvocationTargetException e) {
-            errorMess(HHolder.getHM(),IHError.HERROR001,IHMess.CANNOTINITIATEOBJECT,e,o.name());
-
-        }
-        return null;
+        return BUtil.construct(cl);
     }
 
 }

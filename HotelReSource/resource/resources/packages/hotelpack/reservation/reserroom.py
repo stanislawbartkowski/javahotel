@@ -280,6 +280,7 @@ def reseraction(action,var):
           _setAfterPriceList(var)
         else :  
           cutil.hideButton(var,"detailreservation",True)
+          cutil.hideButton(var,"sendmail",True)
           _setPriceAndService(var)
           _setAfterPriceList(var)
           _setAfterServiceName(var)
@@ -371,6 +372,9 @@ def reseraction(action,var):
 # confirmation mail
 #--------------------------
     if action == "sendmail" :
+      if _newRese(var) :
+	var["JERROR_MESSAGE"] = "@afterreservation"
+	return
       rese = rutil.getReseName(var)
       diallaunch.confirmationmail(var,rese)
 

@@ -21,9 +21,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.VoidWork;
 import com.gwthotel.admin.gae.DictUtil;
@@ -40,11 +37,9 @@ import com.gwthotel.hotel.service.gae.entities.EHotelReservation;
 import com.gwthotel.hotel.service.gae.entities.EHotelRoom;
 import com.gwthotel.hotel.service.gae.entities.EResDetails;
 import com.gwthotel.hotel.stay.ResGuest;
-import com.gwthotel.shared.IHotelConsts;
 import com.jython.serversecurity.cache.OObjectId;
 import com.jython.ui.server.gae.security.entities.EObject;
 import com.jython.ui.server.gae.security.impl.EntUtil;
-import com.jythonui.server.getmess.IGetLogMess;
 
 public class ReservationOpImpl implements IReservationOp {
 

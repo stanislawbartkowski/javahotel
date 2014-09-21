@@ -35,4 +35,21 @@ class HotelMail(util.HOTELMAILLIST):
         out = []
         for l in li : 
 	  if l.getCustomerName() == custname : out.append(l)
-	return out  
+	return out
+      
+    def getListForReservation(self,resename) :
+        li = self.getList()
+        out = []
+        for l in li : 
+	  if l.getReseName() == resename : out.append(l)
+	return out    
+      
+def createMailSeq(var,li) :
+   H = HotelMail(var)
+   seq = []
+   for l in li :
+     mm = H.getCMail(l.getName())
+     res = mm.getSendResult()
+     if cutil.emptyS(res) : res = None
+     seq.append({ "mailname" : l.getName(),"custname" : l.getCustomerName(), "resename" : l.getReseName(),"datesend" : mm.getCreationDate(), "subject" : mm.getDescription(), "res" : res })
+   return seq     

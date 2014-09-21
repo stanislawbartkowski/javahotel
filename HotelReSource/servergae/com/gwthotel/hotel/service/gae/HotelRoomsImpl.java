@@ -102,10 +102,10 @@ public class HotelRoomsImpl extends HotelCrudGaeAbstract<HotelRoom, EHotelRoom>
         return r;
     }
 
-    @Override
-    protected EHotelRoom constructE() {
-        return new EHotelRoom();
-    }
+//    @Override
+//    protected EHotelRoom constructE() {
+//        return new EHotelRoom();
+//    }
 
     @Override
     protected void toE(EObject ho, EHotelRoom e, HotelRoom t) {

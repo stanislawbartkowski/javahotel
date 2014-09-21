@@ -47,10 +47,10 @@ public class HotelPriceListImpl extends
         return pr;
     }
 
-    @Override
-    protected EHotelPriceList constructE() {
-        return new EHotelPriceList();
-    }
+//    @Override
+//    protected EHotelPriceList constructE() {
+//        return new EHotelPriceList();
+//    }
 
     @Override
     protected void toE(EObject ho, EHotelPriceList e, HotelPriceList t) {
