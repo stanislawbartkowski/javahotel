@@ -67,9 +67,8 @@ class VariableContainer implements IVariablesContainer {
 
     public VariableContainer cloneIt() {
         VariableContainer v = new VariableContainer();
-        for (FormContainer f : fList) {
+        for (FormContainer f : fList)
             v.fList.add(f);
-        }
         return v;
     }
 
@@ -83,13 +82,11 @@ class VariableContainer implements IVariablesContainer {
     private void setVariableToForm(ISlotable iSlo, IDataType dType,
             DialogVariables v, IVField vv) {
         FieldValue val = v.getValue(vv.getId());
-        if (val == null) {
+        if (val == null)
             return;
-        }
         IFormLineView i = SlU.getVWidget(dType, iSlo, vv);
-        if (i == null) {
+        if (i == null)
             return;
-        }
         i.setValObj(val.getValue());
     }
 
@@ -101,9 +98,8 @@ class VariableContainer implements IVariablesContainer {
             IVField v1 = ff.getFie();
             IVField v2 = ff.getFRange();
             setVariableToForm(iSlo, dType, var, v1);
-            if (v2 != null) {
+            if (v2 != null)
                 setVariableToForm(iSlo, dType, var, v2);
-            }
 
         }
 
@@ -112,9 +108,8 @@ class VariableContainer implements IVariablesContainer {
     @Override
     public List<IBackAction> getList() {
         List<IBackAction> bList = new ArrayList<IBackAction>();
-        for (FormContainer f : fList) {
+        for (FormContainer f : fList)
             bList.add(0, f.iAction);
-        }
         return bList;
     }
 

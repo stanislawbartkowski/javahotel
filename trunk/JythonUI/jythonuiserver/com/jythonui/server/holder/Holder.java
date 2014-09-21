@@ -22,6 +22,7 @@ import com.jython.serversecurity.cache.OObjectId;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IDefaultData;
 import com.jythonui.server.IGetConnection;
+import com.jythonui.server.IGetMailFrom;
 import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServer;
@@ -139,6 +140,9 @@ public class Holder {
 
     @Inject
     private static INoteStorage iNoteStorage;
+
+    @Inject
+    private static IGetMailFrom iMailFrom;
 
     private static final ThreadLocal<RequestContext> locale = new ThreadLocal<RequestContext>();
 
@@ -280,6 +284,10 @@ public class Holder {
 
     public static OObjectId getO() {
         return iToken.getObject(getRequest().getToken());
+    }
+
+    public static IGetMailFrom getMailFrom() {
+        return iMailFrom;
     }
 
 }

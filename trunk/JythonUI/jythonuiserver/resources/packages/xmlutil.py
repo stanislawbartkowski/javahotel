@@ -79,7 +79,7 @@ def _toXML(builder,ma):
             val = str(val).replace('-','/')
         builder = builder.e(k)    
         if atype : builder = builder.a("type",atype)
-        if val : builder = builder.t(str(val))
+        if val != None : builder = builder.t(str(val))
         builder = builder.up()
     return builder.up()     
     
@@ -186,7 +186,7 @@ def mapToXML(map,list = None,pre=None):
         if pre : k = pre + e
         else : k = e
         if map.has_key(k) :
-            if map[k] : val = str(map[k])
+            if map[k] != None : val = map[k]
         demap[e] = val
             
     return toXML(demap)       

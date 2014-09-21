@@ -12,6 +12,8 @@
  */
 package com.jythonui.server.defa;
 
+import java.net.URL;
+
 import javax.inject.Inject;
 
 import com.jythonui.server.resource.IReadResource;
@@ -43,5 +45,12 @@ public class ServerProperties extends AbstractServerProperties {
         return iFactory
                 .constructLoader(ServerProperties.class.getClassLoader());
     }
+    
+    @Override
+    public URL getSendMailPropertiesFile() {
+        IReadResource r = getResource();
+        return r.getRes("gaemail/mailbox.properties");
+    }
+
 
 }

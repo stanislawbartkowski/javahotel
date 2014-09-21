@@ -48,5 +48,7 @@ public interface IConsts {
     
     char PERMSIGN = '$';
     char EVALSIGN = '#';
+    
+    String APPMAILFROM = "mailfrom";
 
  }

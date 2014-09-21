@@ -144,7 +144,8 @@ class GetViewController implements IGetViewControllerFactory {
                     CommonCallBack<DialogVariables> back) {
                 v.setValueB(ICommonConsts.JCRUD_AFTERCONF, afterConfirm);
                 ListUtils.addListName(v, li);
-                rM.addToVar(v, eCrud);
+// 2014/09/21 : removed, seems unnecessary                
+//                rM.addToVar(v, eCrud);
                 ExecuteAction.action(v, li.getfElem().getId(), eCrud, back);
             }
 
