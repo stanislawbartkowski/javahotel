@@ -766,8 +766,8 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
                         chManager.constructSlotable(id, da));
             }
 
-        iCon.addFormVariables(d.getId(), new BAction(),
-                new DialogVariablesGetSet(), liManager, gManager, dManager);
+        iCon.addFormVariables(d.getId(), new BAction(), liManager, gManager,
+                dManager, new DialogVariablesGetSet());
 
         pView.createView(cId);
         slMediator.startPublish(cId);

@@ -485,8 +485,6 @@ class ListControler {
             public void signal(ISlotSignalContext slContext) {
                 ICustomObject i = slContext.getCustom();
                 StartNextRowSignal si = (StartNextRowSignal) i;
-                // TODO Auto-generated method stub
-
             }
 
         }
