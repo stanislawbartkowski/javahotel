@@ -17,6 +17,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import com.jythonui.shared.DialogFormat;
+import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.ListFormat;
 
@@ -43,6 +44,22 @@ public class Test55 extends TestHelper {
         FieldItem i = d.findFieldItem("content");
         assertNotNull(i);
         assertEquals("10", i.getVisLines());
+    }
+
+    @Test
+    public void test3() {
+
+        DialogFormat d = findDialog("test99.xml");
+        assertNotNull(d);
+        DialogVariables v = new DialogVariables();
+        runAction(v, "test99.xml", "testxml");
+    }
+
+    @Test
+    public void test4() {
+        String from = iFrom.getFrom();
+        System.out.println(from);
+        assertEquals("Hello.From.Jython",from);
     }
 
 }
