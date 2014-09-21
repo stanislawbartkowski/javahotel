@@ -102,10 +102,11 @@ public class NoteStoreImpl extends CrudGaeAbstract<Note, EMailNote> implements
     }
 
     @Override
-    protected void beforeDelete(EObject ho, EMailNote elem) {
+    protected IDeleteElem beforeDelete(EObject ho, EMailNote elem) {
         String realM = createRealm(elem.getName(), ho);
         for (EMailAttach a : elem.getaList())
             hBlob.removeBlob(realM, a.getBlobId());
+        return null;
     }
 
 }

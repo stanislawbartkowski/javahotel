@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 
@@ -36,7 +37,6 @@ public class BUtil extends UtilHelper {
         try {
             BeanUtils.setProperty(o, propname, d);
         } catch (IllegalAccessException | InvocationTargetException e) {
-            int k = 1;
         }
     }
 
@@ -58,18 +58,19 @@ public class BUtil extends UtilHelper {
         if (create)
             setPerson(o, ISharedConsts.CREATIONPERSONPROPERTY, person);
     }
-    
+
     public static String readFromFileInput(InputStream is) {
         try {
             return CharStreams.toString(new InputStreamReader(is,
                     Charsets.UTF_8));
         } catch (IOException e) {
-            errorLog(SHolder.getM().getMess(IErrorCode.ERRORCODE55,
-                    ILogMess.FILEIOEXCEPTION), e);
+            errorLog(
+                    SHolder.getM().getMess(IErrorCode.ERRORCODE55,
+                            ILogMess.FILEIOEXCEPTION), e);
             return null;
         }
     }
-    
+
     private static boolean isFSep(char ch) {
         if (ch == '/') {
             return true;
@@ -97,6 +98,18 @@ public class BUtil extends UtilHelper {
         return res;
     }
 
+    public static Object construct(Class cl) {
+        Constructor[] c = cl.getConstructors();
+        // assume there is only default constructor
+        try {
+            return c[0].newInstance();
+        } catch (InstantiationException | IllegalAccessException
+                | IllegalArgumentException | InvocationTargetException e) {
+            errorMess(L(), IErrorCode.ERRORCODE119,
+                    ILogMess.CANNOTINITIATEOBJECT, e, cl.getSimpleName());
 
+        }
+        return null;
+    }
 
 }

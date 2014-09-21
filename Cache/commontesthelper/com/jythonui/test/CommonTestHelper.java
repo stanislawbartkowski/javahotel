@@ -36,6 +36,7 @@ import com.jython.serversecurity.cache.IGetInstanceOObjectIdCache;
 import com.jython.serversecurity.cache.OObjectId;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IDefaultData;
+import com.jythonui.server.IGetMailFrom;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.ISharedConsts;
@@ -116,6 +117,8 @@ abstract public class CommonTestHelper {
     protected static INoteStorage iNoteStorage;
     @Inject
     protected static ICrudObjectGenSym iGenSym;
+    @Inject
+    protected static IGetMailFrom iFrom;
 
     protected CommonTestHelper() {
         iListC = Holder.getListOfCountries();
