@@ -29,15 +29,18 @@ import com.jythonui.server.crud.ICrudObjectGenSym;
 import com.jythonui.server.crud.IObjectCrud;
 import com.jythonui.shared.PropDescription;
 
-abstract public class CrudGaeAbstract<T extends PropDescription, E extends EObjectDict> extends UtilHelper
-        implements IObjectCrud<T> {
+abstract public class CrudGaeAbstract<T extends PropDescription, E extends EObjectDict>
+        extends UtilHelper implements IObjectCrud<T> {
 
     private final Class<E> cl;
     private final String oName;
     private final ICrudObjectGenSym iGen;
 
-    protected CrudGaeAbstract(Class<E> cl, String oName,
-            ICrudObjectGenSym iGen) {
+    protected interface IDeleteElem {
+        void remove();
+    }
+
+    protected CrudGaeAbstract(Class<E> cl, String oName, ICrudObjectGenSym iGen) {
         this.cl = cl;
         this.oName = oName;
         this.iGen = iGen;
@@ -53,7 +56,7 @@ abstract public class CrudGaeAbstract<T extends PropDescription, E extends EObje
 
     protected abstract void toE(EObject ho, E e, T t);
 
-    protected abstract void beforeDelete(EObject ho, E elem);
+    protected abstract IDeleteElem beforeDelete(EObject ho, E elem);
 
     private T toProp(E e, EObject ho) {
         T dest = constructProp(ho, e);
@@ -126,11 +129,12 @@ abstract public class CrudGaeAbstract<T extends PropDescription, E extends EObje
         final E serv = findService(ho, elem);
         if (serv == null) // TODO: more verbose log
             return;
-        beforeDelete(ho, serv);
+        final IDeleteElem i = beforeDelete(ho, serv);
         ofy().transact(new VoidWork() {
             public void vrun() {
                 ofy().delete().entity(serv).now();
-                // i.removeItems();
+                if (i != null)
+                    i.remove();
             }
         });
     }
