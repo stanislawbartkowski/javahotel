@@ -83,8 +83,11 @@ def dialogaction(action,var):
     if action == "setxmail" :
         M = cmail.CMAIL(var)
         res = M.sendMail("hello","Sending from CMAIL class","stanislawbartkowski@gmail.com","test.jython")
-        print res;
-        assert res == None
+        print res
+        assert res != None
+        resmail = res.getSendResult()
+        print resmail
+        assert resmail == None
         var["OK"] = True
         
     if action == "readxmail" :

@@ -48,12 +48,14 @@ import com.jythonui.datastore.EntityManagerFactoryProvider;
 import com.jythonui.datastore.PersonOp;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IGetConnection;
+import com.jythonui.server.IGetMailFrom;
 import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.crud.ICrudObjectGenSym;
 import com.jythonui.server.defa.EmptyConnectionProvider;
 import com.jythonui.server.defa.EmptyRPCNotifier;
+import com.jythonui.server.defa.GetMailFromApp;
 import com.jythonui.server.defa.JavaGetMailSessionProvider;
 import com.jythonui.server.defa.JavaMailSessionProvider;
 import com.jythonui.server.getmess.IGetLogMess;
@@ -116,6 +118,8 @@ public class ServerService {
                     JpaObjectGenSymFactoryImpl.class).in(Singleton.class);
             bind(INoteStorage.class).to(JpaNoteStorage.class).in(
                     Singleton.class);
+            bind(IGetMailFrom.class).to(GetMailFromApp.class).in(
+                    Singleton.class);
             requestStatic();
             requestStaticInjection(TestHelper.class);
 
@@ -141,14 +145,13 @@ public class ServerService {
                 }
             };
         }
-        
+
         @Provides
         @Singleton
         ICrudObjectGenSym getCrudObjectGenSym(ISymGenerator iGen,
                 @Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess lMess) {
             return new CrudObjectGenSym(iGen, lMess);
         }
-
 
         // -----
 
