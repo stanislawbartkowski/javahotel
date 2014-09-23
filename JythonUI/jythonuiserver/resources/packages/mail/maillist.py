@@ -89,6 +89,10 @@ def elemaction(action,var) :
         note = M.findElem(name)
         alist = note.getaList()
         for a in alist : seq.append({ "filename" : a.getFileName(), "realm" : a.getRealm(), "key" : a.getBlobKey() })
+      else :
+          S = cmail.MAILFROM(var)
+          var["from"] = S.getFrom()
+          cutil.setCopy(var,"from")        
       cutil.setJMapList(var,ALIST,seq)      
     
     if action == "crud_add" and not var["JCRUD_AFTERCONF"] :
@@ -103,6 +107,8 @@ def elemaction(action,var) :
        M = cmail.CMAIL(var)
        res = M.sendMail(var["subject"],var["content"],var["to"],var["from"],attachL)
        print res
+       S = cmail.MAILFROM(var)
+       S.saveFrom(var["from"])
        var["JCLOSE_DIALOG"] = True
 
     if action == "crud_remove" and not var["JCRUD_AFTERCONF"] :
