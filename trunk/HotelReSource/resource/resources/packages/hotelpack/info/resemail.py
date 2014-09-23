@@ -30,16 +30,9 @@ def dialogaction(action,var) :
     (ma,alist) = xmlutil.toMap(xml)
     rese = ma["resename"]
     mtype = ma["mailtype"]
-#    cust = None
-#    if ma.has_key("custname") : cust = ma["custname"]
-#    rform = util.RESFORM(var).findElem(rese)
-#    assert rform != None
-#    if cust == None : cust = rform.getCustomerName()
-#    C = util.CUSTOMERLIST(var).findElem(cust)
-#    assert C != None
     (C,rform) = _getCust(var,ma)
     var["to"] = C.getAttr("email")
-    var["from"] = M("confirmationfrom")
+    var["from"] = cmail.MAILFROM(var).getFrom()
     var["xml"] = xml
     (arrival,departure,roomname,rate) = rpdf.getReseDate(var,rform)
     var["subject"] = M("confirmationmailsubject").format(con.toS(arrival),con.toS(departure))
@@ -70,9 +63,9 @@ def dialogaction(action,var) :
     mtype = ma["mailtype"]
     to = var["to"]
     fromc = var["from"]
+    cmail.MAILFROM(var).saveFrom(fromc)
     content = var["content"]
     subject = var["subject"]
-#    C = util.CUSTOMERLIST(var).findElem(custname)
     C.setAttr("email",to)
     util.CUSTOMERLIST(var).changeElem(C)
     attachL = None
