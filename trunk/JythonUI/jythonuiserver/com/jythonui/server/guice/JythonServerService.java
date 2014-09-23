@@ -30,6 +30,7 @@ import com.jythonui.server.IDefaultData;
 import com.jythonui.server.IExecuteJython;
 import com.jythonui.server.IGetAppProp;
 import com.jythonui.server.IGetDialog;
+import com.jythonui.server.IGetMailFrom;
 import com.jythonui.server.IGetResourceMap;
 import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonUIServer;
@@ -43,6 +44,7 @@ import com.jythonui.server.IStorageMemContainerFactory;
 import com.jythonui.server.IUserCacheHandler;
 import com.jythonui.server.IXMLToMap;
 import com.jythonui.server.defa.GetClientProperties;
+import com.jythonui.server.defa.GetMailFromApp;
 import com.jythonui.server.defa.StorageRealmRegistryFactory;
 import com.jythonui.server.defadata.DefaDataImpl;
 import com.jythonui.server.dialog.GetDialog;
@@ -182,6 +184,8 @@ public class JythonServerService {
             bind(IMailGet.class).to(GetMailImpl.class).in(Singleton.class);
             bind(IMailSendSave.class).to(MailSaveImpl.class)
                     .in(Singleton.class);
+            bind(IGetMailFrom.class).to(GetMailFromApp.class).in(
+                    Singleton.class);
         }
 
         @Provides

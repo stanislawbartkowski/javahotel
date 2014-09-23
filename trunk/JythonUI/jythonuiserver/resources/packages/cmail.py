@@ -3,6 +3,8 @@ from com.jythonui.server.IMailSend import AttachElem
 
 import cutil
 
+_FROMCOOKIE = "mailfrom"
+
 def sendMail(subject,content,to,froma,attachList=None,text=True) :
     iM = Holder.getMail()
     res = iM.postMail(text,[to,],subject,content,froma,attachList)
@@ -58,3 +60,16 @@ class CMAIL(cutil.CRUDLIST):
         assert res.getName() != None
         return res
 
+class MAILFROM :
+    
+    def __init__(self,var):
+        self.var = var
+        self.p = Holder.getMailFrom()
+        
+    def getFrom(self):
+        fr = cutil.getCookie(self.var,_FROMCOOKIE)
+        if fr != None : return fr
+        return self.p.getFrom()
+    
+    def saveFrom(self,f) :
+        cutil.setCookie(self.var,_FROMCOOKIE,f)
