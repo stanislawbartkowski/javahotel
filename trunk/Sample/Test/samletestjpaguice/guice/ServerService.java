@@ -118,8 +118,6 @@ public class ServerService {
                     JpaObjectGenSymFactoryImpl.class).in(Singleton.class);
             bind(INoteStorage.class).to(JpaNoteStorage.class).in(
                     Singleton.class);
-            bind(IGetMailFrom.class).to(GetMailFromApp.class).in(
-                    Singleton.class);
             requestStatic();
             requestStaticInjection(TestHelper.class);
 
