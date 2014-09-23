@@ -61,5 +61,14 @@ public class Test55 extends TestHelper {
         System.out.println(from);
         assertEquals("Hello.From.Jython",from);
     }
+    
+    @Test
+    public void test5() {
+        DialogFormat d = findDialog("test100.xml");
+        assertNotNull(d);
+        DialogVariables v = new DialogVariables();
+        runAction(v, "test100.xml", "testfrom");
+        assertOK(v);
+    }
 
 }
