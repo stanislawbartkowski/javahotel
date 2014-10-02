@@ -137,6 +137,8 @@ class PresentationTable implements IGwtTableView {
             .getStandardMessage();
     private final ColToVHeader coV = new ColToVHeader();
 
+    private final IGetColSpan iSpan;
+
     private class MyAsyncProvider extends AsyncDataProvider<MutableInteger> {
 
         @Override
@@ -209,11 +211,6 @@ class PresentationTable implements IGwtTableView {
 
     private void setWrapCol() {
         for (int i = 0; i < table.getColumnCount(); i++) {
-            // VListHeaderDesc he = iMap.get(i);
-            // if (he == null) {
-            // String mess = LogT.getT().NullValueHeaderPos(i);
-            // Utils.internalErrorAlert(mess);
-            // }
             VListHeaderDesc he = coV.getV(i);
             if (he == null)
                 continue;
@@ -335,6 +332,8 @@ class PresentationTable implements IGwtTableView {
         VListHeaderDesc he = model.getHeaderList().getVisHeList().get(i);
         IVModelData vData = model.get(row.intValue());
         String s = null;
+        if (iSpan != null)
+            s = iSpan.getHint(row, col);
         if (noWrap && faEdit.geteParam() == null) {
             // hint related to cell content only if no wrapping and not editing
             s = FUtils.getValueS(vData, he.getFie());
@@ -385,7 +384,7 @@ class PresentationTable implements IGwtTableView {
             assert targetTableCell != null : LogT.getT().cannotBeNull();
             // important : test if col is not undefined
             if (Utils.isUndefined(col)) {
-                LogT.getL().fine(LogT.getT().ColumnCellUndefined());
+                LogT.getLT().fine(LogT.getT().ColumnCellUndefined());
                 return;
             }
             boolean focuson = !e.isUnHover();
@@ -400,6 +399,7 @@ class PresentationTable implements IGwtTableView {
             IGetCellValue gValue, INewEditLineFocus iEditFocus,
             ILostFocusEdit lostFocus, IColumnImage iIma, boolean async,
             final IGetColSpan iSpan) {
+        this.iSpan = iSpan;
         this.iEditFocus = iEditFocus;
         this.iClick = iClick;
         this.lostFocus = lostFocus;

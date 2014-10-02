@@ -14,9 +14,10 @@ package com.gwtmodel.table.view.table;
 
 import com.gwtmodel.table.MutableInteger;
 
-
 public interface IGetColSpan {
-    
+
     int get(MutableInteger row, int colNo);
+
+    String getHint(MutableInteger row, int colNo);
 
 }

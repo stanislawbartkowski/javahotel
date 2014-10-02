@@ -29,8 +29,9 @@ public interface IScrollSeason {
      *            number of columns
      * 
      */
-    void createVPanel(Date firstData, Date lastDate,final int panelW);
-    
+    void createVPanel(Date firstData, Date lastDate, final int panelW,
+            int curPos);
+
     void redraw(Date dCur);
 
 }

@@ -58,6 +58,7 @@ public class ScrollWidget implements IScrollSeason {
     private final HorizontalPanel mPanel = new HorizontalPanel();
     private final HorizontalPanel dPanel = new HorizontalPanel();
     private final ListBox cyList = new ListBox();
+    private int curPos = -1;
 
     private Date firstDay, lastDay;
 
@@ -155,8 +156,9 @@ public class ScrollWidget implements IScrollSeason {
 
     @Override
     public void redraw(Date dCur) {
+        // Warning: curPos or -1
         panelDay = DatePanelUtil.createLDays(firstDay, lastDay, dCur,
-                panelDay.pSize);
+                panelDay.pSize, -1);
         setCurrentDate();
         dPart.refresh(new DrawContext());
         setYear();
@@ -214,9 +216,11 @@ public class ScrollWidget implements IScrollSeason {
     }
 
     @Override
-    public void createVPanel(Date firstData, Date lastDate, int panelW) {
+    public void createVPanel(Date firstData, Date lastDate, int panelW,
+            int curPos) {
         this.firstDay = firstData;
         this.lastDay = lastDate;
+        this.curPos = curPos;
         panelMonth = DatePanelUtil.createLMonth(firstData, lastDate, todayC,
                 IConsts.MonthPanel);
         for (int i = 0; i < panelMonth.pSize; i++) {
@@ -240,7 +244,7 @@ public class ScrollWidget implements IScrollSeason {
         vPanel.add(mPanel);
 
         panelDay = DatePanelUtil.createLDays(firstData, lastDate, todayC,
-                panelW);
+                panelW, curPos);
         setYear();
 
         dPart.setW(new GWidget(vPanel));
