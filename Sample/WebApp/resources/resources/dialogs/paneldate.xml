@@ -21,7 +21,7 @@
 	</buttons>
 
 	<dateline id="dateline" displayname="List of rooms" lineid="id"
-		colno="20" pagesize="10" defafile="name1" >
+		colno="20" pagesize="10" defafile="name1" currentpos="90" >
                                   <standbutt>custom:hello</standbutt> 
 		<columns>
 			<column id="id" type="long" hidden="" />

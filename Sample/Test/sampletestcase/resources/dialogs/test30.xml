@@ -1,16 +1,16 @@
 <?xml version="1.0"?>
 <dialog xmlns="http://www.jythongwt.dialogxsd.com">
- 
- <jython>
-   <import>from testpack import testclass</import>
-   <method>testclass.dialogaction2({0},{1})</method>
- </jython>  
 
- <form>
-   <field id="glob1" />
-   <field id="glob2" type="textarea" />
-   <field id="glob3" type="richtext" />
- </form>  
+	<jython>
+		<import>from testpack import testclass</import>
+		<method>testclass.dialogaction2({0},{1})</method>
+	</jython>
+
+	<form>
+		<field id="glob1" />
+		<field id="glob2" type="textarea" />
+		<field id="glob3" type="richtext" />
+	</form>
 
 
 </dialog>

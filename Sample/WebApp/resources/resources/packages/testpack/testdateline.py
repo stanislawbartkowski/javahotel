@@ -109,7 +109,7 @@ def dialogaction(action,var) :
                if elem.getNumb() <= len(COLS) : colno = elem.getNumb()
                s = elem.getInfo()
 #               if s == None : s = " "
-               map = {"id" : i, "datecol" : d,"colspan" : 2, "form" : "name2", "0" : COLS[colno], "1" : s}
+               map = {"id" : i, "datecol" : d,"colspan" : 2, "form" : "name2", "0" : COLS[colno], "1" : s, "hint" : COLS[colno] + " wow !"}
                vals.append(map)
              d = d + dl
        print "========="
