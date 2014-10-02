@@ -48,10 +48,14 @@ class DatePanelUtil {
     }
 
     static private PanelDesc constructPeriod(Date firstD, Date lastD,
-            final Date currD, int bSize, IOperDate o) {
+            final Date currD, int bSize, IOperDate o, int curPos) {
 
         PanelDesc pa = new PanelDesc();
         int middleD = bSize / 2;
+        if (curPos != -1) {
+            float f = (float) bSize * ((float) curPos / (float) 100);
+            middleD = (int) f;
+        }
 
         int no = middleD;
         Date cursD = new Date(currD.getTime());
@@ -127,11 +131,12 @@ class DatePanelUtil {
     }
 
     static PanelDesc createLMonth(Date firstD, Date lastD, Date currD, int noM) {
-        return constructPeriod(firstD, lastD, currD, noM, new MonthO());
+        return constructPeriod(firstD, lastD, currD, noM, new MonthO(), -1);
     }
 
-    static PanelDesc createLDays(Date firstD, Date lastD, Date currD, int noM) {
-        return constructPeriod(firstD, lastD, currD, noM, new DayO());
+    static PanelDesc createLDays(Date firstD, Date lastD, Date currD, int noM,
+            int curPos) {
+        return constructPeriod(firstD, lastD, currD, noM, new DayO(), curPos);
     }
 
     private static Date getPanelDate(PanelDesc pa, int no, IOperDate o) {

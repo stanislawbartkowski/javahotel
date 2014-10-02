@@ -163,7 +163,7 @@ public class Utils {
         return i;
     }
 
-    private static String getCValue(String key) {
+    public static String getCValue(String key) {
         IGetCustomValues c = GwtGiniInjector.getI().getCustomValues();
         assert c != null : LogT.getT().cannotBeNull();
         String f = c.getCustomValue(key);

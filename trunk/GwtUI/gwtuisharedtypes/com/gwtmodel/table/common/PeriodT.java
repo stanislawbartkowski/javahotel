@@ -16,6 +16,7 @@ import java.util.Date;
 
 /**
  * Class for keeping period of time
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 
