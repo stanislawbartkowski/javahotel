@@ -56,6 +56,8 @@ public class EBillPayment {
     @Column(nullable = false, length = 16)
     private String paymentMethod;
 
+    private boolean advancepayment;
+
     @Column(length = 16)
     private String creationPerson;
 
@@ -123,6 +125,14 @@ public class EBillPayment {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public boolean isAdvancepayment() {
+        return advancepayment;
+    }
+
+    public void setAdvancepayment(boolean advancepayment) {
+        this.advancepayment = advancepayment;
     }
 
 }

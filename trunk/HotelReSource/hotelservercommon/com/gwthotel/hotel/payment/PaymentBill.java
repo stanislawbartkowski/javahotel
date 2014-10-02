@@ -26,6 +26,8 @@ public class PaymentBill extends PropDescription {
 
     private BigDecimal paymentTotal;
 
+    private boolean advancepayment = false;
+
     public String getBillName() {
         return getAttr(IHotelConsts.PAYMENTBILLNAME);
     }
@@ -56,6 +58,14 @@ public class PaymentBill extends PropDescription {
 
     public void setPaymentTotal(BigDecimal paymentTotal) {
         this.paymentTotal = paymentTotal;
+    }
+
+    public boolean isAdvancepayment() {
+        return advancepayment;
+    }
+
+    public void setAdvancepayment(boolean advancepayment) {
+        this.advancepayment = advancepayment;
     }
 
 }

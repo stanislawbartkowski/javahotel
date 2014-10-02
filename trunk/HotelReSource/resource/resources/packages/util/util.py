@@ -54,6 +54,9 @@ class HOTELDEFADATA(cutil.DEFAULTDATA) :
     
     elif what == 30 : return "lastreseroomservice"
     elif what == 31 : return "lastresepricelist"
+  
+    elif what == 40 : return "advancepaymentpercent"
+    elif what == 41 : return "advancepaymentdays"
     
   def getDataH(self,what,defa=None) :
     return self.getData(self.__getV(what),defa)
@@ -244,13 +247,18 @@ def isRoomService(service) :
 def resStatus(rform):
     """ Check the reservation status
     
-    Args: rform, ReservationForm
+    Args: rform  ReservationForm
     
-    Returns: 1 : stay, 2 : open , 0 otherwise
+    Returns: 
+      1 : stay, 
+      2 : reservation open, confirmed ,
+      3 : reservation scheduled, not confirmed
+      0 : otherwise, canceled
     """
     status = rform.getStatus()
     if status == ResStatus.STAY : return 1
     if status == ResStatus.OPEN : return 2
+    if status == ResStatus.SCHEDULED : return 3
     return 0       
   
                   

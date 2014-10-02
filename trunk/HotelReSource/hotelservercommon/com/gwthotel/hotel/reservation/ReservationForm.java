@@ -12,7 +12,9 @@
  */
 package com.gwthotel.hotel.reservation;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.gwthotel.shared.IHotelConsts;
@@ -25,6 +27,14 @@ public class ReservationForm extends PropDescription {
     private List<ReservationPaymentDetail> resDetail = new ArrayList<ReservationPaymentDetail>();
 
     private ResStatus status = ResStatus.OPEN;
+
+    private Date termOfAdvanceDeposit;
+
+    private BigDecimal advanceDeposit;
+
+    private BigDecimal advancePayment;
+
+    private Date dateofadvancePayment;
 
     public List<ReservationPaymentDetail> getResDetail() {
         return resDetail;
@@ -45,5 +55,37 @@ public class ReservationForm extends PropDescription {
     public void setStatus(ResStatus status) {
         this.status = status;
     }
-  
+
+    public Date getTermOfAdvanceDeposit() {
+        return termOfAdvanceDeposit;
+    }
+
+    public void setTermOfAdvanceDeposit(Date termOfAdvanceDeposit) {
+        this.termOfAdvanceDeposit = termOfAdvanceDeposit;
+    }
+
+    public BigDecimal getAdvanceDeposit() {
+        return advanceDeposit;
+    }
+
+    public void setAdvanceDeposit(BigDecimal advanceDeposit) {
+        this.advanceDeposit = advanceDeposit;
+    }
+
+    public BigDecimal getAdvancePayment() {
+        return advancePayment;
+    }
+
+    public void setAdvancePayment(BigDecimal advancePayment) {
+        this.advancePayment = advancePayment;
+    }
+
+    public Date getDateofadvancePayment() {
+        return dateofadvancePayment;
+    }
+
+    public void setDateofadvancePayment(Date dateofadvancePayment) {
+        this.dateofadvancePayment = dateofadvancePayment;
+    }    
+
 }

@@ -12,11 +12,12 @@
  */
 package com.gwthotel.admintest.suite;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.math.BigDecimal;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -35,12 +36,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.bill.CustomerBill;
-import com.gwthotel.hotel.customer.HotelCustomer;
-import com.gwthotel.hotel.reservation.ReservationForm;
-import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
-import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.jythonui.server.security.token.ICustomSecurity;
 import com.jythonui.shared.DialogVariables;

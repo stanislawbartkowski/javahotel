@@ -51,6 +51,10 @@ public class HotelReservations extends
         ReservationForm ho = new ReservationForm();
         ho.setCustomerName(sou.getCustomer().getName());
         ho.setStatus(sou.getStatus());
+        ho.setAdvanceDeposit(sou.getAdvanceDeposit());
+        ho.setTermOfAdvanceDeposit(sou.getTermOfAdvanceDeposit());
+        ho.setAdvancePayment(sou.getAdvancePayment());
+        ho.setDateofadvancePayment(sou.getDateofadvancePayment());
         // reservation details
         Query q = em.createNamedQuery("findReservationForReservation");
         q.setParameter(1, sou);
@@ -91,6 +95,10 @@ public class HotelReservations extends
                 custName);
         dest.setCustomer(cust);
         dest.setStatus(sou.getStatus());
+        dest.setAdvanceDeposit(sou.getAdvanceDeposit());
+        dest.setTermOfAdvanceDeposit(sou.getTermOfAdvanceDeposit());
+        dest.setAdvancePayment(sou.getAdvancePayment());
+        dest.setDateofadvancePayment(sou.getDateofadvancePayment());
     }
 
     @Override

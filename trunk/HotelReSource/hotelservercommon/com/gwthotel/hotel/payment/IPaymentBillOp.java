@@ -23,5 +23,4 @@ public interface IPaymentBillOp {
     void addPaymentForBill(OObjectId hotel, String billName, PaymentBill payment);
 
     void removePaymentForBill(OObjectId hotel, String billName, Long paymentId);
-
 }

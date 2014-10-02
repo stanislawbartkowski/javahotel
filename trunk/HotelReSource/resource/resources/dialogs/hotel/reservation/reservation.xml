@@ -17,7 +17,7 @@
         </actions>          
 
 	<dateline id="reservation" lineid="name"
-		defafile="empty" colno="18">
+		defafile="empty" colno="18" currentpos="20" >
         <standbutt>custom:searchrese</standbutt>
 		<columns>
 			<column id="name" displayname="@name" columnclass = "roomcolumnClass" editcss="margin-right:1em;" headerclass = "header-room"/>
@@ -25,9 +25,8 @@
 			<column id="descr" displayname="@description" columnclass = "roomcolumnClass" editcss="margin-right:2em;" headerclass = "header-room"/>
 		</columns>
 		<files>
-			<filedef id="empty" file="hotel/reservation/roomempty.html" />
-			<filedef id="reserved" file="hotel/reservation/reservation.html" />
-			<filedef id="stay" file="hotel/reservation/stay.html" />			
+			<filedef id="empty" file="hotel/reservation/reshtml/roomempty.html" />
+			<filedef id="resroom" file="hotel/reservation/reshtml/resroom.html" />
 		</files>
 
 	</dateline>

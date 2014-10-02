@@ -39,12 +39,19 @@ def getPayments(var,rese=None) :
   pli.addAll(R.findElem(rese).getResDetail())
   return pli
 
-def countPayments(var,billName) :
+def countPaymentsA(var,billName) :
   pList = util.PAYMENTOP(var).getPaymentsForBill(billName)
   suma = 0.0
+  isadvance = False
   for p in pList :
     total = p.getPaymentTotal()
     suma = cutil.addDecimal(suma,con.BigDecimalToDecimal(total))
+    if p.isAdvancepayment() : isadvance = True
+  return (suma,isadvance)  
+
+
+def countPayments(var,billName) :
+  (suma,isadvance) = countPaymentsA(var,billName)
   return suma  
 
 def countTotal(var,b,pli) :
@@ -301,3 +308,36 @@ class RELINE :
     
   def calculatePriceAterRemove(self,var) :
     cutil.removeDecimalFooter(var,self.li,self.total) 
+
+def calculateJDates(arrival,departure,da):    
+     if arrival == None : arrival = da
+     elif da < arrival : arrival = da
+     if departure == None : departure = da
+     elif da > departure : departure = da
+     return (arrival,departure)
+    
+def calculateDates(arrival,departure,l):    
+     return calculateJDates(arrival,departure,con.toJDate(l.getServDate()))
+    
+def getReseDateS(var,sym) :
+    """ Gather data related to reservation
+    Args:
+      var 
+      sym : reservation symbol
+    Returns:
+     (arrival,departure,roomname,rate)
+     arrival : arrival date, checkin
+     departure : departure date, checkout, next day after last reservation date
+     roomname : room reserved
+     rate : daily rate    
+    """
+    li = getPayments(var,sym)
+    roomname = li[0].getRoomName()
+    rate = li[0].getPrice()
+    arrival = None
+    departure = None
+    for l in li : (arrival,departure) = calculateDates(arrival,departure,l)
+    return (arrival,con.incDays(departure),roomname,rate)     
+    
+def getReseDate(var,r) :
+  return getReseDateS(var,r.getName())

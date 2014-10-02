@@ -29,24 +29,8 @@ def _getCountryName(var,id):
     if name == None : return id
     return name
 
-
-def getReseDate(var,r) :
-       li = rutil.getPayments(var,r.getName())
-       roomname = li[0].getRoomName()
-       rate = li[0].getPrice()
-       arrival = None
-       departure = None
-       for l in li :
-           da = con.toJDate(l.getServDate()) 
-           if arrival == None : arrival = da
-           elif da < arrival : arrival = da
-           if departure == None : departure = da
-           elif da > departure : departure = da
-       return (arrival,departure,roomname,rate)     
-  
-
 def _buildHeaderXML(var,rootname,nog,r,custname):
-       (arrival,departure,roomname,rate) = getReseDate(var,r)
+       (arrival,departure,roomname,rate) = rutil.getReseDate(var,r)
        room = util.ROOMLIST(var).findElem(roomname)
        p = util.CUSTOMERLIST(var).findElem(custname);
        builder = XMLBuilder.create(rootname)       
@@ -85,7 +69,7 @@ def _buildXML(var,name) :
        r = util.RESFORM(var).findElem(resename)
        nog = len(util.RESOP(var).getResGuestList(resename))
        li = rutil.getPayments(var,resename)
- 
+        
        builder = _buildHeaderXML(var,"invoice",nog,r,b.getPayer())
               
        builder = builder.e("lines");
