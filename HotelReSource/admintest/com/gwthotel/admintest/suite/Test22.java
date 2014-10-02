@@ -16,12 +16,15 @@ import org.junit.Test;
 
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogVariables;
+import static org.junit.Assert.assertNotNull;
+
 
 public class Test22 extends TestHelper {
     
     @Test
     public void test1() {
         DialogFormat d = findDialog("dialog4.xml");
+        assertNotNull(d);
         DialogVariables v = new DialogVariables();
         runAction(v, "dialog4.xml", "runxslt");        
     }
@@ -29,6 +32,7 @@ public class Test22 extends TestHelper {
     @Test
     public void test2() {
         DialogFormat d = findDialog("dialog4.xml");
+        assertNotNull(d);
         DialogVariables v = new DialogVariables();
         runAction(v, "dialog4.xml", "invoicehtml");                
     }
@@ -36,6 +40,7 @@ public class Test22 extends TestHelper {
     @Test
     public void test3() {
         DialogFormat d = findDialog("dialog4.xml");
+        assertNotNull(d);
         DialogVariables v = new DialogVariables();
         runAction(v, "dialog4.xml", "invoicepdf");                
     }

@@ -12,11 +12,13 @@
  */
 package com.gwthotel.admintest.suite;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import com.gwthotel.hotel.HotelObjects;
@@ -27,16 +29,8 @@ import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
 import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwthotel.hotel.services.HotelServices;
 import com.gwthotel.shared.IHotelConsts;
-import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 
 public class Test14 extends TestHelper {
-
-    @Before
-    public void before() {
-        clearObjects();
-        createHotels();
-        setTestToday(DateFormatUtil.toD(2013, 6, 13));
-    }
 
     @Test
     public void test1() {

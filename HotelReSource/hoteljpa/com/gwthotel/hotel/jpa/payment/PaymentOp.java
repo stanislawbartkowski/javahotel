@@ -61,6 +61,7 @@ public class PaymentOp implements IPaymentBillOp {
             b.setPaymentTotal(e.getPaymentTotal());
             b.setPaymentMethod(e.getPaymentMethod());
             b.setId(e.getId());
+            b.setAdvancepayment(e.isAdvancepayment());
             return b;
         }
     }
@@ -112,6 +113,7 @@ public class PaymentOp implements IPaymentBillOp {
             e.setPaymentMethod(p.getPaymentMethod());
             e.setPaymentTotal(p.getPaymentTotal());
             e.setDescription(p.getDescription());
+            e.setAdvancepayment(p.isAdvancepayment());
             em.persist(e);
         }
 

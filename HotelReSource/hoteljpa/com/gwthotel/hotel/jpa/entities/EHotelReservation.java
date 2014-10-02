@@ -12,6 +12,9 @@
  */
 package com.gwthotel.hotel.jpa.entities;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -45,6 +48,14 @@ public class EHotelReservation extends EObjectDict {
     @JoinColumn(name = "customer_id", nullable = false)
     private EHotelCustomer customer;
 
+    private Date termOfAdvanceDeposit;
+
+    private BigDecimal advanceDeposit;
+
+    private BigDecimal advancePayment;
+
+    private Date dateofadvancePayment;
+
     public EHotelCustomer getCustomer() {
         return customer;
     }
@@ -59,6 +70,38 @@ public class EHotelReservation extends EObjectDict {
 
     public void setStatus(ResStatus status) {
         this.status = status;
+    }
+
+    public Date getTermOfAdvanceDeposit() {
+        return termOfAdvanceDeposit;
+    }
+
+    public void setTermOfAdvanceDeposit(Date termOfAdvanceDeposit) {
+        this.termOfAdvanceDeposit = termOfAdvanceDeposit;
+    }
+
+    public BigDecimal getAdvanceDeposit() {
+        return advanceDeposit;
+    }
+
+    public void setAdvanceDeposit(BigDecimal advanceDeposit) {
+        this.advanceDeposit = advanceDeposit;
+    }
+
+    public BigDecimal getAdvancePayment() {
+        return advancePayment;
+    }
+
+    public void setAdvancePayment(BigDecimal advancePayment) {
+        this.advancePayment = advancePayment;
+    }
+
+    public Date getDateofadvancePayment() {
+        return dateofadvancePayment;
+    }
+
+    public void setDateofadvancePayment(Date dateofadvancePayment) {
+        this.dateofadvancePayment = dateofadvancePayment;
     }
 
 }

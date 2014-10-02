@@ -21,6 +21,17 @@ RELIST=rutil.RELINE(RESLIST,*rutil.RESLIST)
 
 D = util.HOTELDEFADATA()
 
+def calculatePercent(total,percent) :
+  return total * (percent / 100.0)
+
+def validatePercent(var,field) :
+  if var[field] == None : return True
+  pe = var[field]
+  if pe <= 0 or pe >= 100 :
+    cutil.setErrorField(var,field,"The value should be between 0 and 100")
+    return False
+  return True
+
 def _newRese(var) :
   return rutil.getReseName(var) == None
 
@@ -168,11 +179,38 @@ def _setPriceAndService(var) :
   if pricelist == None or not pricelist in pricelistlist : pricelist = pricelistlist[0]
   rutil.setServicePriceList(var,roomservice,pricelist)
 
+def _calculatePaymentBy(var,li) :
+  nodays = D.getDataHI(41)
+  if nodays == None : return
+  arrival = None
+  departure = None
+  for l in li :
+    (arrival,departure) = calculateJDates(arrival,departure,l["resday"])
+  paymentby = con.incDays(arrival,0-nodays)
+  if paymentby <= con.today() : paymentby = None
+  var["advance_duedate"] = paymentby
+  cutil.setCopy(var,"advance_duedate")
+
+def _calculateAdvanceAmount(var,total) :
+  # calculate start day
+  advance_total = total
+  advance_payment = None
+  advance_percent = var["advance_percent"]
+  if validatePercent(var,"advance_percent") :
+    if advance_total != None and advance_percent != None :
+      advance_payment = calculatePercent(advance_total,advance_percent)
+  util.setCopy(var,["advance_total","advance_payment"])
+  var["advance_payment"] = advance_payment
+  var["advance_total"] = advance_total
+
+
 def _createListOfDays(var,new): 
   rData = _createResData(var,new)
   if rData == None : return None
   cutil.setJMapList(var,RESLIST,rData[0])
   cutil.setFooter(var,RESLIST,"rlist_pricetotal",rData[1])
+  _calculateAdvanceAmount(var,rData[1])
+  _calculatePaymentBy(var,rData[0])
   return rData[2]  
   
 class MAKERESE(util.HOTELTRANSACTION) :
@@ -205,6 +243,10 @@ class MAKERESE(util.HOTELTRANSACTION) :
       if resename : reservation.setName(resename)
       else : reservation.setGensymbol(True);
       reservation.setCustomerName(name)
+      # advance      
+      reservation.setAdvanceDeposit(con.toB(var["advance_payment"]))
+      reservation.setTermOfAdvanceDeposit(con.toDate(var["advance_duedate"]))      	
+      # --
       service = var["roomservice"]
       nop = var["nop"]
       reselist = reservation.getResDetail()
@@ -270,6 +312,10 @@ def reseraction(action,var):
         if var["changefield"] == "roompricelist" : 
             if not _okServiceForRoom(var) or not _okPriceList(var) : return
             _setAfterPriceList(var)
+        
+        if var["changefield"] == "advance_percent" :
+	    if not validatePercent(var,"advance_percent") : return 
+            _calculateAdvanceAmount(var,var["advance_total"])	  
             
     
     if action=="before" :

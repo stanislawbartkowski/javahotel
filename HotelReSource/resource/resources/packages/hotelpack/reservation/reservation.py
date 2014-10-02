@@ -5,6 +5,9 @@ import con
 
 from util import rutil
 from util import util
+from util import resstat
+
+STALIST = resstat.RESTYPE
 
 def __getList(var):
     R = util.ROOMLIST(var)
@@ -47,15 +50,15 @@ def reservationaction(action,var):
        
       res = rutil.getReservForDay(var)
 
-      if res.isEmpty() : var["JUP_DIALOG"] = "hotel/reservation/reserveroom.xml"
+      if res.isEmpty() : var["JUP_DIALOG"] = "?reserveroom.xml"
       else : 
           ares = res.get(0)
           resid = ares.getResId()
           rform = RFORM.findElem(resid)
           sta = util.resStatus(rform)
           
-          if sta == 1 : var["JUP_DIALOG"] = "hotel/reservation/showstay.xml"
-          else: var["JUP_DIALOG"] = "hotel/reservation/reserveroom.xml"
+          if sta == 1 : var["JUP_DIALOG"] = "?showstay.xml"
+          else: var["JUP_DIALOG"] = "?reserveroom.xml"
 
       
     if action == "datelinevalues" :
@@ -97,10 +100,9 @@ def reservationaction(action,var):
                    else :   
                      if prevmap : vals.append(prevmap) 
                      rform = RFORM.findElem(resid)
-                     sta = util.resStatus(rform)
-                     if sta == 1 : form = "stay"
-                     else : form = "reserved"
-                     map = {"name" : name, "datecol" : dt,"colspan" : 1, "form" : form, "0" : __resInfo(var,resid)}
+                     sta = resstat.getResStatus(var,rform)
+                     form = "resroom"
+                     map = {"name" : name, "datecol" : dt,"colspan" : 1, "form" : form, "0" : __resInfo(var,resid), "1" : resstat.COLORS[sta], "hint" : "@" + STALIST[sta] }
                      prevmap = map
                      prevres = resid
                dt = dt + dl

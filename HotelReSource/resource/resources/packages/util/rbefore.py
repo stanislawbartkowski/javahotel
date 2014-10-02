@@ -83,5 +83,13 @@ def setvarBefore(var,cust=RCUST):
     rutil.setServicePriceList(var,roomservice,roompricelist)
     var["datecol"] = mindate
     var["resdays"] = len(reservation.getResDetail())
+    
+    # advance payment
+    var["advance_duedate"] = reservation.getTermOfAdvanceDeposit()
+    var["advance_percent"] = util.HOTELDEFADATA().getDataHI(40)
+    var["advance_payment"] = reservation.getAdvanceDeposit()
+    var["advance_total"] = sum.sum
+    util.setCopy(var,["advance_percent","advance_duedate","advance_payment","advance_total"])
+    
     cutil.setJMapList(var,RLIST,list)
     cutil.setFooter(var,RLIST,"rlist_pricetotal",sum.sum)

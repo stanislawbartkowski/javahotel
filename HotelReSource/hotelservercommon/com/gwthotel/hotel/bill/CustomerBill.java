@@ -63,7 +63,5 @@ public class CustomerBill extends PropDescription {
     public void setDateOfPayment(Date dateOfPayment) {
         this.dateOfPayment = dateOfPayment;
     }
-    
-    
 
 }

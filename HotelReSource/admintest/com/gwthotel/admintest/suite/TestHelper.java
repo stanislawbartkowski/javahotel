@@ -13,6 +13,7 @@
 package com.gwthotel.admintest.suite;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -202,6 +203,40 @@ public class TestHelper extends CommonTestHelper {
         assertNotNull(b);
         System.out.println(b.getName());
         return b;
+    }
+
+    protected String createRes(int no) {
+        HotelRoom ho = new HotelRoom();
+        ho.setName("P10");
+        ho.setNoPersons(3);
+        iRooms.addElem(getH(HOTEL), ho);
+        HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL),
+                HotelObjects.CUSTOMER);
+        p.setGensymbol(true);
+        p = iCustomers.addElem(getH(HOTEL), p);
+        ReservationForm r = (ReservationForm) hObjects.construct(getH(HOTEL),
+                HotelObjects.RESERVATION);
+        r.setCustomerName(p.getName());
+        r.setGensymbol(true);
+        Date d = toDate(2013, 4, 10);
+        for (int i = 0; i < no; i++) {
+            ReservationPaymentDetail det = new ReservationPaymentDetail();
+            det.setNoP(3);
+            det.setPrice(new BigDecimal(100));
+            det.setPriceList(new BigDecimal(200.0));
+            det.setPriceTotal(new BigDecimal(100));
+            det.setRoomName("P10");
+            det.setResDate(d);
+            r.getResDetail().add(det);
+            d = incDay(d);
+        }
+        r = iRes.addElem(getH(HOTEL), r);
+        String sym = r.getName();
+        r = iRes.findElem(getH(HOTEL), sym);
+        System.out.println(sym);
+        assertNull(r.getAdvanceDeposit());
+        assertNull(r.getTermOfAdvanceDeposit());
+        return sym;
     }
 
 }
