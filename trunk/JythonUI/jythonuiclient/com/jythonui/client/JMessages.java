@@ -96,4 +96,10 @@ public interface JMessages extends Messages {
 
     String RelativeDialogNameNotAllowed(String dialogName);
 
+    String FirstYearCannotBeGreateThenLastYear(int firstY, int lastY);
+
+    String YearValueInvalid(String param, String value, int iValue);
+
+    String CurrentDateNotInRange(int cY, int fY, int lY);
+
 }

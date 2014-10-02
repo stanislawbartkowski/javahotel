@@ -77,6 +77,7 @@ public interface ICommonConsts {
     String FOOTERAFTERDOT = "footerafterdot";
     String IMAGECOLUMN = "imagecolumn";
     String IMAGELIST = "imagelist";
+    String CURRENTPOS = "currentpos";
     String LABEL = "label";
     String ASXML = "asxml";
     String FORMPANEL = "formpanel";
@@ -225,6 +226,7 @@ public interface ICommonConsts {
     String JDATELINELINEDEF = "linedef";
     String JDATELINEVALUES = "values";
     String JDATELINESPAN = "colspan";
+    String JDATELINEHINT = "hint";
     String JDATELINE_GOTODATE = "JDATELINE_GOTO_";
 
     String JDATELINELINEID = "JDATELINE_LINE";

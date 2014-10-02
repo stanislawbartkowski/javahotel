@@ -75,4 +75,10 @@ public interface IUIConsts {
     String JSETATTRBUTTON = "JSETATTR_BUTTON_";
     String JSETATTRFIELD = "JSETATTR_FIELD_";
 
+    String DATELINE_STARTYEAR = "dateline_startyear";
+    String DATELINE_ENDYEAR = "dateline_endyear";
+
+    int DATELINE_STARTYEARDEFAULT = 2012;
+    int DATELINE_ENDYEARDEFAULT = 2020;
+
 }

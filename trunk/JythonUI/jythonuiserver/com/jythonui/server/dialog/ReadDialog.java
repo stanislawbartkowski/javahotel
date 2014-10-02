@@ -125,7 +125,7 @@ class ReadDialog extends UtilHelper {
                 ICommonConsts.COLNO, ICommonConsts.DATELINEID,
                 ICommonConsts.DATELINEDEFAFILE, ICommonConsts.DATALINEFILE,
                 ICommonConsts.DATELINEDATEID, ICommonConsts.CLASSNAME,
-                ICommonConsts.STANDBUTT };
+                ICommonConsts.STANDBUTT, ICommonConsts.CURRENTPOS };
         private final String[] formTag = { ICommonConsts.ID,
                 ICommonConsts.DATALINEFILE };
         private final String[] elemchecklistTag = checklistTag;

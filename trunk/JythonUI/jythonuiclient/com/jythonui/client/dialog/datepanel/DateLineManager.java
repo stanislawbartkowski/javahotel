@@ -63,6 +63,7 @@ import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlU;
+import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.gwtmodel.table.tabledef.IGHeader;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
@@ -104,6 +105,7 @@ class DateLineManager implements IDateLineManager {
 
     private final IDialogContainer dContainer;
     private final GwtTableFactory gFactory;
+    private final IGetStandardMessage iMess;
 
     // ---- variables
     private class AddVar {
@@ -131,6 +133,7 @@ class DateLineManager implements IDateLineManager {
     DateLineManager(IDialogContainer dContainer) {
         this.dContainer = dContainer;
         gFactory = GwtGiniInjector.getI().getGwtTableFactory();
+        iMess = GwtGiniInjector.getI().getStandardMessage();
     }
 
     interface HeaderTemplate extends SafeHtmlTemplates {
@@ -223,10 +226,12 @@ class DateLineManager implements IDateLineManager {
         private class GetColSpan implements IGetColSpan {
 
             private final int spanNum;
+            private final int hintNum;
 
             GetColSpan() {
                 RowIndex rI = new RowIndex(dList.constructDataLine());
                 spanNum = rI.getInde(ICommonConsts.JDATELINESPAN);
+                hintNum = rI.getInde(ICommonConsts.JDATELINEHINT);
             }
 
             @Override
@@ -244,6 +249,16 @@ class DateLineManager implements IDateLineManager {
                 if (spanC != 0)
                     span.addSpanInfo(rowNo, colNo, spanC);
                 return spanC;
+            }
+
+            @Override
+            public String getHint(MutableInteger row, int colNo) {
+                CellData cData = getCellData(row, colNo);
+                RowContent r = findRowContent(cData);
+                FieldValue val = r.getRow(hintNum);
+                if (val == null)
+                    return null;
+                return iMess.getMessage(val.getValueS());
             }
 
         }
@@ -389,10 +404,11 @@ class DateLineManager implements IDateLineManager {
                         String m = months[DateFormatUtil.getM(d) - 1];
                         String w = weekdays[d.getDay()];
                         Joiner join = Joiner.on(' ').skipNulls();
-                        sb.append(headerInput.input(join.join(
-                                isToday(d) ? IUIConsts.HEADER_TODAY : null,
-                                isWeekend(d) ? IUIConsts.HEADER_WEEKEND
-                                        : null), day, m, w));
+                        sb.append(headerInput.input(
+                                join.join(isToday(d) ? IUIConsts.HEADER_TODAY
+                                        : null,
+                                        isWeekend(d) ? IUIConsts.HEADER_WEEKEND
+                                                : null), day, m, w));
                     }
 
                 }
@@ -565,9 +581,8 @@ class DateLineManager implements IDateLineManager {
                 Date d = sData.getD(c.cId);
                 Joiner join = Joiner.on(' ').skipNulls();
                 return join.join(isToday(d) ? IUIConsts.CELL_COLUMN_TODAY
-                        : null,
-                        isWeekend(d) ? (IUIConsts.CELL_COLUMN_WEEKEND)
-                                : null);
+                        : null, isWeekend(d) ? (IUIConsts.CELL_COLUMN_WEEKEND)
+                        : null);
             }
 
         }
@@ -718,16 +733,43 @@ class DateLineManager implements IDateLineManager {
             this.iClick = iClick;
         }
 
+        private int getyear(String param, int defa) {
+            String s = Utils.getCValue(param);
+            if (CUtil.EmptyS(s))
+                return defa;
+            int y = Utils.getNum(s);
+            if (y < 2000 || y > 2100) {
+                String mess = M.M().YearValueInvalid(param, s, y);
+                Utils.errAlert(mess);
+            }
+            return y;
+        }
+
         @Override
         public void startPublish(CellId cellId) {
             IDatePanelScroll wFactory = GwtGiniInjector.getI()
                     .getDatePanelScroll();
-            iSeason = wFactory.getScrollSeason(new DrawPart(),
-                    DateFormatUtil.getToday());
-            // TODO: parameter
-            Date firstDate = DateFormatUtil.toD(2012, 1, 1);
-            Date lastDate = DateFormatUtil.toD(2020, 12, 31);
-            iSeason.createVPanel(firstDate, lastDate, dList.getColNo());
+            Date today = DateFormatUtil.getToday();
+            iSeason = wFactory.getScrollSeason(new DrawPart(), today);
+            int firstY = getyear(IUIConsts.DATELINE_STARTYEAR,
+                    IUIConsts.DATELINE_STARTYEARDEFAULT);
+            int lastY = getyear(IUIConsts.DATELINE_ENDYEAR,
+                    IUIConsts.DATELINE_ENDYEARDEFAULT);
+            if (firstY > lastY) {
+                String s = M.M().FirstYearCannotBeGreateThenLastYear(firstY,
+                        lastY);
+                Utils.errAlert(s);
+            }
+            if (DateFormatUtil.getY(today) < firstY
+                    || DateFormatUtil.getY(today) > lastY) {
+                String s = M.M().CurrentDateNotInRange(
+                        DateFormatUtil.getY(today), firstY, lastY);
+                Utils.errAlert(s);
+            }
+            Date firstDate = DateFormatUtil.toD(firstY, 1, 1);
+            Date lastDate = DateFormatUtil.toD(lastY, 12, 31);
+            iSeason.createVPanel(firstDate, lastDate, dList.getColNo(),
+                    dList.getCurrentPos());
             sy.signalDone();
             if (iView == null) {
                 sy.bView = null;
