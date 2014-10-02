@@ -355,6 +355,7 @@
 			<xs:element minOccurs="0" name="defafile" type="xs:string" />
 			<xs:element minOccurs="0" name="cssclass" type="xs:string" />
 			<xs:element minOccurs="0" name="standbutt" type="listStand" />
+            <xs:element minOccurs="0" name="currentpos" type="xs:nonNegativeInteger" />
 		</xs:sequence>
 	</xs:group>
 
@@ -369,6 +370,7 @@
 		<xs:attribute name="defafile" type="xs:string" />
 		<xs:attribute name="cssclass" type="xs:string" />
 		<xs:attribute name="standbutt" type="listStand" />
+        <xs:attribute name="currentpos" type="xs:nonNegativeInteger" />
 	</xs:attributeGroup>
 
 	<xs:group name="formfileG">

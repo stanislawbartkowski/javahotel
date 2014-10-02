@@ -21,7 +21,7 @@ public class DateLine extends ElemDescription {
 
     private List<FieldItem> colList = new ArrayList<FieldItem>();
     private List<FormDef> formList = new ArrayList<FormDef>();
-
+    
     public List<FieldItem> getColList() {
         return colList;
     }
@@ -63,9 +63,15 @@ public class DateLine extends ElemDescription {
     public FieldItem getFieldId() {
         return DialogFormat.findE(getColList(), getListId());
     }
-    
+
     public String getStandButt() {
         return getAttr(ICommonConsts.STANDBUTT);
+    }
+
+    public int getCurrentPos() {
+        if (!isAttr(ICommonConsts.CURRENTPOS))
+            return -1;
+        return Integer.parseInt(getAttr(ICommonConsts.CURRENTPOS));
     }
 
     public List<FieldItem> constructDataLine() {
@@ -76,6 +82,7 @@ public class DateLine extends ElemDescription {
         f.setAttr(ICommonConsts.TYPE, ICommonConsts.INTTYPE);
         colList.add(f);
         DialogFormat.addDefStringCols(colList, getForm());
+        DialogFormat.addDefStringCols(colList, ICommonConsts.JDATELINEHINT);
         DialogFormat.addDefDataCols(colList, getDateColId());
         return colList;
     }
