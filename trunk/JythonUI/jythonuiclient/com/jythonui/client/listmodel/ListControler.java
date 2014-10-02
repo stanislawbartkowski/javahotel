@@ -265,7 +265,8 @@ class ListControler {
             }
             if (lastI != null) {
                 int i = lastI.intValue();
-                lastI = null;
+                // 2014/10/02 : do not null here
+//                lastI = null;
                 return i;
             }
             return -1;
@@ -283,7 +284,8 @@ class ListControler {
             else if (lastI != null) {
                 vData = SlU.getVDataByI(dType, DataListPersistAction.this,
                         lastI.intValue());
-                lastI = null;
+                // 2014/10/02 : do not null here
+//                lastI = null;
             } else
                 vData = getSlContainer().getGetterIVModelData(dType,
                         GetActionEnum.GetListLineChecked);
@@ -872,6 +874,8 @@ class ListControler {
                 lastI = new MutableInteger(sig.getValue());
                 DialogVariables v = iCon
                         .getVariables(ICommonConsts.JCLICKIMAGEACTION);
+                // 2014/10/02 : set null at this moment
+                lastI = null;
                 ListFormat li = rM.getFormat(dType);
                 v.setValueS(ICommonConsts.SIGNALCHANGEFIELD, sig.getV().getId());
                 v.setValueL(ICommonConsts.IMAGECOLUMN, sig.getImno());
