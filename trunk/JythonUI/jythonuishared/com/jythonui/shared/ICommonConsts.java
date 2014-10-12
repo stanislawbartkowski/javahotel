@@ -141,6 +141,7 @@ public interface ICommonConsts {
     String ACTION = "action";
     String ACTIONID = "actionid";
     String JSUBMIT = "J_SUBMIT";
+    String JURL_OPEN = "JURL_OPEN";
     String JOKMESSAGE = "JOK_MESSAGE";
     String JYESNOMESSAGE = "JYESNO_MESSAGE";
     String JYESANSWER = "JYESANSWER";

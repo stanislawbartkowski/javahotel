@@ -17,18 +17,19 @@ import java.util.Map;
 
 import com.jythonui.server.IGetResourceMap;
 import com.jythonui.server.dict.DictEntry;
-import com.jythonui.server.resource.IReadResource;
-import com.jythonui.server.resource.ReadResourceFactory;
+import com.jythonui.server.resourcemulti.IReadMultiResource;
 
 public class ReadDict {
 
 	private static final String dictName = "dict";
-	private static IReadResource iRead = new ReadResourceFactory()
-			.constructLoader(ReadDict.class.getClassLoader());
 
-	public static List<DictEntry> getList(IGetResourceMap iGet, String resName) {
+	// private static IReadResource iRead = new ReadResourceFactory()
+	// .constructLoader(ReadDict.class.getClassLoader());
+	
+	public static List<DictEntry> getList(IReadMultiResource iRead,
+			IGetResourceMap iGet, String resName) {
 		Map<String, String> mess = iGet
-				.getResourceMap(iRead, dictName, resName);
+				.getResourceMap(iRead, true,dictName, resName);
 		return MapToDict.toDict(mess);
 	}
 }

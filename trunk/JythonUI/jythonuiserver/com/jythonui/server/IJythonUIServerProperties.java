@@ -14,7 +14,7 @@ package com.jythonui.server;
 
 import java.net.URL;
 
-import com.jythonui.server.resource.IReadResource;
+import com.jythonui.server.resourcemulti.IReadMultiResource;
 
 /**
  * @author hotel
@@ -22,11 +22,11 @@ import com.jythonui.server.resource.IReadResource;
  */
 public interface IJythonUIServerProperties {
 
-    IReadResource getResource();
+    IReadMultiResource getResource();
 
-    String getJythonPackageDirectory();
+//    String getJythonPackageDirectory();
 
-    String getJythonSharedDirectory();
+//    String getJythonSharedDirectory();
 
     String getEJBHost();
 

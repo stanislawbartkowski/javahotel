@@ -12,6 +12,8 @@
  */
 package com.jythonui.server.resimpl;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -22,33 +24,52 @@ import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.Util;
 import com.jythonui.server.getbundle.ReadBundle;
 import com.jythonui.server.resource.IReadResource;
+import com.jythonui.server.resourcemulti.IReadMultiResource;
 
 public class GetResourceMapImpl implements IGetResourceMap {
 
-    private final ICommonCache iCache;
-    private final IJythonUIServerProperties iRes;
+	private final ICommonCache iCache;
+	private final IJythonUIServerProperties iRes;
 
-    @Inject
-    public GetResourceMapImpl(ICommonCache iCache,
-            IJythonUIServerProperties iRes) {
-        this.iCache = iCache;
-        this.iRes = iRes;
-    }
+	@Inject
+	public GetResourceMapImpl(ICommonCache iCache,
+			IJythonUIServerProperties iRes) {
+		this.iCache = iCache;
+		this.iRes = iRes;
+	}
 
-    @Override
-    public Map<String, String> getResourceMap(IReadResource iRead, String dir,
-            String bundle) {
-        String loc = Util.getLocale();
-        String keyCache = "bundle_" + loc + "_" + dir + "_" + bundle;
-        Map<String, String> map = null;
-        if (iRes.isCached()) {
-            map = (Map<String, String>) iCache.get(keyCache);
-        }
-        if (map == null) {
-            map = ReadBundle.getBundle(iRead, loc, dir, bundle);
-        }
-        if (iRes.isCached() && map != null)
-            iCache.put(keyCache, map);
-        return map;
-    }
+	@Override
+	public Map<String, String> getResourceMap(IReadMultiResource iRead,
+			boolean oneonly, String dir, String bundle) {
+		String loc = Util.getLocale();
+		String keyCache = "bundle_" + loc + "_" + dir + "_" + bundle;
+		Map<String, String> map;
+		if (iRes.isCached()) {
+			map = (Map<String, String>) iCache.get(keyCache);
+			if (map != null)
+				return map;
+		}
+		map = pgetResourceMap(iRead, oneonly, dir, bundle);
+		if (iRes.isCached() && map != null)
+			iCache.put(keyCache, map);
+		return map;
+
+	}
+
+	private Map<String, String> pgetResourceMap(IReadMultiResource iRead,
+			boolean oneonly, String dir, String bundle) {
+
+		String loc = Util.getLocale();
+
+		List<IReadResource> rList = iRead.getRList();
+		Map<String, String> ma = new HashMap<String, String>();
+		for (IReadResource r : rList) {
+			Map<String, String> m = ReadBundle.getBundle(r, loc, dir, bundle);
+			if (m != null)
+				if (oneonly)
+					return m;
+			ma.putAll(m);
+		}
+		return ma;
+	}
 }
