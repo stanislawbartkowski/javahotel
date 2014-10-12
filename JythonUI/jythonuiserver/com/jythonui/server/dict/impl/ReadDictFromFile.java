@@ -37,8 +37,8 @@ public class ReadDictFromFile implements IReadDictFromFile {
 	@Override
 	public List<DictEntry> getDict(String dir, String dicName) {
 		String dirName = BUtil.addNameToPath(IConsts.DIALOGDIR, dir);
-		Map<String, String> ma = iGet.getResourceMap(p.getResource(), dirName,
-				dicName);
+		Map<String, String> ma = iGet.getResourceMap(p.getResource(), true,
+				dirName, dicName);
 		return MapToDict.toDict(ma);
 	}
 

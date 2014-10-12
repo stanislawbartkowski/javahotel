@@ -20,57 +20,61 @@ import com.jythonui.server.UtilHelper;
 import com.jythonui.server.resource.IReadResource;
 import com.jythonui.server.resource.IReadResourceFactory;
 import com.jythonui.server.resource.ReadResourceFactory;
+import com.jythonui.server.resourcemulti.IReadMultiResourceFactory;
 
 abstract public class AbstractServerProperties extends UtilHelper implements
-        IJythonUIServerProperties {
+		IJythonUIServerProperties {
 
-    protected final IReadResourceFactory iFactory;
+	protected final IReadResourceFactory iFactory;
+	protected final IReadMultiResourceFactory mFactory;
 
-    @Override
-    public String getEJBHost() {
-        return null;
-    }
+	@Override
+	public String getEJBHost() {
+		return null;
+	}
 
-    @Override
-    public String getEJBPort() {
-        return null;
-    }
+	@Override
+	public String getEJBPort() {
+		return null;
+	}
 
-    protected AbstractServerProperties(IReadResourceFactory iFactory) {
-        this.iFactory = iFactory;
-    }
+	protected AbstractServerProperties(IReadResourceFactory iFactory,
+			IReadMultiResourceFactory mFactory) {
+		this.iFactory = iFactory;
+		this.mFactory = mFactory;
+	}
 
-    @Override
-    public String getJythonPackageDirectory() {
-        return Util.getJythonPackageDirectory(getResource());
-    }
+	// @Override
+	// public String getJythonPackageDirectory() {
+	// return Util.getJythonPackageDirectory(getResource());
+	// }
 
-    @Override
-    public String getJythonSharedDirectory() {
-        IReadResource iRead = new ReadResourceFactory()
-                .constructLoader(AbstractServerProperties.class
-                        .getClassLoader());
-        return Util.getJythonPackageDirectory(iRead);
-    }
+	// @Override
+	// public String getJythonSharedDirectory() {
+	// IReadResource iRead = new ReadResourceFactory()
+	// .constructLoader(AbstractServerProperties.class
+	// .getClassLoader());
+	// return Util.getJythonPackageDirectory(iRead);
+	// }
 
-    @Override
-    public boolean isSerialized() {
-        return false;
-    }
+	@Override
+	public boolean isSerialized() {
+		return false;
+	}
 
-    @Override
-    public URL getAppPropertiesFile() {
-        return null;
-    }
+	@Override
+	public URL getAppPropertiesFile() {
+		return null;
+	}
 
-    @Override
-    public URL getSendMailPropertiesFile() {
-        return null;
-    }
+	@Override
+	public URL getSendMailPropertiesFile() {
+		return null;
+	}
 
-    @Override
-    public URL getGetMailPropertiesFile() {
-        return null;
-    }
+	@Override
+	public URL getGetMailPropertiesFile() {
+		return null;
+	}
 
 }

@@ -17,6 +17,10 @@ import datetime
 import con
 import miscutil
 
+def __toBirt(d):
+    if d == None : return None
+    return d.strftime("%Y-%m-%d")
+
 def getVar(map,dialogname,xml,listv):
     """ Set map with values read from xml string for dialog form.
     
@@ -60,8 +64,79 @@ def getVar(map,dialogname,xml,listv):
             map[vname] = con.toJDateTime(val.getValue())
             continue         
 
+class TOXML :
+    
+    def __init__(self,tobirt=False):
+        self.__tobirt = tobirt
+        pass
+    
+    def getMap(self,first):
+        pass
+    
+    def __toXML(self,ma):
 
-def _toXML(builder,ma):
+      builder = self.__builder.e("elem")
+    
+      for k in ma :
+          val = ma[k]
+          vals = None
+          atype = None
+          if type(val) == int or type(val) == long : atype = cutil.LONG
+          elif type(val) == float or type(val) == BigDecimal : atype = cutil.DECIMAL
+          elif type(val) == bool : 
+              atype = cutil.BOOL
+              if val : val = 1
+              else : val = 0
+          elif type(val) == datetime.date : 
+              atype = cutil.DATE
+              if self.__tobirt : val = __toBirt(val)
+              else : val = str(val).replace('-','/')
+          elif type(val) == unicode :
+              vals = val    
+          builder = builder.e(k)    
+          if atype : builder = builder.a("type",atype)
+          if vals == None and val != None : vals = str(val)
+          if vals != None : builder = builder.t(vals)
+          builder = builder.up()
+      self.__builder = builder.up()     
+
+    
+    def toXML(self,ma,isList):
+        self.__builder = XMLBuilder.create("root")
+        self.__toXML(ma)
+        if isList :
+            first = True
+            self.__builder = self.__builder.e("list")
+            while True :
+              map = self.getMap(first)
+              first = False
+              if map == None : break
+              self.__toXML(map)
+            self.__builder = self.__builder.up()  
+              
+    def getS(self):
+        outputProperties = Properties()
+        outputProperties.put(INDENT, "yes")
+        return self.__builder.root().asString(outputProperties)              
+
+class MAPTOXML(TOXML):
+    
+    def __init__(self,l,tobirt=False):
+        TOXML.__init__(self,tobirt)
+        self.__l = l
+        
+    def getVal(self,map,k):
+        return map[k]
+    
+    def getMap(self,first):
+        if first : self.__start = 0
+        else : self.__start = self.__start + 1
+        if self.__start >= len(self.__l) : return None
+        return self.__l[self.__start]
+        
+
+# TODO: remove
+def OLD_toXML(builder,ma):
 
     builder = builder.e("elem")
     
@@ -83,8 +158,8 @@ def _toXML(builder,ma):
         builder = builder.up()
     return builder.up()     
     
-
-def toXML(ma,list = None): 
+# TODO: remove
+def OLD__toXML(ma,list = None): 
     builder = XMLBuilder.create("root")
     builder = _toXML(builder, ma)
     if list :
@@ -93,7 +168,12 @@ def toXML(ma,list = None):
       builder = builder.up() 
     outputProperties = Properties()
     outputProperties.put(INDENT, "yes")
-    return builder.root().asString(outputProperties)              
+    return builder.root().asString(outputProperties)
+
+def toXML(ma,list = None, tobirt=False):
+    X = MAPTOXML(list,tobirt)
+    X.toXML(ma,list != None)
+    return X.getS()              
    
 def _toMap(map,li):
     ma = {}

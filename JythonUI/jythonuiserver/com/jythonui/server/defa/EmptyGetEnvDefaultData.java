@@ -10,15 +10,15 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server;
+package com.jythonui.server.defa;
 
-import java.util.Map;
+import com.jythonui.server.IGetEnvDefaultData;
 
-import com.jythonui.server.resourcemulti.IReadMultiResource;
+public class EmptyGetEnvDefaultData implements IGetEnvDefaultData {
 
-public interface IGetResourceMap {
-
-	Map<String, String> getResourceMap(IReadMultiResource iRead,
-			boolean oneonly, String dir, String bundle);
+	@Override
+	public String getVal(String key) {
+		return null;
+	}
 
 }

@@ -16,8 +16,9 @@ import java.net.URL;
 
 import javax.inject.Inject;
 
-import com.jythonui.server.resource.IReadResource;
 import com.jythonui.server.resource.IReadResourceFactory;
+import com.jythonui.server.resourcemulti.IReadMultiResource;
+import com.jythonui.server.resourcemulti.IReadMultiResourceFactory;
 
 /**
  * @author hotel
@@ -25,32 +26,32 @@ import com.jythonui.server.resource.IReadResourceFactory;
  */
 public class ServerProperties extends AbstractServerProperties {
 
-    private final IsCached isC;
+	private final IsCached isC;
 
-    @Inject
-    public ServerProperties(IsCached isC, IReadResourceFactory iFactory) {
-        super(iFactory);
-        this.isC = isC;
-    }
+	@Inject
+	public ServerProperties(IsCached isC, IReadResourceFactory iFactory,
+			IReadMultiResourceFactory mFactory) {
+		super(iFactory, mFactory);
+		this.isC = isC;
+	}
 
-    @Override
-    public boolean isCached() {
-        if (isC == null)
-            return false;
-        return isC.isCached();
-    }
+	@Override
+	public boolean isCached() {
+		if (isC == null)
+			return false;
+		return isC.isCached();
+	}
 
-    @Override
-    public IReadResource getResource() {
-        return iFactory
-                .constructLoader(ServerProperties.class.getClassLoader());
-    }
-    
-    @Override
-    public URL getSendMailPropertiesFile() {
-        IReadResource r = getResource();
-        return r.getRes("gaemail/mailbox.properties");
-    }
+	@Override
+	public IReadMultiResource getResource() {
+		return mFactory.construct();
+	}
 
+	@Override
+	public URL getSendMailPropertiesFile() {
+		// IReadResource r = getResource();
+		// return r.getRes("gaemail/mailbox.properties");
+		return getResource().getFirstUrl("gaemail/mailbox.properties");
+	}
 
 }

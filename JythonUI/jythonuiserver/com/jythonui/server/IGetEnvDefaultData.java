@@ -12,13 +12,6 @@
  */
 package com.jythonui.server;
 
-import java.util.Map;
-
-import com.jythonui.server.resourcemulti.IReadMultiResource;
-
-public interface IGetResourceMap {
-
-	Map<String, String> getResourceMap(IReadMultiResource iRead,
-			boolean oneonly, String dir, String bundle);
-
+public interface IGetEnvDefaultData {
+	String getVal(String key);
 }

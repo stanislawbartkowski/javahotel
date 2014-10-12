@@ -50,5 +50,7 @@ public interface IConsts {
     char EVALSIGN = '#';
     
     String APPMAILFROM = "mailfrom";
+    
+    String VALUEFROMENV = "@env";
 
  }
