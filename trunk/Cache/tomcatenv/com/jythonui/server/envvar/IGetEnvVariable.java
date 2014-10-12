@@ -1,6 +1,7 @@
 package com.jythonui.server.envvar;
 
 import javax.mail.Session;
+import javax.sql.DataSource;
 
 
 public interface IGetEnvVariable {
@@ -10,10 +11,11 @@ public interface IGetEnvVariable {
 		String getS();
 		boolean isEmpty();
 		Session  getSession();
+		DataSource getDS();
 	}
 	
 	enum ResType {
-	  LOG,STRING,MAIL  
+	  LOG,STRING,MAIL,JDBC 
 	}
 	
     IEnvVar getEnvString(String name, ResType rType, boolean throwerror);
