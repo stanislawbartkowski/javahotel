@@ -152,15 +152,6 @@ public class CreateForm {
 			String name = null;
 			IVField fRange = null;
 
-			// for (FieldItem ff : iList) {
-			// if (CUtil.EmptyS(ff.getFrom()))
-			// continue;
-			// if (CUtil.EqNS(f.getId(), ff.getFrom())) {
-			// fRange = VField.construct(ff);
-			// break;
-			// }
-			// }
-
 			if (!CUtil.EmptyS(f.getFrom())) {
 				if (CUtil.EmptyS(f.getDisplayName()))
 					name = MM.getL().BetweenFieldsRange();
