@@ -45,6 +45,7 @@ import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.FormDef;
 import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.ListFormat;
+import com.jythonui.shared.SUtil;
 import com.jythonui.shared.TabPanel;
 import com.jythonui.shared.TabPanelElem;
 import com.jythonui.shared.ValidateRule;
@@ -447,11 +448,12 @@ class ReadDialog extends UtilHelper {
 	}
 
 	private static void replaceFile(IJythonUIServerProperties p,
-			ElemDescription fo, String attr) {
+			String parentName, ElemDescription fo, String attr) {
 		if (fo.isAttr(attr)) {
 			String fileName = fo.getAttr(attr);
 			// replace file name with content
-			InputStream souI = Util.getFile(p, fileName);
+			String eName = SUtil.getFileName(parentName, fileName);
+			InputStream souI = Util.getFile(p, eName);
 			String te = BUtil.readFromFileInput(souI);
 			fo.setAttr(attr, te);
 		}
@@ -459,18 +461,18 @@ class ReadDialog extends UtilHelper {
 	}
 
 	static DialogFormat parseDocument(IJythonUIServerProperties p,
-			InputStream sou, ISecurity iSec)
+			String parentName, InputStream sou, ISecurity iSec)
 			throws ParserConfigurationException, SAXException, IOException {
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		SAXParser saxParser;
 		saxParser = factory.newSAXParser();
 		MyHandler ma = new MyHandler(p, iSec);
 		saxParser.parse(sou, ma);
-		replaceFile(p, ma.dFormat, ICommonConsts.HTMLPANEL);
-		replaceFile(p, ma.dFormat, ICommonConsts.JSCODE);
-		replaceFile(p, ma.dFormat, ICommonConsts.CSSCODE);
+		replaceFile(p, parentName, ma.dFormat, ICommonConsts.HTMLPANEL);
+		replaceFile(p, parentName, ma.dFormat, ICommonConsts.JSCODE);
+		replaceFile(p, parentName, ma.dFormat, ICommonConsts.CSSCODE);
 		for (DisclosureElemPanel d : ma.dFormat.getDiscList())
-			replaceFile(p, d, ICommonConsts.HTMLPANEL);
+			replaceFile(p, parentName, d, ICommonConsts.HTMLPANEL);
 		return ma.dFormat;
 	}
 

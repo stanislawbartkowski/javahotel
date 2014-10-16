@@ -21,31 +21,33 @@ import com.jythonui.shared.ClientProp;
 
 class JythonWebPanelResources implements IWebPanelResources {
 
-    private final Map<String, String> ma = new HashMap<String, String>();
-    private final ClientProp res;
+	private final Map<String, String> ma = new HashMap<String, String>();
+	private final ClientProp res;
 
-    private void putRes(String key, String rkey, ClientProp res) {
-        String val = res.getAttr(rkey);
-        if (val == null) {
-            return;
-        }
-        ma.put(key, val);
-    }
+	private void putRes(String key, String rkey, ClientProp res) {
+		String val = res.getAttr(rkey);
+		if (val == null) {
+			return;
+		}
+		ma.put(key, val);
+	}
 
-    JythonWebPanelResources(ClientProp res) {
-    	this.res = res;
-        putRes(TITLE, IUIConsts.APP_TITLE, res);
-        putRes(PRODUCTNAME, IUIConsts.APP_PRODUCTNAME, res);
-        putRes(OWNERNAME, IUIConsts.APP_OWNERNAME, res);
-        putRes(VERSION, IUIConsts.APP_VERSION, res);
-        putRes(IIMAGEPRODUCT, IUIConsts.APP_PRODUCTIMAGE, res);
-    }
+	JythonWebPanelResources(ClientProp res) {
+		this.res = res;
+		putRes(TITLE, IUIConsts.APP_TITLE, res);
+		putRes(PRODUCTNAME, IUIConsts.APP_PRODUCTNAME, res);
+		putRes(OWNERNAME, IUIConsts.APP_OWNERNAME, res);
+		putRes(VERSION, IUIConsts.APP_VERSION, res);
+		putRes(IIMAGEPRODUCT, IUIConsts.APP_PRODUCTIMAGE, res);
+		ma.put(JUIVERSION, IUIConsts.UIVersion);
+	}
 
-    @Override
-    public String getRes(String reso) {
-        String val = ma.get(reso);
-        if (val != null) return val;
-        val = res.getAttr(reso);
-        return val;
-    }
+	@Override
+	public String getRes(String reso) {
+		String val = ma.get(reso);
+		if (val != null)
+			return val;
+		val = res.getAttr(reso);
+		return val;
+	}
 }
