@@ -13,35 +13,35 @@
 
 package com.gwtmodel.table.factories;
 
-
 /**
  * 
  * @author stanislaw.bartkowski@gmail.com
  */
 public interface IWebPanelResources {
 
-    String TITLE = "Title";
-    String PRODUCTNAME = "ProductName";
-    String OWNERNAME = "OwnerName";
-    String IMAGELOGOUT = "LogOut";
-    String IIMAGEPRODUCT = "ImageProduct";
-    String VERSION = "Version";
-    String LOGOUTQUESTION = "LogoutQuestion";
-    String STATUSHTML = "StatusHtml";
-    String SCROLLWITHDATE = "ScrollWithDate";
-    String SCROLLWITHOUTDATE = "ScrollWithoutDate";
-    String PROGRESSICON = "PROGRESSICON";
-    String SCROLLLEFTEND = "scrollleftend";
-    String SCROLLRIGHTEND = "scrollrightend";
-    String SCROLLLEFT = "scrollleft";
-    String SCROLLRIGHT = "scrollright";
-    String CALENDAR = "calendar";
-    String ADDROW = "addrow";
-    String ADDBEFOREROW = "addbeforerow";
-    String CHANGEROW = "changerow";
-    String DELETEROW = "deleterow";
-    String PANELMENU = "panelmenu";
+	String TITLE = "Title";
+	String PRODUCTNAME = "ProductName";
+	String OWNERNAME = "OwnerName";
+	String IMAGELOGOUT = "LogOut";
+	String IIMAGEPRODUCT = "ImageProduct";
+	String VERSION = "Version";
+	String JUIVERSION = "JUIVersion";
+	String LOGOUTQUESTION = "LogoutQuestion";
+	String STATUSHTML = "StatusHtml";
+	String SCROLLWITHDATE = "ScrollWithDate";
+	String SCROLLWITHOUTDATE = "ScrollWithoutDate";
+	String PROGRESSICON = "PROGRESSICON";
+	String SCROLLLEFTEND = "scrollleftend";
+	String SCROLLRIGHTEND = "scrollrightend";
+	String SCROLLLEFT = "scrollleft";
+	String SCROLLRIGHT = "scrollright";
+	String CALENDAR = "calendar";
+	String ADDROW = "addrow";
+	String ADDBEFOREROW = "addbeforerow";
+	String CHANGEROW = "changerow";
+	String DELETEROW = "deleterow";
+	String PANELMENU = "panelmenu";
 
-    String getRes(String res);
+	String getRes(String res);
 
 }

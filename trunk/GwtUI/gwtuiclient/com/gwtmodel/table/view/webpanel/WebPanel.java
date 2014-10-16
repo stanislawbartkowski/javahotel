@@ -246,7 +246,8 @@ class WebPanel implements IWebPanel {
             initWidget(ha);
             VerticalPanel vp = new VerticalPanel();
             vp.add(new Label(pResources.getRes(IWebPanelResources.VERSION)));
-            vp.add(new Label(LogT.getT().GWTVersion(GWT.getVersion())));
+            String JVersion = pResources.getRes(IWebPanelResources.JUIVERSION);
+            vp.add(new Label(LogT.getT().GWTVersion(GWT.getVersion(),JVersion)));
             setMessage(vp);
         }
     }

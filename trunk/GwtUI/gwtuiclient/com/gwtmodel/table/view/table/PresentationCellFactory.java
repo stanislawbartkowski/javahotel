@@ -94,6 +94,31 @@ class PresentationCellFactory extends PresentationCellHelper {
         SafeHtml input(String value, String style, String classC);
     }
 
+    
+    private class NTextCell extends AbstractCell<String> {
+
+        private final StringTemplate template = GWT
+                .create(StringTemplate.class);
+
+        private final VListHeaderDesc he;
+
+        NTextCell(VListHeaderDesc he) {
+            this.he = he;
+        }
+
+		@Override
+		public void render(com.google.gwt.cell.client.Cell.Context context,
+				String value, SafeHtmlBuilder sb) {
+            if (value != null) {
+                sb.append(template.input(getS(he.getInputStyle()),
+                        getS(he.getInputClass()), value));
+            }
+			
+		}
+    	
+    }
+
+    // TODO: not used, safe version
     private class ATextCell extends TextCell {
 
         private final StringTemplate template = GWT
@@ -110,6 +135,7 @@ class PresentationCellFactory extends PresentationCellHelper {
             if (value != null) {
                 sb.append(template.input(getS(he.getInputStyle()),
                         getS(he.getInputClass()), value.asString()));
+
             }
         }
 
@@ -120,6 +146,24 @@ class PresentationCellFactory extends PresentationCellHelper {
         private final IVField iF;
 
         TColumn(IVField iF, VListHeaderDesc he) {
+//            super(new ATextCell(he));
+        	super(new NTextCell(he));
+            this.iF = iF;
+        }
+
+        @Override
+        public String getValue(MutableInteger object) {
+            IVModelData v = model.get(object.intValue());
+            return FUtils.getValueS(v, iF);
+        }
+    }
+
+    // TODO: not used, safe version
+    private class SafeTColumn extends Column<MutableInteger, String> {
+
+        private final IVField iF;
+
+        SafeTColumn(IVField iF, VListHeaderDesc he) {
             super(new ATextCell(he));
             this.iF = iF;
         }
@@ -130,6 +174,7 @@ class PresentationCellFactory extends PresentationCellHelper {
             return FUtils.getValueS(v, iF);
         }
     }
+
 
     // 2013/08/11 : added implementation IGetField
     // Only marker is necessary, no additional implementation
@@ -240,6 +285,13 @@ class PresentationCellFactory extends PresentationCellHelper {
     Column constructTextCol(IVField v, VListHeaderDesc he) {
         return new TColumn(v, he);
     }
+
+    // TODO: not used
+    @SuppressWarnings("rawtypes")
+    private Column constructSafeTextCol(IVField v, VListHeaderDesc he) {
+        return new SafeTColumn(v, he);
+    }
+
 
     @SuppressWarnings("rawtypes")
     Column contructBooleanCol(IVField v) {

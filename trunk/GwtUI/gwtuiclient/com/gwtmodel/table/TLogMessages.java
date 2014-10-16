@@ -92,7 +92,7 @@ public interface TLogMessages extends Messages {
 
     String formRecordTitle(String title, String action);
 
-    String GWTVersion(String ver);
+    String GWTVersion(String ver, String jVersion);
 
     String DataListCannotBeNull();
 
