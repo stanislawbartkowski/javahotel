@@ -73,10 +73,10 @@ class ReadDialog extends UtilHelper {
 		/** Tags recognized for a particular element. */
 		/* It duplicated to some extend xsd schema which also forces XML format. */
 		private final String[] dialogTag = { ICommonConsts.HTMLPANEL,
-				ICommonConsts.JSCODE, ICommonConsts.BEFORE,
-				ICommonConsts.DISPLAYNAME, ICommonConsts.IMPORT,
-				ICommonConsts.METHOD, ICommonConsts.PARENT,
-				ICommonConsts.TYPES, ICommonConsts.ASXML,
+				ICommonConsts.HTMLLEFTMENU, ICommonConsts.JSCODE,
+				ICommonConsts.BEFORE, ICommonConsts.DISPLAYNAME,
+				ICommonConsts.IMPORT, ICommonConsts.METHOD,
+				ICommonConsts.PARENT, ICommonConsts.TYPES, ICommonConsts.ASXML,
 				ICommonConsts.CLEARCENTRE, ICommonConsts.CLEARLEFT,
 				ICommonConsts.FORMPANEL, ICommonConsts.AUTOHIDE,
 				ICommonConsts.MODELESS, ICommonConsts.CSSCODE };
@@ -468,6 +468,7 @@ class ReadDialog extends UtilHelper {
 		saxParser = factory.newSAXParser();
 		MyHandler ma = new MyHandler(p, iSec);
 		saxParser.parse(sou, ma);
+		replaceFile(p, parentName, ma.dFormat, ICommonConsts.HTMLLEFTMENU);
 		replaceFile(p, parentName, ma.dFormat, ICommonConsts.HTMLPANEL);
 		replaceFile(p, parentName, ma.dFormat, ICommonConsts.JSCODE);
 		replaceFile(p, parentName, ma.dFormat, ICommonConsts.CSSCODE);

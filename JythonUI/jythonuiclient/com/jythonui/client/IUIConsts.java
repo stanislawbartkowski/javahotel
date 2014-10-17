@@ -81,6 +81,10 @@ public interface IUIConsts {
 	int DATELINE_STARTYEARDEFAULT = 2012;
 	int DATELINE_ENDYEARDEFAULT = 2020;
 
+	int PANELMENUDEFAW = 0;
+	int PANELMENUDEFAH = 10;
+	String PANELMENUNAME = "Down";
+
 	String UIVersion = "UI : 2014/10/16";
 
 }

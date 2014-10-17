@@ -676,12 +676,13 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 
 		M.getLeftMenu().createLeftButton(
 				constructCButton(d.getLeftButtonList()), d.getLeftButtonList(),
-				LeftMenu.MenuType.LEFTPANEL);
+				LeftMenu.MenuType.LEFTPANEL, d.getHtmlLeftMenu());
 		M.getLeftMenu().createLeftButton(constructCButton(d.getUpMenuList()),
-				d.getUpMenuList(), LeftMenu.MenuType.UPPANELMENU);
+				d.getUpMenuList(), LeftMenu.MenuType.UPPANELMENU,
+				d.getHtmlLeftMenu());
 		M.getLeftMenu().createLeftButton(
 				constructCButton(d.getLeftStackList()), d.getLeftStackList(),
-				LeftMenu.MenuType.LEFTSTACK);
+				LeftMenu.MenuType.LEFTSTACK, d.getHtmlLeftMenu());
 		IEnumTypesList eList = UIGiniInjector.getI().getEnumTypesFactory()
 				.construct(d, liManager);
 		if (!d.getFieldList().isEmpty()) {

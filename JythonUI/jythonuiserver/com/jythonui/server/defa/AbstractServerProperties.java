@@ -15,11 +15,8 @@ package com.jythonui.server.defa;
 import java.net.URL;
 
 import com.jythonui.server.IJythonUIServerProperties;
-import com.jythonui.server.Util;
 import com.jythonui.server.UtilHelper;
-import com.jythonui.server.resource.IReadResource;
 import com.jythonui.server.resource.IReadResourceFactory;
-import com.jythonui.server.resource.ReadResourceFactory;
 import com.jythonui.server.resourcemulti.IReadMultiResourceFactory;
 
 abstract public class AbstractServerProperties extends UtilHelper implements
@@ -44,18 +41,6 @@ abstract public class AbstractServerProperties extends UtilHelper implements
 		this.mFactory = mFactory;
 	}
 
-	// @Override
-	// public String getJythonPackageDirectory() {
-	// return Util.getJythonPackageDirectory(getResource());
-	// }
-
-	// @Override
-	// public String getJythonSharedDirectory() {
-	// IReadResource iRead = new ReadResourceFactory()
-	// .constructLoader(AbstractServerProperties.class
-	// .getClassLoader());
-	// return Util.getJythonPackageDirectory(iRead);
-	// }
 
 	@Override
 	public boolean isSerialized() {
