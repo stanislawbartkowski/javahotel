@@ -22,44 +22,44 @@ import com.gwtmodel.table.factories.IWebPanelResources;
 
 public class WebPanelResources implements IWebPanelResources {
 
-    private final ITableCustomFactories iFactories;
-    private final Map<String, String> ma = new HashMap<String, String>();
+	private final ITableCustomFactories iFactories;
+	private final Map<String, String> ma = new HashMap<String, String>();
 
-    @Inject
-    public WebPanelResources(ITableCustomFactories iFactories) {
-        this.iFactories = iFactories;
-        ma.put(TITLE, "Default title");
-        ma.put(IMAGELOGOUT, "default_logout.png");
-        ma.put(IIMAGEPRODUCT, "default_logo.png");
-        ma.put(PRODUCTNAME, "Default application");
-        ma.put(OWNERNAME, "Default owner");
-        ma.put(VERSION, "Version default");
-        ma.put(STATUSHTML, "default_header.html");
-        ma.put(SCROLLWITHDATE, "default_paneldate.html");
-        ma.put(SCROLLWITHOUTDATE, "default_panelwithoutdate.html");
-        ma.put(PROGRESSICON, "default_progressicon");
-        ma.put(SCROLLLEFT, "default_arrow-left");
-        ma.put(SCROLLLEFTEND, "default_arrow-left-end");
-        ma.put(SCROLLRIGHT, "default_arrow-right");
-        ma.put(SCROLLRIGHTEND, "default_arrow-right-end");
-        ma.put(CALENDAR, "default_calendar");
-        ma.put(ADDROW, "default_rowaddimage.png");
-        ma.put(ADDBEFOREROW, "default_rowbeforeadd.png");
-        ma.put(CHANGEROW, "default_changerow.png");
-        ma.put(DELETEROW, "default_deleterow.png");
-        ma.put(PANELMENU, "default_upmenuimage.png");
-    }
+	@Inject
+	public WebPanelResources(ITableCustomFactories iFactories) {
+		this.iFactories = iFactories;
+		ma.put(TITLE, "Default title");
+		ma.put(IMAGELOGOUT, "default_logout.png");
+		ma.put(IIMAGEPRODUCT, "default_logo.png");
+		ma.put(PRODUCTNAME, "Default application");
+		ma.put(OWNERNAME, "Default owner");
+		ma.put(VERSION, "Version default");
+		ma.put(STATUSHTML, "default_header.html");
+		ma.put(SCROLLWITHDATE, "default_paneldate.html");
+		ma.put(SCROLLWITHOUTDATE, "default_panelwithoutdate.html");
+		ma.put(PROGRESSICON, "default_progressicon");
+		ma.put(SCROLLLEFT, "default_arrow-left");
+		ma.put(SCROLLLEFTEND, "default_arrow-left-end");
+		ma.put(SCROLLRIGHT, "default_arrow-right");
+		ma.put(SCROLLRIGHTEND, "default_arrow-right-end");
+		ma.put(CALENDAR, "default_calendar");
+		ma.put(ADDROW, "default_rowaddimage.png");
+		ma.put(ADDBEFOREROW, "default_rowbeforeadd.png");
+		ma.put(CHANGEROW, "default_changerow.png");
+		ma.put(DELETEROW, "default_deleterow.png");
+		ma.put(PANELMENU, "default_upmenuimage.png");
+	}
 
-    @Override
-    public String getRes(String res) {
-        String val = null;
-        if (iFactories.getWebPanelResourcesNotDefault() != null) {
-            val = iFactories.getWebPanelResourcesNotDefault().getRes(res);
-        }
-        if (val != null)
-            return val;
-        return ma.get(res);
+	@Override
+	public String getRes(String res) {
+		String val = null;
+		if (iFactories.getWebPanelResourcesNotDefault() != null) {
+			val = iFactories.getWebPanelResourcesNotDefault().getRes(res);
+		}
+		if (val != null)
+			return val;
+		return ma.get(res);
 
-    }
+	}
 
 }
