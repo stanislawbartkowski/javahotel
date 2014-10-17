@@ -29,6 +29,7 @@ import com.jythonui.server.IConsts;
 import com.jythonui.server.IDefaultData;
 import com.jythonui.server.IExecuteJython;
 import com.jythonui.server.IGetAppProp;
+import com.jythonui.server.IGetBirtFile;
 import com.jythonui.server.IGetDialog;
 import com.jythonui.server.IGetMailFrom;
 import com.jythonui.server.IGetResourceMap;
@@ -44,6 +45,7 @@ import com.jythonui.server.IStorageMemCache;
 import com.jythonui.server.IStorageMemContainerFactory;
 import com.jythonui.server.IUserCacheHandler;
 import com.jythonui.server.IXMLToMap;
+import com.jythonui.server.Util;
 import com.jythonui.server.defa.GetClientProperties;
 import com.jythonui.server.defa.GetMailFromApp;
 import com.jythonui.server.defa.StorageRealmRegistryFactory;
@@ -206,6 +208,19 @@ public class JythonServerService {
 		ISymGenerator getSymGenerator(ISymGeneratorFactory sFactory,
 				ISequenceRealmGen iSeq) {
 			return sFactory.construct(iSeq);
+		}
+
+		@Provides
+		@Singleton
+		IGetBirtFile getBirtFile(final IJythonUIServerProperties iP) {
+			return new IGetBirtFile() {
+
+				@Override
+				public String getName(String rptFile) {
+					return Util.getBirtFile(iP, rptFile);
+				}
+
+			};
 		}
 
 		protected void requestStatic() {
