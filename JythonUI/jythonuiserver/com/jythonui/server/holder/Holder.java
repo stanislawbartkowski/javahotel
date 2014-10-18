@@ -289,6 +289,10 @@ public class Holder {
 	public static OObjectId getO() {
 		return iToken.getObject(getRequest().getToken());
 	}
+	
+	public static String getHostName() {
+		return getRequest().getHostName();
+	}
 
 	public static IGetMailFrom getMailFrom() {
 		return iMailFrom;

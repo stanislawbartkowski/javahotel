@@ -25,6 +25,8 @@ public class RequestContext implements Serializable {
 
 	private Map<String, String> urlParam;
 
+	private String hostName;
+
 	public String getToken() {
 		return token;
 	}
@@ -47,6 +49,14 @@ public class RequestContext implements Serializable {
 
 	public void setUrlParam(Map<String, String> urlParam) {
 		this.urlParam = urlParam;
+	}
+
+	public String getHostName() {
+		return hostName;
+	}
+
+	public void setHostName(String hostName) {
+		this.hostName = hostName;
 	}
 
 }

@@ -126,7 +126,7 @@ public class Util extends UtilHelper {
 			return null;
 		}
 	}
-	
+
 	public static String getBirtFile(IJythonUIServerProperties p, String name) {
 		return getFirstURL(p, IConsts.BIRTDIR, name).getPath();
 	}
