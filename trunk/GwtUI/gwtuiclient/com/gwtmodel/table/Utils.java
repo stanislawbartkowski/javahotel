@@ -80,6 +80,10 @@ public class Utils {
 		return path + '/' + file;
 	}
 
+	public static String getHost() {
+		return Window.Location.getHostName();
+	}
+
 	public static String getURLServlet(String servletN) {
 		String u = GWT.getHostPageBaseURL();
 		// important: not add "/" between (the result is double //)
