@@ -85,6 +85,6 @@ public interface IUIConsts {
 	int PANELMENUDEFAH = 10;
 	String PANELMENUNAME = "Down";
 
-	String UIVersion = "UI : 2014/10/16";
+	String UIVersion = "UI : 2014/10/18 (r:2)";
 
 }

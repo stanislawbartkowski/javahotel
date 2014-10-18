@@ -8,6 +8,8 @@ def printBirt(var,rptfile,xml) :
   f.close()
   print f.name
   iGet = Holder.getBirtSearch()
+  hName = Holder.getHostName()
+#  print hName
   rfile = iGet.getName(rptfile)
   H = cutil.DEFAULTDATA()
   v = H.getData("birtviewer")
@@ -15,6 +17,6 @@ def printBirt(var,rptfile,xml) :
   if v == None :
     var["JERROR_MESSAGE"] = "@birtviewernotdefined"
     return
-  s = v.format(rfile,f.name)
-  print s
+  s = v.format(hName,rfile,f.name)
+#  print s
   var["JURL_OPEN"] = s

@@ -30,6 +30,7 @@ public class RequestContextFactory implements Provider<RequestContext>{
         if (loca != null)
             req.setLocale(loca);
         req.setUrlParam(Utils.getURLMap());
+        req.setHostName(Utils.getHost());
         return req;
     }
 
