@@ -19,6 +19,8 @@ import javax.inject.Inject;
 import com.jythonui.server.defa.AbstractServerProperties;
 import com.jythonui.server.resource.IReadResource;
 import com.jythonui.server.resource.IReadResourceFactory;
+import com.jythonui.server.resourcemulti.IReadMultiResource;
+import com.jythonui.server.resourcemulti.IReadMultiResourceFactory;
 
 /**
  * @author hotel
@@ -27,8 +29,9 @@ import com.jythonui.server.resource.IReadResourceFactory;
 public class ServerProperties extends AbstractServerProperties {
 
     @Inject
-    public ServerProperties(IReadResourceFactory iFactory) {
-        super(iFactory);
+    public ServerProperties(IReadResourceFactory iFactory,
+            IReadMultiResourceFactory mFactory) {
+        super(iFactory, mFactory);
     }
 
     @Override
@@ -37,8 +40,9 @@ public class ServerProperties extends AbstractServerProperties {
     }
 
     @Override
-    public IReadResource getResource() {
-        return iFactory.constructLoader(TestHelper.class.getClassLoader());
+    public IReadMultiResource getResource() {
+        return mFactory.construct(iFactory.constructLoader(TestHelper.class
+                .getClassLoader()));
     }
 
     @Override
@@ -48,15 +52,12 @@ public class ServerProperties extends AbstractServerProperties {
 
     @Override
     public URL getSendMailPropertiesFile() {
-        IReadResource r = getResource();
-        return r.getRes("mail/mailbox.properties");
+        return getResource().getFirstUrl("mail/mailbox.properties");
     }
-    
+
     @Override
     public URL getGetMailPropertiesFile() {
-        IReadResource r = getResource();
-//        return r.getRes("mail/pop3mailbox.properties");
-      return r.getRes("mail/imapmailbox.properties");
+        return getResource().getFirstUrl("mail/imapmailbox.properties");
     }
 
 }

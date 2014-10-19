@@ -44,6 +44,7 @@ import com.jythonui.datastore.EntityManagerFactoryProvider;
 import com.jythonui.datastore.PersonOp;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IGetConnection;
+import com.jythonui.server.IGetEnvDefaultData;
 import com.jythonui.server.IGetMailFrom;
 import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServerProperties;
@@ -53,6 +54,7 @@ import com.jythonui.server.defa.GetMailFromApp;
 import com.jythonui.server.defa.IsCached;
 import com.jythonui.server.envvar.IGetEnvVariable;
 import com.jythonui.server.envvar.IGetResourceJNDI;
+import com.jythonui.server.envvar.defa.GetEnvDefaultData;
 import com.jythonui.server.envvar.impl.GetEnvVariables;
 import com.jythonui.server.envvar.impl.ServerPropertiesEnv;
 import com.jythonui.server.guice.JythonServerService;
@@ -89,12 +91,12 @@ public class ServerService {
             bind(IGetResourceJNDI.class).to(GetResourceJNDI.class).in(
                     Singleton.class);
             bind(ISemaphore.class).to(SemaphoreSynch.class).in(Singleton.class);
+            bind(IGetEnvDefaultData.class).to(GetEnvDefaultData.class).in(
+                    Singleton.class);
 
             // common
             bind(IStorageJpaRegistryFactory.class).to(
                     StorageJpaRegistryFactory.class).in(Singleton.class);
-            // bind(IStorageRegistryFactory.class).to(
-            // StorageRealmRegistryFactory.class).in(Singleton.class);
             bind(IGetConnection.class)
                     .toProvider(EmptyConnectionProvider.class).in(
                             Singleton.class);

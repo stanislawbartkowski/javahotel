@@ -68,7 +68,7 @@ public class Test51 extends TestHelper {
     @Test
     public void test4() throws IOException {
         IMailSend iiMail = Holder.getMail();
-        URL u = iResServer.getResource().getRes("testdata/attach.txt");
+        URL u = iResServer.getResource().getFirstUrl("testdata/attach.txt");
         assertNotNull(u);
         int i = 0;
         InputStream is = u.openStream();

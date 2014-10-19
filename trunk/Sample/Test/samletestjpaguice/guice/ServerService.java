@@ -48,14 +48,14 @@ import com.jythonui.datastore.EntityManagerFactoryProvider;
 import com.jythonui.datastore.PersonOp;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IGetConnection;
-import com.jythonui.server.IGetMailFrom;
+import com.jythonui.server.IGetEnvDefaultData;
 import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.crud.ICrudObjectGenSym;
 import com.jythonui.server.defa.EmptyConnectionProvider;
+import com.jythonui.server.defa.EmptyGetEnvDefaultData;
 import com.jythonui.server.defa.EmptyRPCNotifier;
-import com.jythonui.server.defa.GetMailFromApp;
 import com.jythonui.server.defa.JavaGetMailSessionProvider;
 import com.jythonui.server.defa.JavaMailSessionProvider;
 import com.jythonui.server.getmess.IGetLogMess;
@@ -117,6 +117,8 @@ public class ServerService {
             bind(IJpaObjectGenSymFactory.class).to(
                     JpaObjectGenSymFactoryImpl.class).in(Singleton.class);
             bind(INoteStorage.class).to(JpaNoteStorage.class).in(
+                    Singleton.class);
+            bind(IGetEnvDefaultData.class).to(EmptyGetEnvDefaultData.class).in(
                     Singleton.class);
             requestStatic();
             requestStaticInjection(TestHelper.class);

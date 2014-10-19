@@ -66,7 +66,7 @@ public class Test23 extends TestHelper {
         assertNotNull(vara);
         assertEquals(9,vara.getValues().getRowList().size());
         for (RowContent r : vara.getValues().getRowList()) {
-            assertEquals(6,r.getLength());
+            assertEquals(7,r.getLength());
             for (int i=0; i<r.getLength(); i++) {
                 System.out.println(i + " " + r.getRow(i).getValue());
             }
@@ -87,7 +87,7 @@ public class Test23 extends TestHelper {
         assertNotNull(vara);
         assertEquals(9,vara.getValues().getRowList().size());
         for (RowContent r : vara.getValues().getRowList()) {
-            assertEquals(6,r.getLength());
+            assertEquals(7,r.getLength());
             for (int i=0; i<r.getLength(); i++) {
                 System.out.println(i + " " + r.getRow(i).getValue());
             }            
