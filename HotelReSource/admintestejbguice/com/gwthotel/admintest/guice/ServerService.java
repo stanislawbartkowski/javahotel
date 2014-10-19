@@ -46,11 +46,13 @@ import com.jython.serversecurity.IOObjectAdmin;
 import com.jython.serversecurity.instance.IAppInstanceOObject;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IGetConnection;
+import com.jythonui.server.IGetEnvDefaultData;
 import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.crud.ICrudObjectGenSym;
 import com.jythonui.server.defa.EmptyConnectionProvider;
+import com.jythonui.server.defa.EmptyGetEnvDefaultData;
 import com.jythonui.server.defa.EmptyRPCNotifier;
 import com.jythonui.server.defa.JavaMailSessionProvider;
 import com.jythonui.server.defa.StorageRealmRegistryFactory;
@@ -94,6 +96,8 @@ public class ServerService {
                     Singleton.class);
             // bind(IBeanLocator.class).to(EjbLocatorGlassfish.class).in(
             // Singleton.class);
+            bind(IGetEnvDefaultData.class).to(EmptyGetEnvDefaultData.class).in(
+                    Singleton.class);
             bind(IBeanLocator.class).to(EjbLocatorWildFly.class).in(
                     Singleton.class);
             bind(Session.class).annotatedWith(Names.named(IConsts.SENDMAIL))
