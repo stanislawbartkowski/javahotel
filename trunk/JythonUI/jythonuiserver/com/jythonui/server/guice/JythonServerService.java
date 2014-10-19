@@ -12,6 +12,8 @@
  */
 package com.jythonui.server.guice;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.List;
 
 import com.google.inject.AbstractModule;
@@ -29,9 +31,9 @@ import com.jythonui.server.IConsts;
 import com.jythonui.server.IDefaultData;
 import com.jythonui.server.IExecuteJython;
 import com.jythonui.server.IGetAppProp;
-import com.jythonui.server.IGetBirtFile;
 import com.jythonui.server.IGetDialog;
 import com.jythonui.server.IGetMailFrom;
+import com.jythonui.server.IGetResourceFile;
 import com.jythonui.server.IGetResourceMap;
 import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonUIServer;
@@ -113,207 +115,217 @@ import com.jythonui.server.xmltoxmap.XMLToXMap;
  */
 public class JythonServerService {
 
-	public abstract static class JythonServiceModule extends AbstractModule {
+    public abstract static class JythonServiceModule extends AbstractModule {
 
-		protected void configureJythonUi() {
-			bind(IJythonUIServer.class).to(JythonUIServer.class).in(
-					Singleton.class);
-			bind(IExecuteJython.class)
-					.annotatedWith(Names.named(IConsts.GENERICRUNJYTHON))
-					.to(RunJython.class).in(Singleton.class);
-			bind(IExecuteJython.class).to(DecoratorRunJython.class).in(
-					Singleton.class);
-			bind(ISecurity.class).to(SecurityJython.class).in(Singleton.class);
-			bind(ISecurityResolver.class).to(SecurityResolver.class).in(
-					Singleton.class);
-			bind(ObjectRegistryFactory.class).in(Singleton.class);
-			bind(IAppMess.class).annotatedWith(Names.named(IConsts.APPMESS))
-					.to(Mess.class).in(Singleton.class);
-			bind(IGetLogMess.class)
-					.annotatedWith(Names.named(ISharedConsts.JYTHONMESSSERVER))
-					.toProvider(MessProvider.class).in(Singleton.class);
-			bind(IJythonClientRes.class).to(GetClientProperties.class).in(
-					Singleton.class);
-			bind(ISequenceRealmGenFactory.class).to(
-					SequenceRealmGenFactory.class).in(Singleton.class);
-			bind(IGetResourceMap.class).to(GetResourceMapImpl.class).in(
-					Singleton.class);
-			bind(IUserCacheHandler.class).to(UserCacheHandler.class).in(
-					Singleton.class);
+        protected void configureJythonUi() {
+            bind(IJythonUIServer.class).to(JythonUIServer.class).in(
+                    Singleton.class);
+            bind(IExecuteJython.class)
+                    .annotatedWith(Names.named(IConsts.GENERICRUNJYTHON))
+                    .to(RunJython.class).in(Singleton.class);
+            bind(IExecuteJython.class).to(DecoratorRunJython.class).in(
+                    Singleton.class);
+            bind(ISecurity.class).to(SecurityJython.class).in(Singleton.class);
+            bind(ISecurityResolver.class).to(SecurityResolver.class).in(
+                    Singleton.class);
+            bind(ObjectRegistryFactory.class).in(Singleton.class);
+            bind(IAppMess.class).annotatedWith(Names.named(IConsts.APPMESS))
+                    .to(Mess.class).in(Singleton.class);
+            bind(IGetLogMess.class)
+                    .annotatedWith(Names.named(ISharedConsts.JYTHONMESSSERVER))
+                    .toProvider(MessProvider.class).in(Singleton.class);
+            bind(IJythonClientRes.class).to(GetClientProperties.class).in(
+                    Singleton.class);
+            bind(ISequenceRealmGenFactory.class).to(
+                    SequenceRealmGenFactory.class).in(Singleton.class);
+            bind(IGetResourceMap.class).to(GetResourceMapImpl.class).in(
+                    Singleton.class);
+            bind(IUserCacheHandler.class).to(UserCacheHandler.class).in(
+                    Singleton.class);
 
-			bind(ISymGeneratorFactory.class).to(SymGeneratorFactory.class).in(
-					Singleton.class);
-			bind(IXMLTransformer.class).to(XMLTransformer.class).in(
-					Singleton.class);
-			bind(IXMLToMap.class).to(XMLMap.class).in(Singleton.class);
-			bind(IXMLHelper.class).to(XMLHelper.class).in(Singleton.class);
-			bind(IXMLHelper.class)
-					.annotatedWith(Names.named(ISharedConsts.XMLHELPERCACHED))
-					.to(XMLHelperCached.class).in(Singleton.class);
-			bind(IGetLocalizedDict.class)
-					.annotatedWith(Names.named(IConsts.COUNTRIESDICT))
-					.to(ListOfCountries.class).in(Singleton.class);
-			bind(IOObjectAdmin.class)
-					.annotatedWith(
-							Names.named(ISharedConsts.PERSONSONLYSECURITY))
-					.to(SecurityForPersons.class).in(Singleton.class);
-			bind(IGetLocalizedDict.class)
-					.annotatedWith(Names.named(IConsts.VATDICT))
-					.to(GetVatTaxes.class).in(Singleton.class);
-			bind(IStorageMemContainerFactory.class).to(
-					MemStorageCacheFactory.class).in(Singleton.class);
-			bind(IDefaultData.class).to(DefaDataImpl.class).in(Singleton.class);
-			bind(IGetAppProp.class).to(GetAppProperties.class).in(
-					Singleton.class);
-			bind(IReadResourceFactory.class).to(ReadResourceFactory.class).in(
-					Singleton.class);
-			bind(IGetDialog.class).to(GetDialog.class).in(Singleton.class);
-			bind(IXMLToXMap.class).to(XMLToXMap.class).in(Singleton.class);
-			bind(IResolveNameFromToken.class).to(ResolveNameFromToken.class)
-					.in(Singleton.class);
-			bind(IReadDictFromFile.class).to(ReadDictFromFile.class).in(
-					Singleton.class);
-			bind(IReadMultiResourceFactory.class).to(
-					ReadMultiResourceFactory.class).in(Singleton.class);
-			// common
-			bind(IStorageRegistryFactory.class).to(
-					StorageRealmRegistryFactory.class).in(Singleton.class);
-			bind(IAddNewBlob.class).to(AddNewBlob.class).in(Singleton.class);
-			bind(IGetInstanceOObjectIdCache.class)
-					.to(GetInstanceObjectId.class).in(Singleton.class);
-			bind(ISecurityConvert.class)
-					.annotatedWith(
-							Names.named(ISharedConsts.PERSONSONLYSECURITY))
-					.to(PersonSecurityConverter.class).in(Singleton.class);
-			bind(ISecurityConvert.class).to(SecurityConverter.class).in(
-					Singleton.class);
-			bind(IMailSend.class).to(SendMailImpl.class).in(Singleton.class);
-			bind(IMailGet.class).to(GetMailImpl.class).in(Singleton.class);
-			bind(IMailSendSave.class).to(MailSaveImpl.class)
-					.in(Singleton.class);
-			bind(IGetMailFrom.class).to(GetMailFromApp.class).in(
-					Singleton.class);
-		}
+            bind(ISymGeneratorFactory.class).to(SymGeneratorFactory.class).in(
+                    Singleton.class);
+            bind(IXMLTransformer.class).to(XMLTransformer.class).in(
+                    Singleton.class);
+            bind(IXMLToMap.class).to(XMLMap.class).in(Singleton.class);
+            bind(IXMLHelper.class).to(XMLHelper.class).in(Singleton.class);
+            bind(IXMLHelper.class)
+                    .annotatedWith(Names.named(ISharedConsts.XMLHELPERCACHED))
+                    .to(XMLHelperCached.class).in(Singleton.class);
+            bind(IGetLocalizedDict.class)
+                    .annotatedWith(Names.named(IConsts.COUNTRIESDICT))
+                    .to(ListOfCountries.class).in(Singleton.class);
+            bind(IOObjectAdmin.class)
+                    .annotatedWith(
+                            Names.named(ISharedConsts.PERSONSONLYSECURITY))
+                    .to(SecurityForPersons.class).in(Singleton.class);
+            bind(IGetLocalizedDict.class)
+                    .annotatedWith(Names.named(IConsts.VATDICT))
+                    .to(GetVatTaxes.class).in(Singleton.class);
+            bind(IStorageMemContainerFactory.class).to(
+                    MemStorageCacheFactory.class).in(Singleton.class);
+            bind(IDefaultData.class).to(DefaDataImpl.class).in(Singleton.class);
+            bind(IGetAppProp.class).to(GetAppProperties.class).in(
+                    Singleton.class);
+            bind(IReadResourceFactory.class).to(ReadResourceFactory.class).in(
+                    Singleton.class);
+            bind(IGetDialog.class).to(GetDialog.class).in(Singleton.class);
+            bind(IXMLToXMap.class).to(XMLToXMap.class).in(Singleton.class);
+            bind(IResolveNameFromToken.class).to(ResolveNameFromToken.class)
+                    .in(Singleton.class);
+            bind(IReadDictFromFile.class).to(ReadDictFromFile.class).in(
+                    Singleton.class);
+            bind(IReadMultiResourceFactory.class).to(
+                    ReadMultiResourceFactory.class).in(Singleton.class);
+            // common
+            bind(IStorageRegistryFactory.class).to(
+                    StorageRealmRegistryFactory.class).in(Singleton.class);
+            bind(IAddNewBlob.class).to(AddNewBlob.class).in(Singleton.class);
+            bind(IGetInstanceOObjectIdCache.class)
+                    .to(GetInstanceObjectId.class).in(Singleton.class);
+            bind(ISecurityConvert.class)
+                    .annotatedWith(
+                            Names.named(ISharedConsts.PERSONSONLYSECURITY))
+                    .to(PersonSecurityConverter.class).in(Singleton.class);
+            bind(ISecurityConvert.class).to(SecurityConverter.class).in(
+                    Singleton.class);
+            bind(IMailSend.class).to(SendMailImpl.class).in(Singleton.class);
+            bind(IMailGet.class).to(GetMailImpl.class).in(Singleton.class);
+            bind(IMailSendSave.class).to(MailSaveImpl.class)
+                    .in(Singleton.class);
+            bind(IGetMailFrom.class).to(GetMailFromApp.class).in(
+                    Singleton.class);
+        }
 
-		@Provides
-		@Singleton
-		ISequenceRealmGen getSequenceRealmGen(
-				ISequenceRealmGenFactory seqFactory,
-				IStorageRealmRegistry iReg, ISemaphore iSem) {
-			return seqFactory.construct(iReg, iSem);
-		}
+        @Provides
+        @Singleton
+        ISequenceRealmGen getSequenceRealmGen(
+                ISequenceRealmGenFactory seqFactory,
+                IStorageRealmRegistry iReg, ISemaphore iSem) {
+            return seqFactory.construct(iReg, iSem);
+        }
 
-		@Provides
-		@Singleton
-		ISymGenerator getSymGenerator(ISymGeneratorFactory sFactory,
-				ISequenceRealmGen iSeq) {
-			return sFactory.construct(iSeq);
-		}
+        @Provides
+        @Singleton
+        ISymGenerator getSymGenerator(ISymGeneratorFactory sFactory,
+                ISequenceRealmGen iSeq) {
+            return sFactory.construct(iSeq);
+        }
 
-		@Provides
-		@Singleton
-		IGetBirtFile getBirtFile(final IJythonUIServerProperties iP) {
-			return new IGetBirtFile() {
+        @Provides
+        @Singleton
+        IGetResourceFile getBirtFile(final IJythonUIServerProperties iP) {
+            return new IGetResourceFile() {
 
-				@Override
-				public String getName(String rptFile) {
-					return Util.getBirtFile(iP, rptFile);
-				}
+                @Override
+                public String getBirtFile(String rptFile) {
+                    return Util.getBirtFile(iP, rptFile);
+                }
 
-			};
-		}
+                @Override
+                public InputStream getDialogFile(String dialogName) {
+                    return Util.getDialogFile(iP, dialogName);
+                }
 
-		protected void requestStatic() {
-			requestStaticInjection(Holder.class);
-			requestStaticInjection(SHolder.class);
-		}
+                @Override
+                public URL getFirstURL(String dir, String fName) {
+                    return Util.getFirstURL(iP, dir, fName);
+                }
 
-		@Provides
-		@Named(IConsts.TITLESDICT)
-		@Singleton
-		IGetLocalizedDict getListOfTitles(final IJythonUIServerProperties iP,
-				final IGetResourceMap iGet) {
-			return new IGetLocalizedDict() {
+            };
+        }
 
-				@Override
-				public List<DictEntry> getList() {
-					return ReadDict.getList(iP.getResource(), iGet,
-							IConsts.TITLESDICT);
-				}
+        protected void requestStatic() {
+            requestStaticInjection(Holder.class);
+            requestStaticInjection(SHolder.class);
+        }
 
-			};
-		}
+        @Provides
+        @Named(IConsts.TITLESDICT)
+        @Singleton
+        IGetLocalizedDict getListOfTitles(final IJythonUIServerProperties iP,
+                final IGetResourceMap iGet) {
+            return new IGetLocalizedDict() {
 
-		@Provides
-		@Named(IConsts.IDTYPEDICT)
-		@Singleton
-		IGetLocalizedDict getListOfIdTypes(final IJythonUIServerProperties iP,
-				final IGetResourceMap iGet) {
-			return new IGetLocalizedDict() {
+                @Override
+                public List<DictEntry> getList() {
+                    return ReadDict.getList(iP.getResource(), iGet,
+                            IConsts.TITLESDICT);
+                }
 
-				@Override
-				public List<DictEntry> getList() {
-					return ReadDict.getList(iP.getResource(), iGet,
-							IConsts.IDTYPEDICT);
-				}
+            };
+        }
 
-			};
-		}
+        @Provides
+        @Named(IConsts.IDTYPEDICT)
+        @Singleton
+        IGetLocalizedDict getListOfIdTypes(final IJythonUIServerProperties iP,
+                final IGetResourceMap iGet) {
+            return new IGetLocalizedDict() {
 
-		@Provides
-		@Named(IConsts.ROLES)
-		@Singleton
-		IGetLocalizedDict getListOfDefaultRoles(
-				final IJythonUIServerProperties iP, final IGetResourceMap iGet) {
-			return new IGetLocalizedDict() {
+                @Override
+                public List<DictEntry> getList() {
+                    return ReadDict.getList(iP.getResource(), iGet,
+                            IConsts.IDTYPEDICT);
+                }
 
-				@Override
-				public List<DictEntry> getList() {
-					return ReadDict.getList(iP.getResource(), iGet,
-							IConsts.ROLES);
-				}
-			};
-		}
+            };
+        }
 
-		@Provides
-		@Named(IConsts.PAYMENTDICT)
-		@Singleton
-		IGetLocalizedDict getListOfPayment(final IJythonUIServerProperties iP,
-				final IGetResourceMap iGet) {
-			return new IGetLocalizedDict() {
+        @Provides
+        @Named(IConsts.ROLES)
+        @Singleton
+        IGetLocalizedDict getListOfDefaultRoles(
+                final IJythonUIServerProperties iP, final IGetResourceMap iGet) {
+            return new IGetLocalizedDict() {
 
-				@Override
-				public List<DictEntry> getList() {
-					return ReadDict.getList(iP.getResource(), iGet,
-							IConsts.PAYMENTDICT);
-				}
+                @Override
+                public List<DictEntry> getList() {
+                    return ReadDict.getList(iP.getResource(), iGet,
+                            IConsts.ROLES);
+                }
+            };
+        }
 
-			};
-		}
+        @Provides
+        @Named(IConsts.PAYMENTDICT)
+        @Singleton
+        IGetLocalizedDict getListOfPayment(final IJythonUIServerProperties iP,
+                final IGetResourceMap iGet) {
+            return new IGetLocalizedDict() {
 
-		@Provides
-		@Named(IConsts.SECURITYREALM)
-		@Singleton
-		IStorageMemCache getSecurityCache(
-				final IStorageMemContainerFactory cFactory) {
-			return cFactory.construct(IConsts.SECURITYREALM);
-		}
+                @Override
+                public List<DictEntry> getList() {
+                    return ReadDict.getList(iP.getResource(), iGet,
+                            IConsts.PAYMENTDICT);
+                }
 
-		@Provides
-		@Named(IConsts.DEFADATAREALM)
-		@Singleton
-		IStorageMemCache getDefaDataCache(
-				final IStorageMemContainerFactory cFactory) {
-			return cFactory.construct(IConsts.DEFADATAREALM);
-		}
+            };
+        }
 
-		@Provides
-		@Singleton
-		ICommonCache getCommonCache(ICommonCacheFactory cFactory) {
-			return cFactory.construct(IConsts.COMMONCACHENAME);
+        @Provides
+        @Named(IConsts.SECURITYREALM)
+        @Singleton
+        IStorageMemCache getSecurityCache(
+                final IStorageMemContainerFactory cFactory) {
+            return cFactory.construct(IConsts.SECURITYREALM);
+        }
 
-		}
+        @Provides
+        @Named(IConsts.DEFADATAREALM)
+        @Singleton
+        IStorageMemCache getDefaDataCache(
+                final IStorageMemContainerFactory cFactory) {
+            return cFactory.construct(IConsts.DEFADATAREALM);
+        }
 
-	}
+        @Provides
+        @Singleton
+        ICommonCache getCommonCache(ICommonCacheFactory cFactory) {
+            return cFactory.construct(IConsts.COMMONCACHENAME);
+
+        }
+
+    }
 
 }

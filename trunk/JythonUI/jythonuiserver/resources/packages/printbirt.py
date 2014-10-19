@@ -7,10 +7,10 @@ def printBirt(var,rptfile,xml) :
   f.write(xml.encode('utf8'))
   f.close()
   print f.name
-  iGet = Holder.getBirtSearch()
+  iGet = Holder.getFindResource()
   hName = Holder.getHostName()
 #  print hName
-  rfile = iGet.getName(rptfile)
+  rfile = iGet.getBirtFile(rptfile)
   H = cutil.DEFAULTDATA()
   v = H.getData("birtviewer")
 #  print v
