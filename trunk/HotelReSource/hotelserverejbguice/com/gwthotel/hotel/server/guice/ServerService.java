@@ -40,13 +40,14 @@ import com.jython.serversecurity.IOObjectAdmin;
 import com.jython.serversecurity.instance.IAppInstanceOObject;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IGetConnection;
+import com.jythonui.server.IGetEnvDefaultData;
 import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.defa.EmptyConnectionProvider;
-import com.jythonui.server.defa.JavaMailSessionProvider;
 import com.jythonui.server.defa.StorageRealmRegistryFactory;
 import com.jythonui.server.envvar.IGetEnvVariable;
 import com.jythonui.server.envvar.IGetResourceJNDI;
+import com.jythonui.server.envvar.defa.GetEnvDefaultData;
 import com.jythonui.server.envvar.impl.GetEnvVariables;
 import com.jythonui.server.envvar.impl.ServerPropertiesEnv;
 import com.jythonui.server.guavacache.GuavaCacheFactory;
@@ -97,6 +98,8 @@ public class ServerService {
                     .in(Singleton.class);
 
             bind(IBeanLocator.class).to(EjbLocatorWildFly.class).in(
+                    Singleton.class);
+            bind(IGetEnvDefaultData.class).to(GetEnvDefaultData.class).in(
                     Singleton.class);
 
             // common

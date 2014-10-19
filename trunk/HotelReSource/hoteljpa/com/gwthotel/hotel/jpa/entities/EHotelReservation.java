@@ -25,6 +25,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
 import com.gwthotel.hotel.reservation.ResStatus;
@@ -48,12 +50,14 @@ public class EHotelReservation extends EObjectDict {
     @JoinColumn(name = "customer_id", nullable = false)
     private EHotelCustomer customer;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private Date termOfAdvanceDeposit;
 
     private BigDecimal advanceDeposit;
 
     private BigDecimal advancePayment;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dateofadvancePayment;
 
     public EHotelCustomer getCustomer() {
