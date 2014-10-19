@@ -29,6 +29,7 @@ import com.gwthotel.hotel.guice.HotelCommonGuice.HotelServiceModule;
 import com.gwthotel.hotel.jpa.bill.CustomerBillJpa;
 import com.gwthotel.hotel.jpa.clearobjects.ClearObjects;
 import com.gwthotel.hotel.jpa.customers.HotelJpaCustomers;
+import com.gwthotel.hotel.jpa.hotelmail.HotelMailing;
 import com.gwthotel.hotel.jpa.payment.PaymentOp;
 import com.gwthotel.hotel.jpa.pricelist.HotelJpaPriceList;
 import com.gwthotel.hotel.jpa.prices.HotelJpaPrices;
@@ -36,6 +37,7 @@ import com.gwthotel.hotel.jpa.reservation.HotelReservations;
 import com.gwthotel.hotel.jpa.reservationop.ReservationOp;
 import com.gwthotel.hotel.jpa.rooms.HotelJpaRooms;
 import com.gwthotel.hotel.jpa.services.HotelJpaServices;
+import com.gwthotel.hotel.mailing.IHotelMailList;
 import com.gwthotel.hotel.payment.IPaymentBillOp;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
@@ -64,6 +66,7 @@ import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaTransactionContext;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IGetConnection;
+import com.jythonui.server.IGetEnvDefaultData;
 import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.defa.EmptyConnectionProvider;
@@ -71,6 +74,7 @@ import com.jythonui.server.defa.EmptyRPCNotifier;
 import com.jythonui.server.defa.StorageRealmRegistryFactory;
 import com.jythonui.server.envvar.IGetEnvVariable;
 import com.jythonui.server.envvar.IGetResourceJNDI;
+import com.jythonui.server.envvar.defa.GetEnvDefaultData;
 import com.jythonui.server.envvar.impl.GetEnvVariables;
 import com.jythonui.server.envvar.impl.ServerPropertiesEnv;
 import com.jythonui.server.guavacache.GuavaCacheFactory;
@@ -131,6 +135,11 @@ public class ServerService {
                     Singleton.class);
             bind(IAppInstanceOObject.class).to(OObjectAdminInstance.class).in(
                     Singleton.class);
+            bind(IGetEnvDefaultData.class).to(GetEnvDefaultData.class).in(
+                    Singleton.class);
+            bind(IHotelMailList.class).to(HotelMailing.class).in(
+                    Singleton.class);
+
             // common
             bind(IStorageJpaRegistryFactory.class).to(
                     StorageJpaRegistryFactory.class).in(Singleton.class);

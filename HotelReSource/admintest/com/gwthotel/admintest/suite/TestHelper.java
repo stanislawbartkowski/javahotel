@@ -53,6 +53,7 @@ import com.jythonui.server.IConsts;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.security.token.ICustomSecurity;
 import com.jythonui.shared.CustomSecurity;
+import com.jythonui.shared.DialogVariables;
 import com.jythonui.test.CommonTestHelper;
 
 /**
@@ -237,6 +238,16 @@ public class TestHelper extends CommonTestHelper {
         assertNull(r.getAdvanceDeposit());
         assertNull(r.getTermOfAdvanceDeposit());
         return sym;
+    }
+
+    protected void scriptTest(String dialogName, String action) {
+        setUserPassword();
+        ICustomSecurity cu = getSec(HOTEL);
+        String token = iSec.authenticateToken(realM, "user", "secret", cu);
+        assertNotNull(token);
+        DialogVariables v = new DialogVariables();
+        runAction(token, v, dialogName, action);
+        assertOK(v);
     }
 
 }

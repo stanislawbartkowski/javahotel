@@ -17,14 +17,16 @@ import java.net.URL;
 import javax.inject.Inject;
 
 import com.jythonui.server.defa.AbstractServerProperties;
-import com.jythonui.server.resource.IReadResource;
 import com.jythonui.server.resource.IReadResourceFactory;
+import com.jythonui.server.resourcemulti.IReadMultiResource;
+import com.jythonui.server.resourcemulti.IReadMultiResourceFactory;
 
 public class ServerProperties extends AbstractServerProperties {
 
     @Inject
-    public ServerProperties(IReadResourceFactory iFactory) {
-        super(iFactory);
+    public ServerProperties(IReadResourceFactory iFactory,
+            IReadMultiResourceFactory mFactory) {
+        super(iFactory, mFactory);
     }
 
     @Override
@@ -33,20 +35,20 @@ public class ServerProperties extends AbstractServerProperties {
     }
 
     @Override
-    public IReadResource getResource() {
-        return iFactory.constructLoader(ServerProperties.class.getClassLoader());
+    public IReadMultiResource getResource() {
+        return mFactory.construct(iFactory
+                .constructLoader(ServerProperties.class.getClassLoader()));
     }
-
 
     @Override
     public boolean isCached() {
-        return false;
+        return true;
     }
-    
+
     @Override
     public URL getSendMailPropertiesFile() {
-        IReadResource r = getResource();
-        return r.getRes("mail/mailbox.properties");
+        // IReadResource r = getResource();
+        return getResource().getFirstUrl("mail/mailbox.properties");
     }
 
 }
