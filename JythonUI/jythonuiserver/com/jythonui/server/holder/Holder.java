@@ -21,7 +21,7 @@ import com.jython.serversecurity.cache.IGetInstanceOObjectIdCache;
 import com.jython.serversecurity.cache.OObjectId;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IDefaultData;
-import com.jythonui.server.IGetBirtFile;
+import com.jythonui.server.IGetResourceFile;
 import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IGetMailFrom;
 import com.jythonui.server.IJythonClientRes;
@@ -146,7 +146,7 @@ public class Holder {
 	private static IGetMailFrom iMailFrom;
 
 	@Inject
-	private static IGetBirtFile iGetBirt;
+	private static IGetResourceFile iGetResFile;
 
 	private static final ThreadLocal<RequestContext> locale = new ThreadLocal<RequestContext>();
 
@@ -298,8 +298,8 @@ public class Holder {
 		return iMailFrom;
 	}
 
-	public static IGetBirtFile getBirtSearch() {
-		return iGetBirt;
+	public static IGetResourceFile getFindResource() {
+		return iGetResFile;
 	}
 
 }

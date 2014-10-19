@@ -240,8 +240,12 @@ def CVSToListNumber(s) :
   return li  
   
 # ----------------------------------------------------
-def fileToS(filename):
-   iS = Holder.getIJython().getResource().getRes(filename)
+def fileToS(dir,filename=None):
+   if filename == None : 
+       filename = dir 
+       dir = None
+#   iS = Holder.getIJython().getResource().getRes(filename)
+   iS = Holder.getFindResource().getFirstURL(dir, filename)
    s = BUtil.readFromFileInput(iS.openStream())
    return s
   
