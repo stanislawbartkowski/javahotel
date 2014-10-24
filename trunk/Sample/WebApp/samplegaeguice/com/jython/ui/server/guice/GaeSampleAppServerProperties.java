@@ -20,6 +20,8 @@ import com.jythonui.server.defa.AbstractServerProperties;
 import com.jythonui.server.defa.IsCached;
 import com.jythonui.server.resource.IReadResource;
 import com.jythonui.server.resource.IReadResourceFactory;
+import com.jythonui.server.resourcemulti.IReadMultiResource;
+import com.jythonui.server.resourcemulti.IReadMultiResourceFactory;
 
 /**
  * @author hotel
@@ -31,8 +33,8 @@ public class GaeSampleAppServerProperties extends AbstractServerProperties {
 
     @Inject
     public GaeSampleAppServerProperties(IsCached isC,
-            IReadResourceFactory iFactory) {
-        super(iFactory);
+            IReadResourceFactory iFactory, IReadMultiResourceFactory mFactory) {
+        super(iFactory, mFactory);
         this.isC = isC;
     }
 
@@ -44,15 +46,16 @@ public class GaeSampleAppServerProperties extends AbstractServerProperties {
     }
 
     @Override
-    public IReadResource getResource() {
-        return iFactory.constructLoader(GaeSampleAppServerProperties.class
-                .getClassLoader());
+    public IReadMultiResource getResource() {
+        return mFactory.construct(iFactory
+                .constructLoader(GaeSampleAppServerProperties.class
+                        .getClassLoader()));
     }
 
     @Override
     public URL getSendMailPropertiesFile() {
-        IReadResource r = getResource();
-        return r.getRes("mail/mailbox.properties");
+        IReadMultiResource r = getResource();
+        return r.getFirstUrl("mail/mailbox.properties");
     }
 
 }
