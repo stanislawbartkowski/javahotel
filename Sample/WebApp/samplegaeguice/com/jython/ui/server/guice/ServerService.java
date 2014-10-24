@@ -12,7 +12,6 @@
  */
 package com.jython.ui.server.guice;
 
-
 import javax.mail.Session;
 
 import com.google.inject.Provides;
@@ -37,12 +36,14 @@ import com.jython.ui.server.gaestoragekey.BlobStorage;
 import com.jython.ui.server.gaestoragekey.GaeStorageRegistry;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IGetConnection;
+import com.jythonui.server.IGetEnvDefaultData;
 import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.crud.ICrudObjectGenSym;
 import com.jythonui.server.defa.EmptyConnectionProvider;
+import com.jythonui.server.defa.EmptyGetEnvDefaultData;
 import com.jythonui.server.defa.EmptyRPCNotifier;
 import com.jythonui.server.defa.GetClientProperties;
 import com.jythonui.server.defa.IsCached;
@@ -98,10 +99,11 @@ public class ServerService {
                     .in(Singleton.class);
             bind(INoteStorage.class).to(NoteStoreImpl.class)
                     .in(Singleton.class);
-
+            bind(IGetEnvDefaultData.class).to(EmptyGetEnvDefaultData.class).in(
+                    Singleton.class);
             requestStatic();
         }
-        
+
         @Provides
         @Singleton
         ICrudObjectGenSym getObjectGen(ISymGenerator iGen,
