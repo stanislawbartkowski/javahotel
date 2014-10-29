@@ -146,6 +146,11 @@
 			<xs:element minOccurs="0" name="formpanel" type="emptyT" />
 			<xs:element minOccurs="0" name="autohide" type="emptyT" />
 			<xs:element minOccurs="0" name="modeless" type="emptyT" />
+			<xs:element minOccurs="0" name="maxleft" type="xs:positiveInteger" />
+			<xs:element minOccurs="0" name="maxtop" type="xs:positiveInteger" />
+			<xs:element minOccurs="0" name="left" type="xs:positiveInteger" />
+			<xs:element minOccurs="0" name="top" type="xs:positiveInteger" />
+
 		</xs:sequence>
 	</xs:group>
 
@@ -164,6 +169,10 @@
 		<xs:attribute name="formpanel" type="emptyT" />
 		<xs:attribute name="autohide" type="emptyT" />
 		<xs:attribute name="modeless" type="emptyT" />
+		<xs:attribute name="maxleft" type="xs:positiveInteger" />
+		<xs:attribute name="maxtop" type="xs:positiveInteger" />
+		<xs:attribute name="left" type="xs:positiveInteger" />
+		<xs:attribute name="top" type="xs:positiveInteger" />
 	</xs:attributeGroup>
 
 	<xs:group name="chartG">
@@ -312,7 +321,7 @@
 		<xs:attribute name="headerclass" type="xs:string" />
 		<xs:attribute name="spinnermin" type="integerTypeOrFun" />
 		<xs:attribute name="spinnermax" type="integerTypeOrFun" />
-        <xs:attribute name="vislines" type="xs:nonNegativeInteger" />
+		<xs:attribute name="vislines" type="xs:nonNegativeInteger" />
 	</xs:attributeGroup>
 
 	<xs:group name="checklistG">
@@ -357,7 +366,7 @@
 			<xs:element minOccurs="0" name="defafile" type="xs:string" />
 			<xs:element minOccurs="0" name="cssclass" type="xs:string" />
 			<xs:element minOccurs="0" name="standbutt" type="listStand" />
-            <xs:element minOccurs="0" name="currentpos" type="xs:nonNegativeInteger" />
+			<xs:element minOccurs="0" name="currentpos" type="xs:nonNegativeInteger" />
 		</xs:sequence>
 	</xs:group>
 
@@ -372,7 +381,7 @@
 		<xs:attribute name="defafile" type="xs:string" />
 		<xs:attribute name="cssclass" type="xs:string" />
 		<xs:attribute name="standbutt" type="listStand" />
-        <xs:attribute name="currentpos" type="xs:nonNegativeInteger" />
+		<xs:attribute name="currentpos" type="xs:nonNegativeInteger" />
 	</xs:attributeGroup>
 
 	<xs:group name="formfileG">

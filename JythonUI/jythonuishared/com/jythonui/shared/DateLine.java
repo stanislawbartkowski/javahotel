@@ -21,7 +21,7 @@ public class DateLine extends ElemDescription {
 
     private List<FieldItem> colList = new ArrayList<FieldItem>();
     private List<FormDef> formList = new ArrayList<FormDef>();
-    
+
     public List<FieldItem> getColList() {
         return colList;
     }
@@ -69,9 +69,7 @@ public class DateLine extends ElemDescription {
     }
 
     public int getCurrentPos() {
-        if (!isAttr(ICommonConsts.CURRENTPOS))
-            return -1;
-        return Integer.parseInt(getAttr(ICommonConsts.CURRENTPOS));
+        return getIntAttr(ICommonConsts.CURRENTPOS);
     }
 
     public List<FieldItem> constructDataLine() {

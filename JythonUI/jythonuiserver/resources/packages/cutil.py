@@ -131,6 +131,15 @@ def createEnum(list,getname,getdisplay=None,addid=True):
         seq.append(m)
     return seq 
 
+def validatePercent(var,field) :
+  if var[field] == None : return True
+  pe = var[field]
+  if pe <= 0 or pe >= 100 :
+    setErrorField(var,field,"@percentinvalid")
+    return False
+  return True
+
+
 def copyVarToProp(var,prop,list):
     for l in list :
         val = var[l]

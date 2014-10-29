@@ -63,7 +63,10 @@ public class GetResourceMapImpl implements IGetResourceMap {
 
         List<IReadResource> rList = iRead.getRList();
         Map<String, String> ma = new HashMap<String, String>();
-        for (IReadResource r : rList) {
+
+        // from last to first
+        for (int i = rList.size() - 1; i >= 0; i--) {
+            IReadResource r = rList.get(i);
             Map<String, String> m = ReadBundle.getBundle(r, loc, dir, bundle);
             if (m == null)
                 continue;

@@ -65,17 +65,17 @@ public class CheckList extends ElemDescription {
 
     public List<FieldItem> constructErrLine() {
         List<FieldItem> valList = new ArrayList<FieldItem>();
-        
+
         FieldItem fItem = new FieldItem();
         fItem.setAttr(ICommonConsts.TYPE, ICommonConsts.STRINGTYPE);
         fItem.setId(ICommonConsts.CHECKERRORROW);
         valList.add(fItem);
-        
+
         fItem = new FieldItem();
         fItem.setAttr(ICommonConsts.TYPE, ICommonConsts.STRINGTYPE);
         fItem.setId(ICommonConsts.CHECKERRORCOL);
         valList.add(fItem);
-        
+
         fItem = new FieldItem();
         fItem.setAttr(ICommonConsts.TYPE, ICommonConsts.STRINGTYPE);
         fItem.setId(ICommonConsts.CHECKERRORMESS);

@@ -59,4 +59,8 @@ public abstract class ElemDescription extends XMap {
         return getAttr(ICommonConsts.CLASSNAME);
     }
 
+    protected int getIntAttr(String attr) {
+        return getInt(attr, -1);
+    }
+
 }

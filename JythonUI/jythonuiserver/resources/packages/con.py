@@ -8,6 +8,13 @@ from com.gwtmodel.table.common.dateutil import DateFormatUtil
 from com.gwtmodel.containertype import ContainerInfo
 from com.jythonui.server import MUtil
 
+def toP(s,prefix):
+    if prefix : return prefix + s
+    return s
+
+def calculatePercent(total,percent) :
+  return total * (percent / 100.0)
+
 def isAppEngine() :
     return not ContainerInfo.TransactionContainer()
 
