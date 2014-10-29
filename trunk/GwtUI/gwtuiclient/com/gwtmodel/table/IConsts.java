@@ -36,6 +36,7 @@ public interface IConsts {
     String EMPTYCLASSSTYLE = "dialog-empty-field";
     int MonthPanel = 12;
     String LABELPREFIX = "label-";
+    String LABELFORPREFIX = "labelfor-";
     String IJSCALL = "JS.";
     String SPINNERSTYLE = "spinner-style";
     String EMAILSTYLE = "email-style";

@@ -45,6 +45,9 @@ public interface IGetCustomValues {
 	String CLOSEIMAGE = "CLOSEIMAGE";
 	String EXPANDIMAGE = "EXPANDIMAGE";
 	String JCOOKIEPREFIX = "JCOOKIEPREFIX";
+	String HTMLPANELADDID = "HTMLPANELADDID";
+	
+	String VALUEYES = "Y";
 
 	String getCustomValue(String key);
 

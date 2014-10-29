@@ -128,6 +128,10 @@ public class EditWidgetFactory {
         return new LabelEdit(cValues, v, newE(false, false), la, htmlName);
     }
 
+    public IFormLineView constructLabelFor(IVField v, String la) {
+        return new LabelFor(cValues, v, la);
+    }
+
     // used
     public IFormLineView construcDateBoxCalendar(IVField v, String htmlName) {
         return new DateBoxCalendar(cValues, v, htmlName);

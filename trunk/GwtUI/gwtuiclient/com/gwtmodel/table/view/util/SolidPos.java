@@ -20,14 +20,19 @@ public class SolidPos {
 
     private final int startl;
     private final int startcol;
+    private final int maxstartl;
+    private final int maxstartcol;
 
-    public SolidPos(int startl, int startcol) {
+    public SolidPos(int startl, int startcol, int maxstartl, int maxstartcol) {
         this.startl = startl;
         this.startcol = startcol;
+        this.maxstartl = maxstartl;
+        this.maxstartcol = maxstartcol;
+
     }
 
     public SolidPos() {
-        this(-1, -1);
+        this(-1, -1, -1, -1);
     }
 
     /**
@@ -43,4 +48,13 @@ public class SolidPos {
     int getStartcol() {
         return startcol;
     }
+
+    public int getMaxstartl() {
+        return maxstartl;
+    }
+
+    public int getMaxstartcol() {
+        return maxstartcol;
+    }
+
 }
