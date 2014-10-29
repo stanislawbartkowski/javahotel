@@ -29,7 +29,7 @@ public class ListFormat extends ElemDescription {
     private DialogFormat fElem;
 
     public enum ToolBarType {
-        EDIT, LISTONLY, LISTSHOWONLY,EMPTY
+        EDIT, LISTONLY, LISTSHOWONLY, EMPTY
     }
 
     public ToolBarType getToolBarType() {
@@ -67,11 +67,7 @@ public class ListFormat extends ElemDescription {
     }
 
     public int getPageSize() {
-        if (CUtil.EmptyS(getAttr(ICommonConsts.PAGESIZE))) {
-            return -1;
-        }
-        return CUtil.getInteger(getAttr(ICommonConsts.PAGESIZE));
-
+        return getIntAttr(ICommonConsts.PAGESIZE);
     }
 
     public boolean isChunked() {
