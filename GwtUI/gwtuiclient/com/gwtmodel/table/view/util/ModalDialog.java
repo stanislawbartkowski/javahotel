@@ -52,14 +52,15 @@ abstract public class ModalDialog {
     }
 
     public ModalDialog(String title) {
-        this(new VerticalPanel(), title, false,true);
+        this(new VerticalPanel(), title, false, true);
     }
 
     public ModalDialog(VerticalPanel vP, String title) {
-        this(vP, title, false,true);
+        this(vP, title, false, true);
     }
 
-    public ModalDialog(VerticalPanel vP, String title, boolean autohide,boolean modal) {
+    public ModalDialog(VerticalPanel vP, String title, boolean autohide,
+            boolean modal) {
         this.vP = vP;
         this.title = iMess.getMessage(title);
         dBox = new DialogBox(autohide, modal);
@@ -118,15 +119,17 @@ abstract public class ModalDialog {
 
                 int left = MaxI.min(maxwi - offsetWidth, l);
                 int top = MaxI.min(maxhei - offsetHeight, t);
-                if (sPos.getStartl() != -1) {
+                if (sPos.getStartl() != -1)
                     top = sPos.getStartl();
-                }
-                if (sPos.getStartcol() != -1) {
+                if (sPos.getStartcol() != -1)
                     left = sPos.getStartcol();
-                }
-                if (top < 0) {
+                if (sPos.getMaxstartl() != -1 && top > sPos.getMaxstartl())
+                    top = sPos.getMaxstartl();
+                if (sPos.getMaxstartcol() != -1 && left > sPos.getMaxstartcol())
+                    left = sPos.getMaxstartcol();
+
+                if (top < 0)
                     top = 0;
-                }
                 dBox.setPopupPosition(left, top);
             }
         });
