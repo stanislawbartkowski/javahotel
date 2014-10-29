@@ -25,47 +25,46 @@ import com.jythonui.server.resource.IReadResourceFactory;
 
 class ReadMultiResource extends UtilHelper implements IReadMultiResource {
 
-	private final List<IReadResource> rList = new ArrayList<IReadResource>();
+    private final List<IReadResource> rList = new ArrayList<IReadResource>();
 
-	ReadMultiResource(IReadResourceFactory iFactory, IReadResource... li) {
-		for (IReadResource i : li)
-			rList.add(i);
-		rList.add(iFactory.constructLoader(ReadMultiResource.class
-				.getClassLoader()));
-	}
+    ReadMultiResource(IReadResourceFactory iFactory, IReadResource... li) {
+        for (IReadResource i : li)
+            rList.add(i);
+        rList.add(iFactory.constructLoader(ReadMultiResource.class
+                .getClassLoader()));
+    }
 
-	@Override
-	public List<IReadResource> getRList() {
-		return rList;
-	}
+    @Override
+    public List<IReadResource> getRList() {
+        return rList;
+    }
 
-	@Override
-	public List<URL> getUrlList(String resourcePath) {
-		List<URL> uList = new ArrayList<URL>();
-		for (IReadResource i : rList) {
-			URL u = i.getRes(resourcePath);
-			if (u != null)
-				uList.add(u);
-		}
-		return uList;
-	}
+    @Override
+    public List<URL> getUrlList(String resourcePath) {
+        List<URL> uList = new ArrayList<URL>();
+        for (IReadResource i : getRList()) {
+            URL u = i.getRes(resourcePath);
+            if (u != null)
+                uList.add(u);
+        }
+        return uList;
+    }
 
-	@Override
-	public URL getFirstUrl(String resourcePath) {
-		List<URL> uList = getUrlList(resourcePath);
-		for (URL u : uList) {
-			InputStream i;
-			try {
-				i = u.openStream();
-				i.close();
-				return u;
-			} catch (FileNotFoundException e) {
-				// expected
-				continue;
-			} catch (IOException e) {
-				errorLog(u.getFile(), e);
-			}
-		}
-		return null;
-	}
+    @Override
+    public URL getFirstUrl(String resourcePath) {
+        for (URL u : getUrlList(resourcePath)) {
+            InputStream i;
+            try {
+                i = u.openStream();
+                i.close();
+                return u;
+            } catch (FileNotFoundException e) {
+                // expected
+                continue;
+            } catch (IOException e) {
+                errorLog(u.getFile(), e);
+            }
+        }
+        return null;
+    }
 }
