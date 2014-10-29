@@ -19,6 +19,7 @@ from com.gwthotel.hotel.reservationop.IReservationOp import ResInfoType
 
 import cutil
 import xmlutil
+import con
 
 def setIntField(var,key,setF) :
   if var[key] == None : setF(IHotelConsts.PERSONIDNO)
@@ -296,8 +297,9 @@ def getAppId(var):
     return cutil.getAppId(var)
 
 def __toV(s,prefix) :
-  if prefix : return prefix + s
-  return s
+#  if prefix : return prefix + s
+#  return s
+    return con.toP(s,prefix)
 
 def copyNameDescr(desc,var,prefix=None):
     desc.setName(var[__toV("name",prefix)])

@@ -9,6 +9,7 @@ from util import rutil
 from util import util
 from util import rbefore
 from util import diallaunch
+from util import advarese
 
 M = util.MESS()
 
@@ -20,17 +21,6 @@ RE=rutil.RELINE(None,"datecol","name","roomservice","roompricelist","serviceperp
 RELIST=rutil.RELINE(RESLIST,*rutil.RESLIST)
 
 D = util.HOTELDEFADATA()
-
-def calculatePercent(total,percent) :
-  return total * (percent / 100.0)
-
-def validatePercent(var,field) :
-  if var[field] == None : return True
-  pe = var[field]
-  if pe <= 0 or pe >= 100 :
-    cutil.setErrorField(var,field,"The value should be between 0 and 100")
-    return False
-  return True
 
 def _newRese(var) :
   return rutil.getReseName(var) == None
@@ -192,17 +182,8 @@ def _calculatePaymentBy(var,li) :
   cutil.setCopy(var,"advance_duedate")
 
 def _calculateAdvanceAmount(var,total) :
-  # calculate start day
-  advance_total = total
-  advance_payment = None
-  advance_percent = var["advance_percent"]
-  if validatePercent(var,"advance_percent") :
-    if advance_total != None and advance_percent != None :
-      advance_payment = calculatePercent(advance_total,advance_percent)
-  util.setCopy(var,["advance_total","advance_payment"])
-  var["advance_payment"] = advance_payment
-  var["advance_total"] = advance_total
-
+   A = advarese.createAdvaRese(var)
+   A.calculateAdvanceAmount(total)
 
 def _createListOfDays(var,new): 
   rData = _createResData(var,new)
@@ -212,14 +193,18 @@ def _createListOfDays(var,new):
   _calculateAdvanceAmount(var,rData[1])
   _calculatePaymentBy(var,rData[0])
   return rData[2]  
-  
+
+
 class MAKERESE(util.HOTELTRANSACTION) :
   
    def __init__(self,var) :
      util.HOTELTRANSACTION.__init__(self,1,var)
-     
+          
    def run(self,var) :     
+      # validate (under transaction !)
       if not _checkAvailibity(var) : return
+      A = advarese.createAdvaRese(var)
+      if not A.validate() : return
       # customer firstly
       service = var["roomservice"]
       pricelist = var["roompricelist"]
@@ -244,8 +229,10 @@ class MAKERESE(util.HOTELTRANSACTION) :
       else : reservation.setGensymbol(True);
       reservation.setCustomerName(name)
       # advance      
-      reservation.setAdvanceDeposit(con.toB(var["advance_payment"]))
-      reservation.setTermOfAdvanceDeposit(con.toDate(var["advance_duedate"]))      	
+      #reservation.setAdvanceDeposit(con.toB(var["advance_payment"]))
+      #reservation.setTermOfAdvanceDeposit(con.toDate(var["advance_duedate"]))
+      A = advarese.createAdvaRese(var)
+      A.setAdvaData(reservation)
       # --
       service = var["roomservice"]
       nop = var["nop"]
@@ -295,10 +282,7 @@ def reseraction(action,var):
      var["JCLOSE_DIALOG"] = True
      var["JREFRESH_DATELINE_reservation"] = ""
      
-    if action == "aftercheckin" and var["JUPDIALOG_BUTTON"] == "makecheckin" :
-       util.RESOP(var).changeStatusToStay(rutil.getReseName(var))
-       var["JREFRESH_DATELINE_reservation"] = ""
-       var["JCLOSE_DIALOG"] = True        
+    if action == "aftercheckin" : rutil.afterCheckIn(var) 
     
     if action == "signalchange" and var["changeafterfocus"]:
         if var["changefield"] == "serviceperperson" :
@@ -314,7 +298,7 @@ def reseraction(action,var):
             _setAfterPriceList(var)
         
         if var["changefield"] == "advance_percent" :
-	    if not validatePercent(var,"advance_percent") : return 
+	    if not cutil.validatePercent(var,"advance_percent") : return 
             _calculateAdvanceAmount(var,var["advance_total"])	  
             
     
@@ -380,7 +364,7 @@ def reseraction(action,var):
         l = var["JLIST_MAP"][RESLIST]
         xml = xmlutil.toXML({},l)
         var["JUPDIALOG_START"] = xml
-        var["JUP_DIALOG"]="hotel/reservation/searchrooms.xml" 
+        var["JUP_DIALOG"]="?searchrooms.xml" 
         var["JAFTERDIALOG_ACTION"] = "morereservationaccept" 
       
     if action == "morereservationaccept" and var["JUPDIALOG_BUTTON"] == "toresrese" :
@@ -411,7 +395,7 @@ def reseraction(action,var):
         l = var["JLIST_MAP"][RESLIST]
         xml = xmlutil.toXML({},l)
         var["JUPDIALOG_START"] = xml
-        var["JUP_DIALOG"]="hotel/reservation/modifreservation.xml" 
+        var["JUP_DIALOG"]="?modifreservation.xml" 
         var["JAFTERDIALOG_ACTION"] = "detailreservationaccept" 
 
 #--------------------------

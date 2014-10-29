@@ -341,3 +341,14 @@ def getReseDateS(var,sym) :
     
 def getReseDate(var,r) :
   return getReseDateS(var,r.getName())
+
+# ----------------------
+
+def refreshPanel(var) :
+   var["JREFRESH_DATELINE_reservation"] = ""
+
+def afterCheckIn(var) :
+   if var["JUPDIALOG_BUTTON"] == "makecheckin" :
+       util.RESOP(var).changeStatusToStay(getReseName(var))
+       refreshPanel(var)
+       var["JCLOSE_DIALOG"] = True        

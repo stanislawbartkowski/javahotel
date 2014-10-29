@@ -1,6 +1,7 @@
 import cutil
 from util import util
-from util import rpdf
+from util import rutil
+#from util import rpdf
 from util import diallaunch
 
 LIST="list"
@@ -18,7 +19,7 @@ def dialogaction(action,var) :
     seq = R.getList()
     list = []
     for s in seq :
-       (arrival,departure,roomname,rate) = rpdf.getReseDate(var,s)
+       (arrival,departure,roomname,rate) = rutil.getReseDate(var,s)
        ma = {"name" : s.getName(),"resdate" : s.getCreationDate(), "checkin" : arrival, "checkout" : departure, "roomname" : roomname }
        cu = C.findElem(s.getCustomerName())
        util.toCustomerVar(ma,cu,PREC,CULIST)

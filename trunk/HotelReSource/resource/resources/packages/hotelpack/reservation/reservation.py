@@ -58,7 +58,7 @@ def reservationaction(action,var):
           sta = util.resStatus(rform)
           
           if sta == 1 : var["JUP_DIALOG"] = "?showstay.xml"
-          else: var["JUP_DIALOG"] = "?reserveroom.xml"
+          else: var["JUP_DIALOG"] = "?modifrese.xml"
 
       
     if action == "datelinevalues" :

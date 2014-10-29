@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="@makereservation">
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="@makereservation" maxleft="200" maxtop = "150" >
 
  <htmlpanel>hotel/reservation/html/reserveroom.html</htmlpanel>
  <jscode>hotel/reservation/js/reservrow.js</jscode>
@@ -26,7 +26,7 @@
                         actiontype="JYESNO_MESSAGE" actionparam="@cancelreservationconfirmation"
                         actionparam1="@warningcancelreservation" actionparam2="cancelreserv" hidden=""/>
                 <button id="checkin" displayname="@checkinbutton" actiontype="JUP_DIALOG"
-                        actionparam="hotel/reservation/checkin.xml" actionparam2="aftercheckin" hidden=""/>
+                        actionparam="?checkin.xml" actionparam2="aftercheckin" hidden=""/>
                 <button id="morereservation" displayname="@addnextreservation" />
                 <button id="detailreservation" displayname="@modifyreservation" />
                 <button id="sendmail" displayname="@sendconfirmationemail" />
