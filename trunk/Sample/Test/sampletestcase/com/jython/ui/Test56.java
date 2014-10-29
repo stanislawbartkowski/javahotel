@@ -29,5 +29,19 @@ public class Test56 extends TestHelper {
         assertNotNull(dl);
         assertEquals(10,dl.getCurrentPos());        
     }
+    
+    @Test
+    public void test2() {
+        DialogFormat d = findDialog("test102.xml");
+        assertNotNull(d);  
+        System.out.println(d.getTop());
+        assertEquals(20,d.getTop());
+        System.out.println(d.getLeft());
+        assertEquals(10,d.getLeft());
+        System.out.println(d.getMaxTop());
+        assertEquals(2,d.getMaxTop());
+        System.out.println(d.getMaxLeft());
+        assertEquals(1,d.getMaxLeft());
+    }
 
 }
