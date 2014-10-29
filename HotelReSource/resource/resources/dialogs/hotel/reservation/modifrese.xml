@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="Change reservation" autohide="" htmlpanel="?html/modifrese.html" csscode="?html/modifrese.css" >
+ 
+        <before/>
+	
+	<maxtop>300</maxtop>
+  
+	<jython>
+		<import>from hotelpack.reservation import modifrese</import>
+		<method>modifrese.dialogaction({0},{1})</method>
+	</jython>
+        
+
+	<buttons>
+	  <button id="modifrese" displayname="Change reservation" />
+          <button id="checkin" displayname="@checkinbutton" actiontype="JUP_DIALOG"
+                        actionparam="?checkin.xml" actionparam2="aftercheckin" />
+	  <button id="saveadva" displayname="Save advance" />
+       </buttons>
+       
+	<form>
+		<field id="resename" hidden=""/>
+		<field id="p_advance_total" displayname="@totalpayment" type="decimal" readonly="" />
+                <field id="p_advance_percent" displayname="@advancepercent" type="decimal" signalchange="" />
+		<field id="p_advance_payment" displayname="@advancepayment" type = "decimal" />
+		<field id="p_advance_duedate" displayname="@addvancepaymenty" type="date" />
+		<field id="p_advance_forpayment" displayname="@advanceforpayment" type="decimal" />
+		<field id="p_advance_fordate" displayname="@advancefordate" type="date" />
+
+	</form>		
+	
+  <disclosurepanel>
+    <disclosureelem id="adddvancepayment" displayname="Register advance payment" htmlpanel="?html/modifadvancepayment.html" signalchange="" />
+  </disclosurepanel>
+
+	 
+
+
+</dialog>

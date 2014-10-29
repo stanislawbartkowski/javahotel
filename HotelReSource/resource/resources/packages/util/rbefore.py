@@ -4,6 +4,7 @@ import con
 
 import util
 import rutil
+import advarese
 
 RCUST="cust_"
 RLIST="reslist"
@@ -60,7 +61,7 @@ def setvarBefore(var,cust=RCUST):
     util.setCustData(var,custname,cust)
     
     list = []
-    sum = util.SUMBDECIMAL()
+#    sum = util.SUMBDECIMAL()
     S = util.SERVICES(var)
     mindate = None
     for r in reservation.getResDetail() :
@@ -78,18 +79,24 @@ def setvarBefore(var,cust=RCUST):
          roompricelist = cutil.ifnull(roompricelist,r.getPriceListName())
 
          list.append(map)
-         sum.add(r.getPriceTotal())
+#         sum.add(r.getPriceTotal())
 
     rutil.setServicePriceList(var,roomservice,roompricelist)
     var["datecol"] = mindate
     var["resdays"] = len(reservation.getResDetail())
     
     # advance payment
-    var["advance_duedate"] = reservation.getTermOfAdvanceDeposit()
-    var["advance_percent"] = util.HOTELDEFADATA().getDataHI(40)
-    var["advance_payment"] = reservation.getAdvanceDeposit()
-    var["advance_total"] = sum.sum
-    util.setCopy(var,["advance_percent","advance_duedate","advance_payment","advance_total"])
+#    var["advance_duedate"] = reservation.getTermOfAdvanceDeposit()
+#    var["advance_percent"] = util.HOTELDEFADATA().getDataHI(40)
+#    var["advance_payment"] = reservation.getAdvanceDeposit()
+#    var["advance_total"] = sum.sum
+#    util.setCopy(var,["advance_percent","advance_duedate","advance_payment","advance_total"])
+
+    SUM = advarese.CALCULATE()
+    SUM.calc(reservation)
+    A = advarese.createAdvaRese(var)
+    A.setVal(reservation,SUM.getTotal())
+    A.setCopy()
     
     cutil.setJMapList(var,RLIST,list)
-    cutil.setFooter(var,RLIST,"rlist_pricetotal",sum.sum)
+    cutil.setFooter(var,RLIST,"rlist_pricetotal",SUM.getTotal())

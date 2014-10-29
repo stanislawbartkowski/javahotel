@@ -1,55 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  When updating your version of GWT, you should also update this DTD reference,
-  so that your app can take advantage of the latest GWT module capabilities.
--->
+<!-- When updating your version of GWT, you should also update this DTD reference, 
+	so that your app can take advantage of the latest GWT module capabilities. -->
 <!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.5.0//EN"
   "http://google-web-toolkit.googlecode.com/svn/tags/2.5.0/distro-source/core/src/gwt-module.dtd">
 <module rename-to='hotelapplication'>
-  <!-- Inherit the core Web Toolkit stuff.                        -->
-  <inherits name='com.google.gwt.user.User'/>
+	<!-- Inherit the core Web Toolkit stuff. -->
+	<inherits name='com.google.gwt.user.User' />
 
-  <!-- Inherit the default GWT style sheet.  You can change       -->
-  <!-- the theme of your GWT application by uncommenting          -->
-  <!-- any one of the following lines.                            -->
-  <inherits name='com.google.gwt.user.theme.clean.Clean'/>
-  <!-- <inherits name='com.google.gwt.user.theme.standard.Standard'/> -->
-  <!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
-  <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
+	<!-- Inherit the default GWT style sheet. You can change -->
+	<!-- the theme of your GWT application by uncommenting -->
+	<!-- any one of the following lines. -->
+	<inherits name='com.google.gwt.user.theme.clean.Clean' />
+	<!-- <inherits name='com.google.gwt.user.theme.standard.Standard'/> -->
+	<!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
+	<!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/> -->
 
-  <!-- Other module inherits                                      -->
+	<!-- Other module inherits -->
 
-  <!-- Specify the app entry point class.                         -->
-  <entry-point class='com.gwthotel.hotel.client.HotelApplication'/>
+	<!-- Specify the app entry point class. -->
+	<entry-point class='com.gwthotel.hotel.client.HotelApplication' />
 
-  <!-- Specify the paths for translatable code                    -->
-  <source path='client'/>
-  <source path='shared'/>
-  
-  <stylesheet src='res/css/hotel.css'/>
-  <stylesheet src='res/css/standard_table.css'/>
-  <inherits name="com.google.gwt.logging.Logging"/>
-  <set-property name="gwt.logging.popupHandler" value="DISABLED" />
-  <set-property name="gwt.logging.enabled" value="FALSE"/> 
-  <set-property name="gwt.logging.consoleHandler" value="DISABLED"/>
-  <inherits name="com.google.gwt.user.theme.standard.Standard"/>
-  <inherits name="com.google.gwt.http.HTTP"/>
-  <inherits name="com.google.gwt.inject.Inject"/>
-  <inherits name="com.gwtmodel.table" />
-  <inherits name="com.jythonui.jythonuiclient" />
-  <inherits name="com.jythonui.jythonuicommon" />
-  <inherits name='com.google.gwt.visualization.Visualization'/>
-  
-  
-  <extend-property name="locale" values="en"/>
-  <extend-property name="locale" values="pl"/>
-  <set-property-fallback name="locale" value="en"/>
-  
-    <!--  Super dev mode -->
-<!--      
-  <add-linker name="xsiframe"/>
-  <set-configuration-property name="devModeRedirectEnabled" value="true"/>
-  <set-property name="compiler.useSourceMaps" value="true" />
- -->  
-  
+	<!-- Specify the paths for translatable code -->
+	<source path='client' />
+	<source path='shared' />
+
+	<stylesheet src='res/css/hotel.css' />
+	<stylesheet src='res/css/standard_table.css' />
+	<inherits name="com.google.gwt.logging.Logging" />
+	<set-property name="gwt.logging.popupHandler" value="DISABLED" />
+	<set-property name="gwt.logging.enabled" value="FALSE" />
+	<set-property name="gwt.logging.consoleHandler" value="DISABLED" />
+	<inherits name="com.google.gwt.user.theme.standard.Standard" />
+	<inherits name="com.google.gwt.http.HTTP" />
+	<inherits name="com.google.gwt.inject.Inject" />
+	<inherits name="com.gwtmodel.table" />
+	<inherits name="com.jythonui.jythonuiclient" />
+	<inherits name="com.jythonui.jythonuicommon" />
+	<inherits name='com.google.gwt.visualization.Visualization' />
+
+
+	<extend-property name="locale" values="en" />
+	<extend-property name="locale" values="pl" />
+	<set-property-fallback name="locale" value="en" />
+
+	<!-- Super dev mode -->
+	<add-linker name="xsiframe" />
+	<set-configuration-property name="devModeRedirectEnabled"
+		value="true" />
+	<set-property name="compiler.useSourceMaps" value="true" />
+
 </module>

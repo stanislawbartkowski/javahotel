@@ -55,6 +55,12 @@
                 <field id="cust_fax" displayname="@fax" hidden=""/>
                 <field id="cust_doctype" displayname="@doctype" type="custom:idtypes" notempty="" hidden=""/>
                 <field id="cust_docnumb" displayname="@docnumb" hidden="" />
+		
+		<field id="advance_total" displayname="@totalpayment" type="decimal" readonly="" hidden=""/>
+		<field id="advance_percent" displayname="@advancepercent" type="decimal" signalchange="" hidden=""/>
+		<field id="advance_payment" displayname="@advancepayment" type = "decimal" hidden=""/>
+		<field id="advance_duedate" displayname="@addvancepaymenty" type="date" hidden="" />
+
 	</form>
 
 	<list id="reslist" pagesize="5" toolbartype="listonly">
