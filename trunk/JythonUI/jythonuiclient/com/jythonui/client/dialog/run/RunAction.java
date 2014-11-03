@@ -49,6 +49,7 @@ import com.jythonui.client.injector.UIGiniInjector;
 import com.jythonui.client.interfaces.IDialogContainerFactory;
 import com.jythonui.client.util.IExecuteAfterModalDialog;
 import com.jythonui.client.util.ISendCloseAction;
+import com.jythonui.client.util.JUtils;
 import com.jythonui.client.variables.IVariablesContainer;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogInfo;
@@ -140,7 +141,8 @@ public class RunAction implements IJythonUIClient {
     private class UpDialog extends ModalDialog {
 
         private final Widget w;
-//        private ModalDialog md;
+
+        // private ModalDialog md;
 
         UpDialog(Widget w, IDataType dType, boolean autohide, boolean modal) {
             super(new VerticalPanel(), "", autohide, modal);
@@ -233,11 +235,9 @@ public class RunAction implements IJythonUIClient {
         }
 
         private void show() {
-            if ((md != null) && wS != null) {
-                SolidPos pos = new SolidPos(d.getTop(), d.getLeft(),
-                        d.getMaxTop(), d.getMaxLeft());
-                md.show(wS, pos);
-            }
+            if ((md != null) && wS != null)
+                md.show(wS, JUtils.constructSolidPos(d));
+
         }
 
         private void hide() {

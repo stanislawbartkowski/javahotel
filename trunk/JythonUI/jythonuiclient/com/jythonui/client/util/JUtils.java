@@ -21,8 +21,10 @@ import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.datalisttype.DataListTypeFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.view.util.SolidPos;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.VField;
+import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldValue;
 import com.jythonui.shared.ICommonConsts;
@@ -105,6 +107,13 @@ public class JUtils {
         else
             prefix = ICommonConsts.JCOPY;
         JUtils.visitListOfFields(var, prefix, vis);
+    }
+
+    public static SolidPos constructSolidPos(DialogFormat d) {
+        SolidPos pos = new SolidPos(d.getTop(), d.getLeft(), d.getMaxTop(),
+                d.getMaxLeft());
+        return pos;
+
     }
 
 }
