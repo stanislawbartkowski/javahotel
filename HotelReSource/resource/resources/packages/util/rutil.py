@@ -9,6 +9,9 @@ M=util.MESS()
 def getReseName(var) :
   return var["resename"]
 
+def setReseName(var,resename) :
+  var["resename"] = resename
+
 def setServicePriceList(var,roomservice,pricelist) :
   var["roompricelist"] = pricelist
   var["roomservice"] = roomservice
@@ -22,18 +25,28 @@ def createResQueryElem(roomname,dfrom,dto):
     q.setRoomName(roomname)
     return q
 
-def getReservForDay(var):
+def getReservForDay(var,room,day):
    R = util.RESOP(var)
-   room = var["JDATELINE_LINE"]
-   day = var["JDATELINE_DATE"]
+#   room = var["JDATELINE_LINE"]
+#   day = var["JDATELINE_DATE"]
    query=cutil.createArrayList()
    q = createResQueryElem(room,day,day)
    query.add(q)
    res = R.queryReservation(query)
    return res
+ 
+def getRoomDateFromVar(var) : 
+   room = var["JDATELINE_LINE"]
+   day = var["JDATELINE_DATE"]
+   return (room,day)
+ 
+def getReservForDayFromVar(var): 
+   (room,day) = getRoomDateFromVar(var)
+   return getReservForDatePanel(room,day)
 
-def getPayments(var,rese=None) :    
+def getPayments(var,rese=None) :
   if rese == None : rese = getReseName(var)
+  assert rese != None
   pli = util.RESOP(var).getResAddPaymentList(rese)
   R = util.RESFORM(var)
   pli.addAll(R.findElem(rese).getResDetail())
@@ -42,17 +55,17 @@ def getPayments(var,rese=None) :
 def countPaymentsA(var,billName) :
   pList = util.PAYMENTOP(var).getPaymentsForBill(billName)
   suma = 0.0
-  isadvance = False
+  advanced = 0.0
   for p in pList :
     total = p.getPaymentTotal()
-    suma = cutil.addDecimal(suma,con.BigDecimalToDecimal(total))
-    if p.isAdvancepayment() : isadvance = True
-  return (suma,isadvance)  
+    if p.isAdvancepayment() : advanced = cutil.addDecimal(advanced,con.BigDecimalToDecimal(total))
+    else : suma = cutil.addDecimal(suma,con.BigDecimalToDecimal(total))
+  return (suma,advanced)  
 
 
 def countPayments(var,billName) :
-  (suma,isadvance) = countPaymentsA(var,billName)
-  return suma  
+  (suma,advanced) = countPaymentsA(var,billName)
+  return cutil.addDecimal(suma,advanced) 
 
 def countTotal(var,b,pli) :
   """ Counts total sum of services for bill
@@ -338,8 +351,11 @@ def getReseDateS(var,sym) :
     departure = None
     for l in li : (arrival,departure) = calculateDates(arrival,departure,l)
     return (arrival,con.incDays(departure),roomname,rate)     
+        
     
 def getReseDate(var,r) :
+  """ The same as getReseDateS but takes ReservationForm as a parameter
+  """
   return getReseDateS(var,r.getName())
 
 # ----------------------

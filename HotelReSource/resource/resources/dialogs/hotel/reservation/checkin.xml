@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="@checkinbutton">
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="@checkinbutton" maxleft="100" maxtop="200" >
 
 	<before />
         

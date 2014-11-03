@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="@makereservation" maxleft="200" maxtop = "150" >
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="@makereservation" maxleft="200" maxtop = "100" >
 
  <htmlpanel>hotel/reservation/html/reserveroom.html</htmlpanel>
  <jscode>hotel/reservation/js/reservrow.js</jscode>
@@ -22,14 +22,10 @@
 		<button id="checkaval" displayname="@checkavailability" validate="" />
 		<button id="custdetails" displayname="@guestdetails" />
 		<button id="askforreservation" displayname="@makereservation" validate="" />
-                <button id="cancelres" displayname="@cancelreservation"
-                        actiontype="JYESNO_MESSAGE" actionparam="@cancelreservationconfirmation"
-                        actionparam1="@warningcancelreservation" actionparam2="cancelreserv" hidden=""/>
                 <button id="checkin" displayname="@checkinbutton" actiontype="JUP_DIALOG"
                         actionparam="?checkin.xml" actionparam2="aftercheckin" hidden=""/>
                 <button id="morereservation" displayname="@addnextreservation" />
                 <button id="detailreservation" displayname="@modifyreservation" />
-                <button id="sendmail" displayname="@sendconfirmationemail" />
 	</buttons>
 
 	<form>
@@ -39,7 +35,7 @@
 		<field id="desc" displayname="@description" readonly="" />
                <field id="noextrabeds" type="int" displayname="@nofextrabeds" readonly="" />
                <field id="nochildren" type="int" displayname="@nofchildren" readonly=""/>
-         	<field id="datecol" type="date" displayname="@firstnight"
+         	<field id="datecol" type="date" displayname="@arrivaldate"
 			readonly="" notempty="" />
 		<field id="resdays" type="spinner" displayname="@numberofnights"
 			notempty="" spinnermax="#env.e('maxnumberofnights')" />
@@ -77,6 +73,8 @@
 		<field id="advance_percent" displayname="@advancepercent" type="decimal" signalchange="" />
 		<field id="advance_payment" displayname="@advancepayment" type = "decimal" />
 		<field id="advance_duedate" displayname="@addvancepaymenty" type="date" />
+		<!-- confirmation -->
+		<field id="reseconfirmed" displayname="@reservationconfirmed" type="bool" />
 		
 	</form>
 

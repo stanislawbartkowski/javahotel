@@ -2,7 +2,7 @@ import cutil
 
 def dialogaction(action,var):
     
-    cutil.printVar("test37",action,var)
+    cutil.printVar("test38",action,var)
     
     if action == "test1" :
         li = cutil.getDict("titles")

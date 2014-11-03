@@ -4,6 +4,7 @@ import pdfutil
 import xmlutil
 from util import util
 from util import rpdf
+from util import rutil
 from util import hmail
 from util import diallaunch
 import cmail
@@ -34,7 +35,7 @@ def dialogaction(action,var) :
     var["to"] = C.getAttr("email")
     var["from"] = cmail.MAILFROM(var).getFrom()
     var["xml"] = xml
-    (arrival,departure,roomname,rate) = rpdf.getReseDate(var,rform)
+    (arrival,departure,roomname,rate) = rutil.getReseDate(var,rform)
     var["subject"] = M("confirmationmailsubject").format(con.toS(arrival),con.toS(departure))
     xml = rpdf.buildResXML(var,rese)
     if mtype == 0 :

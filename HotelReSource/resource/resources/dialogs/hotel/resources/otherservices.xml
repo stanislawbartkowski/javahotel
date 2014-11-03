@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="@otherservices">
+
+	<before />
+			
+	<jython>
+		<import>from hotelpack.resources import otherservices</import>
+		<method>otherservices.serviceaction({0},{1})</method>
+	</jython>
+
+
+	<list id="services" elemformat="?otherelemservice.xml">
+		<columns>
+			<column id="name" displayname="@name" />
+			<column id="descr" displayname="@description" />
+			<column id="vat" hidden=""/>
+			<column id="vatname" displayname="@vatname"/>
+		</columns>
+	</list>
+
+</dialog>

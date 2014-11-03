@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="@createbill">
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="@createbill" maxleft="400" maxtop="200" >
 
         <before />
         
@@ -37,6 +37,8 @@
                 <field id="payer_fax" displayname="@fax" hidden=""/>
                 <field id="payer_doctype" displayname="@doctype" type="custom:idtypes" notempty="" hidden=""/>
                 <field id="payer_docnumb" displayname="@docnumb" hidden="" />
+		<field id="advance_pay" displayname="@advanceforpayment" type="decimal" readonly="" />
+		<field id="advance_pay_left" displayname="@advancepaymenttouse" type="decimal" readonly="" />
         </form>
 
         

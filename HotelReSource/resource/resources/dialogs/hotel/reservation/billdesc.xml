@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="@bill" >
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="@bill" maxtop="250" >
 
         <before/>
 

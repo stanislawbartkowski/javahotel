@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
-<dialog xmlns="http://www.jythongwt.dialogxsd.com" >
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" maxleft="100" >
 
-        <jscode>hotel/reservation/js/modifreservation.js</jscode>
+        <jscode>?js/modifreservation.js</jscode>
 
         <before/>
         
@@ -21,8 +21,7 @@
                 <button id="resign" displayname="@resign" actiontype="JCLOSE_DIALOG" />
         </buttons>
                                              
-         <list id="resmodiflist" pagesize="5" width="1100px" aftereditrow="" >
-                <standbutt>TOOLS,FIND,FILTER</standbutt>
+         <list id="resmodiflist" pagesize="5" width="1100px" aftereditrow="" toolbartype="listonly" >
                 <buttons-addlist>accept</buttons-addlist>
                 <buttons-validate>accept</buttons-validate>
                 <columns>
