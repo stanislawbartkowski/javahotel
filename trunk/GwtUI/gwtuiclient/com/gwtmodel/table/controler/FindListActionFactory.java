@@ -500,7 +500,7 @@ class FindListActionFactory {
                     remF.signal();
                 }
             };
-            final DrawForm dForm = new DrawForm(wSize, title, action, modal, o,
+            final DrawForm dForm = new DrawForm(wSize, title, listParam.getFormFactory().getSolidPos(iCall), action, modal, o,
                     null);
             ISlotListener clearS = new ClearParam(slMediator, liF, li, nF);
             slMediator.getSlContainer().registerSubscriber(eType, panelId,
