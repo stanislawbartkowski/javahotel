@@ -2,7 +2,7 @@
 <typedefs xmlns="http://www.jythongwt.typedefxsd.com">
 
 	<jython>
-		<import>from hotelpack.reservation import reseenum</import>
+		<import>from hotelpack.reservation.rrutil import reseenum</import>
 	</jython>
 	
 	<typedef id="roomservice" type="combo" comboid="id" displayname="displayname">
