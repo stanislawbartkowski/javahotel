@@ -30,6 +30,7 @@ import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.view.callback.CommonCallBack;
+import com.gwtmodel.table.view.util.SolidPos;
 import com.jythonui.client.util.CreateForm;
 import com.jythonui.client.util.JUtils;
 import com.jythonui.shared.DialogVariables;
@@ -123,6 +124,11 @@ public class CreateFactory {
         @Override
         public String getFormTitle(ICallContext iContext) {
             return "";
+        }
+
+        @Override
+        public SolidPos getSolidPos(ICallContext iContext) {
+            return null;
         }
 
     }

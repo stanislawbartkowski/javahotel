@@ -87,6 +87,7 @@ import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.gwtmodel.table.view.table.ChangeEditableRowsParam;
 import com.gwtmodel.table.view.util.AbstractDataModel;
 import com.gwtmodel.table.view.util.ModalDialog;
+import com.gwtmodel.table.view.util.SolidPos;
 import com.jythonui.client.IUIConsts;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.ICreateBackActionFactory;
@@ -154,6 +155,14 @@ class ListControler {
             tName = fo.getDisplayName();
         }
         return tName;
+    }
+
+    private static SolidPos constructSolidPos(RowListDataManager rM,
+            IDataType da) {
+        ListFormat fo = rM.getFormat(da);
+        if (fo.getfElem() == null)
+            return null;
+        return JUtils.constructSolidPos(fo.getfElem());
     }
 
     private static class DataListPersistAction extends AbstractSlotContainer
@@ -266,7 +275,7 @@ class ListControler {
             if (lastI != null) {
                 int i = lastI.intValue();
                 // 2014/10/02 : do not null here
-//                lastI = null;
+                // lastI = null;
                 return i;
             }
             return -1;
@@ -285,7 +294,7 @@ class ListControler {
                 vData = SlU.getVDataByI(dType, DataListPersistAction.this,
                         lastI.intValue());
                 // 2014/10/02 : do not null here
-//                lastI = null;
+                // lastI = null;
             } else
                 vData = getSlContainer().getGetterIVModelData(dType,
                         GetActionEnum.GetListLineChecked);
@@ -439,8 +448,7 @@ class ListControler {
                     IOkModelData iOk = SlU.getOkModelData(dType,
                             DataListPersistAction.this);
                     CreateSearchVar.addSearchVar(v, li, iOk);
-                    executeAction(v, li, null, IUIConsts.CRUD_READLIST,
-                            null);
+                    executeAction(v, li, null, IUIConsts.CRUD_READLIST, null);
                 } else {
                     sy.signalDone();
                 }
@@ -472,8 +480,7 @@ class ListControler {
             @Override
             public void signal(ISlotSignalContext slContext) {
                 IOkModelData iOk = slContext.getIOkModelData();
-                DialogVariables v = iCon
-                        .getVariables(IUIConsts.JLIST_GETSIZE);
+                DialogVariables v = iCon.getVariables(IUIConsts.JLIST_GETSIZE);
                 ListFormat li = rM.getFormat(dType);
                 CreateSearchVar.addSearchVar(v, li, iOk);
                 executeAction(v, li, null, IUIConsts.JLIST_GETSIZE, null);
@@ -514,13 +521,11 @@ class ListControler {
                 int row;
                 IVField v;
 
-                public @Override
-                int hashCode() {
+                public @Override int hashCode() {
                     return v.hashCode() + row;
                 }
 
-                public @Override
-                boolean equals(Object o) {
+                public @Override boolean equals(Object o) {
                     KeyTable c = (KeyTable) o;
                     return c.row == row && v.eq(c.v);
                 }
@@ -1113,6 +1118,11 @@ class ListControler {
                 return getFormHeader(rM, da);
             }
 
+            @Override
+            public SolidPos getSolidPos(ICallContext iContext) {
+                return constructSolidPos(rM, da);
+            }
+
         };
 
         IGetViewControllerFactory fControler = new GetViewController(rM,
@@ -1214,8 +1224,7 @@ class ListControler {
             ReadChunkSignal r = (ReadChunkSignal) i;
             int start = r.getStart();
             int size = r.getSize();
-            DialogVariables v = iCon
-                    .getVariables(IUIConsts.JLIST_READCHUNK);
+            DialogVariables v = iCon.getVariables(IUIConsts.JLIST_READCHUNK);
             v.setValueL(IUIConsts.JLIST_READCHUNKSTART, start);
             v.setValueL(IUIConsts.JLIST_READCHUNKLENGTH, size);
             IVField fSort = r.getfSort();
