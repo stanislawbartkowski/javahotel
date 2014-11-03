@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="@customer" >
+
+	<before />
+
+	<parent>?customerlist.xml</parent>
+        
+        <types>hotel/typesenum.xml</types>
+
+	<jython>
+		<method>customerlist.elemcustomeraction({0},{1})</method>
+	</jython>
+
+	<form>
+                <field id="name" displayname="@custid" readonlychange="" />
+                <field id="descr" displayname="@description" hidden="" />
+                <field id="title" displayname="@title" type="custom:titles" notempty="" />
+                <field id="surname" displayname="@surname" />
+                <field id="firstname" displayname="@firstname" />
+                <field id="country" displayname="@country" type="custom:countries" notempty="" />
+                <field id="region" displayname="@region" />
+                <field id="postalcode" displayname="@postalcode" />
+                <field id="city" displayname="@city" />
+                <field id="street" displayname="@street" />
+                <field id="email" displayname="@email" />
+                <field id="phone1" displayname="@phone1" />
+                <field id="phone2" displayname="@phone2" />
+                <field id="fax" displayname="@fax" />
+                <field id="doctype" displayname="@doctype" type="custom:idtypes" notempty="" />
+                <field id="docnumb" displayname="@docnumb" />
+	</form>
+	
+</dialog>

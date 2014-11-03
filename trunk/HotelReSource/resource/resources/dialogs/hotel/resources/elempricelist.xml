@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+	<before />
+
+	<parent>?pricelist.xml</parent>
+
+	<jython>
+		<method>pricelist.elempricelistaction({0},{1})</method>
+	</jython>
+
+	<form>
+		<field id="name" displayname="@name" readonlychange="" notempty="" />
+		<field id="descr" displayname="@description" />
+		<field id="validfrom" type="date" displayname="@validfrom" />
+		<field id="validto" type="date" displayname="@validto" />
+	</form>
+
+	<validaterules>
+		<validate id="validfrom" op="le" id1="validto"
+			displayname="@invalidfromto" />
+	</validaterules>
+
+	<checklist id="prices" displayname="@prices" type="decimal"
+		afterdot="2">
+	</checklist>
+
+	<checklist id="pricesothers" displayname="@otherservicesprices" type="decimal"
+		afterdot="2">
+	</checklist>
+	
+	<tabpanel id="tab">
+		<tabelem id="prices" displayname="@hotelservicesprices" />
+		<tabelem id="pricesothers" displayname="@otherservicesprices" />
+	</tabpanel>
+
+</dialog>

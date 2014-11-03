@@ -136,6 +136,4 @@ def checkinaction(action,var):
             if status == 2 and not wasGuest :
                 custid = resform.getCustomerName()
                 map = list[0]
-                __toMap(map,custid,CUST)                
-             
-    
+                __toMap(map,custid,CUST)

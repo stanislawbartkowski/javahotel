@@ -4,6 +4,9 @@ import xmlutil
 
 from util import rutil
 from util import util
+from util import diallaunch
+
+from rrutil import rparam
 
 LISTID="roomlist"
 
@@ -28,14 +31,7 @@ def _goto(var) :
     var["JSEARCH_LIST_SET_reservation_name"] = var["search_roomid"]
     
 def _setStartRes(var) :    
-     m = {}
-     m["roomname"] = var["search_roomid"]
-     m["firstday"] = var["search_from"]
-     m["nodays"] = var["search_days"]
-     m["nop"] = var["search_nop"]
-     m["roomservice"] = var["search_roomservice"]
-     m["roompricelist"] = var["search_roompricelist"]
-     return xmlutil.toXML(m)    
+    return rparam.resequeryXML(var["search_roomid"],var["search_from"],var["search_days"],var["search_nop"],var["search_roomservice"],var["search_roompricelist"])
    
 def dialogaction(action,var) :
   cutil.printVar("search for rooms",action,var)
@@ -97,8 +93,7 @@ def dialogaction(action,var) :
      if not _validate(var) : return
      _goto(var)
      var["JCLOSE_DIALOG"] = True
-     var["JUP_DIALOG"] = "hotel/reservation/reserveroom.xml"
-     var["JUPDIALOG_START"] = _setStartRes(var)
+     diallaunch.newreservation(var,var["search_roomid"],var["search_from"],var["search_days"],var["search_nop"],var["search_roomservice"],var["search_roompricelist"])
   
   if action == "toresrese" and var[LISTID+"_lineset"] :
     if not _validate(var) : return

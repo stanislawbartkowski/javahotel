@@ -1,15 +1,10 @@
 import datetime
 
-import cutil
-import con
-import xmlutil
-import clog
+import cutil,con,xmlutil,clog
 
-from util import rutil
-from util import util
-from util import rbefore
-from util import diallaunch
-from util import advarese
+from util import rutil,util,diallaunch
+
+from rrutil import rbefore,advarese,confirm
 
 M = util.MESS()
 
@@ -229,8 +224,6 @@ class MAKERESE(util.HOTELTRANSACTION) :
       else : reservation.setGensymbol(True);
       reservation.setCustomerName(name)
       # advance      
-      #reservation.setAdvanceDeposit(con.toB(var["advance_payment"]))
-      #reservation.setTermOfAdvanceDeposit(con.toDate(var["advance_duedate"]))
       A = advarese.createAdvaRese(var)
       A.setAdvaData(reservation)
       # --
@@ -268,6 +261,8 @@ class MAKERESE(util.HOTELTRANSACTION) :
       RFORM = util.RESFORM(var)
       if resename : RFORM.changeElem(reservation)
       else : resename = RFORM.addElem(reservation).getName()
+      # confirmed/not confirmed
+      confirm.createC(var).changeReservation(resename)
       var["JCLOSE_DIALOG"] = True
       var["JREFRESH_DATELINE_reservation"] = ""
       
@@ -276,12 +271,7 @@ class MAKERESE(util.HOTELTRANSACTION) :
             
 def reseraction(action,var):
     cutil.printVar("reseraction",action,var)
-    
-    if action == "cancelreserv" and var["JYESANSWER"] :
-     util.RESOP(var).changeStatusToCancel(rutil.getReseName(var))
-     var["JCLOSE_DIALOG"] = True
-     var["JREFRESH_DATELINE_reservation"] = ""
-     
+         
     if action == "aftercheckin" : rutil.afterCheckIn(var) 
     
     if action == "signalchange" and var["changeafterfocus"]:
@@ -305,17 +295,17 @@ def reseraction(action,var):
     if action=="before" :
         rbefore.setvarBefore(var)
         if not _newRese(var) :          
-          cutil.hideButton(var,["cancelres","checkin"],False)
+          cutil.hideButton(var,"checkin",False)
           util.enableCust(var,CUST,False)
           _setAfterPriceList(var)
         else :  
           cutil.hideButton(var,"detailreservation",True)
-          cutil.hideButton(var,"sendmail",True)
           _setPriceAndService(var)
           _setAfterPriceList(var)
           _setAfterServiceName(var)
           _setAfterPerPerson(var)
           _createListOfDays(var,True)
+          confirm.createC(var).setDefaToVar()
 
 # --------------------
 # customer
@@ -398,15 +388,6 @@ def reseraction(action,var):
         var["JUP_DIALOG"]="?modifreservation.xml" 
         var["JAFTERDIALOG_ACTION"] = "detailreservationaccept" 
 
-#--------------------------
-# confirmation mail
-#--------------------------
-    if action == "sendmail" :
-      if _newRese(var) :
-	var["JERROR_MESSAGE"] = "@afterreservation"
-	return
-      rese = rutil.getReseName(var)
-      diallaunch.confirmationmail(var,rese)
 
 def mailquestion(action,var) :
    

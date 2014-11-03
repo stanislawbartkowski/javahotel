@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="@lofrooms">
+
+        <jscode>hotel/reservation/js/listrooms.js</jscode>
+
+	<before />
+			
+	<jython>
+		<import>from hotelpack.resources import roomlist</import>
+		<method>roomlist.roomlistaction({0},{1})</method>
+	</jython>
+                
+        
+        <actions>
+          <action id="info" jsaction="JS.LISTROOMS.roominfo" />
+        </actions>
+
+        <form>
+            <field id="filterlist" hidden=""/>
+        </form>
+
+	<list id="roomlist" elemformat="?elemroomlist.xml">
+		<columns>
+			<column id="name" displayname="@name" />
+			<column id="descr" displayname="@description" />
+			<column id="noperson" type="int" displayname="@nopersons" />
+                       <column id="noextrabeds" type="int" displayname="@nofextrabeds" />
+                       <column id="nochildren" type="int" displayname="@nofchildren"  />
+                       <column id="info" displayname="" defvalue="@info" actionid="info" />
+		</columns>
+	</list>
+
+</dialog>

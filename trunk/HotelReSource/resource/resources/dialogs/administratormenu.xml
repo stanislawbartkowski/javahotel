@@ -4,11 +4,11 @@
  <clearcentre />
 
 <leftmenu>
-  <button id="services" displayname="@services" actiontype="JMAIN_DIALOG" actionparam="hotel/services.xml"/>
-  <button id="otherservices" displayname="@otherservices" actiontype="JMAIN_DIALOG" actionparam="hotel/otherservices.xml"/>
-  <button id="pricelist" displayname="@pricelist" actiontype="JMAIN_DIALOG" actionparam="hotel/pricelist.xml"/>
-  <button id="roomlist" displayname="@lofrooms" actiontype="JMAIN_DIALOG" actionparam="hotel/roomslist.xml"/>
-  <button id="customerlist" displayname="@lofcustomer" actiontype="JMAIN_DIALOG" actionparam="hotel/customerlist.xml"/>
+  <button id="services" displayname="@services" actiontype="JMAIN_DIALOG" actionparam="hotel/resources/services.xml"/>
+  <button id="otherservices" displayname="@otherservices" actiontype="JMAIN_DIALOG" actionparam="hotel/resources/otherservices.xml"/>
+  <button id="pricelist" displayname="@pricelist" actiontype="JMAIN_DIALOG" actionparam="hotel/resources/pricelist.xml"/>
+  <button id="roomlist" displayname="@lofrooms" actiontype="JMAIN_DIALOG" actionparam="hotel/resources/roomslist.xml"/>
+  <button id="customerlist" displayname="@lofcustomer" actiontype="JMAIN_DIALOG" actionparam="hotel/resources/customerlist.xml"/>
   <button id="mailtest" displayname="@mailtest" actiontype="JMAIN_DIALOG" actionparam="mail/sendmailmulti.xml"/>
   <button id="reservation" displayname="@reservations" actiontype="JMAIN_DIALOG" actionparam="hotel/reservation/reservations.xml"/>
 </leftmenu>

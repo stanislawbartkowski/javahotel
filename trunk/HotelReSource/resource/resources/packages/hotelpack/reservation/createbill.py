@@ -1,9 +1,12 @@
+from sets import Set
+
 import cutil
 import con
-from sets import Set
 
 from util import util
 from util import rutil
+
+from rrutil import resstat
 
 LIST="poslist"
 NOPAID="billlist"
@@ -89,7 +92,11 @@ def doaction(action,var) :
     util.setCustData(var,payername,PAY)
     var["paynow"] = True
     cutil.setCopy(var,["paynow","paymethod"])
-    var["paymethod"] = util.HOTELDEFADATA().getDataH(3)    
+    var["paymethod"] = util.HOTELDEFADATA().getDataH(3)
+    RR = resstat.getResStatusR(var,r)
+    var["advance_pay_left"] = RR.advancepaymentleft
+    var["advance_pay"] = RR.advancepayment
+    cutil.setCopy(var,["advance_pay","advance_pay_left"])
     
   if action == "guestdetail" :
        util.showCustomerDetails(var,var["guest_name"])
@@ -125,12 +132,25 @@ def doaction(action,var) :
      # semaphore transction is not needed here
      if var["paynow"] :
        billName = H.billName
-       p = util.newBillPayment()
-       p.setBillName(billName)
-       p.setPaymentMethod(var["paymethod"])
-       p.setDateOfPayment(cutil.toDate(cutil.today()))
-       p.setPaymentTotal(con.toB(H.total))
-       util.PAYMENTOP(var).addPaymentForBill(billName,p)       
+       total = H.total
+       # advance payment
+       r = util.RESFORM(var).findElem(rutil.getReseName(var))       
+       RR = resstat.getResStatusR(var,r)
+       li = []
+       if RR.advancepaymentleft > 0 :
+	 payment = min(total,RR.advancepaymentleft) 
+	 li.append((payment,True))
+	 total = con.minusDecimal(total,payment)
+       if total > 0 : li.append((total,False))
+	
+       for l in li :	
+         p = util.newBillPayment()
+         p.setBillName(billName)
+         p.setPaymentMethod(var["paymethod"])
+         p.setDateOfPayment(cutil.toDate(cutil.today()))
+         p.setPaymentTotal(con.toB(l[0]))         
+         if (l[1]) : p.setAdvancepayment(True)
+         util.PAYMENTOP(var).addPaymentForBill(billName,p)       
               
   if action == "payerdetails" :
 #      var["JUP_DIALOG"]="hotel/reservation/customerdetails.xml" 

@@ -1,12 +1,12 @@
-import cutil
-import con
-from util import rutil
-from util import util
-from util import rpdf
-from util import rbefore
-import pdfutil
-
 from com.jythonui.server.holder import SHolder
+
+import cutil,con
+
+from util import rutil,util,rpdf
+
+from rrutil import rbefore
+
+import pdfutil
 
 ADDBLOB=SHolder.getAddBlob()
 
@@ -42,6 +42,7 @@ def _countTotal(var,b,pli) :
      
 def _ListOfBills(var) :
    rese = rutil.getReseName(var)
+   assert rese != None
    bList = util.RESOP(var).findBillsForReservation(rese)
    seq = []
    pli = rutil.getPayments(var)
@@ -103,17 +104,17 @@ def showstay(action,var):
      var["JREFRESH_DATELINE_reservation"] = ""
      
    if action == "addpayment" :
-      var["JUP_DIALOG"]="hotel/reservation/addpayment.xml" 
+      var["JUP_DIALOG"]="?addpayment.xml" 
       var["JAFTERDIALOG_ACTION"] = "afteraddpayment" 
       
    if action == "paymentslist" :
       assert var["billname"] != None
-      var["JUP_DIALOG"]="hotel/reservation/listofpayment.xml" 
+      var["JUP_DIALOG"]="?listofpayment.xml" 
       var["JAFTERDIALOG_ACTION"] = "afterlistpayments"
       var["JUPDIALOG_START"] = var["billname"]
       
    if action == "printbill" and var[BILLIST + "_lineset"] :
-      var["JUP_DIALOG"]="hotel/reservation/billprint.xml" 
+      var["JUP_DIALOG"]="?billprint.xml" 
       var["JUPDIALOG_START"] = var["billname"]
       
    if action == "afteraddpayment" and var["JUPDIALOG_BUTTON"] == "addpayment" :
@@ -135,6 +136,6 @@ def showstay(action,var):
        util.showCustomerDetails(var,var["guest_name"])
        
    if action == "listpdf" and var[BILLIST + "_lineset"] :
-      var["JUP_DIALOG"]="hotel/reservation/pdflist.xml" 
+      var["JUP_DIALOG"]="?pdflist.xml" 
       var["JUPDIALOG_START"] = var["billname"]
    

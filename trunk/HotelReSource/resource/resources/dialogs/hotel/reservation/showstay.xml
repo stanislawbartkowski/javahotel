@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="@stay">
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="@stay" maxleft="300" maxtop="200" >
 
 	<before />
 
@@ -30,7 +30,7 @@
 
 	<form>
                <field id="billlistwaschanged" type="bool" hidden="" />
-		<field id="resename" hidden="" />
+		<field id="resename"  hidden="" />
 		<field id="name" displayname="@roomname" readonly="" />
 		<field id="nop" type="int" displayname="@nopersons" readonly="" />
                 <field id="resnop" type="int" displayname="@nopersons" readonly="" hidden="" />
@@ -57,7 +57,7 @@
                 <field id="cust_docnumb" displayname="@docnumb" hidden="" />
 		
 		<field id="advance_total" displayname="@totalpayment" type="decimal" readonly="" hidden=""/>
-		<field id="advance_percent" displayname="@advancepercent" type="decimal" signalchange="" hidden=""/>
+		<field id="advance_percent" displayname="@advancepercent" type="decimal" hidden="" signalchange="" />
 		<field id="advance_payment" displayname="@advancepayment" type = "decimal" hidden=""/>
 		<field id="advance_duedate" displayname="@addvancepaymenty" type="date" hidden="" />
 

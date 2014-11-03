@@ -5,9 +5,10 @@ import con
 
 from util import rutil
 from util import util
-from util import resstat
+from rrutil import resstat
+from util import diallaunch
 
-STALIST = resstat.RESTYPE
+# STALIST = resstat.RESTYPE
 
 def __getList(var):
     R = util.ROOMLIST(var)
@@ -33,8 +34,8 @@ def reservationaction(action,var):
       var["JDATELINE_MAP"] = {"reservation" : { "linedef" : list}}
       
     if action == "datelineaction" :
+      (room,day) = rutil.getRoomDateFromVar(var)
       R = util.RESOP(var)
-      room = var["JDATELINE_LINE"]
       RO = util.ROOMLIST(var)
       RFORM = util.RESFORM(var)
       services = RO.getRoomServices(room)
@@ -48,18 +49,21 @@ def reservationaction(action,var):
            var['JMESSAGE_TITLE'] = "@incompleteconfiguration"
            return
        
-      res = rutil.getReservForDay(var)
+      res = rutil.getReservForDay(var,room,day)
 
-      if res.isEmpty() : var["JUP_DIALOG"] = "?reserveroom.xml"
+      if res.isEmpty() : 
+	  diallaunch.newreservation(var,room,day,1,1)
       else : 
           ares = res.get(0)
           resid = ares.getResId()
-          rform = RFORM.findElem(resid)
-          sta = util.resStatus(rform)
+          (room,day) = rutil.getRoomDateFromVar(var)
+          diallaunch.reservationdialogaction(var,resid,room,day)
+#          rform = RFORM.findElem(resid)
+#          sta = util.resStatus(rform)
+#          (room,day) = rutil.getRoomDateFromVar(var)
           
-          if sta == 1 : var["JUP_DIALOG"] = "?showstay.xml"
-          else: var["JUP_DIALOG"] = "?modifrese.xml"
-
+#          if sta == 1 : diallaunch.showstay(var,resid,room,day)
+#          else: diallaunch.modifreservation(var,resid,room,day)         
       
     if action == "datelinevalues" :
        seq = var["JDATELINE_QUERYLIST"]
@@ -102,7 +106,7 @@ def reservationaction(action,var):
                      rform = RFORM.findElem(resid)
                      sta = resstat.getResStatus(var,rform)
                      form = "resroom"
-                     map = {"name" : name, "datecol" : dt,"colspan" : 1, "form" : form, "0" : __resInfo(var,resid), "1" : resstat.COLORS[sta], "hint" : "@" + STALIST[sta] }
+                     map = {"name" : name, "datecol" : dt,"colspan" : 1, "form" : form, "0" : __resInfo(var,resid), "1" : resstat.COLORS[sta], "hint" : "@" + resstat.getStatusS(sta) }
                      prevmap = map
                      prevres = resid
                dt = dt + dl

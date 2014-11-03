@@ -40,6 +40,7 @@ class HOTELDEFADATA(cutil.DEFAULTDATA) :
     elif what == 1 : return "defcountry"
     elif what == 2 : return "defidcard"
     elif what == 3 : return "defpayment"
+    elif what == 4 : return "defconfirm"
     
     elif what == 10 : return "lastnopersons"
     elif what == 11 : return "lastnoextrabeds"
@@ -58,6 +59,7 @@ class HOTELDEFADATA(cutil.DEFAULTDATA) :
   
     elif what == 40 : return "advancepaymentpercent"
     elif what == 41 : return "advancepaymentdays"
+  
     
   def getDataH(self,what,defa=None) :
     return self.getData(self.__getV(what),defa)
@@ -187,6 +189,9 @@ class RESOP :
      def changeStatusToReserv(self,resId):
          self.changeStatus(resId,ResStatus.OPEN)    
          
+     def changeStatusToNotConfirmed(self,resId) :
+         self.changeStatus(resId,ResStatus.SCHEDULED)             
+         
      def setResGuestList(self,resId,list):
          self.service.setResGuestList(getHotelName(self.var),resId,list)
          
@@ -313,7 +318,6 @@ def findElemInSeq(pname,seq, getN = None):
     if getN == None : getN = lambda s : s.getName()
     for s in seq : 
        name = getN(s)
-       print pname,s,name
        if name == pname : return s
     return None  
           
@@ -384,8 +388,7 @@ class ConstructObject :
         o = self.factory.construct(self.hotel,oType)
         o.setGensymbol(True)
         return o
-        
-    
+            
 def newResForm(var):
     c = ConstructObject(var)
     return c.getO(1)   
