@@ -51,6 +51,7 @@ import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.gwtmodel.table.view.util.GetActionName;
 import com.gwtmodel.table.view.util.ModalDialog;
+import com.gwtmodel.table.view.util.SolidPos;
 import com.gwtmodel.table.view.util.YesNoDialog;
 
 /**
@@ -133,6 +134,7 @@ class DataListActionItemFactory {
 
         private final WSize wSize;
         private final String title;
+        private final SolidPos sPos;
         private final ClickButtonType.StandClickEnum action;
         private FormDialog d;
         private final boolean modal;
@@ -141,10 +143,11 @@ class DataListActionItemFactory {
         private final IGetStandardMessage iMess = GwtGiniInjector.getI()
                 .getStandardMessage();
 
-        DrawForm(WSize wSize, String title,
+        DrawForm(WSize wSize, String title, SolidPos sPos,
                 ClickButtonType.StandClickEnum action, boolean modal,
                 ISignal o, ISignal aClose) {
             this.wSize = wSize;
+            this.sPos = sPos;
             this.title = title;
             this.action = action;
             this.modal = modal;
@@ -164,7 +167,10 @@ class DataListActionItemFactory {
                 titleDialog = LogT.getT().formRecordTitle(
                         iMess.getMessage(title), addTitle);
             d = new FormDialog(vp, titleDialog, w, modal, aClose);
-            d.show(wSize);
+            if (sPos == null)
+                d.show(wSize);
+            else
+                d.show(wSize, sPos);
             if (o != null) {
                 d.setOnClose(o);
             }
@@ -393,7 +399,7 @@ class DataListActionItemFactory {
                     }
                 };
             }
-            DrawForm dForm = new DrawForm(wSize, title, action, true, null,
+            DrawForm dForm = new DrawForm(wSize, title, listParam.getFormFactory().getSolidPos(iCall),action, true, null,
                     aClose);
             slControlerContainer.registerSubscriber(dType, cId, dForm);
             String resignAsk = listParam.getMenuOptions().getAskString(
