@@ -18,6 +18,7 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.common.IMessConsts;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.slotmodel.ClickButtonType.StandClickEnum;
@@ -57,7 +58,7 @@ public class GetStandardMessage implements IGetStandardMessage {
     @Override
     public String getMessage(String sou) {
         if (CUtil.EmptyS(sou) || sou.length() <= 1
-                || sou.charAt(0) != IStandMessages.STANDCH)
+                || sou.charAt(0) != IMessConsts.STANDCH)
             return sou;
         char action = sou.charAt(1);
         String key;
@@ -72,11 +73,11 @@ public class GetStandardMessage implements IGetStandardMessage {
             return sou;
         }
         switch (action) {
-        case IStandMessages.FIRSTUP:
+        case IMessConsts.FIRSTUP:
             return Character.toUpperCase(key.charAt(2)) + sou.substring(3);
-        case IStandMessages.DOWNCASE:
+        case IMessConsts.DOWNCASE:
             return val.toLowerCase();
-        case IStandMessages.UPCASE:
+        case IMessConsts.UPCASE:
             return val.toUpperCase();
         }
         return val;

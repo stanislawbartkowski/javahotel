@@ -10,27 +10,13 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.smessage;
+package com.gwtmodel.table.common;
 
-interface IStandMessages {
+public interface IMessConsts {
 
-    String CLOSE = "close";
-    String PASSWORD = "password";
-    String ACCEPT = "accept";
-    String RESIGN = "resign";
-    String YES = "yes";
-    String NO = "no";
-    String OK = "ok";
-    String PRINT = "print";
-    String ADD = "add";
-    String REMOVE = "remove";
-    String MODIFY = "modify";
-    String SHOW = "show";
-    String FIND = "find";
-    String LOGIN = "login";
-    String USER = "user";
-    String CHOOSE = "choose";
-    String SELECT = "select";
-    String CANNOTBEEMPTY="cannotbeempty";
+    char UPCASE = '1';
+    char DOWNCASE = '2';
+    char FIRSTUP = '3';
+    char STANDCH = '@';
 
 }
