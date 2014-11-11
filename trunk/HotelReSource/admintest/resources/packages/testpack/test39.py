@@ -1,7 +1,7 @@
 import cutil
 from util import util
 import datetime
-from util import resstat
+from rrutil import resstat
 
 def dialogaction(action,var):
     
@@ -23,9 +23,9 @@ def dialogaction(action,var):
         print RR
         print RR.arrival,RR.departure
         print RR.sumcost,RR.sumpay
-        print RR.advancedpaymentused
+        print RR.advancepaymentused
         assert 400.00 == RR.sumcost
         assert 300.00 == RR.sumpay
-        assert 90.0 == RR.advancedpaymentused
+        assert 90.0 == RR.advancepaymentused
 
     var["OK"] = True

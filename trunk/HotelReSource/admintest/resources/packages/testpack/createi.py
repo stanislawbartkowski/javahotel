@@ -13,12 +13,6 @@ def dialogaction(action,var) :
      if action == "runxslt" :
        xml = xmlutil.fileToS("invoice/test.xml")
 
-#       s = Util.getResourceAsDirectory("invoice")
-#       s = s + "/test.xml"
-#       inS = FileInputStream(s)
-#       print inS
-#       xml = Util.readFromFileInput(inS)
-#       print xml
                
        b = pdfutil.xsltHtml("invoice/test.xslt",xml)
        assert b != None
@@ -26,12 +20,6 @@ def dialogaction(action,var) :
        print b.toString()
        
      if action == "invoicehtml" :
-#       s = Util.getResourceAsDirectory("invoice")
-#       s = s + "/guest.xml"
-#       inS = FileInputStream(s)
-#       print inS
-#       xml = Util.readFromFileInput(inS)
-#       print xml
        xml = xmlutil.fileToS("invoice/guest.xml")
                
        b = pdfutil.xsltHtml("invoice/invoicestandard.xslt",xml)
