@@ -41,8 +41,12 @@ public class ServerProperties extends AbstractServerProperties {
 
     @Override
     public IReadMultiResource getResource() {
-        return mFactory.construct(iFactory.constructLoader(TestHelper.class
-                .getClassLoader()));
+        if (M.getAddPath() == null)
+            return mFactory.construct(iFactory.constructLoader(TestHelper.class
+                    .getClassLoader()));
+        IReadResource res = iFactory.constructDirLoader(M.getAddPath());
+        return mFactory.construct(res,
+                iFactory.constructLoader(TestHelper.class.getClassLoader()));
     }
 
     @Override

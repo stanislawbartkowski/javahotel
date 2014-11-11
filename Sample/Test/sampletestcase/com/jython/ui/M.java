@@ -13,8 +13,9 @@
 package com.jython.ui;
 
 public class M {
-    
+
     private static boolean isJythonSerialized = false;
+    private static String addPath = null;
 
     public static boolean isJythonSerialized() {
         return isJythonSerialized;
@@ -22,6 +23,14 @@ public class M {
 
     public static void setJythonSerialized(boolean isJythonSerialized) {
         M.isJythonSerialized = isJythonSerialized;
+    }
+
+    public static String getAddPath() {
+        return addPath;
+    }
+
+    public static void setAddPath(String addPath) {
+        M.addPath = addPath;
     }
 
 }
