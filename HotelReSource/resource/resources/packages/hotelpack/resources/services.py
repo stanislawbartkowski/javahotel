@@ -81,7 +81,7 @@ def elemserviceaction(action,var) :
      for s in l :
        print s
      var["JUPDIALOG_START"] = xmlutil.listNumberToCVS(l,"-1")   
-     var["JUP_DIALOG"] = "hotel/roomslist.xml"       
+     var["JUP_DIALOG"] = "?roomslist.xml"       
     
   if action == "crud_add"  and not var["JCRUD_AFTERCONF"] :
       if util.duplicateService(var) or _notverifyService(var) : return          

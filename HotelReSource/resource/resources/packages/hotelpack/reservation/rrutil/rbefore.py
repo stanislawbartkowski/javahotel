@@ -1,39 +1,18 @@
-import cutil
-import xmlutil
-import con
+import cutil,xmlutil,con
 
-from util import util
-from util import rutil
+from util import util,rutil
 
-import confirm
-import advarese
-import rparam
+import confirm,advarese,rparam
 
 RCUST="cust_"
 RLIST="reslist"
 
 def setvarBefore(var,cust=RCUST):
-#    nop = None
-#    resdays = 1
-#    roomservice = None
-#    roompricelist = None
-    
-#    if var.has_key("JUPDIALOG_START") and var["JUPDIALOG_START"] != None :
     xml = var["JUPDIALOG_START"]
-#      m = {}
-#      (m,li) = xmlutil.toMap(xml)
-#      nop = m["nop"]
-#      var["JDATELINE_LINE"] = m["roomname"]
-#      var["JDATELINE_DATE"] = m["firstday"]
-#      resdays = m["nodays"]
-#      roomservice = m["roomservice"]
-#      roompricelist = m["roompricelist"]
-#      rutil.setServicePriceList(var,roomservice,roompricelist)
     (roomname,resday,resdays,nop,roomservice,roompricelist) = rparam.XMLtoresquery(xml)
     if roomservice != None and roompricelist != None : rutil.setServicePriceList(var,roomservice,roompricelist)      
       
     R = util.ROOMLIST(var)
-#    roomname = var["JDATELINE_LINE"]
     room = R.findElem(roomname)
     assert room != None
     if nop == None : nop = room.getNoPersons()
@@ -46,7 +25,6 @@ def setvarBefore(var,cust=RCUST):
     util.setCopy(var,["resename","name","datecol","desc","resdays","noextrabeds","nochildren","resnop","nop"])
     res = rutil.getReservForDay(var,roomname,resday)
     if len(res) == 0 :
-#      date = var["JDATELINE_DATE"]
       var["datecol"] = resday
       var["resdays"] = resdays
       var["resename"] = None
@@ -61,7 +39,6 @@ def setvarBefore(var,cust=RCUST):
     assert reservation != None
     custname = reservation.getCustomerName()
     assert custname != None
-#    var["resename"] = resname
     rutil.setReseName(var,resname)
         
     util.setCustData(var,custname,cust)
@@ -100,4 +77,4 @@ def setvarBefore(var,cust=RCUST):
     confirm.createC(var).setReservationToVar(reservation)
     
     cutil.setJMapList(var,RLIST,list)
-    cutil.setFooter(var,RLIST,"rlist_pricetotal",SUM.getTotal())
+    cutil.setFooter(var,RLIST,"rlist_pricetotal",SUM.getTotal())        
