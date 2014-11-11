@@ -25,6 +25,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.gwtmodel.commoncache.ICommonCache;
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.gwtmodel.table.common.dateutil.ISetTestToday;
 import com.gwtmodel.testenhancer.ITestEnhancer;
@@ -37,6 +38,7 @@ import com.jython.serversecurity.cache.OObjectId;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IDefaultData;
 import com.jythonui.server.IGetMailFrom;
+import com.jythonui.server.IGetResourceMap;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.ISharedConsts;
@@ -119,6 +121,10 @@ abstract public class CommonTestHelper {
     protected static ICrudObjectGenSym iGenSym;
     @Inject
     protected static IGetMailFrom iFrom;
+    @Inject
+    protected static IGetResourceMap iGet;
+    @Inject
+    protected static ICommonCache iCache;
 
     protected CommonTestHelper() {
         iListC = Holder.getListOfCountries();
@@ -181,10 +187,16 @@ abstract public class CommonTestHelper {
     }
 
     protected void runAction(String token, DialogVariables v,
-            String dialogName, String actionId) {
+            String dialogName, String actionId, String locale) {
         RequestContext req = new RequestContext();
         req.setToken(token);
+        req.setLocale(locale);
         iServer.runAction(req, v, dialogName, actionId);
+    }
+
+    protected void runAction(String token, DialogVariables v,
+            String dialogName, String actionId) {
+        runAction(token, v, dialogName, actionId, null);
     }
 
     protected String authenticateToken(String realm, String user,

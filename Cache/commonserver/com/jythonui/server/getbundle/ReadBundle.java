@@ -62,7 +62,8 @@ public class ReadBundle extends UtilHelper {
         Properties defa = null;
         URL defaU = i.getRes(l.getDefa());
         if (defaU == null)
-            return new HashMap<String, String>();
+            return null;
+        // return new HashMap<String, String>();
         try {
             defa = ReadUTF8Properties.readProperties(defaU.openStream());
         } catch (FileNotFoundException e) {
