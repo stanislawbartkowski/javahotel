@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="@makereservation" maxleft="200" maxtop = "100" >
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="@makereservation" maxleft="200" maxtop = "80" >
 
  <htmlpanel>hotel/reservation/html/reserveroom.html</htmlpanel>
  <jscode>hotel/reservation/js/reservrow.js</jscode>
@@ -30,6 +30,7 @@
 
 	<form>
 		<field id="resename" hidden=""/>
+		<field id="xmlparam" hidden="" />
 		<field id="name" displayname="@roomname" readonly="" />
 		<field id="nop" type="int" displayname="@nopersons" readonly="" />
 		<field id="desc" displayname="@description" readonly="" />
@@ -80,7 +81,7 @@
 
 	<list id="reslist" displayname="@reservationdetails" pagesize="5" jsmodifrow="JS.ROW.reservrow">
 		<standbutt>TOOLS,FIND,FILTER</standbutt>
-               <buttons-addlist>askforreservation,makereservation,morereservation,morereservationaccept,detailreservation</buttons-addlist> 
+               <buttons-addlist>askforreservation,makereservation,morereservation,morereservationaccept,detailreservation,continuereservation</buttons-addlist> 
 		<columns>
 			<column id="avail" type="bool" displayname="A" hidden=""/>
 			<column id="resroomname" displayname="@roomname" />

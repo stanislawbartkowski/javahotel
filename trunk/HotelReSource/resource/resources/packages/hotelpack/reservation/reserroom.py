@@ -4,7 +4,7 @@ import cutil,con,xmlutil,clog
 
 from util import rutil,util,diallaunch
 
-from rrutil import rbefore,advarese,confirm
+from rrutil import rbefore,advarese,confirm,reseparam
 
 M = util.MESS()
 
@@ -298,6 +298,10 @@ def reseraction(action,var):
           cutil.hideButton(var,"checkin",False)
           util.enableCust(var,CUST,False)
           _setAfterPriceList(var)
+          PA = reseparam.RESPARAM(rutil.getReseName(var))
+          PA.setParam(var)
+          PA.copyParam(var)
+
         else :  
           cutil.hideButton(var,"detailreservation",True)
           _setPriceAndService(var)
@@ -306,6 +310,7 @@ def reseraction(action,var):
           _setAfterPerPerson(var)
           _createListOfDays(var,True)
           confirm.createC(var).setDefaToVar()
+          reseparam.RESPARAM().copyParam(var)  
 
 # --------------------
 # customer
@@ -331,6 +336,8 @@ def reseraction(action,var):
     if action == "checkaval" :
         if not _okServiceForRoom(var) or not _okPriceList(var) : return
         _checkRese(var)
+        reseparam.RESPARAM().copyParam(var)
+
 
 # ------------------
 # reservation
@@ -339,11 +346,25 @@ def reseraction(action,var):
     if action == "askforreservation" :
 
       if not _checkCurrentRese(var) : return
+      PA = reseparam.RESPARAM()
+      diff = PA.diffP(var)
+      if diff != None :
+	xml = PA.diffAsXML(var,diff)
+        var["JUPDIALOG_START"] = xml
+        var["JUP_DIALOG"]="?reserchange.xml"
+        var["JAFTERDIALOG_ACTION"] = "continuereservation"
+	return
+
       var["JYESNO_MESSAGE"] = M("MAKERESERVATIONASK")
       var["JMESSAGE_TITLE"] = ""  
       var["JAFTERDIALOG_ACTION"] = "makereservation"
 
     if action == "makereservation" and var["JYESANSWER"] :
+      TRAN = MAKERESE(var)
+      TRAN.doTrans()
+      reseparam.RESPARAM(rutil.getReseName(var)).saveParam(var)
+
+    if action == "continuereservation" and var["JUPDIALOG_BUTTON"] == "accept" :
       TRAN = MAKERESE(var)
       TRAN.doTrans()
 
@@ -402,3 +423,18 @@ def mailquestion(action,var) :
      var["JCLOSE_DIALOG"] = True
      resename = var["n_resename"]
      diallaunch.confirmationmail(var,resename)
+     
+def showchange(action,var) :
+   cutil.printVar("show change",action,var) 
+   
+   if action == "before" :
+     xml = var["JUPDIALOG_START"]
+     var["content"] = util.transformXML("reservchange.xslt",xml)
+     cutil.setCopy(var,"content")
+     
+   if action == "accept" and var["JYESANSWER"] :
+     var["JCLOSE_DIALOG"] = True
+     
+     
+     
+     

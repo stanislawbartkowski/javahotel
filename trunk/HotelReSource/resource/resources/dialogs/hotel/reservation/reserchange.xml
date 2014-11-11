@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+	<before />
+        
+        <jython>
+	   <import>from hotelpack.reservation import reserroom</import>
+	   <method>reserroom.showchange({0},{1})</method>
+	</jython>
+	
+        <buttons>
+           <button id="accept" displayname="@finalizereservation" actiontype="JYESNO_MESSAGE" actionparam="@MAKERESERVATIONASK" />
+        </buttons>
+
+	<form>
+	     <field id="content" type="html" />
+	</form>
+
+</dialog>

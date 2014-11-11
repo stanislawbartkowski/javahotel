@@ -17,9 +17,7 @@ from com.gwthotel.hotel.rooms import HotelRoom
 from com.gwthotel.shared import IHotelConsts
 from com.gwthotel.hotel.reservationop.IReservationOp import ResInfoType
 
-import cutil
-import xmlutil
-import con
+import cutil,xmlutil,con,sparam,pdfutil
 
 def setIntField(var,key,setF) :
   if var[key] == None : setF(IHotelConsts.PERSONIDNO)
@@ -283,7 +281,7 @@ def getHotelName(var):
 #    return H.getHotelName(token)
     return cutil.getObject(var)
 
-def getHotel(var) :
+def getHotel(var=None) :
     """ Get hotel name for current session
     Args: var
     
@@ -701,3 +699,12 @@ def listOfPriceListForService(var,servicename) :
         outl.append(p.getId())
         break
   return outl    
+
+# ==============
+class HOTELSAVEPARAM(sparam.SAVEPARAM) :
+  
+  def __init__(self,key,li) :
+    sparam.SAVEPARAM.__init__(self,getHotel(),key,li)
+
+def transformXML(xslt,xmlcontent) :
+   return pdfutil.xsltHtmlS("packages/hotelpack/reservation/xslt/"+xslt,xmlcontent)
