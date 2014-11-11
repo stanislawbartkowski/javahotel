@@ -3,7 +3,7 @@ import con
 from util import rutil
 from util import util
 import datetime
-from util import resstat
+from rrutil import resstat
 import datetime
 
 def dialogaction(action,var):

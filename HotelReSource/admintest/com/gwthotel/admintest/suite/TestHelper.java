@@ -240,14 +240,18 @@ public class TestHelper extends CommonTestHelper {
         return sym;
     }
 
-    protected void scriptTest(String dialogName, String action) {
+    protected void scriptTest(String dialogName, String action, String locale) {
         setUserPassword();
         ICustomSecurity cu = getSec(HOTEL);
         String token = iSec.authenticateToken(realM, "user", "secret", cu);
         assertNotNull(token);
         DialogVariables v = new DialogVariables();
-        runAction(token, v, dialogName, action);
+        runAction(token, v, dialogName, action, locale);
         assertOK(v);
+    }
+
+    protected void scriptTest(String dialogName, String action) {
+        scriptTest(dialogName, action, null);
     }
 
 }
