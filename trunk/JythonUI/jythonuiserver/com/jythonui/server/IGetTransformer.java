@@ -10,23 +10,11 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server.dict.impl;
+package com.jythonui.server;
 
-import java.util.List;
-import java.util.Map;
+import javax.xml.transform.Transformer;
 
-import com.jythonui.server.IGetResourceMap;
-import com.jythonui.server.dict.DictEntry;
-import com.jythonui.server.resourcemulti.IReadMultiResource;
+public interface IGetTransformer {
 
-public class ReadDict {
-
-	private static final String dictName = "dict";
-	
-	public static List<DictEntry> getList(IReadMultiResource iRead,
-			IGetResourceMap iGet, String resName) {
-		Map<String, String> mess = iGet
-				.getResourceMap(iRead, true,dictName, resName);
-		return MapToDict.toDict(mess);
-	}
+    Transformer getTranformer(String xsltName);
 }

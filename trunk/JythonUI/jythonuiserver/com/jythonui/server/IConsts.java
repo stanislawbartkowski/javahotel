@@ -53,5 +53,6 @@ public interface IConsts {
 	String APPMAILFROM = "mailfrom";
 
 	String VALUEFROMENV = "@env";
+	String XSLTEXT = "xslt";
 
 }

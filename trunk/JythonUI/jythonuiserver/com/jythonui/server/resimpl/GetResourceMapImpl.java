@@ -62,6 +62,16 @@ public class GetResourceMapImpl implements IGetResourceMap {
         String loc = Util.getLocale();
 
         List<IReadResource> rList = iRead.getRList();
+        if (oneonly) {
+            for (IReadResource r : rList) {
+                Map<String, String> m = ReadBundle.getBundle(r, loc, dir,
+                        bundle);
+                if (m != null)
+                    return m;
+            }
+            return null;
+
+        }
         Map<String, String> ma = new HashMap<String, String>();
 
         // from last to first
@@ -70,8 +80,6 @@ public class GetResourceMapImpl implements IGetResourceMap {
             Map<String, String> m = ReadBundle.getBundle(r, loc, dir, bundle);
             if (m == null)
                 continue;
-            if (oneonly)
-                return m;
             ma.putAll(m);
         }
         return ma;
