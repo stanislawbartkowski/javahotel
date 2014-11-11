@@ -69,10 +69,7 @@ def createPDF(fis,map={},paragraph=None) :
     return b.toByteArray()
 
 def _getTransformer(xslt):
-    tFactory = TransformerFactory.newInstance()
-#    iS = Holder.getIJython().getResource().getRes(xslt)
-    iS = Holder.getFindResource().getFirstURL(None,xslt)
-    return tFactory.newTransformer(StreamSource(iS.openStream()))
+    return Holder.getTransformer().getTranformer(xslt)
 
 def xsltHtml(xslt,xmlcontent) :
     transformer = _getTransformer(xslt)

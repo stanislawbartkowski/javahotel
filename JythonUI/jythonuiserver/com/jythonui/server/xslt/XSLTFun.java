@@ -10,8 +10,11 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-
 package com.jythonui.server.xslt;
+
+import java.util.Map;
+
+import com.jythonui.server.holder.Holder;
 
 public class XSLTFun {
 
@@ -36,6 +39,16 @@ public class XSLTFun {
         if (s.length() >= padd)
             return s;
         return s + fillString(padd - s.length(), " ");
+    }
+
+    public static String m(String key) {
+        Map<String, String> res = Holder.getLastBundle();
+        if (res != null) {
+            String val = res.get(key);
+            if (val != null)
+                return val;
+        }
+        return Holder.getAppMess().getCustomMess().getAttr(key);
     }
 
 }

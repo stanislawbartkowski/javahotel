@@ -11,9 +11,10 @@ from com.gwtmodel.table.common import TT
 from com.jythonui.server import BUtil
 from com.jythonui.shared import ButtonItem
 
+import datetime
+
 import cutil
 import sys
-import datetime
 import con
 import miscutil
 
@@ -134,42 +135,6 @@ class MAPTOXML(TOXML):
         if self.__start >= len(self.__l) : return None
         return self.__l[self.__start]
         
-
-# TODO: remove
-def OLD_toXML(builder,ma):
-
-    builder = builder.e("elem")
-    
-    for k in ma :
-        val = ma[k]
-        atype = None
-        if type(val) == int or type(val) == long : atype = cutil.LONG
-        elif type(val) == float or type(val) == BigDecimal : atype = cutil.DECIMAL
-        elif type(val) == bool : 
-            atype = cutil.BOOL
-            if val : val = 1
-            else : val = 0
-        elif type(val) == datetime.date : 
-            atype = cutil.DATE
-            val = str(val).replace('-','/')
-        builder = builder.e(k)    
-        if atype : builder = builder.a("type",atype)
-        if val != None : builder = builder.t(str(val))
-        builder = builder.up()
-    return builder.up()     
-    
-# TODO: remove
-def OLD__toXML(ma,list = None): 
-    builder = XMLBuilder.create("root")
-    builder = _toXML(builder, ma)
-    if list :
-      builder = builder.e("list")
-      for m in list : builder = _toXML(builder,m)
-      builder = builder.up() 
-    outputProperties = Properties()
-    outputProperties.put(INDENT, "yes")
-    return builder.root().asString(outputProperties)
-
 def toXML(ma,list = None, tobirt=False):
     X = MAPTOXML(list,tobirt)
     X.toXML(ma,list != None)
@@ -252,6 +217,8 @@ def fileToS(dir,filename=None):
 # ---------------------
 
 def xmlToVar(var,xml,list,pre=None) :
+    """ Deprecated
+    """
     iXML = SHolder.getToXMap()
     prop = ButtonItem()
     iXML.readXML(prop,xml,"root","elem")
@@ -261,7 +228,7 @@ def xmlToVar(var,xml,list,pre=None) :
         else : k = l
         var[k] = val
         
-def mapToXML(map,list = None,pre=None):
+def mapToXML(map,list=None,pre=None):
     iter = list
     if iter == None : iter = map
     demap = {}

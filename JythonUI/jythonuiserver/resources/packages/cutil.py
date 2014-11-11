@@ -276,6 +276,7 @@ def setAddEditMode(var,list,li):
 class StorageRegistry() :
      
      def __init__(self,fa,realm):
+         if fa == None : fa = Holder.getRegFactory()
          self.r = fa.construct(realm)
          
      def putEntry(self,key,value):
@@ -476,16 +477,28 @@ def setEditRowOk(var,li,stat=True) :
 
 class DLIST() :
   
-  def __init__(self,var,list) :
+  def __init__(self,var,list=None) :
     iServer = Holder.getiServer()
     r = Holder.getRequest() 
-    d = iServer.findDialog(r,var["J_DIALOGNAME"])
-    self.fList = d.getDialog().findList(list)
+    self.__d = iServer.findDialog(r,var["J_DIALOGNAME"])
+    self.iN = Holder.getResolveName()
+    if list == None : return
+    self.fList = self.__d.getDialog().findList(list)
     assert self.fList != None
     
   def onList(self,name) :
     i = self.fList.getColumn(name)
     return i != None
+
+  def createNameMap(self):
+    ma = {}
+    for f in self.__d.getDialog().getFieldList() :
+        id = f.getId();
+        name = self.iN.resolveName(f.getDisplayName())
+        ma[id] = name       
+#        print id,name     
+    return ma    
+
 
 class SEMTRANSACTION :
   
@@ -621,9 +634,7 @@ def getAppId(var):
     token = var["SECURITY_TOKEN"]
     return Holder.getNameFromToken().getInstance(token)
 
-def getObject(var):
-#    token = var["SECURITY_TOKEN"]
-#    return Holder.getNameFromToken().getObject(token)
+def getObject(var=None):
     return Holder.getO()
     
 # -----------------

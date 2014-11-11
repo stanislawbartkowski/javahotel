@@ -35,12 +35,14 @@ import com.jythonui.server.IGetDialog;
 import com.jythonui.server.IGetMailFrom;
 import com.jythonui.server.IGetResourceFile;
 import com.jythonui.server.IGetResourceMap;
+import com.jythonui.server.IGetTransformer;
 import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.IMailGet;
 import com.jythonui.server.IMailSend;
 import com.jythonui.server.IMailSendSave;
+import com.jythonui.server.IResolveName;
 import com.jythonui.server.IResolveNameFromToken;
 import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.IStorageMemCache;
@@ -50,6 +52,7 @@ import com.jythonui.server.IXMLToMap;
 import com.jythonui.server.Util;
 import com.jythonui.server.defa.GetClientProperties;
 import com.jythonui.server.defa.GetMailFromApp;
+import com.jythonui.server.defa.ResolveName;
 import com.jythonui.server.defa.StorageRealmRegistryFactory;
 import com.jythonui.server.defadata.DefaDataImpl;
 import com.jythonui.server.dialog.GetDialog;
@@ -62,6 +65,7 @@ import com.jythonui.server.dict.impl.ReadDict;
 import com.jythonui.server.dict.impl.ReadDictFromFile;
 import com.jythonui.server.fromtoken.ResolveNameFromToken;
 import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.server.gettransformer.GetTransformer;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.holder.SHolder;
 import com.jythonui.server.impl.GetAppProperties;
@@ -194,6 +198,9 @@ public class JythonServerService {
             bind(IMailSendSave.class).to(MailSaveImpl.class)
                     .in(Singleton.class);
             bind(IGetMailFrom.class).to(GetMailFromApp.class).in(
+                    Singleton.class);
+            bind(IResolveName.class).to(ResolveName.class).in(Singleton.class);
+            bind(IGetTransformer.class).to(GetTransformer.class).in(
                     Singleton.class);
         }
 
