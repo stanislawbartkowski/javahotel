@@ -78,5 +78,5 @@ public interface IHotelConsts {
 
     String PROPAUTOM = "autompatterns.properties";
 
-    String PERSISTENCE_UNIT_NAME = "hoteladmin";    
+    String PERSISTENCE_UNIT_NAME = "hoteladmin";
 }

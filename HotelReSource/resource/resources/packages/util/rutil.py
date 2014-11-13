@@ -154,7 +154,7 @@ def calculatePrice(perperson,resnop,resnoc,resextra,priceperson,pricechildren,pr
     price = con.addDecimal(price,con.mulIntDecimal(resnoc,pricechildren))
     price = con.addDecimal(price,con.mulIntDecimal(resextra,priceextra))
   else : 
-    if priceeroom : price = priceroom    
+    if priceroom : price = priceroom    
     else : price = priceperson
   return price
 

@@ -58,11 +58,13 @@ import com.jython.ui.server.gaestoragekey.BlobStorage;
 import com.jython.ui.server.gaestoragekey.GaeStorageRegistry;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IGetConnection;
+import com.jythonui.server.IGetEnvDefaultData;
 import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.crud.ICrudObjectGenSym;
 import com.jythonui.server.defa.EmptyConnectionProvider;
+import com.jythonui.server.defa.EmptyGetEnvDefaultData;
 import com.jythonui.server.defa.EmptyRPCNotifier;
 import com.jythonui.server.defa.IsCached;
 import com.jythonui.server.defa.JavaGetMailSessionProvider;
@@ -146,7 +148,8 @@ public class ServerService {
             bind(Session.class).annotatedWith(Names.named(IConsts.GETMAIL))
                     .toProvider(JavaGetMailSessionProvider.class)
                     .in(Singleton.class);
-
+            bind(IGetEnvDefaultData.class).to(EmptyGetEnvDefaultData.class).in(
+                    Singleton.class);
             requestStatic();
             requestStaticInjection(H.class);
         }

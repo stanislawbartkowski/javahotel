@@ -28,7 +28,6 @@ public class ServiceInjector {
         injector = Guice.createInjector(new ServerService.ServiceModule());
     }
 
-
     public static Injector getInjector() {
         return injector;
     }
@@ -36,5 +35,5 @@ public class ServiceInjector {
     public static IJythonUIServer contructJythonUiServer() {
         return injector.getInstance(IJythonUIServer.class);
     }
-    
+
 }

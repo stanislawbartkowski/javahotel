@@ -42,13 +42,11 @@ public class H {
     @Named(IHotelConsts.MESSNAMED)
     private static IGetLogMess lMess;
 
-
     @Inject
     private static Mess mMess;
 
     @Inject
     private static IHotelServices iServices;
-
 
     @Inject
     private static IHotelPriceList iPriceList;
@@ -82,7 +80,7 @@ public class H {
 
     @Inject
     private static IClearHotel iClear;
-    
+
     @Inject
     private static IHotelMailList iHotelMail;
 
@@ -145,10 +143,9 @@ public class H {
     public static IGetInstanceOObjectIdCache getInstanceObjectId() {
         return iGet;
     }
-    
+
     public static IHotelMailList getHotelMail() {
         return iHotelMail;
     }
-
 
 }

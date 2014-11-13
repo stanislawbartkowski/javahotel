@@ -1,10 +1,6 @@
-import cutil
-import con
-from util import util
-from util import rutil
-from util import hmail
-from util import diallaunch
-from util import rpdf
+import cutil,con,xmlutil
+
+from util import util,rutil,hmail,diallaunch,rpdf
 
 M = util.MESS()
 CUST="i_"
@@ -33,14 +29,9 @@ def _createReseLine(var,map,rname) :
 def _createListOfMail(var) :
    H = hmail.HotelMail(var)
    li = H.getListForCustomer(var["i_name"])
-#   seq = []
-#   for l in li :
-#     mm = H.getCMail(l.getName())
-#     res = mm.getSendResult()
-#     if cutil.emptyS(res) : res = None
-#     seq.append({ "mailname" : l.getName(), "resename" : l.getReseName(),"datesend" : mm.getCreationDate(), "subject" : mm.getDescription(), "res" : res })
    seq = hmail.createMailSeq(var,li)
-   cutil.setJMapList(var,MLIST,seq)  
+   cutil.setJMapList(var,MLIST,seq)
+   return seq
 
 def _createListOfRes(var,li,lname) :
   seq = []
@@ -60,13 +51,18 @@ def dialinfo(action,var) :
       util.setCustVarCopy(var,CUST)
       l = util.RESOP(var).getReseForCustomer(custid)
       l1 = util.RESOP(var).getReseForGuest(custid)
-      l2 = util.RESOP(var).getReseForPayer(custid)
-      var["i_custinfo"] = M("custinfo").format(len(l),len(l1),len(l2))
-      cutil.setCopy(var,"i_custinfo")
+      l2 = util.RESOP(var).getReseForPayer(custid)      
       _createListOfRes(var,l,CLIST)
       _createListOfRes(var,l1,GLIST)
       _createListOfRes(var,l2,PLIST)
-      _createListOfMail(var)
+      l3 = _createListOfMail(var)
+
+      m = {"nofcustomer" : len(l), "nofguest" : len(l1), "nofpayer" : len(l2), "nomails" : len(l3) }
+      s = util.transformXMLFromMap("custinfo.xslt",m)
+      var["i_custinfo"] = s      
+#      var["i_custinfo"] = M("custinfo").format(len(l),len(l1),len(l2))
+      cutil.setCopy(var,"i_custinfo")
+
       
   if action == "shownote" :
      diallaunch.showmailnote(var,var["mailname"])      

@@ -38,6 +38,8 @@ public class EBillPayment extends EHotelParent {
         return customerBill.get();
     }
 
+    private boolean advancepayment;
+
     public void setCustomerBill(ECustomerBill b) {
         billName = b.getName();
         customerBill = Ref.create(b);
@@ -79,6 +81,14 @@ public class EBillPayment extends EHotelParent {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isAdvancepayment() {
+        return advancepayment;
+    }
+
+    public void setAdvancepayment(boolean advancepayment) {
+        this.advancepayment = advancepayment;
     }
 
 }

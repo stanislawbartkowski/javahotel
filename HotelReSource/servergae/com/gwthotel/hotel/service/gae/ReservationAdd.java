@@ -70,6 +70,10 @@ class ReservationAdd {
         EntUtil.toEDict(e, elem);
         e.setCustomer(DictUtil.findCustomer(ho, elem.getCustomerName()));
         e.setStatus(elem.getStatus());
+        e.setAdvanceDeposit(elem.getAdvanceDeposit());
+        e.setAdvancePayment(elem.getAdvancePayment());
+        e.setDateofadvancePayment(elem.getDateofadvancePayment());
+        e.setTermOfAdvanceDeposit(elem.getTermOfAdvanceDeposit());
         final List<EResDetails> eRes = DictUtil.toED(ho, null,
                 elem.getResDetail());
         ofy().transact(new VoidWork() {

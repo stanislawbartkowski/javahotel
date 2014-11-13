@@ -25,14 +25,15 @@ public class EntityManagerFactoryProvider implements
 
     // private static final String PERSISTENCE_UNIT_NAME_TOMCAT =
     // "hoteladmintomcat";
-//    private static final String PERSISTENCE_UNIT_NAME = "hoteladmin";
+    // private static final String PERSISTENCE_UNIT_NAME = "hoteladmin";
 
     public EntityManagerFactoryProvider() {
         // if (ContainerInfo.getContainerType() == ContainerType.TOMCAT)
         // factory = Persistence
         // .createEntityManagerFactory(PERSISTENCE_UNIT_NAME_TOMCAT);
         // else
-        factory = Persistence.createEntityManagerFactory(IHotelConsts.PERSISTENCE_UNIT_NAME);
+        factory = Persistence
+                .createEntityManagerFactory(IHotelConsts.PERSISTENCE_UNIT_NAME);
     }
 
     @Override

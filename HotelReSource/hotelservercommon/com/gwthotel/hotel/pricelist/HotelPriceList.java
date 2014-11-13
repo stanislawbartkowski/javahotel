@@ -19,7 +19,7 @@ import com.jythonui.shared.PropDescription;
 public class HotelPriceList extends PropDescription {
 
     private static final long serialVersionUID = 1L;
-    
+
     private Date dateFrom;
     private Date dateTo;
 

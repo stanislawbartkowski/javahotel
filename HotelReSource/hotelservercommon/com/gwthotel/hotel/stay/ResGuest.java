@@ -14,8 +14,7 @@ package com.gwthotel.hotel.stay;
 
 import com.gwthotel.hotel.reservation.AbstractResHotelGuest;
 
-
-public class ResGuest extends AbstractResHotelGuest{
+public class ResGuest extends AbstractResHotelGuest {
 
     private static final long serialVersionUID = 1L;
 

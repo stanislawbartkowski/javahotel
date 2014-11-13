@@ -56,6 +56,10 @@ public class HotelReservationImpl implements IReservationForm {
         r.setId(e.getId());
         r.setStatus(e.getStatus());
         r.setCustomerName(e.getCustomer().getName());
+        r.setAdvanceDeposit(e.getAdvanceDeposit());
+        r.setAdvancePayment(e.getAdvancePayment());
+        r.setDateofadvancePayment(e.getDateofadvancePayment());
+        r.setTermOfAdvanceDeposit(e.getTermOfAdvanceDeposit());
         List<EResDetails> li = DictUtil.findResDetailsForRes(ho, e.getName(),
                 ServiceType.HOTEL);
         DictUtil.toRP(r.getResDetail(), li);
