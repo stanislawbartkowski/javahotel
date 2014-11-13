@@ -15,7 +15,6 @@ package com.gwthotel.admintest.suite;
 import static org.junit.Assert.assertNotNull;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import org.junit.Test;
 
@@ -40,11 +39,12 @@ public class Test39 extends TestHelper {
     
     @Test
     public void test1() {
-        String sym = myRes();
+//        String sym = myRes();
         setUserPassword();
         ICustomSecurity cu = getSec(HOTEL);
         String token = iSec.authenticateToken(realM, "user", "secret", cu);
         assertNotNull(token);
+        String sym = myRes();
         DialogVariables v = new DialogVariables();
         v.setValueS("rese", sym);
         runAction(token, v, "dialog39.xml", "test1");

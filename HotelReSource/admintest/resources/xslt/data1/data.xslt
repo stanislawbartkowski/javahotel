@@ -8,6 +8,9 @@ xmlns:fun="java://com.jythonui.server.xslt.XSLTFun"
 <xsl:variable name="lang.subject" select="fun:m('subject')"/>
 <xsl:variable name="lang.myname" select="fun:m('myname')"/>
 <xsl:variable name="lang.local" select="'English'"/>
+<xsl:variable name="wow">
+  aaaaa <br/>  bbbbb
+</xsl:variable>
 
 <xsl:template match="/">
   <html>

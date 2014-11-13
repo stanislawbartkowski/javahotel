@@ -122,6 +122,7 @@ public class TestHelper extends CommonTestHelper {
     }
 
     protected void clearObjects() {
+        iAdmin.clearAll(getI());
         List<OObject> aList = iAdmin.getListOfObjects(getI());
         for (OObject ho : aList) {
             OObjectId hotel = getH(ho.getName());
@@ -143,7 +144,7 @@ public class TestHelper extends CommonTestHelper {
     }
 
     protected void setUserPassword() {
-        iAdmin.clearAll(getI());
+//        iAdmin.clearAll(getI());
         Person pe = new Person();
         pe.setName("user");
         pe.setDescription("user name");

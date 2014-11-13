@@ -90,7 +90,7 @@ public class EjbLocatorGlassfish extends UtilHelper implements IBeanLocator {
     public IOObjectAdmin getObjectAdmin() {
         return construct(ISharedConsts.COMMONOBJECTADMINJNDI);
     }
-    
+
     @Override
     public IAppInstanceOObject getAppInstanceObject() {
         return construct(ISharedConsts.COMMONAPPINSTANCEJNDI);
