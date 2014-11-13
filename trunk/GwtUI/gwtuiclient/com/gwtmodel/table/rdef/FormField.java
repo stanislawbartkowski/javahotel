@@ -50,7 +50,7 @@ public class FormField {
 
     public FormField(final String p, final IFormLineView e, final IVField fie,
             IVField fRange, boolean readOnlyIfModif, boolean readOnlyIfAdd,
-            boolean modeSetAlready,boolean label) {
+            boolean modeSetAlready, boolean label) {
         this(p, e, fie, fRange, readOnlyIfModif, readOnlyIfAdd, null,
                 modeSetAlready, label);
 

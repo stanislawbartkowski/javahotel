@@ -17,5 +17,5 @@ package com.gwtmodel.table.chooselist;
  * @author perseus
  */
 public interface IChooseList {
-    
+
 }

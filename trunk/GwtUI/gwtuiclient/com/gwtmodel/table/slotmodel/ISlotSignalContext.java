@@ -49,5 +49,5 @@ public interface ISlotSignalContext {
     ICustomObject getCustom();
 
     IOkModelData getIOkModelData();
-    
+
 }

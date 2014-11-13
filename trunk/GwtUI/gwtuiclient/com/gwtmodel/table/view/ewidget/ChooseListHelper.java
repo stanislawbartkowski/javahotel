@@ -71,11 +71,12 @@ abstract class ChooseListHelper {
     private class PopU implements IRequestForGWidget {
 
         @Override
-        public void run(IVField v, WSize startW, ISetGWidget iSet, ICommand close) {
+        public void run(IVField v, WSize startW, ISetGWidget iSet,
+                ICommand close) {
             ChooseListFactory fa = GwtGiniInjector.getI()
                     .getChooseListFactory();
-            IChooseList i = fa.constructChooseList(dType, startW,
-                    new ChooseD(iSet));
+            IChooseList i = fa.constructChooseList(dType, startW, new ChooseD(
+                    iSet));
         }
     }
 

@@ -120,7 +120,8 @@ class PresentationImageChooseFactory extends PresentationEditCellHelper {
                     return;
                 }
                 IColumnImageSelect.IExecuteSetString i = new SetString();
-                he.getiColSelect().executeImage(object, lastContext.getIndex(), lastRendered, i);
+                he.getiColSelect().executeImage(object, lastContext.getIndex(),
+                        lastRendered, i);
             }
         }
 
@@ -171,7 +172,8 @@ class PresentationImageChooseFactory extends PresentationEditCellHelper {
             if (editenabled) {
                 String ima = he.getiColSelect().getImage();
                 if (ima == null) {
-                    IGetCustomValues c = GwtGiniInjector.getI().getCustomValues();
+                    IGetCustomValues c = GwtGiniInjector.getI()
+                            .getCustomValues();
                     ima = c.getCustomValue(IGetCustomValues.IMAGEFORLISTHELP)
                             + ".gif";
                 }

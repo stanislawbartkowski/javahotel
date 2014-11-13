@@ -21,6 +21,6 @@ import com.gwtmodel.table.common.PersistTypeEnum;
  */
 public interface IRowEditAction {
 
-    void action(WSize w,int rownum, PersistTypeEnum e);
+    void action(WSize w, int rownum, PersistTypeEnum e);
 
 }

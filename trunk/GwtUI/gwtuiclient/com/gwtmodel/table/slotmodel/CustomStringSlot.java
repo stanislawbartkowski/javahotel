@@ -24,7 +24,7 @@ public class CustomStringSlot implements ISlotCustom {
 
     public CustomStringSlot(String s) {
         this.stringS = s;
-        assert s!= null : LogT.getT().cannotBeNull();
+        assert s != null : LogT.getT().cannotBeNull();
     }
 
     public boolean eq(ISlotCustom o) {

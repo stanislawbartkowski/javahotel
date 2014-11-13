@@ -48,6 +48,7 @@ public abstract class AbstractListT {
                 return val;
             }
         }
+
         private final IGetMap getM;
 
         private MapToList(IGetMap getM) {
@@ -71,6 +72,7 @@ public abstract class AbstractListT {
 
         List<IMapEntry> getL();
     }
+
     private Map<String, String> vals = null;
     private Map<String, String> keys = null;
     private List<IMapEntry> eL = null;
@@ -101,10 +103,10 @@ public abstract class AbstractListT {
             keys.put(k.getKey(), k.getValue());
         }
     }
-    
+
     public List<IMapEntry> getEntryList() {
         setMaps();
-        return eL;        
+        return eL;
     }
 
     public String getValueS(String key) {
@@ -125,7 +127,7 @@ public abstract class AbstractListT {
         }
         return li;
     }
-    
+
     public List<String> getListKeys() {
         setMaps();
         List<String> li = new ArrayList<String>();
@@ -133,6 +135,6 @@ public abstract class AbstractListT {
             li.add(e.getKey());
         }
         return li;
-        
+
     }
 }

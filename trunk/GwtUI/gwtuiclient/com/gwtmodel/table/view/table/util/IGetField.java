@@ -15,10 +15,9 @@ package com.gwtmodel.table.view.table.util;
 import com.gwtmodel.table.MutableInteger;
 
 public interface IGetField {
-    
+
     Object getValObj(MutableInteger key);
 
     void setValObj(MutableInteger key, Object o);
-
 
 }

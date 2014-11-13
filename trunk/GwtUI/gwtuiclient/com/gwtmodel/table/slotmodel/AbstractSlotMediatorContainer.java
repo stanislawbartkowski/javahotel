@@ -25,7 +25,8 @@ import com.gwtmodel.table.slotmediator.ISlotMediator;
  *
  * @author hotel
  */
-public abstract class AbstractSlotMediatorContainer extends TemplateContainerSlotable<ISlotMediator> {
+public abstract class AbstractSlotMediatorContainer extends
+        TemplateContainerSlotable<ISlotMediator> {
 
     protected final TablesFactories tFactories;
     // not final

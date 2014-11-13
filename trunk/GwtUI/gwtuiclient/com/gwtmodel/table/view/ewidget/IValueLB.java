@@ -24,10 +24,10 @@ import com.gwtmodel.table.rdef.IFormLineView;
 interface IValueLB extends IFormLineView {
 
     void setList(List<String> li);
-    
+
     void setIdList(List<String> li);
 
     Optional<String> getBeforeVal();
-    
+
     boolean addEmpty();
 }

@@ -16,5 +16,5 @@ import com.gwtmodel.table.IVModelData;
 
 public interface IJsonConvert {
 
-	String construct(IVModelData line);
+    String construct(IVModelData line);
 }

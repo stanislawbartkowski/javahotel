@@ -28,7 +28,8 @@ public class SignalChangeMode implements ICustomObject {
 
     private final List<IVField> vLi;
     private final PersistTypeEnum persistTypeEnum;
-    private static final String SIGNAL_CHANGE_MODE = SignalChangeMode.class.getName() + "SIGNAL_CHANGE_MODE";
+    private static final String SIGNAL_CHANGE_MODE = SignalChangeMode.class
+            .getName() + "SIGNAL_CHANGE_MODE";
 
     public SignalChangeMode(List<IVField> vLi, PersistTypeEnum persistTypeEnum) {
         this.vLi = vLi;

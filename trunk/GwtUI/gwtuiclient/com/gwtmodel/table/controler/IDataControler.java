@@ -14,7 +14,6 @@ package com.gwtmodel.table.controler;
 
 import com.gwtmodel.table.slotmodel.ISlotable;
 
-
 public interface IDataControler extends ISlotable {
 
 }

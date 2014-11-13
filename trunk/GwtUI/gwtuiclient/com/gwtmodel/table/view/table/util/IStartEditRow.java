@@ -16,8 +16,7 @@ import com.gwtmodel.table.MutableInteger;
 import com.gwtmodel.table.WSize;
 
 public interface IStartEditRow {
-    
-    void setEditRow(MutableInteger row, WSize w);
 
+    void setEditRow(MutableInteger row, WSize w);
 
 }

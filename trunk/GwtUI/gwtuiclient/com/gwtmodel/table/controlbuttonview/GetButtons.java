@@ -23,7 +23,9 @@ public class GetButtons extends CustomObjectValue<CreateFormView.IGetButtons> {
     GetButtons(CreateFormView.IGetButtons i) {
         super(i);
     }
-    private static final String GET_BUTTONS = GetButtons.class.getName() + "GET_BUTTONS";
+
+    private static final String GET_BUTTONS = GetButtons.class.getName()
+            + "GET_BUTTONS";
 
     public static ISlotCustom constructSlot(IDataType dType) {
         return new CustomStringDataTypeSlot(dType, GET_BUTTONS);

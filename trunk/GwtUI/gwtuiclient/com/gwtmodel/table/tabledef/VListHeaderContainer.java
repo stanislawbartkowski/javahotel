@@ -106,7 +106,5 @@ public class VListHeaderContainer {
     public List<VFooterDesc> getFoList() {
         return foList;
     }
-    
-    
 
 }

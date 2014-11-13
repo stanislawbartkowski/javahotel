@@ -24,7 +24,7 @@ import java.util.List;
  * @author perseus
  */
 public class ViewStackPanelFactory {
-    
+
     private final StackPanelFactory baFactory;
 
     @Inject
@@ -34,7 +34,7 @@ public class ViewStackPanelFactory {
 
     public IStackPanelView construct(List<ControlButtonDesc> bList,
             IControlClick click) {
-        return new ViewStackPanel(baFactory,bList, click);
+        return new ViewStackPanel(baFactory, bList, click);
     }
-    
+
 }

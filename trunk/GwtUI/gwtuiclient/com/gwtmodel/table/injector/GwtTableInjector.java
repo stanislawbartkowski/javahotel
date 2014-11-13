@@ -130,6 +130,6 @@ public interface GwtTableInjector extends Ginjector {
     IJsonConvert getJsonConvert();
 
     IDatePanelScroll getDatePanelScroll();
-    
+
     IDisclosurePanelFactory getDisclosurePanelFactory();
 }

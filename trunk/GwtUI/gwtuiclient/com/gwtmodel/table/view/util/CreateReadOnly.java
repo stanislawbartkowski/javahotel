@@ -28,7 +28,7 @@ public class CreateReadOnly {
     }
 
     private static class FormLineDataView implements IVModelData {
-        
+
         private final FormLineContainer fo;
 
         FormLineDataView(FormLineContainer fo) {

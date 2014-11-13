@@ -82,8 +82,7 @@ class PullMenuView implements IContrButtonView {
         }
     }
 
-    PullMenuView(MenuPullContainer menu,
-            IControlClick click) {
+    PullMenuView(MenuPullContainer menu, IControlClick click) {
         this.menu = menu;
         this.click = click;
         mbar = new MenuBar();
@@ -98,7 +97,7 @@ class PullMenuView implements IContrButtonView {
     @Override
     public void setHidden(ClickButtonType actionId, boolean hidden) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override

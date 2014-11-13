@@ -49,151 +49,151 @@ import com.gwtmodel.table.view.table.util.IStartEditRow;
  */
 class PresentationImageButtonFactory extends PresentationEditCellHelper {
 
-	private final IColumnImage iIma;
+    private final IColumnImage iIma;
 
-	PresentationImageButtonFactory(ErrorLineInfo errorInfo,
-			CellTable<MutableInteger> table, ILostFocusEdit lostFocus,
-			EditableCol eCol, IStartEditRow iStartEdit, IColumnImage iIma) {
-		super(errorInfo, table, lostFocus, eCol, iStartEdit);
-		this.iIma = iIma;
-	}
+    PresentationImageButtonFactory(ErrorLineInfo errorInfo,
+            CellTable<MutableInteger> table, ILostFocusEdit lostFocus,
+            EditableCol eCol, IStartEditRow iStartEdit, IColumnImage iIma) {
+        super(errorInfo, table, lostFocus, eCol, iStartEdit);
+        this.iIma = iIma;
+    }
 
-	@SuppressWarnings({ "rawtypes", "unused" })
-	private class HasButtonCellImage implements HasCell {
+    @SuppressWarnings({ "rawtypes", "unused" })
+    private class HasButtonCellImage implements HasCell {
 
-		private final IVField v;
-		private final VListHeaderDesc he;
-		private final ButtonImageCell bCell;
+        private final IVField v;
+        private final VListHeaderDesc he;
+        private final ButtonImageCell bCell;
 
-		HasButtonCellImage(VListHeaderDesc he, int no) {
-			this.v = he.getFie();
-			this.he = he;
-			bCell = new ButtonImageCell(he, no, new Click(he, no));
-		}
+        HasButtonCellImage(VListHeaderDesc he, int no) {
+            this.v = he.getFie();
+            this.he = he;
+            bCell = new ButtonImageCell(he, no, new Click(he, no));
+        }
 
-		@Override
-		public Cell getCell() {
-			return bCell;
-		}
+        @Override
+        public Cell getCell() {
+            return bCell;
+        }
 
-		@Override
-		public FieldUpdater getFieldUpdater() {
-			return null;
-		}
+        @Override
+        public FieldUpdater getFieldUpdater() {
+            return null;
+        }
 
-		@Override
-		public Object getValue(Object object) {
-			return object;
-		}
-	}
+        @Override
+        public Object getValue(Object object) {
+            return object;
+        }
+    }
 
-	@SuppressWarnings("rawtypes")
-	private class Click implements ActionCell.Delegate {
+    @SuppressWarnings("rawtypes")
+    private class Click implements ActionCell.Delegate {
 
-		private final VListHeaderDesc he;
-		private final int imno;
-		private WSize lastRendered;
-		private int rowno;
+        private final VListHeaderDesc he;
+        private final int imno;
+        private WSize lastRendered;
+        private int rowno;
 
-		Click(VListHeaderDesc he, int imno) {
-			this.imno = imno;
-			this.he = he;
-		}
+        Click(VListHeaderDesc he, int imno) {
+            this.imno = imno;
+            this.he = he;
+        }
 
-		@Override
-		public void execute(Object object) {
-			iIma.click(lastRendered, rowno, he.getFie(), imno);
-		}
+        @Override
+        public void execute(Object object) {
+            iIma.click(lastRendered, rowno, he.getFie(), imno);
+        }
 
-	}
+    }
 
-	@SuppressWarnings({ "rawtypes" })
-	private class ButtonImageCell extends ActionCell {
+    @SuppressWarnings({ "rawtypes" })
+    private class ButtonImageCell extends ActionCell {
 
-		private final IVField v;
-		private final VListHeaderDesc he;
-		private final int no;
-		private final Click cl;
+        private final IVField v;
+        private final VListHeaderDesc he;
+        private final int no;
+        private final Click cl;
 
-		@SuppressWarnings("unchecked")
-		ButtonImageCell(VListHeaderDesc he, int no, Click cl) {
-			super("", cl);
-			this.he = he;
-			this.v = he.getFie();
-			this.no = no;
-			this.cl = cl;
-		}
+        @SuppressWarnings("unchecked")
+        ButtonImageCell(VListHeaderDesc he, int no, Click cl) {
+            super("", cl);
+            this.he = he;
+            this.v = he.getFie();
+            this.no = no;
+            this.cl = cl;
+        }
 
-		@SuppressWarnings("unchecked")
-		@Override
-		public void onBrowserEvent(Context context, Element parent,
-				Object value, NativeEvent event, ValueUpdater valueUpdater) {
-			cl.lastRendered = new WSize(parent);
-			Object key = context.getKey();
-			MutableInteger i = (MutableInteger) key;
-			cl.rowno = i.intValue();
-			super.onBrowserEvent(context, parent, value, event, valueUpdater);
-		}
+        @SuppressWarnings("unchecked")
+        @Override
+        public void onBrowserEvent(Context context, Element parent,
+                Object value, NativeEvent event, ValueUpdater valueUpdater) {
+            cl.lastRendered = new WSize(parent);
+            Object key = context.getKey();
+            MutableInteger i = (MutableInteger) key;
+            cl.rowno = i.intValue();
+            super.onBrowserEvent(context, parent, value, event, valueUpdater);
+        }
 
-		@Override
-		public void render(Context context, Object value, SafeHtmlBuilder sb) {
-			Object key = context.getKey();
-			MutableInteger i = (MutableInteger) key;
-			int rowno = i.intValue();
-			Optional<String[]> li = iIma.getImageButton(rowno, v);
+        @Override
+        public void render(Context context, Object value, SafeHtmlBuilder sb) {
+            Object key = context.getKey();
+            MutableInteger i = (MutableInteger) key;
+            int rowno = i.intValue();
+            Optional<String[]> li = iIma.getImageButton(rowno, v);
 
-			String ima = null;
-			if (li != null) {
-				if (!li.isPresent())
-					return;
-				ima = li.get()[no];
-			}
-			if (ima == null) {
-				IGetCustomValues c = GwtGiniInjector.getI().getCustomValues();
-				ima = c.getCustomValue(IGetCustomValues.IMAGEFORLISTHELP);
-			}
-			String s = Utils.getImageHTML(ima);
-			SafeHtml html = SafeHtmlUtils.fromTrustedString(s);
-			sb.append(html);
-		}
-	}
+            String ima = null;
+            if (li != null) {
+                if (!li.isPresent())
+                    return;
+                ima = li.get()[no];
+            }
+            if (ima == null) {
+                IGetCustomValues c = GwtGiniInjector.getI().getCustomValues();
+                ima = c.getCustomValue(IGetCustomValues.IMAGEFORLISTHELP);
+            }
+            String s = Utils.getImageHTML(ima);
+            SafeHtml html = SafeHtmlUtils.fromTrustedString(s);
+            sb.append(html);
+        }
+    }
 
-	private List<HasCell<?, ?>> createList(VListHeaderDesc he) {
-		int imNo = he.getImageNo();
-		List<HasCell<?, ?>> rList = new ArrayList<HasCell<?, ?>>();
-		for (int no = 0; no < imNo; no++) {
-			HasButtonCellImage h = new HasButtonCellImage(he, no);
-			rList.add(h);
+    private List<HasCell<?, ?>> createList(VListHeaderDesc he) {
+        int imNo = he.getImageNo();
+        List<HasCell<?, ?>> rList = new ArrayList<HasCell<?, ?>>();
+        for (int no = 0; no < imNo; no++) {
+            HasButtonCellImage h = new HasButtonCellImage(he, no);
+            rList.add(h);
 
-		}
-		return rList;
-	}
+        }
+        return rList;
+    }
 
-	@SuppressWarnings("rawtypes")
-	private class ButtonImageList extends CompositeCell implements IGetField {
+    @SuppressWarnings("rawtypes")
+    private class ButtonImageList extends CompositeCell implements IGetField {
 
-		private Object o;
+        private Object o;
 
-		@SuppressWarnings("unchecked")
-		public ButtonImageList(VListHeaderDesc he) {
-			super(createList(he));
-		}
+        @SuppressWarnings("unchecked")
+        public ButtonImageList(VListHeaderDesc he) {
+            super(createList(he));
+        }
 
-		@Override
-		public Object getValObj(MutableInteger key) {
-			return o;
-		}
+        @Override
+        public Object getValObj(MutableInteger key) {
+            return o;
+        }
 
-		@Override
-		public void setValObj(MutableInteger key, Object o) {
-			this.o = o;
-		}
-	}
+        @Override
+        public void setValObj(MutableInteger key, Object o) {
+            this.o = o;
+        }
+    }
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	Column constructImageButton(VListHeaderDesc he) {
-		Cell ce = new ButtonImageList(he);
-		return new TColumnEdit(he.getFie(), ce);
-	}
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    Column constructImageButton(VListHeaderDesc he) {
+        Cell ce = new ButtonImageList(he);
+        return new TColumnEdit(he.getFie(), ce);
+    }
 
 }

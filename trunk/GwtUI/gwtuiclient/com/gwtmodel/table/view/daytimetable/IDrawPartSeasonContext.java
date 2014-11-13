@@ -42,5 +42,5 @@ public interface IDrawPartSeasonContext {
      * @return Position
      */
     int getLastD();
-        
+
 }

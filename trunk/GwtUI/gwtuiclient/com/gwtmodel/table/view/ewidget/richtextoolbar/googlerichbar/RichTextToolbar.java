@@ -42,13 +42,13 @@ import com.google.gwt.user.client.ui.Widget;
  * for all rich text formatting, dynamically displayed only for the available
  * functionality.
  */
-//@SuppressWarnings("deprecation")
+// @SuppressWarnings("deprecation")
 public class RichTextToolbar extends Composite {
 
     /**
-     * This {@link ClientBundle} is used for all the button icons. Using a bundle
-     * allows all of these images to be packed into a single image, which saves a
-     * lot of HTTP requests, drastically improving startup time.
+     * This {@link ClientBundle} is used for all the button icons. Using a
+     * bundle allows all of these images to be packed into a single image, which
+     * saves a lot of HTTP requests, drastically improving startup time.
      */
     public interface Images extends ClientBundle {
 
@@ -185,18 +185,21 @@ public class RichTextToolbar extends Composite {
             Widget sender = (Widget) event.getSource();
 
             if (sender == backColors) {
-                basic.setBackColor(backColors.getValue(backColors.getSelectedIndex()));
+                basic.setBackColor(backColors.getValue(backColors
+                        .getSelectedIndex()));
                 backColors.setSelectedIndex(0);
             } else if (sender == foreColors) {
-                basic.setForeColor(foreColors.getValue(foreColors.getSelectedIndex()));
+                basic.setForeColor(foreColors.getValue(foreColors
+                        .getSelectedIndex()));
                 foreColors.setSelectedIndex(0);
             } else if (sender == fonts) {
                 String fo = fonts.getValue(fonts.getSelectedIndex());
-//                fo = "arial";
+                // fo = "arial";
                 basic.setFontName(fo);
                 fonts.setSelectedIndex(0);
             } else if (sender == fontSizes) {
-                basic.setFontSize(fontSizesConstants[fontSizes.getSelectedIndex() - 1]);
+                basic.setFontSize(fontSizesConstants[fontSizes
+                        .getSelectedIndex() - 1]);
                 fontSizes.setSelectedIndex(0);
             }
         }
@@ -247,9 +250,12 @@ public class RichTextToolbar extends Composite {
             } else if (sender == removeFormat) {
                 extended.removeFormat();
             } else if (sender == richText) {
-                // We use the RichTextArea's onKeyUp event to update the toolbar status.
-                // This will catch any cases where the user moves the cursur using the
-                // keyboard, or uses one of the browser's built-in keyboard shortcuts.
+                // We use the RichTextArea's onKeyUp event to update the toolbar
+                // status.
+                // This will catch any cases where the user moves the cursur
+                // using the
+                // keyboard, or uses one of the browser's built-in keyboard
+                // shortcuts.
                 updateStatus();
             }
         }
@@ -257,25 +263,29 @@ public class RichTextToolbar extends Composite {
         public void onKeyUp(KeyUpEvent event) {
             Widget sender = (Widget) event.getSource();
             if (sender == richText) {
-                // We use the RichTextArea's onKeyUp event to update the toolbar status.
-                // This will catch any cases where the user moves the cursur using the
-                // keyboard, or uses one of the browser's built-in keyboard shortcuts.
+                // We use the RichTextArea's onKeyUp event to update the toolbar
+                // status.
+                // This will catch any cases where the user moves the cursur
+                // using the
+                // keyboard, or uses one of the browser's built-in keyboard
+                // shortcuts.
                 updateStatus();
             }
         }
     }
-    private static final RichTextArea.FontSize[] fontSizesConstants = new RichTextArea.FontSize[]{
-        RichTextArea.FontSize.XX_SMALL, RichTextArea.FontSize.X_SMALL,
-        RichTextArea.FontSize.SMALL, RichTextArea.FontSize.MEDIUM,
-        RichTextArea.FontSize.LARGE, RichTextArea.FontSize.X_LARGE,
-        RichTextArea.FontSize.XX_LARGE};
+
+    private static final RichTextArea.FontSize[] fontSizesConstants = new RichTextArea.FontSize[] {
+            RichTextArea.FontSize.XX_SMALL, RichTextArea.FontSize.X_SMALL,
+            RichTextArea.FontSize.SMALL, RichTextArea.FontSize.MEDIUM,
+            RichTextArea.FontSize.LARGE, RichTextArea.FontSize.X_LARGE,
+            RichTextArea.FontSize.XX_LARGE };
     private Images images = (Images) GWT.create(Images.class);
     private Strings strings = (Strings) GWT.create(Strings.class);
     private EventHandler handler = new EventHandler();
     private RichTextArea richText;
-//    private RichTextArea.BasicFormatter basic;
-//    private RichTextArea.ExtendedFormatter extended;
-    private RichTextArea.Formatter basic,extended;
+    // private RichTextArea.BasicFormatter basic;
+    // private RichTextArea.ExtendedFormatter extended;
+    private RichTextArea.Formatter basic, extended;
     private VerticalPanel outer = new VerticalPanel();
     private HorizontalPanel topPanel = new HorizontalPanel();
     private HorizontalPanel bottomPanel = new HorizontalPanel();
@@ -305,12 +315,13 @@ public class RichTextToolbar extends Composite {
     /**
      * Creates a new toolbar that drives the given rich text area.
      *
-     * @param richText the rich text area to be controlled
+     * @param richText
+     *            the rich text area to be controlled
      */
     public RichTextToolbar(RichTextArea richText) {
         this.richText = richText;
-//        this.basic = richText.getBasicFormatter();
-//        this.extended = richText.getExtendedFormatter();
+        // this.basic = richText.getBasicFormatter();
+        // this.extended = richText.getExtendedFormatter();
         this.basic = richText.getFormatter();
         this.extended = this.basic;
 
@@ -324,7 +335,8 @@ public class RichTextToolbar extends Composite {
         richText.addStyleName("hasRichTextToolbar");
 
         if (basic != null) {
-            topPanel.add(bold = createToggleButton(images.bold(), strings.bold()));
+            topPanel.add(bold = createToggleButton(images.bold(),
+                    strings.bold()));
             topPanel.add(italic = createToggleButton(images.italic(),
                     strings.italic()));
             topPanel.add(underline = createToggleButton(images.underline(),
@@ -335,16 +347,17 @@ public class RichTextToolbar extends Composite {
                     strings.superscript()));
             topPanel.add(justifyLeft = createPushButton(images.justifyLeft(),
                     strings.justifyLeft()));
-            topPanel.add(justifyCenter = createPushButton(images.justifyCenter(),
-                    strings.justifyCenter()));
+            topPanel.add(justifyCenter = createPushButton(
+                    images.justifyCenter(), strings.justifyCenter()));
             topPanel.add(justifyRight = createPushButton(images.justifyRight(),
                     strings.justifyRight()));
         }
 
         if (extended != null) {
-            topPanel.add(strikethrough = createToggleButton(images.strikeThrough(),
-                    strings.strikeThrough()));
-            topPanel.add(indent = createPushButton(images.indent(), strings.indent()));
+            topPanel.add(strikethrough = createToggleButton(
+                    images.strikeThrough(), strings.strikeThrough()));
+            topPanel.add(indent = createPushButton(images.indent(),
+                    strings.indent()));
             topPanel.add(outdent = createPushButton(images.outdent(),
                     strings.outdent()));
             topPanel.add(hr = createPushButton(images.hr(), strings.hr()));
@@ -366,7 +379,8 @@ public class RichTextToolbar extends Composite {
             bottomPanel.add(fonts = createFontList());
             bottomPanel.add(fontSizes = createFontSizes());
 
-            // We only use these handlers for updating status, so don't hook them up
+            // We only use these handlers for updating status, so don't hook
+            // them up
             // unless at least basic editing is supported.
             richText.addKeyUpHandler(handler);
             richText.addClickHandler(handler);

@@ -22,12 +22,15 @@ import com.gwtmodel.table.view.controlpanel.IContrButtonView;
  *
  * @author perseus
  */
-public class ButtonSendListOfButtons extends CustomObjectValue<IContrButtonView> {
+public class ButtonSendListOfButtons extends
+        CustomObjectValue<IContrButtonView> {
 
     ButtonSendListOfButtons(IContrButtonView cList) {
         super(cList);
     }
-    private static final String SIGNAL_ID = ButtonSendListOfButtons.class.getName() + "BUTTON_PUBLIC_SEND_LIST_OF_BUTTONS";
+
+    private static final String SIGNAL_ID = ButtonSendListOfButtons.class
+            .getName() + "BUTTON_PUBLIC_SEND_LIST_OF_BUTTONS";
 
     public static CustomStringSlot constructSlotSendListOfButtons(
             IDataType dType) {

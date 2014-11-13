@@ -26,16 +26,16 @@ class LabelFor implements IFormLineView {
 
     private final Widget w;
 
-    public static native Element createLabelElement(Document doc,
-            String forL, String content) /*-{
-        var s = doc.createElement("span");                
-        var e = doc.createElement("label");
-        e.htmlFor = forL;
-        var t = document.createTextNode(content);
-        e.appendChild(t);
-        s.appendChild(e);
-        return s;
-    }-*/;
+    public static native Element createLabelElement(Document doc, String forL,
+            String content) /*-{
+                            var s = doc.createElement("span");                
+                            var e = doc.createElement("label");
+                            e.htmlFor = forL;
+                            var t = document.createTextNode(content);
+                            e.appendChild(t);
+                            s.appendChild(e);
+                            return s;
+                            }-*/;
 
     LabelFor(IGetCustomValues cValues, IVField v, String la) {
         w = new LabelBase(createLabelElement(Document.get(), v.getId(), la)) {

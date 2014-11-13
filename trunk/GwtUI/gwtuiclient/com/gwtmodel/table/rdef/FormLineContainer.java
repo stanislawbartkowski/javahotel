@@ -44,7 +44,8 @@ public class FormLineContainer {
         return f.getELine();
     }
 
-    public FormLineContainer(List<FormField> fList, String html, List<FormTabPanelDef> tabList) {
+    public FormLineContainer(List<FormField> fList, String html,
+            List<FormTabPanelDef> tabList) {
         this.fList = fList;
         this.html = html;
         this.tabList = tabList;

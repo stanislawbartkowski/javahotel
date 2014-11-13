@@ -35,7 +35,8 @@ class ColToVHeader {
     VListHeaderDesc getV(int colpos) {
         if (actionCol) {
             // action column
-            if (colpos == 0) return null;
+            if (colpos == 0)
+                return null;
             colpos--;
         }
         VListHeaderDesc he = iMap.get(colpos);

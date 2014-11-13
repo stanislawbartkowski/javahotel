@@ -91,7 +91,7 @@ public class GFocusWidgetFactory {
 
         @Override
         public void setHidden(boolean hidden) {
-            
+
         }
     }
 

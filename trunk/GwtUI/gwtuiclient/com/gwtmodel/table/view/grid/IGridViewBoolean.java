@@ -12,7 +12,6 @@
  */
 package com.gwtmodel.table.view.grid;
 
-
 public interface IGridViewBoolean extends IGridView {
 
     void setRowBoolean(int row, int c, Boolean b);

@@ -21,12 +21,12 @@ class SpinnerInt extends TextBoxBase {
 
     public static native InputElement createInputElement(Document doc,
             String type, String min, String max) /*-{
-		var e = doc.createElement("INPUT");
-		e.type = type;
-		e.min = min;
-		e.max = max;
-		return e;
-    }-*/;
+                                                 var e = doc.createElement("INPUT");
+                                                 e.type = type;
+                                                 e.min = min;
+                                                 e.max = max;
+                                                 return e;
+                                                 }-*/;
 
     SpinnerInt(int min, int max) {
         super(createInputElement(Document.get(), "number",

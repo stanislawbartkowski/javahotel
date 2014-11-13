@@ -44,31 +44,31 @@ class PosData {
 
     boolean skipPos(MoveSkip move, int no) {
         switch (move) {
-            case BEG:
-            case LEFT:
-                if (getFirstD() == 0) {
-                    return false;
-                }
-                if (move == MoveSkip.BEG) {
-                    firstD = 0;
-                } else {
-                    firstD = MaxI.max(0, getFirstD() - no);
-                }
-                lastD = getFirstD() + getPanelW() - 1;
-                break;
+        case BEG:
+        case LEFT:
+            if (getFirstD() == 0) {
+                return false;
+            }
+            if (move == MoveSkip.BEG) {
+                firstD = 0;
+            } else {
+                firstD = MaxI.max(0, getFirstD() - no);
+            }
+            lastD = getFirstD() + getPanelW() - 1;
+            break;
 
-            case RIGHT:
-            case END:
-                if (getLastD() == dSize - 1) {
-                    return false;
-                }
-                if (move == MoveSkip.END) {
-                    lastD = dSize - 1;
-                } else {
-                    lastD = MaxI.min(dSize - 1, getLastD() + no);
-                }
-                firstD = getLastD() - getPanelW() + 1;
-                break;
+        case RIGHT:
+        case END:
+            if (getLastD() == dSize - 1) {
+                return false;
+            }
+            if (move == MoveSkip.END) {
+                lastD = dSize - 1;
+            } else {
+                lastD = MaxI.min(dSize - 1, getLastD() + no);
+            }
+            firstD = getLastD() - getPanelW() + 1;
+            break;
         }
         return true;
     }

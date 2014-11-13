@@ -31,6 +31,6 @@ interface IStandMessages {
     String USER = "user";
     String CHOOSE = "choose";
     String SELECT = "select";
-    String CANNOTBEEMPTY="cannotbeempty";
+    String CANNOTBEEMPTY = "cannotbeempty";
 
 }

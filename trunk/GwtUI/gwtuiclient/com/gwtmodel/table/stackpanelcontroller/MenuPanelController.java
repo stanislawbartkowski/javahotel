@@ -24,7 +24,8 @@ import java.util.List;
  */
 class MenuPanelController extends AbstractStackPanelController {
 
-    MenuPanelController(IDataType dType, String downMenuImage, List<ControlButtonDesc> li) {
+    MenuPanelController(IDataType dType, String downMenuImage,
+            List<ControlButtonDesc> li) {
         this.dType = dType;
         this.sView = PopupCreateMenu.createImageMenu(downMenuImage,
                 new ListOfControlDesc(li), new CallBack(), null);

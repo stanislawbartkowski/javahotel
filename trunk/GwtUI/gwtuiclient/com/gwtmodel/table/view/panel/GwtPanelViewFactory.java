@@ -12,7 +12,6 @@
  */
 package com.gwtmodel.table.view.panel;
 
-
 public class GwtPanelViewFactory {
 
     public IGwtPanelView construct(int rowNo, int colNo) {

@@ -49,8 +49,10 @@ public class FormUtil {
     /**
      * Copies values from model to view
      *
-     * @param aFrom IVModelData to copy from
-     * @param vList Destination view
+     * @param aFrom
+     *            IVModelData to copy from
+     * @param vList
+     *            Destination view
      */
     public static void copyFromDataToView(IVModelData aFrom,
             List<IGetSetVField> vList) {
@@ -65,8 +67,10 @@ public class FormUtil {
     /**
      * Copies values from view to model data
      *
-     * @param fContainer Source view
-     * @param aTo Destination model data
+     * @param fContainer
+     *            Source view
+     * @param aTo
+     *            Destination model data
      */
     public static void copyFromViewToData(FormLineContainer fContainer,
             IVModelData aTo) {

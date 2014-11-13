@@ -53,6 +53,7 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
             return cellId;
         }
     }
+
     private final Map<CellId, PanelRowCell> colM = new HashMap<CellId, PanelRowCell>();
     private CellId panelId;
     private IGwtPanelView pView;
@@ -82,7 +83,8 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
     }
 
     @Override
-    public CellId addCellPanel(IDataType publishType, int row, int col, String cellId) {
+    public CellId addCellPanel(IDataType publishType, int row, int col,
+            String cellId) {
         PanelRowCell pa = new PanelRowCell(row, col, cellId);
         CellId nextId = panelId.constructNext(publishType);
         panelId = nextId;
@@ -92,9 +94,9 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
 
     @Override
     public CellId addCellPanel(IDataType publishType, int row, int col) {
-//        return addCellPanel(null, row, col, null);
-      // 2013/01/15 -- replace publishType (null previously)
-      return addCellPanel(publishType, row, col, null);
+        // return addCellPanel(null, row, col, null);
+        // 2013/01/15 -- replace publishType (null previously)
+        return addCellPanel(publishType, row, col, null);
     }
 
     private class SetWidget implements ISlotListener {
@@ -105,7 +107,9 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
             assert cellId != null : LogT.getT().CellCannotBeNull();
             PanelRowCell pa = colM.get(cellId);
             // 2012/01/15 introduced to allow several panels
-            if (pa == null) { return; }
+            if (pa == null) {
+                return;
+            }
             assert pa != null : LogT.getT().CellShouldBeRegistered();
             IGWidget gwtWidget = slContext.getGwtWidget();
             String id = pa.getCellId();
@@ -113,11 +117,13 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
                 pView.setWidget(pa.rowNo, pa.cellNo, gwtWidget.getGWidget());
             } else {
                 if (id != null) {
-                    CreateFormView.replace(htmlWidget, id, gwtWidget.getGWidget());
+                    CreateFormView.replace(htmlWidget, id,
+                            gwtWidget.getGWidget());
                 }
             }
             if (id != null) {
-                CustomStringSlot cSlot = SendPanelElemSignal.constructSlotSendPanelElem(dType);
+                CustomStringSlot cSlot = SendPanelElemSignal
+                        .constructSlotSendPanelElem(dType);
                 SendPanelElemSignal sl = new SendPanelElemSignal(id, gwtWidget);
                 publish(cSlot, sl);
             }

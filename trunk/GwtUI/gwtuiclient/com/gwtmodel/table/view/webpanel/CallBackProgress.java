@@ -13,7 +13,6 @@
 
 package com.gwtmodel.table.view.webpanel;
 
-
 /**
  * 
  * @author stanislaw.bartkowski@gmail.com

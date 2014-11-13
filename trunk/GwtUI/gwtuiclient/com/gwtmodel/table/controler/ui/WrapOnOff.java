@@ -43,11 +43,10 @@ public class WrapOnOff extends PopupPanel {
         super(true);
         setWidget(binder.createAndBindUi(this));
     }
-    
+
     @UiHandler("EndButton")
     void onFinishButtonClick(ClickEvent event) {
         this.hide();
     }
-
 
 }

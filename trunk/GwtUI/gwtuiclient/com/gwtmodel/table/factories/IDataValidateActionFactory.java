@@ -15,7 +15,7 @@ package com.gwtmodel.table.factories;
 import com.gwtmodel.table.IDataType;
 
 public interface IDataValidateActionFactory {
-    
+
     IDataValidateAction construct(IDataType dType);
 
 }

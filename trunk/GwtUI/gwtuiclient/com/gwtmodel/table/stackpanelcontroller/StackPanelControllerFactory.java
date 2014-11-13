@@ -29,20 +29,24 @@ public class StackPanelControllerFactory {
     private final ViewStackPanelFactory fFactory;
 
     @Inject
-    public StackPanelControllerFactory(StackPanelButtonFactory baFactory, ViewStackPanelFactory fFactory) {
+    public StackPanelControllerFactory(StackPanelButtonFactory baFactory,
+            ViewStackPanelFactory fFactory) {
         this.baFactory = baFactory;
         this.fFactory = fFactory;
     }
 
-    public IStackPanelController construct(IDataType dType, List<ControlButtonDesc> bList, String html) {
+    public IStackPanelController construct(IDataType dType,
+            List<ControlButtonDesc> bList, String html) {
         return baFactory.construct(dType, bList, html);
     }
 
-    public IStackPanelController constructDownMenu(IDataType dType, String downMenuImage, List<ControlButtonDesc> bList) {
+    public IStackPanelController constructDownMenu(IDataType dType,
+            String downMenuImage, List<ControlButtonDesc> bList) {
         return new MenuPanelController(dType, downMenuImage, bList);
     }
 
-    public IStackPanelController constructStackMenu(IDataType dType, List<ControlButtonDesc> bList) {
+    public IStackPanelController constructStackMenu(IDataType dType,
+            List<ControlButtonDesc> bList) {
         return new StackViewPanelController(dType, fFactory, bList);
     }
 }

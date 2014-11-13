@@ -34,13 +34,12 @@ public class FinishEditRowSignal extends CustomObjectValue<WChoosedLine> {
         this.nextW = nextW;
         this.bRedir = null;
     }
-    
+
     FinishEditRowSignal(WChoosedLine lostFocus, ButtonRedirectSignal bRedir) {
         super(lostFocus);
         this.nextW = null;
         this.bRedir = bRedir;
     }
-
 
     /**
      * @return the okChangeLine
@@ -56,7 +55,7 @@ public class FinishEditRowSignal extends CustomObjectValue<WChoosedLine> {
     WChoosedLine getNextW() {
         return nextW;
     }
-    
+
     /**
      * @return the bRedir
      */

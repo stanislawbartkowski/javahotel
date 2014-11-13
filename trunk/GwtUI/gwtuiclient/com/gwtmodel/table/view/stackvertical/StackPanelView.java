@@ -27,8 +27,7 @@ class StackPanelView extends AbstractPanelView {
 
     private final VerticalPanel vp = new VerticalPanel();
 
-    StackPanelView(List<ControlButtonDesc> bList,
-            IControlClick click) {
+    StackPanelView(List<ControlButtonDesc> bList, IControlClick click) {
         super(click);
         for (ControlButtonDesc bu : bList) {
             IGFocusWidget bt = constructButton(bu);

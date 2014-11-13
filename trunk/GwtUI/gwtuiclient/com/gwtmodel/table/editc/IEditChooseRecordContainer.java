@@ -24,22 +24,27 @@ import com.gwtmodel.table.slotmodel.ISlotable;
  * @author hotel
  */
 public interface IEditChooseRecordContainer extends ISlotable {
-    
+
     /**
      * Set values for check box
-     * @param newc Value for 'newc' checkbox
-     * @param changec Value for 'changec' checkbox
+     * 
+     * @param newc
+     *            Value for 'newc' checkbox
+     * @param changec
+     *            Value for 'changec' checkbox
      */
     void SetNewChange(boolean newc, boolean changec);
 
     /**
      * Getter for 'newc' checkbox
+     * 
      * @return boolean value
      */
     boolean getNewCheck();
 
     /**
      * Getter for 'changec' checkbox
+     * 
      * @return boolean value
      */
     boolean getChangeCheck();

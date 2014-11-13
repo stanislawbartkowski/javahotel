@@ -59,7 +59,7 @@ public class ContainerInfo {
 
     public static ContainerType getContainerType() {
         String classPath = System.getProperty("java.class.path");
-//        log.info(classPath);
+        // log.info(classPath);
         // null if live google app engine
         if (classPath == null) {
             return ContainerType.APPENGINE;

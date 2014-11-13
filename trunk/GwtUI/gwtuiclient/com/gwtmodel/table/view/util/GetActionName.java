@@ -23,7 +23,9 @@ public class GetActionName {
 
     /**
      * Get action string related to action enum
-     * @param action Action enm
+     * 
+     * @param action
+     *            Action enm
      * @return String or null
      */
     public static String getActionName(ClickButtonType.StandClickEnum action) {

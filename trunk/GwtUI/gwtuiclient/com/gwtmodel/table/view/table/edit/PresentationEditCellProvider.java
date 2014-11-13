@@ -20,15 +20,16 @@ import com.gwtmodel.table.view.table.ILostFocusEdit;
 import com.gwtmodel.table.view.table.util.IStartEditRow;
 
 public class PresentationEditCellProvider {
-    
+
     private PresentationEditCellProvider() {
-        
+
     }
-    
+
     public static IPresentationCellEdit contruct(ILostFocusEdit lostFocus,
             CellTable<MutableInteger> table, IStartEditRow iStartEdit,
             IGwtTableView pTable, IColumnImage iIma) {
-        return new PresentationEditCellFactory(lostFocus,table,iStartEdit,pTable,iIma);
+        return new PresentationEditCellFactory(lostFocus, table, iStartEdit,
+                pTable, iIma);
     }
 
 }

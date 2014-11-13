@@ -23,7 +23,8 @@ import com.gwtmodel.table.injector.GwtGiniInjector;
 public class WebPanelFactory {
 
     public IWebPanel construct(ICommand logOut) {
-        IWebPanelResources pResources = GwtGiniInjector.getI().getWebPanelResources();
+        IWebPanelResources pResources = GwtGiniInjector.getI()
+                .getWebPanelResources();
         return new WebPanel(pResources, logOut);
     }
 }

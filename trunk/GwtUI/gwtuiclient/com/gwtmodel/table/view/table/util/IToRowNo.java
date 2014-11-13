@@ -15,8 +15,7 @@ package com.gwtmodel.table.view.table.util;
 import com.gwtmodel.table.MutableInteger;
 
 public interface IToRowNo {
-    
-    int row(MutableInteger key);
 
+    int row(MutableInteger key);
 
 }

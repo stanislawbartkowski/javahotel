@@ -16,7 +16,6 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.view.util.AbstractDataModel;
 
-
 public class LoginDataModelFactory extends AbstractDataModel {
 
     @Override

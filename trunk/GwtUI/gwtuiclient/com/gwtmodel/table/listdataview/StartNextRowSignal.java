@@ -24,16 +24,16 @@ import com.gwtmodel.table.slotmodel.CustomStringSlot;
  */
 public class StartNextRowSignal extends CustomObjectValue<WChoosedLine> {
 
-	StartNextRowSignal(WChoosedLine w) {
-		super(w);
-	}
+    StartNextRowSignal(WChoosedLine w) {
+        super(w);
+    }
 
-	private static final String SIGNAL_ID = "TABLE_PUBLIC_START_NEXT_ROW_SIGNAL"
-			+ StartNextRowSignal.class.getName();
+    private static final String SIGNAL_ID = "TABLE_PUBLIC_START_NEXT_ROW_SIGNAL"
+            + StartNextRowSignal.class.getName();
 
-	public static CustomStringSlot constructSlotStartNextRowSignal(
-			IDataType dType) {
-		return new CustomStringDataTypeSlot(dType, SIGNAL_ID);
-	}
+    public static CustomStringSlot constructSlotStartNextRowSignal(
+            IDataType dType) {
+        return new CustomStringDataTypeSlot(dType, SIGNAL_ID);
+    }
 
 }
