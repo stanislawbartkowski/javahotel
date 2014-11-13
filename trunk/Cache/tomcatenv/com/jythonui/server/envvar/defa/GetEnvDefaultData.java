@@ -18,20 +18,20 @@ import com.jythonui.server.envvar.IGetEnvVariable;
 
 public class GetEnvDefaultData implements IGetEnvDefaultData {
 
-	private final IGetEnvVariable iGet;
+    private final IGetEnvVariable iGet;
 
-	@Inject
-	public GetEnvDefaultData(IGetEnvVariable iGet) {
-		this.iGet = iGet;
-	}
+    @Inject
+    public GetEnvDefaultData(IGetEnvVariable iGet) {
+        this.iGet = iGet;
+    }
 
-	@Override
-	public String getVal(String key) {
-		IGetEnvVariable.IEnvVar e = iGet.getEnvString(key,
-				IGetEnvVariable.ResType.STRING, false);
-		if (e.isEmpty())
-			return null;
-		return e.getS();
-	}
+    @Override
+    public String getVal(String key) {
+        IGetEnvVariable.IEnvVar e = iGet.getEnvString(key,
+                IGetEnvVariable.ResType.STRING, false);
+        if (e.isEmpty())
+            return null;
+        return e.getS();
+    }
 
 }

@@ -34,133 +34,133 @@ import com.jythonui.server.logmess.ILogMess;
 
 public class GetEnvVariables extends UtilHelper implements IGetEnvVariable {
 
-	private final IGetLogMess gMess;
-	private final ICommonCache iCache;
+    private final IGetLogMess gMess;
+    private final ICommonCache iCache;
 
-	private final static String COMP = "java:comp/env/";
-	private final static String GLOBAL = "java:global/";
+    private final static String COMP = "java:comp/env/";
+    private final static String GLOBAL = "java:global/";
 
-	@Inject
-	public GetEnvVariables(
-			@Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess gMess,
-			ICommonCacheFactory cFactory) {
-		this.gMess = gMess;
-		this.iCache = cFactory.construct(ISharedConsts.JYTHONENVCACHE);
-	}
+    @Inject
+    public GetEnvVariables(
+            @Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess gMess,
+            ICommonCacheFactory cFactory) {
+        this.gMess = gMess;
+        this.iCache = cFactory.construct(ISharedConsts.JYTHONENVCACHE);
+    }
 
-	private class EnvVar implements Serializable, IEnvVar {
-		private static final long serialVersionUID = 1L;
-		boolean resL;
-		String resS;
-		boolean empty = true;
-		Session session;
-		DataSource ds;
+    private class EnvVar implements Serializable, IEnvVar {
+        private static final long serialVersionUID = 1L;
+        boolean resL;
+        String resS;
+        boolean empty = true;
+        Session session;
+        DataSource ds;
 
-		String toS() {
-			if (empty)
-				return "empty";
-			if (resS != null)
-				return resS;
-			if (session != null)
-				return session.toString();
-			return new Boolean(resL).toString();
-		}
+        String toS() {
+            if (empty)
+                return "empty";
+            if (resS != null)
+                return resS;
+            if (session != null)
+                return session.toString();
+            return new Boolean(resL).toString();
+        }
 
-		@Override
-		public boolean getL() {
-			return resL;
-		}
+        @Override
+        public boolean getL() {
+            return resL;
+        }
 
-		@Override
-		public String getS() {
-			return resS;
-		}
+        @Override
+        public String getS() {
+            return resS;
+        }
 
-		@Override
-		public boolean isEmpty() {
-			return empty;
-		}
+        @Override
+        public boolean isEmpty() {
+            return empty;
+        }
 
-		@Override
-		public Session getSession() {
-			return session;
-		}
+        @Override
+        public Session getSession() {
+            return session;
+        }
 
-		@Override
-		public DataSource getDS() {
-			return ds;
-		}
-	}
+        @Override
+        public DataSource getDS() {
+            return ds;
+        }
+    }
 
-	@SuppressWarnings("incomplete-switch")
-	private EnvVar getEnvStringDirect(String tName, ResType rType,
-			boolean throwerror) {
-		Context initCtx;
-		EnvVar r = new EnvVar();
-		String eName = tName;
-		switch (ContainerInfo.getContainerType()) {
-		case TOMCAT:
-		case JETTY:
-			eName = COMP + tName;
-			break;
-		case JBOSS:
-			eName = GLOBAL + tName;
-			break;
-		}
+    @SuppressWarnings("incomplete-switch")
+    private EnvVar getEnvStringDirect(String tName, ResType rType,
+            boolean throwerror) {
+        Context initCtx;
+        EnvVar r = new EnvVar();
+        String eName = tName;
+        switch (ContainerInfo.getContainerType()) {
+        case TOMCAT:
+        case JETTY:
+            eName = COMP + tName;
+            break;
+        case JBOSS:
+            eName = GLOBAL + tName;
+            break;
+        }
 
-		try {
-			infoMess(gMess, ILogMess.LOOKFORENVVARIABLE, eName);
+        try {
+            infoMess(gMess, ILogMess.LOOKFORENVVARIABLE, eName);
 
-			initCtx = new InitialContext();
-			Object res = initCtx.lookup(eName);
-			if (res == null)
-				if (throwerror)
-					errorLog(gMess.getMess(IErrorCode.ERRORCODE44,
-							ILogMess.CANNOTFINDRESOURCEVARIABLE, eName));
-				else
-					return r;
-			r.empty = false;
-			switch (rType) {
-			case LOG:
-				r.resL = (Boolean) res;
-				break;
-			case STRING:
-				r.resS = (String) res;
-				break;
-			case MAIL:
-				r.session = (Session) res;
-				break;
-			case JDBC:
-				r.ds = (DataSource) res;
-				break;
-			}
-			// ENVVARIABLEFOUND
-			infoMess(gMess, ILogMess.ENVVARIABLEFOUND, eName, r.toS());
-			initCtx.close();
-			return r;
-		} catch (NamingException e) {
-			if (throwerror)
-				errorLog(gMess.getMess(IErrorCode.ERRORCODE43,
-						ILogMess.ERRORWHILEREADINGCONTEXT, eName), e);
-			// ENVVARIABLENOTFOUND
-			infoMess(gMess, ILogMess.ENVVARIABLENOTFOUND, eName);
-			return r;
-		}
-	}
+            initCtx = new InitialContext();
+            Object res = initCtx.lookup(eName);
+            if (res == null)
+                if (throwerror)
+                    errorLog(gMess.getMess(IErrorCode.ERRORCODE44,
+                            ILogMess.CANNOTFINDRESOURCEVARIABLE, eName));
+                else
+                    return r;
+            r.empty = false;
+            switch (rType) {
+            case LOG:
+                r.resL = (Boolean) res;
+                break;
+            case STRING:
+                r.resS = (String) res;
+                break;
+            case MAIL:
+                r.session = (Session) res;
+                break;
+            case JDBC:
+                r.ds = (DataSource) res;
+                break;
+            }
+            // ENVVARIABLEFOUND
+            infoMess(gMess, ILogMess.ENVVARIABLEFOUND, eName, r.toS());
+            initCtx.close();
+            return r;
+        } catch (NamingException e) {
+            if (throwerror)
+                errorLog(gMess.getMess(IErrorCode.ERRORCODE43,
+                        ILogMess.ERRORWHILEREADINGCONTEXT, eName), e);
+            // ENVVARIABLENOTFOUND
+            infoMess(gMess, ILogMess.ENVVARIABLENOTFOUND, eName);
+            return r;
+        }
+    }
 
-	@Override
-	public IEnvVar getEnvString(String name, ResType rType, boolean throwerror) {
-		Object o = iCache.get(name);
-		EnvVar r = (EnvVar) o;
-		if (r != null) {
+    @Override
+    public IEnvVar getEnvString(String name, ResType rType, boolean throwerror) {
+        Object o = iCache.get(name);
+        EnvVar r = (EnvVar) o;
+        if (r != null) {
 
-			traceLog(name + " already cached " + r.toS());
-			return r;
-		}
-		r = getEnvStringDirect(name, rType, throwerror);
-		iCache.put(name, r);
-		traceLog(name + " to cache " + r.toS());
-		return r;
-	}
+            traceLog(name + " already cached " + r.toS());
+            return r;
+        }
+        r = getEnvStringDirect(name, rType, throwerror);
+        iCache.put(name, r);
+        traceLog(name + " to cache " + r.toS());
+        return r;
+    }
 
 }

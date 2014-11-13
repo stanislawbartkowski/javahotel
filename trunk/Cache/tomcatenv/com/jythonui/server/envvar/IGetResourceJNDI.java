@@ -21,6 +21,6 @@ public interface IGetResourceJNDI {
     String getEJBHost();
 
     String getEJBPort();
-    
+
     String getMailName();
 }
