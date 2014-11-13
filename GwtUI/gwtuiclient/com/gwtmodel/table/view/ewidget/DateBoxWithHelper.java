@@ -37,7 +37,7 @@ class DateBoxWithHelper extends DateBoxCalendar {
     public Widget getGWidget() {
         return hPanel;
     }
-    
+
     @Override
     public void setReadOnly(boolean readOnly) {
         super.setReadOnly(readOnly);

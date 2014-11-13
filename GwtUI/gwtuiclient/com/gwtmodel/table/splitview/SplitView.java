@@ -28,5 +28,5 @@ class SplitView implements ISplitView {
     public void createView() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    
+
 }

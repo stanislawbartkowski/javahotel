@@ -28,8 +28,7 @@ public class ComposeControllerFactory {
     }
 
     public IComposeController construct(IDataType vType) {
-        return new ComposeController(vType, cFactories
-                .getDataModelFactory());
+        return new ComposeController(vType, cFactories.getDataModelFactory());
     }
 
     public IComposeController construct(IDataType vType,

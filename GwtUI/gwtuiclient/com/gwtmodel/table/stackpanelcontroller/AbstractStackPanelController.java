@@ -24,8 +24,8 @@ import com.gwtmodel.table.view.controlpanel.IControlClick;
  *
  * @author stanislaw.bartkowski@gmail.com
  */
-abstract class AbstractStackPanelController extends AbstractSlotContainer implements
-        IStackPanelController {
+abstract class AbstractStackPanelController extends AbstractSlotContainer
+        implements IStackPanelController {
 
     protected IGWidget sView;
 

@@ -16,9 +16,9 @@ import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.view.util.SolidPos;
 
 public interface IFormTitleFactory {
-       
-    String getFormTitle(ICallContext iContext);    
-    
+
+    String getFormTitle(ICallContext iContext);
+
     SolidPos getSolidPos(ICallContext iContext);
 
 }

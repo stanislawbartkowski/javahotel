@@ -51,8 +51,7 @@ class SpanCellBuilder<T> extends AbstractCellTableBuilder<T> {
 
     private final IGetSpanColValue iSpan;
 
-    SpanCellBuilder(AbstractCellTable<T> cellTable,
-            IGetSpanColValue iSpan) {
+    SpanCellBuilder(AbstractCellTable<T> cellTable, IGetSpanColValue iSpan) {
         super(cellTable);
 
         // Cache styles for faster access.
@@ -138,7 +137,7 @@ class SpanCellBuilder<T> extends AbstractCellTableBuilder<T> {
                     .getHorizontalAlignment();
             VerticalAlignmentConstant vAlign = column.getVerticalAlignment();
             TableCellBuilder td = tr.startTD();
-            
+
             // SPAN
             lastSpanCounter = iSpan.get(rowValue, curColumn);
             if (lastSpanCounter > 1) {

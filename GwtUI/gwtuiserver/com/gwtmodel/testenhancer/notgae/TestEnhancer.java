@@ -16,12 +16,12 @@ import com.gwtmodel.testenhancer.ITestEnhancer;
 
 public class TestEnhancer implements ITestEnhancer {
 
-	@Override
-	public void beforeTest() {
-	}
+    @Override
+    public void beforeTest() {
+    }
 
-	@Override
-	public void afterTest() {
-	}
+    @Override
+    public void afterTest() {
+    }
 
 }

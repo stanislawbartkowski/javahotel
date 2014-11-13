@@ -15,7 +15,7 @@ package com.gwtmodel.table.common.dateutil;
 import java.util.Date;
 
 public interface ISetTestToday {
-    
+
     void setToday(Date p);
 
 }

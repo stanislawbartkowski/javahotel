@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -103,21 +104,20 @@ public class CreateFormView {
             replaceId(pa, htmlId, w, addId);
             if (d.isLabel())
                 continue;
-            
+
             String labelId = IConsts.LABELPREFIX + htmlId;
             if (pa.getElementById(labelId) != null) {
                 IFormLineView v = eFactory.constructLabelField(d.getFie(),
                         iMess.getMessage(d.getPLabel()));
                 replace(pa, labelId, v.getGWidget());
             }
-            
+
             String labelFor = IConsts.LABELFORPREFIX + htmlId;
             if (pa.getElementById(labelFor) != null) {
                 IFormLineView v = eFactory.constructLabelFor(d.getFie(),
                         iMess.getMessage(d.getPLabel()));
                 replace(pa, labelFor, v.getGWidget());
             }
-
 
         }
     }
@@ -149,9 +149,8 @@ public class CreateFormView {
                     continue;
                 }
             }
-            if (d.isRange()) {
+            if (d.isRange())
                 continue;
-            }
             rows++;
         }
         Grid g = new Grid(rows, 2);
@@ -159,34 +158,31 @@ public class CreateFormView {
         for (FormField d : fList) {
             if (d.isLabel()) {
                 g.setWidget(rows, 0, d.getELine().getGWidget());
+                Element e = g.getCellFormatter().getElement(rows, 0);
+                e.setAttribute("colspan", "2");
                 rows++;
                 continue;
             }
-            if (d.isRange()) {
+            if (d.isRange())
                 continue;
-            }
             IVField v = d.getFie();
             if (add != null) {
-                if (!add.contains(v)) {
+                if (!add.contains(v))
                     continue;
-                }
             }
             String mLabel = iMess.getMessage(d.getPLabel());
 
             // FormField fRange = null;
             List<FormField> fRange = new ArrayList<FormField>();
             for (FormField fo : fList) {
-                if (!fo.isRange()) {
+                if (!fo.isRange())
                     continue;
-                }
-                if (fo.getFRange().eq(d.getFie())) {
+                if (fo.getFRange().eq(d.getFie()))
                     fRange.add(fo);
-                }
             }
             Label la = new Label(mLabel);
-            if (d.getELine().isHidden()) {
+            if (d.getELine().isHidden())
                 la.setVisible(false);
-            }
             Widget w1;
             Widget w2;
             if (fRange.isEmpty()) {

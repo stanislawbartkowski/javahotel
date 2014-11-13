@@ -35,6 +35,7 @@ public class LoginField implements IVField {
     public F getF() {
         return f;
     }
+
     private final F f;
 
     public LoginField(F f) {

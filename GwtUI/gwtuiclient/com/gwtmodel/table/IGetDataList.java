@@ -13,7 +13,7 @@
 package com.gwtmodel.table;
 
 public interface IGetDataList {
-    
+
     void call(IVField v, IGetDataListCallBack iCallBack);
 
 }

@@ -90,7 +90,8 @@ class GetValueLB extends AbstractField implements IValueLB {
             for (int i = 0; i < idList.size(); i++) {
                 String val = idList.get(i);
                 // TODO: experience
-                if (val == null) continue;
+                if (val == null)
+                    continue;
                 if (val.equals(s)) {
                     lB.setSelectedIndex(i);
                     return;

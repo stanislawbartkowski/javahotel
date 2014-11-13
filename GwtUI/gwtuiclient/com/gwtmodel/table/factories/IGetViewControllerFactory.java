@@ -16,7 +16,7 @@ import com.gwtmodel.table.composecontroller.IComposeController;
 import com.gwtmodel.table.injector.ICallContext;
 
 public interface IGetViewControllerFactory {
-    
+
     /**
      * @param dType
      * @return

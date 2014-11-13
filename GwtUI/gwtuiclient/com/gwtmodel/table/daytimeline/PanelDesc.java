@@ -27,7 +27,6 @@ public class PanelDesc {
         this.scrollRightActive = r;
     }
 
-
     /**
      * @return the scrollLeftActive
      */

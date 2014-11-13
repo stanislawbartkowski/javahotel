@@ -17,5 +17,5 @@ public interface IVField extends IEquatable<IVField> {
     FieldDataType getType();
 
     String getId();
-    
+
 }

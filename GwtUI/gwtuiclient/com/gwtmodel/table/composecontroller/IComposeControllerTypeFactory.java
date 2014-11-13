@@ -19,7 +19,7 @@ import com.gwtmodel.table.injector.ICallContext;
  *
  */
 public interface IComposeControllerTypeFactory {
-    
+
     ComposeControllerType construct(ICallContext iContext);
 
 }

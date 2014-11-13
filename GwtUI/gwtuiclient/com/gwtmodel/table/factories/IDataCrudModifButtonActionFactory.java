@@ -19,7 +19,7 @@ import com.gwtmodel.table.injector.ICallContext;
  * @author perseus
  */
 public interface IDataCrudModifButtonActionFactory {
-    
-    IDataCrudModifButtonAction contruct(ICallContext iCall);        
-    
+
+    IDataCrudModifButtonAction contruct(ICallContext iCall);
+
 }

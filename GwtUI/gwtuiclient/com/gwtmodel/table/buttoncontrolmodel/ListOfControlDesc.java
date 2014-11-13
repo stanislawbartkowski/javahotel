@@ -17,8 +17,7 @@ import java.util.List;
 
 public class ListOfControlDesc {
 
-    private final List<ControlButtonDesc> cList =
-            new ArrayList<ControlButtonDesc>();
+    private final List<ControlButtonDesc> cList = new ArrayList<ControlButtonDesc>();
     private final String htmlFormat;
 
     public ListOfControlDesc(List<ControlButtonDesc> cList, String htmlFormat) {

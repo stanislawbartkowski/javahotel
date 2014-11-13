@@ -27,7 +27,8 @@ import com.gwtmodel.table.TLabels;
 public class MM {
 
     private final static TLabels sLabel;
-    private final static String[] weekdays = LocaleInfo.getCurrentLocale().getDateTimeFormatInfo().weekdaysFull();
+    private final static String[] weekdays = LocaleInfo.getCurrentLocale()
+            .getDateTimeFormatInfo().weekdaysFull();
 
     static {
         sLabel = (TLabels) GWT.create(TLabels.class);
@@ -36,9 +37,9 @@ public class MM {
     public static TLabels getL() {
         return sLabel;
     }
-    
+
     public static String[] getWeekdays() {
         return weekdays;
     }
-    
+
 }

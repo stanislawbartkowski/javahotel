@@ -37,7 +37,7 @@ class RadioBoxField extends AbstractField {
         ra = new ArrayList<RadioButton>();
         for (String s : listT.getListVal()) {
             RadioButton r = new RadioButton(getHtmlName(), s);
-            r.setName(s) ;
+            r.setName(s);
             vP.add(r);
             ra.add(r);
         }

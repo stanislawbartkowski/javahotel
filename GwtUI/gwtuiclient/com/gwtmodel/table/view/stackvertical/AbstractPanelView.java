@@ -25,33 +25,33 @@ import com.gwtmodel.table.view.controlpanel.IControlClick;
  */
 abstract class AbstractPanelView implements IStackPanelView {
 
-	private final IControlClick click;
+    private final IControlClick click;
 
-	protected AbstractPanelView(IControlClick click) {
-		this.click = click;
-	}
+    protected AbstractPanelView(IControlClick click) {
+        this.click = click;
+    }
 
-	private class Click implements ClickHandler {
+    private class Click implements ClickHandler {
 
-		private final ControlButtonDesc bu;
-		private final IGFocusWidget bt;
+        private final ControlButtonDesc bu;
+        private final IGFocusWidget bt;
 
-		Click(ControlButtonDesc bu, IGFocusWidget bt) {
-			this.bu = bu;
-			this.bt = bt;
-		}
+        Click(ControlButtonDesc bu, IGFocusWidget bt) {
+            this.bu = bu;
+            this.bt = bt;
+        }
 
-		public void onClick(ClickEvent event) {
-			click.click(bu, bt.getGWidget());
-		}
-	}
+        public void onClick(ClickEvent event) {
+            click.click(bu, bt.getGWidget());
+        }
+    }
 
-	protected IGFocusWidget constructButton(ControlButtonDesc bu) {
-		IGFocusWidget bt = ImgButtonFactory.getButton(bu.getActionId()
-				.getCustomButt(), bu.getDisplayName(), null);
-		// bt.setWidth("100%");
-		bt.addClickHandler(new Click(bu, bt));
-		return bt;
+    protected IGFocusWidget constructButton(ControlButtonDesc bu) {
+        IGFocusWidget bt = ImgButtonFactory.getButton(bu.getActionId()
+                .getCustomButt(), bu.getDisplayName(), null);
+        // bt.setWidth("100%");
+        bt.addClickHandler(new Click(bu, bt));
+        return bt;
 
-	}
+    }
 }

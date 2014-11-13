@@ -139,5 +139,5 @@ class DataListModelView implements IGwtTableModel {
     public String getClassNameForColumn(IVField v) {
         return null;
     }
-       
+
 }

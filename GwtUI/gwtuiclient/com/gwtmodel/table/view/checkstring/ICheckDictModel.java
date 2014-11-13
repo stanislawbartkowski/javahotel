@@ -29,5 +29,5 @@ public interface ICheckDictModel extends IGWidget {
     void setReadOnly(boolean readonly);
 
     void refresh();
-    
+
 }

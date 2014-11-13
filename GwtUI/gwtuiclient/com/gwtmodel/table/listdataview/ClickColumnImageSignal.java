@@ -59,8 +59,7 @@ public class ClickColumnImageSignal extends DataIntegerSignal {
     private static final String SIGNAL_ID = ClickColumnImageSignal.class
             .getName() + "TABLE_PUBLIC_CLICK_IMAGE_COL";
 
-    public static ISlotCustom constructSlotClickColumnSignal(
-            IDataType dType) {
+    public static ISlotCustom constructSlotClickColumnSignal(IDataType dType) {
         return new CustomStringDataTypeSlot(dType, SIGNAL_ID);
     }
 

@@ -36,6 +36,7 @@ public class GetImageColSignal extends DataIntegerSignal {
     public IVField getV() {
         return v;
     }
+
     private static final String SIGNAL_ID = GetImageColSignal.class.getName()
             + "TABLE_PUBLIC_GET_IMAGE_COL";
 

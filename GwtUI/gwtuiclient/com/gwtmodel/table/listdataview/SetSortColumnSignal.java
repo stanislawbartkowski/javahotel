@@ -25,12 +25,12 @@ import com.gwtmodel.table.slotmodel.CustomStringSlot;
 public class SetSortColumnSignal extends CustomObjectValue<IVField> {
 
     private final boolean inc;
-    
+
     public SetSortColumnSignal(IVField value, boolean inc) {
         super(value);
         this.inc = inc;
     }
-    
+
     boolean isInc() {
         return inc;
     }

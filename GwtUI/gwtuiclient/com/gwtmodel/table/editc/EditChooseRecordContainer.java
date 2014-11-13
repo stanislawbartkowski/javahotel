@@ -81,8 +81,8 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
                 dType,
                 new ClickButtonType(LIST_BUTTON),
                 new ButtonAction(
-                e.readOnly() ? ButtonAction.Action.DisableButton
-                : ButtonAction.Action.EnableButton));
+                        e.readOnly() ? ButtonAction.Action.DisableButton
+                                : ButtonAction.Action.EnableButton));
     }
 
     @Override
@@ -191,15 +191,18 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
         this.publishdType = publishdType;
 
         ClickButtonType sChoose = new ClickButtonType(LIST_BUTTON);
-        ControlButtonDesc bChoose = new ControlButtonDesc(MM.getL().ChooseFromList(), sChoose);
+        ControlButtonDesc bChoose = new ControlButtonDesc(MM.getL()
+                .ChooseFromList(), sChoose);
         List<ControlButtonDesc> bList = new ArrayList<ControlButtonDesc>();
         bList.add(bChoose);
         ListOfControlDesc cList = new ListOfControlDesc(bList);
         slMediator.getSlContainer().registerSubscriber(dType, sChoose,
                 new ChooseC(dType, slMediator));
-        ControlButtonViewFactory bFactory = GwtGiniInjector.getI().getControlButtonViewFactory();
+        ControlButtonViewFactory bFactory = GwtGiniInjector.getI()
+                .getControlButtonViewFactory();
         IControlButtonView bView = bFactory.construct(dType, cList);
-        IGetViewControllerFactory fa = GwtGiniInjector.getI().getTableFactoriesContainer().getGetViewControllerFactory();
+        IGetViewControllerFactory fa = GwtGiniInjector.getI()
+                .getTableFactoriesContainer().getGetViewControllerFactory();
         bId = new CellId(IPanelView.CUSTOMID);
         if (!withoutForm) {
             cId = new CellId(IPanelView.CUSTOMID + 1);

@@ -113,10 +113,11 @@ abstract class CustomizedGwtSelectionCell extends
         SafeHtml input(String style, String classC);
     }
 
-    private static SelectTemplate templateInput = GWT.create(SelectTemplate.class);
+    private static SelectTemplate templateInput = GWT
+            .create(SelectTemplate.class);
 
-    protected void renderCustom(Context context, String value, SafeHtmlBuilder sb,
-            String style, String cClass) {
+    protected void renderCustom(Context context, String value,
+            SafeHtmlBuilder sb, String style, String cClass) {
         // Get the view data.
         Object key = context.getKey();
         String viewData = getViewData(key);

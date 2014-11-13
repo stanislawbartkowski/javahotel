@@ -19,7 +19,8 @@ import com.gwtmodel.table.factories.ITableCustomFactories;
  *
  * @author stanislaw.bartkowski@gmail.com
  */
-public class TablesFactoriesContainerProvider implements Provider<ITableCustomFactories> {
+public class TablesFactoriesContainerProvider implements
+        Provider<ITableCustomFactories> {
 
     @Override
     public ITableCustomFactories get() {

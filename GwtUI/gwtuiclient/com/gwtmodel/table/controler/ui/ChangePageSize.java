@@ -40,10 +40,10 @@ public class ChangePageSize extends PopupPanel {
     Button ChangeButton;
     @UiField
     Button FinishButton;
-    
+
     ICommand restoreClick;
     ICommand changeClick;
-    ICommand finishClick;           
+    ICommand finishClick;
 
     interface Binder extends UiBinder<Widget, ChangePageSize> {
     }

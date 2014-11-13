@@ -172,7 +172,7 @@ class ControlButtonView extends AbstractSlotContainer implements
         HideButton e = new HideButton(ba, b.getActionId());
         registerSubscriber(dType, b.getActionId(), ba, e);
     }
-    
+
     private class GetterContainer implements ISlotCallerListener {
 
         @Override

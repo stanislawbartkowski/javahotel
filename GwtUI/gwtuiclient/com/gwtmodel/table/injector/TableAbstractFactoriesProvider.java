@@ -19,7 +19,8 @@ import com.gwtmodel.table.factories.ITableAbstractFactories;
  *
  * @author stanislaw.bartkowski@gmail.com
  */
-public class TableAbstractFactoriesProvider implements Provider<ITableAbstractFactories> {
+public class TableAbstractFactoriesProvider implements
+        Provider<ITableAbstractFactories> {
 
     @Override
     public ITableAbstractFactories get() {

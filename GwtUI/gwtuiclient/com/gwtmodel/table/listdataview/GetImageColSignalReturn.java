@@ -21,17 +21,17 @@ import com.google.common.base.Optional;
  */
 public class GetImageColSignalReturn implements ICustomObject {
 
-	private final Optional<String[]> imageList;
+    private final Optional<String[]> imageList;
 
-	public GetImageColSignalReturn(Optional<String[]> imageList) {
-		this.imageList = imageList;
-	}
+    public GetImageColSignalReturn(Optional<String[]> imageList) {
+        this.imageList = imageList;
+    }
 
-	/**
-	 * @return the imageList
-	 */
-	public Optional<String[]> getImageList() {
-		return imageList;
-	}
+    /**
+     * @return the imageList
+     */
+    public Optional<String[]> getImageList() {
+        return imageList;
+    }
 
 }

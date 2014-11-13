@@ -17,6 +17,7 @@ import com.gwtmodel.table.slotmodel.ISlotable;
 
 public interface IDisclosurePanelFactory {
 
-    ISlotable construct(IDataType publishType,IDataType dType, String header, String html);
-    
+    ISlotable construct(IDataType publishType, IDataType dType, String header,
+            String html);
+
 }

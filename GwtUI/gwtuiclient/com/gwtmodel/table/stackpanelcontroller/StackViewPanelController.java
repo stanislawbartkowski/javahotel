@@ -23,7 +23,8 @@ import java.util.List;
  */
 class StackViewPanelController extends AbstractStackPanelController {
 
-    StackViewPanelController(IDataType dType, ViewStackPanelFactory fFactory, List<ControlButtonDesc> li) {
+    StackViewPanelController(IDataType dType, ViewStackPanelFactory fFactory,
+            List<ControlButtonDesc> li) {
         this.dType = dType;
         this.sView = fFactory.construct(li, new CallBack());
     }

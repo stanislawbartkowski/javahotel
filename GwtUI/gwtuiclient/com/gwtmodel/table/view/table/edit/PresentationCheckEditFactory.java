@@ -38,10 +38,10 @@ class PresentationCheckEditFactory extends PresentationEditCellHelper {
 
     PresentationCheckEditFactory(ErrorLineInfo errorInfo,
             CellTable<MutableInteger> table, ILostFocusEdit lostFocus,
-            EditableCol eCol,IStartEditRow iStartEdit) {
-        super(errorInfo, table, lostFocus, eCol,iStartEdit);
+            EditableCol eCol, IStartEditRow iStartEdit) {
+        super(errorInfo, table, lostFocus, eCol, iStartEdit);
     }
-    
+
     // Decorator pattern implemented to add "blur" event to the constructor
     // Cannot inherit CheckboxCell directly
     private class EditCheckBoxCell extends
@@ -118,12 +118,10 @@ class PresentationCheckEditFactory extends PresentationEditCellHelper {
 
         }
     }
-    
+
     @SuppressWarnings("rawtypes")
     Column contructBooleanCol(IVField v, boolean handleSelection) {
         return new CheckBoxColumn(new EditCheckBoxCell(v, handleSelection), v);
     }
-
-
 
 }

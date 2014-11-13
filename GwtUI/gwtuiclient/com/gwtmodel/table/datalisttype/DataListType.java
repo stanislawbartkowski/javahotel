@@ -29,7 +29,8 @@ class DataListType implements IDataListType {
     private final IVField levelFie;
     private final IVField displayFie;
 
-    DataListType(List<IVModelData> dList, IVField comboFie, IVField levelFie, IVField displayFie) {
+    DataListType(List<IVModelData> dList, IVField comboFie, IVField levelFie,
+            IVField displayFie) {
         this.dList = dList;
         this.comboFie = comboFie;
         this.levelFie = levelFie;

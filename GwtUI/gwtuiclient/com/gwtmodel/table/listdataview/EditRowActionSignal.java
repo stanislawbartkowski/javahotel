@@ -26,44 +26,44 @@ import com.gwtmodel.table.slotmodel.CustomStringSlot;
  */
 public class EditRowActionSignal implements ICustomObject {
 
-	private final int rownum;
-	private final PersistTypeEnum e;
-	private final WSize w;
+    private final int rownum;
+    private final PersistTypeEnum e;
+    private final WSize w;
 
-	EditRowActionSignal(int rownum, PersistTypeEnum e, WSize w) {
-		assert e != PersistTypeEnum.SHOWONLY : LogT.getT()
-				.ValueNotExpectedHere();
-		this.rownum = rownum;
-		this.e = e;
-		this.w = w;
-	}
+    EditRowActionSignal(int rownum, PersistTypeEnum e, WSize w) {
+        assert e != PersistTypeEnum.SHOWONLY : LogT.getT()
+                .ValueNotExpectedHere();
+        this.rownum = rownum;
+        this.e = e;
+        this.w = w;
+    }
 
-	/**
-	 * @return the rownum
-	 */
-	public int getRownum() {
-		return rownum;
-	}
+    /**
+     * @return the rownum
+     */
+    public int getRownum() {
+        return rownum;
+    }
 
-	/**
-	 * @return the e
-	 */
-	public PersistTypeEnum getE() {
-		return e;
-	}
+    /**
+     * @return the e
+     */
+    public PersistTypeEnum getE() {
+        return e;
+    }
 
-	/**
-	 * @return the w
-	 */
-	public WSize getW() {
-		return w;
-	}
+    /**
+     * @return the w
+     */
+    public WSize getW() {
+        return w;
+    }
 
-	private static final String EDIT_ROW_ACTION_SIGNAL = EditRowActionSignal.class
-			.getName() + "TABLE_PUBLIC_EDIT_ROW_ACTION_SIGNAL";
+    private static final String EDIT_ROW_ACTION_SIGNAL = EditRowActionSignal.class
+            .getName() + "TABLE_PUBLIC_EDIT_ROW_ACTION_SIGNAL";
 
-	public static CustomStringSlot constructSlotEditActionSignal(IDataType dType) {
-		return new CustomStringDataTypeSlot(dType, EDIT_ROW_ACTION_SIGNAL);
-	}
+    public static CustomStringSlot constructSlotEditActionSignal(IDataType dType) {
+        return new CustomStringDataTypeSlot(dType, EDIT_ROW_ACTION_SIGNAL);
+    }
 
 }

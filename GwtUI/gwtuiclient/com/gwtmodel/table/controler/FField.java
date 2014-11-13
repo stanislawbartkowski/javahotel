@@ -29,8 +29,8 @@ class FField implements IVField {
     private final boolean checkField;
     private final boolean ignoreField;
 
-    private FField(IVField fie, boolean from, VListHeaderDesc v, boolean checkField,
-            boolean ignoreField) {
+    private FField(IVField fie, boolean from, VListHeaderDesc v,
+            boolean checkField, boolean ignoreField) {
         this.fie = fie;
         this.from = from;
         this.v = v;
@@ -39,18 +39,19 @@ class FField implements IVField {
     }
 
     static FField constructIgnore(VListHeaderDesc h) {
-        return new FField( h.getFie(), false, h, false, true);
+        return new FField(h.getFie(), false, h, false, true);
     }
-    
+
     static FField constructCheck(VListHeaderDesc h) {
-        return new FField( h.getFie(), false, h, true, false);
+        return new FField(h.getFie(), false, h, true, false);
     }
-    
+
     static FField constructFrom(VListHeaderDesc h) {
-        return new FField( h.getFie(), true, h, false, false);
+        return new FField(h.getFie(), true, h, false, false);
     }
+
     static FField constructTo(VListHeaderDesc h) {
-        return new FField( h.getFie(), false, h, false, false);
+        return new FField(h.getFie(), false, h, false, false);
     }
 
     @Override

@@ -399,7 +399,8 @@ class DataListActionItemFactory {
                     }
                 };
             }
-            DrawForm dForm = new DrawForm(wSize, title, listParam.getFormFactory().getSolidPos(iCall),action, true, null,
+            DrawForm dForm = new DrawForm(wSize, title, listParam
+                    .getFormFactory().getSolidPos(iCall), action, true, null,
                     aClose);
             slControlerContainer.registerSubscriber(dType, cId, dForm);
             String resignAsk = listParam.getMenuOptions().getAskString(

@@ -32,7 +32,8 @@ public class ButtonRedirectSignal implements ICustomObject {
     private final ClickButtonType bType;
     private GWidget w;
 
-    public ButtonRedirectSignal(SlotType sl, IDataType buttType, ClickButtonType bType) {
+    public ButtonRedirectSignal(SlotType sl, IDataType buttType,
+            ClickButtonType bType) {
         this.sl = sl;
         this.bType = bType;
         this.buttType = buttType;
@@ -53,7 +54,8 @@ public class ButtonRedirectSignal implements ICustomObject {
     }
 
     /**
-     * @param w the w to set
+     * @param w
+     *            the w to set
      */
     void setW(GWidget w) {
         this.w = w;
@@ -62,7 +64,9 @@ public class ButtonRedirectSignal implements ICustomObject {
     public void sendButtonSignal(ISlotable i) {
         i.getSlContainer().publish(buttType, bType, w);
     }
-    private static final String SIGNAL_ID = ButtonRedirectSignal.class.getName() + "BUTTON_PUBLIC_REDIRECT_SIGNAL";
+
+    private static final String SIGNAL_ID = ButtonRedirectSignal.class
+            .getName() + "BUTTON_PUBLIC_REDIRECT_SIGNAL";
 
     public static CustomStringSlot constructSlotButtonRedirectSignal(
             IDataType dType) {

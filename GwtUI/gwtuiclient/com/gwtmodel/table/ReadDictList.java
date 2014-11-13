@@ -43,7 +43,8 @@ public class ReadDictList<T extends IDataListType> {
     }
 
     public void readList(IDataType dType, IListCallBack<T> iList) {
-        IPersistFactoryAction persistFactoryA = GwtGiniInjector.getI().getTableFactoriesContainer().getPersistFactoryAction();
+        IPersistFactoryAction persistFactoryA = GwtGiniInjector.getI()
+                .getTableFactoriesContainer().getPersistFactoryAction();
         IDataPersistListAction persistL = persistFactoryA.constructL(dType);
         persistL.getSlContainer().registerSubscriber(dType,
                 DataActionEnum.ListReadSuccessSignal, new R(iList));

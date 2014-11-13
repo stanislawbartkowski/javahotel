@@ -15,7 +15,7 @@ package com.gwtmodel.table;
 import com.google.gwt.user.client.ui.Widget;
 
 public interface IGWidget {
-    
+
     Widget getGWidget();
 
 }

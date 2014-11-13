@@ -21,10 +21,10 @@ class EmailVal extends TextBoxBase {
 
     public static native InputElement createInputElement(Document doc,
             String type) /*-{
-		var e = doc.createElement("INPUT");
-		e.type = type;
-		return e;
-    }-*/;
+                         var e = doc.createElement("INPUT");
+                         e.type = type;
+                         return e;
+                         }-*/;
 
     EmailVal() {
         super(createInputElement(Document.get(), "email"));

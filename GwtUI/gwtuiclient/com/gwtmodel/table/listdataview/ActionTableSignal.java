@@ -69,5 +69,4 @@ public class ActionTableSignal {
         return tFactory.construct(slo);
     }
 
-
 }

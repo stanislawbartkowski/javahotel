@@ -13,7 +13,7 @@
 package com.gwtmodel.table;
 
 public interface ISuccess {
-    
+
     void success();
 
 }

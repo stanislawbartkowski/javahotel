@@ -23,8 +23,8 @@ public class GridErrorMess extends InvalidateMess {
     private final int row;
     private final int col;
 
-    public GridErrorMess(int row, int col,String errMess) {
-        super(null,errMess == null, errMess);
+    public GridErrorMess(int row, int col, String errMess) {
+        super(null, errMess == null, errMess);
         this.row = row;
         this.col = col;
     }

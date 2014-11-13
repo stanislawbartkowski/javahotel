@@ -16,25 +16,25 @@ enum PersistEventEnum {
 
     /** Add item. */
     AddItem,
-    
+
     /** Add item success. */
     AddItemSuccess,
-    
+
     /** Remove item. */
     RemoveItem,
-    
-    /** Remove item success .*/
+
+    /** Remove item success . */
     RemoveItemSuccess,
-    
+
     /** Change item. */
     ChangeItem,
-    
+
     /** Change item successfully. */
     ChangeItemSuccess,
-        
+
     /** Read list. */
     ReadList,
-    
+
     /** List read with success. */
-    ReadListSuccess,    
+    ReadListSuccess,
 }

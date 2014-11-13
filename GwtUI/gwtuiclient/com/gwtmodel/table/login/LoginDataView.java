@@ -34,10 +34,12 @@ class LoginDataView extends AbstractSlotMediatorContainer implements
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             IVModelData perData = dFactory.construct(dType);
-            IVModelData pData = slMediator.getSlContainer().getGetterIVModelData(dType,
-                    GetActionEnum.GetViewModelEdited, perData);
+            IVModelData pData = slMediator.getSlContainer()
+                    .getGetterIVModelData(dType,
+                            GetActionEnum.GetViewModelEdited, perData);
             // result: perData
-            SlotSignalContextFactory coFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
+            SlotSignalContextFactory coFactory = GwtGiniInjector.getI()
+                    .getSlotSignalContextFactory();
             return coFactory.construct(slContext.getSlType(), pData);
         }
     }
@@ -47,7 +49,8 @@ class LoginDataView extends AbstractSlotMediatorContainer implements
             IDataValidateAction vAction) {
         this.dFactory = dFactory;
         this.dType = dType;
-        ListOfControlDesc bControl = tFactories.getControlButtonFactory().constructLoginButton();
+        ListOfControlDesc bControl = tFactories.getControlButtonFactory()
+                .constructLoginButton();
         IControlButtonView bView = tFactories.getbViewFactory().construct(
                 dType, bControl);
         IPanelView pView = tFactories.getpViewFactory().construct(dType,
@@ -64,11 +67,11 @@ class LoginDataView extends AbstractSlotMediatorContainer implements
         SlotTypeFactory slFactory = tFactories.getSlTypeFactory();
         slMediator.getSlContainer().registerCaller(
                 slFactory.construct(dType,
-                GetActionEnum.GetViewComposeModelEdited),
+                        GetActionEnum.GetViewComposeModelEdited),
                 new GetCompose());
         slMediator.getSlContainer().registerRedirector(
                 slFactory.construct(dType, new ClickButtonType(
-                ClickButtonType.StandClickEnum.ACCEPT)),
+                        ClickButtonType.StandClickEnum.ACCEPT)),
                 slFactory.construct(dType, DataActionEnum.ValidateAction));
     }
 }

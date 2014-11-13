@@ -12,7 +12,6 @@
  */
 package com.gwtmodel.table.daytimeline;
 
-
 /**
  *
  * @author stanislawbartkowski@gmail.com

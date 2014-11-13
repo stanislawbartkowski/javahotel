@@ -70,26 +70,27 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
 
     private void changeMode(PersistTypeEnum persistTypeEnum, FormField fie) {
         IFormLineView vie = fie.getELine();
-        if (fie.isModeSetAlready()) return;
+        if (fie.isModeSetAlready())
+            return;
         switch (persistTypeEnum) {
-            case ADD:
-                if (fie.isReadOnlyIfAdd()) {
-                    vie.setReadOnly(true);
-                } else {
-                    vie.setReadOnly(false);
-                }
-                break;
-            case MODIF:
-                if (fie.isReadOnlyIfModif()) {
-                    vie.setReadOnly(true);
-                } else {
-                    vie.setReadOnly(false);
-                }
-                break;
-            case REMOVE:
-            case SHOWONLY:
+        case ADD:
+            if (fie.isReadOnlyIfAdd()) {
                 vie.setReadOnly(true);
-                break;
+            } else {
+                vie.setReadOnly(false);
+            }
+            break;
+        case MODIF:
+            if (fie.isReadOnlyIfModif()) {
+                vie.setReadOnly(true);
+            } else {
+                vie.setReadOnly(false);
+            }
+            break;
+        case REMOVE:
+        case SHOWONLY:
+            vie.setReadOnly(true);
+            break;
         default:
             break;
         }
@@ -156,7 +157,8 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            InvalidateFormContainer errContainer = (InvalidateFormContainer) slContext.getValidateError();
+            InvalidateFormContainer errContainer = (InvalidateFormContainer) slContext
+                    .getValidateError();
             gView.showInvalidate(errContainer);
         }
     }
@@ -247,7 +249,8 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
         iContext.setiSlo(this);
         IDataFormConstructorAbstractFactory.CType ccType;
         if (abFactory == null) {
-            ccType = iContext.getC().getDataFormConstructorAbstractFactory().construct(iContext);
+            ccType = iContext.getC().getDataFormConstructorAbstractFactory()
+                    .construct(iContext);
         } else {
             ccType = abFactory.construct(iContext);
         }
@@ -263,7 +266,7 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
         } else {
             this.dFactory = dFactory;
         }
-//        assert this.dFactory != null : LogT.getT().cannotBeNull();
+        // assert this.dFactory != null : LogT.getT().cannotBeNull();
         registerSubscriber(dType, DataActionEnum.ChangeViewFormToInvalidAction,
                 new InvalidateMess());
         registerSubscriber(dType, DataActionEnum.ChangeViewFormModeAction,
@@ -276,9 +279,12 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
                 new SetHtmlId());
         registerSubscriber(SignalChangeMode.constructSlot(dType),
                 new CustomChangeMode());
-        registerSubscriber(ButtonSendListOfButtons.constructSlotSendListOfButtons(dType),
+        registerSubscriber(
+                ButtonSendListOfButtons.constructSlotSendListOfButtons(dType),
                 new GetListOfControls());
-        registerSubscriber(SendPanelElemSignal.constructSlotSendPanelElem(dType), new GetElemPanel());
+        registerSubscriber(
+                SendPanelElemSignal.constructSlotSendPanelElem(dType),
+                new GetElemPanel());
         registerSubscriber(ChangeTabSignal.constructSlot(dType),
                 new ChangeTabPanel());
 

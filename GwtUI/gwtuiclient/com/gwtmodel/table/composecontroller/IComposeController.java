@@ -18,7 +18,7 @@ import com.gwtmodel.table.slotmodel.ISlotable;
 public interface IComposeController extends ISlotable {
 
     void registerControler(ComposeControllerType cType);
-    
+
     void createComposeControler(CellId cellId);
 
 }

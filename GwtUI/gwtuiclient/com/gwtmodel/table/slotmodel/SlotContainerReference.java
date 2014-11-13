@@ -16,23 +16,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author hotel
- * Contains reference to slContainer and list if ISlotable pointint to it
+ * @author hotel Contains reference to slContainer and list if ISlotable
+ *         pointint to it
  */
 class SlotContainerReference {
-    
+
     /** SlotListContainer. */
     private final SlotListContainer slContainer;
     /** List of ISlotable pointing to this reference. */
     private final List<ISlotable> sList = new ArrayList<ISlotable>();
-    
+
     /**
      * Constructor
-     * @param iSlo ISlotable pointing to this reference
-     * @param slContainer SlotListContainer itself
+     * 
+     * @param iSlo
+     *            ISlotable pointing to this reference
+     * @param slContainer
+     *            SlotListContainer itself
      */
-    SlotContainerReference(ISlotable iSlo,SlotListContainer slContainer) {
-        this.slContainer = slContainer; 
+    SlotContainerReference(ISlotable iSlo, SlotListContainer slContainer) {
+        this.slContainer = slContainer;
         sList.add(iSlo);
     }
 
@@ -42,10 +45,12 @@ class SlotContainerReference {
     SlotListContainer getSlContainer() {
         return slContainer;
     }
-    
+
     /**
      * Replace all ISlotable grouped in sRef with this reference
-     * @param sRef Reference to be replaced
+     * 
+     * @param sRef
+     *            Reference to be replaced
      */
     void replace(SlotContainerReference sRef) {
         for (ISlotable i : sRef.sList) {

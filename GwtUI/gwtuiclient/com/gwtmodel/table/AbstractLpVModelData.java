@@ -89,7 +89,8 @@ abstract public class AbstractLpVModelData implements IVModelDataEquable {
     }
 
     /**
-     * @param lp the lp to set
+     * @param lp
+     *            the lp to set
      */
     void setLp(long lp) {
         this.lp = lp;

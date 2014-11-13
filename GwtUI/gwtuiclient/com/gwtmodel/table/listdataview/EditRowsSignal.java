@@ -39,15 +39,15 @@ public class EditRowsSignal extends ChangeEditableRowsParam implements
             List<IVField> eList) {
         super(row, editable, mode, eList);
     }
-    
-    private static final String EDIT_SIGNAL =  EditRowsSignal.class.getName() + "TABLE_PUBLIC_DATALIST_ENABLE_SIGNAL_ROW";
-    
+
+    private static final String EDIT_SIGNAL = EditRowsSignal.class.getName()
+            + "TABLE_PUBLIC_DATALIST_ENABLE_SIGNAL_ROW";
+
     public static SlotType constructEditRowSignal(IDataType dType) {
         CustomStringSlot slo = new CustomStringDataTypeSlot(dType, EDIT_SIGNAL);
         SlotTypeFactory tFactory = GwtGiniInjector.getI().getTablesFactories()
                 .getSlTypeFactory();
         return tFactory.construct(slo);
     }
-
 
 }

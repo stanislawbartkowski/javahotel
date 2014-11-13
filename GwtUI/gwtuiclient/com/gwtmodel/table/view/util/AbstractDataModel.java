@@ -31,7 +31,7 @@ import java.util.List;
  */
 public abstract class AbstractDataModel implements IDataModelFactory {
 
-   protected void copyData(List<IVField> li, IVModelData from, IVModelData to) {
+    protected void copyData(List<IVField> li, IVModelData from, IVModelData to) {
         for (IVField f : li) {
             Object val = from.getF(f);
             to.setF(f, val);
@@ -43,7 +43,6 @@ public abstract class AbstractDataModel implements IDataModelFactory {
             IVModelData to) {
         copyData(from.getF(), from, to);
     }
-
 
     @Override
     public void fromModelToPersist(IDataType dType, IVModelData from,
@@ -58,7 +57,9 @@ public abstract class AbstractDataModel implements IDataModelFactory {
     }
 
     @Override
-    public void fromDataToView(IDataType dType, PersistTypeEnum persistTypeEnum, IVModelData aFrom, FormLineContainer fContainer) {
+    public void fromDataToView(IDataType dType,
+            PersistTypeEnum persistTypeEnum, IVModelData aFrom,
+            FormLineContainer fContainer) {
         FormUtil.copyFromDataToView(aFrom, fContainer);
     }
 

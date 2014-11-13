@@ -41,7 +41,8 @@ class DisplayBoxControler {
             WSize wSize, boolean contentonly) {
         IDataType dType = cParam.getdType();
         DataListActionItemFactory aFactory = new DataListActionItemFactory(
-                tFactories, dType, cParam.getcControler(), cParam.getListParam(), slFactory);
+                tFactories, dType, cParam.getcControler(),
+                cParam.getListParam(), slFactory);
         PersistTypeEnum persistTypeEnum = PersistTypeEnum.SHOWONLY;
         switch (action) {
         case SHOWITEM:

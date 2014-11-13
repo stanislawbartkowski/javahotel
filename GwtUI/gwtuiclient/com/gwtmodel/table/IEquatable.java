@@ -13,7 +13,7 @@
 package com.gwtmodel.table;
 
 public interface IEquatable<T extends IEquatable<T>> {
-    
+
     boolean eq(T o);
 
 }

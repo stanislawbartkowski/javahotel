@@ -17,5 +17,5 @@ import com.gwtmodel.table.IVModelData;
 
 public interface IVModelDataEquable extends IVModelData,
         IEquatable<IVModelDataEquable> {
-        
+
 }

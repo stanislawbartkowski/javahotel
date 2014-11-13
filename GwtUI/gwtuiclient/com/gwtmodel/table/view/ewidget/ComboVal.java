@@ -34,6 +34,6 @@ public class ComboVal {
     }
 
     boolean eqS(String val) {
-       return CUtil.EqNS(this.dispVal, val);
+        return CUtil.EqNS(this.dispVal, val);
     }
 }

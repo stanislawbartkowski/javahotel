@@ -12,7 +12,6 @@
  */
 package com.gwtmodel.table.view.panel;
 
-
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Widget;
 

@@ -25,7 +25,7 @@ import com.gwtmodel.table.rdef.FormLineContainer;
  * @author hotel
  */
 public interface IFormDefFactory {
-    
+
     FormLineContainer construct(ICallContext iContext);
 
 }

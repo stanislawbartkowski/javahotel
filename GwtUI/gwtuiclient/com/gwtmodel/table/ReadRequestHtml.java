@@ -64,9 +64,8 @@ public class ReadRequestHtml {
             if (STATUS_CODE_OK == response.getStatusCode()) {
                 iSet.setText(text);
             } else {
-                Utils.errAlert(
-                        LogT.getT().CannotReadThisUrlCode(url,
-                                response.getStatusCode()));
+                Utils.errAlert(LogT.getT().CannotReadThisUrlCode(url,
+                        response.getStatusCode()));
                 iSet.setText(text);
             }
         }
