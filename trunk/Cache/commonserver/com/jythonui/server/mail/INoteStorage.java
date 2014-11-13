@@ -15,5 +15,5 @@ package com.jythonui.server.mail;
 import com.jythonui.server.crud.IObjectCrud;
 
 public interface INoteStorage extends IObjectCrud<Note> {
-    
+
 }

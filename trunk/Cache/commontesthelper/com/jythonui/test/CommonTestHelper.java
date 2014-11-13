@@ -165,7 +165,7 @@ abstract public class CommonTestHelper {
     protected void equalB(double f, BigDecimal b, int afterdot) {
         BigDecimal c = new BigDecimal(f).setScale(afterdot,
                 BigDecimal.ROUND_HALF_UP);
-        assertEquals(c, b);
+        assertEquals(c, b.setScale(afterdot,BigDecimal.ROUND_HALF_UP));
     }
 
     protected DialogFormat findDialog(String dialogName) {

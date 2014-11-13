@@ -19,7 +19,7 @@ public interface IGetLogMess {
     String getMess(String errCode, String key, String... params);
 
     String getMessN(String key, String... params);
-    
-    Map<String,String> getMess();
-    
+
+    Map<String, String> getMess();
+
 }

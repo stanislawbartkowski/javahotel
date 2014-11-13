@@ -59,8 +59,6 @@ public class EntUtil extends UtilHelper {
         EInstance eI = EntUtil.findI(hotel.getInstanceId());
         LoadResult<EObject> p = ofy().load().type(EObject.class).parent(eI)
                 .id(hotel.getId());
-        // System.out.println("Hotel " + hotel.getId() + " instance :" +
-        // hotel.getInstanceId().getId() );
         if (p.now() == null) {
             String mess = L().getMess(IErrorCode.ERRORCODE116,
                     ILogMess.OBJECTBYIDNOTFOUND, hotel.getId().toString(), eI

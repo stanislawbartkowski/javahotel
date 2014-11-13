@@ -22,9 +22,8 @@ public interface ISharedConsts {
 
     String COMMONOBJECTADMINJNDI = "java:global/ObjectAdmin";
     String COMMONAPPINSTANCEJNDI = "java:global/AppInstance";
-    
-    String COMMONNOTESTORAGEJNDI = "java:global/NoteStorage";
 
+    String COMMONNOTESTORAGEJNDI = "java:global/NoteStorage";
 
     String JYTHONMESSSERVER = "jythonservermess";
 
@@ -57,7 +56,7 @@ public interface ISharedConsts {
 
     String MAILFROM = "NoteFrom";
     String MAILSENTRESULT = "NoteResult";
-    String MAILCONTENT="NoteContent";
+    String MAILCONTENT = "NoteContent";
 
     String MAILATTACHFILENAME = "NoteAttachFileName";
     String MAILATTACHREALM = "NoteAttachRealm";
