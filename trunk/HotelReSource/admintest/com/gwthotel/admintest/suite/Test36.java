@@ -36,7 +36,6 @@ public class Test36 extends TestHelper {
         r = iRes.findElem(getH(HOTEL), sym);
         equalB(99, r.getAdvanceDeposit(), 2);
         eqD(2014, 3, 4, r.getTermOfAdvanceDeposit());
-
     }
 
     @Test

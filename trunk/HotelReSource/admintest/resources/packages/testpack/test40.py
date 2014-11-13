@@ -92,6 +92,12 @@ def dialogaction(action,var):
         print diff
         xml = C.diffAsXML(var,diff)
         print xml
+        i = xml.find("Yes")
+        print i
+        assert i != -1
+        i = xml.find("No")
+        print i
+        assert i != -1
         var["OK"] = True
            
                 

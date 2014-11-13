@@ -32,4 +32,4 @@ def dialogaction(action,var):
        i = html.find('Hans Kloss');
        print i       
        assert -1 != i
-       var["OK"] = True     
+       var["OK"] = True
