@@ -21,15 +21,15 @@ public interface IBlobHandler {
     void clearAll(String realM);
 
     void addBlob(String realM, String blobid, byte[] content);
-    
+
     void changeBlob(String realM, String blobid, byte[] content);
 
     byte[] findBlob(String realM, String blobid);
 
     void removeBlob(String realM, String blobid);
-    
+
     List<String> findBlobs(String realM);
-    
+
     GetCreateModifTime getModifTime(String realM, String key);
 
 }

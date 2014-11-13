@@ -18,28 +18,28 @@ import com.jythonui.server.resource.IReadResource;
 import com.jythonui.server.resource.IReadResourceFactory;
 
 public class ReadMultiResourceFactory extends UtilHelper implements
-		IReadMultiResourceFactory {
+        IReadMultiResourceFactory {
 
-	private final IReadResourceFactory iFactory;
+    private final IReadResourceFactory iFactory;
 
-	@Inject
-	public ReadMultiResourceFactory(IReadResourceFactory iFactory) {
-		this.iFactory = iFactory;
-	}
+    @Inject
+    public ReadMultiResourceFactory(IReadResourceFactory iFactory) {
+        this.iFactory = iFactory;
+    }
 
-	@Override
-	public IReadMultiResource construct(IReadResource... li) {
-		return new ReadMultiResource(iFactory, li);
-	}
+    @Override
+    public IReadMultiResource construct(IReadResource... li) {
+        return new ReadMultiResource(iFactory, li);
+    }
 
-	@Override
-	public IReadMultiResource construct(String listDir) {
-		String[] b = listDir.split(",");
-		IReadResource[] r = new IReadResource[b.length];
-		for (int i = 0; i < b.length; i++)
-			r[i] = iFactory.constructDirLoader(b[i]);
-		return new ReadMultiResource(iFactory, r);
+    @Override
+    public IReadMultiResource construct(String listDir) {
+        String[] b = listDir.split(",");
+        IReadResource[] r = new IReadResource[b.length];
+        for (int i = 0; i < b.length; i++)
+            r[i] = iFactory.constructDirLoader(b[i]);
+        return new ReadMultiResource(iFactory, r);
 
-	}
+    }
 
 }

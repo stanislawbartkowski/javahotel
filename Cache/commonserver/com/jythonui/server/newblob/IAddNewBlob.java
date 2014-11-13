@@ -13,7 +13,7 @@
 package com.jythonui.server.newblob;
 
 public interface IAddNewBlob {
-    
-     String addNewBlob(String realM, String key, byte[] content);
+
+    String addNewBlob(String realM, String key, byte[] content);
 
 }

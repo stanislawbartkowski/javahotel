@@ -19,10 +19,10 @@ import com.jythonui.server.resource.IReadResource;
 
 public interface IReadMultiResource {
 
-	List<IReadResource> getRList();
+    List<IReadResource> getRList();
 
-	List<URL> getUrlList(String resourcePath);
+    List<URL> getUrlList(String resourcePath);
 
-	URL getFirstUrl(String resourcePath);
+    URL getFirstUrl(String resourcePath);
 
 }

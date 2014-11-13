@@ -16,8 +16,8 @@ import com.jythonui.server.resource.IReadResource;
 
 public interface IReadMultiResourceFactory {
 
-	IReadMultiResource construct(IReadResource... li);
+    IReadMultiResource construct(IReadResource... li);
 
-	IReadMultiResource construct(String listDir);
+    IReadMultiResource construct(String listDir);
 
 }

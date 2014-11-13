@@ -24,9 +24,11 @@ public interface IOObjectAdmin {
 
     List<OObjectRoles> getListOfRolesForObject(AppInstanceId i, String object);
 
-    void addOrModifObject(AppInstanceId i, OObject object, List<OObjectRoles> roles);
+    void addOrModifObject(AppInstanceId i, OObject object,
+            List<OObjectRoles> roles);
 
-    void addOrModifPerson(AppInstanceId i, Person person, List<OObjectRoles> roles);
+    void addOrModifPerson(AppInstanceId i, Person person,
+            List<OObjectRoles> roles);
 
     void changePasswordForPerson(AppInstanceId i, String person, String password);
 
@@ -38,6 +40,6 @@ public interface IOObjectAdmin {
     void clearAll(AppInstanceId i);
 
     void removePerson(AppInstanceId i, String person);
- 
+
     void removeObject(AppInstanceId i, String object);
 }

@@ -21,5 +21,5 @@ public interface IAppInstanceOObject {
 
     public OObjectId getOObjectId(AppInstanceId instanceId, String objectName,
             String userName);
-    
+
 }

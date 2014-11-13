@@ -14,7 +14,6 @@ package com.jython.serversecurity;
 
 import com.jythonui.shared.RMap;
 
-
 public class Person extends RMap {
 
     private static final long serialVersionUID = 1L;

@@ -17,7 +17,7 @@ import java.util.List;
 import com.gwtmodel.table.map.XMap;
 
 public interface IXMLHelper {
-    
+
     public List<? extends XMap> getList(String[] constList, String[] tagList,
             IXMapFactory xFactory);
 }

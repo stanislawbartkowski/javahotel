@@ -15,7 +15,7 @@ package com.jythonui.server.storage.gensym;
 import com.jythonui.server.storage.seq.ISequenceRealmGen;
 
 public interface ISymGeneratorFactory {
-    
+
     ISymGenerator construct(ISequenceRealmGen iSeq);
 
 }

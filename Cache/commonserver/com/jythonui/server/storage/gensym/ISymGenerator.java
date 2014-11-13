@@ -15,7 +15,7 @@ package com.jythonui.server.storage.gensym;
 public interface ISymGenerator {
 
     String genSym(String realm, String key, String pattern);
-    
+
     void clear(String realm, String key);
 
 }

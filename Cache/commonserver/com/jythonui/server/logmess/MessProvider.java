@@ -26,7 +26,7 @@ import com.jythonui.server.resource.IReadResourceFactory;
 public class MessProvider implements Provider<IGetLogMess> {
 
     private static final String dirName = "mess";
-    
+
     @Inject
     private IReadResourceFactory iFactory;
 
@@ -36,8 +36,9 @@ public class MessProvider implements Provider<IGetLogMess> {
     private void readProp() {
         if (mess != null)
             return;
-        IReadResource iRes = iFactory.constructLoader(MessProvider.class.getClassLoader());
-        mess = ReadBundle.getBundle(iRes,null,dirName, "mess");
+        IReadResource iRes = iFactory.constructLoader(MessProvider.class
+                .getClassLoader());
+        mess = ReadBundle.getBundle(iRes, null, dirName, "mess");
     }
 
     @Override
