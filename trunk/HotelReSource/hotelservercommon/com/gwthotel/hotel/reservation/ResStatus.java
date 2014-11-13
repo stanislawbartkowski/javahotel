@@ -14,6 +14,6 @@ package com.gwthotel.hotel.reservation;
 
 public enum ResStatus {
 
-    OPEN, CANCEL , STAY, SCHEDULED
+    OPEN, CANCEL, STAY, SCHEDULED
 
 }

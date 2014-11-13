@@ -701,6 +701,7 @@ def listOfPriceListForService(var,servicename) :
   return outl    
 
 # ==============
+
 class HOTELSAVEPARAM(sparam.SAVEPARAM) :
   
   def __init__(self,key,li) :
@@ -708,3 +709,7 @@ class HOTELSAVEPARAM(sparam.SAVEPARAM) :
 
 def transformXML(xslt,xmlcontent) :
    return pdfutil.xsltHtmlS("packages/hotelpack/reservation/xslt/"+xslt,xmlcontent)
+ 
+def transformXMLFromMap(xslt,m) :
+  xml = xmlutil.toXML(m)
+  return transformXML(xslt,xml)

@@ -19,9 +19,9 @@ import com.jython.serversecurity.cache.OObjectId;
 import com.jythonui.server.crud.IObjectCrud;
 
 public interface IHotelRooms extends IObjectCrud<HotelRoom> {
-    
-    void setRoomServices(OObjectId hotel, String roomName,List<String> services);
-    
+
+    void setRoomServices(OObjectId hotel, String roomName, List<String> services);
+
     List<HotelServices> getRoomServices(OObjectId hotel, String roomName);
 
 }

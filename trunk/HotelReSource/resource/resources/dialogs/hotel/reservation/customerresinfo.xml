@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="@customer" >
 
+        <csscode>?html/reserchange.css</csscode>
+
         <before />
 
         <types>hotel/typesenum.xml</types>
@@ -31,7 +33,7 @@
                 <field id="i_fax" displayname="@fax" readonly="" hidden=""/>
                 <field id="i_doctype" displayname="@doctype" type="custom:idtypes" readonly="" hidden=""/>
                 <field id="i_docnumb" displayname="@docnumb" readonly="" hidden=""/>
-                <field id="i_custinfo" label="" />
+                <field id="i_custinfo" type="html" readonly="" />
         </form>
         
         <list id="custlist" pagesize = "5">
@@ -40,8 +42,8 @@
                         <column id="resename" displayname="@reservation" />
                         <column id="rstatus" displayname="@status" />
                         <column id="custinfo" displayname="@customer" />
-                        <column id="rfrom" displayname="@firstnight" type="date" />
-                        <column id="rto" displayname="@lastday" type="date" />
+                        <column id="rfrom" displayname="@arrivaldate" type="date" />
+                        <column id="rto" displayname="@departuredate" type="date" />
                         <column id="room" displayname="@roomname" />
                 </columns>
         </list>  
@@ -53,8 +55,8 @@
                         <column id="resename" displayname="@reservation" />
                         <column id="rstatus" displayname="@status" />
                         <column id="custinfo" displayname="@customer" />
-                        <column id="rfrom" displayname="@firstnight" type="date" />
-                        <column id="rto" displayname="@lastday" type="date" />
+                        <column id="rfrom" displayname="@arrivaldate" type="date" />
+                        <column id="rto" displayname="@departuredate" type="date" />
                         <column id="room" displayname="@roomname" />
                 </columns>
         </list>  
@@ -65,8 +67,8 @@
                         <column id="resename" displayname="@reservation" />
                         <column id="rstatus" displayname="@status" />
                         <column id="custinfo" displayname="@customer" />
-                        <column id="rfrom" displayname="@firstnight" type="date" />
-                        <column id="rto" displayname="@lastday" type="date" />
+                        <column id="rfrom" displayname="@arrivaldate" type="date" />
+                        <column id="rto" displayname="@departuredate" type="date" />
                         <column id="room" displayname="@roomname" />
                 </columns>
         </list>  

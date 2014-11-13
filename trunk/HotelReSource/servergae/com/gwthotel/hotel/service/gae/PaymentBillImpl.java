@@ -49,6 +49,7 @@ public class PaymentBillImpl implements IPaymentBillOp {
             bi.setPaymentTotal(b.getPaymentTotal());
             bi.setPaymentMethod(b.getPaymentMethod());
             bi.setDescription(b.getDescription());
+            bi.setAdvancepayment(b.isAdvancepayment());
             bList.add(bi);
         }
         return bList;
@@ -66,6 +67,7 @@ public class PaymentBillImpl implements IPaymentBillOp {
         pa.setHotel(ho);
         pa.setPaymentMethod(payment.getPaymentMethod());
         pa.setPaymentTotal(payment.getPaymentTotal());
+        pa.setAdvancepayment(payment.isAdvancepayment());
         ofy().save().entity(pa).now();
     }
 

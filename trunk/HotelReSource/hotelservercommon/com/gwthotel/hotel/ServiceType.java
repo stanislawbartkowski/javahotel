@@ -13,7 +13,7 @@
 package com.gwthotel.hotel;
 
 public enum ServiceType {
-    
+
     HOTEL, OTHER
 
 }

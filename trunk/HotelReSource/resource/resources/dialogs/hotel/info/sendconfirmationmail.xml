@@ -9,7 +9,7 @@
 	</jython>
 	
 	<buttons>
-	     <button id="sendmail" displayname="Send mail" actiontype="JYESNO_MESSAGE" actionparam="@sendmailquestion" validate="" />
+	     <button id="sendmail" displayname="@sendmail" actiontype="JYESNO_MESSAGE" actionparam="@sendmailquestion" validate="" />
              <button id="resign" displayname="@resign" actiontype="JCLOSE_DIALOG" />
 	</buttons>  
 	

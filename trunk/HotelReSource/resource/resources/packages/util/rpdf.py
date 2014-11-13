@@ -1,11 +1,11 @@
 import java
-import util
-import con
-import datetime
-import rutil
-import cutil
-
 from com.jamesmurty.utils import XMLBuilder
+
+import datetime
+
+import con,cutil
+
+import util,rutil
 
 def _addElem(builder,tag,val):
     if val == None : return

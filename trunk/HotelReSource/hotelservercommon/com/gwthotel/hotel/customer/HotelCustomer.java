@@ -16,23 +16,16 @@ import com.jythonui.server.ISharedConsts;
 import com.jythonui.shared.PropDescription;
 
 /**
- * @author hotel
- * Customer description class
- * Additional attributes:
+ * @author hotel Customer description class Additional attributes:
  * 
- *   com.gwthotel.shared.IHotelConsts
- *   String CUSTOMERFIRSTNAMEPROP = "firstname";
- *   String CUSTOMERSURNAMEPROP = "surname";
- *   String CUSTOMERDOCNUMBPROP="docnumb";    
- *   String CUSTOMEREMAILPROP = "email";
- *   String CUSTOMERPHONE1PROP = "phone1";
- *   String CUSTOMERPHONE2PROP = "phone2";
- *   String CUSTOMERFAXPROP="fax";    
- *   String CUSTOMERCOUNTRYPROP="country";
- *   String CUSTOMERSTREETPROP = "street";
- *   String CUSTOMERPOSTALCODEPROP = "postalcode";
- *   String CUSTOMERCITYPROP="city";
- *   String CUSTOMERREGIONPROP="region";
+ *         com.gwthotel.shared.IHotelConsts String CUSTOMERFIRSTNAMEPROP =
+ *         "firstname"; String CUSTOMERSURNAMEPROP = "surname"; String
+ *         CUSTOMERDOCNUMBPROP="docnumb"; String CUSTOMEREMAILPROP = "email";
+ *         String CUSTOMERPHONE1PROP = "phone1"; String CUSTOMERPHONE2PROP =
+ *         "phone2"; String CUSTOMERFAXPROP="fax"; String
+ *         CUSTOMERCOUNTRYPROP="country"; String CUSTOMERSTREETPROP = "street";
+ *         String CUSTOMERPOSTALCODEPROP = "postalcode"; String
+ *         CUSTOMERCITYPROP="city"; String CUSTOMERREGIONPROP="region";
  *
  **/
 

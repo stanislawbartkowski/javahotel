@@ -26,7 +26,6 @@ public class HotelServices extends PropDescription {
     private int noExtraBeds;
     private int noChildren;
 
-
     public int getNoPersons() {
         return noPersons;
     }

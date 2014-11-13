@@ -86,6 +86,6 @@ public class ReservationForm extends PropDescription {
 
     public void setDateofadvancePayment(Date dateofadvancePayment) {
         this.dateofadvancePayment = dateofadvancePayment;
-    }    
+    }
 
 }

@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <dialog xmlns="http://www.jythongwt.dialogxsd.com">
 
+        <csscode>?html/reserchange.css</csscode>
+	
 	<before />
         
         <jython>

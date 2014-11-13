@@ -15,15 +15,17 @@ button firstly. It recalculates the reservation and the changes are visible in t
 button again.
 </xsl:variable>
 <xsl:variable name="lang.tabheader">
-<th>What has changed</th>
-<th>Previous value</th>
-<th>New value</th>
+<div class="cell"> What has changed</div>
+<div class="cell">Previous value</div>
+<div class="cell">New value</div>
 </xsl:variable>
 
 <xsl:variable name="lang.makereservation" select="fun:m('makereservation')"/>
 <xsl:variable name="lang.refreshreservation" select="fun:m('checkavailability')"/>
 
 <xsl:template match="/">
+    <div class="wrapper">
+    
     <p style="font-size:larger;">
     <xsl:copy-of  select="$lang.header1" />
     <span style="font-weight: bold;"><xsl:value-of select="$lang.refreshreservation"/>&#160;</span> 
@@ -31,18 +33,19 @@ button again.
     <span style="font-weight: bold;"> <xsl:value-of select="$lang.makereservation"/>&#160;</span>
     <xsl:copy-of select="$lang.header3"/>
     </p>
-    <table border="1">
-      <tr bgcolor="#9acd32">
+    <div class="table">
+      <div class ="row header">
         <xsl:copy-of select="$lang.tabheader"/>
-      </tr>
+      </div>  
       <xsl:for-each select="root/list/elem">
-        <tr>
-          <td><xsl:value-of select="descr"/></td>
-          <td><xsl:value-of select="prevval"/></td>
-          <td><xsl:value-of select="newval"/></td>
-        </tr>
+        <div class="row">
+          <div class="cell"><xsl:value-of select="descr"/></div>
+          <div class="cell"><xsl:value-of select="prevval"/>&#160;</div>
+          <div class="cell"><xsl:value-of select="newval"/>&#160;</div>
+        </div>
       </xsl:for-each>
-    </table>
+    </div>
+    </div>
 </xsl:template>
 
 </xsl:stylesheet> 

@@ -261,6 +261,9 @@ class MAKERESE(util.HOTELTRANSACTION) :
       RFORM = util.RESFORM(var)
       if resename : RFORM.changeElem(reservation)
       else : resename = RFORM.addElem(reservation).getName()
+      
+      reseparam.RESPARAM(resename).saveParam(var)
+      
       # confirmed/not confirmed
       confirm.createC(var).changeReservation(resename)
       var["JCLOSE_DIALOG"] = True
@@ -359,14 +362,10 @@ def reseraction(action,var):
       var["JMESSAGE_TITLE"] = ""  
       var["JAFTERDIALOG_ACTION"] = "makereservation"
 
-    if action == "makereservation" and var["JYESANSWER"] :
+    if (action == "makereservation" and var["JYESANSWER"]) or (action == "continuereservation" and var["JUPDIALOG_BUTTON"] == "accept") :
       TRAN = MAKERESE(var)
       TRAN.doTrans()
-      reseparam.RESPARAM(rutil.getReseName(var)).saveParam(var)
 
-    if action == "continuereservation" and var["JUPDIALOG_BUTTON"] == "accept" :
-      TRAN = MAKERESE(var)
-      TRAN.doTrans()
 
 # -----------------------
 # additional reservation
