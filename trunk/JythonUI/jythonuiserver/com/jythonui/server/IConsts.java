@@ -14,45 +14,45 @@ package com.jythonui.server;
 
 public interface IConsts {
 
-	String SECURITYREALM = "SecuryRealm";
-	String DEFADATAREALM = "DefaultDataRealm";
+    String SECURITYREALM = "SecuryRealm";
+    String DEFADATAREALM = "DefaultDataRealm";
 
-	String COMMONCACHENAME = "CommonCache";
-	String USERCOMMONCACHENAME = "UserCommonCache";
-	String CACHEDNOW = "CachedNow";
-	String APPMESS = "AppBundle";
+    String COMMONCACHENAME = "CommonCache";
+    String USERCOMMONCACHENAME = "UserCommonCache";
+    String CACHEDNOW = "CachedNow";
+    String APPMESS = "AppBundle";
 
-	String DIALOGDIR = "dialogs";
-	String PACKAGEDIR = "packages";
-	String BUNDLEDIR = "bundle";
-	String BIRTDIR = "birt";
+    String DIALOGDIR = "dialogs";
+    String PACKAGEDIR = "packages";
+    String BUNDLEDIR = "bundle";
+    String BIRTDIR = "birt";
 
-	String COUNTRIESDICT = "countries";
-	String TITLESDICT = "titles";
-	String IDTYPEDICT = "idtype";
-	String PAYMENTDICT = "payment";
-	String ROLES = "roles";
-	String VATDICT = "vatdict";
+    String COUNTRIESDICT = "countries";
+    String TITLESDICT = "titles";
+    String IDTYPEDICT = "idtype";
+    String PAYMENTDICT = "payment";
+    String ROLES = "roles";
+    String VATDICT = "vatdict";
 
-	String JECLSECFUNCTION = "sec";
-	String JECLENVFUNCTION = "env";
+    String JECLSECFUNCTION = "sec";
+    String JECLENVFUNCTION = "env";
 
-	String OBJECTNAME = "objectloginname";
-	String INSTANCEID = "objectinstanceid";
+    String OBJECTNAME = "objectloginname";
+    String INSTANCEID = "objectinstanceid";
 
-	String OBJECTREALM = "ObjectRealm";
+    String OBJECTREALM = "ObjectRealm";
 
-	String GENERICRUNJYTHON = "GenericRunJython";
+    String GENERICRUNJYTHON = "GenericRunJython";
 
-	String SENDMAIL = "SendMail";
-	String GETMAIL = "GetMail";
+    String SENDMAIL = "SendMail";
+    String GETMAIL = "GetMail";
 
-	char PERMSIGN = '$';
-	char EVALSIGN = '#';
+    char PERMSIGN = '$';
+    char EVALSIGN = '#';
 
-	String APPMAILFROM = "mailfrom";
+    String APPMAILFROM = "mailfrom";
 
-	String VALUEFROMENV = "@env";
-	String XSLTEXT = "xslt";
+    String VALUEFROMENV = "@env";
+    String XSLTEXT = "xslt";
 
 }

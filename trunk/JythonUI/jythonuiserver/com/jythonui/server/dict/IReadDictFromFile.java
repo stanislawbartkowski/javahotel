@@ -16,6 +16,6 @@ import java.util.List;
 
 public interface IReadDictFromFile {
 
-	List<DictEntry> getDict(String dir, String dicname);
+    List<DictEntry> getDict(String dir, String dicname);
 
 }

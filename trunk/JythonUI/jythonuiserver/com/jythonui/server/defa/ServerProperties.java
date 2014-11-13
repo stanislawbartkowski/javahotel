@@ -26,32 +26,32 @@ import com.jythonui.server.resourcemulti.IReadMultiResourceFactory;
  */
 public class ServerProperties extends AbstractServerProperties {
 
-	private final IsCached isC;
+    private final IsCached isC;
 
-	@Inject
-	public ServerProperties(IsCached isC, IReadResourceFactory iFactory,
-			IReadMultiResourceFactory mFactory) {
-		super(iFactory, mFactory);
-		this.isC = isC;
-	}
+    @Inject
+    public ServerProperties(IsCached isC, IReadResourceFactory iFactory,
+            IReadMultiResourceFactory mFactory) {
+        super(iFactory, mFactory);
+        this.isC = isC;
+    }
 
-	@Override
-	public boolean isCached() {
-		if (isC == null)
-			return false;
-		return isC.isCached();
-	}
+    @Override
+    public boolean isCached() {
+        if (isC == null)
+            return false;
+        return isC.isCached();
+    }
 
-	@Override
-	public IReadMultiResource getResource() {
-		return mFactory.construct();
-	}
+    @Override
+    public IReadMultiResource getResource() {
+        return mFactory.construct();
+    }
 
-	@Override
-	public URL getSendMailPropertiesFile() {
-		// IReadResource r = getResource();
-		// return r.getRes("gaemail/mailbox.properties");
-		return getResource().getFirstUrl("gaemail/mailbox.properties");
-	}
+    @Override
+    public URL getSendMailPropertiesFile() {
+        // IReadResource r = getResource();
+        // return r.getRes("gaemail/mailbox.properties");
+        return getResource().getFirstUrl("gaemail/mailbox.properties");
+    }
 
 }

@@ -16,7 +16,7 @@ import com.jythonui.server.security.token.ICustomSecurity;
 import com.jythonui.shared.CustomSecurity;
 
 public interface ISecurityConvert {
-    
+
     ICustomSecurity construct(CustomSecurity sou);
 
 }

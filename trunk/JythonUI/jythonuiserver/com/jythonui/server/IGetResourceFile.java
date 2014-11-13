@@ -23,4 +23,6 @@ public interface IGetResourceFile {
 
     URL getFirstURL(String dir, String fName);
 
+    URL getFirstURLIfExists(String dir, String fName);
+
 }

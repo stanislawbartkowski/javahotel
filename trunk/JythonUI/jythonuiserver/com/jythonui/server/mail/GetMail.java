@@ -154,7 +154,7 @@ public class GetMail extends UtilHelper {
         if (fromN == -1)
             message = folder.getMessages();
         else
-            message = folder.getMessages(res.no-toN, res.no-fromN);
+            message = folder.getMessages(res.no - toN, res.no - fromN);
 
         // Display message.
         for (Message me : message) {
@@ -192,7 +192,7 @@ public class GetMail extends UtilHelper {
                     f.getAddress(), !textIsHtml, isSeen, me.getSentDate(),
                     f.getPersonal());
             res.list.add(0, ma);
-//            res.list.add(ma);
+            // res.list.add(ma);
         }
         folder.close(true);
         store.close();

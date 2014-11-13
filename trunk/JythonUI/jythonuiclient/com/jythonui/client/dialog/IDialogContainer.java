@@ -24,12 +24,12 @@ public interface IDialogContainer extends ISlotable {
     DialogInfo getInfo();
 
     IVariablesContainer getiCon();
-    
+
     boolean okCheckListError(DialogVariables v);
-    
+
     DialogFormat getD();
-    
+
     void executeAction(String actionId, AsyncCallback<DialogVariables> callback);
-    
+
     void close();
 }

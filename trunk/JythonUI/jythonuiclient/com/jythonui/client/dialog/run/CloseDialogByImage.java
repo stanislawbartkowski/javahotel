@@ -20,9 +20,9 @@ import com.gwtmodel.table.slotmodel.CustomStringSlot;
 public class CloseDialogByImage implements ICustomObject {
 
     // default constructor
-    CloseDialogByImage() {        
+    CloseDialogByImage() {
     }
-    
+
     private static final String CLOSE_SIGNAL = CloseDialogByImage.class
             .getName() + "_CLOSE_DIALOG_BY_IMAGE";
 

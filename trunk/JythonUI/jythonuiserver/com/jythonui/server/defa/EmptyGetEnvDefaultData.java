@@ -16,9 +16,9 @@ import com.jythonui.server.IGetEnvDefaultData;
 
 public class EmptyGetEnvDefaultData implements IGetEnvDefaultData {
 
-	@Override
-	public String getVal(String key) {
-		return null;
-	}
+    @Override
+    public String getVal(String key) {
+        return null;
+    }
 
 }

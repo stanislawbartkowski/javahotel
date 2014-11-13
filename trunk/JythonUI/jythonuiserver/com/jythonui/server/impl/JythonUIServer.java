@@ -50,7 +50,6 @@ public class JythonUIServer extends UtilHelper implements IJythonUIServer {
         this.iJython = iJython;
     }
 
-    
     @Override
     public DialogInfo findDialog(RequestContext rcontext, String dialogName) {
         Util.setContext(rcontext);

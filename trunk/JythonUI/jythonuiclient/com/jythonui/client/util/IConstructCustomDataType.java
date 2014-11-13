@@ -15,7 +15,7 @@ package com.jythonui.client.util;
 import com.gwtmodel.table.IDataType;
 
 public interface IConstructCustomDataType {
-   
+
     IDataType construct(String customType);
 
 }

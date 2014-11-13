@@ -24,7 +24,7 @@ public class MCached {
     private final ICommonCache mCache;
     private final IJythonUIServerProperties p;
 
-    MCached( IJythonUIServerProperties p,ICommonCache mCache) {
+    MCached(IJythonUIServerProperties p, ICommonCache mCache) {
         this.mCache = mCache;
         this.p = p;
     }

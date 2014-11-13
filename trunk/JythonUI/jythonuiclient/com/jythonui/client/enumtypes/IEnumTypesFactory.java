@@ -17,7 +17,7 @@ import com.jythonui.client.listmodel.IRowListDataManager;
 import com.jythonui.shared.DialogFormat;
 
 public interface IEnumTypesFactory {
-    
+
     IEnumTypesList construct(DialogFormat d, IRowListDataManager r);
 
 }

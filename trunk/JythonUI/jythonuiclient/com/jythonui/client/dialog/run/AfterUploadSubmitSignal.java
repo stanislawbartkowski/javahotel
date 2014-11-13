@@ -22,17 +22,17 @@ public class AfterUploadSubmitSignal extends CustomObjectValue<String> {
 
     private final WSize wS;
     private final String submitId;
-    
+
     AfterUploadSubmitSignal(String result, WSize wS, String submitId) {
         super(result);
         this.wS = wS;
         this.submitId = submitId;
     }
-    
+
     public WSize getwS() {
         return wS;
     }
-    
+
     public String getSubmitId() {
         return submitId;
     }

@@ -26,7 +26,6 @@ public class DateLineVariables implements Serializable {
 
     private ListOfRows values = new ListOfRows();
 
-    
     public Map<String, ListOfRows> getLineData() {
         return lineData;
     }
@@ -38,6 +37,5 @@ public class DateLineVariables implements Serializable {
     public ListOfRows getValues() {
         return values;
     }
-
 
 }

@@ -34,68 +34,68 @@ import com.jythonui.shared.ICommonConsts;
  */
 public class VerifyJError {
 
-	private VerifyJError() {
+    private VerifyJError() {
 
-	}
+    }
 
-	public interface IOkFieldName {
-		boolean okField(String s);
-	}
+    public interface IOkFieldName {
+        boolean okField(String s);
+    }
 
-	public static List<InvalidateMess> constructErrors(final DialogVariables v,
-			final IOkFieldName ok) {
-		final List<InvalidateMess> err = new ArrayList<InvalidateMess>();
-		JUtils.IVisitor vis = new JUtils.IVisitor() {
+    public static List<InvalidateMess> constructErrors(final DialogVariables v,
+            final IOkFieldName ok) {
+        final List<InvalidateMess> err = new ArrayList<InvalidateMess>();
+        JUtils.IVisitor vis = new JUtils.IVisitor() {
 
-			@Override
-			public void action(String fie, String field) {
-				if (field.equals(ICommonConsts.JERRORMESSAGE)) {
-					return;
-				}
-				if (!ok.okField(fie))
-					return;
-				String errS = v.getValue(field).getValueS();
-				FieldValue val = v.getValue(fie);
-				if (val == null) {
-					Utils.errAlert(M.M().NoFieldRelatedToError(fie, field),
-							errS == null ? "" : errS);
-					return;
-				}
-				VField vv = VField.construct(fie, val);
-				err.add(new InvalidateMess(vv, errS));
-			}
-		};
-		// important: add underline (JERROR does not have underline)
-		JUtils.visitListOfFields(v, ICommonConsts.JERROR + "_", vis);
-		return err;
-	}
+            @Override
+            public void action(String fie, String field) {
+                if (field.equals(ICommonConsts.JERRORMESSAGE)) {
+                    return;
+                }
+                if (!ok.okField(fie))
+                    return;
+                String errS = v.getValue(field).getValueS();
+                FieldValue val = v.getValue(fie);
+                if (val == null) {
+                    Utils.errAlert(M.M().NoFieldRelatedToError(fie, field),
+                            errS == null ? "" : errS);
+                    return;
+                }
+                VField vv = VField.construct(fie, val);
+                err.add(new InvalidateMess(vv, errS));
+            }
+        };
+        // important: add underline (JERROR does not have underline)
+        JUtils.visitListOfFields(v, ICommonConsts.JERROR + "_", vis);
+        return err;
+    }
 
-	public static boolean isError(final IDialogContainer d, IDataType dType,
-			final DialogVariables v, ISlotable iSlo) {
+    public static boolean isError(final IDialogContainer d, IDataType dType,
+            final DialogVariables v, ISlotable iSlo) {
 
-		IOkFieldName iOk = new IOkFieldName() {
+        IOkFieldName iOk = new IOkFieldName() {
 
-			@Override
-			public boolean okField(String s) {
-				return d.getInfo().getDialog().findFieldItem(s) != null;
-			}
+            @Override
+            public boolean okField(String s) {
+                return d.getInfo().getDialog().findFieldItem(s) != null;
+            }
 
-		};
-		List<InvalidateMess> err = constructErrors(v, iOk);
-		if (err.isEmpty()) {
-			if (d == null)
-				return false;
-			if (!d.okCheckListError(v))
-				return true;
-			return false;
-		}
-		iSlo.getSlContainer().publish(
-				dType,
-				// d == null ? DataActionEnum.ChangeViewFormToInvalidAction
-				// : DataActionEnum.InvalidSignal,
-				DataActionEnum.ChangeViewFormToInvalidAction,
-				new InvalidateFormContainer(err));
-		return true;
-	}
+        };
+        List<InvalidateMess> err = constructErrors(v, iOk);
+        if (err.isEmpty()) {
+            if (d == null)
+                return false;
+            if (!d.okCheckListError(v))
+                return true;
+            return false;
+        }
+        iSlo.getSlContainer().publish(
+                dType,
+                // d == null ? DataActionEnum.ChangeViewFormToInvalidAction
+                // : DataActionEnum.InvalidSignal,
+                DataActionEnum.ChangeViewFormToInvalidAction,
+                new InvalidateFormContainer(err));
+        return true;
+    }
 
 }

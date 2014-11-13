@@ -25,7 +25,7 @@ class DrawFooterSignal extends CustomObjectValue<List<IGetFooter>> {
     DrawFooterSignal(List<IGetFooter> value) {
         super(value);
     }
-    
+
     private static final String FOOTER_SIGNAL = DrawFooterSignal.class
             .getName();
 

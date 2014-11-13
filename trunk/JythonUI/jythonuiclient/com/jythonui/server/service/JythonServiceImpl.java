@@ -33,54 +33,54 @@ import com.jythonui.shared.RequestContext;
  */
 @SuppressWarnings("serial")
 public class JythonServiceImpl extends RemoteServiceServlet implements
-		JythonService {
+        JythonService {
 
-	@Override
-	public DialogInfo getDialogFormat(RequestContext context, String name) {
-		IJythonUIServer iServer = Holder.getiServer();
-		return iServer.findDialog(context, name);
-	}
+    @Override
+    public DialogInfo getDialogFormat(RequestContext context, String name) {
+        IJythonUIServer iServer = Holder.getiServer();
+        return iServer.findDialog(context, name);
+    }
 
-	@Override
-	public DialogVariables runAction(RequestContext context, DialogVariables v,
-			String name, String actionId) {
-		IJythonUIServer iServer = Holder.getiServer();
-		return iServer.runAction(context, v, name, actionId);
-	}
+    @Override
+    public DialogVariables runAction(RequestContext context, DialogVariables v,
+            String name, String actionId) {
+        IJythonUIServer iServer = Holder.getiServer();
+        return iServer.runAction(context, v, name, actionId);
+    }
 
-	@Override
-	public ClientProp getClientRes(RequestContext context) {
-		IJythonClientRes iClient = Holder.getiClient();
-		return iClient.getClientRes(context);
+    @Override
+    public ClientProp getClientRes(RequestContext context) {
+        IJythonClientRes iClient = Holder.getiClient();
+        return iClient.getClientRes(context);
 
-	}
+    }
 
-	@Override
-	public String login(String shiroRealm, String user, String password,
-			CustomSecurity iCustom) {
-		IJythonRPCNotifier iRPC = Holder.getRPC();
-		iRPC.hello(IJythonRPCNotifier.BEFORELOGIN);
-		ISecurity iSec = Holder.getiSec();
-		ICustomSecurity iCust = Holder.getSecurityConvert().construct(iCustom);
-		return iSec.authenticateToken(shiroRealm, user, password, iCust);
-	}
+    @Override
+    public String login(String shiroRealm, String user, String password,
+            CustomSecurity iCustom) {
+        IJythonRPCNotifier iRPC = Holder.getRPC();
+        iRPC.hello(IJythonRPCNotifier.BEFORELOGIN);
+        ISecurity iSec = Holder.getiSec();
+        ICustomSecurity iCust = Holder.getSecurityConvert().construct(iCustom);
+        return iSec.authenticateToken(shiroRealm, user, password, iCust);
+    }
 
-	@Override
-	public void logout(String token) {
-		ISecurity iSec = Holder.getiSec();
-		iSec.logout(token);
-	}
+    @Override
+    public void logout(String token) {
+        ISecurity iSec = Holder.getiSec();
+        iSec.logout(token);
+    }
 
-	@Override
-	public String withoutlogin(CustomSecurity custom) {
-		ICustomSecurity cu;
-		if (custom == null) {
-			CustomSecurity cust = new CustomSecurity();
-			cust.setAttr(IConsts.INSTANCEID, ISharedConsts.INSTANCEDEFAULT);
-			cu = Holder.getPersonSecurityConvert().construct(cust);
-		} else
-			cu = Holder.getSecurityConvert().construct(custom);
-		return Holder.getiSec().withoutlogin(cu);
-	}
+    @Override
+    public String withoutlogin(CustomSecurity custom) {
+        ICustomSecurity cu;
+        if (custom == null) {
+            CustomSecurity cust = new CustomSecurity();
+            cust.setAttr(IConsts.INSTANCEID, ISharedConsts.INSTANCEDEFAULT);
+            cu = Holder.getPersonSecurityConvert().construct(cust);
+        } else
+            cu = Holder.getSecurityConvert().construct(custom);
+        return Holder.getiSec().withoutlogin(cu);
+    }
 
 }

@@ -21,7 +21,8 @@ public class SecurityConverter implements ISecurityConvert {
 
     @Override
     public ICustomSecurity construct(CustomSecurity sou) {
-    	if (sou == null) return null;
+        if (sou == null)
+            return null;
         String hotelName = sou.getAttr(IConsts.OBJECTNAME);
         ObjectCustom ho = new ObjectCustom();
         ho.setObjectName(hotelName);

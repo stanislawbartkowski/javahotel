@@ -17,13 +17,12 @@ import com.jythonui.client.interfaces.IRowListDataManagerFactory;
 import com.jythonui.client.util.IConstructCustomDataType;
 import com.jythonui.shared.DialogInfo;
 
-public class RowListDataManagerFactory  implements IRowListDataManagerFactory {
+public class RowListDataManagerFactory implements IRowListDataManagerFactory {
 
     @Override
     public IRowListDataManager construct(DialogInfo dialogInfo, ISlotable iSlo,
             IConstructCustomDataType tConstruct) {
-        return new RowListDataManager(dialogInfo,iSlo,tConstruct);
+        return new RowListDataManager(dialogInfo, iSlo, tConstruct);
     }
 
 }
-

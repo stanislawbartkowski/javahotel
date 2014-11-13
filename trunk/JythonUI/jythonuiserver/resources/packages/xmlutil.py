@@ -67,8 +67,10 @@ def getVar(map,dialogname,xml,listv):
 
 class TOXML :
     
-    def __init__(self,tobirt=False):
+    def __init__(self,tobirt=False,boolNational=False):
         self.__tobirt = tobirt
+        self.__boolNational = boolNational
+        self.__M = cutil.MESS()
         pass
     
     def getMap(self,first):
@@ -86,8 +88,12 @@ class TOXML :
           elif type(val) == float or type(val) == BigDecimal : atype = cutil.DECIMAL
           elif type(val) == bool : 
               atype = cutil.BOOL
-              if val : val = 1
-              else : val = 0
+              if self.__boolNational : 
+                  if val : val = self.__M("yes")
+                  else : val = self.__M("no")
+              else : 
+                 if val : val = 1 
+                 else : val = 0
           elif type(val) == datetime.date : 
               atype = cutil.DATE
               if self.__tobirt : val = __toBirt(val)
@@ -122,8 +128,8 @@ class TOXML :
 
 class MAPTOXML(TOXML):
     
-    def __init__(self,l,tobirt=False):
-        TOXML.__init__(self,tobirt)
+    def __init__(self,l,tobirt=False,boolNational=False):
+        TOXML.__init__(self,tobirt,boolNational)
         self.__l = l
         
     def getVal(self,map,k):
@@ -135,8 +141,8 @@ class MAPTOXML(TOXML):
         if self.__start >= len(self.__l) : return None
         return self.__l[self.__start]
         
-def toXML(ma,list = None, tobirt=False):
-    X = MAPTOXML(list,tobirt)
+def toXML(ma,list = None, tobirt=False, boolNational=False):
+    X = MAPTOXML(list,tobirt,boolNational)
     X.toXML(ma,list != None)
     return X.getS()              
    

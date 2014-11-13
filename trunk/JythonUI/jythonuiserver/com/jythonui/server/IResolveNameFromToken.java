@@ -18,7 +18,7 @@ import com.jython.serversecurity.cache.OObjectId;
 public interface IResolveNameFromToken {
 
     OObjectId getObject(String token);
-    
+
     AppInstanceId getInstance(String token);
 
 }

@@ -15,10 +15,9 @@ package com.jythonui.client.interfaces;
 import com.jythonui.client.variables.IVariablesContainer;
 
 public interface IVariableContainerFactory {
-    
+
     IVariablesContainer construct();
 
     IVariablesContainer clone(IVariablesContainer sou);
-
 
 }

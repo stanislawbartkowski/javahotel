@@ -22,7 +22,7 @@ public interface IChartManager {
     public ISlotable constructSlotable(String id, IDataType dType);
 
     List<IDataType> getList();
-    
+
     String getId(IDataType da);
 
 }

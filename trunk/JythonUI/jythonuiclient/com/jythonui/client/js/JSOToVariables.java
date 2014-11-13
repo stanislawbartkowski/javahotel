@@ -39,16 +39,16 @@ class JSOToVariables {
         }
 
         public final native JsArrayString keys() /*-{
-			var a = new Array();
-			for ( var p in this) {
-				a.push(p);
-			}
-			return a;
-        }-*/;
+                                                 var a = new Array();
+                                                 for ( var p in this) {
+                                                 a.push(p);
+                                                 }
+                                                 return a;
+                                                 }-*/;
 
         public final native String get(String key) /*-{
-			return "" + this[key];
-        }-*/;
+                                                   return "" + this[key];
+                                                   }-*/;
     }
 
     static DialogVariables toV(JavaScriptObject o) {

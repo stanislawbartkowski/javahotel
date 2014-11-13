@@ -12,7 +12,6 @@
  */
 package com.jythonui.shared;
 
-
 public class CustomSecurity extends ElemDescription {
     private static final long serialVersionUID = 1L;
 }

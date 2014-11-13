@@ -14,7 +14,6 @@ package com.jythonui.server.dict;
 
 import java.util.List;
 
-
 public interface IGetLocalizedDict {
 
     List<DictEntry> getList();

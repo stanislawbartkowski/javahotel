@@ -22,14 +22,14 @@ import java.util.Map;
 import java.util.Set;
 
 public class MapDialogVariable implements Serializable {
-    
+
     private static final long serialVersionUID = 1L;
     private Map<String, FieldValue> vList = new HashMap<String, FieldValue>();
-    
+
     public FieldValue getValue(String fId) {
         return vList.get(fId);
     }
-    
+
     public void copyVariables(MapDialogVariable sou) {
         vList.putAll(sou.vList);
     }
@@ -62,11 +62,11 @@ public class MapDialogVariable implements Serializable {
         val.setValue(l);
         vList.put(fId, val);
     }
-    
+
     public void setValue(String fId, Date d) {
         FieldValue val = new FieldValue();
         val.setValue(d);
-        vList.put(fId, val);        
+        vList.put(fId, val);
     }
 
     public List<String> getFields() {

@@ -71,11 +71,11 @@ public class GetTransformer extends UtilHelper implements IGetTransformer {
         }
         return getName(baseName, null, exte);
     }
-    
+
     private class Resolver implements URIResolver {
-        
+
         private final String baseDir;
-        
+
         Resolver(String baseDir) {
             this.baseDir = baseDir;
         }
@@ -90,7 +90,7 @@ public class GetTransformer extends UtilHelper implements IGetTransformer {
                 throw new TransformerException(e);
             }
         }
-        
+
     }
 
     @Override
@@ -106,7 +106,7 @@ public class GetTransformer extends UtilHelper implements IGetTransformer {
         String xName = getLocaleName(baseName, exte, true);
         URL u = null;
         if (xName != null)
-            u = iGetResFile.getFirstURL(dirName, xName);
+            u = iGetResFile.getFirstURLIfExists(dirName, xName);
         if (u == null) {
             xName = getLocaleName(baseName, exte, false);
             u = iGetResFile.getFirstURL(dirName, xName);
@@ -117,7 +117,8 @@ public class GetTransformer extends UtilHelper implements IGetTransformer {
             return tFactory.newTransformer(new StreamSource(u.openStream()));
         } catch (TransformerConfigurationException | IOException e) {
             errorMess(L(), IErrorCode.ERRORCODE120,
-                    ILogMess.ERRORWHILEOPENINGXSTLFILE, e, xsltName, dirName,xName);
+                    ILogMess.ERRORWHILEOPENINGXSTLFILE, e, xsltName, dirName,
+                    xName);
             return null;
         }
     }

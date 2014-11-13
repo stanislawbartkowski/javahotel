@@ -15,8 +15,7 @@ package com.jythonui.client.interfaces;
 import com.jythonui.shared.ClientProp;
 import com.gwtmodel.table.factories.IWebPanelResources;
 
-
 public interface IWebPanelResourcesFactory {
-    
+
     IWebPanelResources construct(ClientProp res);
 }

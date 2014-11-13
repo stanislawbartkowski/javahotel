@@ -30,5 +30,4 @@ public class SendCloseSignal extends CustomObjectValue<String> {
         return new CustomStringDataTypeSlot(dType, CLOSE_SIGNAL);
     }
 
-
 }

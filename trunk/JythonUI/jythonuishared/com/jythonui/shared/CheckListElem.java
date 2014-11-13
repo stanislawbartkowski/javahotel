@@ -23,7 +23,7 @@ public class CheckListElem extends ElemDescription {
         setId(ICommonConsts.ID);
         setAttr(ICommonConsts.DISPLAYNAME, ICommonConsts.DISPLAYNAME);
     }
-    
+
     public List<FieldItem> constructCol() {
         List<FieldItem> colList = new ArrayList<FieldItem>();
         FieldItem fItem = new FieldItem();

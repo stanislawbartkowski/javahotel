@@ -61,5 +61,4 @@ public class MailSaveImpl implements IMailSendSave {
         return no;
     }
 
-
 }

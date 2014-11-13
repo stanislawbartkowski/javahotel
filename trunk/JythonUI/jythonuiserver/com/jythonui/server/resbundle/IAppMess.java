@@ -16,7 +16,7 @@ import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.shared.CustomMessages;
 
 public interface IAppMess extends IGetLogMess {
-    
+
     CustomMessages getCustomMess();
 
 }

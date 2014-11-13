@@ -13,11 +13,11 @@
 package com.jythonui.client.interfaces;
 
 public interface IMemCache {
-    
+
     void clear();
-    
+
     Object get(String key);
-    
-    void put(String key,Object o);
+
+    void put(String key, Object o);
 
 }
