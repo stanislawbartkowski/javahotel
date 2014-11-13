@@ -17,40 +17,40 @@ import com.gwtmodel.table.common.CUtil;
 
 public class ClientProp extends ElemDescription {
 
-	private static final long serialVersionUID = 1L;
-	private CustomMessages customM = null;
-	private boolean isCached = false;
+    private static final long serialVersionUID = 1L;
+    private CustomMessages customM = null;
+    private boolean isCached = false;
 
-	public CustomMessages getCustomM() {
-		return customM;
-	}
+    public CustomMessages getCustomM() {
+        return customM;
+    }
 
-	public void setCustomM(CustomMessages customM) {
-		this.customM = customM;
-	}
+    public void setCustomM(CustomMessages customM) {
+        this.customM = customM;
+    }
 
-	public boolean isAuthenticate() {
-		String s = this.getAttr(ICommonConsts.AUTHENTICATE);
-		if (CUtil.EmptyS(s))
-			return false;
-		return CUtil.EqNS(s, ICommonConsts.YESAUTHENTICATE);
-	}
+    public boolean isAuthenticate() {
+        String s = this.getAttr(ICommonConsts.AUTHENTICATE);
+        if (CUtil.EmptyS(s))
+            return false;
+        return CUtil.EqNS(s, ICommonConsts.YESAUTHENTICATE);
+    }
 
-	public boolean addLogOut() {
-		String s = this.getAttr(ICommonConsts.CLOSEOUT);
-		if (CUtil.EmptyS(s))
-			return false;
-		return CUtil.EqNS(s, ICommonConsts.YESAUTHENTICATE);
+    public boolean addLogOut() {
+        String s = this.getAttr(ICommonConsts.CLOSEOUT);
+        if (CUtil.EmptyS(s))
+            return false;
+        return CUtil.EqNS(s, ICommonConsts.YESAUTHENTICATE);
 
-	}
+    }
 
-	public boolean isLoginPage() {
-		return isAttr(ICommonConsts.LOGINPAGE);
-	}
+    public boolean isLoginPage() {
+        return isAttr(ICommonConsts.LOGINPAGE);
+    }
 
-	public String getLoginPage() {
-		return getAttr(ICommonConsts.LOGINPAGE);
-	}
+    public String getLoginPage() {
+        return getAttr(ICommonConsts.LOGINPAGE);
+    }
 
     public boolean isCached() {
         return isCached;
@@ -59,7 +59,5 @@ public class ClientProp extends ElemDescription {
     public void setCached(boolean isCached) {
         this.isCached = isCached;
     }
-	
-	
 
 }

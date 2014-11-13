@@ -21,14 +21,13 @@ import com.jythonui.shared.DialogVariables;
 class AddVarList extends CustomObjectValue<DialogVariables> {
 
     private final String action;
-    
+
     AddVarList(DialogVariables value, String action) {
         super(value);
         this.action = action;
     }
-    
-    private static final String ADD_VAR_SIGNAL = AddVarList.class
-            .getName();
+
+    private static final String ADD_VAR_SIGNAL = AddVarList.class.getName();
 
     static CustomStringSlot constructSignal(IDataType dType) {
         return new CustomStringDataTypeSlot(dType, ADD_VAR_SIGNAL);

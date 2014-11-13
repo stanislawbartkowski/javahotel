@@ -18,7 +18,7 @@ import com.jythonui.server.resourcemulti.IReadMultiResource;
 
 public interface IGetResourceMap {
 
-	Map<String, String> getResourceMap(IReadMultiResource iRead,
-			boolean oneonly, String dir, String bundle);
+    Map<String, String> getResourceMap(IReadMultiResource iRead,
+            boolean oneonly, String dir, String bundle);
 
 }

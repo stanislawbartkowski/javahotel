@@ -66,7 +66,7 @@ abstract public class ObjectAuthRealm extends AuthorizingRealm {
         return iRes.getAdmin();
     }
 
-   private IGetInstanceOObjectIdCache getG() {
+    private IGetInstanceOObjectIdCache getG() {
         return iGet;
     }
 
@@ -96,12 +96,13 @@ abstract public class ObjectAuthRealm extends AuthorizingRealm {
         String password = getI().getPassword(
                 getG().getInstance(instanceId, person), token.getUsername());
         if (CUtil.EmptyS(password))
-            throwNotExist(IErrorCode.ERRORCODE99, ILogMess.AUTHUSERDOESNOTEXIST,
-                    person);
+            throwNotExist(IErrorCode.ERRORCODE99,
+                    ILogMess.AUTHUSERDOESNOTEXIST, person);
         String hotel = ho.getObjectName();
         if (hotel == null) {
             // TODO: not expected, more verbose
-            throwNotExist(IErrorCode.ERRORCODE100, ILogMess.AUTHHOTELISNULL, person);
+            throwNotExist(IErrorCode.ERRORCODE100, ILogMess.AUTHHOTELISNULL,
+                    person);
         }
         List<OObjectRoles> roles = getI().getListOfRolesForObject(
                 getG().getInstance(instanceId, person), hotel);

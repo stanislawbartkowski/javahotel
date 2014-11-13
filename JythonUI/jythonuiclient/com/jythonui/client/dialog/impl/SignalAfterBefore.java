@@ -20,9 +20,9 @@ import com.gwtmodel.table.slotmodel.CustomStringSlot;
 public class SignalAfterBefore implements ICustomObject {
 
     // default constructor
-    SignalAfterBefore() {        
+    SignalAfterBefore() {
     }
-    
+
     private static final String AFTER_BEFORE_SIGNAL = SignalAfterBefore.class
             .getName() + "_AFTER_BEFORE_SIGNAL";
 

@@ -35,7 +35,7 @@ public interface IDictOfLocalEntries {
         }
 
     }
-    
+
     DictEntry[] getList(String lang);
 
 }

@@ -46,7 +46,7 @@ public class ListOfRows implements Serializable {
     public void setSize(int size) {
         this.size = size;
     }
-    
+
     public boolean isEmpty() {
         return rowList.isEmpty();
     }

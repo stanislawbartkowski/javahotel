@@ -34,8 +34,7 @@ public class DecoratorRunJython implements IExecuteJython {
     }
 
     @Override
-    public void executeJython(DialogVariables v, DialogFormat d,
-            String actionId) {
+    public void executeJython(DialogVariables v, DialogFormat d, String actionId) {
         if (p.isSerialized())
             sexecuteJython(v, d, actionId);
         else

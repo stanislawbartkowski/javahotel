@@ -41,7 +41,8 @@ public class UserCacheHandler implements IUserCacheHandler {
 
     private ICommonCache getC(String token) {
         String user = null;
-        if (token != null) user = iSec.getUserName(token);
+        if (token != null)
+            user = iSec.getUserName(token);
         String cacheName = IConsts.USERCOMMONCACHENAME;
         if (!CUtil.EmptyS(user))
             cacheName = cacheName + "-" + user;

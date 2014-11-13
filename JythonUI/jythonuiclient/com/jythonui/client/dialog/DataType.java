@@ -38,8 +38,7 @@ public class DataType implements IDataType {
         return id.equals(d.id);
     }
 
-    public @Override
-    boolean equals(Object o) {
+    public @Override boolean equals(Object o) {
         IDataType d = (IDataType) o;
         return eq(d);
     }

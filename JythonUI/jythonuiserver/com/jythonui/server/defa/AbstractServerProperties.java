@@ -20,46 +20,45 @@ import com.jythonui.server.resource.IReadResourceFactory;
 import com.jythonui.server.resourcemulti.IReadMultiResourceFactory;
 
 abstract public class AbstractServerProperties extends UtilHelper implements
-		IJythonUIServerProperties {
+        IJythonUIServerProperties {
 
-	protected final IReadResourceFactory iFactory;
-	protected final IReadMultiResourceFactory mFactory;
+    protected final IReadResourceFactory iFactory;
+    protected final IReadMultiResourceFactory mFactory;
 
-	@Override
-	public String getEJBHost() {
-		return null;
-	}
+    @Override
+    public String getEJBHost() {
+        return null;
+    }
 
-	@Override
-	public String getEJBPort() {
-		return null;
-	}
+    @Override
+    public String getEJBPort() {
+        return null;
+    }
 
-	protected AbstractServerProperties(IReadResourceFactory iFactory,
-			IReadMultiResourceFactory mFactory) {
-		this.iFactory = iFactory;
-		this.mFactory = mFactory;
-	}
+    protected AbstractServerProperties(IReadResourceFactory iFactory,
+            IReadMultiResourceFactory mFactory) {
+        this.iFactory = iFactory;
+        this.mFactory = mFactory;
+    }
 
+    @Override
+    public boolean isSerialized() {
+        return false;
+    }
 
-	@Override
-	public boolean isSerialized() {
-		return false;
-	}
+    @Override
+    public URL getAppPropertiesFile() {
+        return null;
+    }
 
-	@Override
-	public URL getAppPropertiesFile() {
-		return null;
-	}
+    @Override
+    public URL getSendMailPropertiesFile() {
+        return null;
+    }
 
-	@Override
-	public URL getSendMailPropertiesFile() {
-		return null;
-	}
-
-	@Override
-	public URL getGetMailPropertiesFile() {
-		return null;
-	}
+    @Override
+    public URL getGetMailPropertiesFile() {
+        return null;
+    }
 
 }

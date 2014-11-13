@@ -21,12 +21,12 @@ import com.jythonui.server.resourcemulti.IReadMultiResource;
 
 public class ReadDict {
 
-	private static final String dictName = "dict";
-	
-	public static List<DictEntry> getList(IReadMultiResource iRead,
-			IGetResourceMap iGet, String resName) {
-		Map<String, String> mess = iGet
-				.getResourceMap(iRead, true,dictName, resName);
-		return MapToDict.toDict(mess);
-	}
+    private static final String dictName = "dict";
+
+    public static List<DictEntry> getList(IReadMultiResource iRead,
+            IGetResourceMap iGet, String resName) {
+        Map<String, String> mess = iGet.getResourceMap(iRead, true, dictName,
+                resName);
+        return MapToDict.toDict(mess);
+    }
 }

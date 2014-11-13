@@ -236,7 +236,12 @@ public class JythonServerService {
 
                 @Override
                 public URL getFirstURL(String dir, String fName) {
-                    return Util.getFirstURL(iP, dir, fName);
+                    return Util.getFirstURL(iP, dir, fName, true);
+                }
+
+                @Override
+                public URL getFirstURLIfExists(String dir, String fName) {
+                    return Util.getFirstURL(iP, dir, fName, false);
                 }
 
             };

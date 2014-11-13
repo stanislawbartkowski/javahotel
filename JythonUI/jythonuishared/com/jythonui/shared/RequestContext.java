@@ -17,46 +17,46 @@ import java.util.Map;
 
 public class RequestContext implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String token;
+    private String token;
 
-	private String locale;
+    private String locale;
 
-	private Map<String, String> urlParam;
+    private Map<String, String> urlParam;
 
-	private String hostName;
+    private String hostName;
 
-	public String getToken() {
-		return token;
-	}
+    public String getToken() {
+        return token;
+    }
 
-	public void setToken(String token) {
-		this.token = token;
-	}
+    public void setToken(String token) {
+        this.token = token;
+    }
 
-	public String getLocale() {
-		return locale;
-	}
+    public String getLocale() {
+        return locale;
+    }
 
-	public void setLocale(String locale) {
-		this.locale = locale;
-	}
+    public void setLocale(String locale) {
+        this.locale = locale;
+    }
 
-	public Map<String, String> getUrlParam() {
-		return urlParam;
-	}
+    public Map<String, String> getUrlParam() {
+        return urlParam;
+    }
 
-	public void setUrlParam(Map<String, String> urlParam) {
-		this.urlParam = urlParam;
-	}
+    public void setUrlParam(Map<String, String> urlParam) {
+        this.urlParam = urlParam;
+    }
 
-	public String getHostName() {
-		return hostName;
-	}
+    public String getHostName() {
+        return hostName;
+    }
 
-	public void setHostName(String hostName) {
-		this.hostName = hostName;
-	}
+    public void setHostName(String hostName) {
+        this.hostName = hostName;
+    }
 
 }

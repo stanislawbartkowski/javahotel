@@ -25,21 +25,21 @@ import com.jythonui.server.dict.IReadDictFromFile;
 
 public class ReadDictFromFile implements IReadDictFromFile {
 
-	private final IGetResourceMap iGet;
-	private final IJythonUIServerProperties p;
+    private final IGetResourceMap iGet;
+    private final IJythonUIServerProperties p;
 
-	@Inject
-	public ReadDictFromFile(IGetResourceMap iGet, IJythonUIServerProperties p) {
-		this.iGet = iGet;
-		this.p = p;
-	}
+    @Inject
+    public ReadDictFromFile(IGetResourceMap iGet, IJythonUIServerProperties p) {
+        this.iGet = iGet;
+        this.p = p;
+    }
 
-	@Override
-	public List<DictEntry> getDict(String dir, String dicName) {
-		String dirName = BUtil.addNameToPath(IConsts.DIALOGDIR, dir);
-		Map<String, String> ma = iGet.getResourceMap(p.getResource(), true,
-				dirName, dicName);
-		return MapToDict.toDict(ma);
-	}
+    @Override
+    public List<DictEntry> getDict(String dir, String dicName) {
+        String dirName = BUtil.addNameToPath(IConsts.DIALOGDIR, dir);
+        Map<String, String> ma = iGet.getResourceMap(p.getResource(), true,
+                dirName, dicName);
+        return MapToDict.toDict(ma);
+    }
 
 }

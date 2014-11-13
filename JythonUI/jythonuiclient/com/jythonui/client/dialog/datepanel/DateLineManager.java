@@ -253,7 +253,7 @@ class DateLineManager implements IDateLineManager {
 
             @Override
             public String getHint(MutableInteger row, int colNo) {
-                
+
                 colNo = span.recalculateCol(row, colNo);
                 CellData cData = getCellData(row, colNo);
                 RowContent r = findRowContent(cData);

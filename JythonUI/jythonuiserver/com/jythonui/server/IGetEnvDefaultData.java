@@ -13,5 +13,5 @@
 package com.jythonui.server;
 
 public interface IGetEnvDefaultData {
-	String getVal(String key);
+    String getVal(String key);
 }

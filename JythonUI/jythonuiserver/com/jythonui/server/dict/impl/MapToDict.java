@@ -21,22 +21,22 @@ import com.jythonui.server.dict.DictEntry;
 
 public class MapToDict {
 
-	private MapToDict() {
-	}
+    private MapToDict() {
+    }
 
-	static List<DictEntry> toDict(Map<String, String> mess) {
+    static List<DictEntry> toDict(Map<String, String> mess) {
 
-		List<DictEntry> cList = new ArrayList<DictEntry>();
+        List<DictEntry> cList = new ArrayList<DictEntry>();
 
-		for (Entry<String, String> e : mess.entrySet()) {
-			String key = (String) e.getKey();
-			String name = (String) e.getValue();
-			DictEntry c = new DictEntry();
-			c.setName(key);
-			c.setDescription(name);
-			cList.add(c);
-		}
-		return cList;
-	}
+        for (Entry<String, String> e : mess.entrySet()) {
+            String key = (String) e.getKey();
+            String name = (String) e.getValue();
+            DictEntry c = new DictEntry();
+            c.setName(key);
+            c.setDescription(name);
+            cList.add(c);
+        }
+        return cList;
+    }
 
 }

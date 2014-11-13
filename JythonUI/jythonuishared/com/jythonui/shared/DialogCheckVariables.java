@@ -40,5 +40,5 @@ public class DialogCheckVariables implements Serializable {
     public ListOfRows getErrors() {
         return errors;
     }
-    
+
 }

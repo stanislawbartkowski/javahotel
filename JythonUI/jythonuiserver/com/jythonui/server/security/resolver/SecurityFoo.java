@@ -16,7 +16,7 @@ import org.apache.shiro.subject.Subject;
 
 // must be public
 public class SecurityFoo {
-    
+
     private final Subject currentUser;
 
     SecurityFoo(Subject currentUser) {

@@ -99,7 +99,7 @@ public class Util extends UtilHelper {
     }
 
     public static URL getFirstURL(IJythonUIServerProperties p, String dir,
-            String name) {
+            String name, boolean thrownotexist) {
         if (p.getResource() == null) {
             errorLog(
                     SHolder.getM().getMess(IErrorCode.ERRORCODE17,
@@ -108,29 +108,30 @@ public class Util extends UtilHelper {
         URL u = p.getResource().getFirstUrl(
                 dir == null ? name : BUtil.addNameToPath(dir, name));
         if (u == null)
-            errorLog(
-                    SHolder.getM().getMess(IErrorCode.ERRORCODE80,
-                            ILogMess.FILENOTFOUND, name), null);
+            if (thrownotexist)
+                errorLog(
+                        SHolder.getM().getMess(IErrorCode.ERRORCODE80,
+                                ILogMess.FILENOTFOUND, name), null);
         return u;
     }
 
     public static InputStream getDialogFile(IJythonUIServerProperties p,
             String name) {
         try {
-            return getFirstURL(p, IConsts.DIALOGDIR, name).openStream();
+            return getFirstURL(p, IConsts.DIALOGDIR, name, true).openStream();
         } catch (IOException e) {
             errorLog(
                     L().getMess(
                             IErrorCode.ERRORCODE54,
                             ILogMess.FILENOTFOUND,
-                            getFirstURL(p, IConsts.DIALOGDIR, name).toString()
-                                    + " " + name), e);
+                            getFirstURL(p, IConsts.DIALOGDIR, name, true)
+                                    .toString() + " " + name), e);
             return null;
         }
     }
 
     public static String getBirtFile(IJythonUIServerProperties p, String name) {
-        return getFirstURL(p, IConsts.BIRTDIR, name).getPath();
+        return getFirstURL(p, IConsts.BIRTDIR, name, true).getPath();
     }
 
     public static List<String> getJythonPackageDirectory(IReadMultiResource iRes) {

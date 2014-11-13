@@ -19,7 +19,7 @@ import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.MapDialogVariable;
 
 public interface ICreateBackActionFactory {
-    
+
     CommonCallBack<DialogVariables> construct(String id, WSize w,
             MapDialogVariable addV, ICommand iAfter);
 

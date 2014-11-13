@@ -50,8 +50,8 @@ public class GetVatTaxes implements IGetLocalizedDict {
             }
         };
 
-        return (List<DictEntry>) xHelper.getList(new String[] { VATFILE, VATSTAG,
-                VATTAG }, new String[] { ISharedConsts.NAME,
+        return (List<DictEntry>) xHelper.getList(new String[] { VATFILE,
+                VATSTAG, VATTAG }, new String[] { ISharedConsts.NAME,
                 ISharedConsts.DESCRIPTION, ISharedConsts.VATLEVELPROP },
                 xFactory);
 

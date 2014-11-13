@@ -27,7 +27,8 @@ import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
 
-public class GetInstanceObjectId extends UtilHelper implements IGetInstanceOObjectIdCache {
+public class GetInstanceObjectId extends UtilHelper implements
+        IGetInstanceOObjectIdCache {
 
     private final IAppInstanceOObject iApp;
     private final ICommonCache iCache;
@@ -66,7 +67,7 @@ public class GetInstanceObjectId extends UtilHelper implements IGetInstanceOObje
         o = iCache.get(key);
         if (o != null)
             return (OObjectId) o;
-        AppInstanceId a = getInstance(instanceName,userName);
+        AppInstanceId a = getInstance(instanceName, userName);
         OObjectId h = iApp.getOObjectId(a, objectName, userName);
         iCache.put(key, h);
         return h;

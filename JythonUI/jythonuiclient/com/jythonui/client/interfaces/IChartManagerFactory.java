@@ -17,7 +17,7 @@ import com.jythonui.client.charts.IChartManager;
 import com.jythonui.client.dialog.IDialogContainer;
 
 public interface IChartManagerFactory {
-    
-    IChartManager construct(IDialogContainer iDialog, IDataType publishType); 
+
+    IChartManager construct(IDialogContainer iDialog, IDataType publishType);
 
 }

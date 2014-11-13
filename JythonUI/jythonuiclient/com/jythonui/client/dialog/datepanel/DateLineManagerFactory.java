@@ -17,10 +17,10 @@ import com.jythonui.client.dialog.IDialogContainer;
 import com.jythonui.client.interfaces.IDateLineManagerFactory;
 
 public class DateLineManagerFactory implements IDateLineManagerFactory {
-    
+
     @Override
-    public  IDateLineManager construct(IDialogContainer d) {
-        return new DateLineManager(d);        
+    public IDateLineManager construct(IDialogContainer d) {
+        return new DateLineManager(d);
     }
 
 }

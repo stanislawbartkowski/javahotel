@@ -27,78 +27,78 @@ import com.jythonui.shared.CustomMessages;
 
 public class Mess implements IAppMess {
 
-	private final IJythonUIServerProperties iRes;
-	private final IGetResourceMap iGet;
-	private IGetLogMess iMess = null;
-	private String lastloca = null;
-	private Map<String, String> commonmess = null;
-	private final IReadMultiResourceFactory iFactory;
+    private final IJythonUIServerProperties iRes;
+    private final IGetResourceMap iGet;
+    private IGetLogMess iMess = null;
+    private String lastloca = null;
+    private Map<String, String> commonmess = null;
+    private final IReadMultiResourceFactory iFactory;
 
-	@Inject
-	public Mess(IJythonUIServerProperties iRes, IGetResourceMap iGet,
-			IReadMultiResourceFactory iFactory) {
-		this.iRes = iRes;
-		this.iGet = iGet;
-		this.iFactory = iFactory;
-	}
+    @Inject
+    public Mess(IJythonUIServerProperties iRes, IGetResourceMap iGet,
+            IReadMultiResourceFactory iFactory) {
+        this.iRes = iRes;
+        this.iGet = iGet;
+        this.iFactory = iFactory;
+    }
 
-	private boolean localeChanged() {
-		String loc = Util.getLocale();
-		if ((loc == null) && (lastloca == null))
-			return false;
-		if ((loc == null) && (lastloca != null))
-			return true;
-		if ((loc != null) && (lastloca == null))
-			return true;
-		return !loc.equals(lastloca);
-	}
+    private boolean localeChanged() {
+        String loc = Util.getLocale();
+        if ((loc == null) && (lastloca == null))
+            return false;
+        if ((loc == null) && (lastloca != null))
+            return true;
+        if ((loc != null) && (lastloca == null))
+            return true;
+        return !loc.equals(lastloca);
+    }
 
-	private void setMess() {
-		if ((iMess == null) || !iRes.isCached() || localeChanged()) {
-			// use full path
-			commonmess = iGet.getResourceMap(iFactory.construct(), true,
-					"mess", "commonmess");
+    private void setMess() {
+        if ((iMess == null) || !iRes.isCached() || localeChanged()) {
+            // use full path
+            commonmess = iGet.getResourceMap(iFactory.construct(), true,
+                    "mess", "commonmess");
 
-			Map<String, String> mess = iGet.getResourceMap(iRes.getResource(),
-					false, IConsts.BUNDLEDIR, "messages");
-			iMess = GetLogMessFactory.construct(mess);
-			lastloca = Util.getLocale();
-		}
-	}
+            Map<String, String> mess = iGet.getResourceMap(iRes.getResource(),
+                    false, IConsts.BUNDLEDIR, "messages");
+            iMess = GetLogMessFactory.construct(mess);
+            lastloca = Util.getLocale();
+        }
+    }
 
-	@Override
-	public String getMess(String errCode, String key, String... params) {
-		setMess();
-		return iMess.getMess(errCode, key, params);
-	}
+    @Override
+    public String getMess(String errCode, String key, String... params) {
+        setMess();
+        return iMess.getMess(errCode, key, params);
+    }
 
-	@Override
-	public String getMessN(String key, String... params) {
-		setMess();
-		return iMess.getMessN(key, params);
-	}
+    @Override
+    public String getMessN(String key, String... params) {
+        setMess();
+        return iMess.getMessN(key, params);
+    }
 
-	@Override
-	public CustomMessages getCustomMess() {
-		// if (iRes.getBundleBase() == null)
-		// return null;
-		setMess();
-		CustomMessages cust = new CustomMessages();
-		// firstly common mess
-		for (String key : commonmess.keySet()) {
-			cust.setAttr(key, commonmess.get(key));
-		}
-		Map<String, String> ma = iMess.getMess();
-		for (String key : ma.keySet()) {
-			cust.setAttr(key, ma.get(key));
-		}
-		return cust;
-	}
+    @Override
+    public CustomMessages getCustomMess() {
+        // if (iRes.getBundleBase() == null)
+        // return null;
+        setMess();
+        CustomMessages cust = new CustomMessages();
+        // firstly common mess
+        for (String key : commonmess.keySet()) {
+            cust.setAttr(key, commonmess.get(key));
+        }
+        Map<String, String> ma = iMess.getMess();
+        for (String key : ma.keySet()) {
+            cust.setAttr(key, ma.get(key));
+        }
+        return cust;
+    }
 
-	@Override
-	public Map<String, String> getMess() {
-		setMess();
-		return iMess.getMess();
-	}
+    @Override
+    public Map<String, String> getMess() {
+        setMess();
+        return iMess.getMess();
+    }
 
 }

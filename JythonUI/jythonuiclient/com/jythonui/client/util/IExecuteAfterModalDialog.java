@@ -19,7 +19,7 @@ public interface IExecuteAfterModalDialog {
     void setAction(String afterAction);
 
     void setResultButton(String buttonid, String resVal);
-    
+
     void registerModeless(IDialogContainer d);
 
 }

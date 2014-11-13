@@ -12,9 +12,8 @@
  */
 package com.jythonui.server;
 
-
 public interface IStorageMemContainerFactory {
-    
+
     IStorageMemCache construct(String realm);
 
 }

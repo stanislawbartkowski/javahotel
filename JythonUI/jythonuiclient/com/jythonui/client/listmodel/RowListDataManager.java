@@ -171,7 +171,7 @@ class RowListDataManager implements IRowListDataManager {
     }
 
     @Override
-    public void hideButton(String buttid, boolean hide) { 
+    public void hideButton(String buttid, boolean hide) {
         for (IDataType dType : getList())
             SlU.buttonHidden(dType, iSlo, buttid, hide);
     }

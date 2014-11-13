@@ -18,9 +18,8 @@ import com.jythonui.server.IMailSend.AttachElem;
 import com.jythonui.server.mail.Note;
 
 public interface IMailSendSave {
-    
+
     Note postMail(boolean text, String recipients[], String subject,
             String message, String from, List<AttachElem> aList);
-
 
 }

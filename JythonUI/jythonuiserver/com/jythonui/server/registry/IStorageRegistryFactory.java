@@ -12,7 +12,6 @@
  */
 package com.jythonui.server.registry;
 
-
 public interface IStorageRegistryFactory {
 
     IStorageRegistry construct(String realm);

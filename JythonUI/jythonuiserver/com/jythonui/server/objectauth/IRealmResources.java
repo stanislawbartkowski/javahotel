@@ -16,8 +16,8 @@ import com.jython.serversecurity.IOObjectAdmin;
 import com.jythonui.server.getmess.IGetLogMess;
 
 public interface IRealmResources {
-        
+
     IOObjectAdmin getAdmin();
-    
+
     IGetLogMess getLogMess();
 }

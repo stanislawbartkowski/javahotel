@@ -18,7 +18,6 @@ public interface IXMLTransformer {
 
     String toXML(String dialogName, DialogVariables v);
 
-    void fromXML(String dialogName, DialogVariables v,
-            String xml);
+    void fromXML(String dialogName, DialogVariables v, String xml);
 
 }

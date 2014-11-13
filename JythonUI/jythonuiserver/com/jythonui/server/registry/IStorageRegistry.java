@@ -14,15 +14,14 @@ package com.jythonui.server.registry;
 
 import java.util.List;
 
-
 public interface IStorageRegistry {
-    
+
     void putEntry(String key, byte[] value);
-    
+
     byte[] getEntry(String key);
-    
+
     void removeEntry(String key);
-    
+
     List<String> getKeys();
 
 }

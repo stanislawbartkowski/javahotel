@@ -43,12 +43,8 @@ class SAVEPARAM(cutil.StorageRegistry):
             else : descr = None
             map = { "key" : key, "prevval" : prevval, "newval" : newval, "descr" : descr}
             li.append(map)
-        return xmlutil.toXML({},li)
-    
-#    def transformDiff(self,ma,diff,xslt):
-#        xml = self.diffAsXML(ma,diff)
-#        return pdfutil.xsltHtmlS(xslt,xml)
-    
+        return xmlutil.toXML({},li,False,True)
+        
     def getLi(self):
         return self.__li    
         

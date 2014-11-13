@@ -149,9 +149,10 @@ class FormGridManager implements IFormGridManager {
             // DialogCheckVariables c
             IGridView gView = gData.get(s);
             CheckList cCheck = d.findCheckList(s);
-            if (cCheck == null) continue;
-// 2013/10/29            
-//            assert cCheck != null;
+            if (cCheck == null)
+                continue;
+            // 2013/10/29
+            // assert cCheck != null;
             if (gView == null)
                 Utils.errAlertB(M.M().NoCheckList(s));
             IGridViewBoolean bView = null;

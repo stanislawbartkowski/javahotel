@@ -12,7 +12,6 @@
  */
 package com.jythonui.shared;
 
-
 public class SUtil {
 
     private SUtil() {

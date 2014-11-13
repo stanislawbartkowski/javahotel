@@ -16,12 +16,10 @@ import com.google.gwt.core.client.GWT;
 
 public class UIGiniInjector {
 
-    static private final UIInjector injector = GWT
-            .create(UIInjector.class);
+    static private final UIInjector injector = GWT.create(UIInjector.class);
 
     public static UIInjector getI() {
         return injector;
     }
 
 }
-

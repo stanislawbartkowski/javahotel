@@ -24,13 +24,12 @@ class ChangeToEditSignal extends CustomObjectValue<VisitList.EditListMode> {
     ChangeToEditSignal(EditListMode value) {
         super(value);
     }
-    
+
     private static final String CHANGE_EDIT_SIGNAL = ChangeToEditSignal.class
             .getName() + "CHANGE_EDIT_SIGNAL";
 
     static CustomStringSlot constructSignal(IDataType dType) {
         return new CustomStringDataTypeSlot(dType, CHANGE_EDIT_SIGNAL);
     }
-
 
 }

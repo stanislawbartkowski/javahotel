@@ -26,9 +26,9 @@ class SendEnumToList extends CustomObjectValue<IDataListType> {
         super(i);
         this.customT = customT;
     }
-    
-    private static final String SIGNAL_ID = SendEnumToList.class
-            .getName() + "SEND_ENUM_LIST";
+
+    private static final String SIGNAL_ID = SendEnumToList.class.getName()
+            + "SEND_ENUM_LIST";
 
     static CustomStringSlot constructSignal(IDataType dType) {
         return new CustomStringDataTypeSlot(dType, SIGNAL_ID);

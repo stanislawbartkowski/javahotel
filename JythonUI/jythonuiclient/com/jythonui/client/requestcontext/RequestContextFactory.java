@@ -18,7 +18,7 @@ import com.gwtmodel.table.common.CUtil;
 import com.jythonui.client.M;
 import com.jythonui.shared.RequestContext;
 
-public class RequestContextFactory implements Provider<RequestContext>{
+public class RequestContextFactory implements Provider<RequestContext> {
 
     @Override
     public RequestContext get() {

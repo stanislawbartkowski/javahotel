@@ -23,8 +23,8 @@ class AfterRowOk extends CustomObjectValue<Boolean> {
         super(ok);
     }
 
-    private static final String ROW_AFTER_OK = AfterRowOk.class
-            .getName() + "ROW_AFTER_OK";
+    private static final String ROW_AFTER_OK = AfterRowOk.class.getName()
+            + "ROW_AFTER_OK";
 
     static CustomStringSlot constructSignal(IDataType dType) {
         return new CustomStringDataTypeSlot(dType, ROW_AFTER_OK);

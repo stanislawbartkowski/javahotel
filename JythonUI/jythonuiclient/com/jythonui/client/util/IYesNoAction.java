@@ -15,7 +15,7 @@ package com.jythonui.client.util;
 import com.gwtmodel.table.WSize;
 
 public interface IYesNoAction {
-    
+
     void answer(String content, String title, String param1, WSize w);
 
 }

@@ -27,14 +27,15 @@ public class RefreshData extends CustomObjectValue<DateLineVariables> {
     private static final String REFRESH_SIGNAL = RefreshData.class.getName()
             + "_REFRESH_DATA";
 
-    private static final String REQUEST_REFRESH_SIGNAL = RefreshData.class.getName()
-            + "REQUEST_REFRESH_DATA";
+    private static final String REQUEST_REFRESH_SIGNAL = RefreshData.class
+            .getName() + "REQUEST_REFRESH_DATA";
 
     public static CustomStringSlot constructRefreshData(IDataType dType) {
         return new CustomStringDataTypeSlot(dType, REFRESH_SIGNAL);
     }
 
-    public static CustomStringSlot constructRequestForRefreshData(IDataType dType) {
+    public static CustomStringSlot constructRequestForRefreshData(
+            IDataType dType) {
         return new CustomStringDataTypeSlot(dType, REQUEST_REFRESH_SIGNAL);
     }
 

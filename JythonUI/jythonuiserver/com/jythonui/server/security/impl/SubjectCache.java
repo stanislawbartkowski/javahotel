@@ -99,7 +99,7 @@ class SubjectCache extends UtilHelper {
         } catch (AuthenticationException ae) {
             severe(gMess.getMess(IErrorCode.ERRORCODE6,
                     ILogMess.AUTHENTICATEOTHERERROR, se.getUser(),
-                    ae.getMessage()),ae);
+                    ae.getMessage()), ae);
             ae.printStackTrace();
             return null;
         } catch (UnknownSessionException ae) {

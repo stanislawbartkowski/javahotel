@@ -25,13 +25,12 @@ class SendErrorsInfo extends CustomObjectValue<List<InvalidateMess>> {
     public SendErrorsInfo(List<InvalidateMess> value) {
         super(value);
     }
-    
-    private static final String SENDERRORSINFO = SendErrorsInfo.class
-            .getName() + "SEND_ERRORS_INFO";
+
+    private static final String SENDERRORSINFO = SendErrorsInfo.class.getName()
+            + "SEND_ERRORS_INFO";
 
     static CustomStringSlot constructSignal(IDataType dType) {
         return new CustomStringDataTypeSlot(dType, SENDERRORSINFO);
     }
-
 
 }

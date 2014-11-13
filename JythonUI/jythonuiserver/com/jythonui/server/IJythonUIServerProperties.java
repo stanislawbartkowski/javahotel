@@ -24,9 +24,9 @@ public interface IJythonUIServerProperties {
 
     IReadMultiResource getResource();
 
-//    String getJythonPackageDirectory();
+    // String getJythonPackageDirectory();
 
-//    String getJythonSharedDirectory();
+    // String getJythonSharedDirectory();
 
     String getEJBHost();
 
@@ -41,5 +41,5 @@ public interface IJythonUIServerProperties {
     URL getSendMailPropertiesFile();
 
     URL getGetMailPropertiesFile();
-    
+
 }

@@ -15,5 +15,5 @@ package com.jythonui.server;
 import java.sql.Connection;
 
 public interface IGetConnection {
-	Connection getConnection();
+    Connection getConnection();
 }

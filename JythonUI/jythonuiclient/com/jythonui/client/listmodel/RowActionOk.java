@@ -24,8 +24,8 @@ class RowActionOk extends CustomObjectValue<RowVModelData> {
         super(value);
     }
 
-    private static final String ROW_ACTION_OK = RowActionOk.class
-            .getName() + "ROW_ACTION_OK";
+    private static final String ROW_ACTION_OK = RowActionOk.class.getName()
+            + "ROW_ACTION_OK";
 
     static CustomStringSlot constructSignal(IDataType dType) {
         return new CustomStringDataTypeSlot(dType, ROW_ACTION_OK);

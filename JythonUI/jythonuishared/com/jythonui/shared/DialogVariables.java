@@ -53,7 +53,7 @@ public class DialogVariables extends MapDialogVariable {
     public void setRowList(String id, ListOfRows rows) {
         rowList.put(id, rows);
     }
-    
+
     public void setChartList(String id, ListOfRows rows) {
         chartList.put(id, rows);
     }
