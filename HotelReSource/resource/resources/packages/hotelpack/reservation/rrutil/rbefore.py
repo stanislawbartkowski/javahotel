@@ -2,7 +2,7 @@ import cutil,xmlutil,con
 
 from util import util,rutil
 
-import confirm,advarese,rparam
+import confirm,advarese,rparam,reseparam
 
 RCUST="cust_"
 RLIST="reslist"
@@ -22,7 +22,7 @@ def setvarBefore(var,cust=RCUST):
     var["noextrabeds"] = util.getIntField(room.getNoExtraBeds())
     var["nochildren"] = util.getIntField(room.getNoChildren())
     var["resnop"] = util.getIntField(nop)
-    util.setCopy(var,["resename","name","datecol","desc","resdays","noextrabeds","nochildren","resnop","nop"])
+    util.setCopy(var,["resename","name","datecol","desc","resdays","noextrabeds","nochildren","resnop","nop","serviceperperson"])
     res = rutil.getReservForDay(var,roomname,resday)
     if len(res) == 0 :
       var["datecol"] = resday
@@ -43,6 +43,7 @@ def setvarBefore(var,cust=RCUST):
         
     util.setCustData(var,custname,cust)
     
+    perperson = True    
     list = []
     S = util.SERVICES(var)
     mindate = None
@@ -54,7 +55,8 @@ def setvarBefore(var,cust=RCUST):
               "rlist_noe" : util.getIntField(r.getNoExtraBeds()), "rlist_priceextra" : con.BigDecimalToDecimal(r.getPriceExtraBeds()),
               "rlist_serviceperperson" : r.isPerperson(), 
               "rlist_roomservice" : r.getService(), "rlist_roompricelist" : r.getPriceListName()}
-              
+
+         if not r.isPerperson() : perperson = False
          if mindate == None : mindate = r.getResDate()
          elif mindate > r.getResDate() : mindate = r.getResDate()
          roomservice = cutil.ifnull(roomservice,r.getService())
@@ -62,6 +64,8 @@ def setvarBefore(var,cust=RCUST):
 
          list.append(map)
 
+    var["serviceperperson"] = perperson
+    reseparam.RESPARAM(resname).modifvar(var)    
     rutil.setServicePriceList(var,roomservice,roompricelist)
     var["datecol"] = mindate
     var["resdays"] = len(reservation.getResDetail())

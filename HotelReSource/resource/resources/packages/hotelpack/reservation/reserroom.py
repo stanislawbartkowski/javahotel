@@ -385,6 +385,7 @@ def reseraction(action,var):
         var["resename"] = arese
         _setAfterPriceList(var)
         _checkRese(var,False)
+        reseparam.RESPARAM().copyParam(var)
 
 # ------------------------
 # modify detail reservation
