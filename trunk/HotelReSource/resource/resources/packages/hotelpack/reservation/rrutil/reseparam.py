@@ -23,6 +23,12 @@ class RESPARAM(util.HOTELSAVEPARAM) :
     print maold
     diff = self.diffParam(var,maold)
     return diff
+  
+  def modifvar(self,var) :
+    ma = self.getParam()
+    if ma == None : return
+    for k in ma.keys() : var[k] = ma[k]
+
       
     
         

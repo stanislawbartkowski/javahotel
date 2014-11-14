@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<dialog xmlns="http://www.jythongwt.dialogxsd.com" modeless="" >
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" modeless="" maxtop="250" >
 
         <jscode>hotel/reservation/js/rutil.js</jscode>
 
