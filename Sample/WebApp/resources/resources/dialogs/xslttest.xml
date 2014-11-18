@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+<before/>
+ 
+ <jython>
+   <import>from testpack import xslttest</import>
+   <method>xslttest.dialogaction({0},{1})</method>
+ </jython>  
+ 
+
+ <form>
+   <field id="info" label="" />
+   <field id="info1" label="" />
+   <field id="info2" label="" />
+ </form>  
+ 
+</dialog>
