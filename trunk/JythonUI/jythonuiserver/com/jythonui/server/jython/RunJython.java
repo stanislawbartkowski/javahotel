@@ -14,6 +14,7 @@ package com.jythonui.server.jython;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.net.URL;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ import java.util.Map.Entry;
 
 import javax.inject.Named;
 
+import org.python.core.Options;
 import org.python.core.Py;
 import org.python.core.PyBoolean;
 import org.python.core.PyDictionary;
@@ -44,6 +46,7 @@ import org.python.core.PyTuple;
 import org.python.util.PythonInterpreter;
 
 import com.google.inject.Inject;
+import com.gwtmodel.containertype.ContainerInfo;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.TT;
 import com.jythonui.server.IExecuteJython;
@@ -99,6 +102,17 @@ public class RunJython extends UtilHelper implements IExecuteJython {
         this.p = p;
         this.logMess = logMess;
     }
+
+    
+//    private void setClassPathGoogleAppEngine() {
+//            Class<PySystemState> thisClass = PySystemState.class;
+//            String fullClassName = thisClass.getName();
+//            String s = thisClass.getProtectionDomain().getCodeSource().getLocation().getPath();
+//            String className = fullClassName.substring(fullClassName.lastIndexOf(".") + 1);
+//            URL url = thisClass.getResource(className + ".class");
+//            int i = 0;
+//            System.setProperty("java.class.path", s);
+//    }
 
     private Map<PyObject, PyObject> toPythonMap(MapDialogVariable v) {
         Map<PyObject, PyObject> m = new HashMap<PyObject, PyObject>();
@@ -792,6 +806,12 @@ public class RunJython extends UtilHelper implements IExecuteJython {
         // String sysName = System.getProperty("os.name");
         // severe("os name=" + sysName);
 
+        // important: does not work in Google App Engine otherwise
+        if (ContainerInfo.isAppEngineLive()) {
+          Options.no_user_site = true;
+          Options.importSite = false;
+        }
+        
         if (p.isCached()) {
             // Checked by experience that default PythonIntepreter constructor
             // keeps compiled packages, so we cannot modify jython source code
