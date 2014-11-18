@@ -19,9 +19,9 @@ public class Cached implements IsCached {
 
     @Override
     public boolean isCached() {
-        if (ContainerInfo.isAppEngineLive())
+//        if (ContainerInfo.isAppEngineLive())
             return true;
-        return false;
+//        return false;
     }
 
 }
