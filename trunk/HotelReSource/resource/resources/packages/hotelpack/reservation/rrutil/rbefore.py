@@ -22,7 +22,8 @@ def setvarBefore(var,cust=RCUST):
     var["noextrabeds"] = util.getIntField(room.getNoExtraBeds())
     var["nochildren"] = util.getIntField(room.getNoChildren())
     var["resnop"] = util.getIntField(nop)
-    util.setCopy(var,["resename","name","datecol","desc","resdays","noextrabeds","nochildren","resnop","nop","serviceperperson"])
+    util.setCopy(var,["resename","name","datecol","desc","resdays","noextrabeds","nochildren","nop","serviceperperson"])
+    util.setCopy(var,["resnochildren","respricechildren","resnoextrabeds","respriceextrabeds","respriceperroom","resnop"])
     res = rutil.getReservForDay(var,roomname,resday)
     if len(res) == 0 :
       var["datecol"] = resday

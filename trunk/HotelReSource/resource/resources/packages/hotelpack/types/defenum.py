@@ -15,3 +15,7 @@ def serviceenum(action,var) :
    
 def dictaction(action,var,what) :
     cutil.enumDictAction(action,var,what)
+    if what == "countries" :
+      seq = var["JLIST_MAP"][action]
+      seq.sort(key=lambda d: d["name"])
+       
