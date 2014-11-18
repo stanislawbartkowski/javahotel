@@ -44,6 +44,8 @@
   <button id="x" displayname="Mail" header="" />  
   <button id="sendmail" displayname="Send mail single attachment" actiontype="JMAIN_DIALOG" actionparam="sendmail.xml" />  
   <button id="sendmailmulti" displayname="Send mail (save)" actiontype="JMAIN_DIALOG" actionparam="mail/sendmailmulti.xml" />  
+  <button id="xx" displayname="XSLT" header="" />
+  <button id="xstltest" displayname="XSLT test" actiontype="JMAIN_DIALOG" actionparam="xslttest.xml" />  
 </leftstack>
 
  <form>
