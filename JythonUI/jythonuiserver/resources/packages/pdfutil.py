@@ -79,7 +79,7 @@ def xsltHtml(xslt,xmlcontent) :
     return out
 
 def xsltHtmlS(xslt,xmlcontent) :
-    return xsltHtml(xslt,xmlcontent).toString() 
+    return xsltHtml(xslt,xmlcontent).toString("UTF-8") 
 
 def createPDFXSLT(xslt,xmlcontent, map = {}):
     out = xsltHtml(xslt,xmlcontent)

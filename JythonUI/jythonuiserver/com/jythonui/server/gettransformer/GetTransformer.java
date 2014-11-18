@@ -18,6 +18,7 @@ import java.net.URL;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
@@ -114,7 +115,9 @@ public class GetTransformer extends UtilHelper implements IGetTransformer {
 
         try {
             tFactory.setURIResolver(new Resolver(dirName));
-            return tFactory.newTransformer(new StreamSource(u.openStream()));
+            Transformer trans = tFactory.newTransformer(new StreamSource(u.openStream()));
+            trans.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+            return trans;
         } catch (TransformerConfigurationException | IOException e) {
             errorMess(L(), IErrorCode.ERRORCODE120,
                     ILogMess.ERRORWHILEOPENINGXSTLFILE, e, xsltName, dirName,
@@ -122,5 +125,4 @@ public class GetTransformer extends UtilHelper implements IGetTransformer {
             return null;
         }
     }
-
 }
