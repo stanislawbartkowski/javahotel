@@ -29,7 +29,6 @@
 	<stylesheet src='res/css/standard_table.css' />
 	<stylesheet src='res/css/sample_style.css' />
 	<inherits name="com.google.gwt.logging.Logging" />
-	<set-property name="gwt.logging.popupHandler" value="DISABLED" />
 	<set-property name="gwt.logging.enabled" value="TRUE" />
 	<!-- <set-property name="gwt.logging.enabled" value="FALSE"/> -->
 	<set-property name="gwt.logging.consoleHandler" value="ENABLED" />

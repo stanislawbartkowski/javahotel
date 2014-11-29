@@ -27,6 +27,7 @@
   <button id="spinner" displayname="Spinner" actiontype="JMAIN_DIALOG" actionparam="listspinner.xml" />
   <button id="spinnerlist" displayname="List with spinner" actiontype="JMAIN_DIALOG" actionparam="listwithspinner.xml" />
   <button id="checkbignumbers" displayname="Big numbers" actiontype="JMAIN_DIALOG" actionparam="checkbignumbers.xml" />  
+  <button id="testcopy" displayname ="Copy value" actiontype="JMAIN_DIALOG" actionparam="testcopymain.xml" />
   <button id="listnext" displayname="Different lists" header="" />
   <button id="listwithcustom" displayname="List with custom" actiontype="JMAIN_DIALOG" actionparam="listwithcustom.xml" />
   <button id="dialogattach" displayname="Dialog with attachment" actiontype="JMAIN_DIALOG" actionparam="dialogattach.xml" />
