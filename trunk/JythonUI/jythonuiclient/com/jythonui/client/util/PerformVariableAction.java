@@ -26,6 +26,7 @@ import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.view.table.ChangeEditableRowsParam;
 import com.gwtmodel.table.view.util.OkDialog;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
+import com.jythonui.client.IUIConsts;
 import com.jythonui.client.M;
 import com.jythonui.client.charts.IChartManager;
 import com.jythonui.client.dialog.VField;
@@ -186,7 +187,7 @@ public class PerformVariableAction {
                     Utils.errAlertB(mess);
                     return;
                 }
-                String valName = ICommonConsts.JCOOKIE + fie;
+                String valName = IUIConsts.JCOOKIE + fie;
                 String s = arg.getValueS(valName);
                 if (CUtil.EmptyS(s)) {
                     Utils.RemoveCookie(fie);
@@ -195,7 +196,7 @@ public class PerformVariableAction {
                 Utils.SetCookie(fie, s);
             }
         };
-        JUtils.visitListOfFields(arg, ICommonConsts.JCOOKIESET, cookSet);
+        JUtils.visitListOfFields(arg, IUIConsts.JCOOKIESET, cookSet);
 
         // it a little tricky but this way allows code reuse with performAction
         String[] kom = { ICommonConsts.JMAINDIALOG, ICommonConsts.JUPDIALOG,

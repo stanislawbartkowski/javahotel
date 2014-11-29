@@ -111,6 +111,7 @@ import com.jythonui.client.util.VerifyJError;
 import com.jythonui.client.variables.IBackAction;
 import com.jythonui.client.variables.ISetGetVar;
 import com.jythonui.client.variables.IVariablesContainer;
+import com.jythonui.client.variables.ISetGetVar.IReadVarContext;
 import com.jythonui.shared.ButtonItem;
 import com.jythonui.shared.ChartFormat;
 import com.jythonui.shared.CheckList;
@@ -440,7 +441,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
             // set cookies
             List<IMapEntry> cList = Utils.getCookies();
             for (IMapEntry i : cList) {
-                v.setValueS(ICommonConsts.JCOOKIE + i.getKey(), i.getValue());
+                v.setValueS(IUIConsts.JCOOKIE + i.getKey(), i.getValue());
             }
         }
 
@@ -455,16 +456,25 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
         }
 
         @Override
-        public void readVar(final DialogVariables var) {
+        public void readVar(final DialogVariables var, final IReadVarContext iC) {
             final List<ChangeVal> changeList = new ArrayList<ChangeVal>();
             JUtils.IFieldVisit iVisit = new JUtils.IFieldVisit() {
 
                 @Override
-                public void setField(VField v, FieldValue val) {
+                public void setField(VField v, FieldValue val, boolean global) {
+
+                    // set value only once
                     IFormLineView i = SlU.getVWidget(dType, slMediator, v);
                     if (i == null) {
                         return;
                     }
+
+                    if (!global) {
+                        if (iC.getSet().contains(v.getId()))
+                            return;
+                        iC.getSet().add(v.getId());
+                    }
+
                     FieldItem def = d.findFieldItem(v.getId());
                     if (def.isDownloadType()) {
                         String s = val.getValueS();

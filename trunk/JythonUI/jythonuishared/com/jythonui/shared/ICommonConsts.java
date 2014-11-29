@@ -47,12 +47,8 @@ public interface ICommonConsts {
     String LISTBUTTONSVALIDATE = "buttons-validate";
     String LISTBUTTONSSELECTED = "buttons-selected";
     String LISTSELECTEDMESS = "buttons-selectedmess";
-    String JROWCOPY = "JROWCOPY_";
-    String JCOPY = "JCOPY_";
     String JSTATUSSET = "JSTATUS_SET_";
     String JSTATUSTEXT = "JSTATUS_TEXT_";
-    String JCOOKIE = "JCOOKIE_";
-    String JCOOKIESET = "JCOOKIESET_";
     String TYPE = "type";
     String STRINGTYPE = "string";
     String BOOLTYPE = "bool";

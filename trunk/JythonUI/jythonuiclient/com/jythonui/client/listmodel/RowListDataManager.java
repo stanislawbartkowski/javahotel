@@ -42,6 +42,7 @@ import com.jythonui.client.util.PerformVariableAction.VisitList.IGetFooter;
 import com.jythonui.client.util.RowVModelData;
 import com.jythonui.client.util.VerifyJError;
 import com.jythonui.client.variables.IVariablesContainer;
+import com.jythonui.client.variables.ISetGetVar.IReadVarContext;
 import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldItem;
@@ -177,7 +178,7 @@ class RowListDataManager implements IRowListDataManager {
     }
 
     @Override
-    public void readVar(DialogVariables var) {
+    public void readVar(DialogVariables var, IReadVarContext iC) {
         for (IDataType dType : getList()) {
             String listid = listMap.get(dType);
 
@@ -203,7 +204,7 @@ class RowListDataManager implements IRowListDataManager {
             JUtils.IFieldVisit iVisit = new JUtils.IFieldVisit() {
 
                 @Override
-                public void setField(VField v, FieldValue val) {
+                public void setField(VField v, FieldValue val, boolean global) {
                     if (!vData.isValid(v))
                         return;
                     mu.inc();
