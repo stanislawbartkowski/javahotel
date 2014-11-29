@@ -13,7 +13,9 @@
 package com.jythonui.client.variables;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
@@ -74,9 +76,26 @@ class VariableContainer implements IVariablesContainer {
 
     @Override
     public void setVariablesToForm(final DialogVariables var) {
-        for (final FormContainer fo : fList)
+
+        ISetGetVar.IReadVarContext iC = new ISetGetVar.IReadVarContext() {
+
+            private final Set<String> se = new HashSet<String>();
+
+            @Override
+            public Set<String> getSet() {
+                return se;
+            }
+
+        };
+
+        // for (final FormContainer fo : fList)
+        // for (int i = 0; i < fo.l.length; i++)
+        // fo.l[i].readVar(var, iC);
+        for (int f = fList.size() - 1; f >= 0; f--) {
+            FormContainer fo = fList.get(f);
             for (int i = 0; i < fo.l.length; i++)
-                fo.l[i].readVar(var);
+                fo.l[i].readVar(var, iC);
+        }
     }
 
     private void setVariableToForm(ISlotable iSlo, IDataType dType,
@@ -100,7 +119,6 @@ class VariableContainer implements IVariablesContainer {
             setVariableToForm(iSlo, dType, var, v1);
             if (v2 != null)
                 setVariableToForm(iSlo, dType, var, v2);
-
         }
 
     }

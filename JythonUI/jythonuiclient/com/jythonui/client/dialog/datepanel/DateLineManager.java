@@ -89,6 +89,7 @@ import com.jythonui.client.util.CreateForm.ColumnsDesc;
 import com.jythonui.client.util.ExecuteAction;
 import com.jythonui.client.util.ListOfButt;
 import com.jythonui.client.util.RowVModelData;
+import com.jythonui.client.variables.ISetGetVar.IReadVarContext;
 import com.jythonui.shared.DateLine;
 import com.jythonui.shared.DateLineVariables;
 import com.jythonui.shared.DialogFormat;
@@ -791,7 +792,7 @@ class DateLineManager implements IDateLineManager {
     }
 
     @Override
-    public void readVar(DialogVariables var) {
+    public void readVar(DialogVariables var, IReadVarContext iC) {
 
     }
 

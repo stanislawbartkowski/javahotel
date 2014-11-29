@@ -204,6 +204,15 @@ def setCopy(var,li, listt=None,prefix=None) :
     else : k = l
     var[c+k] = True
 
+def setGlobCopy(var,li) :
+  if type(li) != list :
+      li = [li]  
+  for l in li :
+    c = "JCOPY_GLOBAL_"
+    k = l
+    var[c+k] = True
+
+
 def removeDecimalFooter(var,list,name) :
     footerdef = "JFOOTER_"+list+"_"+name
     currentfooter = var[footerdef]

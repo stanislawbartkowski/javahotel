@@ -32,6 +32,7 @@ import com.gwtmodel.table.view.grid.IGridViewDecimal;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.IDialogContainer;
 import com.jythonui.client.dialog.IFormGridManager;
+import com.jythonui.client.variables.ISetGetVar.IReadVarContext;
 import com.jythonui.shared.CheckList;
 import com.jythonui.shared.CheckListElem;
 import com.jythonui.shared.DialogCheckVariables;
@@ -311,7 +312,7 @@ class FormGridManager implements IFormGridManager {
     }
 
     @Override
-    public void readVar(DialogVariables var) {
+    public void readVar(DialogVariables var, IReadVarContext iC) {
 
     }
 }

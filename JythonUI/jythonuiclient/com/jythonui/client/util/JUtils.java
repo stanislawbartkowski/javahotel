@@ -22,12 +22,12 @@ import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.datalisttype.DataListTypeFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.view.util.SolidPos;
+import com.jythonui.client.IUIConsts;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.VField;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldValue;
-import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.ListOfRows;
 import com.jythonui.shared.RowContent;
 import com.jythonui.shared.RowIndex;
@@ -83,7 +83,7 @@ public class JUtils {
     }
 
     public interface IFieldVisit {
-        void setField(VField v, FieldValue val);
+        void setField(VField v, FieldValue val, boolean global);
     }
 
     public static void VisitVariable(final DialogVariables var, String listid,
@@ -92,20 +92,23 @@ public class JUtils {
 
             @Override
             public void action(String fie, String field) {
+                boolean global = false;
+                if (fie.startsWith(IUIConsts.JGLOBAL)) {
+                    global = true;
+                    fie = fie.substring(IUIConsts.JGLOBAL.length());
+                }
                 FieldValue val = var.getValue(fie);
                 if (val == null) {
                     Utils.errAlert(M.M().ErrorNoValue(fie), field);
                     return;
                 }
                 VField v = VField.construct(fie, val.getType());
-                i.setField(v, val);
+                i.setField(v, val,global);
             }
         };
-        String prefix = ICommonConsts.JCOPY;
+        String prefix = IUIConsts.JCOPY;
         if (listid != null)
-            prefix = ICommonConsts.JROWCOPY + listid + "_";
-        else
-            prefix = ICommonConsts.JCOPY;
+            prefix = IUIConsts.JROWCOPY + listid + "_";
         JUtils.visitListOfFields(var, prefix, vis);
     }
 

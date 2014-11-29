@@ -78,6 +78,13 @@ public interface IUIConsts {
     String DATELINE_STARTYEAR = "dateline_startyear";
     String DATELINE_ENDYEAR = "dateline_endyear";
 
+    String JROWCOPY = "JROWCOPY_";
+    String JCOPY = "JCOPY_";
+    String JGLOBAL = "GLOBAL_";
+
+    String JCOOKIE = "JCOOKIE_";
+    String JCOOKIESET = "JCOOKIESET_";
+
     int DATELINE_STARTYEARDEFAULT = 2012;
     int DATELINE_ENDYEARDEFAULT = 2020;
 
@@ -85,6 +92,6 @@ public interface IUIConsts {
     int PANELMENUDEFAH = 10;
     String PANELMENUNAME = "Down";
 
-    String UIVersion = "UI : 2014/11/18 (r:8)";
+    String UIVersion = "UI : 2014/11/30 (r:9)";
 
 }
