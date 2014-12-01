@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" autohide="">
+
+ <jython>
+              <import>from testpack import copyval</import>
+               <method>copyval.dialogaction({0},{1})</method>
+  </jython>
+
+  <buttons>
+      <button id="clicklocal" displayname="Copy to local value"  validate="" />
+      <button id="clickglobal" displayname="Copy to global value" validate=""  />
+  </buttons>
+
+  
+ <form>
+   <field id="text" displayname="Text to copy" notempty="" />
+   <field id="value" displayname="Local value" readonly="" />   
+ </form> 
+ 
+</dialog> 
