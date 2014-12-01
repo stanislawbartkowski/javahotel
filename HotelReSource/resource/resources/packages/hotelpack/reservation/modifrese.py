@@ -17,12 +17,15 @@ def dialogaction(action,var) :
     rutil.setReseName(var,rename)
     rparam.setStartParam(var)
   
-  if action == "modifrese" : 
+  if action == "modifrese" or action == "modifstay" : 
     xml = rparam.getStartParam(var)
     (resname,resroom,resday) = rparam.XMLtoroomday(xml)
-    diallaunch.modifreservationroom(var,resroom,resday)
+    if action == "modifrese" : diallaunch.modifreservationroom(var,resroom,resday)
+    else : diallaunch.staydetails(var,resroom,resday)        
   
   if action == "aftercheckin" : rutil.afterCheckIn(var) 
+  
+  if action == "staybalance" : diallaunch.staycalculation(var,rutil.getReseName(var))
   
   if action == "disclosurechange" and var["disclosureopen"] and var["disclosureid"] == "adddvancepayment" :
     A = Ad(var)

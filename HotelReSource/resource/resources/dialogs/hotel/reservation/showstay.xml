@@ -32,12 +32,19 @@
                <field id="billlistwaschanged" type="bool" hidden="" />
 		<field id="resename"  hidden="" />
 		<field id="name" displayname="@roomname" readonly="" />
-		<field id="nop" type="int" displayname="@nopersons" readonly="" />
-                <field id="resnop" type="int" displayname="@nopersons" readonly="" hidden="" />
-                <field id="noextrabeds" type="int" displayname="@nofextrabeds" readonly="" hidden=""/>
-                <field id="nochildren" type="int" displayname="@nofchildren" readonly="" hidden=""/>
+                <field id="resnop" type="int" hidden="" />
+                <field id="resnoextrabeds" type="int" hidden=""/>
+                <field id="resnochildren" type="int" hidden=""/>
 		<field id="desc" displayname="@roomdescription" readonly="" />
                 <field id="datecol" type="date" hidden="" />
+		<field id="resdays" type="int" hidden="" />
+                <field id="respriceperson" type="decimal" hidden="" />
+                <field id="serviceperperson" type="bool" hidden="" />
+                <field id="respriceperroom" type="decimal" hidden="" />
+                <field id="respricechildren" type="decimal" hidden="" />
+                <field id="respriceextrabeds" type="decimal" hidden="" />
+
+
 		<!-- cust description -->
                 <field id="cust_name" displayname="@guestid" readonly="" />
                 <field id="cust_descr" displayname="@description" hidden="" />

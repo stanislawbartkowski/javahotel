@@ -1,14 +1,9 @@
 import datetime
 
-import cutil
-import con
+import cutil,con
 
-from util import rutil
-from util import util
+from util import rutil,util,diallaunch
 from rrutil import resstat
-from util import diallaunch
-
-# STALIST = resstat.RESTYPE
 
 def __getList(var):
     R = util.ROOMLIST(var)
@@ -58,12 +53,6 @@ def reservationaction(action,var):
           resid = ares.getResId()
           (room,day) = rutil.getRoomDateFromVar(var)
           diallaunch.reservationdialogaction(var,resid,room,day)
-#          rform = RFORM.findElem(resid)
-#          sta = util.resStatus(rform)
-#          (room,day) = rutil.getRoomDateFromVar(var)
-          
-#          if sta == 1 : diallaunch.showstay(var,resid,room,day)
-#          else: diallaunch.modifreservation(var,resid,room,day)         
       
     if action == "datelinevalues" :
        seq = var["JDATELINE_QUERYLIST"]

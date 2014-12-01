@@ -1,10 +1,8 @@
 from sets import Set
 
-import cutil
-import con
+import cutil,con
 
-from util import util
-from util import rutil
+from util import util,rutil
 
 from rrutil import resstat
 

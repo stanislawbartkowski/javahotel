@@ -33,6 +33,11 @@ def showlistofmail(var,resename) :
     var["JUPDIALOG_START"] = resename
     var["JUP_DIALOG"]="hotel/info/showlistofmails.xml" 
         
+
+# -------------------------
+# reservation
+# -------------------------
+        
 def modifreservation(var,resename,resroom,resday) :
     var["JUPDIALOG_START"] = rparam.roomdaytoXML(resename,resroom,resday)
     var["JUP_DIALOG"]="hotel/reservation/modifrese.xml" 
@@ -44,10 +49,6 @@ def newreservation(var,resroom,resday,resnodays,nop,roomservice=None,roompriceli
 def modifreservationroom(var,resroom,resday) :
   return newreservation(var,resroom,resday,None,None)
 
-def showstay(var,resename,resroom,resday) :
-     var["JUPDIALOG_START"] = rparam.resequeryXML(resroom,resday,None,None,None,None)
-     var["JUP_DIALOG"] = "hotel/reservation/showstay.xml"
-     
 def reservationdialogaction(var,resid,room,day) :
     rform = util.RESFORM(var).findElem(resid)
     assert rform != None
@@ -55,7 +56,23 @@ def reservationdialogaction(var,resid,room,day) :
     if sta == 1 : showstay(var,resid,room,day)
     elif sta == 0 : var["JOK_MESSAGE"] = "@statuscanceled"
     else: modifreservation(var,resid,room,day)
+
+# ---------------------------
+# stay
+# ---------------------------
+
+def staydetails(var,resroom,resday) :
+     var["JUPDIALOG_START"] = rparam.resequeryXML(resroom,resday,None,None,None,None)
+     var["JUP_DIALOG"] = "hotel/reservation/showstay.xml"
   
+def showstay(var,resename,resroom,resday) :
+     var["JUPDIALOG_START"] = rparam.roomdaytoXML(resename,resroom,resday)
+     var["JUP_DIALOG"] = "hotel/reservation/modifstay.xml"
+  
+def staycalculation(var,resename) :
+     var["JUPDIALOG_START"] = resename
+     var["JUP_DIALOG"] = "hotel/reservation/staycalculation.xml"
+     
     
    
   

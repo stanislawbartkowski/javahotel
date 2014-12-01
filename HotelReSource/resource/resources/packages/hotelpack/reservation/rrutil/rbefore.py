@@ -22,8 +22,8 @@ def setvarBefore(var,cust=RCUST):
     var["noextrabeds"] = util.getIntField(room.getNoExtraBeds())
     var["nochildren"] = util.getIntField(room.getNoChildren())
     var["resnop"] = util.getIntField(nop)
-    util.setCopy(var,["resename","name","datecol","desc","resdays","noextrabeds","nochildren","nop","serviceperperson"])
-    util.setCopy(var,["resnochildren","respricechildren","resnoextrabeds","respriceextrabeds","respriceperroom","resnop"])
+    util.setCopy(var,["resename","name","datecol","desc","resdays","noextrabeds","nochildren","nop","serviceperperson","resnop"])
+#    util.setCopy(var,["resnochildren","respricechildren","resnoextrabeds","respriceextrabeds","respriceperroom","resnop"])
     res = rutil.getReservForDay(var,roomname,resday)
     if len(res) == 0 :
       var["datecol"] = resday
@@ -66,7 +66,8 @@ def setvarBefore(var,cust=RCUST):
          list.append(map)
 
     var["serviceperperson"] = perperson
-    reseparam.RESPARAM(resname).modifvar(var)    
+    # restores default data previously saved
+    reseparam.RESPARAM(resname).setParam(var)    
     rutil.setServicePriceList(var,roomservice,roompricelist)
     var["datecol"] = mindate
     var["resdays"] = len(reservation.getResDetail())
