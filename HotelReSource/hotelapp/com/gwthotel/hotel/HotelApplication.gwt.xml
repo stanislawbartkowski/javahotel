@@ -27,7 +27,6 @@
 	<stylesheet src='res/css/hotel.css' />
 	<stylesheet src='res/css/standard_table.css' />
 	<inherits name="com.google.gwt.logging.Logging" />
-	<set-property name="gwt.logging.popupHandler" value="DISABLED" />
 	<set-property name="gwt.logging.enabled" value="FALSE" />
 	<set-property name="gwt.logging.consoleHandler" value="DISABLED" />
 	<inherits name="com.google.gwt.user.theme.standard.Standard" />
