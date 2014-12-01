@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" autohide="">
+
+  <buttons>
+      <button id="click" displayname="Click me"  actiontype="JUP_DIALOG" actionparam="triggercopy.xml"/>
+  </buttons>
+
+  
+ <form>
+   <field id="title" label="" displayname="Below is a global value" />
+   <field id="value" displayname="Global value" readonly = "" />   
+ </form>  
+ 
+</dialog>
