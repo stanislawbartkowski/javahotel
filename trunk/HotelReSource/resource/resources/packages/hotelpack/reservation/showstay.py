@@ -4,7 +4,7 @@ import cutil,con
 
 from util import rutil,util,rpdf
 
-from rrutil import rbefore
+from rrutil import rbefore,reseparam
 
 import pdfutil
 
@@ -73,12 +73,17 @@ def _setChangedFalse(var) :
   
 def showstay(action,var):
    cutil.printVar("show stay",action,var)
+   
    if action == "before" :
      rbefore.setvarBefore(var)
      # after 
      _listOfPayments(var)
      _ListOfBills(var)
      _setChangedFalse(var)
+     PA = reseparam.RESPARAM(rutil.getReseName(var))
+     PA.setParam(var)
+     PA.copyParam(var)
+
    
    if var["billlistwaschanged"] :
     _setChangedFalse(var)   

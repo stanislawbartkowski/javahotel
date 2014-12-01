@@ -79,8 +79,7 @@
 		
 	</form>
 
-	<list id="reslist" displayname="@reservationdetails" pagesize="5" jsmodifrow="JS.ROW.reservrow">
-		<standbutt>TOOLS,FIND,FILTER</standbutt>
+	<list id="reslist" displayname="@reservationdetails" pagesize="5" jsmodifrow="JS.ROW.reservrow" toolbartype="listonly">
                <buttons-addlist>askforreservation,makereservation,morereservation,morereservationaccept,detailreservation,continuereservation</buttons-addlist> 
 		<columns>
 			<column id="avail" type="bool" displayname="A" hidden=""/>

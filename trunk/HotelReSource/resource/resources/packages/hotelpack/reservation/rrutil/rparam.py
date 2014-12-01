@@ -4,6 +4,7 @@ import cutil
 # =======================================
 def setStartParam(var) :
   var["pstartparam"] = var["JUPDIALOG_START"]
+  print "set py startparam ",var["pstartparam"]
   cutil.setCopy(var,"pstartparam")
   
 def getStartParam(var) :

@@ -128,7 +128,6 @@ def checkinaction(action,var):
             resform = R.findElem(resName)
             assert resform != None
             status = util.resStatus(resform)
-            print "status",status
             var["isstay"] = (status == 1)
             cutil.setCopy(var,"isstay")
             if status == 2 : cutil.hideButton(var,"acceptchange")

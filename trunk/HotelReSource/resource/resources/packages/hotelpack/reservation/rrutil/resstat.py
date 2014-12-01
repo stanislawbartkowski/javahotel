@@ -21,20 +21,22 @@ class RESSTATUS :
     self.departure = None
     self.sumcost = 0.0
     self.sumpay = 0.0
+    self.sumcostafter = None
     self.advancepayment = None
     self.advancepaymentused = None
     self.advancepaymentleft = None
-  
+    self.costlist = []
+    self.costlistafter = []
 
 def getResStatus(var,r,room=None,today=None) :
-    (sta,S) = __getResStatusR(var,r,room,today)
+    (sta,S) = getResStatusRese(var,r,room,today)
     return sta  
 
 def getResStatusR(var,r):
-    (state,R) =  __getResStatusR(var,r,None,con.maxdate())
+    (state,R) =  getResStatusRese(var,r,None,con.maxdate())
     return R
 
-def __getResStatusR(var,r,room,today) :
+def getResStatusRese(var,r,room=None,today=None) :
     """ Calculates and returns the status of the reservation
     Args: 
        var
@@ -61,6 +63,7 @@ def __getResStatusR(var,r,room,today) :
     """
     S = RESSTATUS()
     if today == None : today = con.today()
+    S.forday = today
 #    print today
     sym = r.getName()
     re = util.resStatus(r)
@@ -103,7 +106,13 @@ def __getResStatusR(var,r,room,today) :
         if util.isRoomService(l.getServiceType()) and re < today : add = True
         if not util.isRoomService(l.getServiceType()) and re <= today : add = True
 #        print sym,add,l.getPriceTotal()
-        if add : S.sumcost = con.addDecimal(S.sumcost,con.BigDecimalToDecimal(l.getPriceTotal()))
+        if add : 
+	    S.sumcost = con.addDecimal(S.sumcost,con.BigDecimalToDecimal(l.getPriceTotal()))
+	    S.costlist.append(l)
+        else : 
+	  if S.sumcostafter == None : S.sumcostafter = 0.0
+	  S.sumcostafter = con.addDecimal(S.sumcostafter,con.BigDecimalToDecimal(l.getPriceTotal()))
+	  S.costlistafter.append(l)
         
     S.advancepayment = con.BigDecimalToDecimal(r.getAdvancePayment())
     if  S.advancepayment != None and S.advancepayment >= S.sumcost : sta = 3
