@@ -807,10 +807,11 @@ public class RunJython extends UtilHelper implements IExecuteJython {
         // severe("os name=" + sysName);
 
         // important: does not work in Google App Engine otherwise
-        if (ContainerInfo.isAppEngineLive()) {
+//        if (ContainerInfo.isAppEngineLive()) {
+        // do not start at all
           Options.no_user_site = true;
           Options.importSite = false;
-        }
+//        }
         
         if (p.isCached()) {
             // Checked by experience that default PythonIntepreter constructor

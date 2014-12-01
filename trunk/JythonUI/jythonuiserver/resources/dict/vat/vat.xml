@@ -2,6 +2,6 @@
 	<vat name="free" descr="Vat free" level="" />
 	<vat name="0%" descr="Vat 0%" level="0" />
 	<vat name="7%" descr="Vat 7%" level="7" />
-	<vat name="20%" descr="Vat 20%" level="20" />
-	<vat name="22%" descr="Vat 22%" level="22" />
+    <vat name="22%" descr="Vat 22%" level="22" />
+	<vat name="23%" descr="Vat 23%" level="23" />
 </vattaxes>
