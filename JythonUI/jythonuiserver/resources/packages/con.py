@@ -71,6 +71,9 @@ def today():
 def maxdate() :
     return datetime.date(2999,12,31);
 
+def mulDecimal(dec1,dec2,afterdot=2):
+    return round(dec1 * dec2,afterdot) 
+
 def mulIntDecimal(int,dec,afterdot=2):
     if int and dec :
        if type(dec) == BigDecimal : dec = BigDecimalToDecimal(dec) 
