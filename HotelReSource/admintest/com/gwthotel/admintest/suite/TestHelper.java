@@ -44,6 +44,7 @@ import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.server.service.H;
 import com.gwthotel.hotel.services.IHotelServices;
+import com.gwthotel.hotel.stay.ResGuest;
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.jython.serversecurity.OObject;
 import com.jython.serversecurity.OObjectRoles;
@@ -144,7 +145,7 @@ public class TestHelper extends CommonTestHelper {
     }
 
     protected void setUserPassword() {
-//        iAdmin.clearAll(getI());
+        // iAdmin.clearAll(getI());
         Person pe = new Person();
         pe.setName("user");
         pe.setDescription("user name");
@@ -163,6 +164,16 @@ public class TestHelper extends CommonTestHelper {
         rol.getRoles().add("acc");
         roles.add(rol);
         iAdmin.addOrModifObject(getI(), ho, roles);
+    }
+
+    protected void addGuest(String reseName) {
+        ReservationForm r = iRes.findElem(getH(HOTEL), reseName);
+        ResGuest rg = new ResGuest();
+        rg.setGuestName(r.getCustomerName());
+        rg.setRoomName("P10");
+        List<ResGuest> gList = new ArrayList<ResGuest>();
+        gList.add(rg);
+        iResOp.setResGuestList(getH(HOTEL), reseName, gList);
     }
 
     protected CustomerBill createP() {
@@ -204,6 +215,9 @@ public class TestHelper extends CommonTestHelper {
         b = iBills.addElem(getH(HOTEL), b);
         assertNotNull(b);
         System.out.println(b.getName());
+
+        addGuest(sym);
+
         return b;
     }
 
@@ -241,18 +255,27 @@ public class TestHelper extends CommonTestHelper {
         return sym;
     }
 
-    protected void scriptTest(String dialogName, String action, String locale) {
+    protected void scriptTest(String dialogName, String action, String locale,
+            DialogVariables v) {
         setUserPassword();
         ICustomSecurity cu = getSec(HOTEL);
         String token = iSec.authenticateToken(realM, "user", "secret", cu);
         assertNotNull(token);
-        DialogVariables v = new DialogVariables();
         runAction(token, v, dialogName, action, locale);
         assertOK(v);
     }
 
+    protected void scriptTest(String dialogName, String action, String locale) {
+        scriptTest(dialogName, action, locale, new DialogVariables());
+    }
+
     protected void scriptTest(String dialogName, String action) {
-        scriptTest(dialogName, action, null);
+        scriptTest(dialogName, action, null, new DialogVariables());
+    }
+
+    protected void scriptTest(String dialogName, String action,
+            DialogVariables v) {
+        scriptTest(dialogName, action, null, v);
     }
 
 }

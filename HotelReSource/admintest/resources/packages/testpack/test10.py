@@ -9,9 +9,10 @@ def dialogaction(action,var):
     
     if action == "checkrese" :
         sym = var["rese"]
-        (arrival,departure,roomname,rate) = rutil.getReseDateS(var,sym)
-        print arrival,departure,roomname,rate,type(rate)
+        (arrival,departure,roomname,rate,non) = rutil.getReseDateS(var,sym)
+        print arrival,departure,roomname,rate,type(rate),non
         assert roomname == "P10"
+        assert non == 2
         assert con.BigDecimalToDecimal(rate) == 100.0
         print arrival,type(arrival)
         assert datetime.date(2013,4,10) == arrival
