@@ -86,7 +86,7 @@ public class Test32 extends TestHelper {
         assertNotNull(r);
         li = iResOp.getReseForInfoType(getH(HOTEL),
                 IReservationOp.ResInfoType.FORGUEST, r.getCustomerName());
-        assertTrue(li.isEmpty());
+        assertEquals(1, li.size());
 
         HotelRoom ro = new HotelRoom();
         ro.setName("SUPER");

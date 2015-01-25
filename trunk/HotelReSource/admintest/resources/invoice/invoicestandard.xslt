@@ -4,7 +4,7 @@
 
 	<xsl:output method="xml" encoding="UTF-8" />
 
-	<xsl:template match="/invoice">
+	<xsl:template match="/root">
 		<html>
 			<head>
 				<style type="text/css">
@@ -102,7 +102,7 @@
 							<th>AMOUNT</th>
 							<th>TOTAL</th>
 						</tr>
-						<xsl:for-each select="lines/line">
+						<xsl:for-each select="list/elem">
 							<tr>
 								<td>
 									<xsl:value-of select="date" />
@@ -114,7 +114,7 @@
 									<xsl:value-of select="description" />
 								</td>
 								<td>
-									<xsl:value-of select="rate" />
+									<xsl:value-of select="dailyrate" />
 								</td>
 								<td>
 									<xsl:value-of select="amount" />

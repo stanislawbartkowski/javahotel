@@ -30,14 +30,14 @@ def dialogaction(action,var) :
 
      if action == "invoicexmlforbill" :
        name = var["billno"]
-       s = rpdf.buildXMLS(var,name)       
+       s = rpdf.buildXMLBill(var,name)       
        print s
        var["OK"] = True     
        var["xml"] = s
 
      if action == "invoicehtmlforbill" :
        name = var["billno"]
-       s = rpdf.buildXMLS(var,name)       
+       s = rpdf.buildXMLBill(var,name)       
        b = pdfutil.xsltHtml("invoice/invoicestandard.xslt",s)
        assert b != None       
        print b.toString()
@@ -46,7 +46,7 @@ def dialogaction(action,var) :
 
      if action == "invoicepdfforbill" :
        name = var["billno"]
-       s = rpdf.buildXMLS(var,name)
+       s = rpdf.buildXMLBill(var,name)
        b  = pdfutil.createPDFXSLT("invoice/invoicestandard.xslt",s)       
        assert b != None
        var["OK"] = True     

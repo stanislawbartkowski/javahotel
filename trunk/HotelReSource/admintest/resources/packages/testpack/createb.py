@@ -40,7 +40,7 @@ def dialogaction(action,var) :
      if action == "addpdf" :     
         B = __createB(var)
         name = var["billno"]
-        s = rpdf.buildXMLS(var,name)
+        s = rpdf.buildXMLBill(var,name)
         pdf  = pdfutil.createPDFXSLT("invoice/invoicestandard.xslt",s)
         bkey = ADDBLOB.addNewBlob(cutil.PDFTEMPORARY,"PDF",pdf)
 #        listbl.addBlob(var,name,"blist","Hello",bkey)

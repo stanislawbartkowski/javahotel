@@ -1,9 +1,6 @@
-import cutil
-from util import rutil
-from util import util
-from util import rpdf
+import cutil,con
+from util import rutil,util,rpdf,hmail,cust
 import datetime
-import con
 import pdfutil
 from util import hmail
 import cmail
@@ -19,7 +16,7 @@ def dialogaction(action,var):
         E =  util.newHotelRoom()
         E.setName("R01")
         R.addElem(E)
-        CC = util.newCustomer(var)
+        CC = cust.newCustomer(var)
         CC.setDescription("I'm the customer")
         CC = C.addElem(CC)
         print CC.getName()
@@ -43,7 +40,7 @@ def dialogaction(action,var):
            
         re = RES.addElem(re) 
         print re.getName()
-        s = rpdf.buildResXML(var,re.getName())
+        s = rpdf.buildXMLReservation(var,re.getName())
         print s
         tt = pdfutil.xsltHtmlS("mailxslt/reseconfirmation.xslt",s)
         print tt

@@ -37,7 +37,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import com.gwthotel.hotel.bill.CustomerBill;
-import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.jythonui.server.security.token.ICustomSecurity;
 import com.jythonui.shared.DialogVariables;
 
@@ -45,9 +44,7 @@ public class Test23 extends TestHelper {
 
     @Before
     public void before() {
-        clearObjects();
-        createHotels();
-        setTestToday(DateFormatUtil.toD(2013, 6, 13));
+        super.before();
         setUserPassword();
     }
 
@@ -92,7 +89,7 @@ public class Test23 extends TestHelper {
         Document doc = builder.parse(new InputSource(new StringReader(xml)));
         XPathFactory xPathfactory = XPathFactory.newInstance();
         XPath xpath = xPathfactory.newXPath();
-        XPathExpression expr = xpath.compile("/invoice/country");
+        XPathExpression expr = xpath.compile("/root/elem/country");
         NodeList nl = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
         assertNotNull(nl);
         System.out.println(nl);

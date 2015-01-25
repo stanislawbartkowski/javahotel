@@ -112,7 +112,7 @@ public class Test26 extends TestHelper {
         CustomerBill b = createP();
         Long l = iClear.numberOf(getH(HOTEL), HotelObjects.GUESTS);
         System.out.println(l);
-        assertEquals(new Long(0),l);
+        assertEquals(new Long(1),l);
 //        void setResGuestList(HotelId hotel, String resName, List<ResGuest> gList);
         HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL),
                 HotelObjects.CUSTOMER);
