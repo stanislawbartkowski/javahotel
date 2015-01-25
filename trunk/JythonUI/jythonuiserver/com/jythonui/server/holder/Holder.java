@@ -37,6 +37,7 @@ import com.jythonui.server.IMailSendSave;
 import com.jythonui.server.IResolveName;
 import com.jythonui.server.IResolveNameFromToken;
 import com.jythonui.server.ISharedConsts;
+import com.jythonui.server.IVerifyXML;
 import com.jythonui.server.IXMLToMap;
 import com.jythonui.server.dict.IGetLocalizedDict;
 import com.jythonui.server.dict.IReadDictFromFile;
@@ -157,6 +158,9 @@ public class Holder {
 
     @Inject
     private static IResolveName iName;
+
+    @Inject
+    private static IVerifyXML iVerify;
 
     private static final ThreadLocal<RequestContext> locale = new ThreadLocal<RequestContext>();
 
@@ -330,4 +334,7 @@ public class Holder {
         return iGetTransformer;
     }
 
+    public static IVerifyXML getXMLVerifies() {
+        return iVerify;
+    }
 }

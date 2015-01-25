@@ -152,7 +152,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 
     private final Map<String, IDataType> dLineType = new HashMap<String, IDataType>();
 
-    private final String startVal;
+    private final String[] startPar;
 
     private ClickButtonType lastClicked = null;
     private WSize lastWClicked = null;
@@ -165,12 +165,12 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 
     DialogContainer(IDataType dType, DialogInfo info, IVariablesContainer pCon,
             ISendCloseAction iClose, DialogVariables addV,
-            IExecuteAfterModalDialog iEx, String startVal) {
+            IExecuteAfterModalDialog iEx, String[] startVal) {
         this.info = info;
         this.d = info.getDialog();
         this.dType = dType;
         this.iEx = iEx;
-        this.startVal = startVal;
+        this.startPar = startVal;
         liManager = UIGiniInjector.getI().getRowListDataManagerFactory()
                 .construct(info, slMediator, new DTypeFactory());
         // not safe, reference is escaping
@@ -939,8 +939,8 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
             if (CUtil.EmptyS(afterAction))
                 return;
             DialogVariables v = iCon.getVariables(afterAction);
-            v.setValueS(ICommonConsts.JBUTTONRES, buttonid);
-            v.setValueS(ICommonConsts.JBUTTONDIALOGRES, resVal);
+            v.setValueS(IUIConsts.JBUTTONRES, buttonid);
+            v.setValueS(IUIConsts.JBUTTONDIALOGRES, resVal);
             ExecuteAction.action(v, d.getId(), afterAction, new BackClass(
                     afterAction, false, lastWClicked, null));
         }
@@ -998,10 +998,11 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
                 String param = bItem.getActionParam();
                 String param1 = bItem.getAttr(ICommonConsts.ACTIONPARAM1);
                 String param2 = bItem.getAttr(ICommonConsts.ACTIONPARAM2);
+                String param3 = bItem.getAttr(ICommonConsts.ACTIONPARAM3);
                 PerformVariableAction.performAction(new HandleYesNoDialog(
                         new MapDialogVariable(), bItem), new CloseDialog(id),
-                        action, param, param1, param2, w, iCon,
-                        new AfterModal());
+                        action, new String[] { param, param1, param2, param3 },
+                        w, iCon, new AfterModal());
                 return true;
             }
 
@@ -1345,7 +1346,16 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
             AsyncCallback<DialogVariables> callback) {
         DialogVariables v = iCon.getVariables(actionId);
         // null should be sent also
-        v.setValueS(ICommonConsts.JBUTTONDIALOGSTART, startVal);
+        String startVal = null;
+        String startVal1 = null;
+        if (startPar != null) {
+            if (startPar.length > 0)
+                startVal = startPar[0];
+            if (startPar.length > 1)
+                startVal1 = startPar[1];
+        }
+        v.setValueS(IUIConsts.JBUTTONDIALOGSTART, startVal);
+        v.setValueS(IUIConsts.JBUTTONDIALOGSTART1, startVal1);
         ExecuteAction.action(v, d.getId(), actionId, callback);
     }
 

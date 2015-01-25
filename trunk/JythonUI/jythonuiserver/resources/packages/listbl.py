@@ -1,10 +1,11 @@
-import cutil
-import con
+import cutil,con,cblob
 
-from com.jythonui.server.holder import SHolder
+#from com.jythonui.server.holder import SHolder
 
-ADDBLOB=SHolder.getAddBlob()
-IBLOB=SHolder.getBlobHandler()
+#ADDBLOB=SHolder.getAddBlob()
+#IBLOB=SHolder.getBlobHandler()
+
+B = cblob.B
 
 def __getO(var):
     return cutil.getObject(var).getObject()
@@ -22,17 +23,20 @@ class BLOBREGISTRY(cutil.RegistryFile):
         self.readList(var)  
         l = var["JLIST_MAP"][self._bloblist]
         for k in l :
-           bkey = k["blob_key"]
-           d = IBLOB.getModifTime(__getO(var),bkey).getCreationDate()
-           dd = con.toJDate(d)
-           k["blob_date"] = dd
+            bkey = k["blob_key"]
+#           d = IBLOB.getModifTime(__getO(var),bkey).getCreationDate()
+            d = B.getModifTime(__getO(var),bkey).getCreationDate()
+            dd = con.toJDate(d)
+            k["blob_date"] = dd
            
     def getRealm(self,var):
       return __getO(var)
 
     def addBlob(self,var,comment,tempkey):
-      b = IBLOB.findBlob(cutil.PDFTEMPORARY,tempkey)
-      key = ADDBLOB.addNewBlob(__getO(var),self._billno,b)
+      #b = IBLOB.findBlob(cutil.PDFTEMPORARY,tempkey)
+      b = B.findBlob(cutil.PDFTEMPORARY,tempkey)
+      #key = ADDBLOB.addNewBlob(__getO(var),self._billno,b)
+      key = B.addNewBlob(__getO(var),self._billno,b)
       id = self.nextKey()
       map = { "id" : id, "blob_comment" : comment, "blob_key" : key, "blob_person" : cutil.getPerson(var)}
       self.addMap(map)

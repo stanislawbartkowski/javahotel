@@ -98,40 +98,41 @@ public class Util extends UtilHelper {
         }
     }
 
-    public static URL getFirstURL(IJythonUIServerProperties p, String dir,
-            String name, boolean thrownotexist) {
+    public static String getFileName(IJythonUIServerProperties p, String... f) {
+        return getFirstURL(p, true, f).toString();
+    }
+
+    public static URL getFirstURL(IJythonUIServerProperties p,
+            boolean thrownotexist, String... f) {
         if (p.getResource() == null) {
             errorLog(
                     SHolder.getM().getMess(IErrorCode.ERRORCODE17,
                             ILogMess.DIALOGDIRECTORYNULL), null);
         }
-        URL u = p.getResource().getFirstUrl(
-                dir == null ? name : BUtil.addNameToPath(dir, name));
+        String fName = BUtil.addNameToPath(f);
+        URL u = p.getResource().getFirstUrl(fName);
         if (u == null)
             if (thrownotexist)
                 errorLog(
                         SHolder.getM().getMess(IErrorCode.ERRORCODE80,
-                                ILogMess.FILENOTFOUND, name), null);
+                                ILogMess.FILENOTFOUND, fName), null);
         return u;
     }
 
     public static InputStream getDialogFile(IJythonUIServerProperties p,
             String name) {
         try {
-            return getFirstURL(p, IConsts.DIALOGDIR, name, true).openStream();
+            return getFirstURL(p, true, IConsts.DIALOGDIR, name).openStream();
         } catch (IOException e) {
             errorLog(
-                    L().getMess(
-                            IErrorCode.ERRORCODE54,
-                            ILogMess.FILENOTFOUND,
-                            getFirstURL(p, IConsts.DIALOGDIR, name, true)
-                                    .toString() + " " + name), e);
+                    L().getMess(IErrorCode.ERRORCODE54, ILogMess.FILENOTFOUND,
+                            getFileName(p, IConsts.DIALOGDIR, name)), e);
             return null;
         }
     }
 
     public static String getBirtFile(IJythonUIServerProperties p, String name) {
-        return getFirstURL(p, IConsts.BIRTDIR, name, true).getPath();
+        return getFirstURL(p, true, IConsts.BIRTDIR, name).getPath();
     }
 
     public static List<String> getJythonPackageDirectory(IReadMultiResource iRes) {

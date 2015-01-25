@@ -92,6 +92,11 @@ public interface IUIConsts {
     int PANELMENUDEFAH = 10;
     String PANELMENUNAME = "Down";
 
-    String UIVersion = "UI : 2014/11/30 (r:9)";
+    String UIVersion = "UI : 2015/01/25 (r:10)";
+    
+    String JBUTTONDIALOGSTART = "JUPDIALOG_START";
+    String JBUTTONDIALOGSTART1 = "JUPDIALOG_STARTPAR";
+    String JBUTTONDIALOGRES = "JUPDIALOG_RES";
+    String JBUTTONRES = "JUPDIALOG_BUTTON";
 
 }

@@ -12,30 +12,8 @@
  */
 package com.jythonui.server;
 
-import java.net.URL;
+public interface IVerifyXML {
 
-import com.jythonui.server.resourcemulti.IReadMultiResource;
-
-/**
- * @author hotel
- * 
- */
-public interface IJythonUIServerProperties {
-
-    IReadMultiResource getResource();
-
-    String getEJBHost();
-
-    String getEJBPort();
-
-    boolean isCached();
-
-    boolean isSerialized();
-
-    URL getAppPropertiesFile();
-
-    URL getSendMailPropertiesFile();
-
-    URL getGetMailPropertiesFile();
+    boolean verify(String xsdDir, String xsdFile, String xml);
 
 }

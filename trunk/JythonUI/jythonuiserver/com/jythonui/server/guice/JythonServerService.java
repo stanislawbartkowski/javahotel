@@ -48,6 +48,7 @@ import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.IStorageMemCache;
 import com.jythonui.server.IStorageMemContainerFactory;
 import com.jythonui.server.IUserCacheHandler;
+import com.jythonui.server.IVerifyXML;
 import com.jythonui.server.IXMLToMap;
 import com.jythonui.server.Util;
 import com.jythonui.server.defa.GetClientProperties;
@@ -104,6 +105,7 @@ import com.jythonui.server.storage.seq.ISequenceRealmGen;
 import com.jythonui.server.storage.seq.ISequenceRealmGenFactory;
 import com.jythonui.server.storage.seqimpl.SequenceRealmGenFactory;
 import com.jythonui.server.usercacheimpl.UserCacheHandler;
+import com.jythonui.server.verifyxml.VeryfyXML;
 import com.jythonui.server.xml.IXMLHelper;
 import com.jythonui.server.xml.IXMLToXMap;
 import com.jythonui.server.xml.IXMLTransformer;
@@ -202,6 +204,7 @@ public class JythonServerService {
             bind(IResolveName.class).to(ResolveName.class).in(Singleton.class);
             bind(IGetTransformer.class).to(GetTransformer.class).in(
                     Singleton.class);
+            bind(IVerifyXML.class).to(VeryfyXML.class).in(Singleton.class);
         }
 
         @Provides
@@ -236,12 +239,12 @@ public class JythonServerService {
 
                 @Override
                 public URL getFirstURL(String dir, String fName) {
-                    return Util.getFirstURL(iP, dir, fName, true);
+                    return Util.getFirstURL(iP, true, dir, fName);
                 }
 
                 @Override
                 public URL getFirstURLIfExists(String dir, String fName) {
-                    return Util.getFirstURL(iP, dir, fName, false);
+                    return Util.getFirstURL(iP, false, dir, fName);
                 }
 
             };

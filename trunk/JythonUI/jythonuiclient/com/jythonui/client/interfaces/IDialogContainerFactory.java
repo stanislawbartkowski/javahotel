@@ -24,6 +24,6 @@ public interface IDialogContainerFactory {
 
     IDialogContainer construct(IDataType dType, DialogInfo info,
             IVariablesContainer pCon, ISendCloseAction iClose,
-            DialogVariables addV, IExecuteAfterModalDialog iEx, String startVal);
+            DialogVariables addV, IExecuteAfterModalDialog iEx, String[] startVal);
 
 }

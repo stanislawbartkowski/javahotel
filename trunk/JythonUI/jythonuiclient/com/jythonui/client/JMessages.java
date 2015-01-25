@@ -102,4 +102,6 @@ public interface JMessages extends Messages {
 
     String CurrentDateNotInRange(int cY, int fY, int lY);
 
+    String ValueShouldBeString(String var, String type);
+
 }

@@ -125,6 +125,7 @@ public interface ICommonConsts {
     String ACTIONPARAM = "actionparam";
     String ACTIONPARAM1 = "actionparam1";
     String ACTIONPARAM2 = "actionparam2";
+    String ACTIONPARAM3 = "actionparam3";
     String JEDITLISTROWACTION = "editlistrowaction";
     String JCLICKIMAGEACTION = "clickimage";
     String BEFORECHANGETAB = "beforechangetab";
@@ -149,10 +150,7 @@ public interface ICommonConsts {
     String JERRORMESSAGE = "JERROR_MESSAGE";
     String JMESSAGE_TITLE = "JMESSAGE_TITLE";
     String JAFTERDIALOGACTION = "JAFTERDIALOG_ACTION";
-    String JBUTTONRES = "JUPDIALOG_BUTTON";
     String CLOSEDIALOGIMAGE = "closeimage";
-    String JBUTTONDIALOGRES = "JUPDIALOG_RES";
-    String JBUTTONDIALOGSTART = "JUPDIALOG_START";
     String JCRUD_AFTERCONF = "JCRUD_AFTERCONF";
     String JLOGOUTACTION = "JLOGOUT_ACTION";
     String JFOOTER = "JFOOTER_";

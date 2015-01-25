@@ -86,11 +86,11 @@ class ReadDialog extends UtilHelper {
         private final String[] buttonTag = { ICommonConsts.ID,
                 ICommonConsts.DISPLAYNAME, ICommonConsts.ACTIONTYPE,
                 ICommonConsts.ACTIONPARAM, ICommonConsts.ACTIONPARAM1,
-                ICommonConsts.ACTIONPARAM2, ICommonConsts.IMPORT,
-                ICommonConsts.HIDDEN, ICommonConsts.READONLY,
-                ICommonConsts.METHOD, ICommonConsts.VALIDATE,
-                ICommonConsts.BUTTONHEADER, ICommonConsts.IMAGENAME,
-                ICommonConsts.JSACTION };
+                ICommonConsts.ACTIONPARAM2, ICommonConsts.ACTIONPARAM3,
+                ICommonConsts.IMPORT, ICommonConsts.HIDDEN,
+                ICommonConsts.READONLY, ICommonConsts.METHOD,
+                ICommonConsts.VALIDATE, ICommonConsts.BUTTONHEADER,
+                ICommonConsts.IMAGENAME, ICommonConsts.JSACTION };
         private final String[] fieldTag = { ICommonConsts.ID,
                 ICommonConsts.TYPE, ICommonConsts.AFTERDOT,
                 ICommonConsts.ACTIONID, ICommonConsts.DISPLAYNAME,

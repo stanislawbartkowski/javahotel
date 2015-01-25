@@ -73,23 +73,14 @@ public class XMLMap extends UtilHelper implements IXMLToMap {
         private String type;
         private Map<String, Object> curr = res.rMap;
 
-        private static final String TYPE = "type";
-        private static final String ELEM = "elem";
-        private static final String LONG = "long";
-        private static final String DECIMAL = "decimal";
-        private static final String BOOL = "boolean";
-        private static final String DATE = "date";
-        private static final String ROOT = "root";
-        private static final String LIST = "list";
-
         @Override
         public void startElement(String uri, String localName, String qName,
                 Attributes attributes) throws SAXException {
             buf = new StringBuffer();
-            type = attributes.getValue(TYPE);
-            if (qName.equals(LIST))
+            type = attributes.getValue(IMapValues.TYPE);
+            if (qName.equals(IMapValues.LIST))
                 listnow = true;
-            if (qName.equals(ELEM) && listnow)
+            if (qName.equals(IMapValues.ELEM) && listnow)
                 curr = new HashMap<String, Object>();
 
         }
@@ -97,19 +88,19 @@ public class XMLMap extends UtilHelper implements IXMLToMap {
         @Override
         public void endElement(String uri, String localName, String qName)
                 throws SAXException {
-            if (qName.equals(ELEM)) {
+            if (qName.equals(IMapValues.ELEM)) {
                 if (listnow)
                     res.lMap.add(curr);
                 return;
             }
-            if (qName.equals(ROOT))
+            if (qName.equals(IMapValues.ROOT))
                 return;
-            if (qName.equals(LIST))
+            if (qName.equals(IMapValues.LIST))
                 return;
 
             String value = buf.toString();
             Object v = value;
-            if (CUtil.EqNS(type, BOOL)) {
+            if (CUtil.EqNS(type, IMapValues.BOOL)) {
                 Boolean b;
                 if (value.equals("1"))
                     b = new Boolean(true);
@@ -120,16 +111,19 @@ public class XMLMap extends UtilHelper implements IXMLToMap {
                 curr.put(qName, null);
                 return;
             }
-            if (CUtil.EqNS(type, LONG)) {
+            if (CUtil.EqNS(type, IMapValues.LONG)) {
                 Long l = Long.parseLong(value);
                 v = l;
             }
-            if (CUtil.EqNS(type, DECIMAL)) {
+            if (CUtil.EqNS(type, IMapValues.DECIMAL)) {
                 Double d = Double.parseDouble(value);
                 v = d;
             }
-            if (CUtil.EqNS(type, DATE)) {
+            if (CUtil.EqNS(type, IMapValues.DATE)) {
                 Date d = DateFormatUtil.toD(value, false);
+                if (d == null)
+                    // try to recognize date in format YYYY-MM-DD also
+                    d = DateFormatUtil.toD(value.replace('-', '/'), false);
                 v = d;
             }
             curr.put(qName, v);
