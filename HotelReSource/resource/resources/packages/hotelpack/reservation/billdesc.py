@@ -1,15 +1,13 @@
-import cutil
-import con
+import cutil,con
 
-from util import util
-from util import rutil
+from util import util,rutil,cust
 
 def billdesc(action,var) :
    cutil.printVar("bill desc",action,var)
    
    if action == "before" :
      payername = var["payer_name"]
-     util.setCustData(var,payername,"payer_")
+     cust.setCustData(var,payername,"payer_")
      LI = rutil.BILLPOSADD(var,"billlist")
      billname = var["billname"]
      b = util.BILLLIST(var).findElem(billname)
@@ -21,7 +19,7 @@ def billdesc(action,var) :
      LI.close()     
      
    if action == "crud_remove"  and not var["JCRUD_AFTERCONF"] :
-      var["JYESNO_MESSAGE"] = "Are you sure that you want to remove this bill ?"
+      var["JYESNO_MESSAGE"] = "@doyouwantremovebill"
       var["JMESSAGE_TITLE"] = ""  
       return
 

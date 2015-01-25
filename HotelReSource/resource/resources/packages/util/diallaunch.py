@@ -1,5 +1,7 @@
 import xmlutil
+
 from hotelpack.reservation.rrutil import rparam
+
 import util
 
 def confirmationmail(var,rese) :
@@ -7,7 +9,6 @@ def confirmationmail(var,rese) :
     ma["resename"] = rese
     ma["mailtype"] = 0
     xml = xmlutil.mapToXML(ma)
-    print xml
     var["JUPDIALOG_START"] = xml
     var["JUP_DIALOG"]="hotel/info/sendconfirmationmail.xml" 
 
@@ -74,5 +75,16 @@ def staycalculation(var,resename) :
      var["JUP_DIALOG"] = "hotel/reservation/staycalculation.xml"
      
     
-   
+# -----------------------------
+# finance document
+# -----------------------------
+
+def displayDocument(var,xml,afteraction="acceptdocument",okonly = False) :
+     var["JUPDIALOG_START"] = xml
+     oks = "0"
+     if okonly : oks = "1"
+     var["JUPDIALOG_STARTPAR"] = oks
+     var["JUP_DIALOG"] = "hotel/reservation/showdocument.xml"
+     var['JAFTERDIALOG_ACTION'] = afteraction
+  
   

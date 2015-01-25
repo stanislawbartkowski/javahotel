@@ -1,6 +1,6 @@
-import cutil
-import con
-from util import util
+import cutil,con
+
+from util import util,cust
 
 RLIST = "roomlist"
 
@@ -17,7 +17,7 @@ def _createList(var):
        rdescr = ROOM.findElem(room).getDescription() 
        c = CU.findElem(guest)
        map = {"roomid" : room, "roomdesc" : rdescr }
-       util.toCustomerVar(map,c,"guest_")
+       cust.toCustomerVar(map,c,"guest_")
        list.append(map)
    var["JLIST_MAP"] = { RLIST : list}
 

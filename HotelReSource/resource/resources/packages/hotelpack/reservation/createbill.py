@@ -1,33 +1,21 @@
 from sets import Set
 
-import cutil,con
+import cutil,con,listbl
 
-from util import util,rutil
+from util import util,rutil,rpdf,cust,diallaunch
 
-from rrutil import resstat
+from rrutil import resstat,cbill
 
 LIST="poslist"
 NOPAID="billlist"
-CLIST=util.getCustFieldIdAll()
+CLIST=cust.getCustFieldIdAll()
 M=util.MESS()
 PAY="payer_"
-
-class PAID :
-  
-  def __init__(self,var) :
-    rese = rutil.getReseName(var)
-    bli = util.RESOP(var).findBillsForReservation(rese)
-    self.se = Set()
-    for b in bli :
-      for l in b.getPayList() :
-        self.se.add(con.toL(l))
- 
-  def onList(self,id) :
-    return id in self.se
+DOCTYPE="documtype"
     
 def _createPosList(var) :
   pli = rutil.getPayments(var)
-  P = PAID(var)
+  P = cbill.PAID(var,rutil.getReseName(var))
   L1 = rutil.BILLPOSADD(var,LIST)
   L2 = rutil.BILLPOSADD(var,NOPAID)
   # list of bills
@@ -47,36 +35,13 @@ def _createPosList(var) :
   
   cutil.setStandEditMode(var,NOPAID,["add"])
                   
-class HOTELBILLSAVE(util.HOTELTRANSACTION) :
+class HOTELBILLSAVE(cbill.HOTELBILLSAVE) :
   
-    def __init__(self,var) :
-      util.HOTELTRANSACTION.__init__(self,0,var)
+    def __init__(self,var,xml) :
+      paym = None
+      if var["paynow"] : paym = var["paymethod"]
+      cbill.HOTELBILLSAVE.__init__(self,var,rutil.getReseName(var),var["payer_name"],xml,paym)
     
-    def run(self,var) :
-     self.total = 0.0
-     P = PAID(var)
-     b = util.newBill(var)
-     cust_name = var["payer_name"]
-     b.setGensymbol(True);
-     b.setPayer(cust_name)
-     b.setReseName(rutil.getReseName(var))
-     b.setIssueDate(cutil.toDate(cutil.today()))
-     for m in var["JLIST_MAP"][NOPAID] :
-       if m["add"] :
-          idp = m["idp"]
-          self.total = cutil.addDecimal(self.total,m["total"])
-          if P.onList(idp) :
-             var["JERROR_MESSAGE"] = "@billalreadypaid"
-             return
-          b.getPayList().add(idp)
-         
-     if b.getPayList().size() == 0 :
-         var["JERROR_MESSAGE"] = "@nothingischecked"
-         return
-      
-     self.billName = util.BILLLIST(var).addElem(b).getName()
-     var["JCLOSE_DIALOG"] = True
-
 def doaction(action,var) :
   cutil.printVar("create bill",action,var)
   
@@ -87,10 +52,11 @@ def doaction(action,var) :
     R = util.RESFORM(var)
     r = R.findElem(rese)
     payername = r.getCustomerName()
-    util.setCustData(var,payername,PAY)
+    cust.setCustData(var,payername,PAY)
     var["paynow"] = True
-    cutil.setCopy(var,["paynow","paymethod"])
+    cutil.setCopy(var,["paynow","paymethod",DOCTYPE])
     var["paymethod"] = util.HOTELDEFADATA().getDataH(3)
+    var[DOCTYPE] = util.HOTELDEFADATA().getDataH(5)
     RR = resstat.getResStatusR(var,r)
     var["advance_pay_left"] = RR.advancepaymentleft
     var["advance_pay"] = RR.advancepayment
@@ -107,10 +73,12 @@ def doaction(action,var) :
      cutil.setFooter(var,"billlist","total",footerf)
 
   if action == "accept" : 
-    exist = False 
+    pli = []
     for m in var["JLIST_MAP"][NOPAID] :
-      if m["add"] : exist = True
-    if not exist :
+      if m["add"] : 
+	pli.append(m["idp"])
+      
+    if len(pli) == 0 :
       var["JERROR_MESSAGE"] = "@nothingischecked"
       return
     
@@ -119,42 +87,23 @@ def doaction(action,var) :
       
     if not var["paynow"] :  
       if cutil.checkEmpty(var,["paymethod","paymentdate"]): return
+    
+    cust.saveCustomerData(var,var["payer_name"],PAY)
+    
+    xml = rpdf.buildXMLForStay(var,rutil.getReseName(var),var["payer_name"],pli)
+    
+    diallaunch.displayDocument(var,xml)
       
-    var["JYESNO_MESSAGE"] = "@areyousuretoissuebill"
-    var['JAFTERDIALOG_ACTION'] = "acceptafteryes"
-
-  if action == "acceptafteryes" and var["JYESANSWER"] :    
+  if action == "acceptdocument" and var["JUPDIALOG_BUTTON"] == "accept" :    
      util.HOTELDEFADATA().putDataH(3,var["paymethod"])
-     H = HOTELBILLSAVE(var)
-     H.doTrans()
-     # semaphore transction is not needed here
-     if var["paynow"] :
-       billName = H.billName
-       total = H.total
-       # advance payment
-       r = util.RESFORM(var).findElem(rutil.getReseName(var))       
-       RR = resstat.getResStatusR(var,r)
-       li = []
-       if RR.advancepaymentleft > 0 :
-	 payment = min(total,RR.advancepaymentleft) 
-	 li.append((payment,True))
-	 total = con.minusDecimal(total,payment)
-       if total > 0 : li.append((total,False))
-	
-       for l in li :	
-         p = util.newBillPayment()
-         p.setBillName(billName)
-         p.setPaymentMethod(var["paymethod"])
-         p.setDateOfPayment(cutil.toDate(cutil.today()))
-         p.setPaymentTotal(con.toB(l[0]))         
-         if (l[1]) : p.setAdvancepayment(True)
-         util.PAYMENTOP(var).addPaymentForBill(billName,p)       
+     util.HOTELDEFADATA().putDataH(5,var[DOCTYPE])     
+     xml = var["JUPDIALOG_RES"]
+     H = HOTELBILLSAVE(var,xml)
+     if H.doTransRes() : var["JCLOSE_DIALOG"] = True
               
   if action == "payerdetails" :
-#      var["JUP_DIALOG"]="hotel/reservation/customerdetails.xml" 
       var["JAFTERDIALOG_ACTION"] = "acceptdetails" 
-      util.customerDetailsActive(var,PAY)
-#      var["JUPDIALOG_START"] = util.mapToXML(var,CLIST,PAY)
+      cust.customerDetailsActive(var,PAY)
 
   if action == "acceptdetails" and var["JUPDIALOG_BUTTON"] == "accept" :
      xml = var["JUPDIALOG_RES"]

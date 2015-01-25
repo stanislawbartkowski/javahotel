@@ -1,13 +1,13 @@
 import cutil,xmlutil,con
 
-from util import util,rutil
+from util import util,rutil,cust
 
 import confirm,advarese,rparam,reseparam
 
 RCUST="cust_"
 RLIST="reslist"
 
-def setvarBefore(var,cust=RCUST):
+def setvarBefore(var,custo=RCUST):
     xml = var["JUPDIALOG_START"]
     (roomname,resday,resdays,nop,roomservice,roompricelist) = rparam.XMLtoresquery(xml)
     if roomservice != None and roompricelist != None : rutil.setServicePriceList(var,roomservice,roompricelist)      
@@ -29,7 +29,7 @@ def setvarBefore(var,cust=RCUST):
       var["datecol"] = resday
       var["resdays"] = resdays
       var["resename"] = None
-      util.setDefaCustomer(var,cust)
+      cust.setDefaCustomer(var,custo)
       return
   
     assert len(res) == 1
@@ -42,7 +42,7 @@ def setvarBefore(var,cust=RCUST):
     assert custname != None
     rutil.setReseName(var,resname)
         
-    util.setCustData(var,custname,cust)
+    cust.setCustData(var,custname,custo)
     
     perperson = True    
     list = []

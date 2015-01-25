@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="@createbill" maxleft="400" maxtop="200" >
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="@createbill" maxleft="400" maxtop="100" >
 
         <before />
         
@@ -19,6 +19,7 @@
         <form>
                 <field id="paynow" displayname="@billpaynow" type="bool" />  
                 <field id="paymethod" displayname="@paymentmethod" type="custom:payments" />
+		<field id="documtype" displayname="@documenttype" type="custom:doctypes" notempty=""/>
                 <field id="paymentdate" displayname="@dateofpayment" type="date" />
                 <!-- cust description -->
                 <field id="payer_name" displayname="@billpayerid" readonly="" />
@@ -42,7 +43,7 @@
         </form>
 
         
-        <list id="poslist" pagesize="10">
+        <list id="poslist" pagesize="5">
                 <standbutt>TOOLS,FIND,FILTER</standbutt>
                 <columns>
                         <column id="billed" displayname="@billed" type="bool" />
@@ -57,9 +58,9 @@
                 </columns>
        </list>
 
-        <list id="billlist" pagesize="10">
+        <list id="billlist" pagesize="5">
                 <standbutt>TOOLS,FIND,FILTER</standbutt>
-                <buttons-addlist>acceptafteryes,accept</buttons-addlist>
+                <buttons-addlist>acceptdocument,accept</buttons-addlist>
                 <columns>
                         <column id="add" displayname="@addtobill" type="bool" editable="" signalchange="" />
                         <column id="idp" type="long" hidden="" />

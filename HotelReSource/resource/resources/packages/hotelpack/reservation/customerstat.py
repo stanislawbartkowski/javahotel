@@ -1,6 +1,6 @@
 import cutil,con,xmlutil
 
-from util import util,rutil,hmail,diallaunch,rpdf
+from util import util,rutil,hmail,diallaunch,rpdf,cust
 
 M = util.MESS()
 CUST="i_"
@@ -47,8 +47,8 @@ def dialinfo(action,var) :
   if action == "before" :
       custid = var["JUPDIALOG_START"]
       custR = util.CUSTOMERLIST(var).findElem(custid)
-      util.customerToVar(var,custR,CUST)
-      util.setCustVarCopy(var,CUST)
+      cust.customerToVar(var,custR,CUST)
+      cust.setCustVarCopy(var,CUST)
       l = util.RESOP(var).getReseForCustomer(custid)
       l1 = util.RESOP(var).getReseForGuest(custid)
       l2 = util.RESOP(var).getReseForPayer(custid)      
@@ -66,7 +66,4 @@ def dialinfo(action,var) :
       
   if action == "shownote" :
      diallaunch.showmailnote(var,var["mailname"])      
-
-
-
     

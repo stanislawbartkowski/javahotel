@@ -1,16 +1,16 @@
-import cutil
-import listbl
-from util import rpdf
-import pdfutil
-from util import rutil
-from util import diallaunch
-
 from com.jythonui.server.holder import SHolder
 
-ADDBLOB=SHolder.getAddBlob()
+import cutil,listbl,pdfutil,cblob
+
+from util import rpdf,rutil,diallaunch
+
+from rrutil import cbill
+
 BREG="BILLBLOB"
 LIST="pdflist"
 TEMPPDF="PDF"
+
+BL = cblob.B
 
 def _constructB(billname) :
   return listbl.BLOBREGISTRY(BREG,billname,LIST)
@@ -64,17 +64,25 @@ def billprint(action,var) :
    
    if action == "before" :
      billname=var["JUPDIALOG_START"]
-     xml = rpdf.buildXMLS(var,billname)
-     b = pdfutil.xsltHtml("invoice/invoicestandard.xslt",xml)
+     xml = cbill.getXMLForBill(var,billname)
+     if xml == None :
+       var["JERROR_MESSAGE"] = "@noxmlforthisbill"
+       var["JCLOSE_DIALOG"] = True
+       return     
+     b = pdfutil.xsltHtml("xslt/invoicestandard.xslt",xml)
      html =  b.toString()
      var["html"] = html
      var["pdfbillno"] = billname     
      cutil.setCopy(var,["html","pdfbillno","download","tempkey"])
-     pdf = pdfutil.createPDFXSLT("invoice/invoicestandard.xslt",xml)
+     pdf = pdfutil.createPDFXSLT("xslt/invoicestandard.xslt",xml)
      assert pdf != None
-     bkey = ADDBLOB.addNewBlob(cutil.PDFTEMPORARY,TEMPPDF,pdf)
+     bkey = BL.addNewBlob(cutil.PDFTEMPORARY,TEMPPDF,pdf)
      var["tempkey"] = bkey
      var["download"] = cutil.PDFTEMPORARY + ":" + bkey + ":receipt.pdf"
+     
+   if action == "showdetails" : 
+     xml = cbill.getXMLForBill(var,var["pdfbillno"])
+     diallaunch.displayDocument(var,xml,"",True)
 
    if action == "savepdf" and var["JYESANSWER"] :
      tempkey = var["tempkey"]

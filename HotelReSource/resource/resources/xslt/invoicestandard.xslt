@@ -4,7 +4,7 @@
 
 	<xsl:output method="xml" encoding="UTF-8" />
 
-	<xsl:template match="/invoice">
+	<xsl:template match="/root">
 		<html>
 			<head>
 				<style type="text/css">
@@ -50,39 +50,39 @@
 			<body>
 				<div>
 					<div class="left">
-						<xsl:value-of select="name1" />
+						<xsl:value-of select="elem/name1" />
 						<br />
-						<xsl:value-of select="name2" />
+						<xsl:value-of select="elem/name2" />
 						<br />
-						<xsl:value-of select="address" />
+						<xsl:value-of select="elem/address" />
 						<br />
-						<xsl:value-of select="city" />
+						<xsl:value-of select="elem/city" />
 						<br />
-						<xsl:value-of select="country" />
+						<xsl:value-of select="elem/country" />
 						<br />
-						<xsl:if test="addinfo">
-							<xsl:value-of select="addinfo" />
+						<xsl:if test="elem/addinfo">
+							<xsl:value-of select="elem/addinfo" />
 						</xsl:if>
 						<br />
 					</div>
 					<div class="right">
 						Room number :
-						<xsl:value-of select="roomnumber" />
+						<xsl:value-of select="elem/roomnumber" />
 						<br />
 						Daily rate:
-						<xsl:value-of select="dailyrate" />
+						<xsl:value-of select="elem/dailyrate" />
 						<br />
 						Room type :
-						<xsl:value-of select="roomtype" />
+						<xsl:value-of select="elem/roomtype" />
 						<br />
 						Numb of guests:
-						<xsl:value-of select="nofguests" />
+						<xsl:value-of select="elem/nofguests" />
 						<br />
 						Arrival:
-						<xsl:value-of select="arrivaldate" />
+						<xsl:value-of select="elem/arrivaldate" />
 						<br />
 						Departure :
-						<xsl:value-of select="departuredate" />
+						<xsl:value-of select="elem/departuredate" />
 						<br />
 					</div>
 					<div class="center">
@@ -102,7 +102,7 @@
 							<th>AMOUNT</th>
 							<th>TOTAL</th>
 						</tr>
-						<xsl:for-each select="lines/line">
+						<xsl:for-each select="list/elem">
 							<tr>
 								<td>
 									<xsl:value-of select="date" />

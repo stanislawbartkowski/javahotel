@@ -1,13 +1,6 @@
-import cutil
-import con
-import pdfutil
-import xmlutil
-from util import util
-from util import rpdf
-from util import rutil
-from util import hmail
-from util import diallaunch
-import cmail
+import cutil,con,pdfutil,xmlutil,cmail
+
+from util import util,rpdf,rutil,hmail,diallaunch
 
 M = util.MESS()
 ALIST="atachlist"
@@ -35,15 +28,14 @@ def dialogaction(action,var) :
     var["to"] = C.getAttr("email")
     var["from"] = cmail.MAILFROM(var).getFrom()
     var["xml"] = xml
-    (arrival,departure,roomname,rate) = rutil.getReseDate(var,rform)
-    var["subject"] = M("confirmationmailsubject").format(con.toS(arrival),con.toS(departure))
-    xml = rpdf.buildResXML(var,rese)
+    (arrival,departure,roomname,rate,non) = rutil.getReseDate(var,rform)
+    xml = rpdf.buildXMLReservation(var,rese)
     if mtype == 0 :
       var["subject"] = M("confirmationmailsubject").format(con.toS(arrival),con.toS(departure))
-      var["content"] = pdfutil.xsltHtml("mail/resconfirmation.xslt",xml).toString()
+      var["content"] = pdfutil.xsltHtmlS("xslt/resconfirmation.xslt",xml)
     elif mtype == 1: 
       var["subject"] = M("sendpdfmailsubject").format(con.toS(arrival),con.toS(departure))
-      var["content"] = pdfutil.xsltHtml("mail/sendinvoicepdf.xslt",xml).toString()
+      var["content"] = pdfutil.xsltHtmlS("xslt/sendinvoicepdf.xslt",xml)
     else : assert False
     cutil.setCopy(var,["subject","to","from","content","xml"])
     seq = []
@@ -58,7 +50,6 @@ def dialogaction(action,var) :
     xml = var["xml"]
     (ma,alist) = xmlutil.toMap(xml)
     rese = ma["resename"]
-#    custname = ma["custname"]
     (C,rform) = _getCust(var,ma)
     custname = C.getName()
     mtype = ma["mailtype"]
@@ -71,8 +62,8 @@ def dialogaction(action,var) :
     util.CUSTOMERLIST(var).changeElem(C)
     attachL = None
     for l in alist : 
-	 (realm,key,filename) = cutil.splitsubmitres(l["blobid"])
-	 attachL = cmail.createAttachList(attachL,realm,key,filename)   
+	   (realm,key,filename) = cutil.splitsubmitres(l["blobid"])
+	   attachL = cmail.createAttachList(attachL,realm,key,filename)   
     hh = H.sendMail(mtype,rese,custname,subject,content,to,fromc,attachL)
     ressend = H.getCMail(hh.getName()).getSendResult()
     if ressend == None : 

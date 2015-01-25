@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com"  >
+ 
+        <before/>
+	
+         <types>hotel/typesenum.xml</types>
+  
+	<maxtop>300</maxtop>
+  
+	<jython>
+		<import>from hotelpack.reservation import showdoc</import>
+		<method>showdoc.dialogaction({0},{1})</method>
+	</jython>
+        
+
+
+	<buttons>
+	  <button id="accept" displayname="@finalizebill" actiontype="JYESNO_MESSAGE"
+			actionparam="@areyousuretoissuebill" actionparam1="@confirmation" />
+          <button id="resign" displayname="@resign" actiontype="JCLOSE_DIALOG" />
+          <button id="ok" displayname="@ok" actiontype="JCLOSE_DIALOG" hidden="" />
+       </buttons>       
+
+       	<form>
+       		<field id="xmlparam" hidden="" />
+                <field id="doctype" displayname="@documenttype" type="custom:doctypes" readonly=""/>
+		<field id="docid" displayname="@documentid" readonly="" />
+		<field id="resid" displayname="@reservationid" readonly="" />
+		<field id="issuedate" type="date" displayname="@issuedate" readonly="" />
+		<field id="saledate" type="date" displayname="@saledate" readonly="" />
+		<field id="nofguests" type="int" displayname="@nopersons" readonly="" />
+		<field id="arrivaldate" type="date" displayname="@arrivaldate"  readonly="" />
+		<field id="departuredate" type="date" displayname="@departuredate" readonly="" />
+		
+		<field id="roomnumber" displayname="@roomname" readonly="" />
+		<field id="roomtype" displayname="@roomdescription" readonly="" />
+		<field id="dailyrate" displayname="@dailyrate" type="decimal" readonly="" />
+		<field id="amount" displayname="@numberofnights" type="int" readonly="" />
+		<field id="description" displayname="@description" readonly="" />
+		<field id="total" displayname="@totalpayment" type="decimal" readonly="" />
+	 
+
+		<field id="name1" displayname="@name1" readonly="" /> 
+		<field id="name2" displayname="@name2" readonly="" /> 
+		<field id="country" displayname="@country" readonly="" />
+		<field id="city" displayname="@city" readonly="" />
+		<field id="address" displayname="@street" readonly="" />
+		<field id="addinfo" displayname="@addinfo" readonly="" />
+        </form>	
+	
+        <list id="details" pagesize="5" toolbartype="listonly">
+                <columns>
+		        <column id="id" type="int" hidden="" />
+		        <column id="date" type="date" displayname="@stayday" />
+          		<column id="description" displayname="@description" />
+                        <column id="roomnumber" displayname="@roomname"/>
+			<column id="roomtype" displayname="@roomdescription" />
+			<column id="amount" displayname="@numberofnights" type="int" />
+			<column id="dailyrate" displayname="@dailyrate" type="decimal" />
+			<column id="total" displayname="@totalpayment" type="decimal" footer="" />
+                </columns>
+        </list>
+	
+	
+	 
+</dialog>

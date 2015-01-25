@@ -2,7 +2,7 @@ import datetime
 
 import cutil,con,xmlutil,clog
 
-from util import rutil,util,diallaunch
+from util import rutil,util,diallaunch,cust
 
 from rrutil import rbefore,advarese,confirm,reseparam
 
@@ -206,16 +206,16 @@ class MAKERESE(util.HOTELTRANSACTION) :
       D.putDataH(30,service)
       D.putDataH(31,pricelist)
       
-      cust = util.customerFromVar(var,CUST)
+      custo = cust.customerFromVar(var,CUST)
       R = util.CUSTOMERLIST(var)
       name = var["cust_name"]
       if not cutil.emptyS(name) :
-          cust.setName(name)
-          R.changeElem(cust)
+          custo.setName(name)
+          R.changeElem(custo)
       else :
-          cust.setGensymbol(True);
-          name = R.addElem(cust).getName()
-      util.saveDefaCustomer(var,CUST)               
+          custo.setGensymbol(True);
+          name = R.addElem(custo).getName()
+      cust.saveDefaCustomer(var,CUST)               
       # --- customer added
       
       resename = rutil.getReseName(var) 
@@ -299,7 +299,7 @@ def reseraction(action,var):
         rbefore.setvarBefore(var)
         if not _newRese(var) :          
           cutil.hideButton(var,"checkin",False)
-          util.enableCust(var,CUST,False)
+          cust.enableCust(var,CUST,False)
           _setAfterPriceList(var)
           PA = reseparam.RESPARAM(rutil.getReseName(var))
           PA.setParam(var)
@@ -320,8 +320,8 @@ def reseraction(action,var):
 # --------------------
     if action == "acceptdetails" and (var["JUPDIALOG_BUTTON"] == "accept" or var["JUPDIALOG_BUTTON"] == "acceptask"):
         xml = var["JUPDIALOG_RES"]
-        util.xmlToVar(var,xml,util.getCustFieldIdAll(),CUST)
-        cutil.setCopy(var,util.getCustFieldIdAll(),None,CUST)
+        util.xmlToVar(var,xml,cust.getCustFieldIdAll(),CUST)
+        cutil.setCopy(var,cust.getCustFieldIdAll(),None,CUST)
         if not _newRese(var) :          
           name = var[CUST+"name"]
           resename = rutil.getReseName(var)          
@@ -329,8 +329,8 @@ def reseraction(action,var):
         
     if action=="custdetails" :
         var["JAFTERDIALOG_ACTION"] = "acceptdetails" 
-        if _newRese(var) : util.customerDetailsActive(var,CUST)
-        else : util.showCustomerDetailstoActive(var,var[CUST+"name"])
+        if _newRese(var) : cust.customerDetailsActive(var,CUST)
+        else : cust.showCustomerDetailstoActive(var,var[CUST+"name"])
 
 # --------------------
 # -- add reservation

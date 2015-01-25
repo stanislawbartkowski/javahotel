@@ -14,6 +14,8 @@
 	<buttons>
 	  <button id="modifstay" displayname="@staydetails" />
 	  <button id="staybalance" displayname="@staybalance" />
+	  <button id="createbill" displayname="@createbill"  actiontype="JUP_DIALOG"
+                        actionparam="?/createbill.xml" />
        </buttons>       
        
        	<form>

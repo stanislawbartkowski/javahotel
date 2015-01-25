@@ -6,17 +6,25 @@ import cutil,con,util,clog,xmlutil
 
 M=util.MESS()
 
+def getFinnDocRealm(var,billname) :
+  return "DOCFINREALM-" + cutil.getObject(var).getObject() + "-" + billname
+  
 def getReseName(var) :
-  return var["resename"]
+    """ Get reservation name (id) using common field name
+    Args:
+        var
+    Returns:
+        Reservation name
+    """
+    return var["resename"]
 
 def setReseName(var,resename) :
-  var["resename"] = resename
+    var["resename"] = resename
 
 def setServicePriceList(var,roomservice,pricelist) :
-  var["roompricelist"] = pricelist
-  var["roomservice"] = roomservice
-#  print pricelist,roomservice
-  cutil.setCopy(var,["roompricelist","roomservice"])
+    var["roompricelist"] = pricelist
+    var["roomservice"] = roomservice
+    cutil.setCopy(var,["roompricelist","roomservice"])
 
 def createResQueryElem(roomname,dfrom,dto):
     q = ResQuery()
@@ -67,6 +75,27 @@ def countPayments(var,billName) :
   (suma,advanced) = countPaymentsA(var,billName)
   return cutil.addDecimal(suma,advanced) 
 
+
+def countTotalForServices(var,sli,pli) :
+  """ Counts total sum of services for bill
+  
+  Args: 
+    var
+    sli : list of services (pos)
+    pli List of services (return result of getPayments)   
+    
+  Returns: sum of services for sli  
+  """
+  total = 0.0
+  for idp in sli :
+    for pa in pli :
+       if con.eqUL(idp,pa.getId()) :
+         to = con.BigDecimalToDecimal(pa.getPriceTotal())
+         total = con.addDecimal(total,to)
+         
+  return total
+
+  
 def countTotal(var,b,pli) :
   """ Counts total sum of services for bill
   
@@ -77,14 +106,15 @@ def countTotal(var,b,pli) :
     
   Returns: sum of services for b (CustomerBill)  
   """
-  total = 0.0
-  for idp in b.getPayList() :
-    for pa in pli :
-       if con.eqUL(idp,pa.getId()) :
-         to = con.BigDecimalToDecimal(pa.getPriceTotal())
-         total = con.addDecimal(total,to)
-         
-  return total
+  return countTotalForServices(var,b.getPayList(),pli)
+#  total = 0.0
+#  for idp in b.getPayList() :
+#    for pa in pli :
+#       if con.eqUL(idp,pa.getId()) :
+#         to = con.BigDecimalToDecimal(pa.getPriceTotal())
+#         total = con.addDecimal(total,to)
+#         
+#  return total
 
 class BILLPOSADD :
   
@@ -190,10 +220,10 @@ def checkReseAvailibity(var,list,avail,resday,resroomname) :
   """ Validate reservation
   Args:
     var
-    list List of reservations
-    avail If not none field with 'available' information
-    resday Field with reservation day
-    resroomname Field with room name to reserve
+    list : List of reservations
+    avail : If not none field with 'available' information
+    resday : Field with reservation day
+    resroomname : Field with room name to reserve
   Returns: 
     None Reservation OK
     (date,roomname) Not valid and position of error
@@ -338,11 +368,12 @@ def getReseDateS(var,sym) :
       var 
       sym : reservation symbol
     Returns:
-     (arrival,departure,roomname,rate)
+     (arrival,departure,roomname,rate,numberofnigts)
      arrival : arrival date, checkin
      departure : departure date, checkout, next day after last reservation date
      roomname : room reserved
      rate : daily rate    
+     numberofnights : quantity, number of nights
     """
     li = getPayments(var,sym)
     roomname = li[0].getRoomName()
@@ -350,7 +381,7 @@ def getReseDateS(var,sym) :
     arrival = None
     departure = None
     for l in li : (arrival,departure) = calculateDates(arrival,departure,l)
-    return (arrival,con.incDays(departure),roomname,rate)     
+    return (arrival,con.incDays(departure),roomname,rate,len(li))
         
     
 def getReseDate(var,r) :
@@ -368,3 +399,16 @@ def afterCheckIn(var) :
        util.RESOP(var).changeStatusToStay(getReseName(var))
        refreshPanel(var)
        var["JCLOSE_DIALOG"] = True        
+       
+# -------------------------
+class BILLSCAN :
+  
+  def __init__(self,bli) :
+    self.__b = bli
+    
+  def scan(self,pli) :
+    for idp in self.__b :
+      for pa in pli :
+         if con.eqUL(idp,pa.getId()) :
+	   self.walk(idp,pa)
+

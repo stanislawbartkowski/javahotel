@@ -1,8 +1,6 @@
-import cutil
-import con
+import cutil,con
 
-from util import util
-from util import rutil
+from util import util,rutil
 
 class CALCULATE :
   

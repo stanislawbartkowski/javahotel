@@ -39,6 +39,7 @@ class HOTELDEFADATA(cutil.DEFAULTDATA) :
     elif what == 2 : return "defidcard"
     elif what == 3 : return "defpayment"
     elif what == 4 : return "defconfirm"
+    elif what == 5 : return "defdoctype"
     
     elif what == 10 : return "lastnopersons"
     elif what == 11 : return "lastnoextrabeds"
@@ -277,8 +278,6 @@ def getHotelName(var):
     Returns:
       com.gwthotel.admin.HotelId clas
     """
-#    token = var["SECURITY_TOKEN"]
-#    return H.getHotelName(token)
     return cutil.getObject(var)
 
 def getHotel(var=None) :
@@ -290,18 +289,12 @@ def getHotel(var=None) :
     return getHotelName(var).getObject()
 
 def getPerson(var):
-#    token = var["SECURITY_TOKEN"]
-#    return H.getInstanceId(token).getPerson()
     return cutil.getPerson(var)
 
 def getAppId(var):
-#    token = var["SECURITY_TOKEN"]
-#    return H.getInstanceId(token)
     return cutil.getAppId(var)
 
 def __toV(s,prefix) :
-#  if prefix : return prefix + s
-#  return s
     return con.toP(s,prefix)
 
 def copyNameDescr(desc,var,prefix=None):
@@ -523,144 +516,6 @@ def xmlToVar(var,xml,list,pre=None) :
         
 def mapToXML(map,list=None,pre=None):
   return xmlutil.mapToXML(map,list,pre) 
-
-# ---------- CUSTOMER ---------
-
-CUSTACTION="custaction"
-CUSTMODIFACTIVE="modifactive"
-CUSTSHOWTOACTIVE="showtoaction"
-CUSTSHOWONLY="showonly"
-
-def newCustomer(var) :
-    c = ConstructObject(var)
-    return c.getO(0)  
-
-def __toS(ch) :
-   return ch
- 
-def __toCh(s) :
-   return s[0]
-
-def customerDataFromVar(c,var,prefix=None) :
-    copyNameDescr(c,var,prefix)
-    toP(c,var,getCustFieldId(),prefix)
-    c.setSex(__toCh(var[__toV("title",prefix)]))
-    c.setDoctype(__toCh(var[__toV("doctype",prefix)]))
-
-def customerFromVar(var,prefix=None) :
-    c = newCustomer(var)
-    customerDataFromVar(c,var,prefix)
-    return c
-  
-def customerToVar(v,c,prefix=None) :
-    toVarNameDesc(v,c,prefix)
-    toVar(v,c,getCustFieldId(),prefix)
-    v[__toV("title",prefix)] = __toS(c.getSex())
-    v[__toV("doctype",prefix)] = __toS(c.getDoctype())
-
-def getCustFieldId():
-  sL = HUtils.getCustomerFields()
-  seq = []
-  for s in sL : seq.append(s)
-  return seq
-
-def getCustFieldIdAll() :
-  l = getCustFieldId() + ["title","doctype","name","descr"]
-  return l
-
-def getCustFieldIdWithout() :
-  l = getCustFieldId() + ["name","descr"]
-  l.remove("country")
-  return l  
-    
-def createCustomerList(var):
-    C = CUSTOMERLIST(var)
-    CLIST = getCustFieldId()
-    seq = []
-    for c in C.getList() :
-        v = {}
-        customerToVar(v,c)
-        seq.append(v)
-    return seq
-  
-def toCustomerVar(var,c,prefix,clist = ["name","surname","firstname"]) :
-    toVar(var,c,clist,prefix)
-
-def setCustVarCopy(var,prefix) :
-    cutil.setCopy(var,getCustFieldIdAll(),None,prefix)
-
-def setCustData(var,custname,prefix=None) :
-    CU = CUSTOMERLIST(var)
-    customer = CU.findElem(custname)
-    assert customer != None
-    customerToVar(var,customer,prefix)
-    setCustVarCopy(var,prefix)
-
-def setDefaCustomerNotCopy(var,prefix=None) :
-   D = HOTELDEFADATA()
-   title = D.getDataH(0)
-   country = D.getDataH(1)
-   doctype = D.getDataH(2)
-   var[__toV("title",prefix)] = title
-   var[__toV("country",prefix)] = country
-   var[__toV("doctype",prefix)] = doctype
-
-def setDefaCustomer(var,prefix=None) :
-   setDefaCustomerNotCopy(var,prefix)
-   cutil.setCopy(var,["title","country","doctype"],None,prefix)
-   
-def saveDefaCustomer(var,prefix=None) :
-   D = HOTELDEFADATA()
-   title = var[__toV("title",prefix)]
-   country = var[__toV("country",prefix)]
-   doctype = var[__toV("doctype",prefix)]
-   D.putDataH(0,title)
-   D.putDataH(1,country)
-   D.putDataH(2,doctype)
-
-def enableCust(var,pre,ena=True) :
-    for cust in getCustFieldIdAll() :
-      cutil.enableField(var,pre+cust,ena)
-      
-def customerDetailsActive(var,prefix) :
-    """ Customer data with active fields, accepts but does not change data automatically
-        Returns changed data 
-        Return action: acceptdetails
-    
-    Args:
-      var : map with customer data
-      prefix: prefix for customer data    
-    """
-    var[__toV(CUSTACTION,prefix)] = CUSTMODIFACTIVE
-    var["JUP_DIALOG"]="hotel/reservation/customerdetails.xml" 
-    var["JUPDIALOG_START"] = mapToXML(var,getCustFieldIdAll() + [CUSTACTION,],prefix)
-
-def _gotoCustomer(var,custid,action) :
-    map = {}
-    map[CUSTACTION] = action
-    map["name"] = custid
-    var["JUPDIALOG_START"] = mapToXML(map)
-    var["JUP_DIALOG"]="hotel/reservation/customerdetails.xml" 
-  
-
-def showCustomerDetailstoActive(var,custid) :
-    """ Show customer data with field inactive, but possible to change to modify
-        Returns changed data and change data automatically
-        Return button action: accept or acceptask
-    Args:
-        custid : customer id to show
-    """
-    _gotoCustomer(var,custid,CUSTSHOWTOACTIVE)
-    
-   
-def showCustomerDetails(var,custid):
-    """ Show customer details without modification
-    
-    Args:
-      var : map
-      custid : string, customer identifier to show
-    """
-    _gotoCustomer(var,custid,CUSTSHOWONLY)
   
 # -------------------
 def listOfRoomsForService(var,servname) :
@@ -698,7 +553,19 @@ def listOfPriceListForService(var,servicename) :
       if elem.getService() == servicename :
         outl.append(p.getId())
         break
-  return outl    
+  return outl
+  
+# ==============
+
+def getDictOfDocType():
+    """ Reads list of document (finance) type
+    
+    Returns:
+      List of map["id","name"] : identifier, document name
+    """
+    dic = cutil.getDictFromFile("dict","doctype")
+    seq = cutil.createEnum(dic,lambda c : c.getName(),lambda c : c.getDescription(), False)
+    return seq
 
 # ==============
 
