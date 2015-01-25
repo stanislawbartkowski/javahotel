@@ -17,7 +17,7 @@
         </actions>
 
 
-	<list id="customerlist" elemformat="?elemcustomerlist.xml">
+	<list id="customerlist" elemformat="?elemcustomerlist.xml" nowrap="">
 		<columns>
 			<column id="name" displayname="@custid" />
                        <column id="descr" displayname="@description" hidden="" />

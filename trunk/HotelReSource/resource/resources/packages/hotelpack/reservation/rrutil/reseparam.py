@@ -2,6 +2,14 @@ import cutil
 
 from util import util
 
+def setXMLParam(var,xml) :
+    cutil.setCopy(var,"xmlparam")
+    var["xmlparam"] = xml
+
+def getXMLParam(var) :
+    return var["xmlparam"]
+
+
 class RESPARAM(util.HOTELSAVEPARAM) :
   
   def __init__(self,resename="") :
@@ -12,8 +20,9 @@ class RESPARAM(util.HOTELSAVEPARAM) :
     """ Create the copy of current values and set it in xmlparam
      Args: var : current values, source
     """
-    cutil.setCopy(var,"xmlparam")
-    var["xmlparam"] = self.createXMLParam(var)
+    setXMLParam(var,self.createXMLParam(var))
+#    cutil.setCopy(var,"xmlparam")
+#    var["xmlparam"] = self.createXMLParam(var)
     
   def setParam(self,var,setcopy=True) :
     """ Restores data proviously save
@@ -29,8 +38,7 @@ class RESPARAM(util.HOTELSAVEPARAM) :
       var[l] = ma[l]
       
   def diffP(self,var) :
-    maold = self.getParam(var["xmlparam"])
+    maold = self.getParam(getXMLParam(var))
     diff = self.diffParam(var,maold)
     return diff
         
-  # saveParam(self,var)      

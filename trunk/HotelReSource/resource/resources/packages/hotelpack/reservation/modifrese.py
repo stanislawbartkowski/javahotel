@@ -26,7 +26,7 @@ def dialogaction(action,var) :
   if action == "aftercheckin" : rutil.afterCheckIn(var) 
   
   if action == "staybalance" : diallaunch.staycalculation(var,rutil.getReseName(var))
-  
+    
   if action == "disclosurechange" and var["disclosureopen"] and var["disclosureid"] == "adddvancepayment" :
     A = Ad(var)
     A.setValReseName(rutil.getReseName(var))

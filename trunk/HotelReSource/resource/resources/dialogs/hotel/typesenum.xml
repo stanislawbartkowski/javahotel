@@ -45,5 +45,13 @@
       
    </typedef>
 
+   <typedef id="doctypes" type="combo" comboid="id" displayname = "name">
+  
+     <jython>
+        <method>defenum.dictaction({0},{1},"doctypes")</method>
+      </jython>
+      
+   </typedef>
+
 
 </typedefs>

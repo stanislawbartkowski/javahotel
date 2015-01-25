@@ -11,6 +11,7 @@
 	<buttons>
 		<button id="savepdf" displayname="@savepdf" actiontype="JYESNO_MESSAGE"
 			actionparam="@savepdfquestion" actionparam1="@confirmation" />
+		<button id="showdetails" displayname="@showdocdetails" />
 	</buttons>
 
 	<form>

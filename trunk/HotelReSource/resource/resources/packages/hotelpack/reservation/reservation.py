@@ -5,7 +5,7 @@ import cutil,con
 from util import rutil,util,diallaunch
 from rrutil import resstat
 
-def __getList(var):
+def _getList(var):
     R = util.ROOMLIST(var)
     seq = R.getList()
     list = []
@@ -16,7 +16,7 @@ def __getList(var):
     return list        
 
 
-def __resInfo(var,resid) :
+def _resInfo(var,resid) :
    res = util.RESFORM(var).findElem(resid)
    assert res != None
    return rutil.rescustInfo(var,res)
@@ -25,7 +25,7 @@ def reservationaction(action,var):
     cutil.printVar("reservation",action,var)
     
     if action == "before" :
-      list = __getList(var)
+      list = _getList(var)
       var["JDATELINE_MAP"] = {"reservation" : { "linedef" : list}}
       
     if action == "datelineaction" :
@@ -95,7 +95,7 @@ def reservationaction(action,var):
                      rform = RFORM.findElem(resid)
                      sta = resstat.getResStatus(var,rform)
                      form = "resroom"
-                     map = {"name" : name, "datecol" : dt,"colspan" : 1, "form" : form, "0" : __resInfo(var,resid), "1" : resstat.COLORS[sta], "hint" : "@" + resstat.getStatusS(sta) }
+                     map = {"name" : name, "datecol" : dt,"colspan" : 1, "form" : form, "0" : _resInfo(var,resid), "1" : resstat.COLORS[sta], "hint" : "@" + resstat.getStatusS(sta) }
                      prevmap = map
                      prevres = resid
                dt = dt + dl

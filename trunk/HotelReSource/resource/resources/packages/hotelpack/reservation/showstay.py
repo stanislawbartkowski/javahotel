@@ -1,17 +1,16 @@
 from com.jythonui.server.holder import SHolder
 
-import cutil,con
+import cutil,con,pdfutil
 
-from util import rutil,util,rpdf
+from util import rutil,util,rpdf,cust
 
-from rrutil import rbefore,reseparam
-
-import pdfutil
+from rrutil import rbefore,reseparam,cbill
 
 ADDBLOB=SHolder.getAddBlob()
 
 BILLIST="billlist"
 CUST="cust_"
+	        
 
 def _listOfPayments(var) :
   rese = rutil.getReseName(var)
@@ -24,22 +23,12 @@ def _listOfPayments(var) :
     customer = CU.findElem(g)
     assert customer != None
     map = { "roomid" : e.getRoomName(), "total" : e.getPriceTotal(), "price" : e.getPrice(), "servdescr" : e.getDescription(), "quantity" : e.getQuantity() }
-    util.toCustomerVar(map,customer,"guest_")
+    cust.toCustomerVar(map,customer,"guest_")
     seq.append(map)
     sum.add(e.getPriceTotal())
   cutil.setJMapList(var,"paymentlist",seq)
   cutil.setFooter(var,"paymentlist","total",sum.sum)
 
-def _countTotal(var,b,pli) :  
-  total = 0.0
-  for idp in b.getPayList() :
-    for pa in pli :
-       if con.eqUL(idp,pa.getId()) :
-         to = cutil.BigDecimalToDecimal(pa.getPriceTotal())
-         total = cutil.addDecimal(total,to)
-         
-  return total       
-     
 def _ListOfBills(var) :
    rese = rutil.getReseName(var)
    assert rese != None
@@ -48,24 +37,30 @@ def _ListOfBills(var) :
    pli = rutil.getPayments(var)
    sumtotal = 0.0
    footerpayments = 0.0
+   sumsell = 0.0
    CU = util.CUSTOMERLIST(var)
    for b in bList :
+     C = cbill.BILLCALC(var,b)
+     C.calc()
      bName = b.getName()
      assert bName != None
      payer = b.getPayer()
      customer = CU.findElem(payer)
      assert customer != None
      da = b.getIssueDate()     
-     tot = _countTotal(var,b,pli)
+     tot = C.getTotal()
+     sell = C.getCharge()
+     paysum = C.getPayment()
      sumtotal = cutil.addDecimal(sumtotal,tot)
-     paysum = rutil.countPayments(var,bName)
      footerpayments = cutil.addDecimal(footerpayments,paysum)
-     ma = { "billname" : bName, "billtotal" : tot, "payments" : paysum }
-     util.toCustomerVar(ma,customer,"payer_")
+     sumsell = cutil.addDecimal(sumsell,sell)
+     ma = { "billname" : bName, "billtotal" : tot, "payments" : paysum, "sell" : sell }
+     cust.toCustomerVar(ma,customer,"payer_")
      seq.append(ma)
    cutil.setJMapList(var,BILLIST,seq)
    cutil.setFooter(var,BILLIST,"billtotal",sumtotal) 
    cutil.setFooter(var,BILLIST,"payments",footerpayments) 
+   cutil.setFooter(var,BILLIST,"sell",sumsell)    
   
 def _setChangedFalse(var) :
    var["billlistwaschanged"] = False
@@ -92,11 +87,11 @@ def showstay(action,var):
    if action == "crud_readlist" and var["JLIST_NAME"] == BILLIST :
      _ListOfBills(var)     
      
-   if action == "afterbill" and var["JUPDIALOG_BUTTON"] == "acceptafteryes" :
+   if action == "afterbill" and var["JUPDIALOG_BUTTON"] == "acceptdocument" :
      _ListOfBills(var)
      
    if action == "payerdetail" :
-      util.showCustomerDetails(var,var["payer_name"])
+      cust.showCustomerDetails(var,var["payer_name"])
      
    if action == "changetoreserv" and var["JYESANSWER"] :
      res = getReservForDay(var)
@@ -127,12 +122,12 @@ def showstay(action,var):
         
    if action == "guestdesc" :
        var["JAFTERDIALOG_ACTION"] = "acceptdetails" 
-       util.showCustomerDetailstoActive(var,var[CUST+"name"])
+       cust.showCustomerDetailstoActive(var,var[CUST+"name"])
        
    if action == "acceptdetails" and var["JUPDIALOG_BUTTON"] == "acceptask" :
         xml = var["JUPDIALOG_RES"]
-        util.xmlToVar(var,xml,util.getCustFieldIdAll(),CUST)
-        cutil.setCopy(var,util.getCustFieldIdAll(),None,CUST)
+        util.xmlToVar(var,xml,cust.getCustFieldIdAll(),CUST)
+        cutil.setCopy(var,cust.getCustFieldIdAll(),None,CUST)
         name = var[CUST+"name"]
         resename = rutil.getReseName(var)          
         util.RESFORM(var).changeCustName(resename,name)

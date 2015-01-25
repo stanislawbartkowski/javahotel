@@ -1,14 +1,14 @@
 import cutil
-from util import util
+from util import util,cust
 
 M = util.MESS()
-CUSTF = util.getCustFieldIdAll()
+CUSTF = cust.getCustFieldIdAll()
 CHECKINLIST= "checkinlist"
 
 def __toMap(map,custid,CUST) :
-    cust = CUST.findElem(custid)
-    map["guestselect"] = cust.getName()
-    util.customerToVar(map,cust)    
+    custo = CUST.findElem(custid)
+    map["guestselect"] = custo.getName()
+    cust.customerToVar(map,custo)    
 
 def _resStatus(var) :
      resName = var["resename"]
@@ -32,18 +32,18 @@ class MAKECHECKIN(util.HOTELTRANSACTION) :
        var["JMESSAGE_TITLE"] = M("ALREADYCHECKEDINTITLE")
        return
      a = cutil.createArrayList()
-     for cust in var["JLIST_MAP"][CHECKINLIST] :
-           if cutil.allEmpty(cust,util.getCustFieldIdWithout()) : continue
-           cid = cust["name"]
-           if cid == None : c = util.newCustomer(var)
+     for custo in var["JLIST_MAP"][CHECKINLIST] :
+           if cutil.allEmpty(custo,cust.getCustFieldIdWithout()) : continue
+           cid = custo["name"]
+           if cid == None : c = cust.newCustomer(var)
            else : c = CUST.findElem(cid)
-           util.customerDataFromVar(c,cust)
+           cust.customerDataFromVar(c,custo)
            if cid == None : cid = CUST.addElem(c).getName()
            else : CUST.changeElem(c)
-           util.saveDefaCustomer(cust)
+           cust.saveDefaCustomer(custo)
            rGuest = util.newResGuest(var)
            rGuest.setGuestName(cid)
-           rid = cust["roomid"]
+           rid = custo["roomid"]
            rGuest.setRoomName(rid)
            a.add(rGuest)
      ROP.setResGuestList(resName,a)
@@ -64,7 +64,7 @@ def checkinaction(action,var):
            
     if action == "guestdetails" and var[CHECKINLIST+"_lineset"] :
         var["JAFTERDIALOG_ACTION"] = "acceptdetails" 
-        util.customerDetailsActive(var,None)
+        cust.customerDetailsActive(var,None)
         
     if action == "acceptdetails" and var["JUPDIALOG_BUTTON"] == "accept" : 
         xml = var["JUPDIALOG_RES"]
@@ -120,9 +120,10 @@ def checkinaction(action,var):
                                 break
                     if not found :
                         map["guestselect"] = "<select>"
-                        util.setDefaCustomerNotCopy(map)
+                        cust.setDefaCustomerNotCopy(map)
                         
                     list.append(map)
+                    
             var["JLIST_MAP"] = { CHECKINLIST : list}
             cutil.setStandEditMode(var,CHECKINLIST,["surname","firstname","title","country"])
             resform = R.findElem(resName)

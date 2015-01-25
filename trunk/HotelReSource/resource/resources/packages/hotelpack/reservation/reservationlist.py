@@ -1,7 +1,7 @@
 import cutil
-from util import util
-from util import rutil
-from util import diallaunch
+
+from util import util,rutil,diallaunch,cust
+
 from rrutil import resstat
 
 LIST="list"
@@ -27,7 +27,7 @@ def dialogaction(action,var) :
        (arrival,departure,roomname,rate) = rutil.getReseDate(var,s)
        ma = {"name" : s.getName(),"resdate" : s.getCreationDate(), "checkin" : arrival, "checkout" : departure, "roomname" : roomname, "resestatus" : M(statuS) }
        cu = C.findElem(s.getCustomerName())
-       util.toCustomerVar(ma,cu,PREC,CULIST)
+       cust.toCustomerVar(ma,cu,PREC,CULIST)
        list.append(ma)
        
     cutil.setJMapList(var,LIST,list)   
