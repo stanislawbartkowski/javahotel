@@ -203,32 +203,35 @@ public class PerformVariableAction {
                 ICommonConsts.JOKMESSAGE, ICommonConsts.JERRORMESSAGE,
                 ICommonConsts.JYESNOMESSAGE, ICommonConsts.JSUBMIT,
                 ICommonConsts.JURL_OPEN };
-        String[] param = { null, ICommonConsts.JBUTTONDIALOGSTART,
+        String[] param = { null, IUIConsts.JBUTTONDIALOGSTART,
                 ICommonConsts.JMESSAGE_TITLE, ICommonConsts.JMESSAGE_TITLE,
                 ICommonConsts.JMESSAGE_TITLE, null,
                 ICommonConsts.JMESSAGE_TITLE };
         String[] param2 = { null, ICommonConsts.JAFTERDIALOGACTION, null, null,
                 ICommonConsts.JAFTERDIALOGACTION, null, null };
+        String[] param3 = { null, IUIConsts.JBUTTONDIALOGSTART1, null, null,
+                null, null, null };
         for (int i = 0; i < kom.length; i++) {
             FieldValue val = arg.getValue(kom[i]);
+            String[] pars = { null, null, null, null };
             if (val == null)
                 continue;
-            String p = null;
             if (val.getType() == TT.STRING)
-                p = val.getValueS();
-            String par = null;
-            String par2 = null;
-            if (param[i] != null) {
-                par = arg.getValueS(param[i]);
-            }
-            if (param2[i] != null) {
-                par2 = arg.getValueS(param2[i]);
-            }
-            performAction(iYesno, iClose, kom[i], p, par, par2, w, iCon, iEx);
+                pars[0] = val.getValueS();
+            if (param[i] != null)
+                pars[1] = getValueS(arg, param[i]);
+
+            if (param2[i] != null)
+                pars[2] = getValueS(arg, param2[i]);
+
+            if (param3[i] != null)
+                pars[3] = getValueS(arg, param3[i]);
+
+            performAction(iYesno, iClose, kom[i], pars, w, iCon, iEx);
         }
         if (arg.getValue(ICommonConsts.JLOGOUTACTION) != null) {
-            performAction(null, iClose, ICommonConsts.JLOGOUTACTION, null,
-                    null, null, w, iCon, iEx);
+            performAction(null, iClose, ICommonConsts.JLOGOUTACTION, null, w,
+                    iCon, iEx);
             return;
         }
         if (arg.getValue(ICommonConsts.JCLOSEDIALOG) != null) {
@@ -241,8 +244,8 @@ public class PerformVariableAction {
             if (val != null)
                 closeButton = val.getValueS();
 
-            performAction(null, iClose, ICommonConsts.JCLOSEDIALOG, resString,
-                    closeButton, null, w, iCon, iEx);
+            performAction(null, iClose, ICommonConsts.JCLOSEDIALOG,
+                    new String[] { resString, closeButton }, w, iCon, iEx);
         }
     }
 
@@ -260,10 +263,33 @@ public class PerformVariableAction {
         return false;
     }
 
+    public static String getValueS(final DialogVariables arg, String key) {
+        FieldValue val = arg.getValue(key);
+        if (val == null) return null;
+        if (val.getType() == TT.STRING)
+            return arg.getValueS(key);
+        String mess = M.M().ValueShouldBeString(key, val.getType().toString());
+        Utils.errAlert(mess);
+        return null;
+    }
+
     public static void performAction(final IYesNoAction iYesno,
-            ISendCloseAction iClose, String action, String param,
-            String param1, final String param2, WSize w,
+            ISendCloseAction iClose, String action, String[] pars, WSize w,
             IVariablesContainer iCon, IExecuteAfterModalDialog iEx) {
+        String param = null;
+        String param1 = null;
+        String param2 = null;
+        String param3 = null;
+        if (pars != null) {
+            if (pars.length > 0)
+                param = pars[0];
+            if (pars.length > 1)
+                param1 = pars[1];
+            if (pars.length > 2)
+                param2 = pars[2];
+            if (pars.length > 3)
+                param3 = pars[3];
+        }
         if (action.equals(ICommonConsts.JURL_OPEN)) {
             Utils.openTabUrl(param, param1);
             return;
@@ -285,7 +311,7 @@ public class PerformVariableAction {
                 return;
             if (iEx != null)
                 iEx.setAction(param2);
-            new RunAction().upDialog(param, w, iCon, iEx, param1);
+            new RunAction().upDialog(param, w, iCon, iEx, param1, param3);
             return;
         }
         if (action.equals(ICommonConsts.JOKMESSAGE)

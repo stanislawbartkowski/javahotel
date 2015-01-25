@@ -26,7 +26,7 @@ public class DialogContainerFactory implements IDialogContainerFactory {
     @Override
     public IDialogContainer construct(IDataType dType, DialogInfo info,
             IVariablesContainer pCon, ISendCloseAction iClose,
-            DialogVariables addV, IExecuteAfterModalDialog iEx, String startVal) {
+            DialogVariables addV, IExecuteAfterModalDialog iEx, String[] startVal) {
         return new DialogContainer(dType, info, pCon, iClose, addV, iEx,
                 startVal);
     }

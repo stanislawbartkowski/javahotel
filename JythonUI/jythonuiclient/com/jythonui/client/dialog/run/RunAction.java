@@ -349,13 +349,13 @@ public class RunAction implements IJythonUIClient {
         private final ISendCloseAction iClose;
         private final DialogVariables addV;
         private final IExecuteAfterModalDialog iEx;
-        private final String startVal;
+        private final String[] startVal;
         private final IDialogContainerFactory dialFactory;
 
         StartBack(IDataType dType, ISlotListener getW,
                 IVariablesContainer iCon, ISendCloseAction iClose,
                 DialogVariables addV, IExecuteAfterModalDialog iEx,
-                String startVal) {
+                String[] startVal) {
             this.dType = dType;
             this.getW = getW;
             this.iCon = iCon;
@@ -423,7 +423,7 @@ public class RunAction implements IJythonUIClient {
      *            Variable top copy from
      */
     public void upDialog(String dialogName, WSize w, IVariablesContainer iCon,
-            IExecuteAfterModalDialog iEx, String startVal) {
+            IExecuteAfterModalDialog iEx, String startVal, String startVal1) {
         IDataType dType = DataType.construct(dialogName, null);
 
         UIGiniInjector
@@ -433,7 +433,7 @@ public class RunAction implements IJythonUIClient {
                         iCon.getDialogName(),
                         dialogName,
                         new StartBack(dType, new GetUpWidget(w), iCon, null,
-                                null, iEx, startVal));
+                                null, iEx, new String[] { startVal, startVal1 }));
     }
 
     public void getHelperDialog(String dialogName, ISlotListener sl,
@@ -448,7 +448,7 @@ public class RunAction implements IJythonUIClient {
                         iCon.getDialogName(),
                         dialogName,
                         new StartBack(dType, sl, iCon, iClose, addV, null,
-                                startVal));
+                                new String[] { startVal, null }));
 
     }
 

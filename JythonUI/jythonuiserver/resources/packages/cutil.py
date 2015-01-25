@@ -1,25 +1,24 @@
 from java.util import Calendar
 from org.python.core.util import StringUtil
-import datetime
-import time
-
 from java.util import ArrayList
 from java.math import BigDecimal
+
 from com.jythonui.server import MUtil
 from com.gwtmodel.table.common.dateutil import DateFormatUtil
 from com.jythonui.server.holder import Holder
 from com.jythonui.server.holder import SHolder
 from com.gwtmodel.table.common import CUtil
 from com.jythonui.server.semaphore import ISemaphore
+from com.jythonui.server.xmlmap import IMapValues
 
-import con
-import clog
+import datetime,time
 
+import con,clog
 
-LONG="long"
-DECIMAL="decimal"
-DATE="date"     
-BOOL="boolean"
+LONG=IMapValues.LONG
+DECIMAL=IMapValues.DECIMAL
+DATE=IMapValues.DATE
+BOOL=IMapValues.BOOL
 STRING="string"
 
 PDFTEMPORARY="TEMPORARY"
@@ -508,6 +507,25 @@ class DLIST() :
 #        print id,name     
     return ma    
 
+def verifyXML(xsdfile,xml):
+    """ Verify xml file with xsd schema.
+        Important: it is expected that schema match xml, used only for internal checking
+    Args:
+        xsdfile : the name of xsd (schme) file, file is read from dialog/xsd directory
+        xml : xml string (important: string, not file name)
+    
+    Returns:
+        returns if schema match the xml, if not breaks program
+        
+    Raise :
+        run time exception if not match, not match is not expected
+         
+      
+    """
+    i = Holder.getXMLVerifies()
+    ok = i.verify("xsd", xsdfile,xml)
+    assert ok
+
 
 class SEMTRANSACTION :
   
@@ -612,10 +630,11 @@ def urlPar(var,k) :
 # =============================
 def getMapFieldList(dialogName,list=None):
   """ Extract list of fields (columns) name from dialog
+  
     Args:
-      dialogName : dialog
-      list : if None list of fields from dialog
-             if not None list of columns from list 
+        dialogName : dialog
+        list : if None list of fields from dialog
+               if not None list of columns from list 
   """    
   i = Holder.getiServer()
   dInfo =  i.findDialog(Holder.getRequest(), dialogName)

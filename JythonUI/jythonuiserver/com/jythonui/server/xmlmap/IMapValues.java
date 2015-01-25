@@ -10,32 +10,17 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server;
+package com.jythonui.server.xmlmap;
 
-import java.net.URL;
+public interface IMapValues {
 
-import com.jythonui.server.resourcemulti.IReadMultiResource;
-
-/**
- * @author hotel
- * 
- */
-public interface IJythonUIServerProperties {
-
-    IReadMultiResource getResource();
-
-    String getEJBHost();
-
-    String getEJBPort();
-
-    boolean isCached();
-
-    boolean isSerialized();
-
-    URL getAppPropertiesFile();
-
-    URL getSendMailPropertiesFile();
-
-    URL getGetMailPropertiesFile();
+    String TYPE = "type";
+    String ELEM = "elem";
+    String LONG = "long";
+    String DECIMAL = "decimal";
+    String BOOL = "boolean";
+    String DATE = "date";
+    String ROOT = "root";
+    String LIST = "list";
 
 }

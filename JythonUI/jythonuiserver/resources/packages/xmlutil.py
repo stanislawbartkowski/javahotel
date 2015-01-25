@@ -10,13 +10,17 @@ from com.jythonui.shared import DialogVariables
 from com.gwtmodel.table.common import TT
 from com.jythonui.server import BUtil
 from com.jythonui.shared import ButtonItem
+from com.jythonui.server.xmlmap import IMapValues
 
-import datetime
 
-import cutil
-import sys
-import con
-import miscutil
+import datetime,sys
+
+import cutil,con,miscutil
+
+ELEM=IMapValues.ELEM
+LIST=IMapValues.LIST
+ROOT=IMapValues.ROOT
+TYPE=IMapValues.TYPE
 
 def __toBirt(d):
     if d == None : return None
@@ -78,7 +82,7 @@ class TOXML :
     
     def __toXML(self,ma):
 
-      builder = self.__builder.e("elem")
+      builder = self.__builder.e(ELEM)
     
       for k in ma :
           val = ma[k]
@@ -101,7 +105,7 @@ class TOXML :
           elif type(val) == unicode :
               vals = val    
           builder = builder.e(k)    
-          if atype : builder = builder.a("type",atype)
+          if atype : builder = builder.a(TYPE,atype)
           if vals == None and val != None : vals = str(val)
           if vals != None : builder = builder.t(vals)
           builder = builder.up()
@@ -109,11 +113,11 @@ class TOXML :
 
     
     def toXML(self,ma,isList):
-        self.__builder = XMLBuilder.create("root")
+        self.__builder = XMLBuilder.create(ROOT)
         self.__toXML(ma)
         if isList :
             first = True
-            self.__builder = self.__builder.e("list")
+            self.__builder = self.__builder.e(LIST)
             while True :
               map = self.getMap(first)
               first = False
@@ -223,8 +227,6 @@ def fileToS(dir,filename=None):
 # ---------------------
 
 def xmlToVar(var,xml,list,pre=None) :
-    """ Deprecated
-    """
     iXML = SHolder.getToXMap()
     prop = ButtonItem()
     iXML.readXML(prop,xml,"root","elem")
