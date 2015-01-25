@@ -91,10 +91,13 @@ public class BUtil extends UtilHelper {
         return path + fName;
     }
 
-    public static String addNameToPath(String path, String... fName) {
-        String res = path;
+    public static String addNameToPath(String... fName) {
+        String res = null;
         for (String f : fName)
-            res = add(res, f);
+            if (res == null)
+                res = f;
+            else
+                res = add(res, f);
         return res;
     }
 
