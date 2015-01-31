@@ -35,5 +35,23 @@ public class Test45 extends TestHelper {
         v.setValueS("resename", resename);
         scriptTest("dialog45.xml", "test2", v);        
     }
+    
+    @Test
+    public void test3() {
+        String resename = createRes(10);
+        addGuest(resename);
+        DialogVariables v = new DialogVariables();
+        v.setValueS("resename", resename);
+        scriptTest("dialog45.xml", "test3", v);        
+    }
+
+    @Test
+    public void test4() {
+        String resename = createResV(10,"free");
+        addGuest(resename);
+        DialogVariables v = new DialogVariables();
+        v.setValueS("resename", resename);
+        scriptTest("dialog45.xml", "test4", v);        
+    }
 
 }

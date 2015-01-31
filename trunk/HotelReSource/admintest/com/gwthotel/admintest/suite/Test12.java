@@ -20,7 +20,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import com.gwthotel.hotel.HotelObjects;
@@ -33,12 +32,6 @@ import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 
 public class Test12 extends TestHelper {
 
-//    @Before
-//    public void before() {
-//        clearObjects();
-//        createHotels();
-//        setTestToday(DateFormatUtil.toD(2013, 6, 13));
-//    }
 
     @Test
     public void test1() {

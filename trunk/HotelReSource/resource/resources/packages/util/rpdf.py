@@ -1,6 +1,6 @@
 import datetime
 
-import con,cutil,xmlutil
+import con,cutil,xmlutil,vat
 
 import util,rutil,dutil
 
@@ -15,7 +15,7 @@ def _XaddMapElem(destm,tag,m,key):
     else : 
         for i in range(0,len(tag)) : destm[tag[i]] = m.getAttr(key[i])       
 
-def _XbuildElemXML(var,ma,r):
+def _XbuildElemXML(var,ma,r,CV=None):
     da = con.toJDate(r.getServDate())
     roomname = r.getRoomName()
     desc = util.ROOMLIST(var).findElem(roomname).getDescription()
@@ -29,7 +29,14 @@ def _XbuildElemXML(var,ma,r):
     ma["amount"] = amount
     ma["total"] = total
     ma["id"] = r.getId()
-
+    if CV != None :
+        vats = rutil.getVatName(var,r)
+        (netto,vatv,vatlevel) = CV.calculateVatValue(con.BigDecimalToDecimal(total),vats)
+        ma["netvalue"] = netto
+        ma["taxvalue"] = vatv
+        ma["taxlevel"] = vatlevel
+        ma["tax"] = vats    
+        ma["grossvalue"] = con.addDecimal(netto,vatv)    
 
 def _XbuildHeaderXML(var,ma,nog,r,custname):
     (arrival,departure,roomname,rate,numberofnights) = rutil.getReseDate(var,r)
@@ -49,10 +56,6 @@ def _XbuildHeaderXML(var,ma,nog,r,custname):
     ma["addinfo"] = ""
     ma["amount"] = numberofnights
     ma["description"] = ""
-
-
-def _XaddSubTotal(ma,name,val):
-    ma["total"] = val
     
 class _BI(rutil.BILLSCAN):
     
@@ -60,11 +63,14 @@ class _BI(rutil.BILLSCAN):
         rutil.BILLSCAN.__init__(self,bli)
         self.var = var
         self.seq = []
+        self.CV = vat.CalcVat()
+        self.grossvalue = 0
         
     def walk(self,idp,pa):
         mx = {}
-        _XbuildElemXML(self.var,mx,pa)
+        _XbuildElemXML(self.var,mx,pa,self.CV)
         self.seq.append(mx)
+        self.grossvalue = con.addDecimal(self.grossvalue,mx["grossvalue"])
     
 def _buildXMLForServices(var,name,resename,payername,pli) :
     ma = {}
@@ -72,18 +78,16 @@ def _buildXMLForServices(var,name,resename,payername,pli) :
     nog = len(util.RESOP(var).getResGuestList(resename))
     li = rutil.getPayments(var,resename)
     _XbuildHeaderXML(var,ma,nog,r,payername)
-    ma["docid"] = name
-    ma["doctype"] = "I"
-    
     sum = rutil.countTotalForServices(var,pli,li)
-    _XaddSubTotal(ma,"Debit",sum)
-       
-    sump = rutil.countPayments(var,name)      
-    _XaddSubTotal(ma,"Credit",sump)
-    _XaddSubTotal(ma,"Balance",con.minusDecimal(sum,sump))
+    ma["doctype"] = "I"
+    if name == None : ma["docid"] = resename
+    else : ma["docid"] = name    
+    
+    ma["total"] = sum
 
     B = _BI(pli,var)
     B.scan(li)
+    ma["grossvalue"] = B.grossvalue
     
     return (ma,B.seq)
      
@@ -91,7 +95,7 @@ def _buildXML(var,name) :
     ma = {}
     b = util.BILLLIST(var).findElem(name)
     resename = b.getReseName()
-    return _buildXMLForServices(var,name,b.getReseName(),b.getPayer(),b.getPayList())
+    return _buildXMLForServices(var,name,resename,b.getPayer(),b.getPayList())
 
 def buildXMLBill(var,name):
     """ Create XML for bill 
@@ -129,6 +133,7 @@ def buildXMLReservation(var,resename):
     ma = {}
     _XbuildHeaderXML(var,ma,nog,r,r.getCustomerName())
     ma["total"] = sum
+    ma["grossvalue"] = sum
     ma["docid"] = resename
     ma["doctype"] = "XX"
     
@@ -144,5 +149,5 @@ def buildXMLForStay(var,resename,payername,li) :
     Returns:
         xml : string
     """
-    (ma,list) = _buildXMLForServices(var,resename,resename,payername,li)
+    (ma,list) = _buildXMLForServices(var,None,resename,payername,li)
     return dutil.doctoXML(ma,list)

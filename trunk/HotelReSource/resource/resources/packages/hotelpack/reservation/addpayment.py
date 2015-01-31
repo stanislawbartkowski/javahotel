@@ -111,6 +111,8 @@ def _addPayment(var) :
      r.setService(serv)
      r.setGuestName(guest)
      r.setRoomName(room)
+     if serv == None :
+       r.setVat(vat)
      ROP.addResAddPayment(rese,r)
 
 

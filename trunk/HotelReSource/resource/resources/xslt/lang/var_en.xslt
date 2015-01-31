@@ -12,4 +12,10 @@
 <xsl:variable name="lang.Total" select="'Total'"/>
 <xsl:variable name="lang.reservationDetails" select="'Reservation details'"/>
 <xsl:variable name="lang.Night" select="'Night'"/>
+<xsl:variable name="lang.roomType" select="'Room type'"/>
+<xsl:variable name="lang.numberofGuests" select="'Number of guests'"/>
+<xsl:variable name="lang.Date" select="'Date'"/>
+<xsl:variable name="lang.roomDescription" select="'Description'"/>
+<xsl:variable name="lang.Amount" select="'Amount'"/>
+<xsl:variable name="lang.Tax" select="'Tax'"/>
 </xsl:stylesheet>

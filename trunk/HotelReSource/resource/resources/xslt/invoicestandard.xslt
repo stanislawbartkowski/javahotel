@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0"
-	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml">
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:fun="java://com.jythonui.server.xslt.XSLTFun"
+        xmlns:java="http://xml.apache.org/xslt/java">	
+
 
 	<xsl:output method="xml" encoding="UTF-8" />
+	
+        <xsl:import href="lang/var_en.xslt"/>
+
 
 	<xsl:template match="/root">
 		<html>
@@ -66,22 +72,22 @@
 						<br />
 					</div>
 					<div class="right">
-						Room number :
+						<xsl:value-of select="$lang.Room"/> : 
 						<xsl:value-of select="elem/roomnumber" />
 						<br />
-						Daily rate:
+						<xsl:value-of select="$lang.dailyRate"/> : 
 						<xsl:value-of select="elem/dailyrate" />
 						<br />
-						Room type :
+						<xsl:value-of select="$lang.roomType"/> :
 						<xsl:value-of select="elem/roomtype" />
 						<br />
-						Numb of guests:
+						<xsl:value-of select="$lang.numberofGuests"/>:
 						<xsl:value-of select="elem/nofguests" />
 						<br />
-						Arrival:
+						<xsl:value-of select="$lang.arrivalDate"/>:
 						<xsl:value-of select="elem/arrivaldate" />
 						<br />
-						Departure :
+						<xsl:value-of select="$lang.departureDate"/> :
 						<xsl:value-of select="elem/departuredate" />
 						<br />
 					</div>
@@ -95,12 +101,14 @@
 				<div>
 					<table>
 						<tr>
-							<th>DATE</th>
-							<th>ROOM NO</th>
-							<th>DESCRIPTION</th>
-							<th>RATE</th>
-							<th>AMOUNT</th>
-							<th>TOTAL</th>
+							<th><xsl:value-of select="fun:toUpper($lang.Date)"/></th>
+							<th><xsl:value-of select="fun:toUpper($lang.Room)"/></th>
+							<th><xsl:value-of select="fun:toUpper($lang.roomDescription)"/></th>
+							<th><xsl:value-of select="fun:toUpper($lang.dailyRate)"/></th>
+							<th><xsl:value-of select="fun:toUpper($lang.Amount)"/></th>
+							<th><xsl:value-of select="fun:toUpper($lang.Total)"/></th>
+							<th></th>
+							<th><xsl:value-of select="fun:toUpper($lang.Tax)"/></th>
 						</tr>
 						<xsl:for-each select="list/elem">
 							<tr>
@@ -120,7 +128,13 @@
 									<xsl:value-of select="amount" />
 								</td>
 								<td>
-									<xsl:value-of select="total" />
+									<xsl:value-of select="grossvalue" />
+								</td>
+								<td>
+									<xsl:value-of select="tax" />
+								</td>
+								<td>
+									<xsl:value-of select="taxvalue" />
 								</td>
 							</tr>
 

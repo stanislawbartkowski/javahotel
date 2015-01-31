@@ -4,7 +4,7 @@ from rrutil import cbill
 
 import datetime
 
-def _create(var,rese_name,paymentmethod=None):
+def _createX(var,rese_name,paymentmethod=None):
     print rese_name
     cu = cust.newCustomer(var)
     cu.setGensymbol(True);
@@ -12,9 +12,8 @@ def _create(var,rese_name,paymentmethod=None):
     cust_name = cu.getName()
     print cust_name
     bli = util.RESOP(var).findBillsForReservation(rese_name)
-    assert len(bli) == 0
-        
-    bli = util.RESOP(var).findBillsForReservation(rese_name)
+    print bli
+    for l in bli : print l
     assert len(bli) == 0
         
     R = util.RESFORM(var).findElem(rese_name)
@@ -38,7 +37,11 @@ def _create(var,rese_name,paymentmethod=None):
     xml = cbill.getXMLForBill(var,S.getB().getName())
     print xml
     assert xml != None
-    return S.getB()
+    return (S.getB(),xml)
+
+def _create(var,rese_name,paymentmethod=None):
+    (X,xml) = _createX(var,rese_name,paymentmethod)
+    return X
 
 def dialogaction(action,var):
     
@@ -66,5 +69,29 @@ def dialogaction(action,var):
         assert C.getPayment() == 1500.0
         var["OK"] = True
 
+    if action == "test3" :
+        rese_name = var["resename"]
+        (X,xml) = _createX(var,rese_name,"CA")
+        (ma,li) = xmlutil.toMap(xml)
+        assert 10 == len(li)
+        for l in li : 
+            print l
+            assert "7%" == l["tax"]
+            assert 93.46 == l["netvalue"]
+            assert 6.54 == l["taxvalue"]
+        var["OK"] = True
+                
+    if action == "test4" :
+        rese_name = var["resename"]
+        (X,xml) = _createX(var,rese_name,"CA")
+        (ma,li) = xmlutil.toMap(xml)
+        assert 10 == len(li)
+        print dutil.getDocGrossValue(ma)
+        assert 1000.0 == dutil.getDocGrossValue(ma)
+        for l in li :
+#            print l
+            assert l["taxlevel"] == None
+            assert l["taxvalue"] == None
+        var["OK"] = True
         
         

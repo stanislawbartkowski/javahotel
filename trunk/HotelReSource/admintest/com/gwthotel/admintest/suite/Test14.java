@@ -67,6 +67,7 @@ public class Test14 extends TestHelper {
         det.setPriceTotal(new BigDecimal(100));
         det.setRoomName("P10");
         det.setResDate(toDate(2013, 4, 10));
+        det.setVat("7%");
         r.getResDetail().add(det);
         r = iRes.addElem(getH(HOTEL), r);
         String sym = r.getName();
@@ -109,6 +110,7 @@ public class Test14 extends TestHelper {
         det.setNoExtraBeds(11);
         det.setPriceExtraBeds(new BigDecimal("9.9"));
         det.setPriceListExtraBeds(new BigDecimal("11.11"));
+        det.setVat("7%");
 
         det.setRoomName("P10");
         det.setResDate(toDate(2013, 4, 10));

@@ -58,6 +58,11 @@
 			<column id="amount" displayname="@numberofnights" type="int" />
 			<column id="dailyrate" displayname="@dailyrate" type="decimal" />
 			<column id="total" displayname="@totalpayment" type="decimal" footer="" />
+			<column id="netvalue" displayname="@nettoprice" type="decimal" />
+			<column id="taxlevel" displayname="@taxlevel" type="decimal" />
+			<column id="tax" hidden="" />
+			<column id="taxvalue" displayname="@taxvalue" type="decimal" />
+			<column id="grossvalue" type="decimal" hidden="" />
                 </columns>
         </list>
 	

@@ -107,41 +107,6 @@ def countTotal(var,b,pli) :
   Returns: sum of services for b (CustomerBill)  
   """
   return countTotalForServices(var,b.getPayList(),pli)
-#  total = 0.0
-#  for idp in b.getPayList() :
-#    for pa in pli :
-#       if con.eqUL(idp,pa.getId()) :
-#         to = con.BigDecimalToDecimal(pa.getPriceTotal())
-#         total = con.addDecimal(total,to)
-#         
-#  return total
-
-class BILLPOSADD :
-  
-  def __init__(self,var,liname) :
-    self.sumf = 0.0
-    self.var = var
-    self.liname = liname
-    self.li = []
-    
-  def addMa(self,ma,r,idp) :
-    se = r.getServiceType()
-    resdate = None
-    servdate= None
-    if util.isRoomService(se) : resdate = r.getResDate()
-    else : servdate = r.getResDate()
-    total = r.getPriceTotal()
-    self.sumf = cutil.addDecimal(self.sumf,cutil.BigDecimalToDecimal(total))
-    guest = r.getGuestName()
-    room = r.getRoomName()
-    service = r.getService()
-    ma1 = { "idp" : idp, "room" : room, "resday" : resdate, "service" : service, "servday":servdate, "servdescr" : r.getDescription(),"guest_name" : guest, "total" : total }
-    ma.update(ma1)
-    self.li.append(ma)
-    
-  def close(self) :
-    cutil.setJMapList(self.var,self.liname,self.li)
-    cutil.setFooter(self.var,self.liname,"total",self.sumf)
 
 def searchForRooms(var,dfrom, dto):
     R = util.RESOP(var)
@@ -412,3 +377,19 @@ class BILLSCAN :
          if con.eqUL(idp,pa.getId()) :
 	   self.walk(idp,pa)
 
+#-------------------------
+def getVatName(var,r) :
+  """ Get vat name for the Payment position
+  Parameters:
+    var 
+    r : ReservationPaymentDetail
+  Returns :
+    tax name (string), cannot be None
+  """  
+  servicename = r.getService()
+  if servicename != None :
+    service = util.SERVICES(var).findElem(servicename)
+    vats = service.getVat()
+  else : vats = r.getVat()
+  assert vats != None
+  return vats

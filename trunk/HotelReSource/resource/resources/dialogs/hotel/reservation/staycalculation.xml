@@ -31,9 +31,11 @@
             <column id="room" displayname="@roomname" />
             <column id="resday" type="date" displayname="@staynight" />
             <column id="servday" type="date" displayname="@stayday" />
+            <column id="quantity" type="int" displayname="@quantity" />
             <column id="guest_name" displayname="@guestid" actionid="guestdetail"/>
             <column id="service" displayname="@servicename" />
             <column id="servdescr" displayname="@servicedescription" />
+            <column id="vat" displayname="@taxlevel" />				    
             <column id="total" type="decimal" displayname="@totalprice" footer="" />
 	</columns>
         </list>
@@ -44,9 +46,11 @@
             <column id="room" displayname="@roomname" />
             <column id="resday" type="date" displayname="@staynight" />
             <column id="servday" type="date" displayname="@stayday" />
+            <column id="quantity" type="int" displayname="@quantity" />	    
             <column id="guest_name" displayname="@guestid" actionid="guestdetail"/>
             <column id="service" displayname="@servicename" />
             <column id="servdescr" displayname="@servicedescription" />
+            <column id="vat" displayname="@taxlevel" />				    
             <column id="total" type="decimal" displayname="@totalprice" footer="" />
 	</columns>
         </list>

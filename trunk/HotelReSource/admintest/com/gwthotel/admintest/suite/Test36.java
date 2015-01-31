@@ -49,6 +49,7 @@ public class Test36 extends TestHelper {
         det.setPriceList(new BigDecimal("200.0"));
         det.setPriceTotal(new BigDecimal(100));
         det.setRoomName("P10");
+        det.setVat("7%");
         det.setResDate(toDate(2013, 4, 11));
         r.getResDetail().add(det);
         iRes.changeElem(getH(HOTEL), r);

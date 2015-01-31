@@ -43,6 +43,7 @@ import com.gwthotel.hotel.reservationop.IReservationOp;
 import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.server.service.H;
+import com.gwthotel.hotel.services.HotelServices;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.hotel.stay.ResGuest;
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
@@ -123,13 +124,12 @@ public class TestHelper extends CommonTestHelper {
     }
 
     protected void clearObjects() {
-        iAdmin.clearAll(getI());
         List<OObject> aList = iAdmin.getListOfObjects(getI());
         for (OObject ho : aList) {
             OObjectId hotel = getH(ho.getName());
             iClear.clearObjects(hotel);
         }
-
+        iAdmin.clearAll(getI());
     }
 
     protected Date toDate(int y, int m, int d) {
@@ -198,6 +198,7 @@ public class TestHelper extends CommonTestHelper {
         det.setPriceList(new BigDecimal("200.0"));
         det.setRoomName("P10");
         det.setResDate(toDate(2013, 4, 10));
+        det.setVat("7%");
         r.getResDetail().add(det);
         r = iRes.addElem(getH(HOTEL), r);
         String sym = r.getName();
@@ -221,10 +222,17 @@ public class TestHelper extends CommonTestHelper {
         return b;
     }
 
-    protected String createRes(int no) {
+    protected String createResV(int no, String roomVat) {
         HotelRoom ho = new HotelRoom();
         ho.setName("P10");
         ho.setNoPersons(3);
+        if (roomVat != null) {
+            HotelServices se = new HotelServices();
+            se.setName("1p1");
+            se.setNoPersons(1);
+            se.setVat(roomVat);
+            iServices.addElem(getH(HOTEL), se);
+        }
         iRooms.addElem(getH(HOTEL), ho);
         HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL),
                 HotelObjects.CUSTOMER);
@@ -243,6 +251,10 @@ public class TestHelper extends CommonTestHelper {
             det.setPriceTotal(new BigDecimal(100));
             det.setRoomName("P10");
             det.setResDate(d);
+            if (roomVat != null)
+                det.setService("1p1");
+            else
+                det.setVat("7%");
             r.getResDetail().add(det);
             d = incDay(d);
         }
@@ -253,6 +265,10 @@ public class TestHelper extends CommonTestHelper {
         assertNull(r.getAdvanceDeposit());
         assertNull(r.getTermOfAdvanceDeposit());
         return sym;
+    }
+
+    protected String createRes(int no) {
+        return createResV(no, null);
     }
 
     protected void scriptTest(String dialogName, String action, String locale,

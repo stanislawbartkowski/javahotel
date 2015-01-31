@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 stanislawbartkowski@gmail.com 
+ * Copyright 2015 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -12,14 +12,11 @@
  */
 package com.gwthotel.hotel.jpa;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import com.gwthotel.admin.holder.HHolder;
 import com.gwthotel.hotel.HUtils;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.bill.CustomerBill;
@@ -35,8 +32,6 @@ import com.gwthotel.hotel.jpa.entities.EHotelServices;
 import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
 import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwthotel.hotel.services.HotelServices;
-import com.gwthotel.mess.IHError;
-import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.table.common.CUtil;
 import com.jython.jpautil.JpaUtils;
@@ -45,6 +40,8 @@ import com.jython.serversecurity.jpa.PropUtils;
 import com.jythonui.server.BUtil;
 import com.jythonui.server.RUtils;
 import com.jythonui.server.UtilHelper;
+import com.jythonui.server.logmess.IErrorCode;
+import com.jythonui.server.logmess.ILogMess;
 
 public class JUtils extends UtilHelper {
 
@@ -191,6 +188,10 @@ public class JUtils extends UtilHelper {
         dest.setServicevat(sou.getVat());
         dest.setDescription(sou.getDescription());
         dest.setPerperson(sou.isPerperson());
+        if (CUtil.EmptyS(sou.getVat()) && CUtil.EmptyS(serviceName))
+            errorMess(L(), IErrorCode.ERRORCODE123,
+                    ILogMess.ERRORRESERERVATIONPAYMENTDETAIL);
+
     }
 
     public static void toCustomerBill(EntityManager em, OObjectId hotel,

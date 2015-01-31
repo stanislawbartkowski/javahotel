@@ -7,10 +7,11 @@
 <!-- base -->
       <xs:element name="total" type="decimalType" minOccurs="0" />
       <xs:element name="description" type="xs:string" minOccurs="0" />
-      <xs:element name="amount" type="positiveIntegerType" minOccurs="0" />      
+      <xs:element name="amount" type="positiveIntegerType" minOccurs="1" />      
       <xs:element name="dailyrate" type="decimalType" minOccurs="0"/>
       <xs:element name="roomnumber" type="xs:string" minOccurs="0"/>
       <xs:element name="roomtype" type="xs:string" minOccurs="0"/>
+      <xs:element name="grossvalue" type="decimalType" minOccurs="0" />
 <!-- end of base -->
       
       <xs:element name="doctype" type="docType" minOccurs="1" />
@@ -42,10 +43,15 @@
       <xs:element name="dailyrate" type="decimalType" minOccurs="0"/>
       <xs:element name="roomnumber" type="xs:string" minOccurs="0"/>
       <xs:element name="roomtype" type="xs:string" minOccurs="0"/>
+      <xs:element name="grossvalue" type="decimalType" minOccurs="0" />
 <!-- end of base -->
       
       <xs:element name="date" type="dateType" minOccurs="0" />
       <xs:element name="id" type="nonNegativeIntegerType" minOccurs = "1" />
+      <xs:element name="netvalue" type="decimalType" minOccurs="0" />
+      <xs:element name="taxvalue" type="decimalTypeEmpty" minOccurs="0" />
+      <xs:element name="taxlevel" type="decimalTypeEmpty" minOccurs="0"  />
+      <xs:element name="tax" type="xs:string" minOccurs="0" />
   </xs:all>
 </xs:complexType>  
 
@@ -59,6 +65,24 @@
         </xs:restriction>
 </xs:simpleType>
 
+<xs:complexType name="decimalTypeEmpty">
+  <xs:simpleContent>
+    <xs:extension base="empty-decimal">
+      <xs:attribute name="type" fixed="decimal" />
+    </xs:extension>
+  </xs:simpleContent>
+</xs:complexType>
+
+
+<xs:simpleType name="empty-decimal">
+  <xs:union memberTypes="xs:decimal empty-string" />
+</xs:simpleType>
+
+<xs:simpleType name="empty-string">
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="" />
+  </xs:restriction>
+</xs:simpleType>
 
 <xs:complexType name="dateType">
   <xs:simpleContent>

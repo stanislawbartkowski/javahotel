@@ -24,7 +24,7 @@ def dialogaction(action,var) :
     for s in seq :
        sta = resstat.getResStatus(var,s)
        statuS = resstat.getStatusS(sta)       
-       (arrival,departure,roomname,rate) = rutil.getReseDate(var,s)
+       (arrival,departure,roomname,rate,nog) = rutil.getReseDate(var,s)
        ma = {"name" : s.getName(),"resdate" : s.getCreationDate(), "checkin" : arrival, "checkout" : departure, "roomname" : roomname, "resestatus" : M(statuS) }
        cu = C.findElem(s.getCustomerName())
        cust.toCustomerVar(ma,cu,PREC,CULIST)

@@ -35,7 +35,7 @@
   
         <property name="javax.persistence.target-database" value="PostgreSQL" />
         <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" /> 
-        <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost/hotel" />
+        <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost/hoteltest" />
         <property name="javax.persistence.jdbc.user" value="hotel" />
         <property name="javax.persistence.jdbc.password" value="hotel" />
 
