@@ -54,4 +54,17 @@ def dialogaction(action,var):
         assert 0.0 == li[1][1]
         var["OK"] = True
         
+    if action == "test5" :
+        V = vat.CalcVat()
+        V.addVatLineC(100,80,20,"7%")
+        V.addVatLineC(10,8,2,"7%")
+        V.addVatLineC(10,8,2,"0%")
+        li = V.calculateVat()
+        print li
+        assert 2 == len(li)
+        print li[0][0]
+        assert 88 == li[0][0]
+        assert 22 == li[0][1]
+        assert 110 == li[0][2]
+        var["OK"] = True
         

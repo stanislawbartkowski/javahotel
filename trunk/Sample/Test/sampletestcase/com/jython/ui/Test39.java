@@ -50,7 +50,7 @@ public class Test39 extends TestHelper {
             }
         }
         System.out.println("ok=" + ok);
-        assertEquals(4, ok);
+        assertEquals(3, ok);
     }
 
 }

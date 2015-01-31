@@ -46,4 +46,11 @@ public class Test58 extends TestHelper {
         assertOK(v);        
     }
 
+    @Test
+    public void test5() {
+        DialogVariables v = new DialogVariables();
+        runAction(v, "test103.xml", "test5");
+        assertOK(v);        
+    }
+
 }
