@@ -11,11 +11,8 @@ def calculateVatBrutto(brutto,level):
     
     """
     if level == None : return (brutto,None)
-    print brutto,level
     v = level/( 100  + level)
-    print v
     vat = con.mulDecimal(brutto,v)
-    print vat
     return (con. minusDecimal(brutto,vat),vat) 
 
 class CalcVat :
@@ -35,6 +32,12 @@ class CalcVat :
             if l == "" : self.lvat[v.getName()] = None
             else : self.lvat[v.getName()] = float(l)
         self.bvat = {}
+        self.met = 1
+        
+    def calculateVatValue(self,brutto,vats):
+        level = self.lvat[vats]
+        (netto,vatv) =  calculateVatBrutto(brutto,level)
+        return (netto,vatv,level)
        
     def addVatLine(self,brutto,vat):
         """ Add next item 
@@ -47,6 +50,16 @@ class CalcVat :
         abrutto = 0.0
         if self.bvat.has_key(vat) : abrutto = self.bvat[vat]
         self.bvat[vat] = con.addDecimal(abrutto,brutto)
+        self.met = 1
+        
+    def addVatLineC(self,brutto,netto,vat,vats):
+        if self.bvat.has_key(vats) : (abrutto,anetto,avat) = self.bvat[vats]
+        else : (abrutto,anetto,avat) = (0,0,0)
+        abrutto = con.addDecimal(abrutto,brutto)
+        anetto = con.addDecimal(anetto,netto)
+        avat = con.addDecimal(avat,vat)
+        self.bvat[vats] = (abrutto,anetto,avat)
+        self.met = 0
         
     def calculateVat(self):
         """ Final calculation of vat
@@ -57,11 +70,9 @@ class CalcVat :
         lvat = []
         for v in self.bvat : 
             level = self.lvat[v]
-            (netto,vat) = calculateVatBrutto(self.bvat[v],level)
-            lvat.append((netto,vat,self.bvat[v],level))
+            if self.met == 1 :
+                (netto,vat) = calculateVatBrutto(self.bvat[v],level)
+                brutto = self.bvat[v]
+            else : (brutto,netto,vat) = self.bvat[v]
+            lvat.append((netto,vat,brutto,level,v))
         return lvat
-            
-            
-              
-        
-         
