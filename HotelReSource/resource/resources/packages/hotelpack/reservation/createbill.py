@@ -16,8 +16,8 @@ DOCTYPE="documtype"
 def _createPosList(var) :
   pli = rutil.getPayments(var)
   P = cbill.PAID(var,rutil.getReseName(var))
-  L1 = rutil.BILLPOSADD(var,LIST)
-  L2 = rutil.BILLPOSADD(var,NOPAID)
+  L1 = cbill.BILLPOSADD(var,LIST)
+  L2 = cbill.BILLPOSADD(var,NOPAID)
   # list of bills
   sumf = 0.0
   for r in pli :
@@ -63,7 +63,7 @@ def doaction(action,var) :
     cutil.setCopy(var,["advance_pay","advance_pay_left"])
     
   if action == "guestdetail" :
-       util.showCustomerDetails(var,var["guest_name"])
+       cust.showCustomerDetails(var,var["guest_name"])
     
   if action == "columnchangeaction" :
      total = var["total"]

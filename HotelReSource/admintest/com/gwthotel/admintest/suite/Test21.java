@@ -30,13 +30,6 @@ import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 
 public class Test21 extends TestHelper {
 
-    @Before
-    public void before() {
-        clearObjects();
-        createHotels();
-        setTestToday(DateFormatUtil.toD(2013, 6, 13));
-    }
-
     private String runtest() {
         HotelPriceList pr = new HotelPriceList();
         pr.setName("p1");
@@ -64,6 +57,7 @@ public class Test21 extends TestHelper {
         det.setRoomName("P10");
         det.setResDate(toDate(2013, 4, 10));
         det.setPriceListName("p1");
+        det.setVat("7%");
         r.getResDetail().add(det);
         r = iRes.addElem(getH(HOTEL), r);
         String sym = r.getName();

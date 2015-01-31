@@ -175,9 +175,10 @@ class BILLCALC:
         xml = getXMLForBill(var,b.getName())
         if xml == None : self._sell = self.total
         else :
-            (ma,li) = dutil.doctoMap(xml) 
-            self._sell = ma["total"]
+            (ma,self._li) = dutil.doctoMap(xml) 
+            self._sell = dutil.getDocGrossValue(ma)
         self._payment = rutil.countPayments(var,b.getName())
+        self._issuedate = dutil.getIssueDate(ma)
         
     def getTotal(self):
         """ Getter, sum of services prices 
@@ -193,4 +194,39 @@ class BILLCALC:
         """ Getter, sum of payments related to bill (can be None), credit
         """
         return self._payment
+      
+    def getIssueDate(self) :
+        return self._issuedate
+      
+    def getLines(self) :
+        return self._li
         
+class BILLPOSADD :
+  
+  def __init__(self,var,liname) :
+    self.sumf = 0.0
+    self.var = var
+    self.liname = liname
+    self.li = []
+    
+  def addMa(self,ma,r,idp) :
+    se = r.getServiceType()
+    resdate = None
+    servdate= None
+    if util.isRoomService(se) : resdate = r.getResDate()
+    else : servdate = r.getResDate()
+    total = r.getPriceTotal()
+    self.sumf = cutil.addDecimal(self.sumf,cutil.BigDecimalToDecimal(total))
+    guest = r.getGuestName()
+    room = r.getRoomName()
+    service = r.getService()
+    q = r.getQuantity()
+    ma1 = { "idp" : idp, "room" : room, "resday" : resdate, "service" : service, "servday":servdate, "servdescr" : r.getDescription(),"guest_name" : guest, \
+            "total" : total, "quantity" : q, "vat" : rutil.getVatName(self.var,r) }
+    ma.update(ma1)
+    self.li.append(ma)
+    
+  def close(self) :
+    cutil.setJMapList(self.var,self.liname,self.li)
+    cutil.setFooter(self.var,self.liname,"total",self.sumf)
+

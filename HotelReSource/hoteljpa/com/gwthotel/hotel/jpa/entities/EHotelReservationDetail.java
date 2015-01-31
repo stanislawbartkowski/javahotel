@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 stanislawbartkowski@gmail.com 
+ * Copyright 2015 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -93,6 +93,7 @@ public class EHotelReservationDetail extends EHotelRoomCustomer {
     private BigDecimal total;
 
     private String description;
+    
     private String servicevat;
 
     @Column(nullable = false)
@@ -141,10 +142,6 @@ public class EHotelReservationDetail extends EHotelRoomCustomer {
     public void setService(EHotelServices service) {
         this.service = service;
     }
-
-    // public Long getId() {
-    // return id;
-    // }
 
     public BigDecimal getTotal() {
         return total;

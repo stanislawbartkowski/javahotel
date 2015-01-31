@@ -34,12 +34,6 @@ import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 
 public class Test18 extends TestHelper {
 
-    @Before
-    public void before() {
-        clearObjects();
-        createHotels();
-        setTestToday(DateFormatUtil.toD(2013, 6, 13));
-    }
 
     @Test
     public void test1() {
@@ -62,6 +56,7 @@ public class Test18 extends TestHelper {
         det.setPriceTotal(new BigDecimal("100.0"));
         det.setPriceList(new BigDecimal("200.0"));
         det.setRoomName("P10");
+        det.setVat("7%");
         det.setResDate(toDate(2013, 4, 10));
         r.getResDetail().add(det);
         r = iRes.addElem(getH(HOTEL), r);

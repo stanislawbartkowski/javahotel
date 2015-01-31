@@ -39,13 +39,6 @@ import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 
 public class Test13 extends TestHelper {
 
-//    @Before
-//    public void before() {
-//        clearObjects();
-//        createHotels();
-//        setTestToday(DateFormatUtil.toD(2013, 6, 13));
-//    }
-
     @Test
     public void test1() {
         Date d = DateFormatUtil.toD(2013, 6, 12);
@@ -69,6 +62,7 @@ public class Test13 extends TestHelper {
         det.setRoomName("R10");
         det.setPrice(new BigDecimal(100));
         det.setPriceTotal(new BigDecimal(100));
+        det.setVat("7%");
 
         HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL),
                 HotelObjects.CUSTOMER);
@@ -143,6 +137,7 @@ public class Test13 extends TestHelper {
         det.setRoomName("R10");
         det.setPrice(new BigDecimal(100));
         det.setPriceTotal(new BigDecimal(100));
+        det.setVat("7%");
         re.getResDetail().add(det);
         det = new ReservationPaymentDetail();
         det.setNoP(1);
@@ -150,6 +145,7 @@ public class Test13 extends TestHelper {
         det.setRoomName("R11");
         det.setPrice(new BigDecimal(100));
         det.setPriceTotal(new BigDecimal(100));
+        det.setVat("7%");
         re.getResDetail().add(det);
         re = iRes.addElem(getH(HOTEL), re);
         r.rese = re.getName();

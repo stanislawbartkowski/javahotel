@@ -133,7 +133,7 @@ def showstay(action,var):
         util.RESFORM(var).changeCustName(resename,name)
               
    if action == "guestdetail" :
-       util.showCustomerDetails(var,var["guest_name"])
+       cust.showCustomerDetails(var,var["guest_name"])
        
    if action == "listpdf" and var[BILLIST + "_lineset"] :
       var["JUP_DIALOG"]="?pdflist.xml" 

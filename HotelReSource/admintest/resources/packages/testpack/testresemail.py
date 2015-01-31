@@ -34,6 +34,7 @@ def dialogaction(action,var):
            r.setPriceTotal(con.toB(100.0));
            r.setPriceList(con.toB(200.0));
            r.setRoomName("R01");
+           r.setVat("7%")
            r.setResDate(con.toDate(dt));            
            dt = dt + dl
            re.getResDetail().add(r)
