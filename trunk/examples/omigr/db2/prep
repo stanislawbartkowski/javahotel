@@ -1,0 +1,4 @@
+db2 connect to sample user db2inst1 using db2inst1
+db2 prep $1.sqc bindfile SQLWARN NO
+db2 connect reset
+db2 terminate
