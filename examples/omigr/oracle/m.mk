@@ -15,8 +15,8 @@ all: $(PROCDEMO)
 main.o : ../main.c ../utillib.h
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c ../main.c
 
-$(PROCDEMO) : main.o utillib.o
+$(PROCDEMO) : main.o utillib.o calculate.o callproc.o
 
 .pc.c :
-	$(PROC) $*
+	$(PROC) $* SQLCHECK=SEMANTICS userid="test/test@mytest"
 	
