@@ -1,0 +1,65 @@
+/*
+    Copyright 2015 stanislawbartkowski@fmail.com
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
+
+#include <stdio.h>
+#include <string.h>
+#include <sqlca.h>
+#include <stdlib.h>
+#include <sqlda.h>
+#include <sqlcpr.h>
+
+#include "../utillib.h"
+#include "oracleutil.h"
+
+int CallProc(int *res,char* sou) {
+  
+  int failed = 0;  
+  
+  printf("Call SP for %s\n",sou);
+
+  EXEC SQL WHENEVER SQLERROR DO sql_error("Call SP",&failed);
+  
+  EXEC SQL EXECUTE
+  BEGIN
+    SIMPLEPROC( :res, to_number( :sou ) );
+  END;
+  END-EXEC;
+
+  if (failed) return 0; 
+  
+  return 1;
+
+}
+
+int CallFunc(int *res, int par) {
+  int failed = 0;  
+  
+  printf("Call Func for %u\n",par);
+
+  EXEC SQL WHENEVER SQLERROR DO sql_error("Call UDF",&failed);
+  
+  EXEC SQL EXECUTE
+  BEGIN
+    :res := RETPROC( :par );
+  END;
+  END-EXEC;
+  
+  if (failed) return 0; 
+  
+  return 1;
+
+}
+  

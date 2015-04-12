@@ -34,4 +34,35 @@ void ConnectTo();
 */
 void Disconnect();
 
+struct retinfo {
+  int keyid;
+  int no;
+} retinfo;  
+  
+
+
+/*
+ * Calculates sum for keyid
+ * @param keyid 
+ * @return 0 if error, 1 if ok and *sum contains sum retrieved
+*/
+int  CalculateSum(float *sum,int keyid,struct retinfo *ret);
+
+
+/*
+ * Invokes SP
+ * @par s : string containing the number
+ * @par res : return value, integer values for s
+ * @return 0 if error, 1 if ok 
+*/
+int CallProc(int *res,char *s);
+
+/*
+ * Invokes UDF
+ * @par par : value
+ * @par res : return value from UDF, the same as par
+ * @return 0 if error, 1 if ok 
+*/
+int CallFunc(int *res, int par);
+
 #endif

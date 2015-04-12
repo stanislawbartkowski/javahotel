@@ -11,10 +11,10 @@ GCC=gcc
 
 all: $(PROCDEMO)
 
-main.o : ../main.c ../utillib.h
+main.o : ../main.c ../utillib.h 
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c ../main.c
 	
-$(PROCDEMO) : main.o utillib.o	
+$(PROCDEMO) : main.o utillib.o calculate.o callproc.o
 
 .sqc.c :
 	./prep $*

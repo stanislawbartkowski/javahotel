@@ -25,6 +25,7 @@
 #include <sqlda.h>
 #include <sqlcpr.h>
 
+#include "oracleutil.h"
 #include "../utillib.h"
 
 static char * connection = "test/test@think:1521/testdb";

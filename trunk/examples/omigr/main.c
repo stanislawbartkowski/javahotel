@@ -17,7 +17,46 @@
 #include "utillib.h"
 
 void main() {
+  
+  
   ConnectTo();
+
+  {
+    float sum;
+    struct retinfo ret;
+    
+    if (CalculateSum(&sum,10,&ret)) {
+      printf("Calculated sum : %f\n",sum);
+      printf("Id: %u no : %u \n",ret.keyid,ret.no);
+    }
+    else {
+       printf("Something wrong with sum\n");
+       Disconnect();
+       exit(1);
+    }
+  }  
+  
+  {
+      int res;
+      if (CallProc(&res,"234")) printf("CallProc res=%u\n",res);
+      else {
+       printf("Something wrong with CallProc\n");
+       Disconnect();
+       exit(1);
+    }
+  }  
+  
+  {
+      int res;
+      
+      if (CallFunc(&res,55)) printf("CallFunc res=%u\n",res);
+      else {
+	printf("Something wrong with CallFunc\n");
+	Disconnect();
+	exit(1);
+      }
+  }
+  
   Disconnect();
   printf("\n");
 }
