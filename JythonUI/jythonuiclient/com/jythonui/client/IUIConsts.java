@@ -14,89 +14,94 @@ package com.jythonui.client;
 
 public interface IUIConsts {
 
-    String JYTHONCONTINUE = "JYTHONCONTINUE";
+	String JYTHONCONTINUE = "JYTHONCONTINUE";
 
-    String CELL_COLUMN_WEEKEND = "weekend-cell-column";
-    String HEADER_WEEKEND = "header-date-weekend";
-    String CELL_COLUMN_TODAY = "today-cell-column";
-    String HEADER_TODAY = "header_date_today";
+	String CELL_COLUMN_WEEKEND = "weekend-cell-column";
+	String HEADER_WEEKEND = "header-date-weekend";
+	String CELL_COLUMN_TODAY = "today-cell-column";
+	String HEADER_TODAY = "header_date_today";
 
-    String JCHANGESIGNALBEFORE = "JLIST_EDIT_BEFORE";
+	String JCHANGESIGNALBEFORE = "JLIST_EDIT_BEFORE";
 
-    String BUTT_TOOLS = "TOOLS";
-    String BUTT_ADD = "ADD";
-    String BUTT_MODIF = "MODIF";
-    String BUTT_REMOVE = "REMOVE";
-    String BUTT_SHOW = "SHOW";
-    String BUTT_FIND = "FIND";
-    String BUTT_FILTER = "FILTER";
+	String JFOOTERCOPY = "JFOOTER_COPY_";
+	String JLISTEDIT = "JLIST_EDIT_";
+	String JDATELINE_GOTODATE = "JDATELINE_GOTO_";
+	String JREFRESHDATELINE = "JREFRESH_DATELINE_";
 
-    String JSADDTYPE = "_T";
+	String BUTT_TOOLS = "TOOLS";
+	String BUTT_ADD = "ADD";
+	String BUTT_MODIF = "MODIF";
+	String BUTT_REMOVE = "REMOVE";
+	String BUTT_SHOW = "SHOW";
+	String BUTT_FIND = "FIND";
+	String BUTT_FILTER = "FILTER";
 
-    String ALIGNL = "L";
-    String ALIGNR = "R";
-    String ALIGNC = "C";
+	String JSADDTYPE = "_T";
 
-    String APP_TITLE = "Title";
-    String APP_PRODUCTNAME = "ProductName";
-    String APP_OWNERNAME = "OwnerName";
-    String APP_VERSION = "Version";
-    String APP_PRODUCTIMAGE = "ProductImage";
+	String ALIGNL = "L";
+	String ALIGNR = "R";
+	String ALIGNC = "C";
 
-    String STARTPAGE = "Start";
-    String STARTPAGEQUERY = "start";
-    String STARTPAGES = "StartPages";
-    String NOCHARTSQUERY = "nocharts";
-    String NOCHARTSYES = "Y";
-    String LOGINDELIMITER = ",";
+	String APP_TITLE = "Title";
+	String APP_PRODUCTNAME = "ProductName";
+	String APP_OWNERNAME = "OwnerName";
+	String APP_VERSION = "Version";
+	String APP_PRODUCTIMAGE = "ProductImage";
 
-    String CRUD_ADD = "crud_add";
-    String CRUD_REMOVE = "crud_remove";
-    String CRUD_CHANGE = "crud_change";
-    String CRUD_SHOW = "crud_show";
-    String CRUD_READLIST = "crud_readlist";
-    String ENABLE = "enable";
+	String STARTPAGE = "Start";
+	String STARTPAGEQUERY = "start";
+	String STARTPAGES = "StartPages";
+	String NOCHARTSQUERY = "nocharts";
+	String NOCHARTSYES = "Y";
+	String LOGINDELIMITER = ",";
 
-    String JLIST_READCHUNK = "readchunk";
-    String JLIST_READCHUNKSTART = "JLIST_FROM";
-    String JLIST_READCHUNKLENGTH = "JLIST_LENGTH";
-    String JLIST_SORTLIST = "JLIST_SORTLIST";
-    String JLIST_SORTASC = "JLIST_SORTASC";
-    String JLIST_GETSIZE = "listgetsize";
-    String JSEARCH_FROM = "JSEARCH_FROM_";
-    String JSEARCH_TO = "JSEARCH_TO_";
-    String JSEARCH_EQ = "JSEARCH_EQ_";
-    String JFILTR_SEARCH = "JSEARCH_FILTR";
-    String JSEARCH_SET = "JSEARCH_SET_";
-    String JSEARCH_LIST_SET = "JSEARCH_LIST_SET_";
+	String CRUD_ADD = "crud_add";
+	String CRUD_REMOVE = "crud_remove";
+	String CRUD_CHANGE = "crud_change";
+	String CRUD_SHOW = "crud_show";
+	String CRUD_READLIST = "crud_readlist";
+	String ENABLE = "enable";
 
-    String JSETATTRCHECK = "JSETATTR_CHECKLIST_";
-    String JVALATTRCHECK = "JVALATTR_CHECKLIST_";
-    String JSETATTRBUTTON = "JSETATTR_BUTTON_";
-    String JSETATTRFIELD = "JSETATTR_FIELD_";
+	String JLIST_READCHUNK = "readchunk";
+	String JLIST_READCHUNKSTART = "JLIST_FROM";
+	String JLIST_READCHUNKLENGTH = "JLIST_LENGTH";
+	String JLIST_SORTLIST = "JLIST_SORTLIST";
+	String JLIST_SORTASC = "JLIST_SORTASC";
+	String JLIST_GETSIZE = "listgetsize";
+	String JSEARCH_FROM = "JSEARCH_FROM_";
+	String JSEARCH_TO = "JSEARCH_TO_";
+	String JSEARCH_EQ = "JSEARCH_EQ_";
+	String JFILTR_SEARCH = "JSEARCH_FILTR";
+	String JSEARCH_SET = "JSEARCH_SET_";
+	String JSEARCH_LIST_SET = "JSEARCH_LIST_SET_";
 
-    String DATELINE_STARTYEAR = "dateline_startyear";
-    String DATELINE_ENDYEAR = "dateline_endyear";
+	String JSETATTRCHECK = "JSETATTR_CHECKLIST_";
+	String JVALATTRCHECK = "JVALATTR_CHECKLIST_";
+	String JSETATTRBUTTON = "JSETATTR_BUTTON_";
+	String JSETATTRFIELD = "JSETATTR_FIELD_";
 
-    String JROWCOPY = "JROWCOPY_";
-    String JCOPY = "JCOPY_";
-    String JGLOBAL = "GLOBAL_";
+	String DATELINE_STARTYEAR = "dateline_startyear";
+	String DATELINE_ENDYEAR = "dateline_endyear";
 
-    String JCOOKIE = "JCOOKIE_";
-    String JCOOKIESET = "JCOOKIESET_";
+	String JROWCOPY = "JROWCOPY_";
+	String JCOPY = "JCOPY_";
+	String JGLOBAL = "GLOBAL_";
 
-    int DATELINE_STARTYEARDEFAULT = 2012;
-    int DATELINE_ENDYEARDEFAULT = 2020;
+	String JCOOKIE = "JCOOKIE_";
+	String JCOOKIESET = "JCOOKIESET_";
 
-    int PANELMENUDEFAW = 0;
-    int PANELMENUDEFAH = 10;
-    String PANELMENUNAME = "Down";
+	int DATELINE_STARTYEARDEFAULT = 2012;
+	int DATELINE_ENDYEARDEFAULT = 2020;
 
-    String UIVersion = "UI : 2015/01/25 (r:10)";
-    
-    String JBUTTONDIALOGSTART = "JUPDIALOG_START";
-    String JBUTTONDIALOGSTART1 = "JUPDIALOG_STARTPAR";
-    String JBUTTONDIALOGRES = "JUPDIALOG_RES";
-    String JBUTTONRES = "JUPDIALOG_BUTTON";
+	int PANELMENUDEFAW = 0;
+	int PANELMENUDEFAH = 10;
+	String PANELMENUNAME = "Down";
+
+	String UIVersion = "UI : 2015/04/19 (r:11)";
+
+	String JBUTTONDIALOGSTART = "JUPDIALOG_START";
+	String JBUTTONDIALOGSTART1 = "JUPDIALOG_STARTPAR";
+	String JBUTTONDIALOGRES = "JUPDIALOG_RES";
+	String JBUTTONRES = "JUPDIALOG_BUTTON";
 
 }

@@ -21,78 +21,84 @@ import com.gwtmodel.table.rdef.ITouchListener;
 
 class VLabel implements IFormLineView {
 
-    private final IVField v;
-    private final Label l = new Label();
+	private final IVField v;
+	private final Label l = new Label();
 
-    VLabel(IVField v, String displayName) {
-        this.v = v;
-        l.setText(displayName);
-    }
+	VLabel(IVField v, String displayName) {
+		this.v = v;
+		l.setText(displayName);
+	}
 
-    @Override
-    public IVField getV() {
-        return v;
-    }
+	@Override
+	public IVField getV() {
+		return v;
+	}
 
-    @Override
-    public Object getValObj() {
-        return l.getText();
-    }
+	@Override
+	public Object getValObj() {
+		return l.getText();
+	}
 
-    @Override
-    public void setValObj(Object o) {
-        l.setText((String) o);
-    }
+	@Override
+	public void setValObj(Object o) {
+		l.setText((String) o);
+	}
 
-    @Override
-    public Widget getGWidget() {
-        return l;
-    }
+	@Override
+	public Widget getGWidget() {
+		return l;
+	}
 
-    @Override
-    public void addChangeListener(IFormChangeListener cListener) {
-    }
+	@Override
+	public void addChangeListener(IFormChangeListener cListener) {
+	}
 
-    @Override
-    public void setReadOnly(boolean readOnly) {
-    }
+	@Override
+	public void setReadOnly(boolean readOnly) {
+	}
 
-    @Override
-    public void setHidden(boolean hidden) {
-        l.setVisible(!hidden);
-    }
+	@Override
+	public void setHidden(boolean hidden) {
+		l.setVisible(!hidden);
+	}
 
-    @Override
-    public boolean isHidden() {
-        return !l.isVisible();
-    }
+	@Override
+	public boolean isHidden() {
+		return !l.isVisible();
+	}
 
-    @Override
-    public void setInvalidMess(String errmess) {
-    }
+	@Override
+	public void setInvalidMess(String errmess) {
+	}
 
-    @Override
-    public void setGStyleName(String styleMess, boolean set) {
-    }
+	@Override
+	public void setGStyleName(String styleMess, boolean set) {
+	}
 
-    @Override
-    public void setOnTouch(ITouchListener lTouch) {
-    }
+	@Override
+	public void setOnTouch(ITouchListener lTouch) {
+	}
 
-    @Override
-    public int getChooseResult() {
-        return 0;
-    }
+	@Override
+	public int getChooseResult() {
+		return 0;
+	}
 
-    @Override
-    public String getHtmlName() {
-        return v.getId();
-    }
+	@Override
+	public String getHtmlName() {
+		return v.getId();
+	}
 
-    @Override
-    public void setAttr(String attrName, String attrValue) {
-        // TODO Auto-generated method stub
+	@Override
+	public void setAttr(String attrName, String attrValue) {
+		// TODO Auto-generated method stub
 
-    }
+	}
+
+	@Override
+	public void setCellTitle(String title) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

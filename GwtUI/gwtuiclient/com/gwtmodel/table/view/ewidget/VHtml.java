@@ -94,4 +94,10 @@ class VHtml implements IFormLineView {
 
     }
 
+	@Override
+	public void setCellTitle(String title) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

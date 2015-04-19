@@ -284,6 +284,7 @@
 			<xs:element minOccurs="0" name="spinnermin" type="integerTypeOrFun" />
 			<xs:element minOccurs="0" name="spinnermax" type="integerTypeOrFun" />
 			<xs:element minOccurs="0" name="vislines" type="xs:nonNegativeInteger" />
+			<xs:element minOccurs="0" name="celltitle" type="xs:string" />
 		</xs:sequence>
 	</xs:group>
 
@@ -322,6 +323,7 @@
 		<xs:attribute name="spinnermin" type="integerTypeOrFun" />
 		<xs:attribute name="spinnermax" type="integerTypeOrFun" />
 		<xs:attribute name="vislines" type="xs:nonNegativeInteger" />
+		<xs:attribute name="celltitle" type="xs:string" />
 	</xs:attributeGroup>
 
 	<xs:group name="checklistG">

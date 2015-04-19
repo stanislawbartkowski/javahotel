@@ -37,166 +37,166 @@ import com.gwtmodel.table.view.table.IGwtTableModel;
  */
 public abstract class PresentationCellHelper {
 
-    protected IGwtTableModel model = null;
-    protected final IGetCustomValues cValues = GwtGiniInjector.getI()
-            .getCustomValues();
-    protected final IWebPanelResources pResources = GwtGiniInjector.getI()
-            .getWebPanelResources();
-    protected final DateTimeFormat fo = DateTimeFormat.getFormat(cValues
-            .getCustomValue(IGetCustomValues.DATEFORMAT));
-    protected static final SafeHtml INPUT_CHECKED = SafeHtmlUtils
-            .fromSafeConstant("<input type=\"checkbox\" tabindex=\"-1\" disabled=\"disabled\" checked/>");
-    protected static final SafeHtml INPUT_UNCHECKED = SafeHtmlUtils
-            .fromSafeConstant("<input type=\"checkbox\" disabled=\"disabled\" tabindex=\"-1\"/>");
-    protected final NumberCell iCell = new NumberCell(
-            NumberFormat.getFormat(getNumberFormat(0)));
-    protected final NumberCell nCell1 = new NumberCell(
-            NumberFormat.getFormat(getNumberFormat(1)));
-    protected final NumberCell nCell2 = new NumberCell(
-            NumberFormat.getFormat(getNumberFormat(2)));
-    protected final NumberCell nCell3 = new NumberCell(
-            NumberFormat.getFormat(getNumberFormat(3)));
-    protected final NumberCell nCell4 = new NumberCell(
-            NumberFormat.getFormat(getNumberFormat(4)));
+	protected IGwtTableModel model = null;
+	protected final IGetCustomValues cValues = GwtGiniInjector.getI()
+			.getCustomValues();
+	protected final IWebPanelResources pResources = GwtGiniInjector.getI()
+			.getWebPanelResources();
+	protected final DateTimeFormat fo = DateTimeFormat.getFormat(cValues
+			.getCustomValue(IGetCustomValues.DATEFORMAT));
+	protected static final SafeHtml INPUT_CHECKED = SafeHtmlUtils
+			.fromSafeConstant("<input type=\"checkbox\" tabindex=\"-1\" disabled=\"disabled\" checked/>");
+	protected static final SafeHtml INPUT_UNCHECKED = SafeHtmlUtils
+			.fromSafeConstant("<input type=\"checkbox\" disabled=\"disabled\" tabindex=\"-1\"/>");
+	protected final NumberCell iCell = new NumberCell(
+			NumberFormat.getFormat(getNumberFormat(0)));
+	protected final NumberCell nCell1 = new NumberCell(
+			NumberFormat.getFormat(getNumberFormat(1)));
+	protected final NumberCell nCell2 = new NumberCell(
+			NumberFormat.getFormat(getNumberFormat(2)));
+	protected final NumberCell nCell3 = new NumberCell(
+			NumberFormat.getFormat(getNumberFormat(3)));
+	protected final NumberCell nCell4 = new NumberCell(
+			NumberFormat.getFormat(getNumberFormat(4)));
 
-    public void setGModel(IGwtTableModel model) {
-        this.model = model;
-    }
+	public void setGModel(IGwtTableModel model) {
+		this.model = model;
+	}
 
-    protected String getS(String value) {
-        return value == null ? "" : value;
-    }
+	protected String getS(String value) {
+		return value == null ? "" : value;
+	}
 
-    protected class CheckBoxColumn extends Column<MutableInteger, Boolean> {
+	protected class CheckBoxColumn extends Column<MutableInteger, Boolean> {
 
-        private final IVField iF;
+		private final IVField iF;
 
-        public CheckBoxColumn(Cell<Boolean> cell, IVField iF) {
-            super(cell);
-            this.iF = iF;
-        }
+		public CheckBoxColumn(Cell<Boolean> cell, IVField iF) {
+			super(cell);
+			this.iF = iF;
+		}
 
-        @Override
-        public Boolean getValue(MutableInteger object) {
-            IVModelData vData = model.get(object.intValue());
-            Boolean b = FUtils.getValueBoolean(vData, iF);
-            return b;
-        }
-    }
+		@Override
+		public Boolean getValue(MutableInteger object) {
+			IVModelData vData = model.get(object.intValue());
+			Boolean b = FUtils.getValueBoolean(vData, iF);
+			return b;
+		}
+	}
 
-    protected class DateColumn extends Column<MutableInteger, Date> {
+	protected class DateColumn extends Column<MutableInteger, Date> {
 
-        private final IVField v;
+		private final IVField v;
 
-        public DateColumn(IVField v, Cell<Date> ce) {
-            super(ce);
-            this.v = v;
-        }
+		public DateColumn(IVField v, Cell<Date> ce) {
+			super(ce);
+			this.v = v;
+		}
 
-        @Override
-        public Date getValue(MutableInteger object) {
-            IVModelData vData = model.get(object.intValue());
-            return FUtils.getValueDate(vData, v);
-        }
-    }
+		@Override
+		public Date getValue(MutableInteger object) {
+			IVModelData vData = model.get(object.intValue());
+			return FUtils.getValueDate(vData, v);
+		}
+	}
 
-    protected String getNumberFormat(int afterdot) {
-        String defaFormat;
-        String parName;
-        switch (afterdot) {
-        case 0:
-            defaFormat = "####0";
-            parName = IGetCustomValues.NUMBERFORMAT0;
-            break;
-        case 1:
-            defaFormat = "##########0.0";
-            parName = IGetCustomValues.NUMBERFORMAT1;
-            break;
-        case 2:
-            defaFormat = "##########0.00";
-            parName = IGetCustomValues.NUMBERFORMAT2;
-            break;
-        case 3:
-            defaFormat = "##########0.000";
-            parName = IGetCustomValues.NUMBERFORMAT3;
-            break;
-        default:
-            defaFormat = "##########0.0000";
-            parName = IGetCustomValues.NUMBERFORMAT4;
-            break;
-        }
-        String forma = cValues.getCustomValue(parName);
-        if (forma == null) {
-            forma = defaFormat;
-        }
-        return forma;
-    }
+	protected String getNumberFormat(int afterdot) {
+		String defaFormat;
+		String parName;
+		switch (afterdot) {
+		case 0:
+			defaFormat = "####0";
+			parName = IGetCustomValues.NUMBERFORMAT0;
+			break;
+		case 1:
+			defaFormat = "##########0.0";
+			parName = IGetCustomValues.NUMBERFORMAT1;
+			break;
+		case 2:
+			defaFormat = "##########0.00";
+			parName = IGetCustomValues.NUMBERFORMAT2;
+			break;
+		case 3:
+			defaFormat = "##########0.000";
+			parName = IGetCustomValues.NUMBERFORMAT3;
+			break;
+		default:
+			defaFormat = "##########0.0000";
+			parName = IGetCustomValues.NUMBERFORMAT4;
+			break;
+		}
+		String forma = cValues.getCustomValue(parName);
+		if (forma == null) {
+			forma = defaFormat;
+		}
+		return forma;
+	}
 
-    protected class NumberColumn extends Column<MutableInteger, Number> {
+	protected class NumberColumn extends Column<MutableInteger, Number> {
 
-        protected final IVField v;
+		protected final IVField v;
 
-        public NumberColumn(Cell<Number> n, IVField v) {
-            super(n);
-            this.v = v;
-        }
+		public NumberColumn(Cell<Number> n, IVField v) {
+			super(n);
+			this.v = v;
+		}
 
-        @Override
-        public Number getValue(MutableInteger object) {
-            IVModelData vData = model.get(object.intValue());
-            BigDecimal b = FUtils.getValueBigDecimal(vData, v);
-            return b;
-        }
-    }
+		@Override
+		public Number getValue(MutableInteger object) {
+			IVModelData vData = model.get(object.intValue());
+			BigDecimal b = FUtils.getValueBigDecimal(vData, v);
+			return b;
+		}
+	}
 
-    protected class GLongColumn extends Column<MutableInteger, Number> {
+	protected class GLongColumn extends Column<MutableInteger, Number> {
 
-        private final IVField v;
+		private final IVField v;
 
-        GLongColumn(Cell<Number> c, IVField v) {
-            super(c);
-            this.v = v;
-        }
+		GLongColumn(Cell<Number> c, IVField v) {
+			super(c);
+			this.v = v;
+		}
 
-        @Override
-        public Long getValue(MutableInteger object) {
-            IVModelData vData = model.get(object.intValue());
-            return FUtils.getValueLong(vData, v);
-        }
-    }
+		@Override
+		public Long getValue(MutableInteger object) {
+			IVModelData vData = model.get(object.intValue());
+			return FUtils.getValueLong(vData, v);
+		}
+	}
 
-    protected class LongColumn extends GLongColumn {
+	protected class LongColumn extends GLongColumn {
 
-        public LongColumn(IVField v) {
-            super(iCell, v);
-        }
-    }
+		public LongColumn(IVField v) {
+			super(iCell, v);
+		}
+	}
 
-    protected class IntegerColumn extends GIntegerColumn {
+	protected class IntegerColumn extends GIntegerColumn {
 
-        public IntegerColumn(IVField v) {
-            super(iCell, v);
-        }
+		public IntegerColumn(IVField v) {
+			super(iCell, v);
+		}
 
-    }
+	}
 
-    protected class GIntegerColumn extends Column<MutableInteger, Number> {
+	protected class GIntegerColumn extends Column<MutableInteger, Number> {
 
-        private final IVField v;
+		private final IVField v;
 
-        GIntegerColumn(Cell<Number> c, IVField v) {
-            super(c);
-            this.v = v;
-        }
+		GIntegerColumn(Cell<Number> c, IVField v) {
+			super(c);
+			this.v = v;
+		}
 
-        @Override
-        public Number getValue(MutableInteger object) {
-            IVModelData vData = model.get(object.intValue());
-            Integer val = FUtils.getValueInteger(vData, v);
-            if (val == null)
-                return null;
-            return new BigDecimal(val);
-        }
-    }
+		@Override
+		public Number getValue(MutableInteger object) {
+			IVModelData vData = model.get(object.intValue());
+			Integer val = FUtils.getValueInteger(vData, v);
+			if (val == null)
+				return null;
+			return new BigDecimal(val);
+		}
+	}
 
 }

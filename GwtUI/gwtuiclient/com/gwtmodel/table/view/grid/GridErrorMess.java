@@ -20,27 +20,27 @@ import com.gwtmodel.table.InvalidateMess;
  */
 public class GridErrorMess extends InvalidateMess {
 
-    private final int row;
-    private final int col;
+	private final int row;
+	private final int col;
 
-    public GridErrorMess(int row, int col, String errMess) {
-        super(null, errMess == null, errMess);
-        this.row = row;
-        this.col = col;
-    }
+	public GridErrorMess(int row, int col, String errMess) {
+		super(null, errMess == null, errMess);
+		this.row = row;
+		this.col = col;
+	}
 
-    /**
-     * @return the row
-     */
-    int getRow() {
-        return row;
-    }
+	/**
+	 * @return the row
+	 */
+	int getRow() {
+		return row;
+	}
 
-    /**
-     * @return the col
-     */
-    int getCol() {
-        return col;
-    }
+	/**
+	 * @return the col
+	 */
+	int getCol() {
+		return col;
+	}
 
 }

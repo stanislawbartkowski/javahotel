@@ -36,6 +36,9 @@ def enableField(var,li,enable=True) :
     for fieldid in li : 
         var["JSETATTR_FIELD_"+fieldid+"_enable"] = enable
         
+def cellTitle(var,id,title) :
+    var["JSETATTR_FIELD_" + id + "_celltitle"] = title        
+        
 def enableButton(var,li,enable=True) :
     if type(li) != list : li = [li]
     for buttid in li :

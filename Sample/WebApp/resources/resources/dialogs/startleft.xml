@@ -21,6 +21,8 @@
   <button id="jsdialog1" displayname="Dialog with JS partial" actiontype="JMAIN_DIALOG" actionparam="jsdialogpartial.xml" />  
   <button id="jsdialog2" displayname="Dialog with JS change" actiontype="JMAIN_DIALOG" actionparam="jsdialogchange.xml" />  
   <button id="labelfordialog" displayname="Html label for" actiontype="JMAIN_DIALOG" actionparam="labelfordialog.xml" />  
+  <button id="decimaldialog" displayname="Decimals" actiontype="JMAIN_DIALOG" actionparam="decimaldialog.xml" />  
+  <button id="titledialog" displayname="Dialog with titles" actiontype="JMAIN_DIALOG" actionparam="titledialog.xml" />  
   <button id="h1" displayname = "Status" header="" />  
   <button id="statustext" displayname="Status tekst" actiontype="JMAIN_DIALOG" actionparam="statusup.xml" />
   <button id="listfooter" displayname="List footer" actiontype="JMAIN_DIALOG" actionparam="listdeffooter.xml" />
@@ -37,6 +39,7 @@
   <button id="dialogurl" displayname="Url params" actiontype="JMAIN_DIALOG" actionparam="dialogurllist.xml" />
   <button id="listnumber" displayname="List with different numbers" actiontype="JMAIN_DIALOG" actionparam="differentnumbers.xml" />
   <button id="listnowrap" displayname="List no wrap" actiontype="JMAIN_DIALOG" actionparam="listnowrap.xml" />
+  <button id="listfooterdecimal" displayname="List footer" actiontype="JMAIN_DIALOG" actionparam="listfooterdecimal.xml" />
   <button id="c" displayname = "Charts" header="" />  
   <button id="dialogchart" displayname="Pie chart" actiontype="JMAIN_DIALOG" actionparam="dialogchart.xml" />
   <button id="dialogarea" displayname="Area chart" actiontype="JMAIN_DIALOG" actionparam="dialogarea.xml" />

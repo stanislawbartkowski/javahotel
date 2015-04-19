@@ -24,254 +24,258 @@ import com.gwtmodel.table.common.TT;
  */
 public class FieldItem extends ElemDescription {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private static final Set<String> stringType = new HashSet<String>();
+	private static final Set<String> stringType = new HashSet<String>();
 
-    static {
-        stringType.add(ICommonConsts.EMAILTYPE);
-        stringType.add(ICommonConsts.STRINGTYPE);
-        stringType.add(ICommonConsts.TEXTAREA);
-        stringType.add(ICommonConsts.RICHTEXT);
-        stringType.add(ICommonConsts.UPLOADTYPE);
-        stringType.add(ICommonConsts.DOWNLOADTYPE);
-        stringType.add(ICommonConsts.HTMLTYPE);
-        stringType.add(ICommonConsts.PASSWORD);
-    }
+	static {
+		stringType.add(ICommonConsts.EMAILTYPE);
+		stringType.add(ICommonConsts.STRINGTYPE);
+		stringType.add(ICommonConsts.TEXTAREA);
+		stringType.add(ICommonConsts.RICHTEXT);
+		stringType.add(ICommonConsts.UPLOADTYPE);
+		stringType.add(ICommonConsts.DOWNLOADTYPE);
+		stringType.add(ICommonConsts.HTMLTYPE);
+		stringType.add(ICommonConsts.PASSWORD);
+	}
 
-    public String getTypeName() {
-        return getAttr(ICommonConsts.TYPE);
-    }
+	public String getTypeName() {
+		return getAttr(ICommonConsts.TYPE);
+	}
 
-    public static int getAfterDot(String t) {
-        if (CUtil.EmptyS(t)) {
-            return ICommonConsts.DEFAULTAFTERDOT;
-        }
-        return CUtil.getNumb(t.trim());
-    }
+	public static int getAfterDot(String t) {
+		if (CUtil.EmptyS(t)) {
+			return ICommonConsts.DEFAULTAFTERDOT;
+		}
+		return CUtil.getNumb(t.trim());
+	}
 
-    public int getAfterDot() {
-        return getAfterDot(getAttr(ICommonConsts.AFTERDOT));
-    }
+	public int getAfterDot() {
+		return getAfterDot(getAttr(ICommonConsts.AFTERDOT));
+	}
 
-    public static String getCustomT(String t) {
-        int p = t.indexOf(ICommonConsts.CUSTOMTYPE);
-        if (p != 0) {
-            return null;
-        }
-        return t.substring(ICommonConsts.CUSTOMTYPE.length());
-    }
+	public static String getCustomT(String t) {
+		int p = t.indexOf(ICommonConsts.CUSTOMTYPE);
+		if (p != 0) {
+			return null;
+		}
+		return t.substring(ICommonConsts.CUSTOMTYPE.length());
+	}
 
-    public String getCustom() {
-        String t = getTypeName();
-        if (CUtil.EmptyS(t)) {
-            return null;
-        }
-        return getCustomT(t);
-    }
+	public String getCustom() {
+		String t = getTypeName();
+		if (CUtil.EmptyS(t)) {
+			return null;
+		}
+		return getCustomT(t);
+	}
 
-    private TT getFieldType(String t) {
-        if (CUtil.EmptyS(t) || stringType.contains(t))
-            return TT.STRING;
-        if (getCustom() != null) {
-            return TT.STRING;
-        }
-        if (CUtil.EqNS(t, ICommonConsts.BOOLTYPE)) {
-            return TT.BOOLEAN;
-        }
-        if (CUtil.EqNS(t, ICommonConsts.DATETIMETYPE)) {
-            return TT.DATETIME;
-        }
-        if (CUtil.EqNS(t, ICommonConsts.DATETYPE)) {
-            return TT.DATE;
-        }
-        if (CUtil.EqNS(t, ICommonConsts.LONGTYPE)) {
-            return TT.LONG;
-        }
-        if (CUtil.EqNS(t, ICommonConsts.INTTYPE)) {
-            return TT.INT;
-        }
-        if (CUtil.EqNS(t, ICommonConsts.SPINNERTYPE)) {
-            return TT.INT;
-        }
-        if (CUtil.EqNS(t, ICommonConsts.DECIMALTYPE)) {
-            return TT.BIGDECIMAL;
-        }
-        throw new JythonUIFatal(t + " unexpected type name");
-    }
+	private TT getFieldType(String t) {
+		if (CUtil.EmptyS(t) || stringType.contains(t))
+			return TT.STRING;
+		if (getCustom() != null) {
+			return TT.STRING;
+		}
+		if (CUtil.EqNS(t, ICommonConsts.BOOLTYPE)) {
+			return TT.BOOLEAN;
+		}
+		if (CUtil.EqNS(t, ICommonConsts.DATETIMETYPE)) {
+			return TT.DATETIME;
+		}
+		if (CUtil.EqNS(t, ICommonConsts.DATETYPE)) {
+			return TT.DATE;
+		}
+		if (CUtil.EqNS(t, ICommonConsts.LONGTYPE)) {
+			return TT.LONG;
+		}
+		if (CUtil.EqNS(t, ICommonConsts.INTTYPE)) {
+			return TT.INT;
+		}
+		if (CUtil.EqNS(t, ICommonConsts.SPINNERTYPE)) {
+			return TT.INT;
+		}
+		if (CUtil.EqNS(t, ICommonConsts.DECIMALTYPE)) {
+			return TT.BIGDECIMAL;
+		}
+		throw new JythonUIFatal(t + " unexpected type name");
+	}
 
-    public TT getFieldType() {
-        return getFieldType(getTypeName());
-    }
+	public TT getFieldType() {
+		return getFieldType(getTypeName());
+	}
 
-    public boolean isNotEmpty() {
-        return isAttr(ICommonConsts.NOTEMPTY);
-    }
+	public boolean isNotEmpty() {
+		return isAttr(ICommonConsts.NOTEMPTY);
+	}
 
-    public boolean isHidden() {
-        return isAttr(ICommonConsts.HIDDEN);
-    }
+	public boolean isHidden() {
+		return isAttr(ICommonConsts.HIDDEN);
+	}
 
-    private boolean isType(String val) {
-        return CUtil.EqNS(getTypeName(), val);
-    }
+	private boolean isType(String val) {
+		return CUtil.EqNS(getTypeName(), val);
+	}
 
-    public boolean isUploadType() {
-        return isType(ICommonConsts.UPLOADTYPE);
-    }
+	public boolean isUploadType() {
+		return isType(ICommonConsts.UPLOADTYPE);
+	}
 
-    public boolean isEmailType() {
-        return isType(ICommonConsts.EMAILTYPE);
-    }
+	public boolean isEmailType() {
+		return isType(ICommonConsts.EMAILTYPE);
+	}
 
-    public boolean isDownloadType() {
-        return isType(ICommonConsts.DOWNLOADTYPE);
-    }
+	public boolean isDownloadType() {
+		return isType(ICommonConsts.DOWNLOADTYPE);
+	}
 
-    public boolean isHtmlType() {
-        return isType(ICommonConsts.HTMLTYPE);
-    }
+	public boolean isHtmlType() {
+		return isType(ICommonConsts.HTMLTYPE);
+	}
 
-    public boolean isReadOnlyAdd() {
-        return isAttr(ICommonConsts.READONLYADD);
-    }
+	public boolean isReadOnlyAdd() {
+		return isAttr(ICommonConsts.READONLYADD);
+	}
 
-    public boolean isReadOnlyChange() {
-        return isAttr(ICommonConsts.READONLYCHANGE);
-    }
+	public boolean isReadOnlyChange() {
+		return isAttr(ICommonConsts.READONLYCHANGE);
+	}
 
-    public String getActionId() {
-        return getAttr(ICommonConsts.ACTIONID);
-    }
+	public String getActionId() {
+		return getAttr(ICommonConsts.ACTIONID);
+	}
 
-    public boolean isSignalChange() {
-        return isAttr(ICommonConsts.SIGNALCHANGE);
-    }
+	public boolean isSignalChange() {
+		return isAttr(ICommonConsts.SIGNALCHANGE);
+	}
 
-    public boolean isHelper() {
-        return isAttr(ICommonConsts.HELPER);
-    }
+	public boolean isHelper() {
+		return isAttr(ICommonConsts.HELPER);
+	}
 
-    public boolean isHelperRefresh() {
-        return isAttr(ICommonConsts.HELPERREFRESH);
-    }
+	public boolean isHelperRefresh() {
+		return isAttr(ICommonConsts.HELPERREFRESH);
+	}
 
-    public boolean isTextArea() {
-        return isType(ICommonConsts.TEXTAREA);
-    }
+	public boolean isTextArea() {
+		return isType(ICommonConsts.TEXTAREA);
+	}
 
-    public boolean isSpinner() {
-        return isType(ICommonConsts.SPINNERTYPE);
-    }
+	public boolean isSpinner() {
+		return isType(ICommonConsts.SPINNERTYPE);
+	}
 
-    public boolean isRichText() {
-        return isType(ICommonConsts.RICHTEXT);
-    }
+	public boolean isRichText() {
+		return isType(ICommonConsts.RICHTEXT);
+	}
 
-    public boolean isPassword() {
-        return isType(ICommonConsts.PASSWORD);
-    }
+	public boolean isPassword() {
+		return isType(ICommonConsts.PASSWORD);
+	}
 
-    public String getFrom() {
-        return getAttr(ICommonConsts.FROM);
-    }
+	public String getFrom() {
+		return getAttr(ICommonConsts.FROM);
+	}
 
-    public String getVisLines() {
-        return getAttr(ICommonConsts.VISLINES);
-    }
+	public String getVisLines() {
+		return getAttr(ICommonConsts.VISLINES);
+	}
 
-    public String getAlign() {
-        return getAttr(ICommonConsts.ALIGN);
-    }
+	public String getAlign() {
+		return getAttr(ICommonConsts.ALIGN);
+	}
 
-    public String getDefValue() {
-        return getAttr(ICommonConsts.DEFVALUE);
-    }
+	public String getDefValue() {
+		return getAttr(ICommonConsts.DEFVALUE);
+	}
 
-    public boolean isDefValue() {
-        return isAttr(ICommonConsts.DEFVALUE);
-    }
+	public boolean isDefValue() {
+		return isAttr(ICommonConsts.DEFVALUE);
+	}
 
-    public boolean isFooter() {
-        return isAttr(ICommonConsts.FOOTER);
-    }
+	public boolean isFooter() {
+		return isAttr(ICommonConsts.FOOTER);
+	}
 
-    public boolean isColumnEditable() {
-        return isAttr(ICommonConsts.EDITCOL);
-    }
+	public boolean isColumnEditable() {
+		return isAttr(ICommonConsts.EDITCOL);
+	}
 
-    public boolean isSignalBefore() {
-        return isAttr(ICommonConsts.SIGNALBEFORE);
-    }
+	public boolean isSignalBefore() {
+		return isAttr(ICommonConsts.SIGNALBEFORE);
+	}
 
-    public TT getFooterType() {
-        String tName = getAttr(ICommonConsts.FOOTERTYPE);
-        if (CUtil.EmptyS(tName))
-            tName = getTypeName();
-        return getFieldType(tName);
-    }
+	public TT getFooterType() {
+		String tName = getAttr(ICommonConsts.FOOTERTYPE);
+		if (CUtil.EmptyS(tName))
+			tName = getTypeName();
+		return getFieldType(tName);
+	}
 
-    public String getFooterAlign() {
-        if (isAttr(ICommonConsts.FOOTERALIGN))
-            return getAttr(ICommonConsts.FOOTERALIGN);
-        return getAlign();
-    }
+	public String getFooterAlign() {
+		if (isAttr(ICommonConsts.FOOTERALIGN))
+			return getAttr(ICommonConsts.FOOTERALIGN);
+		return getAlign();
+	}
 
-    public int getFooterAfterDot() {
-        String a = getAttr(getAttr(ICommonConsts.FOOTERAFTERDOT));
-        if (CUtil.EmptyS(a))
-            a = getAttr(ICommonConsts.AFTERDOT);
-        return getAfterDot(a);
-    }
+	public int getFooterAfterDot() {
+		String a = getAttr(getAttr(ICommonConsts.FOOTERAFTERDOT));
+		if (CUtil.EmptyS(a))
+			a = getAttr(ICommonConsts.AFTERDOT);
+		return getAfterDot(a);
+	}
 
-    public boolean isImageColumn() {
-        return isAttr(ICommonConsts.IMAGECOLUMN);
-    }
+	public String getCellTitle() {
+		return getAttr(ICommonConsts.CELLTITLE);
+	}
 
-    public int getImageColumn() {
-        String t = getAttr(ICommonConsts.IMAGECOLUMN);
-        if (CUtil.EmptyS(t)) {
-            return 1;
-        }
-        return CUtil.getNumb(t.trim());
-    }
+	public boolean isImageColumn() {
+		return isAttr(ICommonConsts.IMAGECOLUMN);
+	}
 
-    public String getImageList() {
-        return getAttr(ICommonConsts.IMAGELIST);
-    }
+	public int getImageColumn() {
+		String t = getAttr(ICommonConsts.IMAGECOLUMN);
+		if (CUtil.EmptyS(t)) {
+			return 1;
+		}
+		return CUtil.getNumb(t.trim());
+	}
 
-    public String getEditCss() {
-        return getAttr(ICommonConsts.EDITCSS);
-    }
+	public String getImageList() {
+		return getAttr(ICommonConsts.IMAGELIST);
+	}
 
-    public String getEditClass() {
-        return getAttr(ICommonConsts.EDITCLASS);
-    }
+	public String getEditCss() {
+		return getAttr(ICommonConsts.EDITCSS);
+	}
 
-    public boolean isLabel() {
-        return isAttr(ICommonConsts.LABEL);
-    }
+	public String getEditClass() {
+		return getAttr(ICommonConsts.EDITCLASS);
+	}
 
-    public String getColumnClass() {
-        return getAttr(ICommonConsts.COLUMNCLASS);
-    }
+	public boolean isLabel() {
+		return isAttr(ICommonConsts.LABEL);
+	}
 
-    public String getHeaderClass() {
-        return getAttr(ICommonConsts.HEADERCLASS);
-    }
+	public String getColumnClass() {
+		return getAttr(ICommonConsts.COLUMNCLASS);
+	}
 
-    public int getSpinnerMin() {
-        if (isAttr(ICommonConsts.SPINNERMIN))
-            return Integer.parseInt(getAttr(ICommonConsts.SPINNERMIN));
-        else
-            return ICommonConsts.DEFAULTSPINNERMIN;
-    }
+	public String getHeaderClass() {
+		return getAttr(ICommonConsts.HEADERCLASS);
+	}
 
-    public int getSpinnerMax() {
-        if (isAttr(ICommonConsts.SPINNERMAX))
-            return Integer.parseInt(getAttr(ICommonConsts.SPINNERMAX));
-        else
-            return ICommonConsts.DEFAULTSPINNERMAX;
-    }
+	public int getSpinnerMin() {
+		if (isAttr(ICommonConsts.SPINNERMIN))
+			return Integer.parseInt(getAttr(ICommonConsts.SPINNERMIN));
+		else
+			return ICommonConsts.DEFAULTSPINNERMIN;
+	}
+
+	public int getSpinnerMax() {
+		if (isAttr(ICommonConsts.SPINNERMAX))
+			return Integer.parseInt(getAttr(ICommonConsts.SPINNERMAX));
+		else
+			return ICommonConsts.DEFAULTSPINNERMAX;
+	}
 
 }

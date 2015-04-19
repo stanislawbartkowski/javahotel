@@ -12,8 +12,11 @@
  */
 package com.gwtmodel.table.view.table;
 
+import java.math.BigDecimal;
+
 import com.google.gwt.cell.client.SafeHtmlCell;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.safehtml.client.SafeHtmlTemplates;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.cellview.client.Header;
@@ -21,91 +24,105 @@ import com.google.gwt.user.cellview.client.SafeHtmlHeader;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.FieldDataType;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.common.TT;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.gwtmodel.table.tabledef.VFooterDesc;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
+import com.gwtmodel.table.view.table.util.PresentationCellHelper;
 
 /**
  * @author hotel
  * 
  */
-class PresentationFooterFactory {
+class PresentationFooterFactory extends PresentationCellHelper {
 
-    @SuppressWarnings("unused")
-    private final PresentationCellFactory cFactory;
-    private IVModelData footerV;
-    private IGetStandardMessage iMess = GwtGiniInjector.getI()
-            .getStandardMessage();
+	@SuppressWarnings("unused")
+	private final PresentationCellFactory cFactory;
+	private IVModelData footerV;
+	private IGetStandardMessage iMess = GwtGiniInjector.getI()
+			.getStandardMessage();
 
-    PresentationFooterFactory(PresentationCellFactory cFactory) {
-        this.cFactory = cFactory;
-    }
+	PresentationFooterFactory(PresentationCellFactory cFactory) {
+		this.cFactory = cFactory;
+	}
 
-    // center, left, right
-    interface InputTemplate extends SafeHtmlTemplates {
+	// center, left, right
+	interface InputTemplate extends SafeHtmlTemplates {
 
-        @SafeHtmlTemplates.Template("<p style=\"text-align:{0};\">{1}</p>")
-        SafeHtml input(String align, String value);
-    }
+		@SafeHtmlTemplates.Template("<p style=\"text-align:{0};\">{1}</p>")
+		SafeHtml input(String align, String value);
+	}
 
-    private InputTemplate headerInput = GWT.create(InputTemplate.class);
+	private InputTemplate headerInput = GWT.create(InputTemplate.class);
 
-    private SafeHtml getHtml(VListHeaderDesc.ColAlign align,
-            FieldDataType dType, String value) {
-        String ali = null;
-        switch (AlignCol.getCo(align, dType)) {
-        case LEFT:
-            ali = "left";
-            break;
-        case CENTER:
-            ali = "center";
-            break;
-        case RIGHT:
-            ali = "right";
-            break;
-        }
-        return headerInput.input(ali, value == null ? "" : value);
-    }
+	private SafeHtml getHtml(VListHeaderDesc.ColAlign align,
+			FieldDataType dType, String value) {
+		String ali = null;
+		switch (AlignCol.getCo(align, dType)) {
+		case LEFT:
+			ali = "left";
+			break;
+		case CENTER:
+			ali = "center";
+			break;
+		case RIGHT:
+			ali = "right";
+			break;
+		}
+		return headerInput.input(ali, value == null ? "" : value);
+	}
 
-    private class FooterH extends Header<SafeHtml> {
+	private class FooterH extends Header<SafeHtml> {
 
-        private final VFooterDesc he;
+		private final VFooterDesc he;
 
-        FooterH(VFooterDesc he) {
-            super(new SafeHtmlCell());
-            this.he = he;
-        }
+		FooterH(VFooterDesc he) {
+			super(new SafeHtmlCell());
+			this.he = he;
+		}
 
-        @Override
-        public SafeHtml getValue() {
-            if (footerV == null) {
-                return null;
-            }
-            Object o = footerV.getF(he.getFie());
-            String val = FUtils.getValueS(o, he.getfType().getType(), he
-                    .getfType().getAfterdot());
-            return getHtml(he.getAlign(), he.getfType(), val);
-        }
+		@Override
+		public SafeHtml getValue() {
+			if (footerV == null) {
+				return null;
+			}
+			Object o = footerV.getF(he.getFie());
+			String val;
+			if (he.getfType().getType() == TT.BIGDECIMAL) {
+				if (o == null)
+					val = "";
+				else {
+					BigDecimal b = (BigDecimal) o;
+					val = NumberFormat.getFormat(
+							getNumberFormat(he.getfType().getAfterdot()))
+							.format(b);
+				}
+			} else
+				val = FUtils.getValueS(o, he.getfType().getType(), he
+						.getfType().getAfterdot());
 
-    }
+			return getHtml(he.getAlign(), he.getfType(), val);
+		}
 
-    Header<?> constructHeader(VListHeaderDesc he) {
-        String headerText = iMess.getMessage(he.getHeaderString());
-        return new SafeHtmlHeader(getHtml(he.getAlign(), he.getFie().getType(),
-                headerText));
-    }
+	}
 
-    Header<?> constructFooter(VFooterDesc he) {
-        return new FooterH(he);
-    }
+	Header<?> constructHeader(VListHeaderDesc he) {
+		String headerText = iMess.getMessage(he.getHeaderString());
+		return new SafeHtmlHeader(getHtml(he.getAlign(), he.getFie().getType(),
+				headerText));
+	}
 
-    /**
-     * @param footerV
-     *            the footerV to set
-     */
-    void setFooterV(IVModelData footerV) {
-        this.footerV = footerV;
-    }
+	Header<?> constructFooter(VFooterDesc he) {
+		return new FooterH(he);
+	}
+
+	/**
+	 * @param footerV
+	 *            the footerV to set
+	 */
+	void setFooterV(IVModelData footerV) {
+		this.footerV = footerV;
+	}
 
 }

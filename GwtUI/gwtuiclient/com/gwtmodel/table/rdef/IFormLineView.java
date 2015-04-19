@@ -17,28 +17,30 @@ import com.gwtmodel.table.IGetSetVField;
 
 public interface IFormLineView extends IGetSetVField, IGWidget {
 
-    int NOCHOOSECHECK = 0;
-    int CHOOSECHECKTRUE = 1;
-    int CHOOSECHECKFALSE = 2;
+	int NOCHOOSECHECK = 0;
+	int CHOOSECHECKTRUE = 1;
+	int CHOOSECHECKFALSE = 2;
 
-    void addChangeListener(IFormChangeListener cListener);
+	void addChangeListener(IFormChangeListener cListener);
 
-    void setReadOnly(boolean readOnly);
+	void setReadOnly(boolean readOnly);
 
-    void setHidden(boolean hidden);
+	void setHidden(boolean hidden);
 
-    boolean isHidden();
+	boolean isHidden();
 
-    void setInvalidMess(String errmess);
+	void setInvalidMess(String errmess);
 
-    void setGStyleName(String styleMess, boolean set);
+	void setGStyleName(String styleMess, boolean set);
 
-    void setOnTouch(ITouchListener lTouch);
+	void setOnTouch(ITouchListener lTouch);
 
-    int getChooseResult();
+	int getChooseResult();
 
-    String getHtmlName();
+	String getHtmlName();
 
-    void setAttr(String attrName, String attrValue);
+	void setAttr(String attrName, String attrValue);
+
+	void setCellTitle(String title);
 
 }
