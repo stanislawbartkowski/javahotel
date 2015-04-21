@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+<displayname>Title dialog</displayname>
+
+<before/>
+
+ <jython>
+   <import>from testpack import titledialog</import>
+   <method>titledialog.dialogaction({0},{1})</method>
+ </jython>  
+
+<buttons>
+  <button id="res" displayname="@ok"/>
+</buttons>
+
+<form>
+   <field id="title1" displayname="Custom title hello" celltitle="Hello" />
+   <field id="title2" displayname="Custom title jython" />
+   <field id="title3" displayname="Set dynamically" celltitle="Start hello"/>
+</form>
+ 
+ 
+</dialog>
