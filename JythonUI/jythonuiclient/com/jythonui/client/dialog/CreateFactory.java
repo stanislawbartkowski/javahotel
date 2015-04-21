@@ -43,104 +43,104 @@ import com.jythonui.shared.TypedefDescr;
 
 public class CreateFactory {
 
-    private CreateFactory() {
-    }
+	private CreateFactory() {
+	}
 
-    static class FormFactory implements IDataFormConstructorAbstractFactory {
+	static class FormFactory implements IDataFormConstructorAbstractFactory {
 
-        public CType construct(ICallContext iContext) {
-            return new IDataFormConstructorAbstractFactory.CType();
-        }
-    }
+		public CType construct(ICallContext iContext) {
+			return new IDataFormConstructorAbstractFactory.CType();
+		}
+	}
 
-    static class PersistListFactory extends AbstractSlotContainer implements
-            IDataPersistListAction {
+	static class PersistListFactory extends AbstractSlotContainer implements
+			IDataPersistListAction {
 
-        private class ReadList implements ISlotListener {
+		private class ReadList implements ISlotListener {
 
-            private class ReadC extends CommonCallBack<DialogVariables> {
+			private class ReadC extends CommonCallBack<DialogVariables> {
 
-                @Override
-                public void onMySuccess(DialogVariables arg) {
-                    DataType d = (DataType) dType;
-                    String id = d.getId();
-                    String tType = FieldItem.getCustomT(id);
-                    ListOfRows liR = arg.getEnumList().get(tType);
-                    TypedefDescr te = d.getD().getD().findCustomType(tType);
-                    RowIndex rI = new RowIndex(te.getListOfColumns());
-                    IVField comboId = VField.construct(te.getComboId());
-                    IVField displayId = null;
-                    if (!CUtil.EmptyS(te.getDisplayName())) {
-                        displayId = VField.construct(te.getDisplayName());
-                    }
-                    IDataListType dList = JUtils.constructList(rI, liR,
-                            comboId, displayId);
-                    getSlContainer().publish(dType,
-                            DataActionEnum.ListReadSuccessSignal, dList);
-                    ListFormat l = new ListFormat();
-                    l.getColumns().addAll(te.getListOfColumns());
-                    l.setAttr(ICommonConsts.DISPLAYNAME, te.getDisplayName());
-                    VListHeaderContainer vHeader = CreateForm.constructColumns(
-                            l, null, null);
-                    publish(dType, vHeader);
-                }
+				@Override
+				public void onMySuccess(DialogVariables arg) {
+					DataType d = (DataType) dType;
+					String id = d.getId();
+					String tType = FieldItem.getCustomT(id);
+					ListOfRows liR = arg.getEnumList().get(tType);
+					TypedefDescr te = d.getD().getD().findCustomType(tType);
+					RowIndex rI = new RowIndex(te.getListOfColumns());
+					IVField comboId = VField.construct(te.getComboId());
+					IVField displayId = null;
+					if (!CUtil.EmptyS(te.getDisplayName())) {
+						displayId = VField.construct(te.getDisplayName());
+					}
+					IDataListType dList = JUtils.constructList(rI, liR,
+							comboId, displayId);
+					getSlContainer().publish(dType,
+							DataActionEnum.ListReadSuccessSignal, dList);
+					ListFormat l = new ListFormat();
+					l.getColumns().addAll(te.getListOfColumns());
+					l.setAttr(ICommonConsts.DISPLAYNAME, te.getDisplayName());
+					VListHeaderContainer vHeader = CreateForm.constructColumns(
+							dType, l, null, null);
+					publish(dType, vHeader);
+				}
 
-            }
+			}
 
-            @Override
-            public void signal(ISlotSignalContext slContext) {
-                DataType d = (DataType) dType;
-                String id = d.getId();
-                d.getD().executeAction(id, new ReadC());
-            }
+			@Override
+			public void signal(ISlotSignalContext slContext) {
+				DataType d = (DataType) dType;
+				String id = d.getId();
+				d.getD().executeAction(id, new ReadC());
+			}
 
-        }
+		}
 
-        PersistListFactory(IDataType dType) {
-            this.dType = dType;
-            this.getSlContainer().registerSubscriber(dType,
-                    DataActionEnum.ReadListAction, new ReadList());
-        }
+		PersistListFactory(IDataType dType) {
+			this.dType = dType;
+			this.getSlContainer().registerSubscriber(dType,
+					DataActionEnum.ReadListAction, new ReadList());
+		}
 
-    }
+	}
 
-    static class PersistDataAction implements IPersistFactoryAction {
+	static class PersistDataAction implements IPersistFactoryAction {
 
-        @Override
-        public IDataPersistAction construct(IDataType dType) {
-            // TODO Auto-generated method stub
-            return null;
-        }
+		@Override
+		public IDataPersistAction construct(IDataType dType) {
+			// TODO Auto-generated method stub
+			return null;
+		}
 
-        @Override
-        public IDataPersistListAction constructL(IDataType dType) {
-            return new PersistListFactory(dType);
-        }
+		@Override
+		public IDataPersistListAction constructL(IDataType dType) {
+			return new PersistListFactory(dType);
+		}
 
-    }
+	}
 
-    static class FormTitleFactory implements IFormTitleFactory {
+	static class FormTitleFactory implements IFormTitleFactory {
 
-        @Override
-        public String getFormTitle(ICallContext iContext) {
-            return "";
-        }
+		@Override
+		public String getFormTitle(ICallContext iContext) {
+			return "";
+		}
 
-        @Override
-        public SolidPos getSolidPos(ICallContext iContext) {
-            return null;
-        }
+		@Override
+		public SolidPos getSolidPos(ICallContext iContext) {
+			return null;
+		}
 
-    }
+	}
 
-    static public void create() {
-        // IDataPersistListAction
-        ITableAbstractFactories tFactories = GwtGiniInjector.getI()
-                .getITableAbstractFactories();
-        tFactories
-                .registerDataFormConstructorAbstractFactory(new FormFactory());
-        tFactories.registerPersistFactory(new PersistDataAction());
-        tFactories.registerFormTitleFactory(new FormTitleFactory());
-    }
+	static public void create() {
+		// IDataPersistListAction
+		ITableAbstractFactories tFactories = GwtGiniInjector.getI()
+				.getITableAbstractFactories();
+		tFactories
+				.registerDataFormConstructorAbstractFactory(new FormFactory());
+		tFactories.registerPersistFactory(new PersistDataAction());
+		tFactories.registerFormTitleFactory(new FormTitleFactory());
+	}
 
 }

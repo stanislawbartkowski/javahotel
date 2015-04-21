@@ -42,7 +42,6 @@ import com.jythonui.client.util.PerformVariableAction.VisitList.IGetFooter;
 import com.jythonui.client.util.RowVModelData;
 import com.jythonui.client.util.VerifyJError;
 import com.jythonui.client.variables.IVariablesContainer;
-import com.jythonui.client.variables.ISetGetVar.IReadVarContext;
 import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldItem;

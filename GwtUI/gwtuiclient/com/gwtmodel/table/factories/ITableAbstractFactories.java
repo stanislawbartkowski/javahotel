@@ -14,28 +14,30 @@ package com.gwtmodel.table.factories;
 
 public interface ITableAbstractFactories {
 
-    void registerDataModelFactory(IDataModelFactory iDataModelFactory);
+	void registerDataModelFactory(IDataModelFactory iDataModelFactory);
 
-    void registerDataValidateActionFactory(
-            IDataValidateActionFactory iDataValidateFactory);
+	void registerDataValidateActionFactory(
+			IDataValidateActionFactory iDataValidateFactory);
 
-    void registerFormTitleFactory(IFormTitleFactory iFormDefFactory);
+	void registerFormTitleFactory(IFormTitleFactory iFormDefFactory);
 
-    void registerHeaderListFactory(IHeaderListFactory iheFactory);
+	void registerHeaderListFactory(IHeaderListFactory iheFactory);
 
-    void registerPersistFactory(IPersistFactoryAction iPersistFactory);
+	void registerPersistFactory(IPersistFactoryAction iPersistFactory);
 
-    void registerGetViewControllerFactory(IGetViewControllerFactory iFactory);
+	void registerGetViewControllerFactory(IGetViewControllerFactory iFactory);
 
-    void registerGetCustomValues(IGetCustomValues iGetCustomValues);
+	void registerGetCustomValues(IGetCustomValues iGetCustomValues);
 
-    void registerDataFormConstructorAbstractFactory(
-            IDataFormConstructorAbstractFactory cFactory);
+	void registerDataFormConstructorAbstractFactory(
+			IDataFormConstructorAbstractFactory cFactory);
 
-    void registerJavaMailActionFactory(IJavaMailActionFactory mAction);
+	void registerJavaMailActionFactory(IJavaMailActionFactory mAction);
 
-    void registerDataCrudModifButtonActionFactory(
-            IDataCrudModifButtonActionFactory crudModifButtonAction);
+	void registerDataCrudModifButtonActionFactory(
+			IDataCrudModifButtonActionFactory crudModifButtonAction);
 
-    void registerWebPanelResources(IWebPanelResources wPanel);
+	void registerWebPanelResources(IWebPanelResources wPanel);
+
+	void registerDataStoreChanges(IDataStoreChanges iChanges);
 }

@@ -48,7 +48,7 @@ public class DataType implements IDataType {
         return id.hashCode();
     }
 
-    IDialogContainer getD() {
+    public IDialogContainer getD() {
         return d;
     }
 

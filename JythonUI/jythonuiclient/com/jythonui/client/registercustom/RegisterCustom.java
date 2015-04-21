@@ -14,6 +14,7 @@ package com.jythonui.client.registercustom;
 
 import com.google.inject.Inject;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.factories.IDataStoreChanges;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
 import com.gwtmodel.table.factories.ITableCustomFactories;
@@ -24,70 +25,74 @@ import com.jythonui.shared.CustomMessages;
 
 public class RegisterCustom implements IRegisterCustom {
 
-    private final ITableAbstractFactories tFactories;
+	private final ITableAbstractFactories tFactories;
+	private final IDataStoreChanges iChanges;
 
-    @Inject
-    public RegisterCustom(ITableAbstractFactories tFactories) {
-        this.tFactories = tFactories;
-    }
+	@Inject
+	public RegisterCustom(ITableAbstractFactories tFactories,
+			IDataStoreChanges iChanges) {
+		this.tFactories = tFactories;
+		this.iChanges = iChanges;
+	}
 
-    private static class CustomVal implements IGetCustomValues {
+	private static class CustomVal implements IGetCustomValues {
 
-        private final ClientProp prop;
+		private final ClientProp prop;
 
-        CustomVal(ClientProp prop) {
-            this.prop = prop;
-        }
+		CustomVal(ClientProp prop) {
+			this.prop = prop;
+		}
 
-        @Override
-        public IVField getSymForCombo() {
-            return null;
-        }
+		@Override
+		public IVField getSymForCombo() {
+			return null;
+		}
 
-        @Override
-        public String getCustomValue(String key) {
-            return prop.getAttr(key);
-        }
+		@Override
+		public String getCustomValue(String key) {
+			return prop.getAttr(key);
+		}
 
-        @Override
-        public boolean compareComboByInt() {
-            return false;
-        }
+		@Override
+		public boolean compareComboByInt() {
+			return false;
+		}
 
-        @Override
-        public boolean addEmptyAsDefault() {
-            return false;
-        }
+		@Override
+		public boolean addEmptyAsDefault() {
+			return false;
+		}
 
-        @Override
-        public String getStandMessage(String key) {
-            return prop.getCustomM().getAttr(key);
-        }
+		@Override
+		public String getStandMessage(String key) {
+			return prop.getCustomM().getAttr(key);
+		}
 
-        void setCustMess(CustomMessages cust) {
-            prop.setCustomM(cust);
-        }
+		void setCustMess(CustomMessages cust) {
+			prop.setCustomM(cust);
+		}
 
-    }
+	}
 
-    @Override
-    public void registerCustom(ClientProp prop) {
-        if (prop.getCustomM() == null)
-            return;
-        // ITableAbstractFactories tFactories = GwtGiniInjector.getI()
-        // .getITableAbstractFactories();
-        tFactories.registerGetCustomValues(new CustomVal(prop));
-    }
+	@Override
+	public void registerCustom(ClientProp prop) {
+		if (prop.getCustomM() == null)
+			return;
+		// ITableAbstractFactories tFactories = GwtGiniInjector.getI()
+		// .getITableAbstractFactories();
+		tFactories.registerGetCustomValues(new CustomVal(prop));
+		tFactories.registerDataStoreChanges(iChanges);
+	}
 
-    @Override
-    public void registerCustom(CustomMessages cust) {
-        if (cust == null)
-            return;
-        ITableCustomFactories iFactories = GwtGiniInjector.getI()
-                .getTableFactoriesContainer();
-        IGetCustomValues c = iFactories.getGetCustomValuesNotDefault();
-        CustomVal cu = (CustomVal) c;
-        cu.setCustMess(cust);
-    }
+	@Override
+	public void registerCustom(CustomMessages cust) {
+		if (cust == null)
+			return;
+		ITableCustomFactories iFactories = GwtGiniInjector.getI()
+				.getTableFactoriesContainer();
+		IGetCustomValues c = iFactories.getGetCustomValuesNotDefault();
+		CustomVal cu = (CustomVal) c;
+		cu.setCustMess(cust);
+	}
 
 }

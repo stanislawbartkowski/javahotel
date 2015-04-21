@@ -14,6 +14,7 @@ package com.jythonui.client.injector;
 
 import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
+import com.gwtmodel.table.factories.IDataStoreChanges;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
 import com.gwtmodel.table.login.LoginViewFactory;
 import com.gwtmodel.table.smessage.IGetStandardMessage;
@@ -25,6 +26,7 @@ import com.jythonui.client.interfaces.IDialogContainerFactory;
 import com.jythonui.client.interfaces.IExecuteBackAction;
 import com.jythonui.client.interfaces.IExecuteJS;
 import com.jythonui.client.interfaces.IFormGridManagerFactory;
+import com.jythonui.client.interfaces.IGenCookieName;
 import com.jythonui.client.interfaces.IGetDialogFormat;
 import com.jythonui.client.interfaces.ILoginPage;
 import com.jythonui.client.interfaces.IRegisterCustom;
@@ -37,41 +39,45 @@ import com.jythonui.shared.RequestContext;
 @GinModules(UIInjectModule.class)
 public interface UIInjector extends Ginjector {
 
-    IExecuteJS getExecuteJS();
+	IExecuteJS getExecuteJS();
 
-    IDialogContainerFactory getDialogContainterFactory();
+	IDialogContainerFactory getDialogContainterFactory();
 
-    IDateLineManagerFactory getDateLineManagerFactory();
+	IDateLineManagerFactory getDateLineManagerFactory();
 
-    IExecuteBackAction getExecuteBackAction();
+	IExecuteBackAction getExecuteBackAction();
 
-    IFormGridManagerFactory getFormGridManagerFactory();
+	IFormGridManagerFactory getFormGridManagerFactory();
 
-    IRowListDataManagerFactory getRowListDataManagerFactory();
+	IRowListDataManagerFactory getRowListDataManagerFactory();
 
-    RequestContext getRequestContext();
+	RequestContext getRequestContext();
 
-    LoginViewFactory getLoginViewFactory();
+	LoginViewFactory getLoginViewFactory();
 
-    ILoginPage getLoginPage();
+	ILoginPage getLoginPage();
 
-    IJythonUIClient getJythonUIClient();
+	IJythonUIClient getJythonUIClient();
 
-    IWebPanelResourcesFactory getWebPanelResourcesFactory();
+	IWebPanelResourcesFactory getWebPanelResourcesFactory();
 
-    IJythonClientStart getJythonClientStart();
+	IJythonClientStart getJythonClientStart();
 
-    ITableAbstractFactories getTFactories();
+	ITableAbstractFactories getTFactories();
 
-    IGetStandardMessage getGetStandardMessage();
+	IGetStandardMessage getGetStandardMessage();
 
-    IChartManagerFactory getChartManagerFactory();
+	IChartManagerFactory getChartManagerFactory();
 
-    IEnumTypesFactory getEnumTypesFactory();
+	IEnumTypesFactory getEnumTypesFactory();
 
-    IVariableContainerFactory getVariableContainerFactory();
+	IVariableContainerFactory getVariableContainerFactory();
 
-    IGetDialogFormat getDialogFormatHandler();
+	IGetDialogFormat getDialogFormatHandler();
 
-    IRegisterCustom getRegisterCustom();
+	IRegisterCustom getRegisterCustom();
+
+	IDataStoreChanges getDataStoreChanges();
+
+	IGenCookieName getGenCookieName();
 }

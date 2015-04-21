@@ -18,25 +18,27 @@ package com.gwtmodel.table.factories;
  */
 public interface ITableCustomFactories {
 
-    IFormTitleFactory getFormTitleFactory();
+	IFormTitleFactory getFormTitleFactory();
 
-    IPersistFactoryAction getPersistFactoryAction();
+	IPersistFactoryAction getPersistFactoryAction();
 
-    IHeaderListFactory getHeaderListFactory();
+	IHeaderListFactory getHeaderListFactory();
 
-    IDataModelFactory getDataModelFactory();
+	IDataModelFactory getDataModelFactory();
 
-    IDataValidateActionFactory getDataValidateFactory();
+	IDataValidateActionFactory getDataValidateFactory();
 
-    IGetViewControllerFactory getGetViewControllerFactory();
+	IGetViewControllerFactory getGetViewControllerFactory();
 
-    IGetCustomValues getGetCustomValuesNotDefault();
+	IGetCustomValues getGetCustomValuesNotDefault();
 
-    IDataFormConstructorAbstractFactory getDataFormConstructorAbstractFactory();
+	IDataFormConstructorAbstractFactory getDataFormConstructorAbstractFactory();
 
-    IJavaMailActionFactory getJavaMailActionFactory();
+	IJavaMailActionFactory getJavaMailActionFactory();
 
-    IDataCrudModifButtonActionFactory getDataCrudModifButtonActionFactory();
+	IDataCrudModifButtonActionFactory getDataCrudModifButtonActionFactory();
 
-    IWebPanelResources getWebPanelResourcesNotDefault();
+	IWebPanelResources getWebPanelResourcesNotDefault();
+
+	IDataStoreChanges getDataStoreChanges();
 }

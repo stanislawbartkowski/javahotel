@@ -24,40 +24,40 @@ import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 
 class DataListCrudControler extends AbstractSlotContainer {
 
-    private final SlotSignalContextFactory slFactory;
-    private final DataListActionItemFactory aFactory;
-    private final FindListActionFactory fFactory;
+	private final SlotSignalContextFactory slFactory;
+	private final DataListActionItemFactory aFactory;
+	private final FindListActionFactory fFactory;
 
-    DataListCrudControler(TablesFactories tFactories,
-            ITableCustomFactories fContainer, DataListParam listParam) {
-        this.dType = listParam.getdType();
-        assert dType != null : LogT.getT().cannotBeNull();
-        this.slFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
-        aFactory = new DataListActionItemFactory(tFactories, dType, this,
-                listParam, slFactory);
-        fFactory = new FindListActionFactory(tFactories, dType, listParam);
-        registerSubscriber(dType, DataActionEnum.ReadHeaderContainerSignal,
-                fFactory.constructActionHeader());
+	DataListCrudControler(TablesFactories tFactories,
+			ITableCustomFactories fContainer, DataListParam listParam) {
+		this.dType = listParam.getdType();
+		assert dType != null : LogT.getT().cannotBeNull();
+		this.slFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
+		aFactory = new DataListActionItemFactory(tFactories, dType, this,
+				listParam, slFactory);
+		fFactory = new FindListActionFactory(tFactories, dType, listParam);
+		registerSubscriber(dType, DataActionEnum.ReadHeaderContainerSignal,
+				fFactory.constructActionHeader());
 
-        registerSubscriber(dType, ClickButtonType.StandClickEnum.ADDITEM,
-                aFactory.constructActionItem(PersistTypeEnum.ADD));
-        registerSubscriber(dType, ClickButtonType.StandClickEnum.REMOVEITEM,
-                aFactory.constructActionItem(PersistTypeEnum.REMOVE));
-        registerSubscriber(dType, ClickButtonType.StandClickEnum.MODIFITEM,
-                aFactory.constructActionItem(PersistTypeEnum.MODIF));
-        registerSubscriber(dType, ClickButtonType.StandClickEnum.SHOWITEM,
-                aFactory.constructActionItem(PersistTypeEnum.SHOWONLY));
-        registerSubscriber(dType, ClickButtonType.StandClickEnum.FILTRLIST,
-                fFactory.constructActionFind(
-                        ClickButtonType.StandClickEnum.FILTRLIST, this, dType));
-        registerSubscriber(dType, ClickButtonType.StandClickEnum.FIND,
-                fFactory.constructActionFind(
-                        ClickButtonType.StandClickEnum.FIND, this, dType));
-        registerSubscriber(dType, DataActionEnum.ChangeViewFormModeAction,
-                aFactory.constructChangeMode());
-        PropertyListenerDialog pDialog = new PropertyListenerDialog(dType);
-        registerSubscriber(dType,
-                ClickButtonType.StandClickEnum.TABLEDEFAULTMENU,
-                pDialog.constructPropertyListener(this, dType));
-    }
+		registerSubscriber(dType, ClickButtonType.StandClickEnum.ADDITEM,
+				aFactory.constructActionItem(PersistTypeEnum.ADD));
+		registerSubscriber(dType, ClickButtonType.StandClickEnum.REMOVEITEM,
+				aFactory.constructActionItem(PersistTypeEnum.REMOVE));
+		registerSubscriber(dType, ClickButtonType.StandClickEnum.MODIFITEM,
+				aFactory.constructActionItem(PersistTypeEnum.MODIF));
+		registerSubscriber(dType, ClickButtonType.StandClickEnum.SHOWITEM,
+				aFactory.constructActionItem(PersistTypeEnum.SHOWONLY));
+		registerSubscriber(dType, ClickButtonType.StandClickEnum.FILTRLIST,
+				fFactory.constructActionFind(
+						ClickButtonType.StandClickEnum.FILTRLIST, this, dType));
+		registerSubscriber(dType, ClickButtonType.StandClickEnum.FIND,
+				fFactory.constructActionFind(
+						ClickButtonType.StandClickEnum.FIND, this, dType));
+		registerSubscriber(dType, DataActionEnum.ChangeViewFormModeAction,
+				aFactory.constructChangeMode());
+		PropertyListenerDialog pDialog = new PropertyListenerDialog(dType);
+		registerSubscriber(dType,
+				ClickButtonType.StandClickEnum.TABLEDEFAULTMENU,
+				pDialog.constructPropertyListener(this, dType, fContainer));
+	}
 }

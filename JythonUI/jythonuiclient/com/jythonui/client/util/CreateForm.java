@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gwtmodel.table.FieldDataType;
+import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGetDataList;
 import com.gwtmodel.table.IVField;
@@ -42,6 +43,8 @@ import com.jythonui.client.IUIConsts;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.IEnumTypesList;
 import com.jythonui.client.dialog.VField;
+import com.jythonui.client.injector.UIGiniInjector;
+import com.jythonui.client.interfaces.IGenCookieName;
 import com.jythonui.shared.ButtonItem;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogInfo;
@@ -273,12 +276,22 @@ public class CreateForm {
 		return desc;
 	}
 
-	public static VListHeaderContainer constructColumns(ListFormat l,
-			ISelectFactory sFactory, IGetEnum iGet) {
+	public static VListHeaderContainer constructColumns(IDataType dType,
+			ListFormat l, ISelectFactory sFactory, IGetEnum iGet) {
 		ColumnsDesc desc = constructColumns(l.getColumns(), sFactory, iGet);
 		String lName = l.getDisplayName();
-		return new VListHeaderContainer(desc.hList, lName, l.getPageSize(),
-				l.getJSModifRow(), l.getWidth(), null, desc.footList);
+		IGenCookieName iCookie = UIGiniInjector.getI().getGenCookieName();
+		String cookieName = iCookie.genCookieName(dType,
+				IUIConsts.COOKIEPAGESIZE);
+		String pSize = Utils.getCookie(cookieName);
+		int pageSize;
+		if (CUtil.EmptyS(pSize))
+			pageSize = l.getPageSize();
+		else
+			pageSize = Utils.getNum(pSize);
+		return new VListHeaderContainer(desc.hList, lName, pageSize,
+				l.getJSModifRow(), l.getWidth(), null, desc.footList,
+				l.getPageSize());
 	}
 
 	public static ControlButtonDesc constructButton(ButtonItem b,

@@ -19,92 +19,98 @@ import java.util.List;
 
 public class VListHeaderContainer {
 
-    private final List<VListHeaderDesc> heList;
-    private final List<VFooterDesc> foList;
-    private final String listTitle;
-    private final int pageSize;
-    private final String jsModifRow;
-    private final String widthDef;
-    private final String treeHeight;
+	private final List<VListHeaderDesc> heList;
+	private final List<VFooterDesc> foList;
+	private final String listTitle;
+	private final int pageSize, defaultPageSize;
+	private final String jsModifRow;
+	private final String widthDef;
+	private final String treeHeight;
 
-    public VListHeaderContainer(List<VListHeaderDesc> heList, String listTitle,
-            int pageSize, String jsModifRow, String widthDef,
-            String treeHeight, List<VFooterDesc> foList) {
-        this.heList = heList;
-        this.listTitle = listTitle;
-        this.pageSize = pageSize <= 0 ? IConsts.defaultPage : pageSize;
-        this.jsModifRow = jsModifRow;
-        this.widthDef = widthDef;
-        this.treeHeight = treeHeight;
-        this.foList = foList;
-    }
+	public VListHeaderContainer(List<VListHeaderDesc> heList, String listTitle,
+			int pageSize, String jsModifRow, String widthDef,
+			String treeHeight, List<VFooterDesc> foList, int defaultPageSize) {
+		this.heList = heList;
+		this.listTitle = listTitle;
+		this.pageSize = pageSize <= 0 ? IConsts.defaultPage : pageSize;
+		this.defaultPageSize = defaultPageSize <= 0 ? this.pageSize
+				: defaultPageSize;
+		this.jsModifRow = jsModifRow;
+		this.widthDef = widthDef;
+		this.treeHeight = treeHeight;
+		this.foList = foList;
+	}
 
-    public VListHeaderContainer(List<VListHeaderDesc> heList, String listTitle) {
-        this(heList, listTitle, IConsts.defaultPage, null, null, null, null);
-    }
+	public VListHeaderContainer(List<VListHeaderDesc> heList, String listTitle) {
+		this(heList, listTitle, 0, null, null, null, null, 0);
+	}
 
-    public VListHeaderDesc getHeader(IVField v) {
-        for (VListHeaderDesc h : heList) {
-            if (h.getFie().eq(v)) {
-                return h;
-            }
-        }
-        return null;
+	public VListHeaderDesc getHeader(IVField v) {
+		for (VListHeaderDesc h : heList) {
+			if (h.getFie().eq(v)) {
+				return h;
+			}
+		}
+		return null;
 
-    }
+	}
 
-    public List<VListHeaderDesc> getVisHeList() {
-        List<VListHeaderDesc> h = new ArrayList<VListHeaderDesc>();
-        for (VListHeaderDesc v : heList) {
-            if (v.isHidden()) {
-                continue;
-            }
-            h.add(v);
-        }
-        return h;
-    }
+	public List<VListHeaderDesc> getVisHeList() {
+		List<VListHeaderDesc> h = new ArrayList<VListHeaderDesc>();
+		for (VListHeaderDesc v : heList) {
+			if (v.isHidden()) {
+				continue;
+			}
+			h.add(v);
+		}
+		return h;
+	}
 
-    public List<VListHeaderDesc> getAllHeList() {
-        return heList;
-    }
+	public List<VListHeaderDesc> getAllHeList() {
+		return heList;
+	}
 
-    public String getListTitle() {
-        return listTitle;
-    }
+	public String getListTitle() {
+		return listTitle;
+	}
 
-    /**
-     * @return the pageSize
-     */
-    public int getPageSize() {
-        return pageSize;
-    }
+	/**
+	 * @return the pageSize
+	 */
+	public int getPageSize() {
+		return pageSize;
+	}
 
-    /**
-     * @return the jsModifRow
-     */
-    public String getJsModifRow() {
-        return jsModifRow;
-    }
+	/**
+	 * @return the jsModifRow
+	 */
+	public String getJsModifRow() {
+		return jsModifRow;
+	}
 
-    /**
-     * @return the widthDef
-     */
-    public String getWidthDef() {
-        return widthDef;
-    }
+	/**
+	 * @return the widthDef
+	 */
+	public String getWidthDef() {
+		return widthDef;
+	}
 
-    /**
-     * @return the treeHeight
-     */
-    public String getTreeHeight() {
-        return treeHeight;
-    }
+	/**
+	 * @return the treeHeight
+	 */
+	public String getTreeHeight() {
+		return treeHeight;
+	}
 
-    /**
-     * @return the foList
-     */
-    public List<VFooterDesc> getFoList() {
-        return foList;
-    }
+	/**
+	 * @return the foList
+	 */
+	public List<VFooterDesc> getFoList() {
+		return foList;
+	}
+
+	public int getDefaultPageSize() {
+		return defaultPageSize;
+	}
 
 }

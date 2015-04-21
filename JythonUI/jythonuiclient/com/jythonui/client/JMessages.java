@@ -20,88 +20,90 @@ import com.google.gwt.i18n.client.Messages;
  */
 public interface JMessages extends Messages {
 
-    String ErrorNoValue(String key);
+	String ErrorNoValue(String key);
 
-    String ListDoesNotHaveELem(String listId, String attrName);
+	String ListDoesNotHaveELem(String listId, String attrName);
 
-    String UnknownAction(String action, String param);
+	String UnknownAction(String action, String param);
 
-    String CustomTypeNotDefine();
+	String CustomTypeNotDefine();
 
-    String CannotFindCustomType(String typeName);
+	String CannotFindCustomType(String typeName);
 
-    String CannotFindFromField(String from, String fid);
+	String CannotFindFromField(String from, String fid);
 
-    String ValidateAttributeNotDefined(String id);
+	String ValidateAttributeNotDefined(String id);
 
-    String ValidateFieldNotFound(String id, String fid);
+	String ValidateFieldNotFound(String id, String fid);
 
-    String NoFieldRelatedToError(String id, String fie);
+	String NoFieldRelatedToError(String id, String fie);
 
-    String cannotLoadClientResource();
+	String cannotLoadClientResource();
 
-    String CannotStartWithThisPage(String page);
+	String CannotStartWithThisPage(String page);
 
-    String NoCheckList(String id);
+	String NoCheckList(String id);
 
-    String CheckListWithoutLinesOrColumns(String id);
+	String CheckListWithoutLinesOrColumns(String id);
 
-    String CannotFindRowInCheckRows(String checkId, String id);
+	String CannotFindRowInCheckRows(String checkId, String id);
 
-    String CannotFindColInCheckColumns(String checkId, String id);
+	String CannotFindColInCheckColumns(String checkId, String id);
 
-    String InproperFormatCheckSet(String id, String j);
+	String InproperFormatCheckSet(String id, String j);
 
-    String CannotFindCheckList(String s, String checkid);
+	String CannotFindCheckList(String s, String checkid);
 
-    String CheckListActionNotExpected(String s, String a);
+	String CheckListActionNotExpected(String s, String a);
 
-    String DataLineNotDefined(String dLineId, String tagId, String dId);
+	String DataLineNotDefined(String dLineId, String tagId, String dId);
 
-    String NoValuesRelatedTo(String dialogId, String datelineId);
+	String NoValuesRelatedTo(String dialogId, String datelineId);
 
-    String NoFormRelatedToValue(String dialogId, String datelineId,
-            String formId);
+	String NoFormRelatedToValue(String dialogId, String datelineId,
+			String formId);
 
-    String FooterSetValueShouldBeBoolean(String dialId, String varName);
+	String FooterSetValueShouldBeBoolean(String dialId, String varName);
 
-    String FooterSetDefinedButValueBot(String bValue, String value);
+	String FooterSetDefinedButValueBot(String bValue, String value);
 
-    String CannotCallActionHere(String mess);
+	String CannotCallActionHere(String mess);
 
-    String BeforeValueNotFound(int row, String col);
+	String BeforeValueNotFound(int row, String col);
 
-    String HelperOnlyForStringType(String id);
+	String HelperOnlyForStringType(String id);
 
-    String TabNotFilled(String tabid, String elemid);
+	String TabNotFilled(String tabid, String elemid);
 
-    String NotValidStatusTextType(String varName, String typeId);
+	String NotValidStatusTextType(String varName, String typeId);
 
-    String SetCookieValueShoulbBool(String cName);
+	String SetCookieValueShoulbBool(String cName);
 
-    String OnlyStringColumnImage(String id, String type, String typeS,
-            String ima);
+	String OnlyStringColumnImage(String id, String type, String typeS,
+			String ima);
 
-    String CustomTypeIsNull(String customType);
+	String CustomTypeIsNull(String customType);
 
-    String ErrorWhileUploading();
+	String ErrorWhileUploading();
 
-    String SearchFailed();
+	String SearchFailed();
 
-    String JavaScriptInvalideType(String type, String attr);
+	String JavaScriptInvalideType(String type, String attr);
 
-    String RowReferenceIsNull(String id);
+	String RowReferenceIsNull(String id);
 
-    String ValueForAttributeShouldBeNull(String aName);
+	String ValueForAttributeShouldBeNull(String aName);
 
-    String RelativeDialogNameNotAllowed(String dialogName);
+	String RelativeDialogNameNotAllowed(String dialogName);
 
-    String FirstYearCannotBeGreateThenLastYear(int firstY, int lastY);
+	String FirstYearCannotBeGreateThenLastYear(int firstY, int lastY);
 
-    String YearValueInvalid(String param, String value, int iValue);
+	String YearValueInvalid(String param, String value, int iValue);
 
-    String CurrentDateNotInRange(int cY, int fY, int lY);
+	String CurrentDateNotInRange(int cY, int fY, int lY);
 
-    String ValueShouldBeString(String var, String type);
+	String ValueShouldBeString(String var, String type);
+
+	String CookieNameStore(String dName, String listName, String id);
 
 }

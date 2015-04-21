@@ -92,6 +92,7 @@ public interface ICommonConsts {
 	String JXMLSETCONTENT = "JXMLCONTENTSET";
 	int DEFAULTCOLNO = 14;
 	int DEFAULTROWNO = 20;
+	int DEFPAGESIZE=20;
 	String TABPANEL = "tabpanel";
 	String TABPANELELEM = "tabelem";
 	String DISCLOSUREPANEL = "disclosurepanel";

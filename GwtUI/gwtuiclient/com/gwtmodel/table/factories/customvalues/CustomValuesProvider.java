@@ -45,7 +45,7 @@ public class CustomValuesProvider implements IGetCustomValues {
         cMap.put(IGetCustomValues.EXPANDIMAGE, "default_expandicon");
         cMap.put(IGetCustomValues.YESVALUE, "Y");
         cMap.put(IGetCustomValues.NOVALUE, "N");
-        cMap.put(IGetCustomValues.JCOOKIEPREFIX, "JCOOKIE-");
+        cMap.put(IGetCustomValues.JCOOKIEPREFIX, "JYTHONCOOKIE-");
         cMap.put(IGetCustomValues.HTMLPANELADDID, IGetCustomValues.VALUEYES);
     }
 
