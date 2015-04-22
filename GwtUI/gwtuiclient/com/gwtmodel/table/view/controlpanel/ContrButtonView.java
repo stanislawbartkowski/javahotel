@@ -25,15 +25,11 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGFocusWidget;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
-import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
-import com.gwtmodel.table.slotmodel.ISlotCallerListener;
-import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.view.button.ImgButtonFactory;
 import com.gwtmodel.table.view.util.CreateFormView;
 

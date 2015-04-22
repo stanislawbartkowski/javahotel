@@ -13,7 +13,6 @@
 package com.jythonui.client.storechanges;
 
 import com.google.inject.Inject;
-import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.factories.IDataStoreChanges;
@@ -50,6 +49,17 @@ public class StoreChanges implements IDataStoreChanges {
 			Utils.RemoveCookie(cookieName);
 		else
 			Utils.SetCookie(cookieName, Integer.toString(no));
+	}
+
+	@Override
+	public void saveWrapOnOff(IDataType dType, boolean on) {
+		String cookieName = iGen.genCookieName(dType, IUIConsts.COOKIENOWRAPON);
+		boolean nowrapon = !on;
+		ListFormat li = getL(dType);
+		if (nowrapon == li.isNoWrap())
+			Utils.RemoveCookie(cookieName);
+		else
+			Utils.SetCookie(cookieName, Utils.LToS(nowrapon));
 	}
 
 }

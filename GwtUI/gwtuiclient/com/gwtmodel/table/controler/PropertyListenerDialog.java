@@ -114,6 +114,9 @@ class PropertyListenerDialog {
 						.constructSlotSetLineNoWrap(ddType);
 				IsBooleanSignalNow sig = new IsBooleanSignalNow(!wrapOn);
 				publishSlo.getSlContainer().publish(slType, sig);
+				IDataStoreChanges iStore = fContainer.getDataStoreChanges();
+				if (iStore != null)
+					iStore.saveWrapOnOff(ddType, wrapOn);
 			}
 
 		}

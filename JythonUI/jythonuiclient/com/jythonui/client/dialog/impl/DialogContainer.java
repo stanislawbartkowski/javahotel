@@ -95,6 +95,7 @@ import com.jythonui.client.dialog.run.CloseDialogByImage;
 import com.jythonui.client.dialog.run.RunAction;
 import com.jythonui.client.injector.UIGiniInjector;
 import com.jythonui.client.interfaces.IExecuteBackAction;
+import com.jythonui.client.interfaces.IGenCookieName;
 import com.jythonui.client.interfaces.IVariableContainerFactory;
 import com.jythonui.client.listmodel.GetRowSelected;
 import com.jythonui.client.listmodel.IRowListDataManager;
@@ -159,6 +160,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 
 	// private final IExecuteJS executeJS;
 	private final IExecuteBackAction executeBack;
+	private final IGenCookieName iGen;
 
 	private final List<IDialogContainer> modelessList = new ArrayList<IDialogContainer>();
 
@@ -170,6 +172,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 		this.dType = dType;
 		this.iEx = iEx;
 		this.startPar = startVal;
+		iGen = UIGiniInjector.getI().getGenCookieName();
 		liManager = UIGiniInjector.getI().getRowListDataManagerFactory()
 				.construct(info, slMediator, new DTypeFactory());
 		// not safe, reference is escaping
@@ -777,7 +780,13 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 				slMediator.getSlContainer().registerSubscriber(dType,
 						ClickButtonType.StandClickEnum.ALL,
 						constructCButton(d.getLeftButtonList()));
-				if (f.isNoWrap()) {
+				boolean isNoWrap = f.isNoWrap();
+				String cookieName = iGen.genCookieName(da,
+						IUIConsts.COOKIENOWRAPON);
+				String val = Utils.getCookie(cookieName);
+				if (!CUtil.EmptyS(val))
+					isNoWrap = Utils.TrueL(val);
+				if (isNoWrap) {
 					CustomStringSlot sl = IsBooleanSignalNow
 							.constructSlotSetLineNoWrap(da);
 					IsBooleanSignalNow sig = new IsBooleanSignalNow(true);

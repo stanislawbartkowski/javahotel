@@ -18,4 +18,6 @@ public interface IDataStoreChanges {
 
 	void savePageSize(IDataType dType, int no);
 
+	void saveWrapOnOff(IDataType dType, boolean on);
+
 }
