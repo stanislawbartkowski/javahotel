@@ -97,6 +97,7 @@ class PropertyListenerDialog {
 		private final static String REMOVE_SORT = "REMOVE_SORT";
 		private final static String CHANGE_PAGE_SIZE = "CHANGE_PAGE_SIZE";
 		private final static String WRAP_LINE_ON = "WRAP_LINE_ON";
+		private final static String CHANGE_COLUMNS = "CHANGE_COLUMNS";
 		private final ITableCustomFactories fContainer;
 
 		PropertyListener(ISlotable publishSlo, IDataType publishdType,
@@ -258,6 +259,10 @@ class PropertyListenerDialog {
 							.constructToTableSignal(ddType);
 					publishSlo.getSlContainer().publish(sl);
 				}
+				if (id.equals(CHANGE_COLUMNS)) {
+					fContainer.getLauchPropertyDialog().doDialog(publishSlo,
+							ddType, new WSize(w));
+				}
 			}
 		}
 
@@ -271,6 +276,7 @@ class PropertyListenerDialog {
 			addMenu(mList, MM.getL().RemoveSortOrder(), REMOVE_SORT);
 			addMenu(mList, MM.getL().ChangeNumberOfRows(), CHANGE_PAGE_SIZE);
 			addMenu(mList, MM.getL().WrapLines(), WRAP_LINE_ON);
+			addMenu(mList, MM.getL().ChangeColumns(), CHANGE_COLUMNS);
 			ListOfControlDesc coP = new ListOfControlDesc(mList);
 			IGWidget wi = slContext.getGwtWidget();
 			ControlClick co = new ControlClick();

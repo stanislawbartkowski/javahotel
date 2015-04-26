@@ -32,6 +32,7 @@ public class WebPanelHolder {
 		private IDataCrudModifButtonActionFactory crudModifButtonActionFactory;
 		private IWebPanelResources iWebPanelResource;
 		private IDataStoreChanges iStoreChanges;
+		private ILaunchPropertyDialogColumn iColumns;
 
 		private TableFactoriesContainer() {
 		}
@@ -158,6 +159,17 @@ public class WebPanelHolder {
 		@Override
 		public void registerDataStoreChanges(IDataStoreChanges iChanges) {
 			this.iStoreChanges = iChanges;
+		}
+
+		@Override
+		public ILaunchPropertyDialogColumn getLauchPropertyDialog() {
+			return iColumns;
+		}
+
+		@Override
+		public void registerLaunchPropertyDialogColumn(
+				ILaunchPropertyDialogColumn iColumns) {
+			this.iColumns = iColumns;
 		}
 
 	}

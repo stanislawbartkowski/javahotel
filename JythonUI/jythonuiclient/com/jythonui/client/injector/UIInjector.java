@@ -15,6 +15,7 @@ package com.jythonui.client.injector;
 import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
 import com.gwtmodel.table.factories.IDataStoreChanges;
+import com.gwtmodel.table.factories.ILaunchPropertyDialogColumn;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
 import com.gwtmodel.table.login.LoginViewFactory;
 import com.gwtmodel.table.smessage.IGetStandardMessage;
@@ -80,4 +81,6 @@ public interface UIInjector extends Ginjector {
 	IDataStoreChanges getDataStoreChanges();
 
 	IGenCookieName getGenCookieName();
+
+	ILaunchPropertyDialogColumn getLaunchPropertyDialog();
 }

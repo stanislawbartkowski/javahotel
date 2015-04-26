@@ -255,7 +255,7 @@ class PresentationCellFactory extends PresentationCellHelper {
 		case BIGDECIMAL:
 			switch (v.getType().getAfterdot()) {
 			case 0:
-				co = new LongColumn(v);
+				co = new NumberColumn(iCell, v);
 				break;
 			case 1:
 				co = new NumberColumn(nCell1, v);

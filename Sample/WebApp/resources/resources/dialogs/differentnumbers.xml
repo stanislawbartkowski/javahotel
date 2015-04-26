@@ -11,7 +11,7 @@
       <list id="list" displayname="List of numbers" elemformat="elemnumbers.xml">
                 <columns>
                         <column id="id" displayname="storeKey" type="long" hidden="" />
-                        <column id="number0" displayname="Number" type="long" />
+                        <column id="number0" displayname="Number" type="decimal" afterdot="0" />
                         <column id="number1" displayname="Number 1" type="decimal" afterdot="1" />
                         <column id="number2" displayname="Number 2" type="decimal" afterdot="2" />
                         <column id="number3" displayname="Number 3" type="decimal" afterdot="3" />

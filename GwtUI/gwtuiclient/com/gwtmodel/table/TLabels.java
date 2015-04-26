@@ -186,5 +186,7 @@ public interface TLabels extends Constants {
     String UserNameOrPasswordInvalid();
 
     String Select();
+        
+    String ChangeColumns();
 
 }

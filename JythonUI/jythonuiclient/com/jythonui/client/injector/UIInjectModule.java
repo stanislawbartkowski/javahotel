@@ -17,6 +17,7 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.gwtmodel.table.factories.IDataStoreChanges;
 import com.gwtmodel.table.factories.IGetCustomValues;
+import com.gwtmodel.table.factories.ILaunchPropertyDialogColumn;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.login.LoginViewFactory;
@@ -24,6 +25,7 @@ import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.jythonui.client.IJythonUIClient;
 import com.jythonui.client.cache.MemCache;
 import com.jythonui.client.charts.ChartManagerFactory;
+import com.jythonui.client.columndialog.PropertyColumnDialog;
 import com.jythonui.client.dialog.datepanel.DateLineManagerFactory;
 import com.jythonui.client.dialog.execute.ExecuteBackAction;
 import com.jythonui.client.dialog.impl.DialogContainerFactory;
@@ -95,6 +97,8 @@ public class UIInjectModule extends AbstractGinModule {
 		bind(IDataStoreChanges.class).to(StoreChanges.class)
 				.in(Singleton.class);
 		bind(IGenCookieName.class).to(GenCookieName.class).in(Singleton.class);
+		bind(ILaunchPropertyDialogColumn.class).to(PropertyColumnDialog.class)
+				.in(Singleton.class);
 	}
 
 	@Provides

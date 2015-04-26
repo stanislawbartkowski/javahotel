@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.gwtmodel.table.FUtils;
@@ -439,6 +440,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 					FieldValue val = addV.getValue(fie);
 					v.setValue(fie, val);
 				}
+				v.getRowList().putAll(addV.getRowList());
 			}
 			// set cookies
 			List<IMapEntry> cList = Utils.getCookies();

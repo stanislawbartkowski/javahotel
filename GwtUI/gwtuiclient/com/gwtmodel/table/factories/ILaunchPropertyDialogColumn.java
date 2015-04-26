@@ -12,25 +12,12 @@
  */
 package com.gwtmodel.table.factories;
 
-import com.gwtmodel.table.injector.ICallContext;
+import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.slotmodel.ISlotable;
 
-public interface IDataFormConstructorAbstractFactory {
+public interface ILaunchPropertyDialogColumn {
 
-	public class CType {
-		private final IDataFormConstructor fConstructor;
+	void doDialog(ISlotable publishSlo, IDataType dType, WSize w);
 
-		public CType(IDataFormConstructor fConstructor) {
-			this.fConstructor = fConstructor;
-		}
-
-		public CType() {
-			this.fConstructor = null;
-		}
-
-		public IDataFormConstructor getfConstructor() {
-			return fConstructor;
-		}
-	}
-
-	CType construct(ICallContext iContext);
 }

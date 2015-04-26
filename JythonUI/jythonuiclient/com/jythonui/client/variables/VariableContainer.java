@@ -88,9 +88,6 @@ class VariableContainer implements IVariablesContainer {
 
         };
 
-        // for (final FormContainer fo : fList)
-        // for (int i = 0; i < fo.l.length; i++)
-        // fo.l[i].readVar(var, iC);
         for (int f = fList.size() - 1; f >= 0; f--) {
             FormContainer fo = fList.get(f);
             for (int i = 0; i < fo.l.length; i++)

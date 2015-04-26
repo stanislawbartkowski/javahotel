@@ -16,6 +16,7 @@ import com.google.inject.Inject;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.IDataStoreChanges;
 import com.gwtmodel.table.factories.IGetCustomValues;
+import com.gwtmodel.table.factories.ILaunchPropertyDialogColumn;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
@@ -27,12 +28,14 @@ public class RegisterCustom implements IRegisterCustom {
 
 	private final ITableAbstractFactories tFactories;
 	private final IDataStoreChanges iChanges;
+	private final ILaunchPropertyDialogColumn iColumns;
 
 	@Inject
 	public RegisterCustom(ITableAbstractFactories tFactories,
-			IDataStoreChanges iChanges) {
+			IDataStoreChanges iChanges, ILaunchPropertyDialogColumn iColumns) {
 		this.tFactories = tFactories;
 		this.iChanges = iChanges;
+		this.iColumns = iColumns;
 	}
 
 	private static class CustomVal implements IGetCustomValues {
@@ -78,10 +81,9 @@ public class RegisterCustom implements IRegisterCustom {
 	public void registerCustom(ClientProp prop) {
 		if (prop.getCustomM() == null)
 			return;
-		// ITableAbstractFactories tFactories = GwtGiniInjector.getI()
-		// .getITableAbstractFactories();
 		tFactories.registerGetCustomValues(new CustomVal(prop));
 		tFactories.registerDataStoreChanges(iChanges);
+		tFactories.registerLaunchPropertyDialogColumn(iColumns);
 	}
 
 	@Override

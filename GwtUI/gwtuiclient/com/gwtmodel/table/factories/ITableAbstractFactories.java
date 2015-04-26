@@ -40,4 +40,6 @@ public interface ITableAbstractFactories {
 	void registerWebPanelResources(IWebPanelResources wPanel);
 
 	void registerDataStoreChanges(IDataStoreChanges iChanges);
+
+	void registerLaunchPropertyDialogColumn(ILaunchPropertyDialogColumn iColumns);
 }

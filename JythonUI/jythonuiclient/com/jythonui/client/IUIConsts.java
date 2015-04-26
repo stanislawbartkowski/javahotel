@@ -106,4 +106,6 @@ public interface IUIConsts {
 
 	String COOKIEPAGESIZE = "pagesize";
 	String COOKIENOWRAPON = "nowrapon";
+
+	String COLUMNDIALOG = "propertydialogcolumn.xml";
 }

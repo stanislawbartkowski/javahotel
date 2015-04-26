@@ -41,4 +41,6 @@ public interface ITableCustomFactories {
 	IWebPanelResources getWebPanelResourcesNotDefault();
 
 	IDataStoreChanges getDataStoreChanges();
+
+	ILaunchPropertyDialogColumn getLauchPropertyDialog();
 }

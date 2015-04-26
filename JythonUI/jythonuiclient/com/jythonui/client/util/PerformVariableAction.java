@@ -312,7 +312,7 @@ public class PerformVariableAction {
 				return;
 			if (iEx != null)
 				iEx.setAction(param2);
-			new RunAction().upDialog(param, w, iCon, iEx, param1, param3);
+			new RunAction().upDialog(param, w, iCon, iEx, param1, param3, null);
 			return;
 		}
 		if (action.equals(ICommonConsts.JOKMESSAGE)
