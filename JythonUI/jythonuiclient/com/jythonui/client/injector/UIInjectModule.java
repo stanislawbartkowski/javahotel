@@ -20,6 +20,8 @@ import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.factories.ILaunchPropertyDialogColumn;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.json.CreateJSonForIVData;
+import com.gwtmodel.table.json.IJsonConvert;
 import com.gwtmodel.table.login.LoginViewFactory;
 import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.jythonui.client.IJythonUIClient;
@@ -99,6 +101,8 @@ public class UIInjectModule extends AbstractGinModule {
 		bind(IGenCookieName.class).to(GenCookieName.class).in(Singleton.class);
 		bind(ILaunchPropertyDialogColumn.class).to(PropertyColumnDialog.class)
 				.in(Singleton.class);
+		bind(IJsonConvert.class).to(CreateJSonForIVData.class).in(
+				Singleton.class);
 	}
 
 	@Provides

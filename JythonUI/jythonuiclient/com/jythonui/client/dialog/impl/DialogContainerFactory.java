@@ -13,6 +13,7 @@
 package com.jythonui.client.dialog.impl;
 
 import com.gwtmodel.table.IDataType;
+import com.jythonui.client.dialog.ICustomClickAction;
 import com.jythonui.client.dialog.IDialogContainer;
 import com.jythonui.client.interfaces.IDialogContainerFactory;
 import com.jythonui.client.util.IExecuteAfterModalDialog;
@@ -23,12 +24,13 @@ import com.jythonui.shared.DialogVariables;
 
 public class DialogContainerFactory implements IDialogContainerFactory {
 
-    @Override
-    public IDialogContainer construct(IDataType dType, DialogInfo info,
-            IVariablesContainer pCon, ISendCloseAction iClose,
-            DialogVariables addV, IExecuteAfterModalDialog iEx, String[] startVal) {
-        return new DialogContainer(dType, info, pCon, iClose, addV, iEx,
-                startVal);
-    }
+	@Override
+	public IDialogContainer construct(IDataType dType, DialogInfo info,
+			IVariablesContainer pCon, ISendCloseAction iClose,
+			DialogVariables addV, IExecuteAfterModalDialog iEx,
+			String[] startVal, ICustomClickAction iCustomClick) {
+		return new DialogContainer(dType, info, pCon, iClose, addV, iEx,
+				startVal, iCustomClick);
+	}
 
 }

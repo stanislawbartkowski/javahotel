@@ -12,9 +12,12 @@
  */
 package com.gwtmodel.table.json;
 
+import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IVModelData;
 
 public interface IJsonConvert {
 
     String construct(IVModelData line);
+    
+    String construct(IDataListType d);
 }

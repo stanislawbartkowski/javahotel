@@ -17,10 +17,8 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.factories.IDataStoreChanges;
 import com.jythonui.client.IUIConsts;
-import com.jythonui.client.dialog.DataType;
-import com.jythonui.client.dialog.IDialogContainer;
 import com.jythonui.client.interfaces.IGenCookieName;
-import com.jythonui.shared.DialogFormat;
+import com.jythonui.client.util.JUtils;
 import com.jythonui.shared.ListFormat;
 
 public class StoreChanges implements IDataStoreChanges {
@@ -32,19 +30,10 @@ public class StoreChanges implements IDataStoreChanges {
 		this.iGen = iGen;
 	}
 
-	private ListFormat getL(IDataType dType) {
-		DataType d = (DataType) dType;
-		String listId = d.getId();
-		IDialogContainer dC = d.getD();
-		DialogFormat dForm = dC.getD();
-		ListFormat li = dForm.findList(listId);
-		return li;
-	}
-
 	@Override
 	public void savePageSize(IDataType dType, int no) {
 		String cookieName = iGen.genCookieName(dType, IUIConsts.COOKIEPAGESIZE);
-		ListFormat li = getL(dType);
+		ListFormat li = JUtils.getL(dType);
 		if (no == li.getPageSize())
 			Utils.RemoveCookie(cookieName);
 		else
@@ -55,7 +44,7 @@ public class StoreChanges implements IDataStoreChanges {
 	public void saveWrapOnOff(IDataType dType, boolean on) {
 		String cookieName = iGen.genCookieName(dType, IUIConsts.COOKIENOWRAPON);
 		boolean nowrapon = !on;
-		ListFormat li = getL(dType);
+		ListFormat li = JUtils.getL(dType);
 		if (nowrapon == li.isNoWrap())
 			Utils.RemoveCookie(cookieName);
 		else

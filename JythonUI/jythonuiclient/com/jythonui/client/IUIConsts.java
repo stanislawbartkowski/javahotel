@@ -108,4 +108,11 @@ public interface IUIConsts {
 	String COOKIENOWRAPON = "nowrapon";
 
 	String COLUMNDIALOG = "propertydialogcolumn.xml";
+
+	String LISTPROPERTY = "list";
+	String COOKIEPROPERTYLIST = "columnlist";
+
+	String PROPID = "id";
+	String PROPVISIBLE = "visible";
+	String PROPCOLUMNNAME = "columnname";
 }

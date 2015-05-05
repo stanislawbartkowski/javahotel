@@ -62,261 +62,261 @@ import com.jythonui.shared.ListOfRows;
  */
 class GetViewController implements IGetViewControllerFactory {
 
-    private final ComposeControllerFactory fFactory;
-    private final IDataModelFactory dFactory;
-    private final RowListDataManager rM;
-    private final IVariablesContainer iCon;
-    private final IDialogContainerFactory dialFactory;
+	private final ComposeControllerFactory fFactory;
+	private final IDataModelFactory dFactory;
+	private final RowListDataManager rM;
+	private final IVariablesContainer iCon;
+	private final IDialogContainerFactory dialFactory;
 
-    private String getCrudId(PersistTypeEnum e) {
-        String eCrud = null;
-        switch (e) {
-        case ADD:
-            eCrud = IUIConsts.CRUD_ADD;
-            break;
-        case MODIF:
-            eCrud = IUIConsts.CRUD_CHANGE;
-            break;
-        case REMOVE:
-            eCrud = IUIConsts.CRUD_REMOVE;
-            break;
-        case SHOWONLY:
-            eCrud = IUIConsts.CRUD_SHOW;
-            break;
-        default:
-            assert false : LogT.getT().notExpected();
-            break;
-        }
-        return eCrud;
-    }
+	private String getCrudId(PersistTypeEnum e) {
+		String eCrud = null;
+		switch (e) {
+		case ADD:
+			eCrud = IUIConsts.CRUD_ADD;
+			break;
+		case MODIF:
+			eCrud = IUIConsts.CRUD_CHANGE;
+			break;
+		case REMOVE:
+			eCrud = IUIConsts.CRUD_REMOVE;
+			break;
+		case SHOWONLY:
+			eCrud = IUIConsts.CRUD_SHOW;
+			break;
+		default:
+			assert false : LogT.getT().notExpected();
+			break;
+		}
+		return eCrud;
+	}
 
-    private class ValidateAction extends AbstractSlotContainer implements
-            IDataValidateAction {
+	private class ValidateAction extends AbstractSlotContainer implements
+			IDataValidateAction {
 
-        private class ValidateEmpty implements ISlotListener {
+		private class ValidateEmpty implements ISlotListener {
 
-            @Override
-            public void signal(ISlotSignalContext slContext) {
-                ListFormat li = rM.getFormat(dType);
-                if (!ValidateForm.validateV(dType, ValidateAction.this,
-                        li.getfElem(), DataActionEnum.InvalidSignal))
-                    return;
-                SlU.publishDataAction(dType, ValidateAction.this, slContext,
-                        DataActionEnum.PersistDataAction);
-            }
-        }
+			@Override
+			public void signal(ISlotSignalContext slContext) {
+				ListFormat li = rM.getFormat(dType);
+				if (!ValidateForm.validateV(dType, ValidateAction.this,
+						li.getfElem(), DataActionEnum.InvalidSignal))
+					return;
+				SlU.publishDataAction(dType, ValidateAction.this, slContext,
+						DataActionEnum.PersistDataAction);
+			}
+		}
 
-        ValidateAction(IDataType da) {
-            this.dType = da;
-            getSlContainer().registerSubscriber(da,
-                    DataActionEnum.ValidateComposeFormAction,
-                    new ValidateEmpty());
+		ValidateAction(IDataType da) {
+			this.dType = da;
+			getSlContainer().registerSubscriber(da,
+					DataActionEnum.ValidateComposeFormAction,
+					new ValidateEmpty());
 
-        }
+		}
 
-    }
+	}
 
-    private interface executeCrud {
+	private interface executeCrud {
 
-        void action(boolean afterConfirm, CommonCallBack<DialogVariables> back);
+		void action(boolean afterConfirm, CommonCallBack<DialogVariables> back);
 
-    }
+	}
 
-    private class ItemDataPersistAction extends AbstractSlotContainer implements
-            IDataPersistAction {
+	private class ItemDataPersistAction extends AbstractSlotContainer implements
+			IDataPersistAction {
 
-        private final IDialogContainer dC;
+		private final IDialogContainer dC;
 
-        private class CommandCrud implements executeCrud {
+		private class CommandCrud implements executeCrud {
 
-            private final DialogVariables v;
-            private final ListFormat li;
-            private final String eCrud;
+			private final DialogVariables v;
+			private final ListFormat li;
+			private final String eCrud;
 
-            CommandCrud(DialogVariables v, ListFormat li, String eCrud) {
-                this.v = v;
-                this.li = li;
-                this.eCrud = eCrud;
-            }
+			CommandCrud(DialogVariables v, ListFormat li, String eCrud) {
+				this.v = v;
+				this.li = li;
+				this.eCrud = eCrud;
+			}
 
-            @Override
-            public void action(boolean afterConfirm,
-                    CommonCallBack<DialogVariables> back) {
-                v.setValueB(ICommonConsts.JCRUD_AFTERCONF, afterConfirm);
-                ListUtils.addListName(v, li);
-                // 2014/09/21 : removed, seems unnecessary
-                // rM.addToVar(v, eCrud);
-                ExecuteAction.action(v, li.getfElem().getId(), eCrud, back);
-            }
+			@Override
+			public void action(boolean afterConfirm,
+					CommonCallBack<DialogVariables> back) {
+				v.setValueB(ICommonConsts.JCRUD_AFTERCONF, afterConfirm);
+				ListUtils.addListName(v, li);
+				// 2014/09/21 : removed, seems unnecessary
+				// rM.addToVar(v, eCrud);
+				ExecuteAction.action(v, li.getfElem().getId(), eCrud, back);
+			}
 
-        }
+		}
 
-        private class JBack extends CommonCallBack<DialogVariables> {
+		private class JBack extends CommonCallBack<DialogVariables> {
 
-            private final PersistTypeEnum e;
-            private final WSize w;
-            private final executeCrud exe;
-            private final ICommonCallBackFactory<DialogVariables> bFactory;
+			private final PersistTypeEnum e;
+			private final WSize w;
+			private final executeCrud exe;
+			private final ICommonCallBackFactory<DialogVariables> bFactory;
 
-            private class CloseD implements ISendCloseAction {
+			private class CloseD implements ISendCloseAction {
 
-                @Override
-                public void closeAction(String resString, String resButton) {
-                    publish(dType, DataActionEnum.PersistDataSuccessSignal, e);
-                }
+				@Override
+				public void closeAction(String resString, String resButton) {
+					publish(dType, DataActionEnum.PersistDataSuccessSignal, e);
+				}
 
-                @Override
-                public void submitAction() {
-                    // do nothing
+				@Override
+				public void submitAction() {
+					// do nothing
 
-                }
-            }
+				}
+			}
 
-            private class YesNo implements IYesNoAction {
+			private class YesNo implements IYesNoAction {
 
-                @Override
-                public void answer(String content, String title, String param1,
-                        WSize ww) {
-                    IClickYesNo i = new IClickYesNo() {
+				@Override
+				public void answer(String content, String title, String param1,
+						WSize ww) {
+					IClickYesNo i = new IClickYesNo() {
 
-                        @Override
-                        public void click(boolean yes) {
-                            if (yes)
-                                exe.action(true, bFactory.construct());
-                        }
-                    };
-                    YesNoDialog yesD = new YesNoDialog(content, title, i);
-                    yesD.show(w);
-                }
-            }
+						@Override
+						public void click(boolean yes) {
+							if (yes)
+								exe.action(true, bFactory.construct());
+						}
+					};
+					YesNoDialog yesD = new YesNoDialog(content, title, i);
+					yesD.show(w);
+				}
+			}
 
-            private class Vis implements PerformVariableAction.VisitList {
+			private class Vis implements PerformVariableAction.VisitList {
 
-                @Override
-                public void accept(IDataType da, ListOfRows lRows) {
-                }
+				@Override
+				public void accept(IDataType da, ListOfRows lRows) {
+				}
 
-                @Override
-                public void acceptTypes(String typeName, ListOfRows lRows) {
-                }
+				@Override
+				public void acceptTypes(String typeName, ListOfRows lRows) {
+				}
 
-                @Override
-                public void acceptFooter(IDataType da, List<IGetFooter> fList) {
-                    // TODO: Auto-generated method stub
+				@Override
+				public void acceptFooter(IDataType da, List<IGetFooter> fList) {
+					// TODO: Auto-generated method stub
 
-                }
+				}
 
-                @Override
-                public void acceptEditListMode(IDataType da, EditListMode e) {
-                    // TODO Auto-generated method stub
+				@Override
+				public void acceptEditListMode(IDataType da, EditListMode e) {
+					// TODO Auto-generated method stub
 
-                }
+				}
 
-                @Override
-                public void acceptChartValues(IDataType da, ListOfRows lRows) {
-                    // TODO Auto-generated method stub
+				@Override
+				public void acceptChartValues(IDataType da, ListOfRows lRows) {
+					// TODO Auto-generated method stub
 
-                }
+				}
 
-            }
+			}
 
-            JBack(PersistTypeEnum e, WSize w, executeCrud exe,
-                    ICommonCallBackFactory<DialogVariables> bFactory) {
-                this.e = e;
-                this.w = w;
-                this.exe = exe;
-                this.bFactory = bFactory;
-            }
+			JBack(PersistTypeEnum e, WSize w, executeCrud exe,
+					ICommonCallBackFactory<DialogVariables> bFactory) {
+				this.e = e;
+				this.w = w;
+				this.exe = exe;
+				this.bFactory = bFactory;
+			}
 
-            @Override
-            public void onMySuccess(DialogVariables arg) {
-                if (VerifyJError.isError(dC, dType, arg,
-                        ItemDataPersistAction.this)) {
-                    return;
-                }
-                PerformVariableAction.perform(new YesNo(), new CloseD(), arg,
-                        iCon, rM, null, new Vis(), w, null);
-            }
-        }
+			@Override
+			public void onMySuccess(DialogVariables arg) {
+				if (VerifyJError.isError(dC, dType, arg,
+						ItemDataPersistAction.this)) {
+					return;
+				}
+				PerformVariableAction.perform(new YesNo(), new CloseD(), arg,
+						iCon, rM, null, new Vis(), w, null);
+			}
+		}
 
-        private class PersistData implements ISlotListener {
+		private class PersistData implements ISlotListener {
 
-            @Override
-            public void signal(ISlotSignalContext slContext) {
-                final PersistTypeEnum e = slContext.getPersistType();
-                final WSize w = new WSize(slContext.getGwtWidget());
-                IVariablesContainer iCon = dC.getiCon();
-                String eCrud = getCrudId(e);
-                DialogVariables v = iCon.getVariables(eCrud);
-                ListFormat li = rM.getFormat(dType);
-                final executeCrud exe = new CommandCrud(v, li, eCrud);
+			@Override
+			public void signal(ISlotSignalContext slContext) {
+				final PersistTypeEnum e = slContext.getPersistType();
+				final WSize w = new WSize(slContext.getGwtWidget());
+				IVariablesContainer iCon = dC.getiCon();
+				String eCrud = getCrudId(e);
+				DialogVariables v = iCon.getVariables(eCrud);
+				ListFormat li = rM.getFormat(dType);
+				final executeCrud exe = new CommandCrud(v, li, eCrud);
 
-                ICommonCallBackFactory<DialogVariables> bFact = new ICommonCallBackFactory<DialogVariables>() {
+				ICommonCallBackFactory<DialogVariables> bFact = new ICommonCallBackFactory<DialogVariables>() {
 
-                    @Override
-                    public CommonCallBack<DialogVariables> construct() {
-                        return new JBack(e, w, exe, this);
-                    }
+					@Override
+					public CommonCallBack<DialogVariables> construct() {
+						return new JBack(e, w, exe, this);
+					}
 
-                };
-                exe.action(false, bFact.construct());
-            }
+				};
+				exe.action(false, bFact.construct());
+			}
 
-        }
+		}
 
-        ItemDataPersistAction(IDataType da, IDialogContainer dC) {
-            this.dType = da;
-            this.dC = dC;
-            getSlContainer().registerSubscriber(dType,
-                    DataActionEnum.PersistDataAction, new PersistData());
+		ItemDataPersistAction(IDataType da, IDialogContainer dC) {
+			this.dType = da;
+			this.dC = dC;
+			getSlContainer().registerSubscriber(dType,
+					DataActionEnum.PersistDataAction, new PersistData());
 
-        }
+		}
 
-    }
+	}
 
-    @Override
-    public IComposeController construct(ICallContext iContext) {
-        IDataType da = iContext.getDType();
-        ListFormat li = rM.getFormat(da);
-        if (li.getElemFormat() == null) {
-            Utils.errAlert(M.M().ListDoesNotHaveELem(
-                    li.getId() + " " + li.getDisplayName(),
-                    ICommonConsts.ELEMFORMAT));
-            return null;
-        }
-        IComposeController i = fFactory.construct(da, dFactory);
+	@Override
+	public IComposeController construct(ICallContext iContext) {
+		IDataType da = iContext.getDType();
+		ListFormat li = rM.getFormat(da);
+		if (li.getElemFormat() == null) {
+			Utils.errAlert(M.M().ListDoesNotHaveELem(
+					li.getId() + " " + li.getDisplayName(),
+					ICommonConsts.ELEMFORMAT));
+			return null;
+		}
+		IComposeController i = fFactory.construct(da, dFactory);
 
-        DialogVariables addV = new DialogVariables();
-        String eCrud = getCrudId(iContext.getPersistTypeEnum());
-        addV.setValueS(ICommonConsts.JCRUD_DIALOG, eCrud);
+		DialogVariables addV = new DialogVariables();
+		String eCrud = getCrudId(iContext.getPersistTypeEnum());
+		addV.setValueS(ICommonConsts.JCRUD_DIALOG, eCrud);
 
-        DialogFormat dElem = li.getfElem();
-        assert dElem != null;
-        DialogInfo elemInfo = new DialogInfo(dElem, null);
-        IDialogContainer sLo = dialFactory.construct(da, elemInfo, iCon, null,
-                addV, null, null);
-        ComposeControllerType cType = new ComposeControllerType(sLo, da, 0, 0);
-        i.registerControler(cType);
+		DialogFormat dElem = li.getfElem();
+		assert dElem != null;
+		DialogInfo elemInfo = new DialogInfo(dElem, null);
+		IDialogContainer sLo = dialFactory.construct(da, elemInfo, iCon, null,
+				addV, null, null, null);
+		ComposeControllerType cType = new ComposeControllerType(sLo, da, 0, 0);
+		i.registerControler(cType);
 
-        IDataValidateAction iValidate = new ValidateAction(da);
-        cType = new ComposeControllerType(iValidate, da);
-        i.registerControler(cType);
+		IDataValidateAction iValidate = new ValidateAction(da);
+		cType = new ComposeControllerType(iValidate, da);
+		i.registerControler(cType);
 
-        IDataPersistAction iPersist = new ItemDataPersistAction(da, sLo);
+		IDataPersistAction iPersist = new ItemDataPersistAction(da, sLo);
 
-        cType = new ComposeControllerType(iPersist, da);
-        i.registerControler(cType);
+		cType = new ComposeControllerType(iPersist, da);
+		i.registerControler(cType);
 
-        return i;
-    }
+		return i;
+	}
 
-    public GetViewController(RowListDataManager rM, IDataModelFactory dFactory,
-            IVariablesContainer iCon) {
-        fFactory = GwtGiniInjector.getI().getComposeControllerFactory();
-        this.dFactory = dFactory;
-        this.rM = rM;
-        this.iCon = iCon;
-        dialFactory = UIGiniInjector.getI().getDialogContainterFactory();
-    }
+	public GetViewController(RowListDataManager rM, IDataModelFactory dFactory,
+			IVariablesContainer iCon) {
+		fFactory = GwtGiniInjector.getI().getComposeControllerFactory();
+		this.dFactory = dFactory;
+		this.rM = rM;
+		this.iCon = iCon;
+		dialFactory = UIGiniInjector.getI().getDialogContainterFactory();
+	}
 
 }

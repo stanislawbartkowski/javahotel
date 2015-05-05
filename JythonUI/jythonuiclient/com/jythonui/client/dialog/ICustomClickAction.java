@@ -10,22 +10,15 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.client.interfaces;
+package com.jythonui.client.dialog;
 
-import com.gwtmodel.table.IDataType;
-import com.jythonui.client.dialog.ICustomClickAction;
-import com.jythonui.client.dialog.IDialogContainer;
-import com.jythonui.client.util.IExecuteAfterModalDialog;
-import com.jythonui.client.util.ISendCloseAction;
-import com.jythonui.client.variables.IVariablesContainer;
-import com.jythonui.shared.DialogInfo;
+import com.gwtmodel.table.WSize;
+import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogVariables;
 
-public interface IDialogContainerFactory {
+public interface ICustomClickAction {
 
-	IDialogContainer construct(IDataType dType, DialogInfo info,
-			IVariablesContainer pCon, ISendCloseAction iClose,
-			DialogVariables addV, IExecuteAfterModalDialog iEx,
-			String[] startVal, ICustomClickAction iCustomClick);
+	boolean click(String id, WSize w, DialogFormat dForm,
+			DialogVariables v);
 
 }

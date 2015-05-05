@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" autohide="">
+
+	<before />
+
+	<jython>
+		<import>from testpack import columndialog</import>
+		<method>columndialog.dialogaction({0},{1})</method>
+	</jython>
+	
+	<buttons>
+	  <button id="accept" displayname="@changecolumns" />
+	  <button id="defa" displayname="@restoredefaults" actiontype="JCLOSE_DIALOG" />
+	</buttons>
+
+	<list id="list" toolbartype="listonly">
+	        <buttons-addlist>accept</buttons-addlist>
+		<columns>
+		  <column id="visible" displayname="@columnvisible" type="bool" editable="" />
+		  <column id="id" displayname="@columnid" />
+ 		  <column id="columnname" displayname="@columnname" editable="" />
+		</columns>
+	</list>
+
+
+</dialog>

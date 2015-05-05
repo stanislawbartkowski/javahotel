@@ -39,6 +39,7 @@ import com.gwtmodel.table.view.webpanel.IWebPanel.InfoType;
 import com.jythonui.client.IJythonUIClient;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.DataType;
+import com.jythonui.client.dialog.ICustomClickAction;
 import com.jythonui.client.dialog.IDialogContainer;
 import com.jythonui.client.dialog.impl.SendCloseSignal;
 import com.jythonui.client.dialog.impl.SendDialogFormSignal;
@@ -350,11 +351,12 @@ public class RunAction implements IJythonUIClient {
 		private final IExecuteAfterModalDialog iEx;
 		private final String[] startVal;
 		private final IDialogContainerFactory dialFactory;
+		private final ICustomClickAction iCustomClick;
 
 		StartBack(IDataType dType, ISlotListener getW,
 				IVariablesContainer iCon, ISendCloseAction iClose,
 				DialogVariables addV, IExecuteAfterModalDialog iEx,
-				String[] startVal) {
+				String[] startVal,ICustomClickAction iCustomClick) {
 			this.dType = dType;
 			this.getW = getW;
 			this.iCon = iCon;
@@ -363,12 +365,13 @@ public class RunAction implements IJythonUIClient {
 			this.iEx = iEx;
 			this.startVal = startVal;
 			dialFactory = UIGiniInjector.getI().getDialogContainterFactory();
+			this.iCustomClick = iCustomClick;
 		}
 
 		@Override
 		public void onMySuccess(DialogInfo arg) {
 			IDialogContainer d = dialFactory.construct(dType, arg, iCon,
-					iClose, addV, iEx, startVal);
+					iClose, addV, iEx, startVal,iCustomClick);
 			if (sy.mainW)
 				M.setMainD(d);
 			if (d.getD().isModelessDialog())
@@ -405,7 +408,7 @@ public class RunAction implements IJythonUIClient {
 						null,
 						startdialogName,
 						new StartBack(dType, new GetCenterWidget(), null, null,
-								null, null, null));
+								null, null, null,null));
 
 	}
 
@@ -421,7 +424,7 @@ public class RunAction implements IJythonUIClient {
 	 */
 	public void upDialog(String dialogName, WSize w, IVariablesContainer iCon,
 			IExecuteAfterModalDialog iEx, String startVal, String startVal1,
-			DialogVariables addV) {
+			DialogVariables addV,ICustomClickAction iCustomClick) {
 		IDataType dType = DataType.construct(dialogName, null);
 
 		UIGiniInjector
@@ -431,7 +434,7 @@ public class RunAction implements IJythonUIClient {
 						iCon.getDialogName(),
 						dialogName,
 						new StartBack(dType, new GetUpWidget(w), iCon, null,
-								addV, iEx, new String[] { startVal, startVal1 }));
+								addV, iEx, new String[] { startVal, startVal1 },iCustomClick));
 	}
 
 	public void getHelperDialog(String dialogName, ISlotListener sl,
@@ -446,7 +449,7 @@ public class RunAction implements IJythonUIClient {
 						iCon.getDialogName(),
 						dialogName,
 						new StartBack(dType, sl, iCon, iClose, addV, null,
-								new String[] { startVal, null }));
+								new String[] { startVal, null },null));
 
 	}
 

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gwtmodel.table.IDataListType;
+import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.Utils;
@@ -24,10 +25,13 @@ import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.view.util.SolidPos;
 import com.jythonui.client.IUIConsts;
 import com.jythonui.client.M;
+import com.jythonui.client.dialog.DataType;
+import com.jythonui.client.dialog.IDialogContainer;
 import com.jythonui.client.dialog.VField;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldValue;
+import com.jythonui.shared.ListFormat;
 import com.jythonui.shared.ListOfRows;
 import com.jythonui.shared.RowContent;
 import com.jythonui.shared.RowIndex;
@@ -38,85 +42,93 @@ import com.jythonui.shared.RowIndex;
  */
 public class JUtils {
 
-    private JUtils() {
-    }
+	private JUtils() {
+	}
 
-    public interface IVisitor {
-        void action(String fie, String field);
-    };
+	public interface IVisitor {
+		void action(String fie, String field);
+	};
 
-    public static void visitListOfFields(DialogVariables var, String prefix,
-            IVisitor i) {
-        for (String key : var.getFields())
-            if (key.startsWith(prefix)) {
-                String fie = key.substring(prefix.length());
-                i.action(fie, key);
-            }
-    }
+	public static void visitListOfFields(DialogVariables var, String prefix,
+			IVisitor i) {
+		for (String key : var.getFields())
+			if (key.startsWith(prefix)) {
+				String fie = key.substring(prefix.length());
+				i.action(fie, key);
+			}
+	}
 
-    public static IDataListType constructList(RowIndex rI, ListOfRows rL,
-            IVField comboField, IVField displayFie) {
-        DataListTypeFactory lFactory = GwtGiniInjector.getI()
-                .getDataListTypeFactory();
+	public static IDataListType constructList(RowIndex rI, ListOfRows rL,
+			IVField comboField, IVField displayFie) {
+		DataListTypeFactory lFactory = GwtGiniInjector.getI()
+				.getDataListTypeFactory();
 
-        List<IVModelData> rList = new ArrayList<IVModelData>();
-        if (rL != null)
-            for (RowContent t : rL.getRowList()) {
-                RowVModelData r = new RowVModelData(rI, t);
-                rList.add(r);
-            }
-        return lFactory.construct(rList, comboField, displayFie);
-    }
+		List<IVModelData> rList = new ArrayList<IVModelData>();
+		if (rL != null)
+			for (RowContent t : rL.getRowList()) {
+				RowVModelData r = new RowVModelData(rI, t);
+				rList.add(r);
+			}
+		return lFactory.construct(rList, comboField, displayFie);
+	}
 
-    public static void setVariables(DialogVariables v, IVModelData vData) {
-        if (vData == null) {
-            return;
-        }
-        for (IVField fie : vData.getF()) {
-            Object o = vData.getF(fie);
-            // pass empty as null (None)
-            FieldValue fVal = new FieldValue();
-            fVal.setValue(fie.getType().getType(), o, fie.getType()
-                    .getAfterdot());
-            v.setValue(fie.getId(), fVal);
-        }
-    }
+	public static void setVariables(DialogVariables v, IVModelData vData) {
+		if (vData == null) {
+			return;
+		}
+		for (IVField fie : vData.getF()) {
+			Object o = vData.getF(fie);
+			// pass empty as null (None)
+			FieldValue fVal = new FieldValue();
+			fVal.setValue(fie.getType().getType(), o, fie.getType()
+					.getAfterdot());
+			v.setValue(fie.getId(), fVal);
+		}
+	}
 
-    public interface IFieldVisit {
-        void setField(VField v, FieldValue val, boolean global);
-    }
+	public interface IFieldVisit {
+		void setField(VField v, FieldValue val, boolean global);
+	}
 
-    public static void VisitVariable(final DialogVariables var, String listid,
-            final IFieldVisit i) {
-        JUtils.IVisitor vis = new JUtils.IVisitor() {
+	public static void VisitVariable(final DialogVariables var, String listid,
+			final IFieldVisit i) {
+		JUtils.IVisitor vis = new JUtils.IVisitor() {
 
-            @Override
-            public void action(String fie, String field) {
-                boolean global = false;
-                if (fie.startsWith(IUIConsts.JGLOBAL)) {
-                    global = true;
-                    fie = fie.substring(IUIConsts.JGLOBAL.length());
-                }
-                FieldValue val = var.getValue(fie);
-                if (val == null) {
-                    Utils.errAlert(M.M().ErrorNoValue(fie), field);
-                    return;
-                }
-                VField v = VField.construct(fie, val.getType());
-                i.setField(v, val,global);
-            }
-        };
-        String prefix = IUIConsts.JCOPY;
-        if (listid != null)
-            prefix = IUIConsts.JROWCOPY + listid + "_";
-        JUtils.visitListOfFields(var, prefix, vis);
-    }
+			@Override
+			public void action(String fie, String field) {
+				boolean global = false;
+				if (fie.startsWith(IUIConsts.JGLOBAL)) {
+					global = true;
+					fie = fie.substring(IUIConsts.JGLOBAL.length());
+				}
+				FieldValue val = var.getValue(fie);
+				if (val == null) {
+					Utils.errAlert(M.M().ErrorNoValue(fie), field);
+					return;
+				}
+				VField v = VField.construct(fie, val.getType());
+				i.setField(v, val, global);
+			}
+		};
+		String prefix = IUIConsts.JCOPY;
+		if (listid != null)
+			prefix = IUIConsts.JROWCOPY + listid + "_";
+		JUtils.visitListOfFields(var, prefix, vis);
+	}
 
-    public static SolidPos constructSolidPos(DialogFormat d) {
-        SolidPos pos = new SolidPos(d.getTop(), d.getLeft(), d.getMaxTop(),
-                d.getMaxLeft());
-        return pos;
+	public static SolidPos constructSolidPos(DialogFormat d) {
+		SolidPos pos = new SolidPos(d.getTop(), d.getLeft(), d.getMaxTop(),
+				d.getMaxLeft());
+		return pos;
+	}
 
-    }
+	public static ListFormat getL(IDataType dType) {
+		DataType d = (DataType) dType;
+		String listId = d.getId();
+		IDialogContainer dC = d.getD();
+		DialogFormat dForm = dC.getD();
+		ListFormat li = dForm.findList(listId);
+		return li;
+	}
 
 }

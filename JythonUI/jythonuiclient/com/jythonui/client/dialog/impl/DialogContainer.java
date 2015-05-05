@@ -81,6 +81,7 @@ import com.jythonui.client.charts.DrawChartSignal;
 import com.jythonui.client.charts.IChartManager;
 import com.jythonui.client.dialog.DataType;
 import com.jythonui.client.dialog.ICreateBackActionFactory;
+import com.jythonui.client.dialog.ICustomClickAction;
 import com.jythonui.client.dialog.IDateLineManager;
 import com.jythonui.client.dialog.IDialogContainer;
 import com.jythonui.client.dialog.IEnumTypesList;
@@ -144,6 +145,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 	private final IVariablesContainer iCon;
 	private final ISendCloseAction iClose;
 	private final DialogVariables addV;
+	private final ICustomClickAction iCustomClick;
 	// not safe !
 	private final IFormGridManager gManager;
 	private final IDateLineManager dManager;
@@ -167,7 +169,8 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 
 	DialogContainer(IDataType dType, DialogInfo info, IVariablesContainer pCon,
 			ISendCloseAction iClose, DialogVariables addV,
-			IExecuteAfterModalDialog iEx, String[] startVal) {
+			IExecuteAfterModalDialog iEx, String[] startVal,
+			ICustomClickAction iCustomClick) {
 		this.info = info;
 		this.d = info.getDialog();
 		this.dType = dType;
@@ -203,6 +206,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 		dFactory = GwtGiniInjector.getI().getDisclosurePanelFactory();
 		// executeJS = UIGiniInjector.getI().getExecuteJS();
 		executeBack = UIGiniInjector.getI().getExecuteBackAction();
+		this.iCustomClick = iCustomClick;
 	}
 
 	private class CButton implements ISlotListener {
@@ -217,7 +221,13 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 		public void signal(ISlotSignalContext slContext) {
 			lastWClicked = new WSize(slContext.getGwtWidget());
 			lastClicked = slContext.getSlType().getButtonClick();
-			clickAction.click(lastClicked.getCustomButt(), lastWClicked);
+			String id = lastClicked.getCustomButt();
+			if (iCustomClick != null) {
+				DialogVariables v = iCon.getVariables(id);
+				if (iCustomClick.click(id, lastWClicked, d, v))
+					return;
+			}
+			clickAction.click(id, lastWClicked);
 		}
 
 	}
@@ -440,7 +450,11 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 					FieldValue val = addV.getValue(fie);
 					v.setValue(fie, val);
 				}
-				v.getRowList().putAll(addV.getRowList());
+				for (Entry<String, ListOfRows> r : addV.getRowList().entrySet()) {
+					if (!v.getRowList().containsKey(r.getKey()))
+						v.getRowList().put(r.getKey(), r.getValue());
+
+				}
 			}
 			// set cookies
 			List<IMapEntry> cList = Utils.getCookies();

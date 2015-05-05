@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gwtmodel.table.FieldDataType;
-import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGetDataList;
 import com.gwtmodel.table.IVField;
@@ -51,6 +50,9 @@ import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.ListFormat;
+import com.jythonui.shared.ListOfRows;
+import com.jythonui.shared.RowContent;
+import com.jythonui.shared.RowIndex;
 import com.jythonui.shared.TypedefDescr;
 
 /**
@@ -289,6 +291,32 @@ public class CreateForm {
 			pageSize = l.getPageSize();
 		else
 			pageSize = Utils.getNum(pSize);
+		String colCookieName = iCookie.genCookieName(dType,
+				IUIConsts.COOKIEPROPERTYLIST);
+		String jSon = Utils.getCookie(colCookieName);
+		if (!CUtil.EmptyS(jSon)) {
+			ListOfRows ro = ParseJ.toProp(jSon);
+			RowIndex rI = ParseJ.constructProp();
+			List<VListHeaderDesc> newH = new ArrayList<VListHeaderDesc>();
+			for (RowContent r : ro.getRowList()) {
+				String id = rI.get(r, IUIConsts.PROPID).getValueS();
+				boolean visible = rI.get(r, IUIConsts.PROPVISIBLE).getValueB()
+						.booleanValue();
+				String headerS = rI.get(r, IUIConsts.PROPCOLUMNNAME)
+						.getValueS();
+				IVField vv = VField.construct(id);
+				for (VListHeaderDesc v : desc.hList) {
+					if (v.getFie().eq(vv)) {
+						v.setHeaderString(headerS);
+						v.setHidden(!visible);
+						newH.add(v);
+						break;
+					}
+				}
+			}
+			desc.hList.clear();
+			desc.hList.addAll(newH);
+		}
 		return new VListHeaderContainer(desc.hList, lName, pageSize,
 				l.getJSModifRow(), l.getWidth(), null, desc.footList,
 				l.getPageSize());
