@@ -9,7 +9,7 @@ User : http://testjavahotel.appspot.com/?hotel=hotel (U/P user/user)
 
 ---
 
-# 2015/02/01: new verion deployed #
+# 2015/02/01: new version deployed #
 More info : http://hoteljavaopensource.blogspot.com/2015/02/new-version-of-javahotel-taxation.html
 
 Taxation added
