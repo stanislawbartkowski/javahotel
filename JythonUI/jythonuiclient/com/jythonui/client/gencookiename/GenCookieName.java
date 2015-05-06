@@ -13,6 +13,7 @@
 package com.jythonui.client.gencookiename;
 
 import com.gwtmodel.table.IDataType;
+import com.jythonui.client.IUIConsts;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.DataType;
 import com.jythonui.client.interfaces.IGenCookieName;
@@ -22,8 +23,8 @@ public class GenCookieName implements IGenCookieName {
 	@Override
 	public String genCookieName(IDataType dType, String name) {
 		DataType d = (DataType) dType;
-		String c = M.M().CookieNameStore(d.getD().getD().getId(), d.getId(),
-				name);
+		String c = M.M().CookieNameStore(IUIConsts.JPROPSAVECOOKIE,
+				d.getD().getD().getId(), d.getId(), name);
 		return c;
 	}
 

@@ -107,10 +107,33 @@ class PresentationFooterFactory extends PresentationCellHelper {
 
 	}
 
+	private class MySafeHtmlHeader extends Header<SafeHtml> {
+
+		private final VListHeaderDesc he;
+
+		/**
+		 * Construct a Header with a given {@link SafeHtml} text value.
+		 *
+		 * @param text
+		 *            the header text, as safe HTML
+		 */
+		public MySafeHtmlHeader(VListHeaderDesc he) {
+			super(new SafeHtmlCell());
+			this.he = he;
+		}
+
+		/**
+		 * Return the {@link SafeHtml} text value.
+		 */
+		@Override
+		public SafeHtml getValue() {
+			return getHtml(he.getAlign(), he.getFie().getType(),
+					iMess.getMessage(he.getHeaderString()));
+		}
+	}
+
 	Header<?> constructHeader(VListHeaderDesc he) {
-		String headerText = iMess.getMessage(he.getHeaderString());
-		return new SafeHtmlHeader(getHtml(he.getAlign(), he.getFie().getType(),
-				headerText));
+		return new MySafeHtmlHeader(he);
 	}
 
 	Header<?> constructFooter(VFooterDesc he) {

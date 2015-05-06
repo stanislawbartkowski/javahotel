@@ -90,6 +90,9 @@ def disableJCheckList(var,id,disable=True) :
 def createArrayList() :
   return ArrayList()   
   
+def setHeader(var,list,column,val):
+    var["JSETHEADER_"+list+"_"+column] = val
+  
 def setFooter(var,list,column,val):
     var["JFOOTER_COPY_"+list+"_"+column] = True
     var["JFOOTER_"+list+"_"+column] = val

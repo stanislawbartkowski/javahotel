@@ -4,7 +4,7 @@
 	<before />
 
 	<jython>
-		<import>from testpack import columndialog</import>
+		<import>from columndialog import columndialog</import>
 		<method>columndialog.dialogaction({0},{1})</method>
 	</jython>
 	

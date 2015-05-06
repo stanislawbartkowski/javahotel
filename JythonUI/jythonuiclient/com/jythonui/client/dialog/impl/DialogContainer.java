@@ -459,6 +459,8 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 			// set cookies
 			List<IMapEntry> cList = Utils.getCookies();
 			for (IMapEntry i : cList) {
+				if (i.getKey().startsWith(IUIConsts.JPROPSAVECOOKIE))
+					continue;
 				v.setValueS(IUIConsts.JCOOKIE + i.getKey(), i.getValue());
 			}
 		}

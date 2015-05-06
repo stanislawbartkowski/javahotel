@@ -23,48 +23,48 @@ import java.util.List;
 
 public interface IGwtTableView extends IGWidget {
 
-    void refresh();
+	void refresh();
 
-    void redrawRow(int rowno);
+	void redrawRow(int rowno);
 
-    WChoosedLine getClicked();
+	WChoosedLine getClicked();
 
-    WSize getRowWidget(int rowno);
+	WSize getRowWidget(int rowno);
 
-    void setClicked(int clickedno, boolean whileFind);
+	void setClicked(int clickedno, boolean whileFind);
 
-    IGwtTableModel getViewModel();
+	IGwtTableModel getViewModel();
 
-    void setModel(IGwtTableModel model);
+	void setModel(IGwtTableModel model);
 
-    void setModifyRowStyle(IModifyRowStyle iMod);
+	void setModifyRowStyle(IModifyRowStyle iMod);
 
-    void setEditable(ChangeEditableRowsParam eParam);
+	void setEditable(ChangeEditableRowsParam eParam);
 
-    List<IGetSetVField> getVList(int rowno);
+	List<IGetSetVField> getVList(int rowno);
 
-    void removeSort();
+	void removeSort();
 
-    boolean isSorted();
+	boolean isSorted();
 
-    void setPageSize(int pageSize);
+	void setPageSize(int pageSize);
 
-    int getPageSize();
+	int getPageSize();
 
-    void removeRow(int rownum);
+	void removeRow(int rownum);
 
-    void addRow(int rownum);
+	void addRow(int rownum);
 
-    void showInvalidate(int rowno, InvalidateFormContainer errContainer);
+	void showInvalidate(int rowno, InvalidateFormContainer errContainer);
 
-    void setNoWrap(boolean noWrap);
+	void setNoWrap(boolean noWrap);
 
-    boolean isNoWrap();
+	boolean isNoWrap();
 
-    void setSortColumn(IVField col, boolean inc);
+	void setSortColumn(IVField col, boolean inc);
 
-    void refreshFooter(IVModelData footer);
+	void refreshFooter(IVModelData footer);
 
-    void refreshHeader();
+	void refreshHeader();
 
 }

@@ -73,9 +73,8 @@ public class JUtils {
 	}
 
 	public static void setVariables(DialogVariables v, IVModelData vData) {
-		if (vData == null) {
+		if (vData == null)
 			return;
-		}
 		for (IVField fie : vData.getF()) {
 			Object o = vData.getF(fie);
 			// pass empty as null (None)

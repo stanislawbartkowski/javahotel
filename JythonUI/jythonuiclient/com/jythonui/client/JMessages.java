@@ -104,6 +104,6 @@ public interface JMessages extends Messages {
 
 	String ValueShouldBeString(String var, String type);
 
-	String CookieNameStore(String dName, String listName, String id);
+	String CookieNameStore(String cId, String dName, String listName, String id);
 
 }

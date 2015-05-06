@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+        <before />
+
+        <jython>
+                <import>from testpack import changeheader</import>
+                <method>changeheader.dialogaction({0},{1})</method>
+        </jython>
+	
+	<buttons>
+	  <button id="change" displayname="Change header text" validate=""/>
+	</buttons>
+	
+<form>
+   <field id="ncolumn" displayname="Column header text" notempty="" />
+</form>
+	
+
+      <list id="list" displayname="List of numbers">
+                <columns>
+                        <column id="id" displayname="storeKey" type="long" hidden="" />
+                        <column id="number0" displayname="Number" type="decimal" afterdot="0" />
+                        <column id="number1" displayname="Number 1" type="decimal" afterdot="1" />
+                        <column id="number2" displayname="Number 2" type="decimal" afterdot="2" />
+                        <column id="number3" displayname="Number 3" type="decimal" afterdot="3" />
+                        <column id="number4" displayname="Number 4" type="decimal" afterdot="4" />
+                </columns>
+        </list>
+
+
+</dialog>

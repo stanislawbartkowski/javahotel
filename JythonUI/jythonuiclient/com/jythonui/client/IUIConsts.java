@@ -86,9 +86,11 @@ public interface IUIConsts {
 	String JROWCOPY = "JROWCOPY_";
 	String JCOPY = "JCOPY_";
 	String JGLOBAL = "GLOBAL_";
+	String JSETHEADER = "JSETHEADER_";
 
 	String JCOOKIE = "JCOOKIE_";
 	String JCOOKIESET = "JCOOKIESET_";
+	String JPROPSAVECOOKIE = "JSAVECOOKIE";
 
 	int DATELINE_STARTYEARDEFAULT = 2012;
 	int DATELINE_ENDYEARDEFAULT = 2020;
@@ -97,7 +99,7 @@ public interface IUIConsts {
 	int PANELMENUDEFAH = 10;
 	String PANELMENUNAME = "Down";
 
-	String UIVersion = "UI : 2015/04/19 (r:11)";
+	String UIVersion = "UI : 2015/05/07 (r:11)";
 
 	String JBUTTONDIALOGSTART = "JUPDIALOG_START";
 	String JBUTTONDIALOGSTART1 = "JUPDIALOG_STARTPAR";
@@ -107,7 +109,7 @@ public interface IUIConsts {
 	String COOKIEPAGESIZE = "pagesize";
 	String COOKIENOWRAPON = "nowrapon";
 
-	String COLUMNDIALOG = "propertydialogcolumn.xml";
+	String COLUMNDIALOG = "columndialog/propertydialogcolumn.xml";
 
 	String LISTPROPERTY = "list";
 	String COOKIEPROPERTYLIST = "columnlist";
