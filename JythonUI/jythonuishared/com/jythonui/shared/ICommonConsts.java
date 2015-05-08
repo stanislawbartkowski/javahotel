@@ -84,6 +84,7 @@ public interface ICommonConsts {
 	String CLEARLEFT = "clearleft";
 	String JSMODIFROW = "jsmodifrow";
 	String CLEARCENTRE = "clearcentre";
+	String NOPROPERTYCOLUMN = "nopropertycolumn";
 	String LEFT = "left";
 	String TOP = "top";
 	String MAXLEFT = "maxleft";
@@ -92,7 +93,7 @@ public interface ICommonConsts {
 	String JXMLSETCONTENT = "JXMLCONTENTSET";
 	int DEFAULTCOLNO = 14;
 	int DEFAULTROWNO = 20;
-	int DEFPAGESIZE=20;
+	int DEFPAGESIZE = 20;
 	String TABPANEL = "tabpanel";
 	String TABPANELELEM = "tabelem";
 	String DISCLOSUREPANEL = "disclosurepanel";

@@ -21,6 +21,7 @@
 	</buttons>
 
 	<form>
+	        <field id="current" displayname="Current user" readonly="" />
 		<field id="firstname" displayname="First name (all)" />
 		<field id="lastname" displayname="Last name (user can edit)"
 			readonly="$!sec.u('user')" />

@@ -13,7 +13,7 @@
 	  <button id="defa" displayname="@restoredefaults" actiontype="JCLOSE_DIALOG" />
 	</buttons>
 
-	<list id="list" toolbartype="listonly">
+	<list id="list" toolbartype="listonly" nopropertycolumn="">
 	        <buttons-addlist>accept</buttons-addlist>
 		<columns>
 		  <column id="visible" displayname="@columnvisible" type="bool" editable="" />

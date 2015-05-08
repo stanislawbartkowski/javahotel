@@ -276,7 +276,8 @@ class PropertyListenerDialog {
 			addMenu(mList, MM.getL().RemoveSortOrder(), REMOVE_SORT);
 			addMenu(mList, MM.getL().ChangeNumberOfRows(), CHANGE_PAGE_SIZE);
 			addMenu(mList, MM.getL().WrapLines(), WRAP_LINE_ON);
-			addMenu(mList, MM.getL().ChangeColumns(), CHANGE_COLUMNS);
+			if (!SlU.noPropertyColumn(ddType, publishSlo))
+				addMenu(mList, MM.getL().ChangeColumns(), CHANGE_COLUMNS);
 			ListOfControlDesc coP = new ListOfControlDesc(mList);
 			IGWidget wi = slContext.getGwtWidget();
 			ControlClick co = new ControlClick();

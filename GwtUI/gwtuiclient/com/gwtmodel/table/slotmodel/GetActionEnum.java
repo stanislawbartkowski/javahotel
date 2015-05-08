@@ -42,6 +42,4 @@ public enum GetActionEnum {
 	GetListData,
 	/** GetFilterOkData. */
 	GetFilterData,
-	/** GetDisablePropertyDialog */
-	GetDisablePropertyDialog
 }

@@ -539,7 +539,7 @@ class DateLineManager implements IDateLineManager {
 				}
 				return new VListHeaderContainer(desc.hList,
 						dList.getDisplayName(), dList.getRowNo(), null, null,
-						null, desc.footList, 0);
+						null, desc.footList, 0, false);
 			}
 
 			@Override

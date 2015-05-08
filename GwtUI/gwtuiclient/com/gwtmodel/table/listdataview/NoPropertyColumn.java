@@ -13,33 +13,20 @@
 package com.gwtmodel.table.listdataview;
 
 import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.slotmodel.CustomObjectValue;
 import com.gwtmodel.table.slotmodel.CustomStringDataTypeSlot;
 import com.gwtmodel.table.slotmodel.CustomStringSlot;
 
-/**
- * @author hotel
- * 
- */
-public class SetSortColumnSignal extends CustomObjectValue<IVField> {
+public class NoPropertyColumn extends CustomObjectValue<Boolean> {
 
-	private final boolean inc;
-
-	public SetSortColumnSignal(IVField value, boolean inc) {
+	NoPropertyColumn(Boolean value) {
 		super(value);
-		this.inc = inc;
 	}
 
-	boolean isInc() {
-		return inc;
-	}
+	private static final String SIGNAL_ID = NoPropertyColumn.class.getName()
+			+ "TABLE_PUBLIC_NO_PROPERTY_COLUMN";
 
-	private static final String SIGNAL_ID = SetSortColumnSignal.class.getName()
-			+ "TABLE_PUBLIC_SET_SORT_COLUMN";
-
-	public static CustomStringSlot constructSlotSetSortColumnSignal(
-			IDataType dType) {
+	public static CustomStringSlot constructNoPropertyColumn(IDataType dType) {
 		return new CustomStringDataTypeSlot(dType, SIGNAL_ID);
 	}
 

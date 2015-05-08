@@ -21,6 +21,7 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.factories.ILaunchPropertyDialogColumn;
 import com.gwtmodel.table.json.IJsonConvert;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
@@ -116,6 +117,9 @@ public class PropertyColumnDialog implements ILaunchPropertyDialogColumn {
 					boolean hidden = !r.getRow(0).getValueB();
 					String idS = r.getRow(1).getValueS();
 					String header = r.getRow(2).getValueS();
+					// avoid null
+					if (CUtil.EmptyS(header))
+						header = "";
 					cH.addHeader(idS, hidden, header);
 				}
 				RowIndex ri = ParseJ.constructProp();

@@ -41,6 +41,7 @@
   <button id="listnowrap" displayname="List no wrap" actiontype="JMAIN_DIALOG" actionparam="listnowrap.xml" />
   <button id="listfooterdecimal" displayname="List footer" actiontype="JMAIN_DIALOG" actionparam="listfooterdecimal.xml" />
   <button id="listchangeheader" displayname="Change header name" actiontype="JMAIN_DIALOG" actionparam="listchangeheader.xml" />
+  <button id="listcheck" displayname="List check" actiontype="JMAIN_DIALOG" actionparam="listcheckelem.xml" />
   <button id="c" displayname = "Charts" header="" />  
   <button id="dialogchart" displayname="Pie chart" actiontype="JMAIN_DIALOG" actionparam="dialogchart.xml" />
   <button id="dialogarea" displayname="Area chart" actiontype="JMAIN_DIALOG" actionparam="dialogarea.xml" />

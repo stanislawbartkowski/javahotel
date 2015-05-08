@@ -307,6 +307,8 @@ public class CreateForm {
 				IVField vv = VField.construct(id);
 				for (VListHeaderDesc v : desc.hList) {
 					if (v.getFie().eq(vv)) {
+						if (CUtil.EmptyS(headerS))
+							headerS = "";
 						v.setHeaderString(headerS);
 						v.setHidden(!visible);
 						newH.add(v);
@@ -319,7 +321,7 @@ public class CreateForm {
 		}
 		return new VListHeaderContainer(desc.hList, lName, pageSize,
 				l.getJSModifRow(), l.getWidth(), null, desc.footList,
-				l.getPageSize());
+				l.getPageSize(), l.isNoPropertyColumn());
 	}
 
 	public static ControlButtonDesc constructButton(ButtonItem b,

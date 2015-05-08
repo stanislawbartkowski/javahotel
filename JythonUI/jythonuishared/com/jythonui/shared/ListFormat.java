@@ -115,4 +115,8 @@ public class ListFormat extends ElemDescription {
 		return isAttr(ICommonConsts.NOWRAPLIST);
 	}
 
+	public boolean isNoPropertyColumn() {
+		return isAttr(ICommonConsts.NOPROPERTYCOLUMN);
+	}
+
 }

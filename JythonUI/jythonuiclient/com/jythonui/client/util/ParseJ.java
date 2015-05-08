@@ -18,6 +18,7 @@ import java.util.List;
 
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONBoolean;
+import com.google.gwt.json.client.JSONNull;
 import com.google.gwt.json.client.JSONNumber;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
@@ -66,31 +67,34 @@ public class ParseJ {
 			for (FieldItem fi : rI.getColList()) {
 				JSONValue v = val.get(fi.getId());
 				FieldValue vall = new FieldValue();
-				switch (fi.getFieldType()) {
-				case BOOLEAN:
-					JSONBoolean b = (JSONBoolean) v;
-					vall.setValue(b.booleanValue());
-					break;
-				case DATE:
-					break;
-				case BIGDECIMAL:
-					JSONNumber jn = (JSONNumber) v;
-					vall.setValue(new BigDecimal(jn.doubleValue()),
-							fi.getAfterDot());
-					break;
-				case INT:
-					JSONNumber ji = (JSONNumber) v;
-					vall.setValue(new Double(ji.doubleValue()).intValue());
-					break;
-				case LONG:
-					JSONNumber jl = (JSONNumber) v;
-					vall.setValue(new Double(jl.doubleValue()).longValue());
-					break;
-				default:
-					JSONString js = (JSONString) v;
-					vall.setValue(js.stringValue());
-					break;
-				}
+				if (v.isNull() == JSONNull.getInstance())
+					vall.setValue(fi.getFieldType(), null, fi.getAfterDot());
+				else
+					switch (fi.getFieldType()) {
+					case BOOLEAN:
+						JSONBoolean b = (JSONBoolean) v;
+						vall.setValue(b.booleanValue());
+						break;
+					case DATE:
+						break;
+					case BIGDECIMAL:
+						JSONNumber jn = (JSONNumber) v;
+						vall.setValue(new BigDecimal(jn.doubleValue()),
+								fi.getAfterDot());
+						break;
+					case INT:
+						JSONNumber ji = (JSONNumber) v;
+						vall.setValue(new Double(ji.doubleValue()).intValue());
+						break;
+					case LONG:
+						JSONNumber jl = (JSONNumber) v;
+						vall.setValue(new Double(jl.doubleValue()).longValue());
+						break;
+					default:
+						JSONString js = (JSONString) v;
+						vall.setValue(js.stringValue());
+						break;
+					}
 				rI.setRowField(ro, fi.getId(), vall);
 			}
 			r.addRow(ro);

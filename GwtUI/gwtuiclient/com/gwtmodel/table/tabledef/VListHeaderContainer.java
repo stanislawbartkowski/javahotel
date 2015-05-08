@@ -26,10 +26,12 @@ public class VListHeaderContainer {
 	private final String jsModifRow;
 	private final String widthDef;
 	private final String treeHeight;
+	private final boolean noColumnProperty;
 
 	public VListHeaderContainer(List<VListHeaderDesc> heList, String listTitle,
 			int pageSize, String jsModifRow, String widthDef,
-			String treeHeight, List<VFooterDesc> foList, int defaultPageSize) {
+			String treeHeight, List<VFooterDesc> foList, int defaultPageSize,
+			boolean noColumnProperty) {
 		this.heList = heList;
 		this.listTitle = listTitle;
 		this.pageSize = pageSize <= 0 ? IConsts.defaultPage : pageSize;
@@ -39,10 +41,11 @@ public class VListHeaderContainer {
 		this.widthDef = widthDef;
 		this.treeHeight = treeHeight;
 		this.foList = foList;
+		this.noColumnProperty = noColumnProperty;
 	}
 
 	public VListHeaderContainer(List<VListHeaderDesc> heList, String listTitle) {
-		this(heList, listTitle, 0, null, null, null, null, 0);
+		this(heList, listTitle, 0, null, null, null, null, 0, false);
 	}
 
 	public VListHeaderDesc getHeader(IVField v) {
@@ -111,6 +114,10 @@ public class VListHeaderContainer {
 
 	public int getDefaultPageSize() {
 		return defaultPageSize;
+	}
+
+	public boolean isNoColumnProperty() {
+		return noColumnProperty;
 	}
 
 }

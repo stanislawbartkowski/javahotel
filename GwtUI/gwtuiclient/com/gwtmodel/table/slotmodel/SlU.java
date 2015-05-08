@@ -30,6 +30,7 @@ import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.listdataview.DataIntegerSignal;
 import com.gwtmodel.table.listdataview.GetVListSignal;
+import com.gwtmodel.table.listdataview.NoPropertyColumn;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormChangeListener;
 import com.gwtmodel.table.rdef.IFormLineView;
@@ -192,6 +193,13 @@ public class SlU {
 		ICustomObject o = slContext.getCustom();
 		CustomObjectValue<Boolean> b = (CustomObjectValue<Boolean>) o;
 		return b.getValue();
+	}
+
+	public static boolean noPropertyColumn(IDataType dType, ISlotable iSlo) {
+		CustomStringSlot sl = NoPropertyColumn.constructNoPropertyColumn(dType);
+		NoPropertyColumn pro = (NoPropertyColumn) iSlo.getSlContainer()
+				.getGetterCustom(sl).getCustom();
+		return pro.getValue();
 	}
 
 	/**

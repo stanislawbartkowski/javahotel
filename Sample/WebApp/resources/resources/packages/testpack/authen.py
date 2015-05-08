@@ -1,18 +1,17 @@
 import util
-
+import cutil
 
 def dialogaction(action,var) :
 
-  print action
-  for k in var.keys() : 
-    print k
-    print var[k]
+  cutil.printVar("authen",action,var)
     
   if action == "before" :
+#    print "...........",cutil.getAppId(var)
+    var["current"] = cutil.getPerson(var)
     var["firstname"] = "firstname"
     var["lastname"] = "lastname"
     var["secret"] = "top secret"
-    util.setcopy(var,["firstname","lastname","secret"])
+    util.setcopy(var,["firstname","lastname","secret","current"])
     
   if action == "copy" :
     seq = ['firstname','lastname',"secret"]

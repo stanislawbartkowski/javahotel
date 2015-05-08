@@ -642,6 +642,16 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 		}
 	}
 
+	private class GetNoPropertyColumn implements ISlotCallerListener {
+
+		@Override
+		public ISlotSignalContext call(ISlotSignalContext slContext) {
+			boolean noProperty = listView.getHeaderList().isNoColumnProperty();
+			NoPropertyColumn n = new NoPropertyColumn(noProperty);
+			return coFactory.construct(slContext.getSlType(), n);
+		}
+	}
+
 	private class GetAsyncProvider implements ISlotCallerListener {
 
 		@Override
@@ -997,6 +1007,8 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 		registerCaller(dType, GetActionEnum.GetHeaderList, new GetHeader());
 		registerCaller(dType, GetActionEnum.GetListData, new GetWholeList());
 		registerCaller(dType, GetActionEnum.GetFilterData, new GetFilterData());
+		registerCaller(NoPropertyColumn.constructNoPropertyColumn(dType),
+				new GetNoPropertyColumn());
 
 		registerCaller(IsBooleanSignalNow.constructSlotGetTreeView(dType),
 				new GetTreeViewNow());

@@ -21,30 +21,30 @@ import com.gwtmodel.table.view.table.IGwtTableView;
 
 public class SearchTable {
 
-    private SearchTable() {
-    }
+	private SearchTable() {
+	}
 
-    public static boolean search(IDataType dType, IOkModelData iOk,
-            IGwtTableView tableView, boolean begin, boolean next) {
-        assert iOk != null : LogT.getT().FilterCannotbeNull();
-        WChoosedLine w = tableView.getClicked();
-        int aLine = -1;
-        if (w.isChoosed() && !begin) {
-            aLine = w.getChoosedLine() - 1;
-        }
-        if (next) {
-            aLine++;
-        }
-        boolean found = false;
-        // order in while predicate evaluation is important !
-        while (!found && (++aLine < tableView.getViewModel().getSize())) {
-            IVModelData v = tableView.getViewModel().get(aLine);
-            found = iOk.OkData(v);
-        }
-        if (!found)
-            return false;
-        tableView.setClicked(aLine, true);
-        return true;
-    }
+	public static boolean search(IDataType dType, IOkModelData iOk,
+			IGwtTableView tableView, boolean begin, boolean next) {
+		assert iOk != null : LogT.getT().FilterCannotbeNull();
+		WChoosedLine w = tableView.getClicked();
+		int aLine = -1;
+		if (w.isChoosed() && !begin) {
+			aLine = w.getChoosedLine() - 1;
+		}
+		if (next) {
+			aLine++;
+		}
+		boolean found = false;
+		// order in while predicate evaluation is important !
+		while (!found && (++aLine < tableView.getViewModel().getSize())) {
+			IVModelData v = tableView.getViewModel().get(aLine);
+			found = iOk.OkData(v);
+		}
+		if (!found)
+			return false;
+		tableView.setClicked(aLine, true);
+		return true;
+	}
 
 }

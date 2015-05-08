@@ -12,11 +12,13 @@
  */
 package com.jython.ui;
 
-import org.junit.Test;
 import static org.junit.Assert.*;
+
+import org.junit.Test;
 
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.FieldItem;
+import com.jythonui.shared.ListFormat;
 
 public class Test59 extends TestHelper {
 
@@ -29,5 +31,15 @@ public class Test59 extends TestHelper {
 		i = d.findFieldItem("ctitle");
 		assertNotNull(i);
 		assertEquals("hello", i.getCellTitle());
+	}
+
+	@Test
+	public void test2() {
+		DialogFormat d = findDialog("test105.xml");
+		assertNotNull(d);
+		ListFormat f = d.findList("list");
+		assertTrue(f.isNoPropertyColumn());
+		f = d.findList("list1");
+		assertFalse(f.isNoPropertyColumn());
 	}
 }

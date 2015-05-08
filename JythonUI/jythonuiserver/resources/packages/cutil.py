@@ -662,7 +662,8 @@ def getMapFieldList(dialogName,list=None):
 # =============================
 def getPerson(var):
     token = var["SECURITY_TOKEN"]
-    return Holder.getNameFromToken().getInstance(token).getPerson()
+#    return Holder.getNameFromToken().getInstance(token).getPerson()
+    return Holder.getiSec().getUserName(token)
 
 def getAppId(var):
     token = var["SECURITY_TOKEN"]

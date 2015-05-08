@@ -150,7 +150,6 @@
 			<xs:element minOccurs="0" name="maxtop" type="xs:positiveInteger" />
 			<xs:element minOccurs="0" name="left" type="xs:positiveInteger" />
 			<xs:element minOccurs="0" name="top" type="xs:positiveInteger" />
-
 		</xs:sequence>
 	</xs:group>
 
@@ -214,6 +213,7 @@
 			<xs:element minOccurs="0" name="jsmodifrow" type="xs:string" />
 			<xs:element minOccurs="0" name="toolbartype" type="toolbarType" />
 			<xs:element minOccurs="0" name="nowrap" type="emptyT" />
+			<xs:element minOccurs="0" name="nopropertycolumn" type="emptyT" />
 		</xs:sequence>
 	</xs:group>
 
@@ -234,6 +234,7 @@
 		<xs:attribute name="jsmodifrow" type="xs:string" />
 		<xs:attribute name="toolbartype" type="toolbarType" />
 		<xs:attribute name="nowrap" type="emptyT" />
+		<xs:attribute name="nopropertycolumn" type="emptyT" />
 	</xs:attributeGroup>
 
 	<xs:group name="jythonG">
