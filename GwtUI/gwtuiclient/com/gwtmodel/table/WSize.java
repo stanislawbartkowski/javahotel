@@ -20,58 +20,66 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class WSize {
 
-    private final int top;
-    private final int left;
-    private final int height;
-    private final int width;
-    private final Widget w;
+	private final int top;
+	private final int left;
+	private final int height;
+	private final int width;
+	private final Widget w;
 
-    public WSize(int top, int left, int height, int width) {
-        this.top = top;
-        this.left = left;
-        this.height = height;
-        this.width = width;
-        this.w = null;
-    }
+	public WSize(int top, int left, int height, int width) {
+		this.top = top;
+		this.left = left;
+		this.height = height;
+		this.width = width;
+		this.w = null;
+	}
 
-    public WSize(Widget w) {
-        this.top = w.getAbsoluteTop();
-        this.left = w.getAbsoluteLeft();
-        this.height = w.getOffsetHeight();
-        this.width = w.getOffsetWidth();
-        this.w = w;
-    }
+	public WSize(Widget w) {
+		this.top = w.getAbsoluteTop();
+		this.left = w.getAbsoluteLeft();
+		this.height = w.getOffsetHeight();
+		this.width = w.getOffsetWidth();
+		this.w = w;
+	}
 
-    public WSize(IGWidget w) {
-        this(w.getGWidget());
-    }
+	public WSize(IGWidget w) {
+		this(w.getGWidget());
+	}
 
-    public WSize(com.google.gwt.dom.client.Element e) {
-        this.top = e.getAbsoluteTop();
-        this.left = e.getAbsoluteLeft();
-        this.height = e.getOffsetHeight();
-        this.width = e.getOffsetWidth();
-        this.w = null;
-    }
+	public WSize(com.google.gwt.dom.client.Element e) {
+		this.top = e.getAbsoluteTop();
+		this.left = e.getAbsoluteLeft();
+		this.height = e.getOffsetHeight();
+		this.width = e.getOffsetWidth();
+		this.w = null;
+	}
 
-    public int getTop() {
-        return top;
-    }
+	public int getTop() {
+		return top;
+	}
 
-    public int getLeft() {
-        return left;
-    }
+	public int getLeft() {
+		return left;
+	}
 
-    public int getHeight() {
-        return height;
-    }
+	public int getBottom() {
+		return top + height;
+	}
 
-    public int getWidth() {
-        return width;
-    }
+	public int getRight() {
+		return left + width;
+	}
 
-    public Widget getW() {
-        return w;
-    }
+	public int getHeight() {
+		return height;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public Widget getW() {
+		return w;
+	}
 
 }

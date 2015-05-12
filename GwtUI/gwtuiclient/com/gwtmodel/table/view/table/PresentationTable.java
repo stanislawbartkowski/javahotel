@@ -425,13 +425,13 @@ class PresentationTable implements IGwtTableView {
 		e = new PersistInTable();
 		// }
 		fa = new PresentationCellFactory(gValue);
-		footFactory = new PresentationFooterFactory(fa);
 		// faEdit = new PresentationEditCellFactory(e, table, new
 		// StartEditLine(),
 		// this, iIma);
 		faEdit = PresentationEditCellProvider.contruct(e, table,
 				new StartEditLine(), this, iIma);
 		table.addRowHoverHandler(new RowHover());
+		footFactory = new PresentationFooterFactory(fa, faEdit);
 		if (iSpan != null) {
 			SpanCellBuilder.IGetSpanColValue<MutableInteger> i = new SpanCellBuilder.IGetSpanColValue<MutableInteger>() {
 
@@ -699,7 +699,7 @@ class PresentationTable implements IGwtTableView {
 			}
 
 			if (header == null) {
-				header = footFactory.constructHeader(he);
+				header = footFactory.constructHeader(he, editable);
 			}
 			if (he.getHeaderClass() != null)
 				header.setHeaderStyleNames(he.getHeaderClass());
@@ -895,6 +895,7 @@ class PresentationTable implements IGwtTableView {
 			vPanel.setStyleName(model.getClassName());
 		this.model = model;
 		this.columnC = false;
+		footFactory.setGModel(model);
 		fa.setModel(model);
 		faEdit.setModel(model);
 		createHeader();

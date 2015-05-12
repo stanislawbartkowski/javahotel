@@ -17,6 +17,8 @@ import java.util.List;
 
 import com.google.common.base.Optional;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.ICustomObject;
@@ -31,12 +33,15 @@ import com.gwtmodel.table.SynchronizeList;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
+import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.controlbuttonview.ButtonRedirectActivateSignal;
 import com.gwtmodel.table.controlbuttonview.ButtonRedirectSignal;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.json.IJsonConvert;
 import com.gwtmodel.table.listdataview.ChunkReader.Chunk;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
@@ -53,7 +58,9 @@ import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.slotmodel.SlotType;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
+import com.gwtmodel.table.view.controlpanel.IControlClick;
 import com.gwtmodel.table.view.table.GwtTableFactory;
+import com.gwtmodel.table.view.table.IBoolHeaderClick;
 import com.gwtmodel.table.view.table.IColumnImage;
 import com.gwtmodel.table.view.table.IGetCellValue;
 import com.gwtmodel.table.view.table.IGwtTableModel;
@@ -63,6 +70,8 @@ import com.gwtmodel.table.view.table.IModifyRowStyle;
 import com.gwtmodel.table.view.table.INewEditLineFocus;
 import com.gwtmodel.table.view.table.IRowClick;
 import com.gwtmodel.table.view.table.IRowEditAction;
+import com.gwtmodel.table.view.util.PopUpTip;
+import com.gwtmodel.table.view.util.PopupCreateMenu;
 
 class ListDataView extends AbstractSlotContainer implements IListDataView {
 
@@ -82,6 +91,9 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 	private final List<IDataType> activateRedirect = new ArrayList<IDataType>();
 	private final ChunkReader cReader;
 	private final IJsonConvert iJson;
+
+	private final static String CHECKALL = "CHECK";
+	private final static String UNCHECKALL = "UNCHECK";
 
 	private final EditAfterFocusSynchronizer editSynch = new EditAfterFocusSynchronizer();
 
@@ -914,6 +926,47 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 		}
 	}
 
+	private class ControlClick implements IControlClick {
+
+		private final IVField v;
+
+		ControlClick(IVField v) {
+			this.v = v;
+		}
+
+		@Override
+		public void click(ControlButtonDesc co, Widget w) {
+			boolean check = true;
+			if (co.getActionId().getCustomButt().equals(UNCHECKALL))
+				check = false;
+			for (int i = 0; i < listView.getSize(); i++) {
+				IVModelData vd = listView.get(i);
+				Boolean b = new Boolean(check);
+				vd.setF(v, b);
+			}
+			tableView.refresh();
+		}
+
+	}
+
+	private class BoolHeaderClick implements IBoolHeaderClick {
+
+		@Override
+		public void clicked(IVField v, WSize w) {
+			List<ControlButtonDesc> mList = new ArrayList<ControlButtonDesc>();
+			ControlButtonDesc bu = new ControlButtonDesc(MM.getL().CheckAll(),
+					CHECKALL);
+			mList.add(bu);
+			bu = new ControlButtonDesc(MM.getL().UncheckAll(), UNCHECKALL);
+			mList.add(bu);
+			ListOfControlDesc coP = new ListOfControlDesc(mList);
+			ControlClick co = new ControlClick(v);
+			MenuBar mp = PopupCreateMenu.createMenu(coP, co, null);
+			PopUpTip.drawPopupTip(w.getLeft(), w.getBottom(), mp);
+		}
+
+	}
+
 	ListDataView(GwtTableFactory gFactory, IDataType dType,
 			IGetCellValue gValue, boolean selectedRow, boolean unSelectAtOnce,
 			boolean treeView, boolean async, String className) {
@@ -922,6 +975,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 		listView.setrAction(new RowActionListener());
 		listView.setUnSelectAtOnce(unSelectAtOnce);
 		listView.setClassName(className);
+		listView.setiBClick(new BoolHeaderClick());
 		this.dType = dType;
 		this.gFactory = gFactory;
 		this.gValue = gValue;

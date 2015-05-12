@@ -73,6 +73,7 @@ import com.gwtmodel.table.view.daytimetable.IDrawPartSeason;
 import com.gwtmodel.table.view.daytimetable.IDrawPartSeasonContext;
 import com.gwtmodel.table.view.daytimetable.IScrollSeason;
 import com.gwtmodel.table.view.table.GwtTableFactory;
+import com.gwtmodel.table.view.table.IBoolHeaderClick;
 import com.gwtmodel.table.view.table.IGetColSpan;
 import com.gwtmodel.table.view.table.IGwtTableModel;
 import com.gwtmodel.table.view.table.IGwtTableView;
@@ -586,6 +587,12 @@ class DateLineManager implements IDateLineManager {
 				return join.join(isToday(d) ? IUIConsts.CELL_COLUMN_TODAY
 						: null, isWeekend(d) ? (IUIConsts.CELL_COLUMN_WEEKEND)
 						: null);
+			}
+
+			@Override
+			public IBoolHeaderClick getBClicked() {
+				// TODO Auto-generated method stub
+				return null;
 			}
 
 		}

@@ -30,6 +30,7 @@ import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.factories.IWebPanelResources;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.view.table.IGwtTableModel;
+import com.gwtmodel.table.view.table.edit.IPresentationCellEdit;
 
 /**
  * @author hotel

@@ -12,7 +12,7 @@
       <list id="list" displayname="Check list">
                 <columns>
                         <column id="id" displayname="Id" type="long" hidden="" />
-			<column id="check" displayname="" type="bool" editable="" />
+			<column id="check" displayname="Wybierz" type="bool" editable="" />
                         <column id="number" displayname="Number" type="decimal" afterdot="0" />
                 </columns>
         </list>

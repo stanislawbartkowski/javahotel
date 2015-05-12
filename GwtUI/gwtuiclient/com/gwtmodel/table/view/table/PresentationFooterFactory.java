@@ -13,22 +13,33 @@
 package com.gwtmodel.table.view.table;
 
 import java.math.BigDecimal;
+import java.util.List;
 
+import com.google.gwt.cell.client.AbstractCell;
+import com.google.gwt.cell.client.ActionCell;
+import com.google.gwt.cell.client.ValueUpdater;
+import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.cell.client.SafeHtmlCell;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.BrowserEvents;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.safehtml.client.SafeHtmlTemplates;
 import com.google.gwt.safehtml.shared.SafeHtml;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.cellview.client.Header;
-import com.google.gwt.user.cellview.client.SafeHtmlHeader;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.FieldDataType;
+import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.TT;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.gwtmodel.table.tabledef.VFooterDesc;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
+import com.gwtmodel.table.view.table.edit.IPresentationCellEdit;
 import com.gwtmodel.table.view.table.util.PresentationCellHelper;
 
 /**
@@ -40,11 +51,15 @@ class PresentationFooterFactory extends PresentationCellHelper {
 	@SuppressWarnings("unused")
 	private final PresentationCellFactory cFactory;
 	private IVModelData footerV;
+	private final IPresentationCellEdit faEdit;
+
 	private IGetStandardMessage iMess = GwtGiniInjector.getI()
 			.getStandardMessage();
 
-	PresentationFooterFactory(PresentationCellFactory cFactory) {
+	PresentationFooterFactory(PresentationCellFactory cFactory,
+			IPresentationCellEdit faEdit) {
 		this.cFactory = cFactory;
+		this.faEdit = faEdit;
 	}
 
 	// center, left, right
@@ -132,7 +147,67 @@ class PresentationFooterFactory extends PresentationCellHelper {
 		}
 	}
 
-	Header<?> constructHeader(VListHeaderDesc he) {
+	private class C extends AbstractCell<SafeHtml> {
+
+		private final VListHeaderDesc he;
+		private WSize w = null;
+
+		C(VListHeaderDesc he) {
+			super(BrowserEvents.CLICK);
+			this.he = he;
+		}
+
+		@Override
+		public void onBrowserEvent(Context context, Element parent,
+				SafeHtml value, NativeEvent event,
+				ValueUpdater<SafeHtml> valueUpdater) {
+			w = new WSize(parent.getAbsoluteTop(), parent.getAbsoluteLeft(),
+					parent.getAbsoluteBottom() - parent.getAbsoluteTop(),
+					parent.getAbsoluteRight() - parent.getAbsoluteLeft());
+			if (BrowserEvents.CLICK.equals(event.getType())) {
+				if (faEdit.geteParam().geteList() == null)
+					return;
+				if (!faEdit.geteParam().isEditable())
+					return;
+				List<IVField> eList = faEdit.geteParam().geteList();
+				for (IVField v : eList)
+					if (v.eq(he.getFie())) {
+						model.getBClicked().clicked(he.getFie(), w);
+						break;
+					}
+			}
+		}
+
+		@Override
+		public void render(com.google.gwt.cell.client.Cell.Context context,
+				SafeHtml value, SafeHtmlBuilder sb) {
+			if (value != null)
+				sb.append(value);
+		}
+
+	}
+
+	private class BoolActionHeader extends Header<SafeHtml> {
+
+		private final VListHeaderDesc he;
+
+		BoolActionHeader(VListHeaderDesc he) {
+			super(new C(he));
+			this.he = he;
+		}
+
+		@Override
+		public SafeHtml getValue() {
+			return getHtml(he.getAlign(), he.getFie().getType(),
+					iMess.getMessage(he.getHeaderString()));
+		}
+
+	}
+
+	Header<?> constructHeader(VListHeaderDesc he, boolean editable) {
+		if (he.getFie().getType().getType() == TT.BOOLEAN && editable) {
+			return new BoolActionHeader(he);
+		}
 		return new MySafeHtmlHeader(he);
 	}
 

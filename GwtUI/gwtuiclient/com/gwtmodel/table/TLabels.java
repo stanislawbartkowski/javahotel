@@ -25,168 +25,172 @@ import java.util.Map;
  */
 public interface TLabels extends Constants {
 
-    String DateFormNotValid();
+	String DateFormNotValid();
 
-    String NumberNotValid();
+	String NumberNotValid();
 
-    String From();
+	String From();
 
-    String To();
+	String To();
 
-    String Description();
+	String Description();
 
-    String NotFound();
+	String NotFound();
 
-    String NothingEntered();
+	String NothingEntered();
 
-    String AddNewRecord();
+	String AddNewRecord();
 
-    String ChangeRecord();
+	String ChangeRecord();
 
-    String SendingMail();
+	String SendingMail();
 
-    String MailFrom();
+	String MailFrom();
 
-    String SendingHeader();
+	String SendingHeader();
 
-    String SendingQuestion();
+	String SendingQuestion();
 
-    String MailBox();
+	String MailBox();
 
-    String MailSubject();
+	String MailSubject();
 
-    String MailContent();
+	String MailContent();
 
-    String MailTo();
+	String MailTo();
 
-    String EmptyFieldMessage();
+	String EmptyFieldMessage();
 
-    String SearchButton();
+	String SearchButton();
 
-    String ClearParam();
+	String ClearParam();
 
-    String SearchFromBeginning();
+	String SearchFromBeginning();
 
-    String SearchNext();
+	String SearchNext();
 
-    String Yes();
+	String Yes();
 
-    String No();
+	String No();
 
-    String ClearParametersQuestion();
+	String ClearParametersQuestion();
 
-    String SetFilter();
+	String SetFilter();
 
-    String RemoveFilter();
+	String RemoveFilter();
 
-    String Filter();
+	String Filter();
 
-    String Accept();
+	String Accept();
 
-    String Resign();
+	String Resign();
 
-    String Choose();
+	String Choose();
 
-    String Ok();
+	String Ok();
 
-    String Print();
+	String Print();
 
-    String Remove();
+	String Remove();
 
-    String DateLaterError();
+	String DateLaterError();
 
-    String Attachment();
+	String Attachment();
 
-    String DownloadAttachment();
+	String DownloadAttachment();
 
-    String ClockToDownload();
+	String ClockToDownload();
 
-    String ChooseFromList();
+	String ChooseFromList();
 
-    String YouResignStandard();
+	String YouResignStandard();
 
-    String ChooseNow();
+	String ChooseNow();
 
-    Map<String, String> ActionName();
+	Map<String, String> ActionName();
 
-    String Download();
+	String Download();
 
-    String Send();
+	String Send();
 
-    String DateEqualError();
+	String DateEqualError();
 
-    String[] ScrollDays();
+	String[] ScrollDays();
 
-    String[] ScrollMonths();
+	String[] ScrollMonths();
 
-    String GotoMonth();
+	String GotoMonth();
 
-    String BetweenFieldsRange();
+	String BetweenFieldsRange();
 
-    String EqualSign();
+	String EqualSign();
 
-    String FiltrOnlyTable();
+	String FiltrOnlyTable();
 
-    String MenuForTable();
+	String MenuForTable();
 
-    String ChangeToTable();
+	String ChangeToTable();
 
-    String ChangeToTree();
+	String ChangeToTree();
 
-    String OnlyForTable();
+	String OnlyForTable();
 
-    String OnlyForTree();
+	String OnlyForTree();
 
-    String CannotDisplayAsTree();
+	String CannotDisplayAsTree();
 
-    String CannotSwitchToTreeWhileFilter();
+	String CannotSwitchToTreeWhileFilter();
 
-    String RemoveSortOrder();
+	String RemoveSortOrder();
 
-    String TableIsNotSorted();
+	String TableIsNotSorted();
 
-    String ChangeSizeStartValue();
+	String ChangeSizeStartValue();
 
-    String ChangeSizeCurrentValue();
+	String ChangeSizeCurrentValue();
 
-    String ChangeSizeRestoreStart();
+	String ChangeSizeRestoreStart();
 
-    String ChangeSizeChangeValue();
+	String ChangeSizeChangeValue();
 
-    String ChangeSizeResing();
+	String ChangeSizeResing();
 
-    String ChangeNumberOfRows();
+	String ChangeNumberOfRows();
 
-    String IngnoreDuringSearch();
+	String IngnoreDuringSearch();
 
-    String WrapLines();
+	String WrapLines();
 
-    String EndButton();
+	String EndButton();
 
-    String RestoreInitialValue();
+	String RestoreInitialValue();
 
-    String AddRowAtTheBeginning();
+	String AddRowAtTheBeginning();
 
-    String AddRowAfter();
+	String AddRowAfter();
 
-    String RemoveRow();
+	String RemoveRow();
 
-    String CannotRunFindInAsycnMode();
+	String CannotRunFindInAsycnMode();
 
-    String Login();
+	String Login();
 
-    String Password();
+	String Password();
 
-    String Close();
+	String Close();
 
-    String User();
+	String User();
 
-    String LogOutQuestion();
+	String LogOutQuestion();
 
-    String UserNameOrPasswordInvalid();
+	String UserNameOrPasswordInvalid();
 
-    String Select();
-        
-    String ChangeColumns();
+	String Select();
+
+	String ChangeColumns();
+
+	String CheckAll();
+
+	String UncheckAll();
 
 }

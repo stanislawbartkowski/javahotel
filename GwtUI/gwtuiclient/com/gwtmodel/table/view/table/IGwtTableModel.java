@@ -19,26 +19,28 @@ import com.gwtmodel.table.tabledef.VListHeaderContainer;
 
 public interface IGwtTableModel {
 
-    void readChunkRange(int startw, int rangew, IVField sortC, boolean asc,
-            ISuccess signal);
+	void readChunkRange(int startw, int rangew, IVField sortC, boolean asc,
+			ISuccess signal);
 
-    IVModelData get(int row);
+	IVModelData get(int row);
 
-    long getSize();
+	long getSize();
 
-    VListHeaderContainer getHeaderList();
+	VListHeaderContainer getHeaderList();
 
-    IListClicked getIClicked();
+	IListClicked getIClicked();
 
-    boolean containsData();
+	IBoolHeaderClick getBClicked();
 
-    boolean unSelectAtOnce();
+	boolean containsData();
 
-    int treeLevel(int row);
+	boolean unSelectAtOnce();
 
-    IRowEditAction getRowEditAction();
+	int treeLevel(int row);
 
-    String getClassName();
+	IRowEditAction getRowEditAction();
 
-    String getClassNameForColumn(IVField v);
+	String getClassName();
+
+	String getClassNameForColumn(IVField v);
 }

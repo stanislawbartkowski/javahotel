@@ -17,6 +17,7 @@ import com.gwtmodel.table.ISuccess;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
+import com.gwtmodel.table.view.table.IBoolHeaderClick;
 import com.gwtmodel.table.view.table.IGwtTableModel;
 import com.gwtmodel.table.view.table.IListClicked;
 import com.gwtmodel.table.view.table.IRowEditAction;
@@ -27,117 +28,127 @@ import com.gwtmodel.table.view.table.IRowEditAction;
  */
 class DataListModelView implements IGwtTableModel {
 
-    private VListHeaderContainer heList;
-    private IDataListType dataList = null;
-    private final IListClicked lClicked;
-    private boolean unSelectAtOnce = false;
-    private IRowEditAction rAction;
-    private long size = 0;
-    private final ChunkReader cRead;
-    private String className;
+	private VListHeaderContainer heList;
+	private IDataListType dataList = null;
+	private final IListClicked lClicked;
+	private boolean unSelectAtOnce = false;
+	private IRowEditAction rAction;
+	private long size = 0;
+	private final ChunkReader cRead;
+	private String className;
+	private IBoolHeaderClick iBClick;
 
-    DataListModelView(ChunkReader cRead) {
-        this.lClicked = null;
-        this.cRead = cRead;
-    }
+	DataListModelView(ChunkReader cRead) {
+		this.lClicked = null;
+		this.cRead = cRead;
+	}
 
-    void setSize(long size) {
-        this.size = size;
-    }
+	void setSize(long size) {
+		this.size = size;
+	}
 
-    void setClassName(String className) {
-        this.className = className;
-    }
+	void setClassName(String className) {
+		this.className = className;
+	}
 
-    void setHeaderList(VListHeaderContainer heList) {
-        this.heList = heList;
-    }
+	void setHeaderList(VListHeaderContainer heList) {
+		this.heList = heList;
+	}
 
-    @Override
-    public VListHeaderContainer getHeaderList() {
-        return heList;
-    }
+	@Override
+	public VListHeaderContainer getHeaderList() {
+		return heList;
+	}
 
-    /**
-     * @param dataList
-     *            the dataList to set
-     */
-    void setDataList(IDataListType dataList) {
-        this.dataList = dataList;
-        this.size = dataList.getList().size();
-    }
+	/**
+	 * @param dataList
+	 *            the dataList to set
+	 */
+	void setDataList(IDataListType dataList) {
+		this.dataList = dataList;
+		this.size = dataList.getList().size();
+	}
 
-    @Override
-    public IListClicked getIClicked() {
-        return lClicked;
-    }
+	@Override
+	public IListClicked getIClicked() {
+		return lClicked;
+	}
 
-    @Override
-    public boolean containsData() {
-        if (dataList != null) {
-            return true;
-        }
-        return size > 0;
-    }
+	@Override
+	public boolean containsData() {
+		if (dataList != null) {
+			return true;
+		}
+		return size > 0;
+	}
 
-    IVField getComboField() {
-        return dataList.comboField();
-    }
+	IVField getComboField() {
+		return dataList.comboField();
+	}
 
-    @Override
-    public IVModelData get(int i) {
-        if (dataList != null) {
-            return dataList.getList().get(i);
-        }
-        return cRead.get(i);
-    }
+	@Override
+	public IVModelData get(int i) {
+		if (dataList != null) {
+			return dataList.getList().get(i);
+		}
+		return cRead.get(i);
+	}
 
-    @Override
-    public boolean unSelectAtOnce() {
-        return unSelectAtOnce;
-    }
+	@Override
+	public boolean unSelectAtOnce() {
+		return unSelectAtOnce;
+	}
 
-    void setUnSelectAtOnce(boolean unSelectAtOnce) {
-        this.unSelectAtOnce = unSelectAtOnce;
-    }
+	void setUnSelectAtOnce(boolean unSelectAtOnce) {
+		this.unSelectAtOnce = unSelectAtOnce;
+	}
 
-    @Override
-    public int treeLevel(int row) {
-        return dataList.treeLevel(row);
-    }
+	@Override
+	public int treeLevel(int row) {
+		return dataList.treeLevel(row);
+	}
 
-    /**
-     * @param rAction
-     *            the rAction to set
-     */
-    void setrAction(IRowEditAction rAction) {
-        this.rAction = rAction;
-    }
+	/**
+	 * @param rAction
+	 *            the rAction to set
+	 */
+	void setrAction(IRowEditAction rAction) {
+		this.rAction = rAction;
+	}
 
-    @Override
-    public IRowEditAction getRowEditAction() {
-        return rAction;
-    }
+	@Override
+	public IRowEditAction getRowEditAction() {
+		return rAction;
+	}
 
-    @Override
-    public long getSize() {
-        return size;
-    }
+	@Override
+	public long getSize() {
+		return size;
+	}
 
-    @Override
-    public void readChunkRange(int startw, int rangew, IVField fSort,
-            boolean asc, ISuccess signal) {
-        cRead.readChunkRange(startw, rangew, fSort, asc, signal);
-    }
+	@Override
+	public void readChunkRange(int startw, int rangew, IVField fSort,
+			boolean asc, ISuccess signal) {
+		cRead.readChunkRange(startw, rangew, fSort, asc, signal);
+	}
 
-    @Override
-    public String getClassName() {
-        return className;
-    }
+	@Override
+	public String getClassName() {
+		return className;
+	}
 
-    @Override
-    public String getClassNameForColumn(IVField v) {
-        return null;
-    }
+	@Override
+	public String getClassNameForColumn(IVField v) {
+		return null;
+	}
+
+	@Override
+	public IBoolHeaderClick getBClicked() {
+		return iBClick;
+	}
+
+	void setiBClick(IBoolHeaderClick iBClick) {
+		this.iBClick = iBClick;
+	}
 
 }
