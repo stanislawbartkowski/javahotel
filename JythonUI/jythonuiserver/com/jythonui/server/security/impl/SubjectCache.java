@@ -36,153 +36,158 @@ import com.jythonui.server.security.token.PasswordSecurityToken;
 
 class SubjectCache extends UtilHelper {
 
-    private final IStorageMemCache iCache;
-    private final IGetLogMess gMess;
+	private final IStorageMemCache iCache;
+	private final IGetLogMess gMess;
 
-    class CurrentSubject {
-        SessionEntry se;
-        SecurityManager sManager;
-        Subject currentUser;
-    }
+	class CurrentSubject {
+		SessionEntry se;
+		SecurityManager sManager;
+		Subject currentUser;
+	}
 
-    private static ThreadLocal<CurrentSubject> lastS = new ThreadLocal<CurrentSubject>();
+	private static ThreadLocal<CurrentSubject> lastS = new ThreadLocal<CurrentSubject>();
 
-    SubjectCache(IStorageMemCache iCache, IGetLogMess gMess) {
-        this.iCache = iCache;
-        this.gMess = gMess;
-    }
+	SubjectCache(IStorageMemCache iCache, IGetLogMess gMess) {
+		this.iCache = iCache;
+		this.gMess = gMess;
+	}
 
-    private static SecurityManager constructManager(String realm) {
-        info(Holder.getM().getMessN(ILogMess.REALMINITIALZATION, realm));
-        Factory<SecurityManager> factory = new IniSecurityManagerFactory(realm);
-        SecurityManager securityManager = factory.getInstance();
-        return securityManager;
-    }
+	private static SecurityManager constructManager(String realm) {
+		info(Holder.getM().getMessN(ILogMess.REALMINITIALZATION, realm));
+		Factory<SecurityManager> factory = new IniSecurityManagerFactory(realm);
+		SecurityManager securityManager = factory.getInstance();
+		return securityManager;
+	}
 
-    private class Result {
-        Subject sub;
-        String tokenS;
+	private class Result {
+		Subject sub;
+		String tokenS;
 
-        Result(Subject sub, String tokenS) {
-            this.sub = sub;
-            this.tokenS = tokenS;
-        }
-    }
+		Result(Subject sub, String tokenS) {
+			this.sub = sub;
+			this.tokenS = tokenS;
+		}
+	}
 
-    private static Subject buildSubject() {
-        Subject currentUser = new Subject.Builder().buildSubject();
-        return currentUser;
-    }
+	private static Subject buildSubject() {
+		Subject currentUser = new Subject.Builder().buildSubject();
+		return currentUser;
+	}
 
-    private Result authenticate(SessionEntry se, String tokenS) {
-        SecurityManager securityManager = constructManager(se.getRealm());
-        SecurityUtils.setSecurityManager(securityManager);
-        Subject currentUser = buildSubject();
-        PasswordSecurityToken token = new PasswordSecurityToken(se.getUser(),
-                se.getPassword(), se.getiCustom());
-        info(gMess.getMessN(ILogMess.AUTHENTICATEUSER, se.getUser(),
-                se.getRealm()));
-        try {
-            currentUser.login(token);
-        } catch (UnknownAccountException uae) {
-            info(gMess.getMess(IErrorCode.ERRORCODE3,
-                    ILogMess.AUTHENTICATENOUSER, se.getUser()));
-            return null;
-        } catch (IncorrectCredentialsException ice) {
-            info(gMess.getMess(IErrorCode.ERRORCODE4,
-                    ILogMess.AUTHENTICATEINCORECTPASSWORD, se.getUser()));
-            return null;
-        } catch (LockedAccountException lae) {
-            info(gMess.getMess(IErrorCode.ERRORCODE5,
-                    ILogMess.AUTHENTOCATELOCKED, se.getUser()));
-            return null;
-        } catch (AuthenticationException ae) {
-            severe(gMess.getMess(IErrorCode.ERRORCODE6,
-                    ILogMess.AUTHENTICATEOTHERERROR, se.getUser(),
-                    ae.getMessage()), ae);
-            ae.printStackTrace();
-            return null;
-        } catch (UnknownSessionException ae) {
-            info(gMess.getMess(IErrorCode.ERRORCODE22,
-                    ILogMess.AUTHENTICATEOTHERERROR, se.getUser(),
-                    ae.getMessage()));
-            return null;
-        }
+	private Result authenticate(SessionEntry se, String tokenS) {
+		SecurityManager securityManager = constructManager(se.getRealm());
+		SecurityUtils.setSecurityManager(securityManager);
+		Subject currentUser = buildSubject();
+		PasswordSecurityToken token = new PasswordSecurityToken(se.getUser(),
+				se.getPassword(), se.getiCustom());
+		info(gMess.getMessN(ILogMess.AUTHENTICATEUSER, se.getUser(),
+				se.getRealm()));
+		try {
+			currentUser.login(token);
+		} catch (UnknownAccountException uae) {
+			info(gMess.getMess(IErrorCode.ERRORCODE3,
+					ILogMess.AUTHENTICATENOUSER, se.getUser()));
+			return null;
+		} catch (IncorrectCredentialsException ice) {
+			info(gMess.getMess(IErrorCode.ERRORCODE4,
+					ILogMess.AUTHENTICATEINCORECTPASSWORD, se.getUser()));
+			return null;
+		} catch (LockedAccountException lae) {
+			info(gMess.getMess(IErrorCode.ERRORCODE5,
+					ILogMess.AUTHENTOCATELOCKED, se.getUser()));
+			return null;
+		} catch (AuthenticationException ae) {
+			severe(gMess.getMess(IErrorCode.ERRORCODE6,
+					ILogMess.AUTHENTICATEOTHERERROR, se.getUser(),
+					ae.getMessage()), ae);
+			ae.printStackTrace();
+			return null;
+		} catch (UnknownSessionException ae) {
+			info(gMess.getMess(IErrorCode.ERRORCODE22,
+					ILogMess.AUTHENTICATEOTHERERROR, se.getUser(),
+					ae.getMessage()));
+			return null;
+		}
 
-        info(gMess.getMessN(ILogMess.OKAUTHENTICATED));
-        if (tokenS == null) {
-            UUID i = UUID.randomUUID();
-            tokenS = i.toString();
-            iCache.put(tokenS, se);
-        }
-        CurrentSubject subS = new CurrentSubject();
-        subS.se = se;
-        subS.sManager = securityManager;
-        subS.currentUser = currentUser;
-        lastS.set(subS);
-        return new Result(currentUser, tokenS);
-    }
+		info(gMess.getMessN(ILogMess.OKAUTHENTICATED));
+		if (tokenS == null) {
+			UUID i = UUID.randomUUID();
+			tokenS = i.toString();
+			iCache.put(tokenS, se);
+		}
+		CurrentSubject subS = new CurrentSubject();
+		subS.se = se;
+		subS.sManager = securityManager;
+		subS.currentUser = currentUser;
+		lastS.set(subS);
+		return new Result(currentUser, tokenS);
+	}
 
-    String authenticateS(SessionEntry se) {
-        Result res = authenticate(se, null);
-        if (res == null)
-            return null;
-        return res.tokenS;
-    }
+	String authenticateS(SessionEntry se) {
+		Result res = authenticate(se, null);
+		if (res == null)
+			return null;
+		return res.tokenS;
+	}
 
-    private SessionEntry get(String token) {
-        SessionEntry e = null;
-        e = (SessionEntry) iCache.get(token);
-        if (e == null) {
-            info(token + " token not found ");
-        }
-        return e;
-    }
+	private SessionEntry get(String token) {
+		SessionEntry e = null;
+		e = (SessionEntry) iCache.get(token);
+		if (e == null) {
+			info(token + " token not found ");
+		}
+		return e;
+	}
 
-    boolean validToken(String token) {
-        return get(token) != null;
-    }
+	boolean validToken(String token) {
+		return get(token) != null;
+	}
 
-    ICustomSecurity getCustom(String token) {
-        SessionEntry se = get(token);
-        if (se == null) // TODO: more verbose log
-            return null;
-        return se.getiCustom();
-    }
+	ICustomSecurity getCustom(String token) {
+		SessionEntry se = get(token);
+		if (se == null) // TODO: more verbose log
+			return null;
+		return se.getiCustom();
+	}
 
-    String getUserName(String token) {
-        SessionEntry se = get(token);
-        if (se == null) // TODO: more verbose log
-            return null;
-        return se.getUser();
-    }
+	boolean isAutenticated(String token) {
+		SessionEntry se = get(token);
+		return se.isAuthenticate();
+	}
 
-    Subject getSubject(String token) {
-        SessionEntry se = get(token);
-        if (se == null)
-            return null; // TODO: more detailed log
-        CurrentSubject subC = lastS.get();
-        if (subC != null && se.eq(subC.se)) {
-            // SecurityUtils.setSecurityManager(subC.sManager);
-            // Subject sub = SecurityUtils.getSubject();
-            // Subject sub = buildSubject();
-            return subC.currentUser;
-        }
-        // validate again
-        info("Authenticate again");
-        Result res = authenticate(se, token);
-        if (res == null) {
-            severe(gMess.getMess(IErrorCode.ERRORCODE23,
-                    ILogMess.CANNOTAUTHENTICATEAGAIN, se.getUser(),
-                    se.getRealm()));
-            return null;
-        }
-        return res.sub;
-    }
+	String getUserName(String token) {
+		SessionEntry se = get(token);
+		if (se == null) // TODO: more verbose log
+			return null;
+		return se.getUser();
+	}
 
-    void removeSubject(String token) {
-        iCache.remove(token);
-        lastS.remove();
-    }
+	Subject getSubject(String token) {
+		SessionEntry se = get(token);
+		if (se == null)
+			return null; // TODO: more detailed log
+		CurrentSubject subC = lastS.get();
+		if (subC != null && se.eq(subC.se)) {
+			// SecurityUtils.setSecurityManager(subC.sManager);
+			// Subject sub = SecurityUtils.getSubject();
+			// Subject sub = buildSubject();
+			return subC.currentUser;
+		}
+		// validate again
+		info("Authenticate again");
+		Result res = authenticate(se, token);
+		if (res == null) {
+			severe(gMess.getMess(IErrorCode.ERRORCODE23,
+					ILogMess.CANNOTAUTHENTICATEAGAIN, se.getUser(),
+					se.getRealm()));
+			return null;
+		}
+		return res.sub;
+	}
+
+	void removeSubject(String token) {
+		iCache.remove(token);
+		lastS.remove();
+	}
 
 }

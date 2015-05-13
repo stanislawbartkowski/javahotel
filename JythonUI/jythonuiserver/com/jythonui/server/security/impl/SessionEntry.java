@@ -17,46 +17,52 @@ import java.io.Serializable;
 import com.jythonui.server.security.token.ICustomSecurity;
 
 class SessionEntry implements Serializable {
-    private static final long serialVersionUID = 1L;
-    private final String user;
-    private final String password;
-    private final String realm;
-    private final ICustomSecurity iCustom;
+	private static final long serialVersionUID = 1L;
+	private final String user;
+	private final String password;
+	private final String realm;
+	private final ICustomSecurity iCustom;
+	private final boolean authenticate;
 
-    SessionEntry(String user, String password, String realm,
-            ICustomSecurity iCustom) {
-        this.user = user;
-        this.password = password;
-        this.realm = realm;
-        this.iCustom = iCustom;
-    }
+	SessionEntry(String user, String password, String realm,
+			ICustomSecurity iCustom, boolean authenticate) {
+		this.user = user;
+		this.password = password;
+		this.realm = realm;
+		this.iCustom = iCustom;
+		this.authenticate = authenticate;
+	}
 
-    String getUser() {
-        return user;
-    }
+	String getUser() {
+		return user;
+	}
 
-    String getPassword() {
-        return password;
-    }
+	String getPassword() {
+		return password;
+	}
 
-    String getRealm() {
-        return realm;
-    }
+	String getRealm() {
+		return realm;
+	}
 
-    boolean eq(SessionEntry se) {
-        if (!user.equals(se.user))
-            return false;
-        if (!realm.equals(realm))
-            return false;
-        if (iCustom != null && se.iCustom != null) {
-            if (!iCustom.eq(se.iCustom))
-                return false;
-        }
-        return true;
-    }
+	boolean eq(SessionEntry se) {
+		if (!user.equals(se.user))
+			return false;
+		if (!realm.equals(realm))
+			return false;
+		if (iCustom != null && se.iCustom != null) {
+			if (!iCustom.eq(se.iCustom))
+				return false;
+		}
+		return true;
+	}
 
-    public ICustomSecurity getiCustom() {
-        return iCustom;
-    }
+	public ICustomSecurity getiCustom() {
+		return iCustom;
+	}
+
+	public boolean isAuthenticate() {
+		return authenticate;
+	}
 
 }

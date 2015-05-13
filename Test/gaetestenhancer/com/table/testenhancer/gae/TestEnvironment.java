@@ -58,4 +58,10 @@ class TestEnvironment implements ApiProxy.Environment {
         // TODO Auto-generated method stub
         return 0;
     }
+
+	@Override
+	public String getModuleId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -42,4 +42,11 @@ public class Test59 extends TestHelper {
 		f = d.findList("list1");
 		assertFalse(f.isNoPropertyColumn());
 	}
+
+	@Test
+	public void test3() {
+		DialogFormat d = findDialog("test106.xml");
+		assertNotNull(d);
+	}
+
 }
