@@ -27,6 +27,7 @@ import com.gwtmodel.table.json.IJsonConvert;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlU;
+import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import com.jythonui.client.IUIConsts;
@@ -52,13 +53,16 @@ public class PropertyColumnDialog implements ILaunchPropertyDialogColumn {
 	private final IVariableContainerFactory vFactory;
 	private final IGenCookieName iCookie;
 	private final IJsonConvert iJson;
+	private final IGetStandardMessage iMess;
 
 	@Inject
 	public PropertyColumnDialog(IVariableContainerFactory vFactory,
-			IGenCookieName iCookie, IJsonConvert iJson) {
+			IGenCookieName iCookie, IJsonConvert iJson,
+			IGetStandardMessage iMess) {
 		this.vFactory = vFactory;
 		this.iCookie = iCookie;
 		this.iJson = iJson;
+		this.iMess = iMess;
 	}
 
 	private class Click implements ICustomClickAction {
@@ -156,7 +160,7 @@ public class PropertyColumnDialog implements ILaunchPropertyDialogColumn {
 			val.setValue(v.getFie().getId());
 			rI.setRowField(ro, IUIConsts.PROPID, val);
 			val = new FieldValue();
-			val.setValue(v.getHeaderString());
+			val.setValue(iMess.getMessage(v.getHeaderString()));
 			rI.setRowField(ro, IUIConsts.PROPCOLUMNNAME, val);
 			li.addRow(ro);
 		}
