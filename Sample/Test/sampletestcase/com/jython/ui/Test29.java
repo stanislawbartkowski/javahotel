@@ -26,6 +26,7 @@ import org.junit.Test;
 
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogVariables;
+import com.jythonui.shared.FieldValue;
 import com.jythonui.shared.ListOfRows;
 import com.jythonui.shared.RowContent;
 
@@ -90,6 +91,20 @@ public class Test29 extends TestHelper {
         assertTrue(d.isAsXmlList());
         DialogVariables v = new DialogVariables();
         runAction(v, "test60.xml", "before");
+
+        FieldValue val = v.getValue("globdate");
+        assertNotNull(val);
+        assertNotNull(val.getValueD());
+        assertEquals(101,val.getValueD().getYear());
+        assertEquals(9,val.getValueD().getMonth());
+        assertEquals(2,val.getValueD().getDate());
+        
+        val = v.getValue("globtime");
+        assertNotNull(val);
+        assertNotNull(val.getValueD());
+        assertEquals(101,val.getValueT().getYear());
+        assertEquals(9,val.getValueT().getMonth());
+        assertEquals(2,val.getValueT().getDate());
         // if passes test passed
         String s = iXml.toXML("test60.xml", v);
         runAction(v, "test60.xml", "persist");

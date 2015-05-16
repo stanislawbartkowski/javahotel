@@ -16,6 +16,7 @@ def dialogaction(action,var) :
       for i in range(10) :
           seq.append({ "id" : i, "name" : "name" + str(i)})
       var["JLIST_MAP"] = { "lista" : seq }  
+      print "****************"
         
   if action == "setxml" :
       var["JXMLCONTENT"] = var["XML"]

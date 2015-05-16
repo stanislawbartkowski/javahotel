@@ -105,7 +105,9 @@ public class Test3 extends TestHelper {
         FieldValue val = new FieldValue();
         Date da = new Date();
         da.setYear(99); da.setMonth(1); da.setDate(10);
-        val.setValue(da);
+        da.setHours(10); da.setMinutes(9); da.setSeconds(22);
+        Timestamp t = new Timestamp(da.getTime());
+        val.setValue(t);
         v.setValue("globtimestamp", val);
         runAction(v, "test8.xml", "name");
         val = v.getValue("globtimestamp");
@@ -114,6 +116,10 @@ public class Test3 extends TestHelper {
         assertEquals(99,val.getValueT().getYear());
         assertEquals(1,val.getValueT().getMonth());
         assertEquals(10,val.getValueT().getDate());
+        
+        assertEquals(10,val.getValueT().getHours());
+        assertEquals(9,val.getValueT().getMinutes());
+        assertEquals(22,val.getValueT().getSeconds());
     }
 
     @Test
@@ -166,6 +172,7 @@ public class Test3 extends TestHelper {
         val = v.getValue("globtimestamp");
         assertNotNull(val);
         assertNotNull(val.getValueT());
+        printD(val.getValueT());
         assertEquals(117,val.getValueT().getYear());
         assertEquals(0,val.getValueT().getMonth());
         assertEquals(13,val.getValueT().getDate());
@@ -173,5 +180,64 @@ public class Test3 extends TestHelper {
         assertEquals(13,val.getValueT().getMinutes());
         assertEquals(14,val.getValueT().getSeconds());
     }
+    
+    @Test
+    public void test9() {
+        DialogVariables v = new DialogVariables();
+        FieldValue val = new FieldValue();
+        Date da = new Date();
+        // check hours 23
+        da.setYear(99); da.setMonth(1); da.setDate(10);
+        da.setHours(23); da.setMinutes(9); da.setSeconds(22);
+        Timestamp t = new Timestamp(da.getTime());
+        val.setValue(t);
+        v.setValue("globtimestamp", val);
+        runAction(v, "test8.xml", "name");
+        val = v.getValue("globtimestamp");
+        assertNotNull(val);
+        assertNotNull(val.getValueT());
+        assertEquals(99,val.getValueT().getYear());
+        assertEquals(1,val.getValueT().getMonth());
+        assertEquals(10,val.getValueT().getDate());
+        
+        assertEquals(23,val.getValueT().getHours());
+        assertEquals(9,val.getValueT().getMinutes());
+        assertEquals(22,val.getValueT().getSeconds());
+    }
+    
+    @Test
+    public void test10() {
+        DialogVariables v = new DialogVariables();
+        FieldValue val = new FieldValue();
+        val.setValue((Timestamp)null);
+        v.setValue("globtimestamp", val);
+        runAction(v, "test8.xml", "setTimeOnly23");
+//        val = v.getValue("globtimestamp1");
+//        printD(val.getValueT());
+        val = v.getValue("globtimestamp");
+        assertNotNull(val);
+        assertNotNull(val.getValueT());
+        printD(val.getValueT());
+        assertEquals(101,val.getValueT().getYear());
+        assertEquals(9,val.getValueT().getMonth());
+        assertEquals(2,val.getValueT().getDate());
+        assertEquals(23,val.getValueT().getHours());
+        assertEquals(4,val.getValueT().getMinutes());
+        assertEquals(6,val.getValueT().getSeconds());
+        
+        for (int i = 1; i<=12; i++) {
+        	System.out.println(i+ " = ******************");
+            val = v.getValue("globtimestamp" + i);
+            printD(val.getValueT());
+            assertEquals(101,val.getValueT().getYear());
+            assertEquals(i-1,val.getValueT().getMonth());
+            assertEquals(2,val.getValueT().getDate());
+            assertEquals(23,val.getValueT().getHours());
+            assertEquals(4,val.getValueT().getMinutes());
+            assertEquals(6,val.getValueT().getSeconds());                    	
+        }
+    }
+
+
 
 }

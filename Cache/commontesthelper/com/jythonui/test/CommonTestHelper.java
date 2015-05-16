@@ -17,6 +17,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -287,6 +288,16 @@ abstract public class CommonTestHelper {
         cust.setAttr(IConsts.INSTANCEID, TESTINSTANCE);
         ICustomSecurity cu = Holder.getPersonSecurityConvert().construct(cust);
         return cu;
+    }
+    
+    protected void printD(Timestamp d) {
+    	System.out.println("year " + d.getYear());
+    	System.out.println("month " + d.getMonth());
+    	System.out.println("day " + d.getDate());
+    	System.out.println("hour " + d.getHours());
+    	System.out.println("minutes " + d.getMinutes());
+    	System.out.println("seconds " + d.getSeconds());
+    	
     }
 
 }

@@ -1,8 +1,8 @@
 
 def dialogaction(action,var) :
-  print "packenum",action
-  for k in var.keys() : 
-    print k, var[k]
+#  print "packenum",action
+#  for k in var.keys() : 
+#    print k, var[k]
     
   seq = []
   if action == "tenum" :

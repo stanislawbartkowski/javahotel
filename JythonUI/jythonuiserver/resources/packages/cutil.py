@@ -440,7 +440,7 @@ def printVar(name,action,var):
   clog.info("==============",name)
   clog.info("action = ",action)
   for k in var.keys() :
-      clog.info(k,"=",str(var[k]))
+      clog.info(k,"=",con.toS(var[k]))
   
 
 def removeDuplicates(li,thesame):

@@ -47,6 +47,7 @@ import com.jythonui.datastore.DateRecordOp;
 import com.jythonui.datastore.EntityManagerFactoryProvider;
 import com.jythonui.datastore.PersonOp;
 import com.jythonui.server.IConsts;
+import com.jythonui.server.IConvertJythonTimestamp;
 import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IGetEnvDefaultData;
 import com.jythonui.server.IJythonRPCNotifier;
@@ -61,6 +62,7 @@ import com.jythonui.server.defa.JavaMailSessionProvider;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.guavacache.GuavaCacheFactory;
 import com.jythonui.server.guice.JythonServerService.JythonServiceModule;
+import com.jythonui.server.jython.ConvertPython27;
 import com.jythonui.server.mail.INoteStorage;
 import com.jythonui.server.objectgensymimpl.CrudObjectGenSym;
 import com.jythonui.server.semaphore.ISemaphore;
@@ -75,86 +77,88 @@ import com.jythonui.server.storage.registry.IStorageRealmRegistry;
  */
 public class ServerService {
 
-    public static class ServiceModule extends JythonServiceModule {
-        @Override
-        protected void configure() {
-            configureJythonUi();
-            bind(IPersonOp.class).to(PersonOp.class).in(Singleton.class);
-            bind(IDateLineOp.class).to(DateLineOp.class).in(Singleton.class);
-            bind(IDateRecordOp.class).to(DateRecordOp.class)
-                    .in(Singleton.class);
-            bind(IJythonUIServerProperties.class).to(ServerProperties.class)
-                    .in(Singleton.class);
-            bind(ITestEnhancer.class).to(TestEnhancer.class);
-            bind(EntityManagerFactory.class).toProvider(
-                    EntityManagerFactoryProvider.class).in(Singleton.class);
-            bind(ICommonCacheFactory.class).to(GuavaCacheFactory.class).in(
-                    Singleton.class);
+	public static class ServiceModule extends JythonServiceModule {
+		@Override
+		protected void configure() {
+			configureJythonUi();
+			bind(IPersonOp.class).to(PersonOp.class).in(Singleton.class);
+			bind(IDateLineOp.class).to(DateLineOp.class).in(Singleton.class);
+			bind(IDateRecordOp.class).to(DateRecordOp.class)
+					.in(Singleton.class);
+			bind(IJythonUIServerProperties.class).to(ServerProperties.class)
+					.in(Singleton.class);
+			bind(ITestEnhancer.class).to(TestEnhancer.class);
+			bind(EntityManagerFactory.class).toProvider(
+					EntityManagerFactoryProvider.class).in(Singleton.class);
+			bind(ICommonCacheFactory.class).to(GuavaCacheFactory.class).in(
+					Singleton.class);
 
-            // common
-            bind(IStorageJpaRegistryFactory.class).to(
-                    StorageJpaRegistryFactory.class).in(Singleton.class);
-            bind(ISemaphore.class).to(SemaphoreSynch.class).in(Singleton.class);
-            bind(IGetConnection.class)
-                    .toProvider(EmptyConnectionProvider.class).in(
-                            Singleton.class);
-            bind(IBlobHandler.class).to(BlobEntryJpaHandler.class).in(
-                    Singleton.class);
-            bind(ISetTestToday.class).toProvider(SetTestTodayProvider.class)
-                    .in(Singleton.class);
-            bind(IJythonRPCNotifier.class).to(EmptyRPCNotifier.class).in(
-                    Singleton.class);
-            bind(IAppInstanceOObject.class).to(OObjectAdminInstance.class).in(
-                    Singleton.class);
-            bind(IOObjectAdmin.class).to(OObjectAdminJpa.class).in(
-                    Singleton.class);
-            bind(Session.class).annotatedWith(Names.named(IConsts.SENDMAIL))
-                    .toProvider(JavaMailSessionProvider.class)
-                    .in(Singleton.class);
-            bind(Session.class).annotatedWith(Names.named(IConsts.GETMAIL))
-                    .toProvider(JavaGetMailSessionProvider.class)
-                    .in(Singleton.class);
-            bind(IJpaObjectGenSymFactory.class).to(
-                    JpaObjectGenSymFactoryImpl.class).in(Singleton.class);
-            bind(INoteStorage.class).to(JpaNoteStorage.class).in(
-                    Singleton.class);
-            bind(IGetEnvDefaultData.class).to(EmptyGetEnvDefaultData.class).in(
-                    Singleton.class);
-            requestStatic();
-            requestStaticInjection(TestHelper.class);
+			// common
+			bind(IStorageJpaRegistryFactory.class).to(
+					StorageJpaRegistryFactory.class).in(Singleton.class);
+			bind(ISemaphore.class).to(SemaphoreSynch.class).in(Singleton.class);
+			bind(IGetConnection.class)
+					.toProvider(EmptyConnectionProvider.class).in(
+							Singleton.class);
+			bind(IBlobHandler.class).to(BlobEntryJpaHandler.class).in(
+					Singleton.class);
+			bind(ISetTestToday.class).toProvider(SetTestTodayProvider.class)
+					.in(Singleton.class);
+			bind(IJythonRPCNotifier.class).to(EmptyRPCNotifier.class).in(
+					Singleton.class);
+			bind(IAppInstanceOObject.class).to(OObjectAdminInstance.class).in(
+					Singleton.class);
+			bind(IOObjectAdmin.class).to(OObjectAdminJpa.class).in(
+					Singleton.class);
+			bind(Session.class).annotatedWith(Names.named(IConsts.SENDMAIL))
+					.toProvider(JavaMailSessionProvider.class)
+					.in(Singleton.class);
+			bind(Session.class).annotatedWith(Names.named(IConsts.GETMAIL))
+					.toProvider(JavaGetMailSessionProvider.class)
+					.in(Singleton.class);
+			bind(IJpaObjectGenSymFactory.class).to(
+					JpaObjectGenSymFactoryImpl.class).in(Singleton.class);
+			bind(INoteStorage.class).to(JpaNoteStorage.class).in(
+					Singleton.class);
+			bind(IGetEnvDefaultData.class).to(EmptyGetEnvDefaultData.class).in(
+					Singleton.class);
+			bind(IConvertJythonTimestamp.class).to(ConvertPython27.class).in(
+					Singleton.class);
+			requestStatic();
+			requestStaticInjection(TestHelper.class);
 
-        }
+		}
 
-        // common
-        @Provides
-        @Singleton
-        IStorageRealmRegistry getStorageRealmRegistry(
-                IStorageJpaRegistryFactory rFactory,
-                ITransactionContextFactory iC) {
-            return rFactory.construct(iC);
-        }
+		// common
+		@Provides
+		@Singleton
+		IStorageRealmRegistry getStorageRealmRegistry(
+				IStorageJpaRegistryFactory rFactory,
+				ITransactionContextFactory iC) {
+			return rFactory.construct(iC);
+		}
 
-        @Provides
-        @Singleton
-        ITransactionContextFactory getTransactionContextFactory(
-                final EntityManagerFactory eFactory) {
-            return new ITransactionContextFactory() {
-                @Override
-                public ITransactionContext construct() {
-                    return new JpaTransactionContext(eFactory);
-                }
-            };
-        }
+		@Provides
+		@Singleton
+		ITransactionContextFactory getTransactionContextFactory(
+				final EntityManagerFactory eFactory) {
+			return new ITransactionContextFactory() {
+				@Override
+				public ITransactionContext construct() {
+					return new JpaTransactionContext(eFactory);
+				}
+			};
+		}
 
-        @Provides
-        @Singleton
-        ICrudObjectGenSym getCrudObjectGenSym(ISymGenerator iGen,
-                @Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess lMess) {
-            return new CrudObjectGenSym(iGen, lMess);
-        }
+		@Provides
+		@Singleton
+		ICrudObjectGenSym getCrudObjectGenSym(ISymGenerator iGen,
+				@Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess lMess) {
+			return new CrudObjectGenSym(iGen, lMess);
+		}
 
-        // -----
+		// -----
 
-    }
+	}
 
 }

@@ -11,6 +11,21 @@
  <form>
    <field id="glob1" />
    <field id="globtimestamp" type="datetime"/>
+   <field id="globtimestamp1" type="datetime"/>
+   <field id="globtimestamp2" type="datetime"/>
+   <field id="globtimestamp3" type="datetime"/>
+   <field id="globtimestamp4" type="datetime"/>
+   <field id="globtimestamp5" type="datetime"/>
+   <field id="globtimestamp6" type="datetime"/>
+   <field id="globtimestamp7" type="datetime"/>
+   <field id="globtimestamp8" type="datetime"/>
+   <field id="globtimestamp9" type="datetime"/>
+   <field id="globtimestamp10" type="datetime"/>
+   <field id="globtimestamp11" type="datetime"/>
+   <field id="globtimestamp12" type="datetime"/>
+   <field id="globtimestamp13" type="datetime"/>
+   <field id="globtimestamp14" type="datetime"/>
+   <field id="globtimestamp15" type="datetime"/>
  </form>  
 
 

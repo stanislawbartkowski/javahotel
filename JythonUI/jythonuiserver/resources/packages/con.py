@@ -104,7 +104,8 @@ def toS(val):
     elif type(val) == float : f = val
     elif type(val) == java.sql.Date : s = str(toJDate(val))
     elif type(val) == java.util.Date : s = str(toJDate(val))
-    elif type(val) == java.sql.Timestamp : s = str(toJDate(val))        
+    elif type(val) == java.sql.Timestamp : s = str(toJDate(val))
+    elif type(val) == unicode : s = val.encode('utf-8')      
     if f != None : s = fToS(f)
     return s
 

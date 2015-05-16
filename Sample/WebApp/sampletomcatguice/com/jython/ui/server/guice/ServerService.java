@@ -43,6 +43,7 @@ import com.jythonui.datastore.DateRecordOp;
 import com.jythonui.datastore.EntityManagerFactoryProvider;
 import com.jythonui.datastore.PersonOp;
 import com.jythonui.server.IConsts;
+import com.jythonui.server.IConvertJythonTimestamp;
 import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IGetEnvDefaultData;
 import com.jythonui.server.IGetMailFrom;
@@ -58,6 +59,7 @@ import com.jythonui.server.envvar.defa.GetEnvDefaultData;
 import com.jythonui.server.envvar.impl.GetEnvVariables;
 import com.jythonui.server.envvar.impl.ServerPropertiesEnv;
 import com.jythonui.server.guice.JythonServerService;
+import com.jythonui.server.jython.ConvertPython27;
 import com.jythonui.server.mail.INoteStorage;
 import com.jythonui.server.ressession.ResGetMailSessionProvider;
 import com.jythonui.server.semaphore.ISemaphore;
@@ -93,7 +95,8 @@ public class ServerService {
             bind(ISemaphore.class).to(SemaphoreSynch.class).in(Singleton.class);
             bind(IGetEnvDefaultData.class).to(GetEnvDefaultData.class).in(
                     Singleton.class);
-
+			bind(IConvertJythonTimestamp.class).to(ConvertPython27.class).in(
+					Singleton.class);
             // common
             bind(IStorageJpaRegistryFactory.class).to(
                     StorageJpaRegistryFactory.class).in(Singleton.class);
