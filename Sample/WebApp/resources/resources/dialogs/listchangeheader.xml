@@ -17,7 +17,7 @@
 </form>
 	
 
-      <list id="list" displayname="List of numbers">
+      <list id="list" displayname="List of numbers" toolbartype="listonly">	
                 <columns>
                         <column id="id" displayname="storeKey" type="long" hidden="" />
                         <column id="number0" displayname="Number" type="decimal" afterdot="0" />

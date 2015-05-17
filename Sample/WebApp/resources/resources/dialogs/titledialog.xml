@@ -11,13 +11,13 @@
  </jython>  
 
 <buttons>
-  <button id="res" displayname="@ok"/>
+  <button id="res" displayname="@ok" validate="" />
 </buttons>
 
 <form>
-   <field id="title1" displayname="Custom title hello" celltitle="Hello" />
-   <field id="title2" displayname="Custom title jython" />
-   <field id="title3" displayname="Set dynamically" celltitle="Start hello"/>
+   <field id="title1" displayname="Custom title hello" celltitle="Hello" notempty="" />
+   <field id="title2" displayname="Custom title jython" notempty=""/>
+   <field id="title3" displayname="Set dynamically" celltitle="Start hello" notempty=""/>
 </form>
  
  
