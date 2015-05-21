@@ -56,6 +56,30 @@ void main() {
 	exit(1);
       }
   }
+
+  {
+     char *filename = "../main.c";
+
+     if (writeBlob(filename)) printf("Blob file %s written\n",filename);
+     else  {
+        printf("Something wrong with writing blob \n");
+	Disconnect();
+	exit(1);
+     }
+  }
+  
+  {
+     char *filename = "/tmp/b.txt";
+
+     if (readBlob(filename)) printf("Blob read, check file %s\n",filename);
+     else  {
+        printf("Something wrong with reading blob \n");
+	Disconnect();
+	exit(1);
+     }
+          
+  }
+  
   
   Disconnect();
   printf("\n");

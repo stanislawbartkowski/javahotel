@@ -65,4 +65,8 @@ int CallProc(int *res,char *s);
 */
 int CallFunc(int *res, int par);
 
+int writeBlob(char *filename);
+
+int readBlob(char *filename);
+
 #endif
