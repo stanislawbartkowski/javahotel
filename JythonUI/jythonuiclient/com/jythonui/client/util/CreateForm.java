@@ -72,13 +72,11 @@ public class CreateForm {
 		return name;
 	}
 
-	public static FormLineContainer construct(DialogInfo dInfo,
-			IGetDataList iGet, IEnumTypesList eList,
-			IRequestForGWidget iHelper, IConstructCustomDataType fType) {
+	public static FormLineContainer construct(DialogInfo dInfo, IGetDataList iGet, IGetDataList iSuggest,
+			IEnumTypesList eList, IRequestForGWidget iHelper, IConstructCustomDataType fType) {
 		DialogFormat d = dInfo.getDialog();
 		List<FieldItem> iList = d.getFieldList();
-		EditWidgetFactory eFactory = GwtGiniInjector.getI()
-				.getEditWidgetFactory();
+		EditWidgetFactory eFactory = GwtGiniInjector.getI().getEditWidgetFactory();
 		List<FormField> fList = new ArrayList<FormField>();
 		IGetStandardMessage iMess = GwtGiniInjector.getI().getStandardMessage();
 		for (FieldItem f : iList) {
@@ -90,48 +88,45 @@ public class CreateForm {
 			if (f.isEmailType())
 				v = eFactory.constructEmail(vf, htmlId);
 			else if (f.isSpinner())
-				v = eFactory.constructSpinner(vf, htmlId, f.getSpinnerMin(),
-						f.getSpinnerMax());
+				v = eFactory.constructSpinner(vf, htmlId, f.getSpinnerMin(), f.getSpinnerMax());
 			else if (f.isUploadType())
 				v = eFactory.constructEditFileName(vf, htmlId);
+			else if (f.isSuggest())
+				v = eFactory.constructSuggestBox(vf, iSuggest, htmlId);
 			else if (f.isDownloadType())
 				v = eFactory.constructAnchorField(vf);
 			else if (f.isHtmlType())
 				v = eFactory.constructHTMLField(vf);
 			else if (f.isLabel())
-				v = eFactory.constructLabelField(vf,
-						iMess.getMessage(f.getDisplayName()));
+				v = eFactory.constructLabelField(vf, iMess.getMessage(f.getDisplayName()));
 			else if (!CUtil.EmptyS(f.getCustom())) {
 				TypedefDescr te = d.findCustomType(f.getCustom());
 				if (te == null) {
-					Utils.errAlert(f.getCustom(),
-							M.M().CannotFindCustomType(f.getTypeName()));
+					Utils.errAlert(f.getCustom(), M.M().CannotFindCustomType(f.getTypeName()));
 				}
 				if (te.isComboType()) {
 					eList.add(vf, f.getCustom());
-					v = eFactory.constructListValuesCombo(vf, iGet,
-							!f.isNotEmpty(), htmlId);
+					v = eFactory.constructListValuesCombo(vf, iGet, !f.isNotEmpty(), htmlId);
+				} else if (te.isSuggestType()) {
+					eList.add(vf, f.getCustom());
+					v = eFactory.constructSuggestBox(vf, iGet, htmlId);
 				} else {
 					IDataType dType = fType.construct(f.getTypeName());
-					v = eFactory.constructHelperList(vf, dType,
-							f.isHelperRefresh(), htmlId);
+					v = eFactory.constructHelperList(vf, dType, f.isHelperRefresh(), htmlId);
 				}
 			} else {
 				if (f.isPassword()) {
 					v = eFactory.constructPasswordField(vf, htmlId);
 				} else if (f.isHelper() || f.isTextArea() || f.isRichText()) {
-					if (f.isHelper() && (f.getFieldType() != TT.STRING)
-							&& f.getFieldType() != TT.DATE) {
+					if (f.isHelper() && (f.getFieldType() != TT.STRING) && f.getFieldType() != TT.DATE) {
 						String mess = M.M().HelperOnlyForStringType(f.getId());
 						Utils.errAlertB(mess);
 					}
 					if (f.getFieldType() == TT.STRING)
-						v = eFactory.constructTextField(vf, null,
-								f.isHelper() ? iHelper : null, f.isTextArea(),
+						v = eFactory.constructTextField(vf, null, f.isHelper() ? iHelper : null, f.isTextArea(),
 								f.isRichText(), f.isHelperRefresh(), htmlId);
 					else
-						v = eFactory.constructDateBoxCalendarWithHelper(vf,
-								iHelper, true, htmlId);
+						v = eFactory.constructDateBoxCalendarWithHelper(vf, iHelper, true, htmlId);
 				} else {
 					v = eFactory.constructEditWidget(vf, htmlId);
 				}
@@ -162,8 +157,7 @@ public class CreateForm {
 					name = MM.getL().BetweenFieldsRange();
 				FieldItem ff = d.findFieldItem(f.getFrom());
 				if (ff == null)
-					Utils.errAlert(M.M().CannotFindFromField(
-							ICommonConsts.FROM, f.getFrom()));
+					Utils.errAlert(M.M().CannotFindFromField(ICommonConsts.FROM, f.getFrom()));
 				else
 					fRange = VField.construct(ff);
 			}
@@ -173,8 +167,7 @@ public class CreateForm {
 			if (!CUtil.EmptyS(f.getCellTitle()))
 				v.setCellTitle(f.getCellTitle());
 
-			FormField fie = new FormField(name, v, vf, fRange,
-					f.isReadOnlyChange(), f.isReadOnlyAdd(), modeSetAlready,
+			FormField fie = new FormField(name, v, vf, fRange, f.isReadOnlyChange(), f.isReadOnlyAdd(), modeSetAlready,
 					f.isLabel() || f.isHtmlType());
 			fList.add(fie);
 		}
@@ -209,8 +202,7 @@ public class CreateForm {
 		return al;
 	}
 
-	public static ColumnsDesc constructColumns(List<FieldItem> fList,
-			ISelectFactory sFactory, IGetEnum iGet) {
+	public static ColumnsDesc constructColumns(List<FieldItem> fList, ISelectFactory sFactory, IGetEnum iGet) {
 		ColumnsDesc desc = new ColumnsDesc();
 		List<VListHeaderDesc> heList = desc.hList;
 		for (final FieldItem f : fList) {
@@ -219,8 +211,7 @@ public class CreateForm {
 			IGetSpinnerRange iSpinner = null;
 			if (!CUtil.EmptyS(f.getCustom()))
 				if (iGet.getEnum(f.getCustom(), !f.isNotEmpty()) != null)
-					vf = VField.construct(f.getId(),
-							iGet.getEnum(f.getCustom(), !f.isNotEmpty()));
+					vf = VField.construct(f.getId(), iGet.getEnum(f.getCustom(), !f.isNotEmpty()));
 				else {
 					isSelect = true;
 					vf = VField.construct(f);
@@ -246,53 +237,47 @@ public class CreateForm {
 
 				};
 			}
-			if ((f.isHelper() || isSelect || f.isImageColumn())
-					&& sFactory != null) {
+			if ((f.isHelper() || isSelect || f.isImageColumn()) && sFactory != null) {
 				iHelper = sFactory.construct(vf, f);
 				if (f.isImageColumn()) {
 					if (vf.getType().getType() != TT.STRING) {
-						String mess = M.M().OnlyStringColumnImage(f.getId(),
-								f.getTypeName(), ICommonConsts.STRINGTYPE,
+						String mess = M.M().OnlyStringColumnImage(f.getId(), f.getTypeName(), ICommonConsts.STRINGTYPE,
 								ICommonConsts.IMAGECOLUMN);
 						Utils.errAlert(mess);
 					}
 					colNo = f.getImageColumn();
 				}
 			}
-			VListHeaderDesc v = new VListHeaderDesc(getDisplayName(f), vf,
-					f.isHidden(), f.getActionId(), f.isColumnEditable(), al,
-					f.getWidth(), f.getEditClass(), f.getEditCss(), iHelper,
-					colNo, f.getColumnClass(), f.getHeaderClass(), iSpinner);
+			VListHeaderDesc v = new VListHeaderDesc(getDisplayName(f), vf, f.isHidden(), f.getActionId(),
+					f.isColumnEditable(), al, f.getWidth(), f.getEditClass(), f.getEditCss(), iHelper, colNo,
+					f.getColumnClass(), f.getHeaderClass(), iSpinner);
 			heList.add(v);
 			if (!f.isHidden())
 				desc.colvisNo++;
 			if (f.isFooter()) {
 				if (desc.footList == null)
 					desc.footList = new ArrayList<VFooterDesc>();
-				VFooterDesc foot = new VFooterDesc(vf,
-						getA(f.getFooterAlign()), VField.getFieldType(
-								f.getFooterType(), f.getFooterAfterDot()));
+				VFooterDesc foot = new VFooterDesc(vf, getA(f.getFooterAlign()),
+						VField.getFieldType(f.getFooterType(), f.getFooterAfterDot()));
 				desc.footList.add(foot);
 			}
 		}
 		return desc;
 	}
 
-	public static VListHeaderContainer constructColumns(IDataType dType,
-			ListFormat l, ISelectFactory sFactory, IGetEnum iGet) {
+	public static VListHeaderContainer constructColumns(IDataType dType, ListFormat l, ISelectFactory sFactory,
+			IGetEnum iGet) {
 		ColumnsDesc desc = constructColumns(l.getColumns(), sFactory, iGet);
 		String lName = l.getDisplayName();
 		IGenCookieName iCookie = UIGiniInjector.getI().getGenCookieName();
-		String cookieName = iCookie.genCookieName(dType,
-				IUIConsts.COOKIEPAGESIZE);
+		String cookieName = iCookie.genCookieName(dType, IUIConsts.COOKIEPAGESIZE);
 		String pSize = Utils.getCookie(cookieName);
 		int pageSize;
 		if (CUtil.EmptyS(pSize))
 			pageSize = l.getPageSize();
 		else
 			pageSize = Utils.getNum(pSize);
-		String colCookieName = iCookie.genCookieName(dType,
-				IUIConsts.COOKIEPROPERTYLIST);
+		String colCookieName = iCookie.genCookieName(dType, IUIConsts.COOKIEPROPERTYLIST);
 		String jSon = Utils.getCookie(colCookieName);
 		if (!CUtil.EmptyS(jSon)) {
 			ListOfRows ro = ParseJ.toProp(jSon);
@@ -300,10 +285,8 @@ public class CreateForm {
 			List<VListHeaderDesc> newH = new ArrayList<VListHeaderDesc>();
 			for (RowContent r : ro.getRowList()) {
 				String id = rI.get(r, IUIConsts.PROPID).getValueS();
-				boolean visible = rI.get(r, IUIConsts.PROPVISIBLE).getValueB()
-						.booleanValue();
-				String headerS = rI.get(r, IUIConsts.PROPCOLUMNNAME)
-						.getValueS();
+				boolean visible = rI.get(r, IUIConsts.PROPVISIBLE).getValueB().booleanValue();
+				String headerS = rI.get(r, IUIConsts.PROPCOLUMNNAME).getValueS();
 				IVField vv = VField.construct(id);
 				for (VListHeaderDesc v : desc.hList) {
 					if (v.getFie().eq(vv)) {
@@ -319,23 +302,20 @@ public class CreateForm {
 			desc.hList.clear();
 			desc.hList.addAll(newH);
 		}
-		return new VListHeaderContainer(desc.hList, lName, pageSize,
-				l.getJSModifRow(), l.getWidth(), null, desc.footList,
-				l.getPageSize(), l.isNoPropertyColumn());
+		return new VListHeaderContainer(desc.hList, lName, pageSize, l.getJSModifRow(), l.getWidth(), null,
+				desc.footList, l.getPageSize(), l.isNoPropertyColumn());
 	}
 
-	public static ControlButtonDesc constructButton(ButtonItem b,
-			boolean enabled, boolean hidden) {
+	public static ControlButtonDesc constructButton(ButtonItem b, boolean enabled, boolean hidden) {
 
 		String id = b.getId();
 		String dName = b.getDisplayName();
 		String imageName = b.getImageButton();
 		if (b.isHeaderButton())
-			return new ControlButtonDesc(imageName, dName, new ClickButtonType(
-					StandClickEnum.MENUTITLE), enabled, hidden);
+			return new ControlButtonDesc(imageName, dName, new ClickButtonType(StandClickEnum.MENUTITLE), enabled,
+					hidden);
 		else
-			return new ControlButtonDesc(imageName, dName, new ClickButtonType(
-					id), enabled, hidden);
+			return new ControlButtonDesc(imageName, dName, new ClickButtonType(id), enabled, hidden);
 	}
 
 	public static List<ControlButtonDesc> constructBList(List<ButtonItem> iList) {

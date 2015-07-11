@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" autohide="">
+
+	<before />
+
+	<types>columndialog/exporttypes.xml</types>
+
+	<jython>
+		<import>from columndialog import exportdata</import>
+		<method>exportdata.dialogaction({0},{1})</method>
+	</jython>
+
+	<buttons>
+		<button id="mail" displayname="@mail" validate="" />
+		<button id="download" displayname="@download" validate="" />
+		<button id="resign" displayname="@resign" actiontype="JCLOSE_DIALOG" />
+	</buttons>
+
+	<form>
+		<field id="exporttype" type="custom:exportformat" displayname="Export format"
+			notempty="" remember="" />
+		<field id="list" displayname="List column" hidden="" />
+		<field id="data" displayname="Data list" hidden="" />
+	</form>
+
+
+</dialog>

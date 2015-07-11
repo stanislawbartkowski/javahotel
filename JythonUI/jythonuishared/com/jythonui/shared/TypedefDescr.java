@@ -19,41 +19,45 @@ import com.gwtmodel.table.common.CUtil;
 
 public class TypedefDescr extends ElemDescription {
 
-    private static final long serialVersionUID = 1L;
-    private List<FieldItem> lColumns = new ArrayList<FieldItem>();
+	private static final long serialVersionUID = 1L;
+	private List<FieldItem> lColumns = new ArrayList<FieldItem>();
 
-    public boolean isComboType() {
-        return getAttr(ICommonConsts.TYPE).equals(ICommonConsts.COMBOTYPE);
-    }
+	public boolean isComboType() {
+		return getAttr(ICommonConsts.TYPE).equals(ICommonConsts.COMBOTYPE);
+	}
 
-    public boolean isHelperType() {
-        return getAttr(ICommonConsts.TYPE).equals(ICommonConsts.HELPER);
-    }
+	public boolean isHelperType() {
+		return getAttr(ICommonConsts.TYPE).equals(ICommonConsts.HELPER);
+	}
 
-    public String getComboId() {
-        return getAttr(ICommonConsts.COMBOID);
-    }
+	public boolean isSuggestType() {
+		return getAttr(ICommonConsts.TYPE).equals(ICommonConsts.SUGGEST);
+	}
 
-    public List<FieldItem> getListOfColumns() {
-        if (!lColumns.isEmpty()) {
-            return lColumns;
-        }
-        String id = getComboId();
-        String dName = getDisplayName();
-        List<FieldItem> fList = new ArrayList<FieldItem>();
-        FieldItem f = new FieldItem();
-        f.setId(id);
-        fList.add(f);
-        if (!CUtil.EmptyS(dName)) {
-            f = new FieldItem();
-            f.setId(dName);
-            fList.add(f);
-        }
-        return fList;
-    }
+	public String getComboId() {
+		return getAttr(ICommonConsts.COMBOID);
+	}
 
-    public List<FieldItem> getColumns() {
-        return lColumns;
-    }
+	public List<FieldItem> getListOfColumns() {
+		if (!lColumns.isEmpty()) {
+			return lColumns;
+		}
+		String id = getComboId();
+		String dName = getDisplayName();
+		List<FieldItem> fList = new ArrayList<FieldItem>();
+		FieldItem f = new FieldItem();
+		f.setId(id);
+		fList.add(f);
+		if (!CUtil.EmptyS(dName)) {
+			f = new FieldItem();
+			f.setId(dName);
+			fList.add(f);
+		}
+		return fList;
+	}
+
+	public List<FieldItem> getColumns() {
+		return lColumns;
+	}
 
 }

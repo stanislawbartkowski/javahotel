@@ -106,4 +106,6 @@ public interface JMessages extends Messages {
 
 	String CookieNameStore(String cId, String dName, String listName, String id);
 
+	String InvalidFieldType(String field, String aType, String expectedType);
+
 }

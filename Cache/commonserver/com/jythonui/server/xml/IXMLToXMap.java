@@ -16,6 +16,8 @@ import com.gwtmodel.table.map.XMap;
 
 public interface IXMLToXMap {
 
-    void readXML(XMap dest, String xml, String rootTag, String elemTag);
+	void readXML(XMap dest, String xml, String rootTag, String elemTag);
+
+	String toXML(XMap sou, String rootTag, String elemTag);
 
 }

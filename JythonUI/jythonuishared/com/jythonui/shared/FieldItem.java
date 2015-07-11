@@ -232,6 +232,18 @@ public class FieldItem extends ElemDescription {
 		return isAttr(ICommonConsts.IMAGECOLUMN);
 	}
 
+	public boolean isSuggest() {
+		return isAttr(ICommonConsts.SUGGEST) || isAttr(ICommonConsts.SUGGESTKEY) || isAttr(ICommonConsts.SUGGESTSIZE);
+	}
+
+	public String getSuggestKey() {
+		return getAttr(ICommonConsts.SUGGESTKEY);
+	}
+
+	public int getSuggestSize() {
+		return getInt(ICommonConsts.SUGGESTSIZE, ICommonConsts.DEFAULTSUGGESTSIZE);
+	}
+
 	public int getImageColumn() {
 		String t = getAttr(ICommonConsts.IMAGECOLUMN);
 		if (CUtil.EmptyS(t)) {
@@ -265,17 +277,19 @@ public class FieldItem extends ElemDescription {
 	}
 
 	public int getSpinnerMin() {
-		if (isAttr(ICommonConsts.SPINNERMIN))
-			return Integer.parseInt(getAttr(ICommonConsts.SPINNERMIN));
-		else
-			return ICommonConsts.DEFAULTSPINNERMIN;
+		return getInt(ICommonConsts.SPINNERMIN, ICommonConsts.DEFAULTSPINNERMIN);
 	}
 
 	public int getSpinnerMax() {
-		if (isAttr(ICommonConsts.SPINNERMAX))
-			return Integer.parseInt(getAttr(ICommonConsts.SPINNERMAX));
-		else
-			return ICommonConsts.DEFAULTSPINNERMAX;
+		return getInt(ICommonConsts.SPINNERMAX, ICommonConsts.DEFAULTSPINNERMAX);
+	}
+
+	public boolean isRemember() {
+		return isAttr(ICommonConsts.REMEMBER) || isAttr(ICommonConsts.REMEMBERKEY);
+	}
+
+	public String getRememberKey() {
+		return getAttr(ICommonConsts.REMEMBERKEY);
 	}
 
 }

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+<displayname>Remember dialog</displayname>
+
+<before/>
+
+ <jython>
+   <import>from testpack import suggestdialog</import>
+   <method>suggestdialog.rememberaction({0},{1})</method>
+ </jython>  
+
+<buttons>
+  <button id="res" displayname="@ok" validate="" />
+</buttons>
+
+<form>
+   <field id="remember" displayname="Remember me" remember="" />
+   <field id="remember1" displayname="Remember us" rememberkey="itsme" />
+   <field id="remember2" displayname="Remember us" rememberkey="itsme" />
+   <field id="remember3" displayname="Integer" type="long" remember="" />
+   <field id="remember4" displayname="Number" type="decimal" remember="" />
+   <field id="remember5" displayname="check" type="bool" remember="" />
+</form>
+ 
+ 
+</dialog>

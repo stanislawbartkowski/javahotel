@@ -18,12 +18,12 @@ import com.jythonui.shared.DialogVariables;
 
 public interface ISetGetVar {
 
-    interface IReadVarContext {
-        Set<String> getSet();
-    }
+	interface IReadVarContext {
+		Set<String> getSet();
+	}
 
-    void addToVar(DialogVariables var, String buttonId);
+	void addToVar(DialogVariables var, String buttonId);
 
-    void readVar(DialogVariables var, IReadVarContext iC);
+	void readVar(DialogVariables var, IReadVarContext iC);
 
 }

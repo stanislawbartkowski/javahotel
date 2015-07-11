@@ -12,6 +12,8 @@
  */
 package com.gwtmodel.table.view.ewidget;
 
+import java.util.List;
+
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IVField;
@@ -115,6 +117,12 @@ class AnchorField implements IFormLineView {
 
 	@Override
 	public void setCellTitle(String title) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setSuggestList(List<String> list) {
 		// TODO Auto-generated method stub
 		
 	}

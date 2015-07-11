@@ -2,6 +2,7 @@ import cutil
 
 LIST="list"
 
+
 def dialogaction(action,var) :
     cutil.printVar("change",action,var)
     
@@ -13,8 +14,13 @@ def dialogaction(action,var) :
 	seq.append(ma)
       cutil.setJMapList(var,LIST,seq)
       cutil.setHeader(var,LIST,"id","Next num")
+      cutil.listColumnVisible(var,LIST,"id",True)
       
     if action == "change" :
       head = var["ncolumn"]
       cutil.setHeader(var,LIST,"number0",head)
+      
+    if action == "signalchange" :
+      vis = var["nvis"]
+      cutil.listColumnVisible(var,LIST,"number2",vis)
       

@@ -36,7 +36,6 @@ import com.jythonui.shared.RowIndex;
 public class ParseJ {
 
 	private ParseJ() {
-
 	}
 
 	public static RowIndex constructProp() {
@@ -54,6 +53,23 @@ public class ParseJ {
 		f.setAttr(ICommonConsts.TYPE, ICommonConsts.STRINGTYPE);
 		li.add(f);
 		return new RowIndex(li);
+	}
+	
+	public static RowIndex constructFormProp() {
+		List<FieldItem> li = new ArrayList<FieldItem>();
+		FieldItem f = new FieldItem();
+		f.setId(IUIConsts.PROPVISIBLE);
+		f.setAttr(ICommonConsts.TYPE, ICommonConsts.BOOLTYPE);
+		li.add(f);
+		f = new FieldItem();
+		f.setId(IUIConsts.PROPID);
+		f.setAttr(ICommonConsts.TYPE, ICommonConsts.STRINGTYPE);
+		li.add(f);
+		f = new FieldItem();
+		f.setId(IUIConsts.PROPCOLUMNNAME);
+		f.setAttr(ICommonConsts.TYPE, ICommonConsts.STRINGTYPE);
+		li.add(f);
+		return new RowIndex(li);		
 	}
 
 	private static ListOfRows toS(RowIndex rI, String s) {

@@ -356,14 +356,26 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 		@Override
 		public void signal(ISlotSignalContext slContext) {
 			ChangeHeaderSignal s = (ChangeHeaderSignal) slContext.getCustom();
-			String nheader = s.getValue();
-			IVField v = s.getV();
+			VListHeaderDesc nHe = s.getValue();
+			IVField v = nHe.getFie();
 			if (listView.getHeaderList() == null)
 				return;
+			boolean refreshHeader = true;
 			for (VListHeaderDesc he : listView.getHeaderList().getAllHeList())
 				if (he.getFie().eq(v))
-					he.setHeaderString(nheader);
-			tableView.refreshHeader();
+					switch (s.getcType()) {
+					case HEADER:
+						he.setHeaderString(nHe.getHeaderString());
+						break;
+					case VISIBILITY:
+						he.setHidden(nHe.isHidden());
+						refreshHeader = false;
+						break;
+					}
+			if (refreshHeader)
+				tableView.refreshHeader();
+			else
+				tableView.setModel(listView);
 		}
 
 	}

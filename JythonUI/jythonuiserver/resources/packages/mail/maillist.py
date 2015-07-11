@@ -1,20 +1,61 @@
-import cutil
-import cmail
+import cutil,cmail,miscutil,cdial
 
 LI = "list"
 ALIST="attachlist"
 ATALIST="listattach"
 
-def dialogattach(action,var) :
-    cutil.printVar("dialog attach",action,var)
+def _showattach(var,displayname=None) :
+    realm = var["realm"]
+    key = var["key"]
+    filename = var["filename"]
+    cdial.downloadObj(var,displayname,filename,[realm,key])
+  
+def _sendNote(var) :
+  
+     li = var["JLIST_MAP"][ALIST]
+     attachL = None
+     for l in li : attachL = cmail.createAttachList(attachL,l["realm"],l["key"],l["filename"])	 
+      
+     M = cmail.CMAIL(var)
+     res = M.sendMail(var["subject"],var["content"],var["to"],var["from"],attachL)
+     print res
     
-    if action == "before" :
-      M = cmail.CMAIL(var)
-      note = M.findElem(var["name"])
-      l = note.getaList()
+def _attachaction(action,var) :
+  
+    if action == "addnewattach" and var["JUPDIALOG_BUTTON"] == "attach" :
+      li = var["JLIST_MAP"][ALIST]
+      (realm,key,filename) = cutil.splitsubmitres(var["JUPDIALOG_RES"])
+      li.append({"filename" : filename,"realm" : realm, "key" : key})
+      cutil.setJMapList(var,ALIST,li)
+      return True
+  
+    if action == "removeattach"  :
+       var["JYESNO_MESSAGE"] = "@removeattachmentquestion"
+       var["JAFTERDIALOG_ACTION"] = "removeattachafter"
+       return True
+     
+    if action == "removeattachafter" and var["JYESANSWER"] :
+      li = var["JLIST_MAP"][ALIST]
+      realm = var["realm"]
+      key = var["key"]
       seq = []
-      for a in l : seq.append({ "filename" : a.getFileName(), "realm" : a.getRealm(), "key" : a.getBlobKey() })
-      cutil.setJMapList(var,ATALIST,seq)  
+      for l in li :
+        if realm == l["realm"] and key == l["key"] : continue
+        seq.append(l)
+      cutil.setJMapList(var,ALIST,seq)
+      return True
+
+    if action=="addattach" :
+      cdial.uploadFile(var,"addnewattach")
+      return True
+    
+    if action == "showattach" :      
+      _showattach(var,var["subject"])
+      return True
+    
+    return False
+
+# ===========================================================================
 
 def dialogaction(action,var) :
     cutil.printVar("send mail list",action,var)
@@ -43,41 +84,11 @@ def dialogaction(action,var) :
     	  var["JOK_MESSAGE"] = "@noattachmentsmessage"
           return
         var["JUP_DIALOG"] = "?mailattachments.xml"
-      
+     
       
 def elemaction(action,var) :
     cutil.printVar("elem mail list",action,var)
     
-    if action == "addnewattach" and var["JUPDIALOG_BUTTON"] == "attach" :
-      li = var["JLIST_MAP"][ALIST]
-      (realm,key,filename) = cutil.splitsubmitres(var["JUPDIALOG_RES"])
-      li.append({"filename" : filename,"realm" : realm, "key" : key})
-      cutil.setJMapList(var,ALIST,li)
-      
-    if action == "removeattach"  :
-       var["JYESNO_MESSAGE"] = "@removeattachmentquestion"
-       var["JAFTERDIALOG_ACTION"] = "removeattachafter"
-       return      
-     
-    if action == "removeattachafter" and var["JYESANSWER"] :
-      li = var["JLIST_MAP"][ALIST]
-      realm = var["realm"]
-      key = var["key"]
-      seq = []
-      for l in li :
-        if realm == l["realm"] and key == l["key"] : continue
-        seq.append(l)
-      cutil.setJMapList(var,ALIST,seq)
-    
-    if action=="addattach" :
-      var["JUP_DIALOG"] = "?mailattach.xml"
-      var['JAFTERDIALOG_ACTION'] = "addnewattach"
-      
-    if action == "attach" :
-     var["J_SUBMIT"] = True
-     
-    if action == "aftersubmit" :
-      var["JCLOSE_DIALOG"] = var["JSUBMITRES"]
                 
     if action=="before" :
       seq = []
@@ -89,10 +100,6 @@ def elemaction(action,var) :
         note = M.findElem(name)
         alist = note.getaList()
         for a in alist : seq.append({ "filename" : a.getFileName(), "realm" : a.getRealm(), "key" : a.getBlobKey() })
-      else :
-          S = cmail.MAILFROM(var)
-          var["from"] = S.getFrom()
-          cutil.setCopy(var,"from")        
       cutil.setJMapList(var,ALIST,seq)      
     
     if action == "crud_add" and not var["JCRUD_AFTERCONF"] :
@@ -100,16 +107,9 @@ def elemaction(action,var) :
        return      
 
     if action == "crud_add" and var["JCRUD_AFTERCONF"] :
-       li = var["JLIST_MAP"][ALIST]
-       attachL = None
-       for l in li : attachL = cmail.createAttachList(attachL,l["realm"],l["key"],l["filename"])	 
-       
-       M = cmail.CMAIL(var)
-       res = M.sendMail(var["subject"],var["content"],var["to"],var["from"],attachL)
-       print res
-       S = cmail.MAILFROM(var)
-       S.saveFrom(var["from"])
+       _sendNote(var)
        var["JCLOSE_DIALOG"] = True
+       return
 
     if action == "crud_remove" and not var["JCRUD_AFTERCONF"] :
        var["JYESNO_MESSAGE"] = "@removemailquestion"
@@ -120,13 +120,50 @@ def elemaction(action,var) :
        name = var["name"]
        M.deleteElemByName(name)
        var["JCLOSE_DIALOG"] = True
+       return
      
-     
-def attachdownload(action,var) :
-    cutil.printVar("attach download",action,var)
+    if action == "showattach" :
+      _showattach(var,var["subject"])
+
+       
+    _attachaction(action,var)                
+          
+# =============================================     
+
+def sendnode(action,var) :
+  
+  cutil.printVar("sendnode",action,var)
+  
+  if action == "before" :
+    map = miscutil.startDialogToMap(var)
+    for key in map.keys(): 
+      if not var.has_key(key) or var[key] == None : var[key] = map[key]
+      if var[key] == None : var[key] = ""
+    cutil.setCopy(var,["from","to","subject","content"])
+    seq=[]
+    seq.append({"filename" : map["filename"],"realm" : map["realm"], "key" : map["key"]})
+    cutil.setJMapList(var,ALIST,seq)    
+    return
+    
+      
+  if action == "send" :
+     _sendNote(var)
+     var["JCLOSE_DIALOG"] = True
+     return
+      
+  _attachaction(action,var)    
+    
+# ===============================================
+def dialogattach(action,var) :
+    cutil.printVar("dialog attach",action,var)
     
     if action == "before" :
-       key =  var["JUPDIALOG_START"]
-       var["download"] = key
-       cutil.setCopy(var,"download")
-     
+      M = cmail.CMAIL(var)
+      note = M.findElem(var["name"])
+      l = note.getaList()
+      seq = []
+      for a in l : seq.append({ "filename" : a.getFileName(), "realm" : a.getRealm(), "key" : a.getBlobKey() })
+      cutil.setJMapList(var,ATALIST,seq)  
+      
+    if action == "download" :
+      _showattach(var)      

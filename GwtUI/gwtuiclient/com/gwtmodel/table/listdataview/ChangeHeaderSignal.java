@@ -17,14 +17,24 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.slotmodel.CustomObjectValue;
 import com.gwtmodel.table.slotmodel.CustomStringDataTypeSlot;
 import com.gwtmodel.table.slotmodel.CustomStringSlot;
+import com.gwtmodel.table.tabledef.VListHeaderDesc;
 
-public class ChangeHeaderSignal extends CustomObjectValue<String> {
+public class ChangeHeaderSignal extends CustomObjectValue<VListHeaderDesc> {
 
-	private final IVField v;
+	private final ChangeType cType;
+
+	public enum ChangeType {
+		HEADER, VISIBILITY
+	}
 
 	public ChangeHeaderSignal(String value, IVField v) {
-		super(value);
-		this.v = v;
+		super(new VListHeaderDesc(value, v));
+		cType = ChangeType.HEADER;
+	}
+
+	public ChangeHeaderSignal(boolean vis, IVField v) {
+		super(new VListHeaderDesc(null, v, !vis));
+		cType = ChangeType.VISIBILITY;
 	}
 
 	private static final String SIGNAL_ID = SetSortColumnSignal.class.getName()
@@ -35,8 +45,8 @@ public class ChangeHeaderSignal extends CustomObjectValue<String> {
 		return new CustomStringDataTypeSlot(dType, SIGNAL_ID);
 	}
 
-	public IVField getV() {
-		return v;
+	public ChangeType getcType() {
+		return cType;
 	}
 
 }

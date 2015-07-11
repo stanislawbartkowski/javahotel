@@ -18,6 +18,11 @@ import com.gwtmodel.table.slotmodel.ISlotable;
 
 public interface ILaunchPropertyDialogColumn {
 
-	void doDialog(ISlotable publishSlo, IDataType dType, WSize w);
+	enum DialogType {
+		CHANGECOLUMNS, EXPORTDATA
+	}
+
+	void doDialog(DialogType dialType, ISlotable publishSlo, IDataType dType,
+			WSize w);
 
 }

@@ -5,8 +5,9 @@
 
  <form>
    <field id="glob" />
-   <field id="globenum" type="custom:tenum" htmlid="globhtmlid" />
+   <field id="globenum" htmlid="globhtmlid" />
    <field id="ctitle" celltitle="hello" />
+   <field id="recipient" suggest="" />
  </form>  
 
 

@@ -17,9 +17,10 @@ import com.jythonui.server.registry.IStorageRegistryFactory;
 
 public class EmptyStorageRegistryFactory implements IStorageRegistryFactory {
 
-    @Override
-    public IStorageRegistry construct(String realm) {
-        return null;
-    }
+	@Override
+	public IStorageRegistry construct(String realm, boolean object, boolean user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

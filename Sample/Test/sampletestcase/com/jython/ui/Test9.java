@@ -41,7 +41,7 @@ public class Test9 extends TestHelper {
     
     @Test
     public void test2() {
-        IStorageRegistry iR = iReg.construct("PXXXX");
+        IStorageRegistry iR = iReg.construct("PXXXX",true,true);
         for (int i =0; i<10; i++) {
             String val = "Name " + i;
             iR.putEntry(""+i, val.getBytes());

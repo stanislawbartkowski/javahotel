@@ -1,5 +1,6 @@
 from com.jythonui.server.holder import SHolder
 from org.python.core.util import StringUtil
+import cutil
 
 class _BLOB :
     
@@ -14,6 +15,10 @@ class _BLOB :
     def addNewBlob(self,realm,keypatt,b): 
         key = self._A.addNewBlob(realm,keypatt,b)
         return key
+    
+    def addNewTempBlob(self,keypatt,b):
+        key = self.addNewBlob(cutil.PDFTEMPORARY,keypatt,b)
+        return (cutil.PDFTEMPORARY,key)
     
     def findBlob(self,realm,key):
         return self._I.findBlob(realm,key)

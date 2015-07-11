@@ -21,9 +21,9 @@ import java.util.Map.Entry;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.gwtmodel.table.FUtils;
-import com.gwtmodel.table.IClickYesNo;
 import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.ICustomObject;
+import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IGetDataList;
@@ -73,7 +73,6 @@ import com.gwtmodel.table.tabpanelview.TabPanelViewFactory;
 import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.gwtmodel.table.view.util.AbstractDataModel;
 import com.gwtmodel.table.view.util.OkDialog;
-import com.gwtmodel.table.view.util.YesNoDialog;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.jythonui.client.IUIConsts;
 import com.jythonui.client.M;
@@ -136,8 +135,7 @@ import com.jythonui.shared.TabPanelElem;
  * @author hotel
  * 
  */
-class DialogContainer extends AbstractSlotMediatorContainer implements
-		IDialogContainer {
+class DialogContainer extends AbstractSlotMediatorContainer implements IDialogContainer {
 
 	private final IRowListDataManager liManager;
 	private final DialogInfo info;
@@ -167,25 +165,22 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 
 	private final List<IDialogContainer> modelessList = new ArrayList<IDialogContainer>();
 
-	DialogContainer(IDataType dType, DialogInfo info, IVariablesContainer pCon,
-			ISendCloseAction iClose, DialogVariables addV,
-			IExecuteAfterModalDialog iEx, String[] startVal,
-			ICustomClickAction iCustomClick) {
+	private final GetSuggestList iSuggest = new GetSuggestList();
+
+	DialogContainer(IDataType dType, DialogInfo info, IVariablesContainer pCon, ISendCloseAction iClose,
+			DialogVariables addV, IExecuteAfterModalDialog iEx, String[] startVal, ICustomClickAction iCustomClick) {
 		this.info = info;
 		this.d = info.getDialog();
 		this.dType = dType;
 		this.iEx = iEx;
 		this.startPar = startVal;
 		iGen = UIGiniInjector.getI().getGenCookieName();
-		liManager = UIGiniInjector.getI().getRowListDataManagerFactory()
-				.construct(info, slMediator, new DTypeFactory());
+		liManager = UIGiniInjector.getI().getRowListDataManagerFactory().construct(info, slMediator,
+				new DTypeFactory());
 		// not safe, reference is escaping
-		dManager = UIGiniInjector.getI().getDateLineManagerFactory()
-				.construct(this);
-		chManager = UIGiniInjector.getI().getChartManagerFactory()
-				.construct(this, dType);
-		IVariableContainerFactory iVar = UIGiniInjector.getI()
-				.getVariableContainerFactory();
+		dManager = UIGiniInjector.getI().getDateLineManagerFactory().construct(this);
+		chManager = UIGiniInjector.getI().getChartManagerFactory().construct(this, dType);
+		IVariableContainerFactory iVar = UIGiniInjector.getI().getVariableContainerFactory();
 		if (pCon == null) {
 			if (M.getVar() == null) {
 				iCon = iVar.construct();
@@ -199,10 +194,8 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 		}
 		this.iClose = iClose;
 		this.addV = addV;
-		gManager = UIGiniInjector.getI().getFormGridManagerFactory()
-				.construct(this, dType);
-		UIGiniInjector.getI().getRegisterCustom()
-				.registerCustom(info.getCustMess());
+		gManager = UIGiniInjector.getI().getFormGridManagerFactory().construct(this, dType);
+		UIGiniInjector.getI().getRegisterCustom().registerCustom(info.getCustMess());
 		dFactory = GwtGiniInjector.getI().getDisclosurePanelFactory();
 		// executeJS = UIGiniInjector.getI().getExecuteJS();
 		executeBack = UIGiniInjector.getI().getExecuteBackAction();
@@ -271,6 +264,29 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 
 	}
 
+	private class GetSuggestList implements IGetDataList {
+
+		private final Map<IVField, IGetDataListCallBack> ma = new HashMap<IVField, IGetDataListCallBack>();
+
+		@Override
+		public void call(IVField v, IGetDataListCallBack iCallBack) {
+			ma.put(v, iCallBack);
+		}
+
+		void setSuggestionList(DialogVariables v) {
+			Map<String, List<String>> mli = v.getSuggestionMap();
+			for (Entry<String, List<String>> e : mli.entrySet()) {
+				IVField vf = VField.construct(e.getKey());
+				IGetDataListCallBack iBack = ma.get(vf);
+				if (iBack != null) {
+					IDataListType dList = JUtils.constructFromList(e.getValue());
+					iBack.set(dList);
+				}
+			}
+		}
+
+	}
+
 	private class ChangeField implements ISlotListener {
 
 		@SuppressWarnings("unchecked")
@@ -288,8 +304,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 			if (!fItem.isSignalChange()) {
 				return;
 			}
-			ButtonItem bItem = DialogFormat.findE(d.getActionList(),
-					ICommonConsts.SIGNALCHANGE);
+			ButtonItem bItem = DialogFormat.findE(d.getActionList(), ICommonConsts.SIGNALCHANGE);
 			// bItem can be null
 			DialogVariables v = iCon.getVariables(ICommonConsts.SIGNALCHANGE);
 			v.setValueS(ICommonConsts.SIGNALCHANGEFIELD, fieldid);
@@ -301,12 +316,10 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 
 				@Override
 				public CommonCallBack<DialogVariables> construct() {
-					return new BackClass(null, false,
-							new WSize(i.getGWidget()), null);
+					return new BackClass(null, false, new WSize(i.getGWidget()), null);
 				}
 			};
-			executeBack.execute(backFactory, v, bItem, d.getId(),
-					ICommonConsts.SIGNALCHANGE);
+			executeBack.execute(backFactory, v, bItem, d.getId(), ICommonConsts.SIGNALCHANGE);
 		}
 
 	}
@@ -365,11 +378,10 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 			if (fItem.getFieldType() == TT.STRING)
 				startVal = (String) i.getValObj();
 			if (CUtil.EmptyS(dialog)) {
-				ExecuteAction.action(var, d.getId(), ICommonConsts.HELPER,
-						new BackClass(null, false, w, null));
+				ExecuteAction.action(var, d.getId(), ICommonConsts.HELPER, new BackClass(null, false, w, null));
 			} else
-				new RunAction().getHelperDialog(dialog, new GetHelperWidget(
-						setW), iCon, new Close(close, i), var, startVal);
+				new RunAction().getHelperDialog(dialog, new GetHelperWidget(setW), iCon, new Close(close, i), var,
+						startVal);
 		}
 
 	}
@@ -414,12 +426,10 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 		public void publishSearch(String lId, IOkModelData ok) {
 			IDataType dType = liManager.getLType(lId);
 			if (dType != null)
-				getSlContainer().publish(dType,
-						DataActionEnum.FindRowBeginningList, ok);
+				getSlContainer().publish(dType, DataActionEnum.FindRowBeginningList, ok);
 			dType = dLineType.get(lId);
 			if (dType != null)
-				getSlContainer().publish(dType,
-						DataActionEnum.FindRowBeginningList, ok);
+				getSlContainer().publish(dType, DataActionEnum.FindRowBeginningList, ok);
 		}
 
 		@Override
@@ -442,8 +452,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 			if (!CUtil.EmptyS(buttonId))
 				liManager.addToVar(v, buttonId);
 			IVModelData vData = new VModelData();
-			vData = getSlContainer().getGetterIVModelData(dType,
-					GetActionEnum.GetViewModelEdited, vData);
+			vData = getSlContainer().getGetterIVModelData(dType, GetActionEnum.GetViewModelEdited, vData);
 			JUtils.setVariables(v, vData);
 			if (addV != null) {
 				for (String fie : addV.getFields()) {
@@ -502,16 +511,14 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 						String title = ff[2];
 						// String u = GWT.getHostPageBaseURL()
 						// + "/downLoadHandler";
-						String u = Utils
-								.getURLServlet(ICommonConsts.DOWNLOADSERVLET);
+						String u = Utils.getURLServlet(ICommonConsts.DOWNLOADSERVLET);
 						// + "/downLoadHandler";
-						String link = Utils.createURL(u,
-								ICommonConsts.BLOBDOWNLOADPARAM, s, null);
+						String link = Utils.createURL(u, ICommonConsts.BLOBDOWNLOADPARAM, s, null);
 						i.setValObj(title + "|" + link);
 
 					} else
-					// postpone isSignalChange
-					if (def.isSignalChange())
+						// postpone isSignalChange
+						if (def.isSignalChange())
 						changeList.add(new ChangeVal(i, val));
 					else
 						i.setValObj(val.getValue());
@@ -527,8 +534,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 	private class BackFactory implements ICreateBackActionFactory {
 
 		@Override
-		public CommonCallBack<DialogVariables> construct(String id, WSize w,
-				MapDialogVariable addV, ICommand iAfter) {
+		public CommonCallBack<DialogVariables> construct(String id, WSize w, MapDialogVariable addV, ICommand iAfter) {
 			return new BackClass(id, false, w, null, addV, iAfter);
 		}
 
@@ -556,11 +562,9 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 
 		PViewData(CellId cId) {
 			pView = pViewFactory.construct(dType, cId);
-			TabPanelViewFactory pFactory = GwtGiniInjector.getI()
-					.getTabPanelViewFactory();
+			TabPanelViewFactory pFactory = GwtGiniInjector.getI().getTabPanelViewFactory();
 			for (int i = 0; i < d.getTabList().size(); i++)
-				pList.add(pFactory.construct(dType, cId, d.getTabList().get(i)
-						.getId()));
+				pList.add(pFactory.construct(dType, cId, d.getTabList().get(i).getId()));
 			// fill cList
 			for (TabPanel tab : d.getTabList())
 				for (TabPanelElem e : tab.gettList())
@@ -599,8 +603,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 			// verify that all tab are filled
 			for (CheckTab c : cList) {
 				if (!c.exist) {
-					String mess = M.M().TabNotFilled(c.tab.getId(),
-							c.elem.getId());
+					String mess = M.M().TabNotFilled(c.tab.getId(), c.elem.getId());
 					Utils.errAlertB(mess);
 				}
 			}
@@ -631,13 +634,11 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 			TabPanelElem tElem = dPanel.gettList().get(tabno);
 			if (!tElem.isBeforeChangeTabbSignal())
 				return;
-			DialogVariables v = iCon
-					.getVariables(ICommonConsts.BEFORECHANGETAB);
+			DialogVariables v = iCon.getVariables(ICommonConsts.BEFORECHANGETAB);
 			v.setValueS(ICommonConsts.TABID, tElem.getId());
 			v.setValueS(ICommonConsts.TABPANELID, dPanel.getId());
 			ExecuteAction.action(v, d.getId(), ICommonConsts.BEFORECHANGETAB,
-					new BackClass(ICommonConsts.BEFORECHANGETAB, false, null,
-							null));
+					new BackClass(ICommonConsts.BEFORECHANGETAB, false, null, null));
 		}
 
 	}
@@ -646,8 +647,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 
 		@Override
 		public void signal(ISlotSignalContext slContext) {
-			AfterUploadSubmitSignal t = (AfterUploadSubmitSignal) slContext
-					.getCustom();
+			AfterUploadSubmitSignal t = (AfterUploadSubmitSignal) slContext.getCustom();
 			String res = t.getValue();
 			WSize ws = t.getwS();
 			String submitId = t.getSubmitId();
@@ -655,8 +655,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 			DialogVariables v = iCon.getVariables(submitId);
 			v.setValueS(ICommonConsts.JSUBMITERES, res);
 			liManager.addToVar(v, ICommonConsts.AFTERSUBMIT);
-			ExecuteAction.action(v, d.getId(), ICommonConsts.AFTERSUBMIT,
-					new BackClass(null, false, ws, null));
+			ExecuteAction.action(v, d.getId(), ICommonConsts.AFTERSUBMIT, new BackClass(null, false, ws, null));
 		}
 
 	}
@@ -673,29 +672,24 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 		public void signal(ISlotSignalContext slContext) {
 			DisclosureEvent e = (DisclosureEvent) slContext.getCustom();
 			boolean open = e.getValue();
-			DialogVariables v = iCon
-					.getVariables(ICommonConsts.DISCLOSURECHANGE);
+			DialogVariables v = iCon.getVariables(ICommonConsts.DISCLOSURECHANGE);
 			DataType da = (DataType) dType;
 			v.setValueS(ICommonConsts.DISCLOSUREID, da.getId());
 			v.setValueB(ICommonConsts.DISCLOSUREOPEN, open);
 			ExecuteAction.action(v, d.getId(), ICommonConsts.DISCLOSURECHANGE,
-					new BackClass(ICommonConsts.DISCLOSURECHANGE, false, null,
-							null));
+					new BackClass(ICommonConsts.DISCLOSURECHANGE, false, null, null));
 		}
 
 	}
 
-	private void addListButt(String buttList, List<ControlButtonDesc> bList,
-			IDataType da) {
+	private void addListButt(String buttList, List<ControlButtonDesc> bList, IDataType da) {
 		if (!CUtil.EmptyS(buttList)) {
 			String vList[] = buttList.split(",");
 			for (String b : vList) {
 				for (ControlButtonDesc bu : bList) {
 					if (CUtil.EqNS(bu.getActionId().getCustomButt(), b)) {
-						CustomStringSlot sl = ButtonCheckLostFocusSignal
-								.constructSlotButtonCheckFocusSignal(da);
-						ButtonCheckLostFocusSignal sign = new ButtonCheckLostFocusSignal(
-								bu.getActionId(), dType);
+						CustomStringSlot sl = ButtonCheckLostFocusSignal.constructSlotButtonCheckFocusSignal(da);
+						ButtonCheckLostFocusSignal sign = new ButtonCheckLostFocusSignal(bu.getActionId(), dType);
 						slMediator.getSlContainer().publish(sl, sign);
 					}
 				}
@@ -722,44 +716,34 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 
 		PViewData pView = new PViewData(cId);
 
-		M.getLeftMenu().createLeftButton(
-				constructCButton(d.getLeftButtonList()), d.getLeftButtonList(),
+		M.getLeftMenu().createLeftButton(constructCButton(d.getLeftButtonList()), d.getLeftButtonList(),
 				LeftMenu.MenuType.LEFTPANEL, d.getHtmlLeftMenu());
-		M.getLeftMenu().createLeftButton(constructCButton(d.getUpMenuList()),
-				d.getUpMenuList(), LeftMenu.MenuType.UPPANELMENU,
-				d.getHtmlLeftMenu());
-		M.getLeftMenu().createLeftButton(
-				constructCButton(d.getLeftStackList()), d.getLeftStackList(),
+		M.getLeftMenu().createLeftButton(constructCButton(d.getUpMenuList()), d.getUpMenuList(),
+				LeftMenu.MenuType.UPPANELMENU, d.getHtmlLeftMenu());
+		M.getLeftMenu().createLeftButton(constructCButton(d.getLeftStackList()), d.getLeftStackList(),
 				LeftMenu.MenuType.LEFTSTACK, d.getHtmlLeftMenu());
-		IEnumTypesList eList = UIGiniInjector.getI().getEnumTypesFactory()
-				.construct(d, liManager);
+		IEnumTypesList eList = UIGiniInjector.getI().getEnumTypesFactory().construct(d, liManager);
 		if (!d.getFieldList().isEmpty()) {
-			FormLineContainer fContainer = CreateForm.construct(info,
-					new GetEnumList(eList), eList, new HelperW(),
-					new DTypeFactory());
+			FormLineContainer fContainer = CreateForm.construct(info, new GetEnumList(eList), iSuggest, eList,
+					new HelperW(), new DTypeFactory());
 
-			DataViewModelFactory daFactory = GwtGiniInjector.getI()
-					.getDataViewModelFactory();
+			DataViewModelFactory daFactory = GwtGiniInjector.getI().getDataViewModelFactory();
 
 			IDataModelFactory dFactory = new DataModel();
 
-			IDataViewModel daModel = daFactory.construct(dType, fContainer,
-					dFactory);
+			IDataViewModel daModel = daFactory.construct(dType, fContainer, dFactory);
 			// important: before not after next instruction
 			pView.addElem(ICommonConsts.FORM, dType, daModel);
 			iCon.copyCurrentVariablesToForm(slMediator, dType);
-			SlU.registerChangeFormSubscriber(dType, slMediator, (IVField) null,
-					new ChangeField());
+			SlU.registerChangeFormSubscriber(dType, slMediator, (IVField) null, new ChangeField());
 		}
 		for (DisclosureElemPanel dP : d.getDiscList()) {
 			String id = dP.getId();
 			IDataType da = DataType.construct(id, this);
 			CellId panelId = pView.addElemC(id, dType);
-			ISlotable i = dFactory.construct(dType, da, dP.getDisplayName(),
-					dP.getHTMLPanel());
+			ISlotable i = dFactory.construct(dType, da, dP.getDisplayName(), dP.getHTMLPanel());
 			if (dP.isSignalChange())
-				i.getSlContainer().registerSubscriber(
-						DisclosureEvent.constructSlot(da),
+				i.getSlContainer().registerSubscriber(DisclosureEvent.constructSlot(da),
 						new DisclosureEventListener(da));
 			slMediator.registerSlotContainer(panelId, i);
 		}
@@ -767,11 +751,9 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 		if (!d.getButtonList().isEmpty()) {
 			bList = CreateForm.constructBList(d.getButtonList());
 			ListOfControlDesc deList = new ListOfControlDesc(bList);
-			ControlButtonViewFactory bFactory = GwtGiniInjector.getI()
-					.getControlButtonViewFactory();
+			ControlButtonViewFactory bFactory = GwtGiniInjector.getI().getControlButtonViewFactory();
 			IControlButtonView bView = bFactory.construct(dType, deList);
-			slMediator.getSlContainer().registerSubscriber(dType,
-					ClickButtonType.StandClickEnum.ALL,
+			slMediator.getSlContainer().registerSubscriber(dType, ClickButtonType.StandClickEnum.ALL,
 					constructCButton(d.getButtonList()));
 			pView.addElem(ICommonConsts.BUTTONS, dType, bView);
 		}
@@ -779,8 +761,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 			for (DateLine dl : d.getDatelineList()) {
 				IDataType dLType = DataType.construct(dl.getId(), this);
 				CellId panelId = pView.addElemC(dl.getId(), dType);
-				ISlotable i = dManager.contructSlotable(dType, dLType, dl,
-						panelId, new DateLineClick(dl.getId()),
+				ISlotable i = dManager.contructSlotable(dType, dLType, dl, panelId, new DateLineClick(dl.getId()),
 						new ActionButton(d.getActionList()));
 				dLineType.put(dl.getId(), dLType);
 				slMediator.registerSlotContainer(panelId, i);
@@ -791,22 +772,18 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 				IDataType da = DataType.construct(id, this);
 				liManager.addList(da, id, f);
 				CellId panelId = pView.addElemC(id, dType);
-				ISlotable i = liManager.constructListControler(da, panelId,
-						iCon, new ListClick(da), new BackFactory(),
+				ISlotable i = liManager.constructListControler(da, panelId, iCon, new ListClick(da), new BackFactory(),
 						new ActionButton(d.getActionList()));
 				slMediator.registerSlotContainer(panelId, i);
-				slMediator.getSlContainer().registerSubscriber(dType,
-						ClickButtonType.StandClickEnum.ALL,
+				slMediator.getSlContainer().registerSubscriber(dType, ClickButtonType.StandClickEnum.ALL,
 						constructCButton(d.getLeftButtonList()));
 				boolean isNoWrap = f.isNoWrap();
-				String cookieName = iGen.genCookieName(da,
-						IUIConsts.COOKIENOWRAPON);
+				String cookieName = iGen.genCookieName(da, IUIConsts.COOKIENOWRAPON);
 				String val = Utils.getCookie(cookieName);
 				if (!CUtil.EmptyS(val))
 					isNoWrap = Utils.TrueL(val);
 				if (isNoWrap) {
-					CustomStringSlot sl = IsBooleanSignalNow
-							.constructSlotSetLineNoWrap(da);
+					CustomStringSlot sl = IsBooleanSignalNow.constructSlotSetLineNoWrap(da);
 					IsBooleanSignalNow sig = new IsBooleanSignalNow(true);
 					slMediator.getSlContainer().publish(sl, sig);
 				}
@@ -817,26 +794,22 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 				IDataType dat = DataType.construct(id, this);
 				gManager.addDataType(id, dat);
 				CellId panelId = pView.addElemC(id, dType);
-				slMediator.registerSlotContainer(panelId,
-						gManager.constructSlotable(id));
+				slMediator.registerSlotContainer(panelId, gManager.constructSlotable(id));
 			}
 		if (!d.getChartList().isEmpty())
 			for (ChartFormat ch : d.getChartList()) {
 				String id = ch.getId();
 				IDataType da = DataType.construct(id, this);
 				CellId panelId = pView.addElemC(id, dType);
-				slMediator.registerSlotContainer(panelId,
-						chManager.constructSlotable(id, da));
+				slMediator.registerSlotContainer(panelId, chManager.constructSlotable(id, da));
 			}
 
-		iCon.addFormVariables(d.getId(), new BAction(), liManager, gManager,
-				dManager, new DialogVariablesGetSet());
+		iCon.addFormVariables(d.getId(), new BAction(), liManager, gManager, dManager, new DialogVariablesGetSet());
 
 		pView.createView(cId);
 		slMediator.startPublish(cId);
 		if (d.isBefore()) {
-			executeAction(ICommonConsts.BEFORE, new BackClass(null, true, null,
-					eList));
+			executeAction(ICommonConsts.BEFORE, new BackClass(null, true, null, eList));
 		} else {
 			// display empty list
 			for (IDataType da : liManager.getList()) {
@@ -846,13 +819,10 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 		CustomStringSlot sig = SendDialogFormSignal.constructSignal(dType);
 		slMediator.getSlContainer().publish(sig, new SendDialogFormSignal(d));
 		sig = BeforeTabChange.constructBeforeTabChangeSignal(dType);
-		slMediator.getSlContainer().registerSubscriber(sig,
-				new BeforeChangeTab());
-		slMediator.getSlContainer().registerSubscriber(
-				CloseDialogByImage.constructSignal(dType),
+		slMediator.getSlContainer().registerSubscriber(sig, new BeforeChangeTab());
+		slMediator.getSlContainer().registerSubscriber(CloseDialogByImage.constructSignal(dType),
 				new CloseDialogImage());
-		slMediator.getSlContainer().registerSubscriber(
-				AfterUploadSubmitSignal.constructSignal(dType),
+		slMediator.getSlContainer().registerSubscriber(AfterUploadSubmitSignal.constructSignal(dType),
 				new AfterSubmitClass());
 
 		//
@@ -866,42 +836,55 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 			sendAfterBefore();
 	}
 
-	private class HandleYesNoDialog implements IYesNoAction {
+	private IYesNoAction construct(MapDialogVariable addV, ButtonItem bId) {
 
-		private final MapDialogVariable addV;
-		private final ButtonItem bId;
+		return new HandleYesNoDialog(addV, bId, iCon, d, new ICreateBackActionFactory() {
 
-		HandleYesNoDialog(MapDialogVariable addV, ButtonItem bId) {
-			this.addV = addV;
-			this.bId = bId;
-		}
+			@Override
+			public CommonCallBack<DialogVariables> construct(String id, WSize w, MapDialogVariable addV,
+					ICommand iAfter) {
+				return new BackClass(id, false, w, null);
+			}
+		});
 
-		@Override
-		public void answer(String content, String title, final String param1,
-				final WSize w) {
-			IClickYesNo i = new IClickYesNo() {
-
-				@Override
-				public void click(boolean yes) {
-					String action = param1;
-					if (CUtil.EmptyS(param1) && bId != null)
-						action = bId.getId();
-					DialogVariables v = iCon.getVariables(action);
-					v.setValueB(ICommonConsts.JYESANSWER, yes);
-					v.copyVariables(addV);
-					// M.JR().runAction(v, d.getId(), param1,
-					// new BackClass(param1, false, w, null));
-					// 2013/04/14
-					ExecuteAction.action(v, d.getId(), action, new BackClass(
-							param1, false, w, null));
-				}
-
-			};
-
-			YesNoDialog yes = new YesNoDialog(content, title, i);
-			yes.show(w);
-		}
 	}
+
+	// private class HandleYesNoDialog implements IYesNoAction {
+	//
+	// private final MapDialogVariable addV;
+	// private final ButtonItem bId;
+	//
+	// HandleYesNoDialog(MapDialogVariable addV, ButtonItem bId) {
+	// this.addV = addV;
+	// this.bId = bId;
+	// }
+	//
+	// @Override
+	// public void answer(String content, String title, final String param1,
+	// final WSize w) {
+	// IClickYesNo i = new IClickYesNo() {
+	//
+	// @Override
+	// public void click(boolean yes) {
+	// String action = param1;
+	// if (CUtil.EmptyS(param1) && bId != null)
+	// action = bId.getId();
+	// DialogVariables v = iCon.getVariables(action);
+	// v.setValueB(ICommonConsts.JYESANSWER, yes);
+	// v.copyVariables(addV);
+	// // M.JR().runAction(v, d.getId(), param1,
+	// // new BackClass(param1, false, w, null));
+	// // 2013/04/14
+	// ExecuteAction.action(v, d.getId(), action, new BackClass(param1, false,
+	// w, null));
+	// }
+	//
+	// };
+	//
+	// YesNoDialog yes = new YesNoDialog(content, title, i);
+	// yes.show(w);
+	// }
+	// }
 
 	private class CloseDialog implements ISendCloseAction {
 
@@ -914,8 +897,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 		@Override
 		public void closeAction(String resString, String resButton) {
 			SendCloseSignal sig = new SendCloseSignal(id);
-			slMediator.getSlContainer().publish(
-					SendCloseSignal.constructSignal(dType), sig);
+			slMediator.getSlContainer().publish(SendCloseSignal.constructSignal(dType), sig);
 			if (iClose != null)
 				iClose.closeAction(resString, resButton);
 			if (iEx != null) {
@@ -933,8 +915,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 		@Override
 		public void submitAction() {
 			SendSubmitSignal sig = new SendSubmitSignal(id);
-			slMediator.getSlContainer().publish(
-					SendSubmitSignal.constructSignal(dType), sig);
+			slMediator.getSlContainer().publish(SendSubmitSignal.constructSignal(dType), sig);
 			if (iClose != null)
 				iClose.submitAction();
 		}
@@ -967,8 +948,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 			DialogVariables v = iCon.getVariables(afterAction);
 			v.setValueS(IUIConsts.JBUTTONRES, buttonid);
 			v.setValueS(IUIConsts.JBUTTONDIALOGRES, resVal);
-			ExecuteAction.action(v, d.getId(), afterAction, new BackClass(
-					afterAction, false, lastWClicked, null));
+			ExecuteAction.action(v, d.getId(), afterAction, new BackClass(afterAction, false, lastWClicked, null));
 		}
 
 		@Override
@@ -987,8 +967,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 			for (String b : bl) {
 				if (CUtil.EqNS(id, b)) {
 					CustomStringSlot sl = GetRowSelected.constructSignal(da);
-					ISlotSignalContext si = slMediator.getSlContainer()
-							.getGetterCustom(sl);
+					ISlotSignalContext si = slMediator.getSlContainer().getGetterCustom(sl);
 					GetRowSelected g = (GetRowSelected) si.getCustom();
 					boolean sel = g.getValue();
 					if (!sel) {
@@ -1005,8 +984,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 		return true;
 	}
 
-	private boolean runAction(final String id, final WSize w,
-			List<ButtonItem> bList, boolean go) {
+	private boolean runAction(final String id, final WSize w, List<ButtonItem> bList, boolean go) {
 		ButtonItem bItem = DialogFormat.findE(bList, id);
 		// it can be call from several places
 		// so filter out not relevant
@@ -1025,10 +1003,13 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 				String param1 = bItem.getAttr(ICommonConsts.ACTIONPARAM1);
 				String param2 = bItem.getAttr(ICommonConsts.ACTIONPARAM2);
 				String param3 = bItem.getAttr(ICommonConsts.ACTIONPARAM3);
-				PerformVariableAction.performAction(new HandleYesNoDialog(
-						new MapDialogVariable(), bItem), new CloseDialog(id),
-						action, new String[] { param, param1, param2, param3 },
-						w, iCon, new AfterModal());
+				PerformVariableAction.performAction(construct(new MapDialogVariable(), bItem), new CloseDialog(id),
+						action, new String[] { param, param1, param2, param3 }, w, iCon, new AfterModal());
+				// PerformVariableAction.performAction(new HandleYesNoDialog(new
+				// MapDialogVariable(), bItem),
+				// new CloseDialog(id), action, new String[] { param, param1,
+				// param2, param3 }, w, iCon,
+				// new AfterModal());
 				return true;
 			}
 
@@ -1040,13 +1021,11 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 				}
 			};
 
-			executeBack.execute(backFactory, iCon.getVariables(id), bItem,
-					d.getId(), id);
+			executeBack.execute(backFactory, iCon.getVariables(id), bItem, d.getId(), id);
 			return true;
 		}
 		if (go) {
-			ExecuteAction.action(iCon, d.getId(), id, new BackClass(id, false,
-					w, null));
+			ExecuteAction.action(iCon, d.getId(), id, new BackClass(id, false, w, null));
 		}
 		return false;
 		// 2012-04-03 : in order to add action from list
@@ -1105,8 +1084,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 		private final MapDialogVariable addV;
 		private final ICommand iAfter;
 
-		BackClass(String id, boolean before, WSize w, IEnumTypesList eList,
-				MapDialogVariable addV, ICommand iAfter) {
+		BackClass(String id, boolean before, WSize w, IEnumTypesList eList, MapDialogVariable addV, ICommand iAfter) {
 			this.id = id;
 			this.before = before;
 			this.w = w;
@@ -1156,9 +1134,11 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 				}
 
 			};
-			PerformVariableAction.perform(new HandleYesNoDialog(addV, null),
-					new CloseDialog(id), arg, iCon, liManager, chManager, vis,
-					w, new AfterModal());
+			// PerformVariableAction.perform(new HandleYesNoDialog(addV, null),
+			// new CloseDialog(id), arg, iCon, liManager,
+			// chManager, vis, w, new AfterModal());
+			PerformVariableAction.perform(construct(addV, null), new CloseDialog(id), arg, iCon, liManager, chManager,
+					vis, w, new AfterModal());
 			if (!arg.getCheckVariables().isEmpty()) {
 				gManager.addLinesAndColumns(id, arg);
 			}
@@ -1196,8 +1176,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 						Utils.errAlertB(mess);
 					}
 					if (!t.action.equals(ICommonConsts.READONLY)) {
-						String mess = M.M().CheckListActionNotExpected(field,
-								t.action);
+						String mess = M.M().CheckListActionNotExpected(field, t.action);
 						Utils.errAlertB(mess);
 					}
 					FieldValue val = arg.getValue(field);
@@ -1212,26 +1191,21 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 				public void action(String fie, String field) {
 					SplitIntoTwo t = new SplitIntoTwo();
 					t.extract(fie, field, IUIConsts.JSETATTRBUTTON);
-					if (!IUIConsts.ENABLE.equals(t.action)
-							&& !ICommonConsts.HIDDEN.equals(t.action)) {
-						String mess = M.M().CheckListActionNotExpected(field,
-								t.action);
+					if (!IUIConsts.ENABLE.equals(t.action) && !ICommonConsts.HIDDEN.equals(t.action)) {
+						String mess = M.M().CheckListActionNotExpected(field, t.action);
 						Utils.errAlertB(mess);
 					}
 					FieldValue val = arg.getValue(field);
 					if (val.getType() != TT.BOOLEAN) {
-						String mess = M.M().FooterSetValueShouldBeBoolean(
-								field, t.action);
+						String mess = M.M().FooterSetValueShouldBeBoolean(field, t.action);
 						Utils.errAlertB(mess);
 					}
 					if (IUIConsts.ENABLE.equals(t.action)) {
-						SlU.buttonEnable(dType, DialogContainer.this, t.id,
-								val.getValueB());
+						SlU.buttonEnable(dType, DialogContainer.this, t.id, val.getValueB());
 						liManager.enableButton(t.id, val.getValueB());
 					}
 					if (ICommonConsts.HIDDEN.equals(t.action)) {
-						SlU.buttonHidden(dType, DialogContainer.this, t.id,
-								val.getValueB());
+						SlU.buttonHidden(dType, DialogContainer.this, t.id, val.getValueB());
 						liManager.hideButton(t.id, val.getValueB());
 					}
 				}
@@ -1251,17 +1225,13 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 					IVField v = VField.construct(fI);
 					FieldValue val = arg.getValue(field);
 
-					if (ICommonConsts.SPINNERMIN.equals(t.action)
-							|| ICommonConsts.SPINNERMAX.equals(t.action)) {
-						IFormLineView vi = SlU.getVWidget(dType,
-								DialogContainer.this, v);
+					if (ICommonConsts.SPINNERMIN.equals(t.action) || ICommonConsts.SPINNERMAX.equals(t.action)) {
+						IFormLineView vi = SlU.getVWidget(dType, DialogContainer.this, v);
 						if (val.getType() != TT.INT && val.getType() != TT.LONG) {
-							String mess = M.M().ValueForAttributeShouldBeNull(
-									field);
+							String mess = M.M().ValueForAttributeShouldBeNull(field);
 							Utils.errAlertB(mess);
 						}
-						String s = FUtils.getValueS(val.getValue(),
-								val.getType(), val.getAfterdot());
+						String s = FUtils.getValueS(val.getValue(), val.getType(), val.getAfterdot());
 						String attrName = "min";
 						if (ICommonConsts.SPINNERMAX.equals(t.action))
 							attrName = "max";
@@ -1269,22 +1239,18 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 						return;
 					}
 					if (ICommonConsts.CELLTITLE.equals(t.action)) {
-						SlU.setCellTitle(dType, DialogContainer.this, v,
-								val.getValueS());
+						SlU.setCellTitle(dType, DialogContainer.this, v, val.getValueS());
 						return;
 					}
 					if (!IUIConsts.ENABLE.equals(t.action)) {
-						String mess = M.M().CheckListActionNotExpected(field,
-								t.action);
+						String mess = M.M().CheckListActionNotExpected(field, t.action);
 						Utils.errAlertB(mess);
 					}
 					if (val.getType() != TT.BOOLEAN) {
-						String mess = M.M().FooterSetValueShouldBeBoolean(
-								field, t.action);
+						String mess = M.M().FooterSetValueShouldBeBoolean(field, t.action);
 						Utils.errAlertB(mess);
 					}
-					SlU.changeEnable(dType, DialogContainer.this, v,
-							val.getValueB());
+					SlU.changeEnable(dType, DialogContainer.this, v, val.getValueB());
 				}
 
 			};
@@ -1306,15 +1272,13 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 						a.publishSearch(listid, jS);
 				}
 			};
-			JUtils.visitListOfFields(arg, IUIConsts.JSEARCH_LIST_SET,
-					searchListSet);
+			JUtils.visitListOfFields(arg, IUIConsts.JSEARCH_LIST_SET, searchListSet);
 
 			// refresh dateline
 			for (String id : arg.getDatelineVariables().keySet()) {
 				IDataType dType = dLineType.get(id);
 				if (dType == null) {
-					Utils.errAlert(M.M().DataLineNotDefined(id,
-							ICommonConsts.DATELINE, d.getId()));
+					Utils.errAlert(M.M().DataLineNotDefined(id, ICommonConsts.DATELINE, d.getId()));
 					continue;
 				}
 				DateLineVariables var = arg.getDatelineVariables().get(id);
@@ -1344,8 +1308,10 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 			};
 			JUtils.visitListOfFields(arg, IUIConsts.JDATELINE_GOTODATE, gotoDL);
 
-			VerifyJError.isError(DialogContainer.this, dType, arg,
-					DialogContainer.this);
+			// suggestion values
+			iSuggest.setSuggestionList(arg);
+
+			VerifyJError.isError(DialogContainer.this, dType, arg, DialogContainer.this);
 			if (iAfter != null)
 				iAfter.execute();
 			if (before)
@@ -1370,8 +1336,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 	}
 
 	@Override
-	public void executeAction(String actionId,
-			AsyncCallback<DialogVariables> callback) {
+	public void executeAction(String actionId, AsyncCallback<DialogVariables> callback) {
 		DialogVariables v = iCon.getVariables(actionId);
 		// null should be sent also
 		String startVal = null;
@@ -1407,8 +1372,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements
 		for (IDialogContainer i : modelessList)
 			i.close();
 		SendCloseSignal sig = new SendCloseSignal(null);
-		slMediator.getSlContainer().publish(
-				SendCloseSignal.constructSignal(dType), sig);
+		slMediator.getSlContainer().publish(SendCloseSignal.constructSignal(dType), sig);
 	}
 
 }

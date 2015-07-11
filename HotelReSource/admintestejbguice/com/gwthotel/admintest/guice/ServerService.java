@@ -45,6 +45,7 @@ import com.gwtmodel.testenhancer.notgae.TestEnhancer;
 import com.jython.serversecurity.IOObjectAdmin;
 import com.jython.serversecurity.instance.IAppInstanceOObject;
 import com.jythonui.server.IConsts;
+import com.jythonui.server.IConvertJythonTimestamp;
 import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IGetEnvDefaultData;
 import com.jythonui.server.IJythonRPCNotifier;
@@ -57,6 +58,7 @@ import com.jythonui.server.defa.EmptyRPCNotifier;
 import com.jythonui.server.defa.JavaMailSessionProvider;
 import com.jythonui.server.defa.StorageRealmRegistryFactory;
 import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.server.jython.ConvertPython27;
 import com.jythonui.server.mail.INoteStorage;
 import com.jythonui.server.objectgensymimpl.CrudObjectGenSym;
 import com.jythonui.server.registry.IStorageRegistryFactory;
@@ -103,6 +105,8 @@ public class ServerService {
             bind(Session.class).annotatedWith(Names.named(IConsts.SENDMAIL))
                     .toProvider(JavaMailSessionProvider.class)
                     .in(Singleton.class);
+			bind(IConvertJythonTimestamp.class).to(ConvertPython27.class).in(
+					Singleton.class);
 
             // bind(Session.class).annotatedWith(Names.named(IConsts.GETMAIL))
             // .toProvider(JavaGetMailSessionProvider.class)

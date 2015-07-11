@@ -286,6 +286,11 @@
 			<xs:element minOccurs="0" name="spinnermax" type="integerTypeOrFun" />
 			<xs:element minOccurs="0" name="vislines" type="xs:nonNegativeInteger" />
 			<xs:element minOccurs="0" name="celltitle" type="xs:string" />
+			<xs:element minOccurs="0" name="suggest" type="emptyT" />
+			<xs:element minOccurs="0" name="suggestkey" type="xs:string" />
+			<xs:element minOccurs="0" name="suggestsize" type="xs:nonNegativeInteger" />
+			<xs:element minOccurs="0" name="remember" type="emptyT" />
+			<xs:element minOccurs="0" name="rememberkey" type="xs:string" />
 		</xs:sequence>
 	</xs:group>
 
@@ -325,6 +330,11 @@
 		<xs:attribute name="spinnermax" type="integerTypeOrFun" />
 		<xs:attribute name="vislines" type="xs:nonNegativeInteger" />
 		<xs:attribute name="celltitle" type="xs:string" />
+		<xs:attribute name="suggest" type="emptyT" />
+		<xs:attribute name="suggestkey" type="xs:string" />
+		<xs:attribute name="suggestsize" type="xs:nonNegativeInteger" />
+		<xs:attribute name="remember" type="emptyT" />
+		<xs:attribute name="rememberkey" type="xs:string" />
 	</xs:attributeGroup>
 
 	<xs:group name="checklistG">

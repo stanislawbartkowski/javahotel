@@ -35,7 +35,7 @@ public class Test35 extends TestHelper {
     public void test1() {
         beforeTest();
 
-        IStorageRegistry reg = iReg.construct(RE1);
+        IStorageRegistry reg = iReg.construct(RE1,true,true);
 
         String hello = "Hello";
         reg.putEntry("hello", hello.getBytes());

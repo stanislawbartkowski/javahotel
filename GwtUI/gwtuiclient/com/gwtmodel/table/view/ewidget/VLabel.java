@@ -12,6 +12,8 @@
  */
 package com.gwtmodel.table.view.ewidget;
 
+import java.util.List;
+
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IVField;
@@ -97,6 +99,12 @@ class VLabel implements IFormLineView {
 
 	@Override
 	public void setCellTitle(String title) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setSuggestList(List<String> list) {
 		// TODO Auto-generated method stub
 		
 	}

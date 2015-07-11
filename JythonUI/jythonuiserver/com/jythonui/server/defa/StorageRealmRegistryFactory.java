@@ -16,52 +16,85 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import com.gwtmodel.table.common.CUtil;
+import com.jython.serversecurity.cache.OObjectId;
+import com.jythonui.server.IResolveNameFromToken;
+import com.jythonui.server.holder.Holder;
 import com.jythonui.server.registry.IStorageRegistry;
 import com.jythonui.server.registry.IStorageRegistryFactory;
+import com.jythonui.server.security.ISecurity;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
+import com.jythonui.shared.RequestContext;
 
 public class StorageRealmRegistryFactory implements IStorageRegistryFactory {
 
-    private final IStorageRealmRegistry iRegistry;
+	private final IStorageRealmRegistry iRegistry;
 
-    @Inject
-    public StorageRealmRegistryFactory(IStorageRealmRegistry iRegistry) {
-        this.iRegistry = iRegistry;
-    }
+	private final IResolveNameFromToken iToken;
 
-    private class StorageRealmRegistry implements IStorageRegistry {
+	private final ISecurity iSec;
 
-        private final String realm;
+	@Inject
+	public StorageRealmRegistryFactory(IStorageRealmRegistry iRegistry, IResolveNameFromToken iToken, ISecurity iSec) {
+		this.iRegistry = iRegistry;
+		this.iToken = iToken;
+		this.iSec = iSec;
+	}
 
-        StorageRealmRegistry(String realm) {
-            this.realm = realm;
-        }
+	private class StorageRealmRegistry implements IStorageRegistry {
 
-        @Override
-        public void putEntry(String key, byte[] value) {
-            iRegistry.putEntry(realm, key, value);
-        }
+		private final String realm;
+		private final boolean object;
+		private final boolean user;
 
-        @Override
-        public byte[] getEntry(String key) {
-            return iRegistry.getEntry(realm, key);
-        }
+		private String getrealm() {
+			if (!object && !user)
+				return realm;
+			RequestContext r = Holder.getRequest();
+			String token = r.getToken();
+			if (token == null)
+				return realm;
+			String prefix = null;
+			if (object && iSec.getCustom(token) != null) {
+				OObjectId o = iToken.getObject(token);
+				prefix = o.getObject();
+			}
+			if (user)
+				prefix = CUtil.concatSP(prefix, iSec.getUserName(token));
+			return CUtil.concatSP(prefix, realm);
+		}
 
-        @Override
-        public void removeEntry(String key) {
-            iRegistry.removeEntry(realm, key);
-        }
+		StorageRealmRegistry(String realm, boolean object, boolean user) {
+			this.realm = realm;
+			this.object = object;
+			this.user = user;
+		}
 
-        @Override
-        public List<String> getKeys() {
-            return iRegistry.getKeys(realm);
-        }
+		@Override
+		public void putEntry(String key, byte[] value) {
+			iRegistry.putEntry(getrealm(), key, value);
+		}
 
-    }
+		@Override
+		public byte[] getEntry(String key) {
+			return iRegistry.getEntry(getrealm(), key);
+		}
 
-    @Override
-    public IStorageRegistry construct(String realm) {
-        return new StorageRealmRegistry(realm);
-    }
+		@Override
+		public void removeEntry(String key) {
+			iRegistry.removeEntry(getrealm(), key);
+		}
+
+		@Override
+		public List<String> getKeys() {
+			return iRegistry.getKeys(getrealm());
+		}
+
+	}
+
+	@Override
+	public IStorageRegistry construct(String realm, boolean object, boolean user) {
+		return new StorageRealmRegistry(realm, object, user);
+	}
 
 }

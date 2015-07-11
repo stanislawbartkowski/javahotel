@@ -72,10 +72,10 @@ class GetViewController implements IGetViewControllerFactory {
 		String eCrud = null;
 		switch (e) {
 		case ADD:
-			eCrud = IUIConsts.CRUD_ADD;
+			eCrud = ICommonConsts.CRUD_ADD;
 			break;
 		case MODIF:
-			eCrud = IUIConsts.CRUD_CHANGE;
+			eCrud = ICommonConsts.CRUD_CHANGE;
 			break;
 		case REMOVE:
 			eCrud = IUIConsts.CRUD_REMOVE;
@@ -90,27 +90,22 @@ class GetViewController implements IGetViewControllerFactory {
 		return eCrud;
 	}
 
-	private class ValidateAction extends AbstractSlotContainer implements
-			IDataValidateAction {
+	private class ValidateAction extends AbstractSlotContainer implements IDataValidateAction {
 
 		private class ValidateEmpty implements ISlotListener {
 
 			@Override
 			public void signal(ISlotSignalContext slContext) {
 				ListFormat li = rM.getFormat(dType);
-				if (!ValidateForm.validateV(dType, ValidateAction.this,
-						li.getfElem(), DataActionEnum.InvalidSignal))
+				if (!ValidateForm.validateV(dType, ValidateAction.this, li.getfElem(), DataActionEnum.InvalidSignal))
 					return;
-				SlU.publishDataAction(dType, ValidateAction.this, slContext,
-						DataActionEnum.PersistDataAction);
+				SlU.publishDataAction(dType, ValidateAction.this, slContext, DataActionEnum.PersistDataAction);
 			}
 		}
 
 		ValidateAction(IDataType da) {
 			this.dType = da;
-			getSlContainer().registerSubscriber(da,
-					DataActionEnum.ValidateComposeFormAction,
-					new ValidateEmpty());
+			getSlContainer().registerSubscriber(da, DataActionEnum.ValidateComposeFormAction, new ValidateEmpty());
 
 		}
 
@@ -122,8 +117,7 @@ class GetViewController implements IGetViewControllerFactory {
 
 	}
 
-	private class ItemDataPersistAction extends AbstractSlotContainer implements
-			IDataPersistAction {
+	private class ItemDataPersistAction extends AbstractSlotContainer implements IDataPersistAction {
 
 		private final IDialogContainer dC;
 
@@ -140,8 +134,7 @@ class GetViewController implements IGetViewControllerFactory {
 			}
 
 			@Override
-			public void action(boolean afterConfirm,
-					CommonCallBack<DialogVariables> back) {
+			public void action(boolean afterConfirm, CommonCallBack<DialogVariables> back) {
 				v.setValueB(ICommonConsts.JCRUD_AFTERCONF, afterConfirm);
 				ListUtils.addListName(v, li);
 				// 2014/09/21 : removed, seems unnecessary
@@ -175,8 +168,7 @@ class GetViewController implements IGetViewControllerFactory {
 			private class YesNo implements IYesNoAction {
 
 				@Override
-				public void answer(String content, String title, String param1,
-						WSize ww) {
+				public void answer(String content, String title, String param1, WSize ww) {
 					IClickYesNo i = new IClickYesNo() {
 
 						@Override
@@ -220,8 +212,7 @@ class GetViewController implements IGetViewControllerFactory {
 
 			}
 
-			JBack(PersistTypeEnum e, WSize w, executeCrud exe,
-					ICommonCallBackFactory<DialogVariables> bFactory) {
+			JBack(PersistTypeEnum e, WSize w, executeCrud exe, ICommonCallBackFactory<DialogVariables> bFactory) {
 				this.e = e;
 				this.w = w;
 				this.exe = exe;
@@ -230,12 +221,10 @@ class GetViewController implements IGetViewControllerFactory {
 
 			@Override
 			public void onMySuccess(DialogVariables arg) {
-				if (VerifyJError.isError(dC, dType, arg,
-						ItemDataPersistAction.this)) {
+				if (VerifyJError.isError(dC, dType, arg, ItemDataPersistAction.this)) {
 					return;
 				}
-				PerformVariableAction.perform(new YesNo(), new CloseD(), arg,
-						iCon, rM, null, new Vis(), w, null);
+				PerformVariableAction.perform(new YesNo(), new CloseD(), arg, iCon, rM, null, new Vis(), w, null);
 			}
 		}
 
@@ -267,8 +256,7 @@ class GetViewController implements IGetViewControllerFactory {
 		ItemDataPersistAction(IDataType da, IDialogContainer dC) {
 			this.dType = da;
 			this.dC = dC;
-			getSlContainer().registerSubscriber(dType,
-					DataActionEnum.PersistDataAction, new PersistData());
+			getSlContainer().registerSubscriber(dType, DataActionEnum.PersistDataAction, new PersistData());
 
 		}
 
@@ -279,22 +267,19 @@ class GetViewController implements IGetViewControllerFactory {
 		IDataType da = iContext.getDType();
 		ListFormat li = rM.getFormat(da);
 		if (li.getElemFormat() == null) {
-			Utils.errAlert(M.M().ListDoesNotHaveELem(
-					li.getId() + " " + li.getDisplayName(),
-					ICommonConsts.ELEMFORMAT));
+			Utils.errAlert(M.M().ListDoesNotHaveELem(li.getId() + " " + li.getDisplayName(), ICommonConsts.ELEMFORMAT));
 			return null;
 		}
 		IComposeController i = fFactory.construct(da, dFactory);
 
 		DialogVariables addV = new DialogVariables();
 		String eCrud = getCrudId(iContext.getPersistTypeEnum());
-		addV.setValueS(ICommonConsts.JCRUD_DIALOG, eCrud);
+		addV.setValueS(IUIConsts.JCRUD_DIALOG, eCrud);
 
 		DialogFormat dElem = li.getfElem();
 		assert dElem != null;
 		DialogInfo elemInfo = new DialogInfo(dElem, null);
-		IDialogContainer sLo = dialFactory.construct(da, elemInfo, iCon, null,
-				addV, null, null, null);
+		IDialogContainer sLo = dialFactory.construct(da, elemInfo, iCon, null, addV, null, null, null);
 		ComposeControllerType cType = new ComposeControllerType(sLo, da, 0, 0);
 		i.registerControler(cType);
 
@@ -310,8 +295,7 @@ class GetViewController implements IGetViewControllerFactory {
 		return i;
 	}
 
-	public GetViewController(RowListDataManager rM, IDataModelFactory dFactory,
-			IVariablesContainer iCon) {
+	public GetViewController(RowListDataManager rM, IDataModelFactory dFactory, IVariablesContainer iCon) {
 		fFactory = GwtGiniInjector.getI().getComposeControllerFactory();
 		this.dFactory = dFactory;
 		this.rM = rM;

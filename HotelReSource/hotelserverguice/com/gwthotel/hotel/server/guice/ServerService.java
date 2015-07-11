@@ -65,6 +65,7 @@ import com.jython.ui.server.jpatrans.ITransactionContext;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaTransactionContext;
 import com.jythonui.server.IConsts;
+import com.jythonui.server.IConvertJythonTimestamp;
 import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IGetEnvDefaultData;
 import com.jythonui.server.IJythonRPCNotifier;
@@ -78,6 +79,7 @@ import com.jythonui.server.envvar.defa.GetEnvDefaultData;
 import com.jythonui.server.envvar.impl.GetEnvVariables;
 import com.jythonui.server.envvar.impl.ServerPropertiesEnv;
 import com.jythonui.server.guavacache.GuavaCacheFactory;
+import com.jythonui.server.jython.ConvertPython27;
 import com.jythonui.server.mail.INoteStorage;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.resbundle.Mess;
@@ -93,133 +95,135 @@ import com.jythonui.server.storage.registry.IStorageRealmRegistry;
  */
 public class ServerService {
 
-    public static class ServiceModule extends HotelServiceModule {
-        @Override
-        protected void configure() {
-            configureHotel();
-            bind(IJythonUIServerProperties.class).to(ServerPropertiesEnv.class)
-                    .in(Singleton.class);
-            bind(ICommonCacheFactory.class).to(GuavaCacheFactory.class).in(
-                    Singleton.class);
-            bind(IStorageRegistryFactory.class).to(
-                    StorageRealmRegistryFactory.class).in(Singleton.class);
-            bind(EntityManagerFactory.class).toProvider(
-                    EntityManagerFactoryProvider.class).in(Singleton.class);
-            bind(Mess.class).in(Singleton.class);
-            bind(IGetResourceJNDI.class).to(GetResourceJNDI.class).in(
-                    Singleton.class);
-            bind(IHotelServices.class).to(HotelJpaServices.class).in(
-                    Singleton.class);
-            bind(IHotelPriceList.class).to(HotelJpaPriceList.class).in(
-                    Singleton.class);
-            bind(IHotelPriceElem.class).to(HotelJpaPrices.class).in(
-                    Singleton.class);
-            bind(IHotelCustomers.class).to(HotelJpaCustomers.class).in(
-                    Singleton.class);
-            bind(IHotelRooms.class).to(HotelJpaRooms.class).in(Singleton.class);
-            bind(ICustomerBills.class).to(CustomerBillJpa.class).in(
-                    Singleton.class);
-            bind(IGetAutomPatterns.class).to(GetAutomPatterns.class).in(
-                    Singleton.class);
+	public static class ServiceModule extends HotelServiceModule {
+		@Override
+		protected void configure() {
+			configureHotel();
+			bind(IJythonUIServerProperties.class).to(ServerPropertiesEnv.class)
+					.in(Singleton.class);
+			bind(ICommonCacheFactory.class).to(GuavaCacheFactory.class).in(
+					Singleton.class);
+			bind(IStorageRegistryFactory.class).to(
+					StorageRealmRegistryFactory.class).in(Singleton.class);
+			bind(EntityManagerFactory.class).toProvider(
+					EntityManagerFactoryProvider.class).in(Singleton.class);
+			bind(Mess.class).in(Singleton.class);
+			bind(IGetResourceJNDI.class).to(GetResourceJNDI.class).in(
+					Singleton.class);
+			bind(IHotelServices.class).to(HotelJpaServices.class).in(
+					Singleton.class);
+			bind(IHotelPriceList.class).to(HotelJpaPriceList.class).in(
+					Singleton.class);
+			bind(IHotelPriceElem.class).to(HotelJpaPrices.class).in(
+					Singleton.class);
+			bind(IHotelCustomers.class).to(HotelJpaCustomers.class).in(
+					Singleton.class);
+			bind(IHotelRooms.class).to(HotelJpaRooms.class).in(Singleton.class);
+			bind(ICustomerBills.class).to(CustomerBillJpa.class).in(
+					Singleton.class);
+			bind(IGetAutomPatterns.class).to(GetAutomPatterns.class).in(
+					Singleton.class);
 
-            bind(IReservationForm.class).to(HotelReservations.class).in(
-                    Singleton.class);
+			bind(IReservationForm.class).to(HotelReservations.class).in(
+					Singleton.class);
 
-            bind(IPaymentBillOp.class).to(PaymentOp.class).in(Singleton.class);
+			bind(IPaymentBillOp.class).to(PaymentOp.class).in(Singleton.class);
 
-            bind(IReservationOp.class).to(ReservationOp.class).in(
-                    Singleton.class);
+			bind(IReservationOp.class).to(ReservationOp.class).in(
+					Singleton.class);
 
-            bind(IClearHotel.class).to(ClearObjects.class).in(Singleton.class);
-            bind(IGetEnvVariable.class).to(GetEnvVariables.class).in(
-                    Singleton.class);
-            bind(IAppInstanceOObject.class).to(OObjectAdminInstance.class).in(
-                    Singleton.class);
-            bind(IGetEnvDefaultData.class).to(GetEnvDefaultData.class).in(
-                    Singleton.class);
-            bind(IHotelMailList.class).to(HotelMailing.class).in(
-                    Singleton.class);
+			bind(IClearHotel.class).to(ClearObjects.class).in(Singleton.class);
+			bind(IGetEnvVariable.class).to(GetEnvVariables.class).in(
+					Singleton.class);
+			bind(IAppInstanceOObject.class).to(OObjectAdminInstance.class).in(
+					Singleton.class);
+			bind(IGetEnvDefaultData.class).to(GetEnvDefaultData.class).in(
+					Singleton.class);
+			bind(IHotelMailList.class).to(HotelMailing.class).in(
+					Singleton.class);
+			bind(IConvertJythonTimestamp.class).to(ConvertPython27.class).in(
+					Singleton.class);
 
-            // common
-            bind(IStorageJpaRegistryFactory.class).to(
-                    StorageJpaRegistryFactory.class).in(Singleton.class);
-            bind(IAppInstanceOObject.class).to(OObjectAdminInstance.class).in(
-                    Singleton.class);
-            bind(IOObjectAdmin.class).to(OObjectAdminJpa.class).in(
-                    Singleton.class);
-            bind(IStorageRegistryFactory.class).to(
-                    StorageRealmRegistryFactory.class).in(Singleton.class);
-            bind(ISemaphore.class).to(SemaphoreSynch.class).in(Singleton.class);
-            bind(IGetConnection.class)
-                    .toProvider(EmptyConnectionProvider.class).in(
-                            Singleton.class);
-            bind(IBlobHandler.class).to(BlobEntryJpaHandler.class).in(
-                    Singleton.class);
-            bind(IJythonRPCNotifier.class).to(EmptyRPCNotifier.class).in(
-                    Singleton.class);
-            bind(IJpaObjectGenSymFactory.class).to(
-                    JpaObjectGenSymFactoryImpl.class).in(Singleton.class);
-            bind(INoteStorage.class).to(JpaNoteStorage.class).in(
-                    Singleton.class);
-            // common
-            bind(Session.class).annotatedWith(Names.named(IConsts.SENDMAIL))
-                    .toProvider(ResGetMailSessionProvider.class)
-                    .in(Singleton.class);
+			// common
+			bind(IStorageJpaRegistryFactory.class).to(
+					StorageJpaRegistryFactory.class).in(Singleton.class);
+			bind(IAppInstanceOObject.class).to(OObjectAdminInstance.class).in(
+					Singleton.class);
+			bind(IOObjectAdmin.class).to(OObjectAdminJpa.class).in(
+					Singleton.class);
+			bind(IStorageRegistryFactory.class).to(
+					StorageRealmRegistryFactory.class).in(Singleton.class);
+			bind(ISemaphore.class).to(SemaphoreSynch.class).in(Singleton.class);
+			bind(IGetConnection.class)
+					.toProvider(EmptyConnectionProvider.class).in(
+							Singleton.class);
+			bind(IBlobHandler.class).to(BlobEntryJpaHandler.class).in(
+					Singleton.class);
+			bind(IJythonRPCNotifier.class).to(EmptyRPCNotifier.class).in(
+					Singleton.class);
+			bind(IJpaObjectGenSymFactory.class).to(
+					JpaObjectGenSymFactoryImpl.class).in(Singleton.class);
+			bind(INoteStorage.class).to(JpaNoteStorage.class).in(
+					Singleton.class);
+			// common
+			bind(Session.class).annotatedWith(Names.named(IConsts.SENDMAIL))
+					.toProvider(ResGetMailSessionProvider.class)
+					.in(Singleton.class);
 
-            requestStatic();
-            requestStaticInjection(H.class);
-        }
+			requestStatic();
+			requestStaticInjection(H.class);
+		}
 
-        // common
-        @Provides
-        @Singleton
-        IStorageRealmRegistry getStorageRealmRegistry(
-                IStorageJpaRegistryFactory rFactory,
-                ITransactionContextFactory iC) {
-            return rFactory.construct(iC);
-        }
+		// common
+		@Provides
+		@Singleton
+		IStorageRealmRegistry getStorageRealmRegistry(
+				IStorageJpaRegistryFactory rFactory,
+				ITransactionContextFactory iC) {
+			return rFactory.construct(iC);
+		}
 
-        @Provides
-        @Singleton
-        ITransactionContextFactory getTransactionContextFactory(
-                final EntityManagerFactory eFactory) {
-            return new ITransactionContextFactory() {
-                @Override
-                public ITransactionContext construct() {
-                    return new JpaTransactionContext(eFactory);
-                }
-            };
-        }
+		@Provides
+		@Singleton
+		ITransactionContextFactory getTransactionContextFactory(
+				final EntityManagerFactory eFactory) {
+			return new ITransactionContextFactory() {
+				@Override
+				public ITransactionContext construct() {
+					return new JpaTransactionContext(eFactory);
+				}
+			};
+		}
 
-        @Provides
-        @Singleton
-        ISetTestToday getSetTestToday() {
-            return new ISetTestToday() {
+		@Provides
+		@Singleton
+		ISetTestToday getSetTestToday() {
+			return new ISetTestToday() {
 
-                @Override
-                public void setToday(Date p) {
+				@Override
+				public void setToday(Date p) {
 
-                }
+				}
 
-            };
-        }
+			};
+		}
 
-        // -----
+		// -----
 
-        @Provides
-        @Named(IConsts.GETMAIL)
-        @Singleton
-        Session getGetSession() {
-            return null;
-        }
+		@Provides
+		@Named(IConsts.GETMAIL)
+		@Singleton
+		Session getGetSession() {
+			return null;
+		}
 
-        // @Provides
-        // @Named(IConsts.SENDMAIL)
-        // @Singleton
-        // Session getSendSession() {
-        // return null;
-        // }
+		// @Provides
+		// @Named(IConsts.SENDMAIL)
+		// @Singleton
+		// Session getSendSession() {
+		// return null;
+		// }
 
-    }
+	}
 
 }

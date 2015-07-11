@@ -16,10 +16,10 @@ import com.jythonui.client.dialog.IDialogContainer;
 
 public interface IExecuteAfterModalDialog {
 
-    void setAction(String afterAction);
+	void setAction(String afterAction);
 
-    void setResultButton(String buttonid, String resVal);
+	void setResultButton(String buttonid, String resVal);
 
-    void registerModeless(IDialogContainer d);
+	void registerModeless(IDialogContainer d);
 
 }

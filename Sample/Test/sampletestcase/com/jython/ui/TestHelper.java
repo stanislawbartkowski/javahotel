@@ -49,6 +49,7 @@ public class TestHelper extends CommonTestHelper {
         Holder.setAuth(false);
         putLocale("pl");
         dData.clear();
+        iSugg.clearAll();
     }
 
     @After

@@ -50,190 +50,167 @@ import com.jythonui.shared.TypesDescr;
  */
 public class GetDialog extends UtilHelper implements IGetDialog {
 
-    private final ISecurity iSec;
-    private final IGetLogMess logMess;
-    private final IUserCacheHandler iUserCache;
-    private final IGetResourceFile iGetResource;
+	private final ISecurity iSec;
+	private final IGetLogMess logMess;
+	private final IUserCacheHandler iUserCache;
+	private final IGetResourceFile iGetResource;
 
-    @Inject
-    public GetDialog(ISecurity iSec,
-            @Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess logMess,
-            IUserCacheHandler iUserCache, IGetResourceFile iGetResource) {
-        this.iSec = iSec;
-        this.logMess = logMess;
-        this.iUserCache = iUserCache;
-        this.iGetResource = iGetResource;
-    }
+	@Inject
+	public GetDialog(ISecurity iSec, @Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess logMess,
+			IUserCacheHandler iUserCache, IGetResourceFile iGetResource) {
+		this.iSec = iSec;
+		this.logMess = logMess;
+		this.iUserCache = iUserCache;
+		this.iGetResource = iGetResource;
+	}
 
-    private static final String XSDDIR = "xsd";
-    private static final String DIALOGXSD = "dialogschema.xsd";
-    private static final String TYPESXSD = "typedefschema.xsd";
+	private static final String XSDDIR = "xsd";
+	private static final String DIALOGXSD = "dialogschema.xsd";
+	private static final String TYPESXSD = "typedefschema.xsd";
 
-    private static IReadResource iRead = new ReadResourceFactory()
-            .constructLoader(GetDialog.class.getClassLoader());
+	private static IReadResource iRead = new ReadResourceFactory().constructLoader(GetDialog.class.getClassLoader());
 
-    private void parseError(String errCode, String param, Exception e) {
-        errorLog(logMess.getMess(errCode, ILogMess.DIALOGXMLPARSERROR, param),
-                e);
-    }
+	private void parseError(String errCode, String param, Exception e) {
+		errorLog(logMess.getMess(errCode, ILogMess.DIALOGXMLPARSERROR, param), e);
+	}
 
-    private void error(String errCode, String plogMess, String param) {
-        errorLog(logMess.getMess(errCode, plogMess, param));
-    }
+	private void error(String errCode, String plogMess, String param) {
+		errorLog(logMess.getMess(errCode, plogMess, param));
+	}
 
-    private URL getURLSchema(String schemaname) {
-        logDebug("Search schema " + schemaname);
-        URL ur = iRead.getRes(BUtil.addNameToPath(XSDDIR, schemaname));
-        if (ur == null) {
-            errorLog(logMess.getMess(IErrorCode.ERRORCODE16,
-                    ILogMess.SCHEMANOTFOUND));
-        }
-        return ur;
-    }
+	private URL getURLSchema(String schemaname) {
+		logDebug("Search schema " + schemaname);
+		URL ur = iRead.getRes(BUtil.addNameToPath(XSDDIR, schemaname));
+		if (ur == null) {
+			errorLog(logMess.getMess(IErrorCode.ERRORCODE16, ILogMess.SCHEMANOTFOUND));
+		}
+		return ur;
+	}
 
-    private InputStream getXML(String name) {
-        return iGetResource.getDialogFile(name);
-    }
+	private InputStream getXML(String name) {
+		return iGetResource.getDialogFile(name);
+	}
 
-    @Override
-    public DialogFormat getDialog(String token, String dialogName,
-            boolean verify) {
-        DialogFormat d;
-        if (Holder.isAuth() && CUtil.EmptyS(token)) {
-            errorLog(logMess.getMess(IErrorCode.ERRORCODE8,
-                    ILogMess.AUTOENABLEDNOTOKEN, dialogName));
-            return null;
-        }
-        d = (DialogFormat) iUserCache.get(token, dialogName);
-        if (d != null)
-            return d;
-        d = getDialogDirectly(token, dialogName, verify);
-        String dParentName = d.getParent();
-        if (dParentName != null) {
-            String pName = SUtil.getFileName(dialogName, dParentName);
-            DialogFormat dParent = getDialog(token, pName, false);
-            for (ListFormat lo : dParent.getListList()) {
-                if (lo.getfElem() != null
-                        && lo.getfElem().getId().equals(dialogName)) {
-                    return lo.getfElem();
-                }
-            }
-            errorLog(logMess.getMess(IErrorCode.ERRORCODE9,
-                    ILogMess.ELEMDOESNOTMATCHPARENT, dParentName, dialogName));
-        }
-        if (d != null)
-            iUserCache.put(token, dialogName, d);
-        return d;
-    }
+	@Override
+	public DialogFormat getDialog(String token, String dialogName, boolean verify) {
+		DialogFormat d;
+		if (Holder.isAuth() && CUtil.EmptyS(token)) {
+			errorLog(logMess.getMess(IErrorCode.ERRORCODE8, ILogMess.AUTOENABLEDNOTOKEN, dialogName));
+			return null;
+		}
+		d = (DialogFormat) iUserCache.get(token, dialogName);
+		if (d != null)
+			return d;
+		d = getDialogDirectly(token, dialogName, verify);
+		String dParentName = d.getParent();
+		if (dParentName != null) {
+			String pName = SUtil.getFileName(dialogName, dParentName);
+			DialogFormat dParent = getDialog(token, pName, false);
+			for (ListFormat lo : dParent.getListList()) {
+				if (lo.getfElem() != null && lo.getfElem().getId().equals(dialogName)) {
+					return lo.getfElem();
+				}
+			}
+			errorLog(logMess.getMess(IErrorCode.ERRORCODE9, ILogMess.ELEMDOESNOTMATCHPARENT, dParentName, dialogName));
+		}
+		if (d != null)
+			iUserCache.put(token, dialogName, d);
+		return d;
+	}
 
-    private DialogFormat getDialogDirectly(String token, String dialogName,
-            boolean verify) {
-        DialogFormat d = null;
-        try {
-            URL u = getURLSchema(DIALOGXSD);
-            InputStream sou;
-            if (verify) {
-                logDebug("Verify using xsd schema " + DIALOGXSD);
-                sou = getXML(dialogName);
-                VerifyXML.verify(u, new StreamSource(sou));
-            }
-            sou = getXML(dialogName);
-            d = ReadDialog.parseDocument(dialogName, sou, iSec, iGetResource);
-            if (d != null) {
-                d.setId(dialogName);
-                if (verify) {
-                    ValidateDialogFormat.validate(d);
-                }
-            }
-            String typesNames = d.getAttr(ICommonConsts.TYPES);
-            if (!CUtil.EmptyS(typesNames)) {
-                String[] tList = typesNames.split(",");
-                for (String typesName : tList) {
-                    if (verify) {
-                        u = getURLSchema(TYPESXSD);
-                        sou = getXML(typesName);
-                        VerifyXML.verify(u, new StreamSource(sou));
-                    }
-                    sou = getXML(typesName);
-                    TypesDescr types = ReadTypes.parseDocument(sou, iSec);
-                    d.getTypeList().add(types);
-                }
-            }
-            // now check elemformat for lists
-            if (d.getListList() != null) {
-                for (ListFormat l : d.getListList()) {
-                    if (l.getElemFormat() != null) {
-                        // recursive
-                        if (dialogName.equals(l.getElemFormat())) {
-                            errorLog(logMess.getMess(IErrorCode.ERRORCODE75,
-                                    ILogMess.PARENTCANNOTBETHESAME,
-                                    ICommonConsts.PARENT, dialogName));
-                            return null;
-                        }
-                        String elemName = SUtil.getFileName(dialogName,
-                                l.getElemFormat());
-                        DialogFormat dElem = getDialogDirectly(token, elemName,
-                                verify);
-                        boolean wasmodified = false;
-                        if (dElem.getFieldList().isEmpty()) {
-                            // if there is no field list in the XML
-                            // then copy parent column list
-                            // dElem.setFieldList(l.getColumns());
-                            dElem.getFieldList().addAll(l.getColumns());
-                            logDebug(l.getElemFormat()
-                                    + " copy list of columns from "
-                                    + dialogName);
-                            wasmodified = true;
-                        }
-                        String[] attrList = { ICommonConsts.IMPORT,
-                                ICommonConsts.METHOD };
-                        for (int i = 0; i < attrList.length; i++) {
-                            String a = attrList[i];
-                            if (dElem.getAttr(a) == null) {
-                                wasmodified = true;
-                                dElem.setAttr(a, d.getAttr(a));
-                                logDebug(l.getElemFormat() + " copy attribute "
-                                        + a + " from " + dialogName);
-                            }
-                        }
-                        if (wasmodified) {
-                            if (dElem.getParent() == null) {
-                                errorLog(dElem.getId() + " "
-                                        + ICommonConsts.PARENT
-                                        + " attribute expected");
-                            }
-                            String dName = SUtil.getFileName(d.getId(),
-                                    dElem.getParent());
-                            if (!dName.equals(dialogName)) {
-                                String mess = logMess.getMess(
-                                        IErrorCode.ERRORCODE74,
-                                        ILogMess.PARENTFILEEXPECTED,
-                                        dElem.getId(), ICommonConsts.PARENT,
-                                        dElem.getParent());
-                                errorLog(mess);
-                            }
-                            // cache again with changes
-                            iUserCache.put(token, dElem.getId(), dElem);
-                        }
-                        l.setfElem(dElem);
-                    }
-                }
-            }
+	private DialogFormat getDialogDirectly(String token, String dialogName, boolean verify) {
+		DialogFormat d = null;
+		try {
+			URL u = getURLSchema(DIALOGXSD);
+			InputStream sou;
+			if (verify) {
+				logDebug("Verify using xsd schema " + DIALOGXSD);
+				sou = getXML(dialogName);
+				VerifyXML.verify(u, new StreamSource(sou));
+			}
+			sou = getXML(dialogName);
+			d = ReadDialog.parseDocument(dialogName, sou, iSec, iGetResource);
+			if (d != null)
+				d.setId(dialogName);
+			String typesNames = d.getAttr(ICommonConsts.TYPES);
+			if (!CUtil.EmptyS(typesNames)) {
+				String[] tList = typesNames.split(",");
+				for (String typesName : tList) {
+					if (verify) {
+						u = getURLSchema(TYPESXSD);
+						sou = getXML(typesName);
+						VerifyXML.verify(u, new StreamSource(sou));
+					}
+					sou = getXML(typesName);
+					TypesDescr types = ReadTypes.parseDocument(sou, iSec);
+					d.getTypeList().add(types);
+				}
+			}
+			if (verify) {
+				ValidateDialogFormat.validate(d);
+			}
+			// now check elemformat for lists
+			if (d.getListList() != null) {
+				for (ListFormat l : d.getListList()) {
+					if (l.getElemFormat() != null) {
+						// recursive
+						if (dialogName.equals(l.getElemFormat())) {
+							errorLog(logMess.getMess(IErrorCode.ERRORCODE75, ILogMess.PARENTCANNOTBETHESAME,
+									ICommonConsts.PARENT, dialogName));
+							return null;
+						}
+						String elemName = SUtil.getFileName(dialogName, l.getElemFormat());
+						DialogFormat dElem = getDialogDirectly(token, elemName, verify);
+						boolean wasmodified = false;
+						if (dElem.getFieldList().isEmpty()) {
+							// if there is no field list in the XML
+							// then copy parent column list
+							// dElem.setFieldList(l.getColumns());
+							dElem.getFieldList().addAll(l.getColumns());
+							logDebug(l.getElemFormat() + " copy list of columns from " + dialogName);
+							wasmodified = true;
+						}
+						String[] attrList = { ICommonConsts.IMPORT, ICommonConsts.METHOD };
+						for (int i = 0; i < attrList.length; i++) {
+							String a = attrList[i];
+							if (dElem.getAttr(a) == null) {
+								wasmodified = true;
+								dElem.setAttr(a, d.getAttr(a));
+								logDebug(l.getElemFormat() + " copy attribute " + a + " from " + dialogName);
+							}
+						}
+						if (wasmodified) {
+							if (dElem.getParent() == null) {
+								errorLog(dElem.getId() + " " + ICommonConsts.PARENT + " attribute expected");
+							}
+							String dName = SUtil.getFileName(d.getId(), dElem.getParent());
+							if (!dName.equals(dialogName)) {
+								String mess = logMess.getMess(IErrorCode.ERRORCODE74, ILogMess.PARENTFILEEXPECTED,
+										dElem.getId(), ICommonConsts.PARENT, dElem.getParent());
+								errorLog(mess);
+							}
+							// cache again with changes
+							iUserCache.put(token, dElem.getId(), dElem);
+						}
+						l.setfElem(dElem);
+					}
+				}
+			}
 
-        } catch (SAXException e) {
-            parseError(IErrorCode.ERRORCODE12, dialogName, e);
-        } catch (IOException e) {
-            parseError(IErrorCode.ERRORCODE13, dialogName, e);
-        } catch (ParserConfigurationException e) {
-            parseError(IErrorCode.ERRORCODE14, dialogName, e);
-        }
-        if (d == null)
-            error(IErrorCode.ERRORCODE15, ILogMess.DIALOGNOTFOUND, dialogName);
-        else
-            iUserCache.put(token, dialogName, d);
-        // }
-        return d;
+		} catch (SAXException e) {
+			parseError(IErrorCode.ERRORCODE12, dialogName, e);
+		} catch (IOException e) {
+			parseError(IErrorCode.ERRORCODE13, dialogName, e);
+		} catch (ParserConfigurationException e) {
+			parseError(IErrorCode.ERRORCODE14, dialogName, e);
+		}
+		if (d == null)
+			error(IErrorCode.ERRORCODE15, ILogMess.DIALOGNOTFOUND, dialogName);
+		else
+			iUserCache.put(token, dialogName, d);
+		// }
+		return d;
 
-    }
+	}
 
 }

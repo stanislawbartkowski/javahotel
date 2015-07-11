@@ -228,5 +228,11 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
 	public void setCellTitle(String title) {
 		this.cellTitle = title;
 	}
+	
+	@Override
+	public void setSuggestList(List<String> list) {
+		
+	}
+
 
 }

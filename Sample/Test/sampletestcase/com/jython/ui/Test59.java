@@ -16,6 +16,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import com.gwtmodel.table.common.TT;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.ListFormat;
@@ -28,6 +29,7 @@ public class Test59 extends TestHelper {
 		FieldItem i = d.findFieldItem("glob");
 		assertNotNull(i);
 		assertNull(i.getCellTitle());
+		assertFalse(i.isSuggest());
 		i = d.findFieldItem("ctitle");
 		assertNotNull(i);
 		assertEquals("hello", i.getCellTitle());
@@ -47,6 +49,16 @@ public class Test59 extends TestHelper {
 	public void test3() {
 		DialogFormat d = findDialog("test106.xml");
 		assertNotNull(d);
+	}
+
+	@Test
+	public void test4() {
+		DialogFormat d = findDialog("test104.xml");
+		FieldItem i = d.findFieldItem("recipient");
+		assertNotNull(i);
+		assertTrue(i.isSuggest());
+		assertEquals(i.getFieldType(), TT.STRING);
+
 	}
 
 }

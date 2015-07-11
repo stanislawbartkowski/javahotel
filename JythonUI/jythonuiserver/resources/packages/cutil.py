@@ -4,7 +4,6 @@ from java.util import ArrayList
 from java.math import BigDecimal
 
 from com.jythonui.server import MUtil
-from com.gwtmodel.table.common.dateutil import DateFormatUtil
 from com.jythonui.server.holder import Holder
 from com.jythonui.server.holder import SHolder
 from com.gwtmodel.table.common import CUtil
@@ -18,6 +17,7 @@ import con,clog
 LONG=IMapValues.LONG
 DECIMAL=IMapValues.DECIMAL
 DATE=IMapValues.DATE
+DATETIME="datetime"
 BOOL=IMapValues.BOOL
 STRING="string"
 
@@ -92,6 +92,11 @@ def createArrayList() :
   
 def setHeader(var,list,column,val):
     var["JSETHEADER_"+list+"_"+column] = val
+    
+def listColumnVisible(var,lis,cols,visible=True) :
+    if type(cols) != list : cols = [cols]
+    for column in cols :
+      var["JSETCOLUMNVIS_"+lis+"_"+column] = visible    
   
 def setFooter(var,list,column,val):
     var["JFOOTER_COPY_"+list+"_"+column] = True
@@ -291,7 +296,7 @@ class StorageRegistry() :
      
      def __init__(self,fa,realm):
          if fa == None : fa = Holder.getRegFactory()
-         self.r = fa.construct(realm)
+         self.r = fa.construct(realm,True,True)
          
      def putEntry(self,key,value):
          self.r.putEntry(key,value)
@@ -619,8 +624,8 @@ class DEFAULTDATA :
     
   def putDataB(self,key,val) :
     if val : self.putData(key,"1")
-    else : self.putData(key,"0")    
-       
+    else : self.putData(key,"0")
+           
 # ==========================
 
 def urlParList(var) :
@@ -632,33 +637,7 @@ def urlParList(var) :
 def urlPar(var,k) :
   R = Holder.getRequest().getUrlParam()
   return R.get(k)
-  
-# =============================
-def getMapFieldList(dialogName,list=None):
-  """ Extract list of fields (columns) name from dialog
-  
-    Args:
-        dialogName : dialog
-        list : if None list of fields from dialog
-               if not None list of columns from list 
-  """    
-  i = Holder.getiServer()
-  dInfo =  i.findDialog(Holder.getRequest(), dialogName)
-  assert dInfo != None
-  dFormat = dInfo.getDialog()
-  if list == None :
-      flist = dFormat.getFieldList()
-  else :
-    lform = dFormat.findList(list)
-    assert lform != None
-    flist = lform.getColumns()  
-          
-  l = []
-  for f in flist :
-      name = f.getId()
-      l.append(name)
-  return l    
-  
+    
 # =============================
 def getPerson(var):
     token = var["SECURITY_TOKEN"]

@@ -48,7 +48,9 @@ public class EjbLocatorWildFly extends UtilHelper implements IBeanLocator {
 
     private final IJythonUIServerProperties iServer;
 
-    private static final String APPNAME = "ejb:/HotelEJBWild";
+    // important: the name should reflect the WAR name
+//    private static final String APPNAME = "ejb:/HotelEJBWild";
+    private static final String APPNAME = "ejb:/HotelEJB";
 
     private static final Map<String, String> jndiM = new HashMap<String, String>();
 

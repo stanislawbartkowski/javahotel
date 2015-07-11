@@ -22,149 +22,161 @@ import java.util.List;
  */
 public class CUtil {
 
-    private CUtil() {
-    }
+	private CUtil() {
+	}
 
-    public static boolean EmptyS(String s) {
-        if (s == null) {
-            return true;
-        }
-        return s.trim().equals("");
-    }
+	public static boolean EmptyS(String s) {
+		if (s == null) {
+			return true;
+		}
+		return s.trim().equals("");
+	}
 
-    public static String emptyToS(String s) {
-        if (s == null) {
-            return null;
-        }
-        return "";
-    }
+	public static String concatS(String s1, String s2, char ch) {
+		if (EmptyS(s1))
+			return s2;
+		if (EmptyS(s2))
+			return s1;
+		return s1 + ch + s2;
+	}
 
-    public static boolean OkNumber(String s) {
-        try {
-            double d = Double.parseDouble(s);
-        } catch (NumberFormatException e) {
-            return false;
-        }
-        return true;
-    }
+	public static String concatSP(String s1, String s2) {
+		return concatS(s1, s2, ' ');
+	}
 
-    public static String toAfterS(String s, int afterdot) {
-        String a[] = s.split("\\.");
-        String beforeS = a[0];
-        String afterS = "";
-        String ss;
-        if (a.length > 1) {
-            afterS = a[1];
-        }
-        while (afterS.length() < afterdot) {
-            afterS += "0";
-        }
-        afterS = afterS.substring(0, afterdot);
-        if (afterdot > 0) {
-            ss = beforeS + "." + afterS;
-        } else {
-            ss = beforeS.trim();
-        }
-        return ss;
-    }
+	// public static String emptyToS(String s) {
+	// if (s == null) {
+	// return null;
+	// }
+	// return "";
+	// }
 
-    public static boolean EqNS(String p1, String p2) {
-        // important: if both null that not equal
-        if ((p1 == null) || (p2 == null)) {
-            return false;
-        }
-        return p1.equalsIgnoreCase(p2);
-    }
+	public static boolean OkNumber(String s) {
+		try {
+			double d = Double.parseDouble(s);
+		} catch (NumberFormatException e) {
+			return false;
+		}
+		return true;
+	}
 
-    public static boolean EqDS(Date d1, Date d2) {
-        if ((d1 == null) && (d2 == null)) {
-            return true;
-        }
-        if ((d1 == null) || (d2 == null)) {
-            return false;
-        }
-        return d1.equals(d2);
-    }
+	public static String toAfterS(String s, int afterdot) {
+		String a[] = s.split("\\.");
+		String beforeS = a[0];
+		String afterS = "";
+		String ss;
+		if (a.length > 1) {
+			afterS = a[1];
+		}
+		while (afterS.length() < afterdot) {
+			afterS += "0";
+		}
+		afterS = afterS.substring(0, afterdot);
+		if (afterdot > 0) {
+			ss = beforeS + "." + afterS;
+		} else {
+			ss = beforeS.trim();
+		}
+		return ss;
+	}
 
-    public static Integer getInteger(String s) {
-        Integer i = new Integer(s);
-        return i;
-    }
+	public static boolean EqNS(String p1, String p2) {
+		// important: if both null that not equal
+		if ((p1 == null) || (p2 == null)) {
+			return false;
+		}
+		return p1.equalsIgnoreCase(p2);
+	}
 
-    public static boolean OkInteger(String s) {
-        try {
-            Long d = Long.parseLong(s);
-        } catch (NumberFormatException e) {
-            return false;
-        }
-        return true;
-    }
+	public static boolean EqDS(Date d1, Date d2) {
+		if ((d1 == null) && (d2 == null)) {
+			return true;
+		}
+		if ((d1 == null) || (d2 == null)) {
+			return false;
+		}
+		return d1.equals(d2);
+	}
 
-    public static int getNumb(String s) {
-        Integer i = getInteger(s);
-        return i.intValue();
-    }
+	public static Integer getInteger(String s) {
+		Integer i = new Integer(s);
+		return i;
+	}
 
-    public static String NumbToS(int i) {
-        return Integer.toString(i);
-    }
+	public static boolean OkInteger(String s) {
+		try {
+			Long d = Long.parseLong(s);
+		} catch (NumberFormatException e) {
+			return false;
+		}
+		return true;
+	}
 
-    public static Long LToL(Object val) {
-        if (val instanceof String) {
-            String s = (String) val;
-            return new Long(s);
-        }
-        return (Long) val;
-    }
+	public static int getNumb(String s) {
+		Integer i = getInteger(s);
+		return i.intValue();
+	}
 
-    public static String toNS(final int nu, final int ma) {
-        String s = new Integer(nu).toString();
-        while (s.length() < ma) {
-            s = "0" + s;
-        }
-        return s;
-    }
+	public static String NumbToS(int i) {
+		return Integer.toString(i);
+	}
 
-    public static <T> List<T> arrayToL(T[] l) {
-        List<T> aL = new ArrayList<T>();
-        for (T t : l) {
-            aL.add(t);
-        }
-        return aL;
+	public static Long LToL(Object val) {
+		if (val instanceof String) {
+			String s = (String) val;
+			return new Long(s);
+		}
+		return (Long) val;
+	}
 
-    }
+	public static String toNS(final int nu, final int ma) {
+		String s = new Integer(nu).toString();
+		while (s.length() < ma) {
+			s = "0" + s;
+		}
+		return s;
+	}
 
-    public static Long toLong(String s) {
-        if (CUtil.EmptyS(s)) {
-            return null;
-        }
-        try {
-            return new Long(s);
-        } catch (NumberFormatException e) {
-            return null;
-        }
-    }
+	public static <T> List<T> arrayToL(T[] l) {
+		List<T> aL = new ArrayList<T>();
+		for (T t : l) {
+			aL.add(t);
+		}
+		return aL;
 
-    public static Integer toInteger(String s) {
-        if (CUtil.EmptyS(s)) {
-            return null;
-        }
-        try {
-            return new Integer(s);
-        } catch (NumberFormatException e) {
-            return null;
-        }
-    }
+	}
 
-    public static boolean onTheList(String id, String list) {
-        if (EmptyS(list))
-            return false;
-        String[] l = list.split(",");
-        for (String e : l) {
-            if (e.equals(id))
-                return true;
-        }
-        return false;
-    }
+	public static Long toLong(String s) {
+		if (CUtil.EmptyS(s)) {
+			return null;
+		}
+		try {
+			return new Long(s);
+		} catch (NumberFormatException e) {
+			return null;
+		}
+	}
+
+	public static Integer toInteger(String s) {
+		if (CUtil.EmptyS(s)) {
+			return null;
+		}
+		try {
+			return new Integer(s);
+		} catch (NumberFormatException e) {
+			return null;
+		}
+	}
+
+	public static boolean onTheList(String id, String list) {
+		if (EmptyS(list))
+			return false;
+		String[] l = list.split(",");
+		for (String e : l) {
+			if (e.equals(id))
+				return true;
+		}
+		return false;
+	}
 
 }

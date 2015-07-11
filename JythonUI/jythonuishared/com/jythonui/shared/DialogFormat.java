@@ -21,242 +21,241 @@ import java.util.List;
  */
 public class DialogFormat extends ElemDescription {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private List<FieldItem> fieldList = new ArrayList<FieldItem>();
+	private List<FieldItem> fieldList = new ArrayList<FieldItem>();
 
-    private List<ButtonItem> leftButtonList = new ArrayList<ButtonItem>();
-    private List<ButtonItem> upMenuList = new ArrayList<ButtonItem>();
-    private List<ButtonItem> leftStackList = new ArrayList<ButtonItem>();
+	private List<ButtonItem> leftButtonList = new ArrayList<ButtonItem>();
+	private List<ButtonItem> upMenuList = new ArrayList<ButtonItem>();
+	private List<ButtonItem> leftStackList = new ArrayList<ButtonItem>();
 
-    private List<ListFormat> listList = new ArrayList<ListFormat>();
+	private List<ListFormat> listList = new ArrayList<ListFormat>();
 
-    private List<ButtonItem> buttonList = new ArrayList<ButtonItem>();
+	private List<ButtonItem> buttonList = new ArrayList<ButtonItem>();
 
-    private List<ButtonItem> actionList = new ArrayList<ButtonItem>();
+	private List<ButtonItem> actionList = new ArrayList<ButtonItem>();
 
-    private List<TypesDescr> typeList = new ArrayList<TypesDescr>();
+	private List<TypesDescr> typeList = new ArrayList<TypesDescr>();
 
-    private List<ValidateRule> valList = new ArrayList<ValidateRule>();
+	private List<ValidateRule> valList = new ArrayList<ValidateRule>();
 
-    private List<CheckList> checkList = new ArrayList<CheckList>();
+	private List<CheckList> checkList = new ArrayList<CheckList>();
 
-    private List<DateLine> datelineList = new ArrayList<DateLine>();
+	private List<DateLine> datelineList = new ArrayList<DateLine>();
 
-    private List<TabPanel> tabList = new ArrayList<TabPanel>();
+	private List<TabPanel> tabList = new ArrayList<TabPanel>();
 
-    private List<DisclosureElemPanel> discList = new ArrayList<DisclosureElemPanel>();
+	private List<DisclosureElemPanel> discList = new ArrayList<DisclosureElemPanel>();
 
-    private List<ChartFormat> chartList = new ArrayList<ChartFormat>();
+	private List<ChartFormat> chartList = new ArrayList<ChartFormat>();
 
-    /**
-     * @return the actionList
-     */
-    public List<FieldItem> getFieldList() {
-        return fieldList;
-    }
+	/**
+	 * @return the actionList
+	 */
+	public List<FieldItem> getFieldList() {
+		return fieldList;
+	}
 
-    /**
-     * @return the leftButtonList
-     */
-    public List<ButtonItem> getLeftButtonList() {
-        return leftButtonList;
-    }
+	/**
+	 * @return the leftButtonList
+	 */
+	public List<ButtonItem> getLeftButtonList() {
+		return leftButtonList;
+	}
 
-    public String getJythonMethod() {
-        return getAttr(ICommonConsts.METHOD);
-    }
+	public String getJythonMethod() {
+		return getAttr(ICommonConsts.METHOD);
+	}
 
-    public String getJythonImport() {
-        return getAttr(ICommonConsts.IMPORT);
-    }
+	public String getJythonImport() {
+		return getAttr(ICommonConsts.IMPORT);
+	}
 
-    public static <T extends ElemDescription> T findE(List<T> eList, String id) {
-        if (eList == null) {
-            return null;
-        }
-        for (T e : eList) {
-            if (e.eqId(id)) {
-                return e;
-            }
-        }
-        return null;
-    }
+	public static <T extends ElemDescription> T findE(List<T> eList, String id) {
+		if (eList == null) {
+			return null;
+		}
+		for (T e : eList) {
+			if (e.eqId(id)) {
+				return e;
+			}
+		}
+		return null;
+	}
 
-    public FieldItem findFieldItem(String id) {
-        return findE(fieldList, id);
-    }
+	public FieldItem findFieldItem(String id) {
+		return findE(fieldList, id);
+	}
 
-    public List<ListFormat> getListList() {
-        return listList;
-    }
+	public List<ListFormat> getListList() {
+		return listList;
+	}
 
-    public ListFormat findList(String id) {
-        return findE(listList, id);
-    }
+	public ListFormat findList(String id) {
+		return findE(listList, id);
+	}
 
-    public ChartFormat findChart(String id) {
-        return findE(chartList, id);
-    }
+	public ChartFormat findChart(String id) {
+		return findE(chartList, id);
+	}
 
-    public boolean isBefore() {
-        return isAttr(ICommonConsts.BEFORE);
-    }
+	public boolean isBefore() {
+		return isAttr(ICommonConsts.BEFORE);
+	}
 
-    public String getParent() {
-        return getAttr(ICommonConsts.PARENT);
-    }
+	public String getParent() {
+		return getAttr(ICommonConsts.PARENT);
+	}
 
-    public List<ButtonItem> getButtonList() {
-        return buttonList;
-    }
+	public List<ButtonItem> getButtonList() {
+		return buttonList;
+	}
 
-    public List<ButtonItem> getActionList() {
-        return actionList;
-    }
+	public List<ButtonItem> getActionList() {
+		return actionList;
+	}
 
-    public List<TypesDescr> getTypeList() {
-        return typeList;
-    }
+	public List<TypesDescr> getTypeList() {
+		return typeList;
+	}
 
-    public List<ValidateRule> getValList() {
-        return valList;
-    }
+	public List<ValidateRule> getValList() {
+		return valList;
+	}
 
-    public List<CheckList> getCheckList() {
-        return checkList;
-    }
+	public List<CheckList> getCheckList() {
+		return checkList;
+	}
 
-    public TypedefDescr findCustomType(String customType) {
-        for (TypesDescr ty : typeList) {
-            TypedefDescr te = findE(ty.getTypeList(), customType);
-            if (te != null) {
-                return te;
-            }
-        }
-        return null;
-    }
+	public TypedefDescr findCustomType(String customType) {
+		for (TypesDescr ty : typeList) {
+			TypedefDescr te = findE(ty.getTypeList(), customType);
+			if (te != null) {
+				return te;
+			}
+		}
+		return null;
+	}
 
-    public CheckList findCheckList(String id) {
-        return findE(checkList, id);
-    }
+	public CheckList findCheckList(String id) {
+		return findE(checkList, id);
+	}
 
-    public List<DateLine> getDatelineList() {
-        return datelineList;
-    }
+	public List<DateLine> getDatelineList() {
+		return datelineList;
+	}
 
-    public DateLine findDateLine(String id) {
-        return findE(datelineList, id);
-    }
+	public DateLine findDateLine(String id) {
+		return findE(datelineList, id);
+	}
 
-    private static void addDataCols(List<FieldItem> colList, String dataType,
-            String... dTag) {
-        for (String s : dTag) {
-            FieldItem fItem = new FieldItem();
-            fItem.setAttr(ICommonConsts.TYPE, dataType);
-            fItem.setId(s);
-            colList.add(fItem);
-        }
-    }
+	private static void addDataCols(List<FieldItem> colList, String dataType, String... dTag) {
+		for (String s : dTag) {
+			FieldItem fItem = new FieldItem();
+			fItem.setAttr(ICommonConsts.TYPE, dataType);
+			fItem.setId(s);
+			colList.add(fItem);
+		}
+	}
 
-    public static void addDefDataCols(List<FieldItem> colList, String... dTag) {
-        addDataCols(colList, ICommonConsts.DATETYPE, dTag);
-    }
+	public static void addDefDataCols(List<FieldItem> colList, String... dTag) {
+		addDataCols(colList, ICommonConsts.DATETYPE, dTag);
+	}
 
-    public static void addDefStringCols(List<FieldItem> colList, String... dTag) {
-        addDataCols(colList, ICommonConsts.STRINGTYPE, dTag);
-    }
+	public static void addDefStringCols(List<FieldItem> colList, String... dTag) {
+		addDataCols(colList, ICommonConsts.STRINGTYPE, dTag);
+	}
 
-    public String getHtmlPanel() {
-        return getAttr(ICommonConsts.HTMLPANEL);
-    }
+	public String getHtmlPanel() {
+		return getAttr(ICommonConsts.HTMLPANEL);
+	}
 
-    public String getHtmlLeftMenu() {
-        return getAttr(ICommonConsts.HTMLLEFTMENU);
-    }
+	public String getHtmlLeftMenu() {
+		return getAttr(ICommonConsts.HTMLLEFTMENU);
+	}
 
-    public boolean isJsCode() {
-        return isAttr(ICommonConsts.JSCODE);
-    }
+	public boolean isJsCode() {
+		return isAttr(ICommonConsts.JSCODE);
+	}
 
-    public String getJsCode() {
-        return getAttr(ICommonConsts.JSCODE);
-    }
+	public String getJsCode() {
+		return getAttr(ICommonConsts.JSCODE);
+	}
 
-    public String getCssCode() {
-        return getAttr(ICommonConsts.CSSCODE);
-    }
+	public String getCssCode() {
+		return getAttr(ICommonConsts.CSSCODE);
+	}
 
-    public boolean isHtmlPanel() {
-        return isAttr(ICommonConsts.HTMLPANEL);
-    }
+	public boolean isHtmlPanel() {
+		return isAttr(ICommonConsts.HTMLPANEL);
+	}
 
-    public List<TabPanel> getTabList() {
-        return tabList;
-    }
+	public List<TabPanel> getTabList() {
+		return tabList;
+	}
 
-    public boolean isAsXmlList() {
-        return isAttr(ICommonConsts.ASXML);
-    }
+	public boolean isAsXmlList() {
+		return isAttr(ICommonConsts.ASXML);
+	}
 
-    public boolean isFormPanel() {
-        return isAttr(ICommonConsts.FORMPANEL);
-    }
+	public boolean isFormPanel() {
+		return isAttr(ICommonConsts.FORMPANEL);
+	}
 
-    public boolean isAutoHideDialog() {
-        return isAttr(ICommonConsts.AUTOHIDE);
-    }
+	public boolean isAutoHideDialog() {
+		return isAttr(ICommonConsts.AUTOHIDE);
+	}
 
-    public boolean isModelessDialog() {
-        return isAttr(ICommonConsts.MODELESS);
-    }
+	public boolean isModelessDialog() {
+		return isAttr(ICommonConsts.MODELESS);
+	}
 
-    public String getAsXmlList() {
-        return getAttr(ICommonConsts.ASXML);
-    }
+	public String getAsXmlList() {
+		return getAttr(ICommonConsts.ASXML);
+	}
 
-    public List<ButtonItem> getUpMenuList() {
-        return upMenuList;
-    }
+	public List<ButtonItem> getUpMenuList() {
+		return upMenuList;
+	}
 
-    public List<ButtonItem> getLeftStackList() {
-        return leftStackList;
-    }
+	public List<ButtonItem> getLeftStackList() {
+		return leftStackList;
+	}
 
-    public boolean isClearLeft() {
-        return isAttr(ICommonConsts.CLEARLEFT);
-    }
+	public boolean isClearLeft() {
+		return isAttr(ICommonConsts.CLEARLEFT);
+	}
 
-    public boolean isClearCentre() {
-        return isAttr(ICommonConsts.CLEARCENTRE);
-    }
+	public boolean isClearCentre() {
+		return isAttr(ICommonConsts.CLEARCENTRE);
+	}
 
-    public List<DisclosureElemPanel> getDiscList() {
-        return discList;
-    }
+	public List<DisclosureElemPanel> getDiscList() {
+		return discList;
+	}
 
-    public void setDiscList(List<DisclosureElemPanel> discList) {
-        this.discList = discList;
-    }
+	public void setDiscList(List<DisclosureElemPanel> discList) {
+		this.discList = discList;
+	}
 
-    public List<ChartFormat> getChartList() {
-        return chartList;
-    }
+	public List<ChartFormat> getChartList() {
+		return chartList;
+	}
 
-    public int getTop() {
-        return getIntAttr(ICommonConsts.TOP);
-    }
+	public int getTop() {
+		return getIntAttr(ICommonConsts.TOP);
+	}
 
-    public int getLeft() {
-        return getIntAttr(ICommonConsts.LEFT);
-    }
+	public int getLeft() {
+		return getIntAttr(ICommonConsts.LEFT);
+	}
 
-    public int getMaxTop() {
-        return getIntAttr(ICommonConsts.MAXTOP);
-    }
+	public int getMaxTop() {
+		return getIntAttr(ICommonConsts.MAXTOP);
+	}
 
-    public int getMaxLeft() {
-        return getIntAttr(ICommonConsts.MAXLEFT);
-    }
+	public int getMaxLeft() {
+		return getIntAttr(ICommonConsts.MAXLEFT);
+	}
 
 }

@@ -26,6 +26,7 @@ import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.controler.ui.ChangePageSizeDialog;
 import com.gwtmodel.table.controler.ui.WrapOnOffDialog;
 import com.gwtmodel.table.factories.IDataStoreChanges;
+import com.gwtmodel.table.factories.ILaunchPropertyDialogColumn;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.listdataview.ActionTableSignal;
@@ -98,6 +99,7 @@ class PropertyListenerDialog {
 		private final static String CHANGE_PAGE_SIZE = "CHANGE_PAGE_SIZE";
 		private final static String WRAP_LINE_ON = "WRAP_LINE_ON";
 		private final static String CHANGE_COLUMNS = "CHANGE_COLUMNS";
+		private final static String EXPORT_DATA = "EXPORT_DATA";
 		private final ITableCustomFactories fContainer;
 
 		PropertyListener(ISlotable publishSlo, IDataType publishdType,
@@ -260,8 +262,16 @@ class PropertyListenerDialog {
 					publishSlo.getSlContainer().publish(sl);
 				}
 				if (id.equals(CHANGE_COLUMNS)) {
-					fContainer.getLauchPropertyDialog().doDialog(publishSlo,
-							ddType, new WSize(w));
+					fContainer
+							.getLauchPropertyDialog()
+							.doDialog(
+									ILaunchPropertyDialogColumn.DialogType.CHANGECOLUMNS,
+									publishSlo, ddType, new WSize(w));
+				}
+				if (id.equals(EXPORT_DATA)) {
+					fContainer.getLauchPropertyDialog().doDialog(
+							ILaunchPropertyDialogColumn.DialogType.EXPORTDATA,
+							publishSlo, ddType, new WSize(w));
 				}
 			}
 		}
@@ -278,6 +288,8 @@ class PropertyListenerDialog {
 			addMenu(mList, MM.getL().WrapLines(), WRAP_LINE_ON);
 			if (!SlU.noPropertyColumn(ddType, publishSlo))
 				addMenu(mList, MM.getL().ChangeColumns(), CHANGE_COLUMNS);
+			addMenu(mList, MM.getL().ExportTable(), EXPORT_DATA);
+
 			ListOfControlDesc coP = new ListOfControlDesc(mList);
 			IGWidget wi = slContext.getGwtWidget();
 			ControlClick co = new ControlClick();

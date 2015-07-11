@@ -8,6 +8,10 @@ from com.gwtmodel.table.common.dateutil import DateFormatUtil
 from com.gwtmodel.containertype import ContainerInfo
 from com.jythonui.server import MUtil
 
+def StoDate(s,timestamp = False):
+    if timestamp : return toJDateTime(DateFormatUtil.toD(s,True))
+    return toJDate(DateFormatUtil.toD(s,False))
+
 def toP(s,prefix):
     if prefix : return prefix + s
     return s
@@ -94,6 +98,14 @@ def minusDecimal(sum1,sum2,afterdot=2):
 
 def fToS(f) :
   return '%.4f' % f
+  
+def fToSDisp(f,afterdot):
+    if f == None: return None
+    if afterdot == 0 : return '%d' % f
+    if afterdot == 1 : return '%.1f' % f
+    if afterdot == 2 : return '%.2f' % f
+    if afterdot == 3 : return '%.3f' % f
+    return '%.4f' % f      
 
 def toS(val): 
     s  = val
@@ -105,7 +117,8 @@ def toS(val):
     elif type(val) == java.sql.Date : s = str(toJDate(val))
     elif type(val) == java.util.Date : s = str(toJDate(val))
     elif type(val) == java.sql.Timestamp : s = str(toJDate(val))
-    elif type(val) == unicode : s = val.encode('utf-8')      
+    elif type(val) == unicode : s = val.encode('utf-8')
+    elif type(val) == bool : s = str(val)
     if f != None : s = fToS(f)
     return s
 

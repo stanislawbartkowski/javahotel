@@ -11,4 +11,13 @@
 
 	</typedef>
 
+	<typedef id="suggestvalues" type="suggest" comboid="id" displayname="name">
+
+	  <jython>
+		<import>from testpack import testdateline</import>
+		<method>testdateline.createcolor({0},{1})</method>
+	  </jython>
+
+	</typedef>
+
 </typedefs>

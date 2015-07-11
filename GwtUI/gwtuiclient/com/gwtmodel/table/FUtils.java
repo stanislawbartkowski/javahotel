@@ -566,10 +566,10 @@ public class FUtils {
         return ((compfrom <= 0) && (compto >= 0));
     }
 
-    private static String getStringS(Object o, IVField f) {
-        String s = (String) o;
-        return s;
-    }
+//    private static String getStringS(Object o, IVField f) {
+//        String s = (String) o;
+//        return s;
+//    }
 
     private static String getDateS(Object o, IVField f) {
         Date d = (Date) o;
@@ -581,21 +581,21 @@ public class FUtils {
         return Utils.toS(d);
     }
 
-    private static String xgetLongS(Object o, IVField f) {
-        Long l = (Long) o;
-        if (l == null) {
-            return "";
-        }
-        return l.toString();
-    }
+//    private static String xgetLongS(Object o, IVField f) {
+//        Long l = (Long) o;
+//        if (l == null) {
+//            return "";
+//        }
+//        return l.toString();
+//    }
 
-    private static String xgetIntS(Object o, IVField f) {
-        Integer l = (Integer) o;
-        if (l == null) {
-            return "";
-        }
-        return l.toString();
-    }
+//    private static String xgetIntS(Object o, IVField f) {
+//        Integer l = (Integer) o;
+//        if (l == null) {
+//            return "";
+//        }
+//        return l.toString();
+//    }
 
     public static String xgetBigDecimalS(Object o, IVField f) {
         BigDecimal b = (BigDecimal) o;

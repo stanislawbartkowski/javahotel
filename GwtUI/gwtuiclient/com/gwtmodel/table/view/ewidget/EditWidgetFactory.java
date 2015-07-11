@@ -47,33 +47,29 @@ public class EditWidgetFactory {
 	}
 
 	// used
-	public RadioBoxString constructRadioBoxString(IVField v, IGetDataList iGet,
-			final boolean enable, String htmlName) {
+	public RadioBoxString constructRadioBoxString(IVField v, IGetDataList iGet, final boolean enable, String htmlName) {
 		return new RadioBoxString(cValues, v, iGet, enable, htmlName);
 	}
 
 	// used
 	public IFormLineView contructCalculatorNumber(IVField v, String htmlName) {
-		return new NumberCalculator(cValues, v, new ExtendTextBox.EParam(false,
-				false, false, false, false, false, false, null, null), htmlName);
+		return new NumberCalculator(cValues, v,
+				new ExtendTextBox.EParam(false, false, false, false, false, false, false, null, null), htmlName);
 	}
 
 	// used
-	public IFormLineView constructCheckField(IVField v, String text,
-			String htmlName) {
+	public IFormLineView constructCheckField(IVField v, String text, String htmlName) {
 		return new FieldCheckField(cValues, v, text, htmlName);
 	}
 
-	public IFormLineView constructListValuesCombo(IVField v, IDataType dType,
-			String htmlName) {
+	public IFormLineView constructListValuesCombo(IVField v, IDataType dType, String htmlName) {
 		GetValueLB lB = new GetValueLB(cValues, v, htmlName);
 		AddBoxValues.addValues(dType, lB);
 		return lB;
 	}
 
 	// used
-	public IFormLineView constructListValuesCombo(IVField v, IGetDataList iGet,
-			boolean addEmpty, String htmlName) {
+	public IFormLineView constructListValuesCombo(IVField v, IGetDataList iGet, boolean addEmpty, String htmlName) {
 		GetValueLB lB = new GetValueLB(cValues, v, addEmpty, htmlName);
 		AddBoxValues.addValues(v, iGet, lB);
 		return lB;
@@ -86,16 +82,12 @@ public class EditWidgetFactory {
 	}
 
 	private ExtendTextBox.EParam newE(boolean password, boolean area) {
-		return new ExtendTextBox.EParam(password, false, false, area, false,
-				false, false, null, null);
+		return new ExtendTextBox.EParam(password, false, false, area, false, false, false, null, null);
 	}
 
-	public IFormLineView constructHelperList(IVField v, IDataType dType,
-			boolean refreshAlways, String htmlName) {
-		ExtendTextBox.EParam e = new ExtendTextBox.EParam(false, true, false,
-				false, false, false, false, null, null);
-		return new ListFieldWithHelp(cValues, v, dType, e, refreshAlways,
-				htmlName);
+	public IFormLineView constructHelperList(IVField v, IDataType dType, boolean refreshAlways, String htmlName) {
+		ExtendTextBox.EParam e = new ExtendTextBox.EParam(false, true, false, false, false, false, false, null, null);
+		return new ListFieldWithHelp(cValues, v, dType, e, refreshAlways, htmlName);
 
 	}
 
@@ -109,22 +101,18 @@ public class EditWidgetFactory {
 		return constructTextField(v, null, null, false, false, false, htmlName);
 	}
 
-	public IFormLineView constructTextField(IVField v, IGetDataList iGet,
-			IRequestForGWidget iHelper, boolean textarea, boolean richtext,
-			boolean refreshAlways, String htmlName) {
+	public IFormLineView constructTextField(IVField v, IGetDataList iGet, IRequestForGWidget iHelper, boolean textarea,
+			boolean richtext, boolean refreshAlways, String htmlName) {
 		ExtendTextBox.EParam e;
 		boolean panel = (iGet != null || iHelper != null);
-		e = new ExtendTextBox.EParam(false, panel, false, textarea, false,
-				richtext, false, iGet, null);
+		e = new ExtendTextBox.EParam(false, panel, false, textarea, false, richtext, false, iGet, null);
 		if (iHelper == null)
 			return new ExtendTextBox(cValues, v, e, htmlName);
-		return new EditTextFieldWithHelper(cValues, v, e, iHelper,
-				refreshAlways, htmlName);
+		return new EditTextFieldWithHelper(cValues, v, e, iHelper, refreshAlways, htmlName);
 	}
 
 	@SuppressWarnings("unused")
-	private IFormLineView constructLabelTextEdit(IVField v, String la,
-			String htmlName) {
+	private IFormLineView constructLabelTextEdit(IVField v, String la, String htmlName) {
 		return new LabelEdit(cValues, v, newE(false, false), la, htmlName);
 	}
 
@@ -137,14 +125,13 @@ public class EditWidgetFactory {
 		return new DateBoxCalendar(cValues, v, htmlName);
 	}
 
-	public IFormLineView constructDateBoxCalendarWithHelper(IVField v,
-			IRequestForGWidget i, boolean refreshAlways, String htmlName) {
+	public IFormLineView constructDateBoxCalendarWithHelper(IVField v, IRequestForGWidget i, boolean refreshAlways,
+			String htmlName) {
 		return new DateBoxWithHelper(cValues, v, i, refreshAlways, htmlName);
 	}
 
 	@SuppressWarnings("unused")
-	private IFormLineView constructBoxSelectField(IVField v, List<ComboVal> wy,
-			String htmlName) {
+	private IFormLineView constructBoxSelectField(IVField v, List<ComboVal> wy, String htmlName) {
 		return new ComboBoxField(cValues, v, wy, htmlName);
 	}
 
@@ -152,8 +139,7 @@ public class EditWidgetFactory {
 		return new RadioBoxField(cValues, v, htmlName);
 	}
 
-	public IFormLineView constructListComboValuesHelp(IVField v,
-			IDataType dType, String htmlName) {
+	public IFormLineView constructListComboValuesHelp(IVField v, IDataType dType, String htmlName) {
 		GetValueLB lB = new ListBoxWithHelp(cValues, v, dType, htmlName);
 		AddBoxValues.addValues(dType, lB);
 		return lB;
@@ -173,13 +159,11 @@ public class EditWidgetFactory {
 	}
 
 	// used
-	public IFormLineView constructListCombo(IVField v, List<String> ma,
-			String htmlName) {
+	public IFormLineView constructListCombo(IVField v, List<String> ma, String htmlName) {
 		return new ComboBoxField(cValues, v, createVals(ma), htmlName);
 	}
 
-	public IFormLineView constructListCombo(IVField v, List<String> ma,
-			boolean addEmpty, String htmlName) {
+	public IFormLineView constructListCombo(IVField v, List<String> ma, boolean addEmpty, String htmlName) {
 		return new ComboBoxField(cValues, v, createVals(ma), addEmpty, htmlName);
 	}
 
@@ -193,10 +177,12 @@ public class EditWidgetFactory {
 		return constructListCombo(v, la, htmlName);
 	}
 
-	public IFormLineView constructSpinner(IVField v, String htmlName, int min,
-			int max) {
-		// return new SpinnerBox(cValues, v, htmlName, min, max);
+	public IFormLineView constructSpinner(IVField v, String htmlName, int min, int max) {
 		return new TextWidgetBox(cValues, v, htmlName, new SpinnerInt(min, max));
+	}
+
+	public IFormLineView constructSuggestBox(IVField v, IGetDataList iGet, String htmlName) {
+		return new SuggestWidget(cValues, v, iGet, htmlName);
 	}
 
 	public IFormLineView constructEmail(IVField v, String htmlName) {

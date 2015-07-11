@@ -71,6 +71,7 @@ public class CreateJSonForIVData implements IJsonConvert {
 		for (IVField f : v.getF()) {
 			JSONValue va;
 			Object vval = FUtils.getValue(v, f);
+			String sval = FUtils.getValueOS(vval, f);
 			if (vval == null)
 				va = JSONNull.getInstance();
 			else {
@@ -92,8 +93,8 @@ public class CreateJSonForIVData implements IJsonConvert {
 					va = JSONBoolean.getInstance(bo);
 					break;
 				default:
-					String ss = (String) vval;
-					va = new JSONString(ss);
+					// String ss = (String) vval;
+					va = new JSONString(sval);
 					break;
 				}
 			}

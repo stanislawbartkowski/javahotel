@@ -13,6 +13,7 @@
 package com.jythonui.shared;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,69 +22,75 @@ import java.util.Map;
  */
 public class DialogVariables extends MapDialogVariable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private Map<String, ListOfRows> rowList = new HashMap<String, ListOfRows>();
+	private Map<String, ListOfRows> rowList = new HashMap<String, ListOfRows>();
 
-    private Map<String, ListOfRows> chartList = new HashMap<String, ListOfRows>();
+	private Map<String, ListOfRows> chartList = new HashMap<String, ListOfRows>();
 
-    private Map<String, ListOfRows> enumList = new HashMap<String, ListOfRows>();
+	private Map<String, ListOfRows> enumList = new HashMap<String, ListOfRows>();
 
-    private Map<String, DialogCheckVariables> checkVariables = new HashMap<String, DialogCheckVariables>();
+	private Map<String, DialogCheckVariables> checkVariables = new HashMap<String, DialogCheckVariables>();
 
-    private Map<String, DateLineVariables> datelineVariables = new HashMap<String, DateLineVariables>();
+	private Map<String, DateLineVariables> datelineVariables = new HashMap<String, DateLineVariables>();
 
-    private ListOfRows queryDateLine = new ListOfRows();
+	private Map<String, List<String>> suggestionMap = new HashMap<String, List<String>>();
 
-    public void setSecurityToken(String token) {
-        setValueS(ICommonConsts.SECURITYTOKEN, token);
-    }
+	public Map<String, List<String>> getSuggestionMap() {
+		return suggestionMap;
+	}
 
-    public void setLocale(String locale) {
-        setValueS(ICommonConsts.GWT_LOCALE, locale);
-    }
+	private ListOfRows queryDateLine = new ListOfRows();
 
-    /**
-     * @return the rowList
-     */
-    public Map<String, ListOfRows> getRowList() {
-        return rowList;
-    }
+	public void setSecurityToken(String token) {
+		setValueS(ICommonConsts.SECURITYTOKEN, token);
+	}
 
-    public void setRowList(String id, ListOfRows rows) {
-        rowList.put(id, rows);
-    }
+	public void setLocale(String locale) {
+		setValueS(ICommonConsts.GWT_LOCALE, locale);
+	}
 
-    public void setChartList(String id, ListOfRows rows) {
-        chartList.put(id, rows);
-    }
+	/**
+	 * @return the rowList
+	 */
+	public Map<String, ListOfRows> getRowList() {
+		return rowList;
+	}
 
-    public ListOfRows getList(String id) {
-        return rowList.get(id);
-    }
+	public void setRowList(String id, ListOfRows rows) {
+		rowList.put(id, rows);
+	}
 
-    public Map<String, ListOfRows> getEnumList() {
-        return enumList;
-    }
+	public void setChartList(String id, ListOfRows rows) {
+		chartList.put(id, rows);
+	}
 
-    public void setEnumList(Map<String, ListOfRows> enumList) {
-        this.enumList = enumList;
-    }
+	public ListOfRows getList(String id) {
+		return rowList.get(id);
+	}
 
-    public Map<String, DialogCheckVariables> getCheckVariables() {
-        return checkVariables;
-    }
+	public Map<String, ListOfRows> getEnumList() {
+		return enumList;
+	}
 
-    public Map<String, DateLineVariables> getDatelineVariables() {
-        return datelineVariables;
-    }
+	public void setEnumList(Map<String, ListOfRows> enumList) {
+		this.enumList = enumList;
+	}
 
-    public ListOfRows getQueryDateLine() {
-        return queryDateLine;
-    }
+	public Map<String, DialogCheckVariables> getCheckVariables() {
+		return checkVariables;
+	}
 
-    public Map<String, ListOfRows> getChartList() {
-        return chartList;
-    }
+	public Map<String, DateLineVariables> getDatelineVariables() {
+		return datelineVariables;
+	}
+
+	public ListOfRows getQueryDateLine() {
+		return queryDateLine;
+	}
+
+	public Map<String, ListOfRows> getChartList() {
+		return chartList;
+	}
 
 }

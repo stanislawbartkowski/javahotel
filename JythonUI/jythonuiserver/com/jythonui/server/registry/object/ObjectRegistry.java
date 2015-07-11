@@ -12,47 +12,44 @@
  */
 package com.jythonui.server.registry.object;
 
-import java.util.List;
-
 import com.gwtmodel.commoncache.ICommonCache;
 import com.jythonui.server.UObjects;
+import com.jythonui.server.Util;
 import com.jythonui.server.registry.IStorageRegistry;
 
 class ObjectRegistry implements ICommonCache {
 
-    private final IStorageRegistry iRegistry;
+	private final IStorageRegistry iRegistry;
 
-    ObjectRegistry(IStorageRegistry iRegistry) {
-        this.iRegistry = iRegistry;
-    }
+	ObjectRegistry(IStorageRegistry iRegistry) {
+		this.iRegistry = iRegistry;
+	}
 
-    @Override
-    public Object get(String key) {
-        byte[] value = iRegistry.getEntry(key);
-        return UObjects.get(value, key);
-    }
+	@Override
+	public Object get(String key) {
+		byte[] value = iRegistry.getEntry(key);
+		return UObjects.get(value, key);
+	}
 
-    @Override
-    public void put(String key, Object o) {
-        byte[] val = UObjects.put(o, key);
-        if (val == null)
-            return;
-        iRegistry.putEntry(key, val);
-    }
+	@Override
+	public void put(String key, Object o) {
+		byte[] val = UObjects.put(o, key);
+		if (val == null)
+			return;
+		iRegistry.putEntry(key, val);
+	}
 
-    @Override
-    public void remove(String key) {
-        iRegistry.removeEntry(key);
+	@Override
+	public void remove(String key) {
+		iRegistry.removeEntry(key);
 
-    }
+	}
 
-    @Override
-    public void invalidate() {
-        // TODO: add hoc done, improve, make transactional
-        // used now only in test environment
-        List<String> keys = iRegistry.getKeys();
-        for (String k : keys)
-            iRegistry.removeEntry(k);
-    }
+	@Override
+	public void invalidate() {
+		// TODO: add hoc done, improve, make transactional
+		// used now only in test environment
+		Util.removeStorageKeys(iRegistry);
+	}
 
 }

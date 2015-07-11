@@ -1,36 +1,36 @@
 <?xml version="1.0"?>
 <dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="@mail">
-<before/>
+	<before />
 
-<parent>?sendmailmulti.xml</parent>
+	<parent>?sendmailmulti.xml</parent>
 
- <jython>
-   <import>from mail import maillist</import>
-   <method>maillist.elemaction({0},{1})</method>
- </jython>  
+	<jython>
+		<import>from mail import maillist</import>
+		<method>maillist.elemaction({0},{1})</method>
+	</jython>
 
- <actions>
-   <action id="addattach" displayname="@addattachment" />
-   <action id="removeattach" displayname="@removeattachment" />
- </actions>   
- 
-<form>
-   <field id="name" hidden="" />
-   <field id="subject" displayname="@subject" />
-   <field id="to" type="email" displayname="@recipient" notempty="" />
-   <field id="from" displayname="@from" />
-   <field id="content" type="textarea" displayname="@content" />
- </form>  
- 
-<list id="attachlist" >
-  <standbutt>SHOW,FIND,FILTER,custom:addattach,custom:removeattach</standbutt>
-  <buttons-addlist>addnewattach,removeattachafter,crud_add</buttons-addlist>
-  <buttons-selected>removeattach</buttons-selected>
-  <columns> 
-    <column id="filename" displayname="@filename" />
-    <column id="realm" hidden="" />
-    <column id="key" hidden="" />
-  </columns>
-</list>
+	<actions>
+		<action id="addattach" displayname="@addattachment" />
+		<action id="removeattach" displayname="@removeattachment" />
+	</actions>
+
+	<form>
+		<field id="name" hidden="" />
+		<field id="subject" displayname="@subject" suggest="" />
+		<field id="to" displayname="@recipient" notempty="" suggest="" />
+		<field id="from" displayname="@from" remember="" />
+		<field id="content" type="textarea" displayname="@content" />
+	</form>
+
+	<list id="attachlist">
+		<standbutt>FIND,FILTER,custom:addattach,custom:removeattach</standbutt>
+		<buttons-addlist>addnewattach,removeattachafter,crud_add</buttons-addlist>
+		<buttons-selected>removeattach</buttons-selected>
+		<columns>
+			<column id="filename" displayname="@filename" actionid="showattach" />
+			<column id="realm" hidden="" />
+			<column id="key" hidden="" />
+		</columns>
+	</list>
 
 </dialog>

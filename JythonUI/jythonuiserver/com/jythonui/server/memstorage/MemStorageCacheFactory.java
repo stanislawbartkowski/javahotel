@@ -46,7 +46,7 @@ public class MemStorageCacheFactory implements IStorageMemContainerFactory {
     @Override
     public IStorageMemCache construct(String realm) {
         ICommonCache cCache = cFactory.construct(realm);
-        IStorageRegistry sRegistry = iStorage.construct(realm);
+        IStorageRegistry sRegistry = iStorage.construct(realm,false,false);
         ICommonCache rCache = oProvider.construct(sRegistry);
         return new StorageCache(cCache, rCache, gMess);
 

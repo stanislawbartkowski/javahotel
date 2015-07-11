@@ -50,8 +50,8 @@ def dialogaction(action,var):
         assert 2 == len(li)
         assert 100.0 == li[0][0]
         assert 100.0 == li[1][0]
-        assert None == li[0][1]
-        assert 0.0 == li[1][1]
+        assert None == li[1][1]
+        assert 100.0 == li[1][2]
         var["OK"] = True
         
     if action == "test5" :

@@ -14,5 +14,5 @@ package com.jythonui.server.registry;
 
 public interface IStorageRegistryFactory {
 
-    IStorageRegistry construct(String realm);
+	IStorageRegistry construct(String realm, boolean object, boolean user);
 }

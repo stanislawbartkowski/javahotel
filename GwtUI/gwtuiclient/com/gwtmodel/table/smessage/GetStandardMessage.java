@@ -25,62 +25,64 @@ import com.gwtmodel.table.slotmodel.ClickButtonType.StandClickEnum;
 
 public class GetStandardMessage implements IGetStandardMessage {
 
-    private final Map<String, String> cValues = new HashMap<String, String>();
-    private final IGetCustomValues custValues;
+	private final Map<String, String> cValues = new HashMap<String, String>();
+	private final IGetCustomValues custValues;
 
-    @Inject
-    public GetStandardMessage(IGetCustomValues custValues) {
-        cValues.put(IStandMessages.CLOSE, MM.getL().Close());
-        cValues.put(IStandMessages.LOGIN, MM.getL().Login());
-        cValues.put(IStandMessages.ACCEPT, MM.getL().Accept());
-        cValues.put(IStandMessages.PASSWORD, MM.getL().Password());
-        cValues.put(IStandMessages.RESIGN, MM.getL().Resign());
-        cValues.put(IStandMessages.YES, MM.getL().Yes());
-        cValues.put(IStandMessages.NO, MM.getL().No());
-        cValues.put(IStandMessages.PRINT, MM.getL().Print());
-        cValues.put(IStandMessages.OK, MM.getL().Ok());
-        Map<String, String> sBut = MM.getL().ActionName();
-        cValues.put(IStandMessages.ADD, sBut.get(StandClickEnum.ADDITEM.name()));
-        cValues.put(IStandMessages.REMOVE,
-                sBut.get(StandClickEnum.REMOVEITEM.name()));
-        cValues.put(IStandMessages.MODIFY,
-                sBut.get(StandClickEnum.MODIFITEM.name()));
-        cValues.put(IStandMessages.SHOW,
-                sBut.get(StandClickEnum.SHOWITEM.name()));
-        cValues.put(IStandMessages.FIND, MM.getL().SearchButton());
-        cValues.put(IStandMessages.USER, MM.getL().User());
-        cValues.put(IStandMessages.SELECT, MM.getL().Select());
-        cValues.put(IStandMessages.CHOOSE, MM.getL().Choose());
-        cValues.put(IStandMessages.CANNOTBEEMPTY, MM.getL().EmptyFieldMessage());
-        this.custValues = custValues;
-    }
+	@Inject
+	public GetStandardMessage(IGetCustomValues custValues) {
+		cValues.put(IStandMessages.CLOSE, MM.getL().Close());
+		cValues.put(IStandMessages.LOGIN, MM.getL().Login());
+		cValues.put(IStandMessages.ACCEPT, MM.getL().Accept());
+		cValues.put(IStandMessages.PASSWORD, MM.getL().Password());
+		cValues.put(IStandMessages.RESIGN, MM.getL().Resign());
+		cValues.put(IStandMessages.YES, MM.getL().Yes());
+		cValues.put(IStandMessages.NO, MM.getL().No());
+		cValues.put(IStandMessages.PRINT, MM.getL().Print());
+		cValues.put(IStandMessages.OK, MM.getL().Ok());
+		Map<String, String> sBut = MM.getL().ActionName();
+		cValues.put(IStandMessages.ADD, sBut.get(StandClickEnum.ADDITEM.name()));
+		cValues.put(IStandMessages.REMOVE, sBut.get(StandClickEnum.REMOVEITEM.name()));
+		cValues.put(IStandMessages.MODIFY, sBut.get(StandClickEnum.MODIFITEM.name()));
+		cValues.put(IStandMessages.SHOW, sBut.get(StandClickEnum.SHOWITEM.name()));
+		cValues.put(IStandMessages.FIND, MM.getL().SearchButton());
+		cValues.put(IStandMessages.USER, MM.getL().User());
+		cValues.put(IStandMessages.SELECT, MM.getL().Select());
+		cValues.put(IStandMessages.CHOOSE, MM.getL().Choose());
+		cValues.put(IStandMessages.CANNOTBEEMPTY, MM.getL().EmptyFieldMessage());
+		this.custValues = custValues;
+	}
 
-    @Override
-    public String getMessage(String sou) {
-        if (CUtil.EmptyS(sou) || sou.length() <= 1
-                || sou.charAt(0) != IMessConsts.STANDCH)
-            return sou;
-        char action = sou.charAt(1);
-        String key;
-        if (Character.isDigit(action))
-            key = sou.substring(2);
-        else
-            key = sou.substring(1);
-        String val = custValues.getStandMessage(key);
-        if (val == null)
-            val = cValues.get(key);
-        if (val == null) {
-            return sou;
-        }
-        switch (action) {
-        case IMessConsts.FIRSTUP:
-            return Character.toUpperCase(key.charAt(2)) + sou.substring(3);
-        case IMessConsts.DOWNCASE:
-            return val.toLowerCase();
-        case IMessConsts.UPCASE:
-            return val.toUpperCase();
-        }
-        return val;
-    }
+	@Override
+	public String getMessage(String sou) {
+		if (CUtil.EmptyS(sou) || sou.length() <= 1 || sou.charAt(0) != IMessConsts.STANDCH)
+			return sou;
+		char action = sou.charAt(1);
+		String key;
+		if (Character.isDigit(action))
+			key = sou.substring(2);
+		else
+			key = sou.substring(1);
+		String val = custValues.getStandMessage(key);
+		if (val == null)
+			val = cValues.get(key);
+		if (val == null)
+			try {
+			val = MM.getL().getString(key);
+			} catch (java.util.MissingResourceException e) {
+				// do nothing on purpose
+			}
+		if (val == null) {
+			return sou;
+		}
+		switch (action) {
+		case IMessConsts.FIRSTUP:
+			return Character.toUpperCase(key.charAt(2)) + sou.substring(3);
+		case IMessConsts.DOWNCASE:
+			return val.toLowerCase();
+		case IMessConsts.UPCASE:
+			return val.toUpperCase();
+		}
+		return val;
+	}
 
 }

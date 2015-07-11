@@ -16,7 +16,7 @@
 		<field id="glob1" />
 		<field id="globbool" type="bool" />
 		<field id="globint" type="int" displayname="Integer value" />
-		<field id="globcust" type="custom:fff" displayname="Integer value" />
+		<field id="globcust" type="custom:datasource" displayname="Integer value" />
 	</form>
 
 </dialog>

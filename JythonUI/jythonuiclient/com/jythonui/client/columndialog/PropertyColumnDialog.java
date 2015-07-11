@@ -56,8 +56,7 @@ public class PropertyColumnDialog implements ILaunchPropertyDialogColumn {
 	private final IGetStandardMessage iMess;
 
 	@Inject
-	public PropertyColumnDialog(IVariableContainerFactory vFactory,
-			IGenCookieName iCookie, IJsonConvert iJson,
+	public PropertyColumnDialog(IVariableContainerFactory vFactory, IGenCookieName iCookie, IJsonConvert iJson,
 			IGetStandardMessage iMess) {
 		this.vFactory = vFactory;
 		this.iCookie = iCookie;
@@ -77,8 +76,7 @@ public class PropertyColumnDialog implements ILaunchPropertyDialogColumn {
 
 		private class CreateH {
 
-			private final VListHeaderContainer vHeader = SlU.getHeaderList(
-					dType, publishSlo);
+			private final VListHeaderContainer vHeader = SlU.getHeaderList(dType, publishSlo);
 			private final List<VListHeaderDesc> vL = vHeader.getAllHeList();
 			private final List<VListHeaderDesc> nL = new ArrayList<VListHeaderDesc>();
 
@@ -96,14 +94,12 @@ public class PropertyColumnDialog implements ILaunchPropertyDialogColumn {
 		}
 
 		@Override
-		public boolean click(String id, WSize w, DialogFormat d,
-				DialogVariables v) {
+		public boolean click(String id, WSize w, DialogFormat d, DialogVariables v) {
 
 			CreateH cH = new CreateH();
 			boolean refresh = false;
-			String cName = iCookie.genCookieName(dType,
-					IUIConsts.COOKIEPROPERTYLIST);
-			if (id.equals("defa")) {
+			String cName = iCookie.genCookieName(dType, IUIConsts.COOKIEPROPERTYLIST);
+			if (id.equals(IUIConsts.DEFABUTTON)) {
 				Utils.RemoveCookie(cName);
 				refresh = true;
 				ListFormat li = JUtils.getL(dType);
@@ -114,7 +110,7 @@ public class PropertyColumnDialog implements ILaunchPropertyDialogColumn {
 					cH.addHeader(idS, hidden, columnName);
 				}
 			}
-			if (id.equals("accept")) {
+			if (id.equals(IUIConsts.ACCEPTBUTTON)) {
 				refresh = true;
 				ListOfRows rL = v.getList(IUIConsts.LISTPROPERTY);
 				for (RowContent r : rL.getRowList()) {
@@ -130,27 +126,24 @@ public class PropertyColumnDialog implements ILaunchPropertyDialogColumn {
 				IDataListType iList = JUtils.constructList(ri, rL, null, null);
 				String jSon = iJson.construct(iList);
 				Utils.SetCookie(cName, jSon);
-
 			}
 			if (refresh) {
 				cH.vL.clear();
 				cH.vL.addAll(cH.nL);
 				publishSlo.getSlContainer().publish(dType, cH.vHeader);
-				publishSlo.getSlContainer().publish(dType,
-						DataActionEnum.RefreshListAction);
-
+				publishSlo.getSlContainer().publish(dType, DataActionEnum.RefreshListAction);
 			}
-			return id.equals("accept");
+			return id.equals(IUIConsts.ACCEPTBUTTON);
 		}
 	}
 
 	@Override
-	public void doDialog(ISlotable publishSlo, IDataType dType, WSize w) {
+	public void doDialog(DialogType dialType, ISlotable publishSlo, IDataType dType, WSize w) {
 		IVariablesContainer iCon = vFactory.construct();
-		VListHeaderContainer vHeader = SlU.getHeaderList(dType, publishSlo);
 		DialogVariables var = new DialogVariables();
 		ListOfRows li = new ListOfRows();
 		RowIndex rI = ParseJ.constructProp();
+		VListHeaderContainer vHeader = SlU.getHeaderList(dType, publishSlo);
 		for (VListHeaderDesc v : vHeader.getAllHeList()) {
 			RowContent ro = rI.constructRow();
 			FieldValue val = new FieldValue();
@@ -164,9 +157,25 @@ public class PropertyColumnDialog implements ILaunchPropertyDialogColumn {
 			rI.setRowField(ro, IUIConsts.PROPCOLUMNNAME, val);
 			li.addRow(ro);
 		}
-		var.getRowList().put(IUIConsts.LISTPROPERTY, li);
-		new RunAction().upDialog(IUIConsts.COLUMNDIALOG, w, iCon, null, null,
-				null, var, new Click(publishSlo, dType));
-	}
+		switch (dialType) {
+		case CHANGECOLUMNS:
+			var.getRowList().put(IUIConsts.LISTPROPERTY, li);
+			new RunAction().upDialog(IUIConsts.COLUMNDIALOG, w, iCon, null, null, null, var,
+					new Click(publishSlo, dType));
 
+			break;
+		case EXPORTDATA:
+			IDataListType iList = JUtils.constructList(rI, li, null, null);
+			String jSon = iJson.construct(iList);
+			var.setValueS(IUIConsts.LISTPROPERTY, jSon);
+			JUtils.Names na = JUtils.getNames(dType);
+			var.setValueS(IUIConsts.JPARDIALOGNAME, na.getDialogName());
+			var.setValueS(IUIConsts.JPARLISTNAME, na.getListName());
+			IDataListType dList = SlU.getIDataListType(dType, publishSlo);
+			jSon = iJson.construct(dList);
+			var.setValueS(IUIConsts.DATALIST, jSon);
+			new RunAction().upDialog(IUIConsts.EXPORTDATA, w, iCon, null, null, null, var,
+					new Click(publishSlo, dType));
+		}
+	}
 }

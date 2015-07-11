@@ -405,6 +405,12 @@ public class SlU {
 			// TODO Auto-generated method stub
 
 		}
+
+		@Override
+		public void setSuggestList(List<String> list) {
+			// TODO Auto-generated method stub
+			
+		}
 	}
 
 	public static IFormLineView contructObjectValue(Object val) {

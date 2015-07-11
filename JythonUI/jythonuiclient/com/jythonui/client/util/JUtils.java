@@ -20,8 +20,11 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.common.TT;
 import com.gwtmodel.table.datalisttype.DataListTypeFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.slotmodel.ISlotable;
+import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.view.util.SolidPos;
 import com.jythonui.client.IUIConsts;
 import com.jythonui.client.M;
@@ -30,7 +33,9 @@ import com.jythonui.client.dialog.IDialogContainer;
 import com.jythonui.client.dialog.VField;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogVariables;
+import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.FieldValue;
+import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.ListFormat;
 import com.jythonui.shared.ListOfRows;
 import com.jythonui.shared.RowContent;
@@ -49,8 +54,7 @@ public class JUtils {
 		void action(String fie, String field);
 	};
 
-	public static void visitListOfFields(DialogVariables var, String prefix,
-			IVisitor i) {
+	public static void visitListOfFields(DialogVariables var, String prefix, IVisitor i) {
 		for (String key : var.getFields())
 			if (key.startsWith(prefix)) {
 				String fie = key.substring(prefix.length());
@@ -58,10 +62,26 @@ public class JUtils {
 			}
 	}
 
-	public static IDataListType constructList(RowIndex rI, ListOfRows rL,
-			IVField comboField, IVField displayFie) {
-		DataListTypeFactory lFactory = GwtGiniInjector.getI()
-				.getDataListTypeFactory();
+	public static IDataListType constructFromList(final List<String> li) {
+		DataListTypeFactory lFactory = GwtGiniInjector.getI().getDataListTypeFactory();
+		FieldItem item = new FieldItem();
+		item.setId(ICommonConsts.DISPLAYNAME);
+		item.setAttr(ICommonConsts.TYPE, ICommonConsts.STRINGTYPE);
+		List<FieldItem> listI = new ArrayList<FieldItem>();
+		listI.add(item);
+		RowIndex rI = new RowIndex(listI);
+		IVField vDisp = VField.construct(item);
+		List<IVModelData> dList = new ArrayList<IVModelData>();
+		for (String val : li) {
+			IVModelData vData = new RowVModelData(rI);
+			vData.setF(vDisp, val);
+			dList.add(vData);
+		}
+		return lFactory.construct(dList, null, vDisp);
+	}
+
+	public static IDataListType constructList(RowIndex rI, ListOfRows rL, IVField comboField, IVField displayFie) {
+		DataListTypeFactory lFactory = GwtGiniInjector.getI().getDataListTypeFactory();
 
 		List<IVModelData> rList = new ArrayList<IVModelData>();
 		if (rL != null)
@@ -79,8 +99,7 @@ public class JUtils {
 			Object o = vData.getF(fie);
 			// pass empty as null (None)
 			FieldValue fVal = new FieldValue();
-			fVal.setValue(fie.getType().getType(), o, fie.getType()
-					.getAfterdot());
+			fVal.setValue(fie.getType().getType(), o, fie.getType().getAfterdot());
 			v.setValue(fie.getId(), fVal);
 		}
 	}
@@ -89,8 +108,7 @@ public class JUtils {
 		void setField(VField v, FieldValue val, boolean global);
 	}
 
-	public static void VisitVariable(final DialogVariables var, String listid,
-			final IFieldVisit i) {
+	public static void VisitVariable(final DialogVariables var, String listid, final IFieldVisit i) {
 		JUtils.IVisitor vis = new JUtils.IVisitor() {
 
 			@Override
@@ -109,15 +127,14 @@ public class JUtils {
 				i.setField(v, val, global);
 			}
 		};
-		String prefix = IUIConsts.JCOPY;
+		String prefix = ICommonConsts.JCOPY;
 		if (listid != null)
 			prefix = IUIConsts.JROWCOPY + listid + "_";
 		JUtils.visitListOfFields(var, prefix, vis);
 	}
 
 	public static SolidPos constructSolidPos(DialogFormat d) {
-		SolidPos pos = new SolidPos(d.getTop(), d.getLeft(), d.getMaxTop(),
-				d.getMaxLeft());
+		SolidPos pos = new SolidPos(d.getTop(), d.getLeft(), d.getMaxTop(), d.getMaxLeft());
 		return pos;
 	}
 
@@ -130,4 +147,72 @@ public class JUtils {
 		return li;
 	}
 
+	public static class Names {
+		private final String dialogName;
+		private final String listName;
+
+		public Names(String dialogName, String listName) {
+			this.dialogName = dialogName;
+			this.listName = listName;
+		}
+
+		public String getDialogName() {
+			return dialogName;
+		}
+
+		public String getListName() {
+			return listName;
+		}
+
+	}
+
+	public static Names getNames(IDataType dType) {
+		DataType d = (DataType) dType;
+		String dName = d.getD().getInfo().getDialog().getId();
+		String fName = d.getId();
+		return new Names(dName, fName);
+	}
+
+	public static boolean verifyType(String fName, FieldValue val, TT expectedType) {
+		if (val.getType() == expectedType)
+			return true;
+		String mess = M.M().InvalidFieldType(fName, val.getType().toString(), expectedType.toString());
+		Utils.errAlert(mess);
+		return false;
+	}
+
+	public static String getValueS(DialogVariables var, String field) {
+		FieldValue val = var.getValue(field);
+		if (!JUtils.verifyType(field, val, TT.STRING))
+			return null;
+		return val.getValueS();
+	}
+
+	public static boolean getValueB(DialogVariables var, String field) {
+		FieldValue val = var.getValue(field);
+		if (!JUtils.verifyType(field, val, TT.BOOLEAN))
+			return false;
+		return val.getValueB();
+	}
+
+	public static void prepareListOfRows(DialogVariables var, IDataType dType, ISlotable sLo, String listId,
+			List<FieldItem> colList) {
+		RowIndex rI = new RowIndex(colList);
+		ListOfRows li = new ListOfRows();
+		var.getRowList().put(listId, li);
+		IDataListType dList = SlU.getIDataListType(dType, sLo);
+		for (IVModelData vD : dList.getList()) {
+			RowContent row = rI.constructRow();
+			li.addRow(row);
+			for (IVField v : vD.getF()) {
+				String id = v.getId();
+				FieldItem item = DialogFormat.findE(colList, id);
+				if (item == null)
+					continue;
+				FieldValue vali = new FieldValue();
+				vali.setValue(item.getFieldType(), vD.getF(v), item.getAfterDot());
+				rI.setRowField(row, id, vali);
+			}
+		}
+	}
 }

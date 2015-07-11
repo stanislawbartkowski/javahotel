@@ -176,7 +176,7 @@ def _toMapFiltrL(xmls,lfiltr):
   return _toMapF(xmls,None,lfiltr)
 
 def toMapFiltrDialL(xmls,dialogName,listname):
-    return _toMapFiltrL(xmls,cutil.getMapFieldList(dialogName,listname))
+    return _toMapFiltrL(xmls,miscutil.getMapFieldList(dialogName,listname))
                 
 # ---------------------------------------------------------------    
             

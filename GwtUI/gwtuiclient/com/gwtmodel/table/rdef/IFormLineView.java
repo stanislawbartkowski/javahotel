@@ -12,6 +12,8 @@
  */
 package com.gwtmodel.table.rdef;
 
+import java.util.List;
+
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IGetSetVField;
 
@@ -42,5 +44,7 @@ public interface IFormLineView extends IGetSetVField, IGWidget {
 	void setAttr(String attrName, String attrValue);
 
 	void setCellTitle(String title);
+
+	void setSuggestList(List<String> list);
 
 }

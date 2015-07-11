@@ -55,9 +55,7 @@ public interface IUIConsts {
 	String NOCHARTSYES = "Y";
 	String LOGINDELIMITER = ",";
 
-	String CRUD_ADD = "crud_add";
 	String CRUD_REMOVE = "crud_remove";
-	String CRUD_CHANGE = "crud_change";
 	String CRUD_SHOW = "crud_show";
 	String CRUD_READLIST = "crud_readlist";
 	String ENABLE = "enable";
@@ -84,9 +82,9 @@ public interface IUIConsts {
 	String DATELINE_ENDYEAR = "dateline_endyear";
 
 	String JROWCOPY = "JROWCOPY_";
-	String JCOPY = "JCOPY_";
 	String JGLOBAL = "GLOBAL_";
 	String JSETHEADER = "JSETHEADER_";
+	String JSETCOLUMNVIS = "JSETCOLUMNVIS_";
 
 	String JCOOKIE = "JCOOKIE_";
 	String JCOOKIESET = "JCOOKIESET_";
@@ -99,7 +97,7 @@ public interface IUIConsts {
 	int PANELMENUDEFAH = 10;
 	String PANELMENUNAME = "Down";
 
-	String UIVersion = "UI : 2015/05/13 (r:11)";
+	String UIVersion = "UI : 2015/07/09 (r:13)";
 
 	String JBUTTONDIALOGSTART = "JUPDIALOG_START";
 	String JBUTTONDIALOGSTART1 = "JUPDIALOG_STARTPAR";
@@ -110,11 +108,18 @@ public interface IUIConsts {
 	String COOKIENOWRAPON = "nowrapon";
 
 	String COLUMNDIALOG = "columndialog/propertydialogcolumn.xml";
+	String EXPORTDATA = "columndialog/exportdatalist.xml";
 
 	String LISTPROPERTY = "list";
+	String DATALIST = "data";
 	String COOKIEPROPERTYLIST = "columnlist";
+	String ACCEPTBUTTON = "accept";
+	String DEFABUTTON = "defa";
+	String JPARDIALOGNAME = "JPAR_DIALOGNAME";
+	String JPARLISTNAME = "JPAR_LISTNAME";
 
 	String PROPID = "id";
 	String PROPVISIBLE = "visible";
 	String PROPCOLUMNNAME = "columnname";
+	String JCRUD_DIALOG = "JCRUD_DIALOG";
 }

@@ -117,8 +117,6 @@ import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.ListFormat;
 import com.jythonui.shared.ListOfRows;
 import com.jythonui.shared.MapDialogVariable;
-import com.jythonui.shared.RowContent;
-import com.jythonui.shared.RowIndex;
 import com.jythonui.shared.TypedefDescr;
 
 /**
@@ -356,29 +354,11 @@ class ListControler {
 				String lList = fo.getListButtonsWithList();
 				if (!CUtil.EmptyS(buttonId) && !CUtil.EmptyS(lList)) {
 					String vList[] = lList.split(",");
-					for (String s : vList) {
-						if (s.equals(buttonId)) {
-							RowIndex rI = new RowIndex(fo.getColumns());
-							ListOfRows li = new ListOfRows();
-							var.getRowList().put(fo.getId(), li);
-							IDataListType dList = SlU.getIDataListType(dType,
-									DataListPersistAction.this);
-							for (IVModelData vD : dList.getList()) {
-								RowContent row = rI.constructRow();
-								li.addRow(row);
-								for (IVField v : vD.getF()) {
-									String id = v.getId();
-									FieldItem item = fo.getColumn(id);
-									if (item == null)
-										continue;
-									FieldValue vali = new FieldValue();
-									vali.setValue(item.getFieldType(),
-											vD.getF(v), item.getAfterDot());
-									rI.setRowField(row, id, vali);
-								}
-							}
-						}
-					}
+					for (String s : vList)
+						if (s.equals(buttonId))
+							JUtils.prepareListOfRows(var, dType,
+									DataListPersistAction.this, fo.getId(),
+									fo.getColumns());
 				}
 
 			}

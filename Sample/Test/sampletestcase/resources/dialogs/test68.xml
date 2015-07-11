@@ -12,7 +12,7 @@
 		<field id="glob1" />
 		<field id="globbool" type="bool" />
 		<field id="globint" type="int" displayname="Integer value" />
-		<field id="globcust" type="custom:tenum" displayname="Integer value" />
+		<field id="globcust" displayname="Integer value" />
 		<field id="globdec" type="decimal" afterdot="4" displayname="Integer value" />
 		<field id="globdate" type="date" />
 		<field id="globtime" type="datetime" label=""/>

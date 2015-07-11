@@ -71,78 +71,55 @@ class ReadDialog extends UtilHelper {
 		private DialogFormat dFormat = null;
 
 		/** Tags recognized for a particular element. */
-		/* It duplicated to some extend xsd schema which also forces XML format. */
-		private final String[] dialogTag = { ICommonConsts.HTMLPANEL,
-				ICommonConsts.HTMLLEFTMENU, ICommonConsts.JSCODE,
-				ICommonConsts.BEFORE, ICommonConsts.DISPLAYNAME,
-				ICommonConsts.IMPORT, ICommonConsts.METHOD,
-				ICommonConsts.PARENT, ICommonConsts.TYPES, ICommonConsts.ASXML,
-				ICommonConsts.CLEARCENTRE, ICommonConsts.CLEARLEFT,
-				ICommonConsts.FORMPANEL, ICommonConsts.AUTOHIDE,
-				ICommonConsts.MODELESS, ICommonConsts.CSSCODE,
-				ICommonConsts.TOP, ICommonConsts.LEFT, ICommonConsts.MAXLEFT,
+		/*
+		 * It duplicated to some extend xsd schema which also forces XML format.
+		 */
+		private final String[] dialogTag = { ICommonConsts.HTMLPANEL, ICommonConsts.HTMLLEFTMENU, ICommonConsts.JSCODE,
+				ICommonConsts.BEFORE, ICommonConsts.DISPLAYNAME, ICommonConsts.IMPORT, ICommonConsts.METHOD,
+				ICommonConsts.PARENT, ICommonConsts.TYPES, ICommonConsts.ASXML, ICommonConsts.CLEARCENTRE,
+				ICommonConsts.CLEARLEFT, ICommonConsts.FORMPANEL, ICommonConsts.AUTOHIDE, ICommonConsts.MODELESS,
+				ICommonConsts.CSSCODE, ICommonConsts.TOP, ICommonConsts.LEFT, ICommonConsts.MAXLEFT,
 				ICommonConsts.MAXTOP };
-		private final String[] buttonTag = { ICommonConsts.ID,
-				ICommonConsts.DISPLAYNAME, ICommonConsts.ACTIONTYPE,
-				ICommonConsts.ACTIONPARAM, ICommonConsts.ACTIONPARAM1,
-				ICommonConsts.ACTIONPARAM2, ICommonConsts.ACTIONPARAM3,
-				ICommonConsts.IMPORT, ICommonConsts.HIDDEN,
-				ICommonConsts.READONLY, ICommonConsts.METHOD,
-				ICommonConsts.VALIDATE, ICommonConsts.BUTTONHEADER,
-				ICommonConsts.IMAGENAME, ICommonConsts.JSACTION };
-		private final String[] fieldTag = { ICommonConsts.ID,
-				ICommonConsts.TYPE, ICommonConsts.AFTERDOT,
-				ICommonConsts.ACTIONID, ICommonConsts.DISPLAYNAME,
-				ICommonConsts.NOTEMPTY, ICommonConsts.READONLY,
-				ICommonConsts.HIDDEN, ICommonConsts.READONLYADD,
-				ICommonConsts.READONLYCHANGE, ICommonConsts.SIGNALCHANGE,
-				ICommonConsts.HELPER, ICommonConsts.HELPERREFRESH,
-				ICommonConsts.FROM, ICommonConsts.WIDTH, ICommonConsts.ALIGN,
-				ICommonConsts.HTMLID, ICommonConsts.DEFVALUE,
-				ICommonConsts.FOOTER, ICommonConsts.EDITCOL,
-				ICommonConsts.SIGNALBEFORE, ICommonConsts.FOOTERTYPE,
-				ICommonConsts.FOOTERALIGN, ICommonConsts.FOOTERAFTERDOT,
-				ICommonConsts.IMAGECOLUMN, ICommonConsts.IMAGELIST,
-				ICommonConsts.EDITCLASS, ICommonConsts.EDITCSS,
-				ICommonConsts.LABEL, ICommonConsts.COLUMNCLASS,
-				ICommonConsts.SPINNERMIN, ICommonConsts.HEADERCLASS,
-				ICommonConsts.SPINNERMAX, ICommonConsts.VISLINES,
-				ICommonConsts.CELLTITLE };
-		private final String[] listTag = { ICommonConsts.ID,
-				ICommonConsts.DISPLAYNAME, ICommonConsts.ELEMFORMAT,
-				ICommonConsts.STANDBUTT, ICommonConsts.PAGESIZE,
-				ICommonConsts.WIDTH, ICommonConsts.CHUNKED,
-				ICommonConsts.SIGNALAFTERROW, ICommonConsts.SIGNALBEFOREROW,
-				ICommonConsts.LISTBUTTONSLIST,
-				ICommonConsts.LISTBUTTONSVALIDATE, ICommonConsts.JSMODIFROW,
-				ICommonConsts.LISTSELECTEDMESS,
-				ICommonConsts.LISTBUTTONSSELECTED, ICommonConsts.TOOLBARTYPE,
-				ICommonConsts.NOWRAPLIST, ICommonConsts.NOPROPERTYCOLUMN };
-		private final String[] valTag = { ICommonConsts.ID,
-				ICommonConsts.DISPLAYNAME, ICommonConsts.VALIDATEOP,
+		private final String[] buttonTag = { ICommonConsts.ID, ICommonConsts.DISPLAYNAME, ICommonConsts.ACTIONTYPE,
+				ICommonConsts.ACTIONPARAM, ICommonConsts.ACTIONPARAM1, ICommonConsts.ACTIONPARAM2,
+				ICommonConsts.ACTIONPARAM3, ICommonConsts.IMPORT, ICommonConsts.HIDDEN, ICommonConsts.READONLY,
+				ICommonConsts.METHOD, ICommonConsts.VALIDATE, ICommonConsts.BUTTONHEADER, ICommonConsts.IMAGENAME,
+				ICommonConsts.JSACTION };
+		private final String[] fieldTag = { ICommonConsts.ID, ICommonConsts.TYPE, ICommonConsts.AFTERDOT,
+				ICommonConsts.ACTIONID, ICommonConsts.DISPLAYNAME, ICommonConsts.NOTEMPTY, ICommonConsts.READONLY,
+				ICommonConsts.HIDDEN, ICommonConsts.READONLYADD, ICommonConsts.READONLYCHANGE,
+				ICommonConsts.SIGNALCHANGE, ICommonConsts.HELPER, ICommonConsts.HELPERREFRESH, ICommonConsts.FROM,
+				ICommonConsts.WIDTH, ICommonConsts.ALIGN, ICommonConsts.HTMLID, ICommonConsts.DEFVALUE,
+				ICommonConsts.FOOTER, ICommonConsts.EDITCOL, ICommonConsts.SIGNALBEFORE, ICommonConsts.FOOTERTYPE,
+				ICommonConsts.FOOTERALIGN, ICommonConsts.FOOTERAFTERDOT, ICommonConsts.IMAGECOLUMN,
+				ICommonConsts.IMAGELIST, ICommonConsts.EDITCLASS, ICommonConsts.EDITCSS, ICommonConsts.LABEL,
+				ICommonConsts.COLUMNCLASS, ICommonConsts.SPINNERMIN, ICommonConsts.HEADERCLASS,
+				ICommonConsts.SPINNERMAX, ICommonConsts.VISLINES, ICommonConsts.CELLTITLE, ICommonConsts.SUGGEST,
+				ICommonConsts.REMEMBER, ICommonConsts.REMEMBERKEY, ICommonConsts.SUGGESTKEY,
+				ICommonConsts.SUGGESTSIZE };
+		private final String[] listTag = { ICommonConsts.ID, ICommonConsts.DISPLAYNAME, ICommonConsts.ELEMFORMAT,
+				ICommonConsts.STANDBUTT, ICommonConsts.PAGESIZE, ICommonConsts.WIDTH, ICommonConsts.CHUNKED,
+				ICommonConsts.SIGNALAFTERROW, ICommonConsts.SIGNALBEFOREROW, ICommonConsts.LISTBUTTONSLIST,
+				ICommonConsts.LISTBUTTONSVALIDATE, ICommonConsts.JSMODIFROW, ICommonConsts.LISTSELECTEDMESS,
+				ICommonConsts.LISTBUTTONSSELECTED, ICommonConsts.TOOLBARTYPE, ICommonConsts.NOWRAPLIST,
+				ICommonConsts.NOPROPERTYCOLUMN };
+		private final String[] valTag = { ICommonConsts.ID, ICommonConsts.DISPLAYNAME, ICommonConsts.VALIDATEOP,
 				ICommonConsts.VALIDATEID1 };
-		private final String[] checklistTag = { ICommonConsts.ID,
-				ICommonConsts.DISPLAYNAME, ICommonConsts.READONLY,
+		private final String[] checklistTag = { ICommonConsts.ID, ICommonConsts.DISPLAYNAME, ICommonConsts.READONLY,
 				ICommonConsts.TYPE, ICommonConsts.AFTERDOT };
-		private final String[] datelineTag = { ICommonConsts.ID,
-				ICommonConsts.DISPLAYNAME, ICommonConsts.PAGESIZE,
-				ICommonConsts.COLNO, ICommonConsts.DATELINEID,
-				ICommonConsts.DATELINEDEFAFILE, ICommonConsts.DATALINEFILE,
-				ICommonConsts.DATELINEDATEID, ICommonConsts.CLASSNAME,
+		private final String[] datelineTag = { ICommonConsts.ID, ICommonConsts.DISPLAYNAME, ICommonConsts.PAGESIZE,
+				ICommonConsts.COLNO, ICommonConsts.DATELINEID, ICommonConsts.DATELINEDEFAFILE,
+				ICommonConsts.DATALINEFILE, ICommonConsts.DATELINEDATEID, ICommonConsts.CLASSNAME,
 				ICommonConsts.STANDBUTT, ICommonConsts.CURRENTPOS };
-		private final String[] formTag = { ICommonConsts.ID,
-				ICommonConsts.DATALINEFILE };
+		private final String[] formTag = { ICommonConsts.ID, ICommonConsts.DATALINEFILE };
 		private final String[] elemchecklistTag = checklistTag;
 		private final String[] tabpanelTag = { ICommonConsts.ID };
-		private final String[] tabelemTag = { ICommonConsts.ID,
-				ICommonConsts.DISPLAYNAME, ICommonConsts.BEFORECHANGETAB };
-		private final String[] disclosureelemTag = { ICommonConsts.ID,
-				ICommonConsts.DISPLAYNAME, ICommonConsts.HTMLPANEL,
-				ICommonConsts.SIGNALCHANGE };
-		private final String[] chartTag = { ICommonConsts.ID,
-				ICommonConsts.DISPLAYNAME, ICommonConsts.CHARTHEIGHT,
-				ICommonConsts.WIDTH, ICommonConsts.CHARTPIENOT3D,
-				ICommonConsts.CHARTTYPE };
+		private final String[] tabelemTag = { ICommonConsts.ID, ICommonConsts.DISPLAYNAME,
+				ICommonConsts.BEFORECHANGETAB };
+		private final String[] disclosureelemTag = { ICommonConsts.ID, ICommonConsts.DISPLAYNAME,
+				ICommonConsts.HTMLPANEL, ICommonConsts.SIGNALCHANGE };
+		private final String[] chartTag = { ICommonConsts.ID, ICommonConsts.DISPLAYNAME, ICommonConsts.CHARTHEIGHT,
+				ICommonConsts.WIDTH, ICommonConsts.CHARTPIENOT3D, ICommonConsts.CHARTTYPE };
 
 		/** Currently recognized set of tags. */
 		/*
@@ -150,11 +127,10 @@ class ReadDialog extends UtilHelper {
 		 * before subelements.
 		 */
 		/* This invariant is enforced by xsd schema. */
-		private final String[] allowedActions = { ICommonConsts.JMAINDIALOG,
-				ICommonConsts.JUPDIALOG, ICommonConsts.JCLOSEDIALOG,
-				ICommonConsts.JOKMESSAGE, ICommonConsts.JERRORMESSAGE,
-				ICommonConsts.JYESNOMESSAGE, ICommonConsts.JLOGOUTACTION,
-				ICommonConsts.JSUBMIT, ICommonConsts.JURL_OPEN };
+		private final String[] allowedActions = { ICommonConsts.JMAINDIALOG, ICommonConsts.JUPDIALOG,
+				ICommonConsts.JCLOSEDIALOG, ICommonConsts.JOKMESSAGE, ICommonConsts.JERRORMESSAGE,
+				ICommonConsts.JYESNOMESSAGE, ICommonConsts.JLOGOUTACTION, ICommonConsts.JSUBMIT,
+				ICommonConsts.JURL_OPEN };
 		private String[] currentT;
 		private StringBuffer buf;
 		private ElemDescription bDescr = null;
@@ -174,8 +150,8 @@ class ReadDialog extends UtilHelper {
 		}
 
 		@Override
-		public void startElement(String uri, String localName, String qName,
-				Attributes attributes) throws SAXException {
+		public void startElement(String uri, String localName, String qName, Attributes attributes)
+				throws SAXException {
 			buf = new StringBuffer();
 			boolean getAttribute = false;
 			if (qName.equals(ICommonConsts.DIALOG)) {
@@ -202,10 +178,8 @@ class ReadDialog extends UtilHelper {
 				fList = new ArrayList<FieldItem>();
 				getAttribute = true;
 			}
-			if (qName.equals(ICommonConsts.LEFTMENU)
-					|| qName.equals(ICommonConsts.UPMENU)
-					|| qName.equals(ICommonConsts.BUTTONS)
-					|| qName.equals(ICommonConsts.LEFTSTACK)
+			if (qName.equals(ICommonConsts.LEFTMENU) || qName.equals(ICommonConsts.UPMENU)
+					|| qName.equals(ICommonConsts.BUTTONS) || qName.equals(ICommonConsts.LEFTSTACK)
 					|| qName.equals(ICommonConsts.ACTIONS)) {
 				bList = new ArrayList<ButtonItem>();
 				return;
@@ -214,16 +188,14 @@ class ReadDialog extends UtilHelper {
 				fList = new ArrayList<FieldItem>();
 				return;
 			}
-			if (qName.equals(ICommonConsts.BUTTON)
-					|| qName.equals(ICommonConsts.ACTION)) {
+			if (qName.equals(ICommonConsts.BUTTON) || qName.equals(ICommonConsts.ACTION)) {
 				bDescr = new ButtonItem();
 				currentT = buttonTag;
 				getAttribute = true;
 				// pass to getting attributes (no return)
 			}
 
-			if (qName.equals(ICommonConsts.FIELD)
-					|| qName.equals(ICommonConsts.COLUMN)) {
+			if (qName.equals(ICommonConsts.FIELD) || qName.equals(ICommonConsts.COLUMN)) {
 				bDescr = new FieldItem();
 				currentT = fieldTag;
 				getAttribute = true;
@@ -261,8 +233,7 @@ class ReadDialog extends UtilHelper {
 				currentT = elemchecklistTag;
 				getAttribute = true;
 			}
-			if (qName.equals(ICommonConsts.CHECKLISTCOLUMNS)
-					&& checkList != null) {
+			if (qName.equals(ICommonConsts.CHECKLISTCOLUMNS) && checkList != null) {
 				bDescr = checkList.getColumns();
 				currentT = elemchecklistTag;
 				getAttribute = true;
@@ -308,13 +279,11 @@ class ReadDialog extends UtilHelper {
 		}
 
 		@Override
-		public void endElement(String uri, String localName, String qName)
-				throws SAXException {
+		public void endElement(String uri, String localName, String qName) throws SAXException {
 			if (dFormat == null) {
 				return;
 			}
-			if (qName.equals(ICommonConsts.BUTTON)
-					|| qName.equals(ICommonConsts.ACTION)) {
+			if (qName.equals(ICommonConsts.BUTTON) || qName.equals(ICommonConsts.ACTION)) {
 				ButtonItem bI = (ButtonItem) bDescr;
 				if (bI.isAction()) {
 					boolean found = false;
@@ -333,10 +302,8 @@ class ReadDialog extends UtilHelper {
 							else
 								list = list + " , " + allowedActions[i];
 						} // for
-						String mess = SHolder.getM().getMess(
-								IErrorCode.ERRORCODE47,
-								ILogMess.UNRECOGNIZEDACTION, bI.getAction(),
-								list);
+						String mess = SHolder.getM().getMess(IErrorCode.ERRORCODE47, ILogMess.UNRECOGNIZEDACTION,
+								bI.getAction(), list);
 						errorLog(mess);
 					}
 				}
@@ -345,12 +312,10 @@ class ReadDialog extends UtilHelper {
 				}
 				return;
 			}
-			if (qName.equals(ICommonConsts.FIELD)
-					|| qName.equals(ICommonConsts.COLUMN)) {
+			if (qName.equals(ICommonConsts.FIELD) || qName.equals(ICommonConsts.COLUMN)) {
 				FieldItem aI = (FieldItem) bDescr;
 				if (aI.getId() == null) {
-					String errmess = SHolder.getM().getMess(
-							IErrorCode.ERRORCODE48, ILogMess.EMPTYIDVALUE,
+					String errmess = SHolder.getM().getMess(IErrorCode.ERRORCODE48, ILogMess.EMPTYIDVALUE,
 							ICommonConsts.FIELD, ICommonConsts.ID);
 					errorLog(errmess);
 				}
@@ -443,15 +408,13 @@ class ReadDialog extends UtilHelper {
 		}
 
 		@Override
-		public void characters(char ch[], int start, int length)
-				throws SAXException {
+		public void characters(char ch[], int start, int length) throws SAXException {
 			buf.append(ch, start, length);
 		}
 
 	}
 
-	private static void replaceFile(IGetResourceFile iGetResource,
-			String parentName, ElemDescription fo, String attr) {
+	private static void replaceFile(IGetResourceFile iGetResource, String parentName, ElemDescription fo, String attr) {
 		if (fo.isAttr(attr)) {
 			String fileName = fo.getAttr(attr);
 			// replace file name with content
@@ -463,18 +426,15 @@ class ReadDialog extends UtilHelper {
 
 	}
 
-	static DialogFormat parseDocument(String parentName, InputStream sou,
-			ISecurity iSec, IGetResourceFile iGetResource)
+	static DialogFormat parseDocument(String parentName, InputStream sou, ISecurity iSec, IGetResourceFile iGetResource)
 			throws ParserConfigurationException, SAXException, IOException {
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		SAXParser saxParser;
 		saxParser = factory.newSAXParser();
 		MyHandler ma = new MyHandler(iGetResource, iSec);
 		saxParser.parse(sou, ma);
-		replaceFile(iGetResource, parentName, ma.dFormat,
-				ICommonConsts.HTMLLEFTMENU);
-		replaceFile(iGetResource, parentName, ma.dFormat,
-				ICommonConsts.HTMLPANEL);
+		replaceFile(iGetResource, parentName, ma.dFormat, ICommonConsts.HTMLLEFTMENU);
+		replaceFile(iGetResource, parentName, ma.dFormat, ICommonConsts.HTMLPANEL);
 		replaceFile(iGetResource, parentName, ma.dFormat, ICommonConsts.JSCODE);
 		replaceFile(iGetResource, parentName, ma.dFormat, ICommonConsts.CSSCODE);
 		for (DisclosureElemPanel d : ma.dFormat.getDiscList())

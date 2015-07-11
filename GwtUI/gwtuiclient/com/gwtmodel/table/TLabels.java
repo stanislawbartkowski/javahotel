@@ -16,14 +16,16 @@
  */
 package com.gwtmodel.table;
 
-import com.google.gwt.i18n.client.Constants;
 import java.util.Map;
+
+import com.google.gwt.i18n.client.Constants;
+import com.google.gwt.i18n.client.ConstantsWithLookup;
 
 /**
  * 
  * @author hotel
  */
-public interface TLabels extends Constants {
+public interface TLabels extends Constants,ConstantsWithLookup {
 
 	String DateFormNotValid();
 
@@ -99,7 +101,7 @@ public interface TLabels extends Constants {
 
 	String DownloadAttachment();
 
-	String ClockToDownload();
+	String ClickToDownload();
 
 	String ChooseFromList();
 
@@ -192,5 +194,7 @@ public interface TLabels extends Constants {
 	String CheckAll();
 
 	String UncheckAll();
+
+	String ExportTable();
 
 }

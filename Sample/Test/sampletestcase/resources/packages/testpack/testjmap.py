@@ -1,4 +1,4 @@
-import cutil
+import cutil,miscutil
 import xmlutil
 import datetime
 
@@ -15,13 +15,13 @@ def dialogaction(action,var) :
   cutil.printVar("jaction",action,var)
   
   if action == "testmap" :
-    l = cutil.getMapFieldList("test85.xml")
+    l = miscutil.getMapFieldList("test85.xml")
     print l
     assert "glob1" in l
     assert not ("xxx" in l)
     
   if action == "testlistmap" :
-    l = cutil.getMapFieldList("test85.xml","reslist")
+    l = miscutil.getMapFieldList("test85.xml","reslist")
     print l
     assert "avail" in l
     assert len(l) == 4

@@ -14,59 +14,62 @@ package com.jythonui.server;
 
 public interface ISharedConsts {
 
-    String COMMONREGISTRYBEANJNDI = "java:global/JythonRegistry";
+	String COMMONREGISTRYBEANJNDI = "java:global/JythonRegistry";
 
-    String COMMONSEQGENJNDI = "java:global/SeqGenRegistry";
+	String COMMONSEQGENJNDI = "java:global/SeqGenRegistry";
 
-    String COMMONBEANBLOBJNDI = "java:global/BlobRegistry";
+	String COMMONBEANBLOBJNDI = "java:global/BlobRegistry";
 
-    String COMMONOBJECTADMINJNDI = "java:global/ObjectAdmin";
-    String COMMONAPPINSTANCEJNDI = "java:global/AppInstance";
+	String COMMONOBJECTADMINJNDI = "java:global/ObjectAdmin";
+	String COMMONAPPINSTANCEJNDI = "java:global/AppInstance";
 
-    String COMMONNOTESTORAGEJNDI = "java:global/NoteStorage";
+	String COMMONNOTESTORAGEJNDI = "java:global/NoteStorage";
 
-    String JYTHONMESSSERVER = "jythonservermess";
+	String JYTHONMESSSERVER = "jythonservermess";
 
-    String JYTHONENVCACHE = "JYTHON-ENV-TOMCAT-CACHE";
-    String JYTHONXMLHELPERCACHE = "JYTHON-XML-HELPER-CACHE";
-    String CACHEREALMOBJECTINSTANCE = "JYTHON-CACHEREALM-OBJECT-INSTANCE";
+	String JYTHONENVCACHE = "JYTHON-ENV-TOMCAT-CACHE";
+	String JYTHONXMLHELPERCACHE = "JYTHON-XML-HELPER-CACHE";
+	String CACHEREALMOBJECTINSTANCE = "JYTHON-CACHEREALM-OBJECT-INSTANCE";
 
-    String XMLHELPERCACHED = "jythonxmlhelpercached";
+	String XMLHELPERCACHED = "jythonxmlhelpercached";
 
-    int DEFEXPIRATIONSEC = 30;
+	int DEFEXPIRATIONSEC = 30;
 
-    char MALEDICT = 'M';
-    char FEMALEDICT = 'F';
-    char DEFAULTID = 'I';
+	char MALEDICT = 'M';
+	char FEMALEDICT = 'F';
+	char DEFAULTID = 'I';
 
-    String CREATIONPERSONPROPERTY = "creationPerson";
-    String CREATIONDATEPROPERTY = "creationDate";
-    String MODIFPERSONPROPERTY = "modifPerson";
-    String MODIFDATEPROPERTY = "modifDate";
+	String CREATIONPERSONPROPERTY = "creationPerson";
+	String CREATIONDATEPROPERTY = "creationDate";
+	String MODIFPERSONPROPERTY = "modifPerson";
+	String MODIFDATEPROPERTY = "modifDate";
 
-    String NAME = "name";
-    String DESCRIPTION = "descr";
-    String VATLEVELPROP = "level";
+	String NAME = "name";
+	String DESCRIPTION = "descr";
+	String VATLEVELPROP = "level";
 
-    String INSTANCEDEFAULT = "AppInstanceDefault";
-    String INSTANCETEST = "AppInstanceTest";
+	String INSTANCEDEFAULT = "AppInstanceDefault";
+	String INSTANCETEST = "AppInstanceTest";
 
-    String SINGLEOBJECTHOLDER = "SingleObjectHolder";
-    String PERSONSONLYSECURITY = "PersonsOnlySecurity";
+	String SINGLEOBJECTHOLDER = "SingleObjectHolder";
+	String PERSONSONLYSECURITY = "PersonsOnlySecurity";
 
-    String MAILFROM = "NoteFrom";
-    String MAILSENTRESULT = "NoteResult";
-    String MAILCONTENT = "NoteContent";
+	String MAILFROM = "NoteFrom";
+	String MAILSENTRESULT = "NoteResult";
+	String MAILCONTENT = "NoteContent";
 
-    String MAILATTACHFILENAME = "NoteAttachFileName";
-    String MAILATTACHREALM = "NoteAttachRealm";
-    String MAILATTACHKEY = "NoteAttachKey";
+	String MAILATTACHFILENAME = "NoteAttachFileName";
+	String MAILATTACHREALM = "NoteAttachRealm";
+	String MAILATTACHKEY = "NoteAttachKey";
 
-    String OBJECTPROP = "objectid";
-    String PATTPROP = "autompatt";
+	String OBJECTPROP = "objectid";
+	String PATTPROP = "autompatt";
 
-    String MAILNOTEPATT = "MAIL (Y) / (M) / (N)";
-    String MAILNOTEREALM = "MAIL NOTES REALM";
+	String MAILNOTEPATT = "MAIL (Y) / (M) / (N)";
+	String MAILNOTEREALM = "MAIL NOTES REALM";
 
-    int MAILCONTENTSIZE = 1000;
+	int MAILCONTENTSIZE = 1000;
+
+	String SUGGESTIONREALM = "SUGGESTION-REALM";
+	String REMEMBERREALM = "REMEMBER-REALM";
 }

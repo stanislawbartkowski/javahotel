@@ -1,10 +1,5 @@
 import cutil,con,cblob
 
-#from com.jythonui.server.holder import SHolder
-
-#ADDBLOB=SHolder.getAddBlob()
-#IBLOB=SHolder.getBlobHandler()
-
 B = cblob.B
 
 def __getO(var):

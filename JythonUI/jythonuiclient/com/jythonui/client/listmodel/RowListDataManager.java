@@ -189,8 +189,7 @@ class RowListDataManager implements IRowListDataManager {
 
 				@Override
 				public void action(String fie, String field) {
-					FieldValue val = var.getValue(field);
-					String newheader = val.getValueS();
+					String newheader = JUtils.getValueS(var, field);
 					IVField v = VField.construct(fie);
 					ChangeHeaderSignal ch = new ChangeHeaderSignal(newheader, v);
 					CustomStringSlot sl = ChangeHeaderSignal
@@ -200,6 +199,21 @@ class RowListDataManager implements IRowListDataManager {
 			};
 			String prefix = IUIConsts.JSETHEADER + listid + "_";
 			JUtils.visitListOfFields(var, prefix, vis);
+
+			JUtils.IVisitor visCol = new JUtils.IVisitor() {
+
+				@Override
+				public void action(String fie, String field) {
+					boolean newVis = JUtils.getValueB(var, field);
+					IVField v = VField.construct(fie);
+					ChangeHeaderSignal ch = new ChangeHeaderSignal(newVis, v);
+					CustomStringSlot sl = ChangeHeaderSignal
+							.constructSlotChangeHeaderSignal(dType);
+					iSlo.getSlContainer().publish(sl, ch);
+				}
+			};
+			String prefixVis = IUIConsts.JSETCOLUMNVIS + listid + "_";
+			JUtils.visitListOfFields(var, prefixVis, visCol);
 
 			String okKey = ICommonConsts.JEDITROW_OK + listid;
 			FieldValue valOK = var.getValue(okKey);

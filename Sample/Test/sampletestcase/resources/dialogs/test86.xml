@@ -27,8 +27,7 @@
             <column id="resday" type="date" displayname="@night" editable="" />
             <column id="chooseroom" imagecolumn="1" displayname=""
                 imagelist="default_helpicon.gif" />
-            <column id="resroomname" displayname="@roomname" editable=""
-                type="custom:allroomslist" />
+            <column id="resroomname" displayname="@roomname" editable="" />
         </columns>
     </list>
 
