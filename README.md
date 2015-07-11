@@ -7,6 +7,8 @@ Administrator: http://testjavahotel.appspot.com/?start=admin.xml  (U/P admin/adm
 
 User : http://testjavahotel.appspot.com/?hotel=hotel (U/P user/user)
 
+Blog: http://hoteljavaopensource.blogspot.com/
+
 ---
 
 # 2015/02/01: new version deployed #

@@ -11,3 +11,5 @@ begin
   return ret;
 end
 @
+
+create table blobtable (id int, filename varchar(100), fileb blob)@

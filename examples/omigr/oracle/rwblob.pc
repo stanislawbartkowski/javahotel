@@ -1,0 +1,172 @@
+/*
+    Copyright 2015 stanislawbartkowski@fmail.com
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
+
+#include <oci.h>
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+#include "../utillib.h"
+#include "oracleutil.h"
+
+#define MAXBUFLEN 50
+
+int writeBlob(char *filename) {
+  FILE *f;
+  int failed = 0;
+  unsigned long id;
+  unsigned int amt,offset = 1 ;
+  short indicator_var;
+  long SQLCODE;
+  long filelen,nbytes,remainder;
+  OCIBlobLocator *blob ;
+  int last;
+  
+  unsigned char buffer[MAXBUFLEN] ;
+  EXEC SQL VAR buffer IS RAW(MAXBUFLEN) ;
+  
+  f = fopen(filename,"rb");
+  if (f == NULL) {
+    perror("Cannot open file");
+    return 0;
+  }
+  EXEC SQL WHENEVER SQLERROR DO sql_error("Insert file into blob column",&failed);
+  
+  EXEC SQL SELECT id INTO :id:indicator_var FROM blobtable;
+    
+//  printf("id =%lu indi=%u code=%lu\n",id,indicator_var, SQLCODE);
+  
+  if (SQLCODE == 1403) {
+      EXEC SQL INSERT INTO blobtable VALUES(1,NULL,NULL);
+      id = 1;
+  }
+  
+  fseek(f,0L,SEEK_END);
+  filelen = ftell(f);
+  
+  if (filelen > MAXBUFLEN) nbytes = MAXBUFLEN;
+  else nbytes = filelen;
+  
+  fseek(f,0l,SEEK_SET);
+  remainder = filelen - nbytes;
+  
+  EXEC SQL ALLOCATE :blob ;
+  if (failed) {
+    printf("Error while allocating blob");
+    fclose(f);
+    return 0;
+  }
+  EXEC SQL UPDATE blobtable SET fileb = EMPTY_BLOB() WHERE id = :id RETURNING fileb INTO :blob;
+
+  fread((void *)buffer, nbytes, 1, f);
+  
+  if (remainder == 0) {
+    EXEC SQL LOB WRITE ONE :amt FROM :buffer INTO :blob AT :offset ;
+    if (failed) {
+      printf("Error while LOB WRITE");
+      fclose(f);
+      return 0;
+    }
+  }
+  else {
+    EXEC SQL LOB WRITE FIRST :amt FROM :buffer INTO :blob AT :offset ;
+    if (failed) {
+      printf("Error while WRITE FIRST");
+      fclose(f);
+      return 0;
+  }
+    last = 0;
+    do {
+     if (remainder > MAXBUFLEN) nbytes = MAXBUFLEN ;
+        else {
+               nbytes = remainder ;
+               last = 1 ;
+	}
+     if  (fread((void *)buffer, nbytes, 1, f) != 1) last = 1 ;
+      if (last)
+         {  
+               EXEC SQL LOB WRITE LAST :amt FROM :buffer INTO :blob  ;
+              if (failed) {
+                printf("Error while LOB WRITE LAST");
+                fclose(f);
+                return 0;
+               }
+         }       
+      else
+         {
+              EXEC SQL LOB WRITE NEXT :amt  FROM :buffer INTO :blob  ;
+         }
+     remainder -= nbytes ;
+    } while (!last && !feof(f)) ;
+  }
+  fclose(f);
+  return 1;
+}
+
+int readBlob(char *filename)
+{
+  OCIBlobLocator *blob ;
+  FILE *fp ;
+  unsigned int amt, offset = 1 ;    
+  int failed = 0;
+  long SQLCODE;
+  
+  unsigned char buffer[MAXBUFLEN] ;
+  EXEC SQL VAR buffer IS RAW(MAXBUFLEN) ;
+  
+  fp = fopen(filename,"wb");
+  if (fp == NULL) {
+    perror("Cannot create file");
+    return 0;
+  }
+  EXEC SQL WHENEVER SQLERROR DO sql_error("Read blob into file",&failed);
+  
+  EXEC SQL ALLOCATE :blob ;
+  EXEC SQL SELECT fileb INTO :blob FROM blobtable WHERE id = 1;
+  
+  if (failed) {
+    printf("Error while executing SELECT");
+    fclose(fp);
+    return 0;
+  }
+  
+  if (SQLCODE == 1403) {
+      printf("Cannot find id=1 in  blobtable\n");
+      fclose(fp);
+      return 0;
+  }
+
+  amt = 4294967295 ;
+  EXEC SQL LOB READ :amt FROM :blob AT :offset INTO :buffer ;
+  
+  if (failed) {
+   printf("Error while executing LOB READ");
+   fclose(fp);
+   return 0;
+  }
+  while (SQLCODE != 1403) {
+    fwrite((void *)buffer, MAXBUFLEN, 1, fp) ;
+    EXEC SQL LOB READ :amt FROM :blob AT :offset INTO :buffer ;
+    if (failed) {
+     printf("Error while executing LOB READ");
+     fclose(fp);
+     return 0;
+    }
+  }
+  fwrite((void *)buffer, amt, 1, fp) ;
+  return 1;
+}
