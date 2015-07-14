@@ -1,6 +1,6 @@
 from com.jythonui.server.holder import SHolder
 
-import cutil,listbl,pdfutil,cblob
+import cutil,listbl,pdfutil,cblob,cdial
 
 from util import rpdf,rutil,diallaunch
 
@@ -9,6 +9,7 @@ from rrutil import cbill
 BREG="BILLBLOB"
 LIST="pdflist"
 TEMPPDF="PDF"
+FILENAME="receipt.pdf"
 
 BL = cblob.B
 
@@ -51,7 +52,8 @@ def listaction(action,var) :
      B.changeBlobComment(var,pdf_id,var["blob_comment"])
      
   if action == "pdfdownload" :
-      diallaunch.pdfdownload(var,listbl.constructPDFBLOB(var,var["blob_key"]))
+#      diallaunch.pdfdownload(var,listbl.constructPDFBLOB(var,var["blob_key"]))
+      cdial.downloadObj(var,var["blob_comment"],FILENAME,[BREG,var["blob_key"]])
       
   if action == "send" :
      custname = var["payer_name"]
@@ -78,7 +80,7 @@ def billprint(action,var) :
      assert pdf != None
      bkey = BL.addNewBlob(cutil.PDFTEMPORARY,TEMPPDF,pdf)
      var["tempkey"] = bkey
-     var["download"] = cutil.PDFTEMPORARY + ":" + bkey + ":receipt.pdf"
+     var["download"] = cutil.PDFTEMPORARY + ":" + bkey + ":" + FILENAME
      
    if action == "showdetails" : 
      xml = cbill.getXMLForBill(var,var["pdfbillno"])

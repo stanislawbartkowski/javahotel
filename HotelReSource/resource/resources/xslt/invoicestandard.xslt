@@ -7,7 +7,7 @@
 
 	<xsl:output method="xml" encoding="UTF-8" />
 	
-        <xsl:import href="lang/var_en.xslt"/>
+    <xsl:import href="lang/var_en.xslt"/>
 
 
 	<xsl:template match="/root">

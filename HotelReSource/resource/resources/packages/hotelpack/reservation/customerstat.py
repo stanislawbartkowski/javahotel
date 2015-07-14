@@ -20,7 +20,7 @@ def _createReseLine(var,map,rname) :
     elif sta == 2: n = M("statusopen")
     else : n = M("statuscanceled")
     map["rstatus"] = n
-    (dfrom,dto,room,rate) = rutil.getReseDate(var,r)
+    (dfrom,dto,room,rate,nofnights) = rutil.getReseDate(var,r)
     
     map["rfrom"] = dfrom
     map["rto"] = con.incDays(dto)

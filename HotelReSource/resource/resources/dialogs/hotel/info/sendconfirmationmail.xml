@@ -8,8 +8,14 @@
 		<method>resemail.dialogaction({0},{1})</method>
 	</jython>
 
+        <actions>
+		<action id="addattach" displayname="@addattachment" />
+		<action id="removeattach" displayname="@removeattachment" />
+	</actions>
+
+
 	<buttons>
-		<button id="sendmail" displayname="@sendmail" actiontype="JYESNO_MESSAGE"
+		<button id="sendmail" displayname="@Send" actiontype="JYESNO_MESSAGE"
 			actionparam="@sendmailquestion" validate="" />
 		<button id="resign" displayname="@resign" actiontype="JCLOSE_DIALOG" />
 	</buttons>
@@ -23,12 +29,15 @@
 		<field id="xml" hidden="" />
 	</form>
 
-	<list id="atachlist" toolbartype="listonly">
+	<list id="attachlist">
+		<standbutt>FIND,FILTER,custom:addattach,custom:removeattach</standbutt>
+		<buttons-addlist>addnewattach,removeattachafter,sendmail</buttons-addlist>
+		<buttons-selected>removeattach</buttons-selected>
 		<columns>
-			<column id="blobid" hidden="" />
-			<column id="attachname" displayname="@filename" actionid="download" />
+			<column id="filename" displayname="@filename" actionid="showattach" />
+			<column id="realm" hidden="" />
+			<column id="key" hidden="" />
 		</columns>
 	</list>
-
 
 </dialog>

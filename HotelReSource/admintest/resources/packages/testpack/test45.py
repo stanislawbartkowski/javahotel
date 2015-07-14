@@ -4,6 +4,8 @@ from rrutil import cbill
 
 import datetime
 
+M = cutil.MESS()
+
 def _createX(var,rese_name,paymentmethod=None):
     print rese_name
     cu = cust.newCustomer(var)
@@ -93,5 +95,18 @@ def dialogaction(action,var):
             assert l["taxlevel"] == None
             assert l["taxvalue"] == None
         var["OK"] = True
+        
+    if action == "test5" :
+        s = M("shownote")
+        print s
+        assert "Show note" == s
+        s = M.C("shownote")
+        print s
+        assert "shownote" == s
+        s = M.C("@shownote")
+        print s
+        assert "Show note" == s
+        var["OK"] = True
+        
         
         

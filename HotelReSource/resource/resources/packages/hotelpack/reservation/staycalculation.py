@@ -42,7 +42,7 @@ def dialogaction(action,var) :
     seq = []
     st = _toS("servicesatday",ROZL)
     _addElem(seq,st,ROZL.sumcost,None)
-    if ROZL.sumcostafter != None: after = ROZL.sumcostafterAddVatLineC
+    if ROZL.sumcostafter != None: after = ROZL.sumcostafter
     else : after = 0
     _addElem(seq,_toS("servicesafter",ROZL),after,None)
         

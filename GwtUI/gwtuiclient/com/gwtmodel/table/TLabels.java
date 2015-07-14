@@ -196,5 +196,7 @@ public interface TLabels extends Constants,ConstantsWithLookup {
 	String UncheckAll();
 
 	String ExportTable();
+	
+	String DefaStringName();
 
 }

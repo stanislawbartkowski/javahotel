@@ -8,10 +8,6 @@
   <method>shownote.dialogaction({0},{1})</method>
 </jython>
 
- <actions>
-    <action id="download"  jsaction="JS.JSAMPLE.download" />
- </actions>  
-
  <form>
    <field id="n_resename" displayname="@reservation" readonly="" />
    <field id="n_subject" displayname="@subject" width="23em" readonly="" />

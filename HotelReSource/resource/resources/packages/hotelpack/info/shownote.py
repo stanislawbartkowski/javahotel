@@ -1,6 +1,5 @@
-import cutil
+import cutil,cmail,cdial
 from util import hmail
-import cmail
 
 ATALIST="listattach"
 
@@ -24,5 +23,9 @@ def dialogaction(action,var) :
     cutil.setJMapList(var,ATALIST,seq)  
     
     cutil.setCopy(var,["n_subject","n_to","n_from","n_content","n_resename"])
+    
+  if action == "download" : 
+    cdial.downloadObj(var,"",var["filename"],[var["realm"],var["key"]])
+
 
     

@@ -56,6 +56,7 @@ import com.jython.ui.server.gae.security.impl.ObjectInstanceImpl;
 import com.jython.ui.server.gaestoragekey.BlobStorage;
 import com.jython.ui.server.gaestoragekey.GaeStorageRegistry;
 import com.jythonui.server.IConsts;
+import com.jythonui.server.IConvertJythonTimestamp;
 import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IGetEnvDefaultData;
 import com.jythonui.server.IJythonRPCNotifier;
@@ -69,6 +70,7 @@ import com.jythonui.server.defa.JavaGetMailSessionProvider;
 import com.jythonui.server.defa.JavaMailSessionProvider;
 import com.jythonui.server.defa.StorageRealmRegistryFactory;
 import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.server.jython.GAEConvert;
 import com.jythonui.server.mail.INoteStorage;
 import com.jythonui.server.objectgensymimpl.CrudObjectGenSym;
 import com.jythonui.server.registry.IStorageRegistryFactory;
@@ -149,6 +151,8 @@ public class ServerService {
                     .in(Singleton.class);
             bind(IGetEnvDefaultData.class).to(EmptyGetEnvDefaultData.class).in(
                     Singleton.class);
+			bind(IConvertJythonTimestamp.class).to(GAEConvert.class).in(
+					Singleton.class);
             // --
             requestStaticInjection(TestHelper.class);
             requestStatic();

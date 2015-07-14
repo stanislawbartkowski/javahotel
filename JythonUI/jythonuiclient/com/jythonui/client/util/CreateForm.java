@@ -67,7 +67,7 @@ public class CreateForm {
 	private static String getDisplayName(FieldItem f) {
 		String name = f.getDisplayName();
 		if (name == null) {
-			name = M.J().DefaStringName();
+			name = MM.getL().DefaStringName();
 		}
 		return name;
 	}

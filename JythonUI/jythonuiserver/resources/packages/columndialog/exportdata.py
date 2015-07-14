@@ -35,7 +35,7 @@ def dialogaction(action,var) :
     dialname = var["JPAR_DIALOGNAME"]
     listname = var["JPAR_LISTNAME"]
     dFormat= miscutil.getDialogFormat(dialname)
-    displayname=dFormat.getDisplayName()
+    displayname=M.C(dFormat.getDisplayName())
     filename = FILENAME + "." + format
     if displayname == None or displayname=="" : displayname=M("downloaddefaultmessage")
     if action == "download" : cdial.downloadObj(var,displayname,filename,res)

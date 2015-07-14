@@ -54,4 +54,9 @@ public class Test45 extends TestHelper {
         scriptTest("dialog45.xml", "test4", v);        
     }
 
+    @Test
+    public void test5() {
+        scriptTest("dialog45.xml", "test5");        
+    }
+
 }

@@ -30,6 +30,11 @@ class MESS :
 
   def __call__(self,key) :
       return self.M.getCustomMess().getAttr(key)
+  
+  def C(self,key):
+      if key == None : return key
+      if key[0] == '@' : return self.M.getCustomMess().getAttr(key[1:])
+      return key
 
 def enableField(var,li,enable=True) :
     if type(li) != list : li = [li]

@@ -23,68 +23,68 @@ import com.jythonui.server.registry.IStorageRegistry;
 
 public class Test24 extends TestHelper {
 
-    private static final String RE1 = "Realm1";
-    private static final String RE2 = "Realm2";
+	private static final String RE1 = "Realm1";
+	private static final String RE2 = "Realm2";
 
-    private void beforeMyTest() {
-        iBlob.clearAll(RE1);
-        iBlob.clearAll(RE2);
-    }
+	private void beforeMyTest() {
+		iBlob.clearAll(RE1);
+		iBlob.clearAll(RE2);
+	}
 
-    @Test
-    public void test1() {
-        beforeMyTest();
+	@Test
+	public void test1() {
+		beforeMyTest();
 
-        IStorageRegistry reg = iReg.construct(RE1);
+		IStorageRegistry reg = iReg.construct(RE1, true, true);
 
-        String hello = "Hello";
-        reg.putEntry("hello", hello.getBytes());
+		String hello = "Hello";
+		reg.putEntry("hello", hello.getBytes());
 
-        StringBuffer b = new StringBuffer();
-        for (int i = 0; i < 1000; i++) {
-            b.append(i);
-        }
+		StringBuffer b = new StringBuffer();
+		for (int i = 0; i < 1000; i++) {
+			b.append(i);
+		}
 
-        iBlob.addBlob(RE1, "hello", b.toString().getBytes());
+		iBlob.addBlob(RE1, "hello", b.toString().getBytes());
 
-        byte[] bb = reg.getEntry("hello");
-        assertNotNull(bb);
-        String s = new String(bb);
-        System.out.println(s);
-        assertEquals("Hello", s);
+		byte[] bb = reg.getEntry("hello");
+		assertNotNull(bb);
+		String s = new String(bb);
+		System.out.println(s);
+		assertEquals("Hello", s);
 
-        bb = iBlob.findBlob(RE1, "hello");
-        assertNotNull(bb);
-        assertEquals(2890, bb.length);
+		bb = iBlob.findBlob(RE1, "hello");
+		assertNotNull(bb);
+		assertEquals(2890, bb.length);
 
-        GetCreateModifTime bTime = iBlob.getModifTime(RE1, "hello");
-        assertNotNull(bTime);
-        assertNotNull(bTime.getCreationDate());
-        assertNotNull(bTime.getModifDate());
+		GetCreateModifTime bTime = iBlob.getModifTime(RE1, "hello");
+		assertNotNull(bTime);
+		assertNotNull(bTime.getCreationDate());
+		assertNotNull(bTime.getModifDate());
 
-        iBlob.changeBlob(RE1, "hello", hello.getBytes());
-        bb = iBlob.findBlob(RE1, "hello");
-        assertNotNull(bb);
-        s = new String(bb);
-        System.out.println(s);
-        assertEquals("Hello", s);
+		iBlob.changeBlob(RE1, "hello", hello.getBytes());
+		bb = iBlob.findBlob(RE1, "hello");
+		assertNotNull(bb);
+		s = new String(bb);
+		System.out.println(s);
+		assertEquals("Hello", s);
 
-        iBlob.removeBlob(RE1, "hello");
-        bb = iBlob.findBlob(RE1, "hello");
-        assertNull(bb);
-    }
+		iBlob.removeBlob(RE1, "hello");
+		bb = iBlob.findBlob(RE1, "hello");
+		assertNull(bb);
+	}
 
-    @Test
-    public void test2() {
-        String val = "Hello";
-        String key = iAddBlob.addNewBlob("TEMPORARY", "PDF", val.getBytes());
-        System.out.println(key);
-        assertNotNull(key);
-        byte[] bb = iBlob.findBlob("TEMPORARY", key);
-        assertNotNull(bb);
-        String hello1 = new String(bb);
-        System.out.println(hello1);
-        assertEquals(val, hello1);
-    }
+	@Test
+	public void test2() {
+		String val = "Hello";
+		String key = iAddBlob.addNewBlob("TEMPORARY", "PDF", val.getBytes());
+		System.out.println(key);
+		assertNotNull(key);
+		byte[] bb = iBlob.findBlob("TEMPORARY", key);
+		assertNotNull(bb);
+		String hello1 = new String(bb);
+		System.out.println(hello1);
+		assertEquals(val, hello1);
+	}
 
 }

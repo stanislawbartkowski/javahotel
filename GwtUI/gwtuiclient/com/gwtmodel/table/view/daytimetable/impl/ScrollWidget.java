@@ -95,7 +95,7 @@ public class ScrollWidget implements IScrollSeason {
 
         @Override
         public int getLastD() {
-            return panelDay.pSize - 1;
+            return panelDay.getpSize() - 1;
         }
 
     }
@@ -140,7 +140,7 @@ public class ScrollWidget implements IScrollSeason {
     }
 
     private void setCurrentDate() {
-        dDate.setValObj(DatePanelUtil.getPanelDay(panelDay, panelDay.curD));
+        dDate.setValObj(DatePanelUtil.getPanelDay(panelDay, panelDay.getcurD()));
     }
 
     private void setYear() {
@@ -158,17 +158,17 @@ public class ScrollWidget implements IScrollSeason {
     public void redraw(Date dCur) {
         // Warning: curPos or -1
         panelDay = DatePanelUtil.createLDays(firstDay, lastDay, dCur,
-                panelDay.pSize, -1);
+                panelDay.getpSize(), -1);
         setCurrentDate();
         dPart.refresh(new DrawContext());
         setYear();
         // check if month in the month panel
-        for (int i = 0; i < panelMonth.pSize; i++)
+        for (int i = 0; i < panelMonth.getpSize(); i++)
             if (DatePanelUtil.eqMonth(panelMonth.getMonthI(i),
                     panelDay.getCurDay()))
                 return;
         panelMonth = DatePanelUtil.createLMonth(firstDay, lastDay,
-                panelDay.getCurDay(), panelMonth.pSize);
+                panelDay.getCurDay(), panelMonth.getpSize());
         for (int i = 0; i < mPanel.getWidgetCount(); i++) {
             Button b = (Button) mPanel.getWidget(i);
             b.setText(getMonthName(i));
@@ -223,7 +223,7 @@ public class ScrollWidget implements IScrollSeason {
         this.curPos = curPos;
         panelMonth = DatePanelUtil.createLMonth(firstData, lastDate, todayC,
                 IConsts.MonthPanel);
-        for (int i = 0; i < panelMonth.pSize; i++) {
+        for (int i = 0; i < panelMonth.getpSize(); i++) {
             Button l = new Button(getMonthName(i), new MonthButton(i));
             l.setStyleName("month-style");
             IGFocusWidget w = GFocusWidgetFactory.construct(l, MM.getL()

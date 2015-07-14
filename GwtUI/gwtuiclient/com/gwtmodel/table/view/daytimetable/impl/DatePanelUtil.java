@@ -21,152 +21,190 @@ import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 
 class DatePanelUtil {
 
-    private DatePanelUtil() {
-    }
+	private DatePanelUtil() {
+	}
 
-    static class PanelDesc {
-        Date firstD;
-        int pSize;
-        int curD;
+	static class PanelDesc {
+		private Date vfirstD;
+		private int vpSize;
+		private int vcurD;
 
-        Date getCurDay() {
-            return getPanelDay(this, curD);
-        }
+		Date getfirstD() {
+			return vfirstD;
+		}
 
-        Date getMonthI(int i) {
-            return getPanelMonth(this, i);
-        }
+		void setfirstD(Date vfirstD) {
+			this.vfirstD = vfirstD;
+		}
 
-    }
+		int getpSize() {
+			return vpSize;
+		}
 
-    private interface IOperDate {
-        Date nextD(Date d);
+		void setpSize(int vpSize) {
+			this.vpSize = vpSize;
+		}
 
-        Date prevD(Date d);
+		int getcurD() {
+			return vcurD;
+		}
 
-        boolean eqD(Date d1, Date d2);
-    }
+		void setcurD(int vcurD) {
+			this.vcurD = vcurD;
+		}
 
-    static private PanelDesc constructPeriod(Date firstD, Date lastD,
-            final Date currD, int bSize, IOperDate o, int curPos) {
+		Date getCurDay() {
+			return getPanelDay(this, vcurD);
+		}
 
-        PanelDesc pa = new PanelDesc();
-        int middleD = bSize / 2;
-        if (curPos != -1) {
-            float f = (float) bSize * ((float) curPos / (float) 100);
-            middleD = (int) f;
-        }
+		Date getMonthI(int i) {
+			return getPanelMonth(this, i);
+		}
 
-        int no = middleD;
-        Date cursD = new Date(currD.getTime());
-        while (no > 0) {
-            if (o.eqD(cursD, firstD)) {
-                no = 0;
-            }
-            cursD = o.prevD(cursD);
-            no--;
-        }
-        pa.firstD = new Date(cursD.getTime());
-        while (no < bSize) {
-            if (o.eqD(cursD, currD))
-                pa.curD = no;
-            if (o.eqD(cursD, lastD))
-                break;
-            no++;
-            cursD = o.nextD(cursD);
-        }
-        pa.pSize = no;
-        return pa;
-    }
+	}
 
-    private static class MonthO implements IOperDate {
+	private interface IOperDate {
+		Date nextD(Date d);
 
-        @Override
-        public Date nextD(final Date d) {
-            Date da = new Date(d.getTime());
-            da.setDate(1);
-            da = DateUtil.NextDayD(da);
-            while (DateFormatUtil.getD(da) != 1)
-                da = DateUtil.NextDayD(da);
-            return da;
-        }
+		Date prevD(Date d);
 
-        @Override
-        public Date prevD(Date d) {
-            Date da = new Date(d.getTime());
-            da.setDate(1);
-            da = DateUtil.PrevDayD(da);
-            while (DateFormatUtil.getD(da) != 1)
-                da = DateUtil.PrevDayD(da);
-            return da;
-        }
+		boolean eqD(Date d1, Date d2);
 
-        @Override
-        public boolean eqD(Date d1, Date d2) {
-            if (DateFormatUtil.getY(d1) != DateFormatUtil.getY(d2))
-                return false;
-            if (DateFormatUtil.getM(d1) != DateFormatUtil.getM(d2))
-                return false;
-            return true;
-        }
-    }
+		Date getBeg(Date d);
+	}
 
-    private static class DayO implements IOperDate {
+	static private PanelDesc constructPeriod(Date firstD, Date lastD, final Date currD, int bSize, IOperDate o,
+			int curPos) {
 
-        @Override
-        public Date nextD(Date d) {
-            return DateUtil.NextDayD(d);
-        }
+		PanelDesc pa = new PanelDesc();
+		int middleD = bSize / 2;
+		if (curPos != -1) {
+			float f = (float) bSize * ((float) curPos / (float) 100);
+			middleD = (int) f;
+		}
 
-        @Override
-        public Date prevD(Date d) {
-            return DateUtil.PrevDayD(d);
-        }
+		int no = middleD;
+		Date cursD = new Date(currD.getTime());
+		while (no > 0) {
+			if (o.eqD(cursD, firstD)) {
+				no = 0;
+			}
+			cursD = o.prevD(cursD);
+			no--;
+		}
+		pa.setfirstD(new Date(cursD.getTime()));
+		while (no < bSize) {
+			if (o.eqD(cursD, currD))
+				pa.setcurD(no);
+			if (o.eqD(cursD, lastD))
+				break;
+			no++;
+			cursD = o.nextD(cursD);
+		}
+		pa.setpSize(no);
+		return pa;
+	}
 
-        @Override
-        public boolean eqD(Date d1, Date d2) {
-            return DateUtil.eqDate(d1, d2);
-        }
+	private static class MonthO implements IOperDate {
 
-    }
+		@Override
+		public Date nextD(final Date d) {
+			Date da = new Date(d.getTime());
+			da.setDate(1);
+			da = DateUtil.NextDayD(da);
+			while (DateFormatUtil.getD(da) != 1)
+				da = DateUtil.NextDayD(da);
+			return da;
+		}
 
-    static PanelDesc createLMonth(Date firstD, Date lastD, Date currD, int noM) {
-        return constructPeriod(firstD, lastD, currD, noM, new MonthO(), -1);
-    }
+		@Override
+		public Date prevD(Date d) {
+			Date da = new Date(d.getTime());
+			da.setDate(1);
+			da = DateUtil.PrevDayD(da);
+			while (DateFormatUtil.getD(da) != 1)
+				da = DateUtil.PrevDayD(da);
+			return da;
+		}
 
-    static PanelDesc createLDays(Date firstD, Date lastD, Date currD, int noM,
-            int curPos) {
-        return constructPeriod(firstD, lastD, currD, noM, new DayO(), curPos);
-    }
+		@Override
+		public boolean eqD(Date d1, Date d2) {
+			if (DateFormatUtil.getY(d1) != DateFormatUtil.getY(d2))
+				return false;
+			if (DateFormatUtil.getM(d1) != DateFormatUtil.getM(d2))
+				return false;
+			return true;
+		}
 
-    private static Date getPanelDate(PanelDesc pa, int no, IOperDate o) {
-        Date da = new Date(pa.firstD.getTime());
-        while (no > 0) {
-            da = o.nextD(da);
-            no--;
-        }
-        return da;
-    }
+		@Override
+		public Date getBeg(Date d) {
+			int y = DateFormatUtil.getY(d);
+			int dt = DateFormatUtil.getD(d);
+			return DateFormatUtil.toD(y, 1, dt);
+		}
+	}
 
-    static Date getPanelMonth(PanelDesc pa, int no) {
-        return getPanelDate(pa, no, new MonthO());
-    }
+	private static class DayO implements IOperDate {
 
-    static Date getPanelDay(PanelDesc pa, int no) {
-        return getPanelDate(pa, no, new DayO());
-    }
+		@Override
+		public Date nextD(Date d) {
+			return DateUtil.NextDayD(d);
+		}
 
-    static List<Integer> getListOfYears(Date firstD, Date lastD) {
-        List<Integer> yList = new ArrayList<Integer>();
-        int y1 = DateFormatUtil.getY(firstD);
-        int y2 = DateFormatUtil.getY(lastD);
-        for (int i = y1; i <= y2; i++)
-            yList.add(i);
-        return yList;
-    }
+		@Override
+		public Date prevD(Date d) {
+			return DateUtil.PrevDayD(d);
+		}
 
-    static boolean eqMonth(Date d1, Date d2) {
-        return new MonthO().eqD(d1, d2);
-    }
+		@Override
+		public boolean eqD(Date d1, Date d2) {
+			return DateUtil.eqDate(d1, d2);
+		}
+
+		@Override
+		public Date getBeg(Date d) {
+			return new Date(d.getTime());
+		}
+
+	}
+
+	static PanelDesc createLMonth(Date firstD, Date lastD, Date currD, int noM) {
+		return constructPeriod(firstD, lastD, currD, noM, new MonthO(), -1);
+	}
+
+	static PanelDesc createLDays(Date firstD, Date lastD, Date currD, int noM, int curPos) {
+		return constructPeriod(firstD, lastD, currD, noM, new DayO(), curPos);
+	}
+
+	private static Date getPanelDate(PanelDesc pa, int no, IOperDate o) {
+		// Date da = new Date(pa.getfirstD().getTime());
+		Date da = o.getBeg(pa.getfirstD());
+		while (no > 0) {
+			da = o.nextD(da);
+			no--;
+		}
+		return da;
+	}
+
+	static Date getPanelMonth(PanelDesc pa, int no) {
+		return getPanelDate(pa, no, new MonthO());
+	}
+
+	static Date getPanelDay(PanelDesc pa, int no) {
+		return getPanelDate(pa, no, new DayO());
+	}
+
+	static List<Integer> getListOfYears(Date firstD, Date lastD) {
+		List<Integer> yList = new ArrayList<Integer>();
+		int y1 = DateFormatUtil.getY(firstD);
+		int y2 = DateFormatUtil.getY(lastD);
+		for (int i = y1; i <= y2; i++)
+			yList.add(i);
+		return yList;
+	}
+
+	static boolean eqMonth(Date d1, Date d2) {
+		return new MonthO().eqD(d1, d2);
+	}
 
 }

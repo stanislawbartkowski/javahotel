@@ -1,9 +1,9 @@
-import cutil,con,pdfutil,xmlutil,cmail
+import cutil,con,pdfutil,xmlutil,cmail,cmailaction
 
 from util import util,rpdf,rutil,hmail,diallaunch
 
 M = util.MESS()
-ALIST="atachlist"
+ALIST=cmailaction.ALIST
 
 def _getCust(var,ma) :
     cust = None
@@ -42,13 +42,14 @@ def dialogaction(action,var) :
     if alist != None :
       for l in alist : 
 	 (realm,key,filename) = cutil.splitsubmitres(l["blobid"])
-	 seq.append({"attachname" : filename, "blobid" : l["blobid"] })
-    cutil.setJMapList(var,ALIST,seq)	 
+	 seq.append({"filename" : filename, "realm" : realm, "key" : key })
+    cutil.setJMapList(var,ALIST,seq)
+    return
     
   if action == "sendmail" and var["JYESANSWER"] :
     H = hmail.HotelMail(var)
     xml = var["xml"]
-    (ma,alist) = xmlutil.toMap(xml)
+    (ma,templ) = xmlutil.toMap(xml)
     rese = ma["resename"]
     (C,rform) = _getCust(var,ma)
     custname = C.getName()
@@ -61,9 +62,9 @@ def dialogaction(action,var) :
     C.setAttr("email",to)
     util.CUSTOMERLIST(var).changeElem(C)
     attachL = None
-    for l in alist : 
-	   (realm,key,filename) = cutil.splitsubmitres(l["blobid"])
-	   attachL = cmail.createAttachList(attachL,realm,key,filename)   
+    li = var["JLIST_MAP"][ALIST]
+    attachL = None
+    for l in li : attachL = cmail.createAttachList(attachL,l["realm"],l["key"],l["filename"])	 
     hh = H.sendMail(mtype,rese,custname,subject,content,to,fromc,attachL)
     ressend = H.getCMail(hh.getName()).getSendResult()
     if ressend == None : 
@@ -73,7 +74,11 @@ def dialogaction(action,var) :
        var["JERROR_MESSAGE"] = ressend
        var["JMESSAGE_TITLE"] = "@errormailsent"
        
-  if action == "download" :
+  if action == "sendmail" : return
+
+  cmailaction.mailattachaction(action,var)
+           
+  if action == "ccccccccccccdownload" :
     diallaunch.pdfdownload(var,var["blobid"])
       
     

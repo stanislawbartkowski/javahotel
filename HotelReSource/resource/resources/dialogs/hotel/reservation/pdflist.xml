@@ -10,7 +10,7 @@
         
         <actions>
           <action id="edit" displayname="@edit" />
-          <action id="send" displayname="Send mail" />
+          <action id="send" displayname="@sendmail" />
         </actions>          
 
         <form>
