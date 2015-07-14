@@ -10,8 +10,7 @@ User : http://testjavahotel.appspot.com/?hotel=hotel (U/P user/user)
 Blog: http://hoteljavaopensource.blogspot.com/
 
 ---
-# 2015/07/14 : new verion deployed #
-
+2015/07/14 : new version deployed
 Nothing specific to JavaHotel, some goodies related the latest version of MVP Jython framework
 ---
 
