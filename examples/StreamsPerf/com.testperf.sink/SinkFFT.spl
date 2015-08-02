@@ -1,0 +1,13 @@
+namespace com.testperf.sink ;
+
+public composite SinkFFT(input In0 )
+{
+	graph
+		() as Custom_1 = Custom(In0)
+		{
+			logic
+				onTuple In0 : println(In0) ;
+		}
+
+}
+

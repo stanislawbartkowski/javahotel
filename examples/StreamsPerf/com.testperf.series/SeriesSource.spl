@@ -1,0 +1,12 @@
+namespace com.testperf.series ;
+
+public composite SeriesSource(output Out0 )
+{
+	graph
+		(stream<float64 num> Out0) as Beacon_1 = Beacon()
+		{
+		  output Out0 : num = random()*1000.0;
+		}
+
+}
+
