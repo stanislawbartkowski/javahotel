@@ -1,0 +1,41 @@
+namespace application ;
+
+use com.testperf.series::SeriesSource ;
+use com.testperf.fft::FFTPerform ;
+use com.testperf.sink::SinkFFT ;
+
+composite Main
+{
+	graph
+		(stream<float64 num> SeriesSource_1_out0) as SeriesSource_1 = SeriesSource()
+		{
+		}
+
+		//		() as Custom_2 = Custom(SeriesSource_1_out0 as S)
+		//		{
+		//			logic
+		//				onTuple S : println(S) ;
+
+		//		}
+		(stream<list<float64> l> FFTPerform_3_out0) as FFTPerform_3 =
+			FFTPerform(SeriesSource_1_out0)
+		{
+			config
+				placement : partitionColocation("CC") ;
+		}
+
+		() as SinkFFT_5 = SinkFFT(FFTPerform_3_out0, FFTPerform_6_out0)
+		{
+		}
+
+		(stream<list<float64> l> FFTPerform_6_out0) as FFTPerform_6 =
+			FFTPerform(SeriesSource_1_out0)
+		{
+			config
+				placement : partitionColocation("BB") ;
+		}
+
+	config
+		placement : partitionColocation("AB") ;
+}
+
