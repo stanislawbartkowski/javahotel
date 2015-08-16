@@ -13,9 +13,9 @@ GCC=gcc
 all: $(PROCDEMO)
 
 main.o : ../main.c ../utillib.h
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c ../main.c
+	$(GCC) $(CPPFLAGS) $(CFLAGS) -c ../main.c
 
-$(PROCDEMO) : main.o utillib.o calculate.o callproc.o rwblob.o
+$(PROCDEMO) : main.o utillib.o calculate.o callproc.o rwblob.o callstruct.o
 
 .pc.c :
 	$(PROC) $* SQLCHECK=SEMANTICS userid="test/test@mytest"

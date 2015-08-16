@@ -69,4 +69,38 @@ int writeBlob(char *filename);
 
 int readBlob(char *filename);
 
+/* 
+ * used to read and write data to personal_data table
+ * 
+*/
+
+#define DATABODY int id;  \
+  char name[100]; \
+} ; 
+
+
+struct personal_data_struct { 
+  DATABODY
+
+
+typedef struct personal_data_struct personal_data;
+
+
+/*
+ * Adds data to personal_data table
+ * @return 0 if error, 1 if ok 
+*/
+
+int addPersonalData(personal_data data);
+
+/*
+ * Calculates some data from 
+ * @par all : number of all rows
+ * @par nullno : number of rows having null in name column
+ * @return 0 if error, 1 if ok 
+*/
+
+
+int calculatePersonalStat(int *all, int *nullno);
+
 #endif

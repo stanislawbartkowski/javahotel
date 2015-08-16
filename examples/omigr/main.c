@@ -14,9 +14,13 @@
     limitations under the License.
 */
 
+#include "stdlib.h"
+#include "stdio.h"
+
 #include "utillib.h"
 
-void main() {
+
+int main() {
   
   
   ConnectTo();
@@ -32,7 +36,7 @@ void main() {
     else {
        printf("Something wrong with sum\n");
        Disconnect();
-       exit(1);
+       return 1;
     }
   }  
   
@@ -42,7 +46,7 @@ void main() {
       else {
        printf("Something wrong with CallProc\n");
        Disconnect();
-       exit(1);
+       return 1;
     }
   }  
   
@@ -53,7 +57,7 @@ void main() {
       else {
 	printf("Something wrong with CallFunc\n");
 	Disconnect();
-	exit(1);
+	return 1;
       }
   }
 
@@ -64,7 +68,7 @@ void main() {
      else  {
         printf("Something wrong with writing blob \n");
 	Disconnect();
-	exit(1);
+	return 1;
      }
   }
   
@@ -75,12 +79,39 @@ void main() {
      else  {
         printf("Something wrong with reading blob \n");
 	Disconnect();
-	exit(1);
+	return 1;
      }
           
   }
   
+  { 
+      struct personal_data_struct data;
+      
+      data.id = 10;
+      strcpy(data.name,"James Bond");
+      if (addPersonalData(data)) printf("%s added\n",data.name);
+      else {
+        printf("Something wrong with adding personal data \n");
+	Disconnect();
+	return 1;
+     }
+  }
   
+  {
+    int all,nullno;
+    
+    if (calculatePersonalStat(&all, &nullno)) printf("All : %u, null: %u\n",all,nullno);
+    else {
+        printf("Something wrong with calculate stat \n");
+	Disconnect();
+	return 1;        
+    }
+
+  }
+	 
+      
+   
   Disconnect();
   printf("\n");
+  return 0;
 }

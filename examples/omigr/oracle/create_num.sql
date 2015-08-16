@@ -8,3 +8,6 @@ insert into numhistory values(1.55,10);
 insert into numhistory values(1.66,10);
 
 create table blobtable (id number(12), filename varchar2(100), fileb blob);
+
+
+create table personal_data (id integer, name varchar(100));
