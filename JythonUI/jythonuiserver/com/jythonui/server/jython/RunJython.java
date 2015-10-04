@@ -93,10 +93,18 @@ public class RunJython extends UtilHelper implements IExecuteJython {
 	private final static String AATempVariable = "AA";
 
 	/** Constant Jython string. */
+/*	
 	private static final PyObject JLISTMAP = toString(ICommonConsts.JLISTMAP);
 	private static final PyObject JCHECKMAP = toString(ICommonConsts.JCHECKLISTMAP);
 	private static final PyObject JDATELINEMAP = toString(ICommonConsts.JDATELINEMAP);
 	private static final PyObject JCHARTMAP = toString(ICommonConsts.JCHARTMAP);
+*/
+	
+	// important : cannot make any Jython call before initialing intepreter
+	private PyObject JLISTMAP;
+	private PyObject JCHECKMAP;
+	private PyObject JDATELINEMAP;
+	private PyObject JCHARTMAP;
 
 	private final IJythonUIServerProperties p;
 	private final IGetLogMess logMess;
@@ -112,6 +120,8 @@ public class RunJython extends UtilHelper implements IExecuteJython {
 		this.iConvert = iConvert;
 		this.iSugg = iSugg;
 		this.iRem = iRem;
+//		PyType TYPE = PyString.TYPE;
+//		PyType TYPE1 = PyBaseString.TYPE;
 	}
 
 	private Map<PyObject, PyObject> toPythonMap(MapDialogVariable v) {
@@ -787,6 +797,13 @@ public class RunJython extends UtilHelper implements IExecuteJython {
 			interp = new PythonInterpreter(null, new PySystemState());
 			interp.cleanup();
 		}
+
+		// initialize after interpreter is started
+		JLISTMAP = toString(ICommonConsts.JLISTMAP);
+		JCHECKMAP = toString(ICommonConsts.JCHECKLISTMAP);
+		JDATELINEMAP = toString(ICommonConsts.JDATELINEMAP);
+		JCHARTMAP = toString(ICommonConsts.JCHARTMAP);
+
 
 		// check sys.path
 		// String[] packageList = p.getJythonPackageDirectory().split(",");

@@ -348,10 +348,10 @@ class RegistryFile:
     def __tostr(self,da):
          return da.strftime("%Y-%m-%d")
      
-    def __tod(self,s):
-             ti = time.strptime(s,"%Y-%m-%d")
-             da = datetime.date(ti.tm_year,ti.tm_mon,ti.tm_mday)
-             return da
+    def __tod(self,s):      
+        ti = time.strptime(s,"%Y-%m-%d")
+        da = datetime.date(ti.tm_year,ti.tm_mon,ti.tm_mday)
+        return da
          
     def getMapRR(self,k):
         RR = self.__getRR(k)
