@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+<displayname>Focus dialog</displayname>
+
+ <jython>
+   <import>from testpack import focusdialog</import>
+   <method>focusdialog.dialogaction({0},{1})</method>
+ </jython>  
+
+<buttons>
+  <button id="fo1" displayname="Focus Text 1"/>
+  <button id="fo2" displayname="Focus Text 2"/>
+  <button id="fo3" displayname="Focus Integer"/>
+  <button id="fo4" displayname="Focus Number"/>
+  <button id="fo5" displayname="Focus Check"/>
+</buttons>
+
+<form>
+   <field id="focus" displayname="Text 1" />
+   <field id="focus1" displayname="Text 2" signalchange=""/>
+   <field id="focus3" displayname="Integer" type="long" />
+   <field id="focus4" displayname="Number" type="decimal" />
+   <field id="focus5" displayname="check" type="bool" />
+</form>
+ 
+ 
+</dialog>
