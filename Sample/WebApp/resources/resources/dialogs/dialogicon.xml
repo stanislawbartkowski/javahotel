@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <dialog xmlns="http://www.jythongwt.dialogxsd.com">
 
-        <jscode>/js/image.js</jscode>
+        <jscode>js/image.js</jscode>
         
         <before />
 

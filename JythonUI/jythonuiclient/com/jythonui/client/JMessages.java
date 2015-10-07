@@ -60,8 +60,7 @@ public interface JMessages extends Messages {
 
 	String NoValuesRelatedTo(String dialogId, String datelineId);
 
-	String NoFormRelatedToValue(String dialogId, String datelineId,
-			String formId);
+	String NoFormRelatedToValue(String dialogId, String datelineId, String formId);
 
 	String FooterSetValueShouldBeBoolean(String dialId, String varName);
 
@@ -79,8 +78,7 @@ public interface JMessages extends Messages {
 
 	String SetCookieValueShoulbBool(String cName);
 
-	String OnlyStringColumnImage(String id, String type, String typeS,
-			String ima);
+	String OnlyStringColumnImage(String id, String type, String typeS, String ima);
 
 	String CustomTypeIsNull(String customType);
 
@@ -107,5 +105,9 @@ public interface JMessages extends Messages {
 	String CookieNameStore(String cId, String dName, String listName, String id);
 
 	String InvalidFieldType(String field, String aType, String expectedType);
+
+	String ListOfImagesCannotBeEmpty(String field, String paramImages);
+
+	String ListOfImagesDoNotComply(String field, String paramImages, String list, int no);
 
 }

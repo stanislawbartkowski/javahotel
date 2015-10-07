@@ -59,6 +59,7 @@ public interface IUIConsts {
 	String CRUD_SHOW = "crud_show";
 	String CRUD_READLIST = "crud_readlist";
 	String ENABLE = "enable";
+	String FOCUS = "focus";
 
 	String JLIST_READCHUNK = "readchunk";
 	String JLIST_READCHUNKSTART = "JLIST_FROM";
@@ -97,7 +98,7 @@ public interface IUIConsts {
 	int PANELMENUDEFAH = 10;
 	String PANELMENUNAME = "Down";
 
-	String UIVersion = "UI : 2015/07/14 (r:13)";
+	String UIVersion = "UI : 2015/10/07 (r:14)";
 
 	String JBUTTONDIALOGSTART = "JUPDIALOG_START";
 	String JBUTTONDIALOGSTART1 = "JUPDIALOG_STARTPAR";

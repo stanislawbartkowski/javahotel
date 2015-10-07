@@ -60,8 +60,8 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
 		return v;
 	}
 
-	private AbstractField(IGetCustomValues cValues, final IVField v,
-			boolean checkenable, String htmlName, List<ITouchListener> iTouch) {
+	private AbstractField(IGetCustomValues cValues, final IVField v, boolean checkenable, String htmlName,
+			List<ITouchListener> iTouch) {
 		assert v != null : LogT.getT().cannotBeNull();
 		this.cValues = cValues;
 		if (iTouch != null)
@@ -86,8 +86,7 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
 		}
 	}
 
-	AbstractField(IGetCustomValues cValues, final IVField v,
-			boolean checkenable, String htmlName) {
+	AbstractField(IGetCustomValues cValues, final IVField v, boolean checkenable, String htmlName) {
 		this(cValues, v, checkenable, htmlName, null);
 		assert v != null : LogT.getT().cannotBeNull();
 	}
@@ -228,11 +227,10 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
 	public void setCellTitle(String title) {
 		this.cellTitle = title;
 	}
-	
+
 	@Override
 	public void setSuggestList(List<String> list) {
-		
-	}
 
+	}
 
 }

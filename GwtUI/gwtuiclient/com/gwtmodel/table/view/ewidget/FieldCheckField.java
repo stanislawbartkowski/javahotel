@@ -85,4 +85,10 @@ class FieldCheckField extends AbstractField {
         ch.addValueChangeHandler(new BChange(l));
     }
 
+	@Override
+	public void setFocus(boolean focus) {
+		ch.setFocus(focus);
+		
+	}
+
 }

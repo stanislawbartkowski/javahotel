@@ -1,3 +1,5 @@
+import locale
+
 import cutil
 
 def dialogaction(action,var):

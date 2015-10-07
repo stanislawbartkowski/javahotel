@@ -84,4 +84,10 @@ class SuggestWidget extends AbstractField {
 			oracle.add(s);
 	}
 
+	@Override
+	public void setFocus(boolean focus) {
+		box.setFocus(focus);
+
+	}
+
 }

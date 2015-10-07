@@ -101,6 +101,7 @@ import com.jythonui.client.util.CreateForm.IGetEnum;
 import com.jythonui.client.util.CreateForm.ISelectFactory;
 import com.jythonui.client.util.CreateSearchVar;
 import com.jythonui.client.util.ExecuteAction;
+import com.jythonui.client.util.GetImageList;
 import com.jythonui.client.util.JUtils;
 import com.jythonui.client.util.ListOfButt;
 import com.jythonui.client.util.PerformVariableAction;
@@ -155,16 +156,14 @@ class ListControler {
 		return tName;
 	}
 
-	private static SolidPos constructSolidPos(RowListDataManager rM,
-			IDataType da) {
+	private static SolidPos constructSolidPos(RowListDataManager rM, IDataType da) {
 		ListFormat fo = rM.getFormat(da);
 		if (fo.getfElem() == null)
 			return null;
 		return JUtils.constructSolidPos(fo.getfElem());
 	}
 
-	private static class DataListPersistAction extends AbstractSlotContainer
-			implements IDataPersistListAction {
+	private static class DataListPersistAction extends AbstractSlotContainer implements IDataPersistListAction {
 
 		private final RowListDataManager rM;
 		private final IVariablesContainer iCon;
@@ -200,14 +199,12 @@ class ListControler {
 			for (IGetFooter i : fList) {
 				vFooter.setF(VField.construct(i.getFie()), i.getV().getValue());
 			}
-			getSlContainer().publish(dType, DataActionEnum.DrawFooterAction,
-					vFooter);
+			getSlContainer().publish(dType, DataActionEnum.DrawFooterAction, vFooter);
 		}
 
 		private void changeToEdit(VisitList.EditListMode eMode) {
 			SlotType sl = EditRowsSignal.constructEditRowSignal(dType);
-			EditRowsSignal sig = new EditRowsSignal(
-					ChangeEditableRowsParam.ALLROWS, true, eMode.getMode(),
+			EditRowsSignal sig = new EditRowsSignal(ChangeEditableRowsParam.ALLROWS, true, eMode.getMode(),
 					eMode.geteList());
 			getSlContainer().publish(sl, sig);
 		}
@@ -221,18 +218,14 @@ class ListControler {
 				ICustomObject i = slContext.getCustom();
 				RowActionOk r = (RowActionOk) i;
 				assert lastPersistAction != null : LogT.getT().cannotBeNull();
-				if (lastPersistAction == PersistTypeEnum.ADD
-						|| lastPersistAction == PersistTypeEnum.ADDBEFORE) {
-					CustomStringSlot sl = DataIntegerVDataSignal
-							.constructSlotAddRowSignal(dType);
-					DataIntegerVDataSignal sig = new DataIntegerVDataSignal(
-							getLastRow(), r.getValue(),
+				if (lastPersistAction == PersistTypeEnum.ADD || lastPersistAction == PersistTypeEnum.ADDBEFORE) {
+					CustomStringSlot sl = DataIntegerVDataSignal.constructSlotAddRowSignal(dType);
+					DataIntegerVDataSignal sig = new DataIntegerVDataSignal(getLastRow(), r.getValue(),
 							lastPersistAction == PersistTypeEnum.ADD);
 					getSlContainer().publish(sl, sig);
 				}
 				if (lastPersistAction == PersistTypeEnum.REMOVE) {
-					CustomStringSlot sl = DataIntegerVDataSignal
-							.constructSlotRemoveVSignal(dType);
+					CustomStringSlot sl = DataIntegerVDataSignal.constructSlotRemoveVSignal(dType);
 					DataIntegerSignal sig = new DataIntegerSignal(getLastRow());
 					getSlContainer().publish(sl, sig);
 
@@ -283,19 +276,15 @@ class ListControler {
 			IVModelData vData;
 			if (lastF != null)
 				// set by FinishRowEdit, only for that purpose
-				vData = SlU.getVDataByI(dType, DataListPersistAction.this,
-						lastF.getValue().getChoosedLine());
+				vData = SlU.getVDataByI(dType, DataListPersistAction.this, lastF.getValue().getChoosedLine());
 			else if (lastC != null)
-				vData = SlU.getVDataByI(dType, DataListPersistAction.this,
-						lastC.getValue());
+				vData = SlU.getVDataByI(dType, DataListPersistAction.this, lastC.getValue());
 			else if (lastI != null) {
-				vData = SlU.getVDataByI(dType, DataListPersistAction.this,
-						lastI.intValue());
+				vData = SlU.getVDataByI(dType, DataListPersistAction.this, lastI.intValue());
 				// 2014/10/02 : do not null here
 				// lastI = null;
 			} else
-				vData = getSlContainer().getGetterIVModelData(dType,
-						GetActionEnum.GetListLineChecked);
+				vData = getSlContainer().getGetterIVModelData(dType, GetActionEnum.GetListLineChecked);
 
 			return vData;
 		}
@@ -328,26 +317,21 @@ class ListControler {
 				var.setValue(rM.getLId(dType) + ICommonConsts.LINESET, val);
 				JUtils.setVariables(var, vData);
 
-				var.setValueL(ICommonConsts.JEDITLISTROWNO + fo.getId(),
-						getLastRow());
-				var.setValueS(
-						ICommonConsts.JEDITLISTACTION + fo.getId(),
-						lastPersistAction == null ? null : lastPersistAction
-								.toString());
+				var.setValueL(ICommonConsts.JEDITLISTROWNO + fo.getId(), getLastRow());
+				var.setValueS(ICommonConsts.JEDITLISTACTION + fo.getId(),
+						lastPersistAction == null ? null : lastPersistAction.toString());
 				// set footer value
 				for (FieldItem co : fo.getColumns()) {
 					if (!co.isFooter())
 						continue;
-					String footervar = ICommonConsts.JFOOTER + fo.getId() + "_"
-							+ co.getId();
+					String footervar = ICommonConsts.JFOOTER + fo.getId() + "_" + co.getId();
 					FieldValue footerval = new FieldValue();
 					Object fval = null;
 					VField fie = VField.construct(co);
 					if (vFooter != null) {
 						fval = vFooter.getF(fie);
 					}
-					footerval.setValue(co.getFooterType(), fval,
-							co.getFooterAfterDot());
+					footerval.setValue(co.getFooterType(), fval, co.getFooterAfterDot());
 					var.setValue(footervar, footerval);
 				}
 				// list of values
@@ -356,8 +340,7 @@ class ListControler {
 					String vList[] = lList.split(",");
 					for (String s : vList)
 						if (s.equals(buttonId))
-							JUtils.prepareListOfRows(var, dType,
-									DataListPersistAction.this, fo.getId(),
+							JUtils.prepareListOfRows(var, dType, DataListPersistAction.this, fo.getId(),
 									fo.getColumns());
 				}
 
@@ -382,15 +365,12 @@ class ListControler {
 				}
 				if (fo.isChunked()) {
 					int size = lOfRows.getSize();
-					CustomStringSlot slot = DataIntegerSignal
-							.constructSlotSetTableSize(dType);
+					CustomStringSlot slot = DataIntegerSignal.constructSlotSetTableSize(dType);
 					DataIntegerSignal sig = new DataIntegerSignal(size);
 					getSlContainer().publish(slot, sig);
 				} else {
-					IDataListType dList = ListUtils.constructList(dType, rM,
-							lOfRows);
-					getSlContainer().publish(dType,
-							DataActionEnum.ListReadSuccessSignal, dList);
+					IDataListType dList = ListUtils.constructList(dType, rM, lOfRows);
+					getSlContainer().publish(dType, DataActionEnum.ListReadSuccessSignal, dList);
 				}
 			}
 
@@ -398,8 +378,8 @@ class ListControler {
 
 		private final Synch sy = new Synch();
 
-		private void executeAction(DialogVariables v, final ListFormat li,
-				final WSize w, String doAction, final ICommand iLast) {
+		private void executeAction(DialogVariables v, final ListFormat li, final WSize w, String doAction,
+				final ICommand iLast) {
 			ListUtils.addListName(v, li);
 			final MapDialogVariable addV = new MapDialogVariable();
 			ListUtils.addListName(addV, li);
@@ -413,8 +393,7 @@ class ListControler {
 				}
 
 			};
-			executeBack.execute(backFactory, v, bu, rM.getDialogName(),
-					doAction);
+			executeBack.execute(backFactory, v, bu, rM.getDialogName(), doAction);
 		}
 
 		private class ReadList implements ISlotListener {
@@ -422,11 +401,9 @@ class ListControler {
 			@Override
 			public void signal(ISlotSignalContext slContext) {
 				if (sy.signalledAlready()) {
-					DialogVariables v = iCon
-							.getVariables(IUIConsts.CRUD_READLIST);
+					DialogVariables v = iCon.getVariables(IUIConsts.CRUD_READLIST);
 					ListFormat li = rM.getFormat(dType);
-					IOkModelData iOk = SlU.getOkModelData(dType,
-							DataListPersistAction.this);
+					IOkModelData iOk = SlU.getOkModelData(dType, DataListPersistAction.this);
 					CreateSearchVar.addSearchVar(v, li, iOk);
 					executeAction(v, li, null, IUIConsts.CRUD_READLIST, null);
 				} else {
@@ -486,11 +463,9 @@ class ListControler {
 				EditRowActionSignal e = (EditRowActionSignal) i;
 				setLastRow(e.getRownum());
 				lastPersistAction = e.getE();
-				DialogVariables v = iCon
-						.getVariables(ICommonConsts.JEDITLISTROWACTION);
+				DialogVariables v = iCon.getVariables(ICommonConsts.JEDITLISTROWACTION);
 				ListFormat li = rM.getFormat(dType);
-				executeAction(v, li, e.getW(),
-						ICommonConsts.JEDITLISTROWACTION, null);
+				executeAction(v, li, e.getW(), ICommonConsts.JEDITLISTROWACTION, null);
 			}
 
 		}
@@ -521,8 +496,7 @@ class ListControler {
 				IVField vv = c.getV();
 				FieldItem col = li.getColumn(vv.getId());
 				assert col != null : LogT.getT().cannotBeNull();
-				IVModelData iD = SlU.getVDataByI(dType,
-						DataListPersistAction.this, c.getValue());
+				IVModelData iD = SlU.getVDataByI(dType, DataListPersistAction.this, c.getValue());
 				Object o = iD.getF(vv);
 				KeyTable key = new KeyTable();
 				key.row = c.getValue();
@@ -561,22 +535,19 @@ class ListControler {
 				Object prevO = null;
 				if (!c.isBefore()) {
 					if (beforeD == null) {
-						String mess = M.M().BeforeValueNotFound(c.getValue(),
-								vv.getId());
+						String mess = M.M().BeforeValueNotFound(c.getValue(), vv.getId());
 						Utils.errAlert(LogT.getT().InternalError(), mess);
 						return;
 					}
 					prevO = beforeD.orNull();
 				}
-				DialogVariables v = iCon
-						.getVariables(ICommonConsts.SIGNALCOLUMNCHANGE);
+				DialogVariables v = iCon.getVariables(ICommonConsts.SIGNALCOLUMNCHANGE);
 				v.setValueB(IUIConsts.JCHANGESIGNALBEFORE, c.isBefore());
 				v.setValueS(ICommonConsts.SIGNALCHANGEFIELD, vv.getId());
 				FieldValue prev = new FieldValue();
 				prev.setValue(col.getFieldType(), prevO, col.getAfterDot());
 				v.setValue(ICommonConsts.JVALBEFORE, prev);
-				executeAction(v, li, c.getW(),
-						ICommonConsts.SIGNALCOLUMNCHANGE, null);
+				executeAction(v, li, c.getW(), ICommonConsts.SIGNALCOLUMNCHANGE, null);
 			}
 
 		}
@@ -601,11 +572,8 @@ class ListControler {
 					focusFinalSignal();
 				}
 
-				EditRowErrorSignal eSignal = new EditRowErrorSignal(
-						getLastRow(), new InvalidateFormContainer(eList));
-				getSlContainer().publish(
-						EditRowErrorSignal.constructSlotLineErrorSignal(dType),
-						eSignal);
+				EditRowErrorSignal eSignal = new EditRowErrorSignal(getLastRow(), new InvalidateFormContainer(eList));
+				getSlContainer().publish(EditRowErrorSignal.constructSlotLineErrorSignal(dType), eSignal);
 			}
 
 		}
@@ -614,11 +582,7 @@ class ListControler {
 			if (lastF != null) {
 				if (!ok)
 					lastF.setDoNotChange();
-				getSlContainer()
-						.publish(
-								FinishEditRowSignal
-										.constructSlotFinishEditRowReturnSignal(dType),
-								lastF);
+				getSlContainer().publish(FinishEditRowSignal.constructSlotFinishEditRowReturnSignal(dType), lastF);
 			}
 			lastF = null;
 		}
@@ -632,17 +596,11 @@ class ListControler {
 				lastF = f;
 				ListFormat fo = rM.getFormat(dType);
 				IVModelData vData = getV();
-				List<InvalidateMess> err = ValidateForm.createErrList(vData,
-						fo.getColumns(), fo.getValList());
+				List<InvalidateMess> err = ValidateForm.createErrList(vData, fo.getColumns(), fo.getValList());
 				if (err != null) {
-					EditRowErrorSignal eSignal = new EditRowErrorSignal(f
-							.getValue().getChoosedLine(),
+					EditRowErrorSignal eSignal = new EditRowErrorSignal(f.getValue().getChoosedLine(),
 							new InvalidateFormContainer(err));
-					getSlContainer()
-							.publish(
-									EditRowErrorSignal
-											.constructSlotLineErrorSignal(dType),
-									eSignal);
+					getSlContainer().publish(EditRowErrorSignal.constructSlotLineErrorSignal(dType), eSignal);
 					sendFinishSignal(false);
 				} else {
 					if (!fo.isAfterRowSignal()) {
@@ -651,16 +609,14 @@ class ListControler {
 					}
 					// next getV will use lastF to set current row
 					setAfterRowNum(lastF.getValue().getChoosedLine());
-					DialogVariables v = iCon
-							.getVariables(ICommonConsts.SIGNALAFTERROW);
-					executeAction(v, fo, lastF.getValue().getwSize(),
-							ICommonConsts.SIGNALAFTERROW, new ICommand() {
+					DialogVariables v = iCon.getVariables(ICommonConsts.SIGNALAFTERROW);
+					executeAction(v, fo, lastF.getValue().getwSize(), ICommonConsts.SIGNALAFTERROW, new ICommand() {
 
-								@Override
-								public void execute() {
-									setAfterRowNum(-1);
-								}
-							});
+						@Override
+						public void execute() {
+							setAfterRowNum(-1);
+						}
+					});
 				}
 			}
 		}
@@ -700,8 +656,7 @@ class ListControler {
 			}
 
 			@Override
-			public void executeImage(String val, int row, WSize w,
-					IExecuteSetString i) {
+			public void executeImage(String val, int row, WSize w, IExecuteSetString i) {
 				DialogVariables var = iCon.getVariables(helperAction);
 				ListFormat fo = rM.getFormat(dType);
 				var.setValueS(ICommonConsts.SIGNALCHANGEFIELD, v.getId());
@@ -765,8 +720,7 @@ class ListControler {
 			SelectTypeHelper(FieldItem f, IVField v) {
 				this.f = f;
 				this.v = v;
-				type = rM.getDialogInfo().getDialog()
-						.findCustomType(f.getCustom());
+				type = rM.getDialogInfo().getDialog().findCustomType(f.getCustom());
 
 			}
 
@@ -781,10 +735,8 @@ class ListControler {
 			}
 
 			@Override
-			public void executeImage(String val, int row, WSize w,
-					IExecuteSetString i) {
-				ChooseListFactory fa = GwtGiniInjector.getI()
-						.getChooseListFactory();
+			public void executeImage(String val, int row, WSize w, IExecuteSetString i) {
+				ChooseListFactory fa = GwtGiniInjector.getI().getChooseListFactory();
 				IDataType d = rM.gettConstruct().construct(f.getTypeName());
 				IChooseList iC = fa.constructChooseList(d, w, new ChooseD(i));
 			}
@@ -814,15 +766,12 @@ class ListControler {
 				ICustomObject i = slContext.getCustom();
 				SetNewValues vals = (SetNewValues) i;
 				VModelData row = vals.getValue();
-				List<IGetSetVField> eList = SlU.getVListFromEditTable(dType,
-						DataListPersistAction.this, getI());
+				List<IGetSetVField> eList = SlU.getVListFromEditTable(dType, DataListPersistAction.this, getI());
 				// IVModelData vD = getV();
-				IVModelData vD = SlU.getVDataByI(dType,
-						DataListPersistAction.this, getLastRow());
+				IVModelData vD = SlU.getVDataByI(dType, DataListPersistAction.this, getLastRow());
 
 				if (vD == null)
-					Utils.internalErrorAlert(M.M().RowReferenceIsNull(
-							dType.toString()));
+					Utils.internalErrorAlert(M.M().RowReferenceIsNull(dType.toString()));
 				boolean refreshlist = false;
 				for (IVField f : row.getF()) {
 					vD.setF(f, row.getF(f));
@@ -841,8 +790,7 @@ class ListControler {
 				// added 2014/03/02 : for refreshing values not related to edit
 				if (refreshlist) {
 					// publish(dType, DataActionEnum.RefreshListAction);
-					CustomStringSlot sl = DataIntegerSignal
-							.constructSlotRedrawRow(dType);
+					CustomStringSlot sl = DataIntegerSignal.constructSlotRedrawRow(dType);
 					publish(sl, new DataIntegerSignal(getLastRow()));
 				}
 			}
@@ -857,15 +805,13 @@ class ListControler {
 				ClickColumnImageSignal sig = (ClickColumnImageSignal) i;
 				// important: before getVariable()
 				lastI = new MutableInteger(sig.getValue());
-				DialogVariables v = iCon
-						.getVariables(ICommonConsts.JCLICKIMAGEACTION);
+				DialogVariables v = iCon.getVariables(ICommonConsts.JCLICKIMAGEACTION);
 				// 2014/10/02 : set null at this moment
 				lastI = null;
 				ListFormat li = rM.getFormat(dType);
 				v.setValueS(ICommonConsts.SIGNALCHANGEFIELD, sig.getV().getId());
 				v.setValueL(ICommonConsts.IMAGECOLUMN, sig.getImno());
-				executeAction(v, li, sig.getW(),
-						ICommonConsts.JCLICKIMAGEACTION, null);
+				executeAction(v, li, sig.getW(), ICommonConsts.JCLICKIMAGEACTION, null);
 			}
 
 		}
@@ -874,41 +820,48 @@ class ListControler {
 
 			@Override
 			public ISlotSignalContext call(ISlotSignalContext slContext) {
-				GetImageColSignal sig = (GetImageColSignal) slContext
-						.getCustom();
+				final GetImageColSignal sig = (GetImageColSignal) slContext.getCustom();
 				VField v = (VField) sig.getV();
 				ListFormat fo = rM.getFormat(dType);
 				FieldItem fi = fo.getColumn(v.getId());
-				String[] res = new String[fi.getImageColumn()];
-				String s = fi.getImageList();
-				String js = Utils.getJS(s);
-				if (!CUtil.EmptyS(js)) {
-					IVModelData va = SlU.getVDataByI(dType,
-							DataListPersistAction.this, sig.getValue());
-					String jSon = iJson.construct(va);
-					s = Utils.callJsStringFun(js, jSon);
-				}
+				// String[] res = new String[fi.getImageColumn()];
+				// String s = fi.getImageList();
+				// String js = Utils.getJS(s);
+				// if (!CUtil.EmptyS(js)) {
+				// IVModelData va = SlU.getVDataByI(dType,
+				// DataListPersistAction.this, sig.getValue());
+				// String jSon = iJson.construct(va);
+				// s = Utils.callJsStringFun(js, jSon);
+				// }
+				//
+				// if (!CUtil.EmptyS(s)) {
+				// String[] o = s.split(",");
+				// for (int i = 0; i < o.length; i++) {
+				// if (i >= res.length) {
+				// break;
+				// }
+				// res[i] = o[i];
+				// }
+				// } else
+				// res = null;
 
-				if (!CUtil.EmptyS(s)) {
-					String[] o = s.split(",");
-					for (int i = 0; i < o.length; i++) {
-						if (i >= res.length) {
-							break;
-						}
-						res[i] = o[i];
+				String[] res = GetImageList.getList(fi, new GetImageList.IGetVData() {
+
+					@Override
+					public IVModelData get() {
+						IVModelData va = SlU.getVDataByI(dType, DataListPersistAction.this, sig.getValue());
+						return va;
 					}
-				} else
-					res = null;
+				});
 
-				GetImageColSignalReturn sl = new GetImageColSignalReturn(
-						Optional.fromNullable(res));
+				GetImageColSignalReturn sl = new GetImageColSignalReturn(Optional.fromNullable(res));
 				return slContextFactory.construct(slContext.getSlType(), sl);
 			}
 
 		}
 
-		DataListPersistAction(IDataType d, RowListDataManager rM,
-				IVariablesContainer iCon, ICreateBackActionFactory bFactory) {
+		DataListPersistAction(IDataType d, RowListDataManager rM, IVariablesContainer iCon,
+				ICreateBackActionFactory bFactory) {
 			this.dType = d;
 			this.rM = rM;
 			this.bFactory = bFactory;
@@ -916,50 +869,27 @@ class ListControler {
 			iJson = GwtGiniInjector.getI().getJsonConvert();
 			executeJS = UIGiniInjector.getI().getExecuteJS();
 			executeBack = UIGiniInjector.getI().getExecuteBackAction();
-			registerSubscriber(dType, DataActionEnum.ReadListAction,
-					new ReadList());
-			registerSubscriber(FormBeforeCompletedSignal.constructSignal(d),
-					new FormBeforeCompleted());
-			registerSubscriber(dType, DataActionEnum.GetListSize,
-					new GetListSize());
-			registerSubscriber(DrawFooterSignal.constructSignal(d),
-					new DrawFooter());
-			registerSubscriber(ChangeToEditSignal.constructSignal(d),
-					new ChangeToEdit());
-			registerSubscriber(
-					ChangeFieldEditSignal.constructSlotChangeEditSignal(d),
-					new ChangeColumnEdit());
-			registerSubscriber(
-					EditRowActionSignal.constructSlotEditActionSignal(d),
-					new EditRowAction());
-			registerSubscriber(AddVarList.constructSignal(d),
-					new AddVarListener());
-			registerSubscriber(RowActionOk.constructSignal(d),
-					new RowActionOkListener());
-			registerSubscriber(SendErrorsInfo.constructSignal(d),
-					new ErrorsInfo());
-			registerSubscriber(
-					FinishEditRowSignal.constructSlotFinishEditRowSignal(d),
-					new FinishRowEdit());
-			registerSubscriber(
-					StartNextRowSignal.constructSlotStartNextRowSignal(d),
-					new NextRowListener());
-			registerSubscriber(AfterRowOk.constructSignal(d),
-					new AfterRowActionOk());
-			registerSubscriber(SetNewValues.constructSignal(d),
-					new ChangeValues());
-			registerCaller(GetImageColSignal.constructSlotGetImageCol(d),
-					new GetImageCol());
-			registerCaller(GetRowSelected.constructSignal(d),
-					new IsRowSelected());
-			registerSubscriber(
-					ClickColumnImageSignal.constructSlotClickColumnSignal(d),
-					new ClickImageCol());
+			registerSubscriber(dType, DataActionEnum.ReadListAction, new ReadList());
+			registerSubscriber(FormBeforeCompletedSignal.constructSignal(d), new FormBeforeCompleted());
+			registerSubscriber(dType, DataActionEnum.GetListSize, new GetListSize());
+			registerSubscriber(DrawFooterSignal.constructSignal(d), new DrawFooter());
+			registerSubscriber(ChangeToEditSignal.constructSignal(d), new ChangeToEdit());
+			registerSubscriber(ChangeFieldEditSignal.constructSlotChangeEditSignal(d), new ChangeColumnEdit());
+			registerSubscriber(EditRowActionSignal.constructSlotEditActionSignal(d), new EditRowAction());
+			registerSubscriber(AddVarList.constructSignal(d), new AddVarListener());
+			registerSubscriber(RowActionOk.constructSignal(d), new RowActionOkListener());
+			registerSubscriber(SendErrorsInfo.constructSignal(d), new ErrorsInfo());
+			registerSubscriber(FinishEditRowSignal.constructSlotFinishEditRowSignal(d), new FinishRowEdit());
+			registerSubscriber(StartNextRowSignal.constructSlotStartNextRowSignal(d), new NextRowListener());
+			registerSubscriber(AfterRowOk.constructSignal(d), new AfterRowActionOk());
+			registerSubscriber(SetNewValues.constructSignal(d), new ChangeValues());
+			registerCaller(GetImageColSignal.constructSlotGetImageCol(d), new GetImageCol());
+			registerCaller(GetRowSelected.constructSignal(d), new IsRowSelected());
+			registerSubscriber(ClickColumnImageSignal.constructSlotClickColumnSignal(d), new ClickImageCol());
 		}
 	}
 
-	private static class HeaderList extends AbstractSlotContainer implements
-			IHeaderListContainer {
+	private static class HeaderList extends AbstractSlotContainer implements IHeaderListContainer {
 
 		private final ISelectFactory iSelect;
 		private final ListFormat fo;
@@ -978,8 +908,7 @@ class ListControler {
 				IGetEnum iGet = new IGetEnum() {
 
 					@Override
-					public IGetListValues getEnum(String customT,
-							final boolean addEmpty) {
+					public IGetListValues getEnum(String customT, final boolean addEmpty) {
 						final IDataListType dList = enumMap.get(customT);
 						if (dList == null)
 							return null;
@@ -1011,14 +940,12 @@ class ListControler {
 
 										@Override
 										public String getKey() {
-											return (String) v.getF(dList
-													.comboField());
+											return (String) v.getF(dList.comboField());
 										}
 
 										@Override
 										public String getValue() {
-											return (String) v.getF(dList
-													.displayComboField());
+											return (String) v.getF(dList.displayComboField());
 										}
 
 									};
@@ -1031,25 +958,21 @@ class ListControler {
 					}
 
 				};
-				VListHeaderContainer vHeader = CreateForm.constructColumns(
-						dType, fo, iSelect, iGet);
+				VListHeaderContainer vHeader = CreateForm.constructColumns(dType, fo, iSelect, iGet);
 				publish(dType, vHeader);
 			}
 
 		}
 
-		HeaderList(IDataType dType, RowListDataManager rM,
-				ISelectFactory iSelect) {
+		HeaderList(IDataType dType, RowListDataManager rM, ISelectFactory iSelect) {
 			this.dType = dType;
 			this.iSelect = iSelect;
 			fo = rM.getFormat(dType);
-			registerSubscriber(SendEnumToList.constructSignal(dType),
-					new GetEnumList());
+			registerSubscriber(SendEnumToList.constructSignal(dType), new GetEnumList());
 			int no = 1;
 			for (FieldItem f : fo.getColumns()) {
 				if (!CUtil.EmptyS(f.getCustom())) {
-					TypedefDescr type = rM.getDialogInfo().getDialog()
-							.findCustomType(f.getCustom());
+					TypedefDescr type = rM.getDialogInfo().getDialog().findCustomType(f.getCustom());
 					if (type == null) {
 						String mess = M.M().CustomTypeIsNull(f.getCustom());
 						Utils.errAlertB(mess);
@@ -1081,15 +1004,12 @@ class ListControler {
 
 	}
 
-	private static DataListParam getParam(final RowListDataManager rM,
-			final IDataType da, IVariablesContainer iCon,
+	private static DataListParam getParam(final RowListDataManager rM, final IDataType da, IVariablesContainer iCon,
 			ICreateBackActionFactory bFactory) {
 
 		// create factories
-		DataListPersistAction iPersist = new DataListPersistAction(da, rM,
-				iCon, bFactory);
-		IHeaderListContainer heList = new HeaderList(da, rM,
-				iPersist.construct());
+		DataListPersistAction iPersist = new DataListPersistAction(da, rM, iCon, bFactory);
+		IHeaderListContainer heList = new HeaderList(da, rM, iPersist.construct());
 		IDataModelFactory dataFactory = new DataModel(rM);
 		IFormTitleFactory formFactory = new IFormTitleFactory() {
 
@@ -1105,11 +1025,9 @@ class ListControler {
 
 		};
 
-		IGetViewControllerFactory fControler = new GetViewController(rM,
-				dataFactory, iCon);
+		IGetViewControllerFactory fControler = new GetViewController(rM, dataFactory, iCon);
 
-		return new DataListParam(da, iPersist, heList, dataFactory,
-				formFactory, fControler, null);
+		return new DataListParam(da, iPersist, heList, dataFactory, formFactory, fControler, null);
 	}
 
 	private static class ActionClicked implements ISlotListener {
@@ -1140,8 +1058,7 @@ class ListControler {
 		private final IVariablesContainer iCon;
 		private final RowListDataManager rM;
 
-		ReadInChunk(IDataType dType, IVariablesContainer iCon,
-				RowListDataManager rM) {
+		ReadInChunk(IDataType dType, IVariablesContainer iCon, RowListDataManager rM) {
 			this.dType = dType;
 			this.iCon = iCon;
 			this.rM = rM;
@@ -1162,8 +1079,7 @@ class ListControler {
 					@Override
 					public void accept(IDataType da, ListOfRows lRows) {
 						if (da.eq(dType)) {
-							IDataListType dList = ListUtils.constructList(
-									dType, rM, lRows);
+							IDataListType dList = ListUtils.constructList(dType, rM, lRows);
 							r.signalRowsRead(dList.getList());
 						}
 					}
@@ -1174,8 +1090,7 @@ class ListControler {
 					}
 
 					@Override
-					public void acceptFooter(IDataType da,
-							List<IGetFooter> fList) {
+					public void acceptFooter(IDataType da, List<IGetFooter> fList) {
 						// TODO: do something
 
 					}
@@ -1192,8 +1107,7 @@ class ListControler {
 
 					}
 				};
-				PerformVariableAction.perform(null, null, arg, iCon, rM, null,
-						vis, null, null);
+				PerformVariableAction.perform(null, null, arg, iCon, rM, null, vis, null, null);
 
 			}
 		}
@@ -1217,8 +1131,7 @@ class ListControler {
 			ListFormat li = rM.getFormat(dType);
 			CreateSearchVar.addSearchVar(v, li, r.getOkData());
 			ListUtils.addListName(v, li);
-			ExecuteAction.action(v, rM.getDialogName(),
-					IUIConsts.JLIST_READCHUNK, new ReadRowsChunk(r));
+			ExecuteAction.action(v, rM.getDialogName(), IUIConsts.JLIST_READCHUNK, new ReadRowsChunk(r));
 		}
 
 	}
@@ -1240,42 +1153,30 @@ class ListControler {
 
 	}
 
-	static ISlotable contruct(RowListDataManager rM, IDataType da,
-			CellId panelId, IVariablesContainer iCon,
-			IPerformClickAction iClick, ICreateBackActionFactory backFactory,
-			IPerformClickAction custClick) {
-		TableDataControlerFactory tFactory = GwtGiniInjector.getI()
-				.getTableDataControlerFactory();
+	static ISlotable contruct(RowListDataManager rM, IDataType da, CellId panelId, IVariablesContainer iCon,
+			IPerformClickAction iClick, ICreateBackActionFactory backFactory, IPerformClickAction custClick) {
+		TableDataControlerFactory tFactory = GwtGiniInjector.getI().getTableDataControlerFactory();
 		ListFormat li = rM.getFormat(da);
 		List<ControlButtonDesc> cList;
 		List<ControlButtonDesc> customList = new ArrayList<ControlButtonDesc>();
 		if (!CUtil.EmptyS(li.getStandButt())) {
-			ListOfButt.IGetButtons i = ListOfButt.constructList(rM
-					.getDialogInfo().getDialog(), li.getStandButt());
+			ListOfButt.IGetButtons i = ListOfButt.constructList(rM.getDialogInfo().getDialog(), li.getStandButt());
 			cList = i.getList();
 			customList = i.getCustomList();
 		} else
 			cList = ListOfButt.getStandList(li.getToolBarType());
 
 		ListOfControlDesc cButton = new ListOfControlDesc(cList);
-		DisplayListControlerParam dList = tFactory.constructParam(cButton,
-				panelId, getParam(rM, da, iCon, backFactory), null, /*
-																	 * TODO:
-																	 * important
-																	 * to run
-																	 * edit
-																	 */true,
-				li.isChunked());
+		DisplayListControlerParam dList = tFactory.constructParam(cButton, panelId, getParam(rM, da, iCon, backFactory),
+				null, /*
+						 * TODO: important to run edit
+						 */true, li.isChunked());
 		ISlotable i = tFactory.constructDataControler(dList);
 		CustomStringSlot sl = ReadChunkSignal.constructReadChunkSignal(da);
-		i.getSlContainer()
-				.registerSubscriber(sl, new ReadInChunk(da, iCon, rM));
-		i.getSlContainer().registerSubscriber(da,
-				DataActionEnum.TableCellClicked,
-				new ActionClicked(iClick, iCon));
+		i.getSlContainer().registerSubscriber(sl, new ReadInChunk(da, iCon, rM));
+		i.getSlContainer().registerSubscriber(da, DataActionEnum.TableCellClicked, new ActionClicked(iClick, iCon));
 		for (ControlButtonDesc b : customList)
-			i.getSlContainer().registerSubscriber(da, b.getActionId(),
-					new CustomClick(custClick));
+			i.getSlContainer().registerSubscriber(da, b.getActionId(), new CustomClick(custClick));
 
 		return i;
 	}

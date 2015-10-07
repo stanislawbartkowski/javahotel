@@ -73,30 +73,33 @@ public class FieldItem extends ElemDescription {
 	private TT getFieldType(String t) {
 		if (CUtil.EmptyS(t) || stringType.contains(t))
 			return TT.STRING;
-		if (getCustom() != null) {
+		if (getCustom() != null)
 			return TT.STRING;
-		}
-		if (CUtil.EqNS(t, ICommonConsts.BOOLTYPE)) {
+
+		if (isImageColumn())
+			return TT.STRING;
+		
+		if (CUtil.EqNS(t, ICommonConsts.BOOLTYPE))
 			return TT.BOOLEAN;
-		}
-		if (CUtil.EqNS(t, ICommonConsts.DATETIMETYPE)) {
+
+		if (CUtil.EqNS(t, ICommonConsts.DATETIMETYPE))
 			return TT.DATETIME;
-		}
-		if (CUtil.EqNS(t, ICommonConsts.DATETYPE)) {
+
+		if (CUtil.EqNS(t, ICommonConsts.DATETYPE))
 			return TT.DATE;
-		}
-		if (CUtil.EqNS(t, ICommonConsts.LONGTYPE)) {
+
+		if (CUtil.EqNS(t, ICommonConsts.LONGTYPE))
 			return TT.LONG;
-		}
-		if (CUtil.EqNS(t, ICommonConsts.INTTYPE)) {
+
+		if (CUtil.EqNS(t, ICommonConsts.INTTYPE))
 			return TT.INT;
-		}
-		if (CUtil.EqNS(t, ICommonConsts.SPINNERTYPE)) {
+
+		if (CUtil.EqNS(t, ICommonConsts.SPINNERTYPE))
 			return TT.INT;
-		}
-		if (CUtil.EqNS(t, ICommonConsts.DECIMALTYPE)) {
+
+		if (CUtil.EqNS(t, ICommonConsts.DECIMALTYPE))
 			return TT.BIGDECIMAL;
-		}
+
 		throw new JythonUIFatal(t + " unexpected type name");
 	}
 

@@ -40,6 +40,11 @@ def enableField(var,li,enable=True) :
     if type(li) != list : li = [li]
     for fieldid in li : 
         var["JSETATTR_FIELD_"+fieldid+"_enable"] = enable
+
+def setFocus(var,li,focus=True) :
+    if type(li) != list : li = [li]
+    for fieldid in li : 
+        var["JSETATTR_FIELD_"+fieldid+"_focus"] = focus
         
 def cellTitle(var,id,title) :
     var["JSETATTR_FIELD_" + id + "_celltitle"] = title        

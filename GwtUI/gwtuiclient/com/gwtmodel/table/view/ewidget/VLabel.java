@@ -100,13 +100,18 @@ class VLabel implements IFormLineView {
 	@Override
 	public void setCellTitle(String title) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setSuggestList(List<String> list) {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	@Override
+	public void setFocus(boolean focus) {
+		// TODO Auto-generated method stub
 	}
 
 }

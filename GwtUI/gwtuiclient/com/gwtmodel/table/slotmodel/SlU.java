@@ -57,10 +57,8 @@ public class SlU {
 	 * @return IVModelData (throws Exception if not found)
 	 */
 	public static IVModelData getVDataByI(IDataType dType, ISlotable iSlo, int i) {
-		IVModelData v = iSlo
-				.getSlContainer()
-				.getGetter(DataIntegerSignal.constructSlotGetVSignal(dType),
-						new DataIntegerSignal(i)).getVData();
+		IVModelData v = iSlo.getSlContainer()
+				.getGetter(DataIntegerSignal.constructSlotGetVSignal(dType), new DataIntegerSignal(i)).getVData();
 		return v;
 	}
 
@@ -75,25 +73,21 @@ public class SlU {
 	 *            IVField to take IFormLineView
 	 * @return IVFormLineView or null
 	 */
-	public static IFormLineView getVWidget(IDataType dType, ISlotable iSlo,
-			IVField v) {
+	public static IFormLineView getVWidget(IDataType dType, ISlotable iSlo, IVField v) {
 		return iSlo.getSlContainer().getGetterFormLine(dType, v);
 	}
 
-	public static <T> T getVWidgetValue(IDataType dType, ISlotable iSlo,
-			IVField v) {
+	public static <T> T getVWidgetValue(IDataType dType, ISlotable iSlo, IVField v) {
 		IFormLineView i = getVWidget(dType, iSlo, v);
 		return (T) i.getValObj();
 	}
 
-	public static void setVWidgetValue(IDataType dType, ISlotable iSlo,
-			IVField v, Object o) {
+	public static void setVWidgetValue(IDataType dType, ISlotable iSlo, IVField v, Object o) {
 		IFormLineView i = getVWidget(dType, iSlo, v);
 		i.setValObj(o);
 	}
 
-	public static void VWidgetChangeReadOnly(IDataType dType, ISlotable iSlo,
-			IVField v, boolean readOnly) {
+	public static void VWidgetChangeReadOnly(IDataType dType, ISlotable iSlo, IVField v, boolean readOnly) {
 		IFormLineView vView = getVWidget(dType, iSlo, v);
 		vView.setReadOnly(readOnly);
 	}
@@ -109,11 +103,9 @@ public class SlU {
 	 *            Row number to get from list view
 	 * @return List of IGetSetVField
 	 */
-	public static List<IGetSetVField> getVListFromEditTable(IDataType dType,
-			ISlotable iSlo, int rowNo) {
+	public static List<IGetSetVField> getVListFromEditTable(IDataType dType, ISlotable iSlo, int rowNo) {
 		ISlotCustom sl = GetVListSignal.constructSlotGetVSignal(dType);
-		ISlotSignalContext i = iSlo.getSlContainer().getGetter(sl,
-				new GetVListSignal(rowNo));
+		ISlotSignalContext i = iSlo.getSlContainer().getGetter(sl, new GetVListSignal(rowNo));
 		GetVListSignal v = (GetVListSignal) i.getCustom();
 		return v.getvList();
 	}
@@ -140,8 +132,7 @@ public class SlU {
 	 *            WChoosedLine
 	 * @return IVModelData pointed by WChoosedLine
 	 */
-	public static IVModelData getVDataByW(IDataType dType, ISlotable iSlo,
-			WChoosedLine w) {
+	public static IVModelData getVDataByW(IDataType dType, ISlotable iSlo, WChoosedLine w) {
 		return getVDataByI(dType, iSlo, w.getChoosedLine());
 	}
 
@@ -157,8 +148,8 @@ public class SlU {
 	 * @param iSubscriber
 	 *            ISlotSignaller listener
 	 */
-	public static void registerChangeFormSubscriber(IDataType dType,
-			ISlotable iSlo, IVField v, ISlotListener iSubscriber) {
+	public static void registerChangeFormSubscriber(IDataType dType, ISlotable iSlo, IVField v,
+			ISlotListener iSubscriber) {
 		iSlo.getSlContainer().registerSubscriber(dType, v, iSubscriber);
 
 	}
@@ -177,8 +168,8 @@ public class SlU {
 	 * @param afterFocus
 	 *            if change was cause by focus
 	 */
-	public static void publishValueChange(IDataType dType, ISlotable iSlo,
-			IVField fie, IFormLineView i, boolean afterFocus) {
+	public static void publishValueChange(IDataType dType, ISlotable iSlo, IVField fie, IFormLineView i,
+			boolean afterFocus) {
 		iSlo.getSlContainer().publish(dType, fie, i, afterFocus);
 	}
 
@@ -197,8 +188,7 @@ public class SlU {
 
 	public static boolean noPropertyColumn(IDataType dType, ISlotable iSlo) {
 		CustomStringSlot sl = NoPropertyColumn.constructNoPropertyColumn(dType);
-		NoPropertyColumn pro = (NoPropertyColumn) iSlo.getSlContainer()
-				.getGetterCustom(sl).getCustom();
+		NoPropertyColumn pro = (NoPropertyColumn) iSlo.getSlContainer().getGetterCustom(sl).getCustom();
 		return pro.getValue();
 	}
 
@@ -212,8 +202,7 @@ public class SlU {
 	 * @param c
 	 *            Signaller waiting for widget
 	 */
-	public static void registerWidgetListener0(IDataType dType, ISlotable iSlo,
-			ISlotListener c) {
+	public static void registerWidgetListener0(IDataType dType, ISlotable iSlo, ISlotListener c) {
 		iSlo.getSlContainer().registerSubscriber(dType, 0, c);
 	}
 
@@ -234,13 +223,11 @@ public class SlU {
 	 *            ISlotable
 	 * @return FormLineContainer
 	 */
-	public static FormLineContainer getFormLineContainer(IDataType dType,
-			ISlotable iSlo) {
+	public static FormLineContainer getFormLineContainer(IDataType dType, ISlotable iSlo) {
 		return iSlo.getSlContainer().getGetterContainer(dType);
 	}
 
-	public static IFormLineView getFormLineView(IDataType dType, IVField fie,
-			ISlotable iSlo) {
+	public static IFormLineView getFormLineView(IDataType dType, IVField fie, ISlotable iSlo) {
 		return iSlo.getSlContainer().getGetterFormLine(dType, fie);
 	}
 
@@ -255,8 +242,7 @@ public class SlU {
 	 */
 
 	public static IDataListType getIDataListType(IDataType dType, ISlotable iSlo) {
-		ISlotSignalContext sl = iSlo.getSlContainer().getGetterContext(dType,
-				GetActionEnum.GetListData);
+		ISlotSignalContext sl = iSlo.getSlContainer().getGetterContext(dType, GetActionEnum.GetListData);
 		IDataListType iList = sl.getDataList();
 		assert iList != null : LogT.getT().cannotBeNull();
 		return iList;
@@ -274,15 +260,11 @@ public class SlU {
 	 * @param ask
 	 *            String to be asked
 	 */
-	public static void publishValidWithAsk(IDataType dType, ISlotable iSlo,
-			ISlotSignalContext slContext, String ask) {
-		SlotTypeFactory slTypeFactory = GwtGiniInjector.getI()
-				.getSlotTypeFactory();
-		SlotSignalContextFactory slContextFactory = GwtGiniInjector.getI()
-				.getSlotSignalContextFactory();
+	public static void publishValidWithAsk(IDataType dType, ISlotable iSlo, ISlotSignalContext slContext, String ask) {
+		SlotTypeFactory slTypeFactory = GwtGiniInjector.getI().getSlotTypeFactory();
+		SlotSignalContextFactory slContextFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
 
-		SlotType sl = slTypeFactory
-				.construct(dType, DataActionEnum.ValidSignal);
+		SlotType sl = slTypeFactory.construct(dType, DataActionEnum.ValidSignal);
 		CustomObjectValue<String> c = new CustomObjectValue<String>(ask);
 		ISlotSignalContext slC = slContextFactory.construct(sl, slContext, c);
 		iSlo.getSlContainer().publish(slC);
@@ -302,26 +284,20 @@ public class SlU {
 	 * @param persistTypeEnum
 	 *            PersistTypeEnum
 	 */
-	public static void publishActionPersist(IDataType dType, ISlotable iSlo,
-			ISlotSignalContext slContext, DataActionEnum action,
-			PersistTypeEnum persistTypeEnum) {
-		SlotTypeFactory slTypeFactory = GwtGiniInjector.getI()
-				.getSlotTypeFactory();
-		SlotSignalContextFactory slContextFactory = GwtGiniInjector.getI()
-				.getSlotSignalContextFactory();
+	public static void publishActionPersist(IDataType dType, ISlotable iSlo, ISlotSignalContext slContext,
+			DataActionEnum action, PersistTypeEnum persistTypeEnum) {
+		SlotTypeFactory slTypeFactory = GwtGiniInjector.getI().getSlotTypeFactory();
+		SlotSignalContextFactory slContextFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
 
 		SlotType sl = slTypeFactory.construct(dType, action);
-		ISlotSignalContext slC = slContextFactory.construct(sl, slContext,
-				persistTypeEnum);
+		ISlotSignalContext slC = slContextFactory.construct(sl, slContext, persistTypeEnum);
 		iSlo.getSlContainer().publish(slC);
 	}
 
-	public static void publishDataAction(IDataType dType, ISlotable iSlo,
-			ISlotSignalContext slContext, DataActionEnum action) {
-		SlotTypeFactory slTypeFactory = GwtGiniInjector.getI()
-				.getSlotTypeFactory();
-		SlotSignalContextFactory slContextFactory = GwtGiniInjector.getI()
-				.getSlotSignalContextFactory();
+	public static void publishDataAction(IDataType dType, ISlotable iSlo, ISlotSignalContext slContext,
+			DataActionEnum action) {
+		SlotTypeFactory slTypeFactory = GwtGiniInjector.getI().getSlotTypeFactory();
+		SlotSignalContextFactory slContextFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
 
 		SlotType sl = slTypeFactory.construct(dType, action);
 		ISlotSignalContext slC = slContextFactory.construct(sl, slContext);
@@ -409,7 +385,13 @@ public class SlU {
 		@Override
 		public void setSuggestList(List<String> list) {
 			// TODO Auto-generated method stub
-			
+
+		}
+
+		@Override
+		public void setFocus(boolean focus) {
+			// TODO Auto-generated method stub
+
 		}
 	}
 
@@ -417,64 +399,55 @@ public class SlU {
 		return new GetValueContainer(val);
 	}
 
-	public static void publishActionResignWithWarning(IDataType dType,
-			ISlotable iSlo, ISlotSignalContext slContext) {
-		SlotSignalContextFactory slContextFactory = GwtGiniInjector.getI()
-				.getSlotSignalContextFactory();
-		SlotType sl = BoxActionMenuOptions
-				.constructSRemoveFormDialogSlotType(dType);
+	public static void publishActionResignWithWarning(IDataType dType, ISlotable iSlo, ISlotSignalContext slContext) {
+		SlotSignalContextFactory slContextFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
+		SlotType sl = BoxActionMenuOptions.constructSRemoveFormDialogSlotType(dType);
 		CustomObjectValue<String> c = new CustomObjectValue<String>(
 				"Na pewno rezygnujesz ? (Wszystkie zmiany przepadną)");
 		ISlotSignalContext slC = slContextFactory.construct(sl, slContext, c);
 		iSlo.getSlContainer().publish(slC);
 	}
 
-	public static void changeEnable(IDataType dType, ISlotable iSlo, IVField v,
-			boolean enable) {
+	public static void changeEnable(IDataType dType, ISlotable iSlo, IVField v, boolean enable) {
 		IFormLineView vi = SlU.getVWidget(dType, iSlo, v);
 		vi.setReadOnly(!enable);
 	}
 
-	public static void setCellTitle(IDataType dType, ISlotable iSlo, IVField v,
-			String cellTitle) {
+	public static void setFocus(IDataType dType, ISlotable iSlo, IVField v, boolean focus) {
+		IFormLineView vi = SlU.getVWidget(dType, iSlo, v);
+		vi.setFocus(focus);
+	}
+
+	public static void setCellTitle(IDataType dType, ISlotable iSlo, IVField v, String cellTitle) {
 		IFormLineView vi = SlU.getVWidget(dType, iSlo, v);
 		vi.setCellTitle(cellTitle);
 	}
 
-	public static void buttonEnable(IDataType dType, ISlotable iSlo,
-			String buttonC, boolean enable) {
+	public static void buttonEnable(IDataType dType, ISlotable iSlo, String buttonC, boolean enable) {
 		ButtonAction a = new ButtonAction(
-				enable ? ButtonAction.Action.EnableButton
-						: ButtonAction.Action.DisableButton);
+				enable ? ButtonAction.Action.EnableButton : ButtonAction.Action.DisableButton);
 		ClickButtonType cl = new ClickButtonType(buttonC);
 		iSlo.getSlContainer().publish(dType, cl, a);
 	}
 
-	public static void buttonHidden(IDataType dType, ISlotable iSlo,
-			String buttonC, boolean hide) {
-		ButtonAction a = new ButtonAction(hide ? ButtonAction.Action.HideButton
-				: ButtonAction.Action.ShowButton);
+	public static void buttonHidden(IDataType dType, ISlotable iSlo, String buttonC, boolean hide) {
+		ButtonAction a = new ButtonAction(hide ? ButtonAction.Action.HideButton : ButtonAction.Action.ShowButton);
 		ClickButtonType cl = new ClickButtonType(buttonC);
 		iSlo.getSlContainer().publish(dType, cl, a);
 	}
 
-	public static VListHeaderContainer getHeaderList(IDataType dType,
-			ISlotable iSlo) {
-		ISlotSignalContext slContext = iSlo.getSlContainer().getGetterContext(
-				dType, GetActionEnum.GetHeaderList);
+	public static VListHeaderContainer getHeaderList(IDataType dType, ISlotable iSlo) {
+		ISlotSignalContext slContext = iSlo.getSlContainer().getGetterContext(dType, GetActionEnum.GetHeaderList);
 		VListHeaderContainer listHeader = slContext.getListHeader();
 		return listHeader;
 	}
 
-	public static void drawFooter(IDataType dType, ISlotable iSlo,
-			IVModelData footerV) {
-		iSlo.getSlContainer().publish(dType, DataActionEnum.DrawFooterAction,
-				footerV);
+	public static void drawFooter(IDataType dType, ISlotable iSlo, IVModelData footerV) {
+		iSlo.getSlContainer().publish(dType, DataActionEnum.DrawFooterAction, footerV);
 	}
 
 	public static IOkModelData getOkModelData(IDataType dType, ISlotable iSlo) {
-		ISlotSignalContext slContext = iSlo.getSlContainer().getGetterContext(
-				dType, GetActionEnum.GetFilterData);
+		ISlotSignalContext slContext = iSlo.getSlContainer().getGetterContext(dType, GetActionEnum.GetFilterData);
 		return slContext.getIOkModelData();
 
 	}

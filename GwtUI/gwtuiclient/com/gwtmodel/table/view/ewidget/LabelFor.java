@@ -129,4 +129,10 @@ class LabelFor implements IFormLineView {
 		
 	}
 
+	@Override
+	public void setFocus(boolean focus) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

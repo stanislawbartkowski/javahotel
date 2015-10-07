@@ -150,6 +150,13 @@ class ExtendTextBox extends AbstractField {
 				tBox.setTitle(cellTitle);
 		}
 
+		void setFocus(boolean focus) {
+			if (tBox != null)
+				tBox.setFocus(focus);
+			if (rArea != null)
+				rArea.setFocus(focus);
+		}
+
 		void setText(String t) {
 			if (rArea == null) {
 				tBox.setText(t);
@@ -224,9 +231,8 @@ class ExtendTextBox extends AbstractField {
 		private final IGetDataList iGet;
 		private final TextBoxBase tBox;
 
-		EParam(boolean password, boolean panel, boolean checkBox, boolean area,
-				boolean enable, boolean isRich, boolean suggestbox,
-				IGetDataList iGet, TextBoxBase tBox) {
+		EParam(boolean password, boolean panel, boolean checkBox, boolean area, boolean enable, boolean isRich,
+				boolean suggestbox, IGetDataList iGet, TextBoxBase tBox) {
 			this.password = password;
 			this.panel = panel;
 			this.checkBox = checkBox;
@@ -287,8 +293,7 @@ class ExtendTextBox extends AbstractField {
 	protected final CheckBox check;
 	protected final boolean isArea;
 
-	protected ExtendTextBox(IGetCustomValues cValues, IVField v, EParam param,
-			String htmlName) {
+	protected ExtendTextBox(IGetCustomValues cValues, IVField v, EParam param, String htmlName) {
 		super(cValues, v, htmlName);
 		this.isArea = param.isArea();
 		eW = new EWidget(param);
@@ -426,5 +431,10 @@ class ExtendTextBox extends AbstractField {
 	public void setCellTitle(String title) {
 		this.cellTitle = title;
 		eW.setBoxTitle();
+	}
+
+	@Override
+	public void setFocus(boolean focus) {
+		eW.setFocus(focus);		
 	}
 }

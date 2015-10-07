@@ -47,4 +47,6 @@ public interface IFormLineView extends IGetSetVField, IGWidget {
 
 	void setSuggestList(List<String> list);
 
+	void setFocus(boolean focus);
+
 }

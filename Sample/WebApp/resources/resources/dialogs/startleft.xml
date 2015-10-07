@@ -25,6 +25,8 @@
   <button id="titledialog" displayname="Dialog with titles" actiontype="JMAIN_DIALOG" actionparam="titledialog.xml" />  
   <button id="suggestdialog" displayname="Dialog with suggest" actiontype="JMAIN_DIALOG" actionparam="suggestdialog.xml" />
   <button id="rememberdialog" displayname="Dialog with remember" actiontype="JMAIN_DIALOG" actionparam="rememberdialog.xml" />
+  <button id="changefocusdialog" displayname="Dialog with focus" actiontype="JMAIN_DIALOG" actionparam="focusdialog.xml" />
+  <button id="fieldimagesdialog" displayname="Dialog with image field" actiontype="JMAIN_DIALOG" actionparam="imagedialog.xml" />
   <button id="h1" displayname = "Status" header="" />  
   <button id="statustext" displayname="Status tekst" actiontype="JMAIN_DIALOG" actionparam="statusup.xml" />
   <button id="listfooter" displayname="List footer" actiontype="JMAIN_DIALOG" actionparam="listdeffooter.xml" />

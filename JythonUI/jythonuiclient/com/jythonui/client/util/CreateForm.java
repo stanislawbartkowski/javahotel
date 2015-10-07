@@ -29,6 +29,7 @@ import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
+import com.gwtmodel.table.rdef.IGetListOfIcons;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.ClickButtonType.StandClickEnum;
 import com.gwtmodel.table.smessage.IGetStandardMessage;
@@ -73,15 +74,13 @@ public class CreateForm {
 	}
 
 	public static FormLineContainer construct(DialogInfo dInfo, IGetDataList iGet, IGetDataList iSuggest,
-			IEnumTypesList eList, IRequestForGWidget iHelper, IConstructCustomDataType fType) {
+			IEnumTypesList eList, IRequestForGWidget iHelper, IConstructCustomDataType fType, IGetListOfIcons imaList) {
 		DialogFormat d = dInfo.getDialog();
 		List<FieldItem> iList = d.getFieldList();
 		EditWidgetFactory eFactory = GwtGiniInjector.getI().getEditWidgetFactory();
 		List<FormField> fList = new ArrayList<FormField>();
 		IGetStandardMessage iMess = GwtGiniInjector.getI().getStandardMessage();
 		for (FieldItem f : iList) {
-			// if (!CUtil.EmptyS(f.getFrom()))
-			// continue;
 			IVField vf = VField.construct(f);
 			IFormLineView v;
 			String htmlId = f.getHtmlId();
@@ -97,6 +96,8 @@ public class CreateForm {
 				v = eFactory.constructAnchorField(vf);
 			else if (f.isHtmlType())
 				v = eFactory.constructHTMLField(vf);
+			else if (f.isImageColumn())
+				v = eFactory.constructImageButton(vf, htmlId, f.getImageColumn(), imaList);
 			else if (f.isLabel())
 				v = eFactory.constructLabelField(vf, iMess.getMessage(f.getDisplayName()));
 			else if (!CUtil.EmptyS(f.getCustom())) {

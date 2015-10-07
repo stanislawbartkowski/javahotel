@@ -42,4 +42,10 @@ class FileChooser extends AbstractField {
     public void setValObj(Object o) {
         // do nothing
     }
+
+	@Override
+	public void setFocus(boolean focus) {
+		fEdit.setFocus(focus);
+		
+	}
 }

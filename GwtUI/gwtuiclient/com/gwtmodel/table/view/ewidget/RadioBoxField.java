@@ -87,4 +87,10 @@ class RadioBoxField extends AbstractField {
             r.setEnabled(!readOnly);
         }
     }
+
+	@Override
+	public void setFocus(boolean focus) {
+		// TODO Auto-generated method stub
+		
+	}
 }

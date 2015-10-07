@@ -188,4 +188,10 @@ public class RadioBoxString extends AbstractField {
     public Widget getGWidget() {
         return this;
     }
+
+	@Override
+	public void setFocus(boolean focus) {
+		// TODO Auto-generated method stub
+		
+	}
 }

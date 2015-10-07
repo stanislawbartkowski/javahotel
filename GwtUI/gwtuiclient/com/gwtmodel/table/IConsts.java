@@ -47,4 +47,5 @@ public interface IConsts {
 	String JSUNDEFINED = "undefined";
 	int headerImageWidth = 20;
 	int headerImageHeight = 20;
+	String EMPTYIM = "-";
 }

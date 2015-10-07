@@ -55,6 +55,7 @@ import com.gwtmodel.table.listdataview.IsBooleanSignalNow;
 import com.gwtmodel.table.panelview.IPanelView;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
+import com.gwtmodel.table.rdef.IGetListOfIcons;
 import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
@@ -102,6 +103,7 @@ import com.jythonui.client.listmodel.GetRowSelected;
 import com.jythonui.client.listmodel.IRowListDataManager;
 import com.jythonui.client.util.CreateForm;
 import com.jythonui.client.util.ExecuteAction;
+import com.jythonui.client.util.GetImageList;
 import com.jythonui.client.util.IConstructCustomDataType;
 import com.jythonui.client.util.IExecuteAfterModalDialog;
 import com.jythonui.client.util.ISendCloseAction;
@@ -517,8 +519,8 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 						i.setValObj(title + "|" + link);
 
 					} else
-						// postpone isSignalChange
-						if (def.isSignalChange())
+					// postpone isSignalChange
+					if (def.isSignalChange())
 						changeList.add(new ChangeVal(i, val));
 					else
 						i.setValObj(val.getValue());
@@ -697,6 +699,34 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 		}
 	}
 
+	private class GetListOfIcons implements IGetListOfIcons {
+
+		@Override
+		public String[] getList(IVField v) {
+			FieldItem fi = d.findFieldItem(v.getId());
+			assert fi != null;
+			return GetImageList.getList(fi, new GetImageList.IGetVData() {
+
+				@Override
+				public IVModelData get() {
+					IVModelData vData = new VModelData();
+					return getSlContainer().getGetterIVModelData(dType, GetActionEnum.GetViewModelEdited, vData);
+				}
+			});
+		}
+
+		@Override
+		public void signalClick(IGWidget w, IVField vv, int imageno) {
+			// TODO Auto-generated method stub
+			DialogVariables v = iCon.getVariables(ICommonConsts.JCLICKIMAGEACTION);
+			v.setValueS(ICommonConsts.SIGNALCHANGEFIELD, vv.getId());
+			v.setValueL(ICommonConsts.IMAGECOLUMN, imageno);
+			ExecuteAction.action(v, d.getId(), ICommonConsts.JCLICKIMAGEACTION,
+					new BackClass(ICommonConsts.JCLICKIMAGEACTION, false, new WSize(w), null));
+		}
+
+	}
+
 	@Override
 	public void startPublish(CellId cId) {
 
@@ -725,7 +755,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 		IEnumTypesList eList = UIGiniInjector.getI().getEnumTypesFactory().construct(d, liManager);
 		if (!d.getFieldList().isEmpty()) {
 			FormLineContainer fContainer = CreateForm.construct(info, new GetEnumList(eList), iSuggest, eList,
-					new HelperW(), new DTypeFactory());
+					new HelperW(), new DTypeFactory(), new GetListOfIcons());
 
 			DataViewModelFactory daFactory = GwtGiniInjector.getI().getDataViewModelFactory();
 
@@ -848,43 +878,6 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 		});
 
 	}
-
-	// private class HandleYesNoDialog implements IYesNoAction {
-	//
-	// private final MapDialogVariable addV;
-	// private final ButtonItem bId;
-	//
-	// HandleYesNoDialog(MapDialogVariable addV, ButtonItem bId) {
-	// this.addV = addV;
-	// this.bId = bId;
-	// }
-	//
-	// @Override
-	// public void answer(String content, String title, final String param1,
-	// final WSize w) {
-	// IClickYesNo i = new IClickYesNo() {
-	//
-	// @Override
-	// public void click(boolean yes) {
-	// String action = param1;
-	// if (CUtil.EmptyS(param1) && bId != null)
-	// action = bId.getId();
-	// DialogVariables v = iCon.getVariables(action);
-	// v.setValueB(ICommonConsts.JYESANSWER, yes);
-	// v.copyVariables(addV);
-	// // M.JR().runAction(v, d.getId(), param1,
-	// // new BackClass(param1, false, w, null));
-	// // 2013/04/14
-	// ExecuteAction.action(v, d.getId(), action, new BackClass(param1, false,
-	// w, null));
-	// }
-	//
-	// };
-	//
-	// YesNoDialog yes = new YesNoDialog(content, title, i);
-	// yes.show(w);
-	// }
-	// }
 
 	private class CloseDialog implements ISendCloseAction {
 
@@ -1242,14 +1235,18 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 						SlU.setCellTitle(dType, DialogContainer.this, v, val.getValueS());
 						return;
 					}
+					if (IUIConsts.FOCUS.equals(t.action)) {
+						if (!JUtils.verifyType(field, val, TT.BOOLEAN))
+							return;
+						SlU.setFocus(dType, DialogContainer.this, v, val.getValueB());
+						return;
+					}
 					if (!IUIConsts.ENABLE.equals(t.action)) {
 						String mess = M.M().CheckListActionNotExpected(field, t.action);
 						Utils.errAlertB(mess);
 					}
-					if (val.getType() != TT.BOOLEAN) {
-						String mess = M.M().FooterSetValueShouldBeBoolean(field, t.action);
-						Utils.errAlertB(mess);
-					}
+					if (!JUtils.verifyType(field, val, TT.BOOLEAN))
+						return;
 					SlU.changeEnable(dType, DialogContainer.this, v, val.getValueB());
 				}
 

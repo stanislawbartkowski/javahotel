@@ -29,67 +29,73 @@ import com.gwtmodel.table.rdef.IFormChangeListener;
  */
 class DateBoxCalendar extends AbstractField {
 
-    protected final DateBox db;
+	protected final DateBox db;
 
-    @Override
-    public void setReadOnly(boolean readOnly) {
-        db.setEnabled(!readOnly);
-    }
+	@Override
+	public void setReadOnly(boolean readOnly) {
+		db.setEnabled(!readOnly);
+	}
 
-    @Override
-    public Object getValObj() {
-        return db.getValue();
-    }
+	@Override
+	public Object getValObj() {
+		return db.getValue();
+	}
 
-    @Override
-    public void setValObj(Object o) {
-        db.setValue((Date) o);
-        // 2013/07/29
-        runOnChange(this, false);
-    }
+	@Override
+	public void setValObj(Object o) {
+		db.setValue((Date) o);
+		// 2013/07/29
+		runOnChange(this, false);
+	}
 
-    private class DFormat implements DateBox.Format {
+	private class DFormat implements DateBox.Format {
 
-        @Override
-        public String format(DateBox dateBox, Date date) {
-            if (date == null) {
-                return "";
-            }
-            return Utils.toS(date);
-        }
+		@Override
+		public String format(DateBox dateBox, Date date) {
+			if (date == null) {
+				return "";
+			}
+			return Utils.toS(date);
+		}
 
-        @Override
-        public Date parse(DateBox dateBox, String text, boolean reportError) {
-            return Utils.toD(text);
-        }
+		@Override
+		public Date parse(DateBox dateBox, String text, boolean reportError) {
+			return Utils.toD(text);
+		}
 
-        @Override
-        public void reset(DateBox dateBox, boolean abandon) {
-        }
-    }
+		@Override
+		public void reset(DateBox dateBox, boolean abandon) {
+		}
+	}
 
-    @SuppressWarnings("rawtypes")
-    private class TouchValueChange implements ValueChangeHandler {
+	@SuppressWarnings("rawtypes")
+	private class TouchValueChange implements ValueChangeHandler {
 
-        @Override
-        public void onValueChange(ValueChangeEvent event) {
-            onTouch();
-        }
-    }
+		@Override
+		public void onValueChange(ValueChangeEvent event) {
+			onTouch();
+		}
+	}
 
-    @SuppressWarnings({ "unchecked" })
-    DateBoxCalendar(IGetCustomValues cValues, IVField v, String htmlName) {
-        super(cValues, v, htmlName);
-        db = new DateBox();
-        db.setFormat(new DFormat());
-        db.getTextBox().setName(getHtmlName());
-        db.addValueChangeHandler(new TouchValueChange());
-        db.addValueChangeHandler(new ValueChange());
-        initWidget(db);
-    }
+	@SuppressWarnings({ "unchecked" })
+	DateBoxCalendar(IGetCustomValues cValues, IVField v, String htmlName) {
+		super(cValues, v, htmlName);
+		db = new DateBox();
+		db.setFormat(new DFormat());
+		db.getTextBox().setName(getHtmlName());
+		db.addValueChangeHandler(new TouchValueChange());
+		db.addValueChangeHandler(new ValueChange());
+		initWidget(db);
+	}
 
-    @Override
-    public void addChangeListener(final IFormChangeListener l) {
-        super.addChangeListener(l);
-    }
+	@Override
+	public void addChangeListener(final IFormChangeListener l) {
+		super.addChangeListener(l);
+	}
+
+	@Override
+	public void setFocus(boolean focus) {
+		db.setFocus(focus);
+
+	}
 }

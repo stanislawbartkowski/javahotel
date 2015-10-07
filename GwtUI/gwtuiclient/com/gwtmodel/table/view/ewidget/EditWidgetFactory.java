@@ -24,6 +24,7 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.editc.IRequestForGWidget;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.rdef.IFormLineView;
+import com.gwtmodel.table.rdef.IGetListOfIcons;
 
 public class EditWidgetFactory {
 
@@ -187,6 +188,10 @@ public class EditWidgetFactory {
 
 	public IFormLineView constructEmail(IVField v, String htmlName) {
 		return new TextWidgetBox(cValues, v, htmlName, new EmailVal());
+	}
+
+	public IFormLineView constructImageButton(IVField v, String htmlName, int imageNo, IGetListOfIcons iList) {
+		return new ImageButton(cValues, v, htmlName, imageNo, iList);
 	}
 
 	public IFormLineView constructEditWidget(IVField v, String htmlName) {

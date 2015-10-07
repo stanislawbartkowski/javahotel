@@ -21,39 +21,43 @@ import com.gwtmodel.table.factories.IGetCustomValues;
 
 class TextWidgetBox extends AbstractField {
 
-    private final TextBoxBase t;
+	private final TextBoxBase t;
 
-    private class CHandler implements ChangeHandler {
+	private class CHandler implements ChangeHandler {
 
-        @Override
-        public void onChange(ChangeEvent event) {
-            runOnChange(TextWidgetBox.this, true);
-        }
-    }
+		@Override
+		public void onChange(ChangeEvent event) {
+			runOnChange(TextWidgetBox.this, true);
+		}
+	}
 
-    TextWidgetBox(IGetCustomValues cValues, IVField v, String htmlName,
-            TextBoxBase t) {
-        super(cValues, v, htmlName);
-        this.t = t;
-        t.addChangeHandler(new CHandler());
-        initWidget(t);
-    }
+	TextWidgetBox(IGetCustomValues cValues, IVField v, String htmlName, TextBoxBase t) {
+		super(cValues, v, htmlName);
+		this.t = t;
+		t.addChangeHandler(new CHandler());
+		initWidget(t);
+	}
 
-    @Override
-    public void setReadOnly(boolean readOnly) {
-        t.setReadOnly(readOnly);
-    }
+	@Override
+	public void setReadOnly(boolean readOnly) {
+		t.setReadOnly(readOnly);
+	}
 
-    @Override
-    public Object getValObj() {
-        String s = t.getValue();
-        return FUtils.getValue(v, s);
-    }
+	@Override
+	public Object getValObj() {
+		String s = t.getValue();
+		return FUtils.getValue(v, s);
+	}
 
-    @Override
-    public void setValObj(Object o) {
-        String s = FUtils.getValueOS(o, v);
-        t.setValue(s);
-    }
+	@Override
+	public void setValObj(Object o) {
+		String s = FUtils.getValueOS(o, v);
+		t.setValue(s);
+	}
+
+	@Override
+	public void setFocus(boolean focus) {
+		t.setFocus(focus);
+	}
 
 }
