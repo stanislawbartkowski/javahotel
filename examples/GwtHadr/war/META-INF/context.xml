@@ -1,7 +1,0 @@
-<Context>
-  <ResourceLink
-            name="jdbc/SAMPLE"
-            global="jdbc/SAMPLE"
-            type="javax.sql.DataSource"
-  />
-</Context>
