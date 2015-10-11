@@ -824,29 +824,7 @@ class ListControler {
 				VField v = (VField) sig.getV();
 				ListFormat fo = rM.getFormat(dType);
 				FieldItem fi = fo.getColumn(v.getId());
-				// String[] res = new String[fi.getImageColumn()];
-				// String s = fi.getImageList();
-				// String js = Utils.getJS(s);
-				// if (!CUtil.EmptyS(js)) {
-				// IVModelData va = SlU.getVDataByI(dType,
-				// DataListPersistAction.this, sig.getValue());
-				// String jSon = iJson.construct(va);
-				// s = Utils.callJsStringFun(js, jSon);
-				// }
-				//
-				// if (!CUtil.EmptyS(s)) {
-				// String[] o = s.split(",");
-				// for (int i = 0; i < o.length; i++) {
-				// if (i >= res.length) {
-				// break;
-				// }
-				// res[i] = o[i];
-				// }
-				// } else
-				// res = null;
-
 				String[] res = GetImageList.getList(fi, new GetImageList.IGetVData() {
-
 					@Override
 					public IVModelData get() {
 						IVModelData va = SlU.getVDataByI(dType, DataListPersistAction.this, sig.getValue());

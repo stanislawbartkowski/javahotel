@@ -33,113 +33,131 @@ import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
 
-public class OObjectAdminInstance extends UtilHelper implements
-        IAppInstanceOObject {
+public class OObjectAdminInstance extends UtilHelper implements IAppInstanceOObject {
 
-    private final ITransactionContextFactory iC;
-    private final IGetLogMess lMess;
+	private final ITransactionContextFactory iC;
+	private final IGetLogMess lMess;
 
-    @Inject
-    public OObjectAdminInstance(ITransactionContextFactory iC,
-            @Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess lMess) {
-        this.iC = iC;
-        this.lMess = lMess;
-    }
+	@Inject
+	public OObjectAdminInstance(ITransactionContextFactory iC,
+			@Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess lMess) {
+		this.iC = iC;
+		this.lMess = lMess;
+	}
 
-    private abstract class doTransaction extends JpaTransaction {
+	private abstract class doTransaction extends JpaTransaction {
 
-        private doTransaction() {
-            super(iC);
-        }
-    }
+		private doTransaction() {
+			super(iC);
+		}
+	}
 
-    private class getInstance extends doTransaction {
+	private class getInstance extends doTransaction {
 
-        private final String instanceName;
-        private final String userName;
-        Long id;
+		private final String instanceName;
+		private final String userName;
+		Long id;
 
-        getInstance(String instanceName, String userName) {
-            this.instanceName = instanceName;
-            this.userName = userName;
-        }
+		getInstance(String instanceName, String userName) {
+			this.instanceName = instanceName;
+			this.userName = userName;
+		}
 
-        @Override
-        protected void dosth(EntityManager em) {
-            EInstance insta = null;
-            Query q = em.createNamedQuery("findInstanceByName");
-            q.setParameter(1, instanceName);
-            try {
-                insta = (EInstance) q.getSingleResult();
-            } catch (NoResultException e) {
-                // test if default instances
-                if (instanceName.equals(ISharedConsts.INSTANCETEST)
-                        || instanceName.equals(ISharedConsts.INSTANCEDEFAULT)) {
-                    insta = new EInstance();
-                    insta.setName(instanceName);
-                    BUtil.setCreateModif(userName, insta, true);
-                    em.persist(insta);
-                    makekeys();
-                    info(lMess.getMessN(ILogMess.DEFAULTINSTANCEHASBEENCREATED,
-                            instanceName));
-                } else
-                    throw (e);
-            }
-            id = insta.getId();
-            if (id == null) {
-                String mess = lMess.getMess(IErrorCode.ERRORCODE84,
-                        ILogMess.INSTANCEIDCANNOTNENULLHERE);
-                errorLog(mess);
-            }
+		@Override
+		protected void dosth(EntityManager em) {
+			EInstance insta = null;
+			Query q = em.createNamedQuery("findInstanceByName");
+			q.setParameter(1, instanceName);
+			try {
+				insta = (EInstance) q.getSingleResult();
+			} catch (NoResultException e) {
+				// test if default instances
+				if (instanceName.equals(ISharedConsts.INSTANCETEST)
+						|| instanceName.equals(ISharedConsts.INSTANCEDEFAULT)) {
+					insta = new EInstance();
+					insta.setName(instanceName);
+					BUtil.setCreateModif(userName, insta, true);
+					em.persist(insta);
+					makekeys();
+					info(lMess.getMessN(ILogMess.DEFAULTINSTANCEHASBEENCREATED, instanceName));
+				} else
+					throw (e);
+			}
+			id = insta.getId();
+			if (id == null) {
+				String mess = lMess.getMess(IErrorCode.ERRORCODE84, ILogMess.INSTANCEIDCANNOTNENULLHERE);
+				errorLog(mess);
+			}
 
-        }
-    }
+		}
+	}
 
-    @Override
-    public AppInstanceId getInstanceId(String instanceName, String userName) {
-        getInstance comm = new getInstance(instanceName, userName);
-        comm.executeTran();
-        AppInstanceId id = new AppInstanceId();
-        id.setId(comm.id);
-        id.setInstanceName(instanceName);
-        id.setPerson(userName);
-        return id;
-    }
+	@Override
+	public AppInstanceId getInstanceId(String instanceName, String userName) {
+		getInstance comm = new getInstance(instanceName, userName);
+		comm.executeTran();
+		AppInstanceId id = new AppInstanceId();
+		id.setId(comm.id);
+		id.setInstanceName(instanceName);
+		id.setPerson(userName);
+		return id;
+	}
 
-    private class getHotelId extends doTransaction {
+	private class getHotelId extends doTransaction {
 
-        private final AppInstanceId instanceId;
-        private final String hotelName;
-        Long id;
+		private final AppInstanceId instanceId;
+		private final String hotelName;
+		private final String userName;
+		Long id;
 
-        getHotelId(AppInstanceId instanceId, String hotelName) {
-            this.instanceId = instanceId;
-            this.hotelName = hotelName;
-        }
+		getHotelId(AppInstanceId instanceId, String hotelName, String userName) {
+			this.instanceId = instanceId;
+			this.hotelName = hotelName;
+			this.userName = userName;
+		}
 
-        @Override
-        protected void dosth(EntityManager em) {
-            Query q = em.createNamedQuery("findObjectByName");
-            q.setParameter(1, instanceId.getId());
-            q.setParameter(2, hotelName);
-            EObject h = (EObject) q.getSingleResult();
-            // do not catch exception, not expected here
-            id = h.getId();
-        }
+		@Override
+		protected void dosth(EntityManager em) {
+			Query q = em.createNamedQuery("findObjectByName");
+			q.setParameter(1, instanceId.getId());
+			q.setParameter(2, hotelName);
+			EObject h = null;
+			try {
+				h = (EObject) q.getSingleResult();
+			} catch (NoResultException e) {
+				// test if default instances
+				String instanceName = instanceId.getInstanceName();
+				if (instanceName.equals(ISharedConsts.INSTANCETEST)
+						|| instanceName.equals(ISharedConsts.INSTANCEDEFAULT)) {
+					h = new EObject();
+					h.setInstanceId(instanceId.getId());
+					h.setName(hotelName);
+					BUtil.setCreateModif(userName, h, true);
+					em.persist(h);
+					makekeys();
+					info(lMess.getMessN(ILogMess.FIRSTOBJECTCREATED, instanceName, hotelName, h.getId().toString(),
+							userName));
+				} else
+					throw e;
+			}
+			id = h.getId();
+		}
 
-    }
+	}
 
-    @Override
-    public OObjectId getOObjectId(AppInstanceId instanceId, String objectName,
-            String userName) {
-        getHotelId comm = new getHotelId(instanceId, objectName);
-        comm.executeTran();
-        OObjectId h = new OObjectId();
-        h.setObject(objectName);
-        h.setId(comm.id);
-        h.setInstanceId(instanceId);
-        h.setUserName(userName);
-        return h;
-    }
+	@Override
+	public OObjectId getOObjectId(AppInstanceId instanceId, String objectName, String userName) {
+		getHotelId comm = new getHotelId(instanceId, objectName, userName);
+		comm.executeTran();
+		if (comm.id == null)
+			errorMess(L(), IErrorCode.ERRORCODE128, ILogMess.NULLGETOBJECTID, instanceId.getId().toString(), objectName,
+					userName);
+		OObjectId h = new OObjectId();
+		h.setObject(objectName);
+		h.setId(comm.id);
+		h.setInstanceId(instanceId);
+		h.setUserName(userName);
+		return h;
+	}
 
 }

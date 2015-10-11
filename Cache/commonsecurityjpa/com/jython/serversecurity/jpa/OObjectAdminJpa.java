@@ -166,11 +166,6 @@ public class OObjectAdminJpa extends UtilHelper implements IOObjectAdmin {
             q.setParameter(1, hote);
             List<EPersonRoles> list = q.getResultList();
             for (EPersonRoles p : list) {
-                // Query q1 = em.createNamedQuery("findPersonByLong");
-                // q1.setParameter(1, p.);
-                // EPersonPassword h = (EPersonPassword) q1.getSingleResult();
-                // EPersonPassword h = em.find(EPersonPassword.class,
-                // p.getId());
                 EPersonPassword h = p.getPerson();
                 Person ho = new Person();
                 PropUtils.copyToProp(ho, h);
