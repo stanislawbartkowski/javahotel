@@ -150,6 +150,7 @@
 			<xs:element minOccurs="0" name="maxtop" type="xs:positiveInteger" />
 			<xs:element minOccurs="0" name="left" type="xs:positiveInteger" />
 			<xs:element minOccurs="0" name="top" type="xs:positiveInteger" />
+			<xs:element minOccurs="0" name="signalclose" type="emptyT" />
 		</xs:sequence>
 	</xs:group>
 
@@ -172,6 +173,7 @@
 		<xs:attribute name="maxtop" type="xs:positiveInteger" />
 		<xs:attribute name="left" type="xs:positiveInteger" />
 		<xs:attribute name="top" type="xs:positiveInteger" />
+		<xs:attribute name="signalclose" type="emptyT" />
 	</xs:attributeGroup>
 
 	<xs:group name="chartG">

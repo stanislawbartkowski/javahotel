@@ -258,4 +258,8 @@ public class DialogFormat extends ElemDescription {
 		return getIntAttr(ICommonConsts.MAXLEFT);
 	}
 
+	public boolean isSignalClose() {
+		return isAttr(ICommonConsts.SIGNALCLOSE);
+	}
+
 }

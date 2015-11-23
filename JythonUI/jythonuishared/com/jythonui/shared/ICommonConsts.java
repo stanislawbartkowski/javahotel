@@ -19,7 +19,6 @@ package com.jythonui.shared;
  */
 public interface ICommonConsts {
 
-	
 	String ID = "id";
 	String DISPLAYNAME = "displayname";
 	String UPMENU = "upmenu";
@@ -50,8 +49,8 @@ public interface ICommonConsts {
 	String LISTSELECTEDMESS = "buttons-selectedmess";
 	String JSTATUSSET = "JSTATUS_SET_";
 	String JSTATUSTEXT = "JSTATUS_TEXT_";
-	String REMEMBER="remember";
-	String REMEMBERKEY="rememberkey";
+	String REMEMBER = "remember";
+	String REMEMBERKEY = "rememberkey";
 	String TYPE = "type";
 	String STRINGTYPE = "string";
 	String BOOLTYPE = "bool";
@@ -111,6 +110,7 @@ public interface ICommonConsts {
 	String DATELINEDATEIDDEFAULT = "datecol";
 	String DATELINEFORMDEFAULT = "form";
 	String EDITCOL = "editable";
+	String SIGNALCLOSE = "signalclose";
 	int DEFAULTAFTERDOT = 2;
 	String JLISTMAP = "JLIST_MAP";
 	String JCHARTMAP = "JCHART_MAP";
@@ -206,9 +206,9 @@ public interface ICommonConsts {
 	String CHUNKED = "chunked";
 	String PASSWORD = "password";
 	String SUGGEST = "suggest";
-	int DEFAULTSUGGESTSIZE=100;
-	String SUGGESTKEY="suggestkey";
-	String SUGGESTSIZE="suggestsize";
+	int DEFAULTSUGGESTSIZE = 100;
+	String SUGGESTKEY = "suggestkey";
+	String SUGGESTSIZE = "suggestsize";
 	String HTMLID = "htmlid";
 	String AUTHENTICATE = "Authenticate";
 	String CLOSEOUT = "CloseOut";
@@ -264,7 +264,7 @@ public interface ICommonConsts {
 
 	String DOWNLOADSERVLET = "downLoadHandler";
 	String UPLOADSERVLET = "upLoadHandler";
-	
+
 	String CRUD_ADD = "crud_add";
 	String CRUD_CHANGE = "crud_change";
 

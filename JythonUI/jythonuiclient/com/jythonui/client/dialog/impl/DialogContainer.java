@@ -915,10 +915,16 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 
 	}
 
+	// action after clicking close dialog image
 	private class CloseDialogImage implements ISlotListener {
 
 		@Override
 		public void signal(ISlotSignalContext slContext) {
+			// if not signal close mark, do nothing
+			if (!d.isSignalClose())
+				return;
+			// do action after close
+			iEx.setAction(ICommonConsts.CLOSEDIALOGIMAGE);
 			iEx.setResultButton(ICommonConsts.CLOSEDIALOGIMAGE, null);
 		}
 
