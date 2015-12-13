@@ -4,8 +4,7 @@ import datetime
 
 from com.jythonui.server.holder import Holder
 
-import con
-import cutil
+import con,cutil,clog
 
 
 def getDriverName() :
@@ -51,7 +50,8 @@ def executeUpdateSQLException(sql) :
   try :
     st.execute(sql)
   except java.sql.SQLException,e :  
-    print "Expected"
+#    print "Expected"
+    clog.debug("Expected here",e)     
   finally:
     __close(st)
     
