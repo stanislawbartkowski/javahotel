@@ -106,6 +106,7 @@
 			<xs:element minOccurs="0" name="actionparam" type="xs:string" />
 			<xs:element minOccurs="0" name="actionparam1" type="xs:string" />
 			<xs:element minOccurs="0" name="actionparam2" type="xs:string" />
+			<xs:element minOccurs="0" name="actionparam3" type="xs:string" />
 			<xs:element minOccurs="0" name="hidden" type="emptyT" />
 			<xs:element minOccurs="0" name="readonly" type="emptyT" />
 			<xs:element minOccurs="0" name="header" type="emptyT" />
@@ -124,6 +125,7 @@
 		<xs:attribute name="actionparam" type="xs:string" />
 		<xs:attribute name="actionparam1" type="xs:string" />
 		<xs:attribute name="actionparam2" type="xs:string" />
+		<xs:attribute name="actionparam3" type="xs:string" />
 		<xs:attribute name="hidden" type="emptyT" />
 		<xs:attribute name="readonly" type="emptyT" />
 		<xs:attribute name="header" type="emptyT" />

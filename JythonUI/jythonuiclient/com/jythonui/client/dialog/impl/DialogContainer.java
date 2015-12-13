@@ -1002,6 +1002,8 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 				String param1 = bItem.getAttr(ICommonConsts.ACTIONPARAM1);
 				String param2 = bItem.getAttr(ICommonConsts.ACTIONPARAM2);
 				String param3 = bItem.getAttr(ICommonConsts.ACTIONPARAM3);
+				if (CUtil.EmptyS(param3))
+					param3 = bItem.getAction();
 				PerformVariableAction.performAction(construct(new MapDialogVariable(), bItem), new CloseDialog(id),
 						action, new String[] { param, param1, param2, param3 }, w, iCon, new AfterModal());
 				// PerformVariableAction.performAction(new HandleYesNoDialog(new
