@@ -81,6 +81,8 @@ def selectSQL(sql,param,li) :
   __resolvePos(st,param)
   res = st.executeQuery()
   resli = []
+  if type(li) != list :
+    li = [li]  
   while res.next() :
     ma = {}
     for l in li :

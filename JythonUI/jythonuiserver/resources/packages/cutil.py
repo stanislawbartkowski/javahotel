@@ -513,7 +513,7 @@ class DLIST() :
     self.iN = Holder.getResolveName()
     if list == None : return
     self.fList = self.__d.getDialog().findList(list)
-    assert self.fList != None
+    assert self.fList != None,"Cannot find list " + list + " in the dialog " + var["J_DIALOGNAME"] 
     
   def onList(self,name) :
     i = self.fList.getColumn(name)
