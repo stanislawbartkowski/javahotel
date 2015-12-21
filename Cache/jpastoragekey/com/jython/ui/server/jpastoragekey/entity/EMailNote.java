@@ -27,76 +27,71 @@ import com.jython.serversecurity.jpa.entities.EObjectDict;
 import com.jythonui.server.ISharedConsts;
 
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "hotel", "name" }))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "hotel", "name" }) )
 @NamedQueries({
 
-        @NamedQuery(name = "findAllMails", query = "SELECT x FROM EMailNote x WHERE x.hotel = ?1"),
-        @NamedQuery(name = "findOneMail", query = "SELECT x FROM EMailNote x WHERE x.hotel = ?1 AND x.name = ?2") })
+		@NamedQuery(name = "findAllMails", query = "SELECT x FROM EMailNote x WHERE x.hotel = ?1"),
+		@NamedQuery(name = "findOneMail", query = "SELECT x FROM EMailNote x WHERE x.hotel = ?1 AND x.name = ?2") })
 public class EMailNote extends EObjectDict {
 
-    @Column(length=ISharedConsts.MAILCONTENTSIZE)  
-    private String content;
-    private String mailFrom;
-    private String sendRes;
-    private boolean text;
-    
-    @ElementCollection
-    private List<EMailAttach> aList = new ArrayList<EMailAttach>();
-    
-    @ElementCollection
-    private List<String> recipientsList = new ArrayList<String>();
+	@Column(length = ISharedConsts.MAILCONTENTSIZE)
+	private String content;
+	private String mailFrom;
+	private String sendRes;
+	private boolean text;
 
-    public String getHeader() {
-        return getDescription();
-    }
+	@ElementCollection
+	private List<EMailAttach> aList = new ArrayList<EMailAttach>();
 
-    public void setHeader(String header) {
-        setDescription(header);
-    }
+	@ElementCollection
+	private List<String> recipientsList = new ArrayList<String>();
 
+	public String getHeader() {
+		return getDescription();
+	}
 
-    public String getMailFrom() {
-        return mailFrom;
-    }
+	public void setHeader(String header) {
+		setDescription(header);
+	}
 
-    public void setMailFrom(String mailFrom) {
-        this.mailFrom = mailFrom;
-    }
+	public String getMailFrom() {
+		return mailFrom;
+	}
 
-    public String getSendRes() {
-        return sendRes;
-    }
+	public void setMailFrom(String mailFrom) {
+		this.mailFrom = mailFrom;
+	}
 
-    public void setSendRes(String sendRes) {
-        this.sendRes = sendRes;
-    }
+	public String getSendRes() {
+		return sendRes;
+	}
 
-    public List<EMailAttach> getaList() {
-        return aList;
-    }
+	public void setSendRes(String sendRes) {
+		this.sendRes = sendRes;
+	}
 
-    public boolean isText() {
-        return text;
-    }
+	public List<EMailAttach> getaList() {
+		return aList;
+	}
 
-    public void setText(boolean text) {
-        this.text = text;
-    }
+	public boolean isText() {
+		return text;
+	}
 
-    public List<String> getRecipientsList() {
-        return recipientsList;
-    }
+	public void setText(boolean text) {
+		this.text = text;
+	}
 
-    public String getContent() {
-        return content;
-    }
+	public List<String> getRecipientsList() {
+		return recipientsList;
+	}
 
-    public void setContent(String content) {
-        this.content = content;
-    }
-    
-    
-    
-    
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
 
 }

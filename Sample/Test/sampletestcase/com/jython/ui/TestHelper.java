@@ -50,6 +50,7 @@ public class TestHelper extends CommonTestHelper {
         putLocale("pl");
         dData.clear();
         iSugg.clearAll();
+        createObjects();
     }
 
     @After

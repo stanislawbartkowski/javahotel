@@ -17,8 +17,10 @@ import com.jython.serversecurity.cache.OObjectId;
 
 public interface IResolveNameFromToken {
 
-    OObjectId getObject(String token);
+	boolean isCustom(String token);
 
-    AppInstanceId getInstance(String token);
+	OObjectId getObject(String token);
+
+	AppInstanceId getInstance(String token);
 
 }

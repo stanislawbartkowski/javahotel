@@ -41,12 +41,10 @@ public class Test15 extends TestHelper {
     public void test1() {
         HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL),
                 HotelObjects.CUSTOMER);
-        p.setGensymbol(true);
         p = iCustomers.addElem(getH(HOTEL), p);
         ReservationForm r = (ReservationForm) hObjects.construct(getH(HOTEL),
                 HotelObjects.RESERVATION);
         r.setCustomerName(p.getName());
-        r.setGensymbol(true);
         r = iRes.addElem(getH(HOTEL), r);
         System.out.println(r.getName());
         String resName = r.getName();
@@ -59,11 +57,9 @@ public class Test15 extends TestHelper {
 
         p = (HotelCustomer) hObjects.construct(getH(HOTEL),
                 HotelObjects.CUSTOMER);
-        p.setGensymbol(true);
         String guest1 = iCustomers.addElem(getH(HOTEL), p).getName();
         p = (HotelCustomer) hObjects.construct(getH(HOTEL),
                 HotelObjects.CUSTOMER);
-        p.setGensymbol(true);
         String guest2 = iCustomers.addElem(getH(HOTEL), p).getName();
 
         List<ResGuest> gList = new ArrayList<ResGuest>();
@@ -95,12 +91,10 @@ public class Test15 extends TestHelper {
     public void test2() {
         HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL),
                 HotelObjects.CUSTOMER);
-        p.setGensymbol(true);
         p = iCustomers.addElem(getH(HOTEL), p);
         ReservationForm r = (ReservationForm) hObjects.construct(getH(HOTEL),
                 HotelObjects.RESERVATION);
         r.setCustomerName(p.getName());
-        r.setGensymbol(true);
         r = iRes.addElem(getH(HOTEL), r);
         System.out.println(r.getName());
         String resName = r.getName();
@@ -113,7 +107,6 @@ public class Test15 extends TestHelper {
 
         p = (HotelCustomer) hObjects.construct(getH(HOTEL),
                 HotelObjects.CUSTOMER);
-        p.setGensymbol(true);
         String guest1 = iCustomers.addElem(getH(HOTEL), p).getName();
 
         List<ResGuest> gList = new ArrayList<ResGuest>();
@@ -131,7 +124,6 @@ public class Test15 extends TestHelper {
         for (int i = 0; i < 100; i++) {
             p = (HotelCustomer) hObjects.construct(getH(HOTEL),
                     HotelObjects.CUSTOMER);
-            p.setGensymbol(true);
             String guest2 = iCustomers.addElem(getH(HOTEL), p).getName();
             g = new ResGuest();
             g.setGuestName(guest2);

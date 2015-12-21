@@ -79,12 +79,10 @@ public class Test29 extends TestHelper {
         iServices.addElem(getH(HOTEL), se);
         HotelCustomer cust = (HotelCustomer) hObjects.construct(getH(HOTEL),
                 HotelObjects.CUSTOMER);
-        cust.setGensymbol(true);
         cust = iCustomers.addElem(getH(HOTEL), cust);
         ReservationForm re = (ReservationForm) hObjects.construct(getH(HOTEL),
                 HotelObjects.RESERVATION);
         re.setCustomerName(cust.getName());
-        re.setGensymbol(true);
 
         ReservationPaymentDetail det = new ReservationPaymentDetail();
         det.setNoP(1);
@@ -109,7 +107,6 @@ public class Test29 extends TestHelper {
         ReservationForm re1 = (ReservationForm) hObjects.construct(getH(HOTEL),
                 HotelObjects.RESERVATION);
         re1.setCustomerName(cust.getName());
-        re1.setGensymbol(true);
         det = new ReservationPaymentDetail();
         det.setNoP(1);
         det.setRoomName("P11");

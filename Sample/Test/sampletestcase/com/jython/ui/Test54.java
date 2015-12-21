@@ -33,11 +33,11 @@ import com.jythonui.shared.RequestContext;
 
 public class Test54 extends TestHelper {
 
-    @Before
-    public void setUp() {
-        super.setUp();
-        createObjects();
-    }
+//    @Before
+//    public void setUp() {
+//        super.setUp();
+//        createObjects();
+//    }
 
     private OObjectId getP() {
         return iGetI.getOObject(TESTINSTANCE, ISharedConsts.SINGLEOBJECTHOLDER,

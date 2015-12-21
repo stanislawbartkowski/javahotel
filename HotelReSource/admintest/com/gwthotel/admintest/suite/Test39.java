@@ -64,7 +64,6 @@ public class Test39 extends TestHelper {
         iRes.changeElem(getH(HOTEL), r);
         CustomerBill b = (CustomerBill) hObjects.construct(getH(HOTEL),
                 HotelObjects.BILL);
-        b.setGensymbol(true);
         b.setPayer(r.getCustomerName());
         b.setReseName(sym);
         b.setIssueDate(toDate(2014, 10, 12));

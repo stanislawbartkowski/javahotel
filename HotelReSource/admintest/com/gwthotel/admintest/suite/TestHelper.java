@@ -184,13 +184,11 @@ public class TestHelper extends CommonTestHelper {
         iRooms.addElem(getH(HOTEL), ho);
         HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL),
                 HotelObjects.CUSTOMER);
-        p.setGensymbol(true);
         p.setAttr("country", "gb");
         p = iCustomers.addElem(getH(HOTEL), p);
         ReservationForm r = (ReservationForm) hObjects.construct(getH(HOTEL),
                 HotelObjects.RESERVATION);
         r.setCustomerName(p.getName());
-        r.setGensymbol(true);
         ReservationPaymentDetail det = new ReservationPaymentDetail();
         det.setNoP(3);
         det.setPrice(new BigDecimal("100.0"));
@@ -205,7 +203,6 @@ public class TestHelper extends CommonTestHelper {
 
         CustomerBill b = (CustomerBill) hObjects.construct(getH(HOTEL),
                 HotelObjects.BILL);
-        b.setGensymbol(true);
         b.setPayer(p.getName());
         b.setReseName(sym);
         b.setIssueDate(toDate(2010, 10, 12));
@@ -236,12 +233,10 @@ public class TestHelper extends CommonTestHelper {
         iRooms.addElem(getH(HOTEL), ho);
         HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL),
                 HotelObjects.CUSTOMER);
-        p.setGensymbol(true);
         p = iCustomers.addElem(getH(HOTEL), p);
         ReservationForm r = (ReservationForm) hObjects.construct(getH(HOTEL),
                 HotelObjects.RESERVATION);
         r.setCustomerName(p.getName());
-        r.setGensymbol(true);
         Date d = toDate(2013, 4, 10);
         for (int i = 0; i < no; i++) {
             ReservationPaymentDetail det = new ReservationPaymentDetail();

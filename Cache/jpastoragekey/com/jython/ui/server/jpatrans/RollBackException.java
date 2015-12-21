@@ -14,4 +14,6 @@ package com.jython.ui.server.jpatrans;
 
 public class RollBackException extends RuntimeException {
 
+	private static final long serialVersionUID = 1L;
+
 }

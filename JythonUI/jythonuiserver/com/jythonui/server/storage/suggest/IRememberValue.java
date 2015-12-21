@@ -12,7 +12,6 @@
  */
 package com.jythonui.server.storage.suggest;
 
-import com.gwtmodel.table.common.TT;
 import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.FieldValue;
 

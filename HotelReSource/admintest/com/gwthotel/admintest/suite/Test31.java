@@ -74,13 +74,11 @@ public class Test31 extends TestHelper {
         iRooms.addElem(getH(HOTEL), ho);
         HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL),
                 HotelObjects.CUSTOMER);
-        p.setGensymbol(true);
         p.setAttr("country", "gb");
         p = iCustomers.addElem(getH(HOTEL), p);
         ReservationForm r = (ReservationForm) hObjects.construct(getH(HOTEL),
                 HotelObjects.RESERVATION);
         r.setCustomerName(p.getName());
-        r.setGensymbol(true);
         ReservationPaymentDetail det1 = new ReservationPaymentDetail();
         det1.setNoP(3);
         det1.setPrice(new BigDecimal("100.0"));
@@ -110,7 +108,6 @@ public class Test31 extends TestHelper {
         ReservationForm r1 = (ReservationForm) hObjects.construct(getH(HOTEL),
                 HotelObjects.RESERVATION);
         r1.setCustomerName(p.getName());
-        r1.setGensymbol(true);
         r1.getResDetail().add(det2);
         r1 = iRes.addElem(getH(HOTEL), r1);
 

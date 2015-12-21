@@ -49,6 +49,7 @@ import com.jython.serversecurity.IOObjectAdmin;
 import com.jython.serversecurity.instance.IAppInstanceOObject;
 import com.jython.serversecurity.jpa.OObjectAdminInstance;
 import com.jython.serversecurity.jpa.OObjectAdminJpa;
+import com.jython.ui.server.jpajournal.JpaJournal;
 import com.jython.ui.server.jpanote.JpaNoteStorage;
 import com.jython.ui.server.jpastoragekey.BlobEntryJpaHandler;
 import com.jython.ui.server.jpastoragekey.IStorageJpaRegistryFactory;
@@ -58,6 +59,7 @@ import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaNonTransactionContext;
 import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.server.journal.IJournal;
 import com.jythonui.server.logmess.MessProvider;
 import com.jythonui.server.mail.INoteStorage;
 import com.jythonui.server.newblob.IAddNewBlob;
@@ -76,99 +78,78 @@ import com.jythonui.server.storage.seqimpl.SequenceRealmGenFactory;
 
 public class GuiceService {
 
-    public static class ServiceModule extends AbstractModule {
-        @Override
-        protected void configure() {
+	public static class ServiceModule extends AbstractModule {
+		@Override
+		protected void configure() {
 
-            bind(IHotelServices.class).to(HotelJpaServices.class).in(
-                    Singleton.class);
+			bind(IHotelServices.class).to(HotelJpaServices.class).in(Singleton.class);
 
-            bind(IHotelPriceList.class).to(HotelJpaPriceList.class).in(
-                    Singleton.class);
+			bind(IHotelPriceList.class).to(HotelJpaPriceList.class).in(Singleton.class);
 
-            bind(IHotelPriceElem.class).to(HotelJpaPrices.class).in(
-                    Singleton.class);
+			bind(IHotelPriceElem.class).to(HotelJpaPrices.class).in(Singleton.class);
 
-            bind(IHotelRooms.class).to(HotelJpaRooms.class).in(Singleton.class);
+			bind(IHotelRooms.class).to(HotelJpaRooms.class).in(Singleton.class);
 
-            bind(IHotelCustomers.class).to(HotelJpaCustomers.class).in(
-                    Singleton.class);
+			bind(IHotelCustomers.class).to(HotelJpaCustomers.class).in(Singleton.class);
 
-            bind(IGetLogMess.class)
-                    .annotatedWith(Names.named(IHotelConsts.MESSNAMED))
-                    .toProvider(HotelMessProvider.class).in(Singleton.class);
+			bind(IGetLogMess.class).annotatedWith(Names.named(IHotelConsts.MESSNAMED))
+					.toProvider(HotelMessProvider.class).in(Singleton.class);
 
-            bind(IGetLogMess.class)
-                    .annotatedWith(Names.named(ISharedConsts.JYTHONMESSSERVER))
-                    .toProvider(MessProvider.class).in(Singleton.class);
+			bind(IGetLogMess.class).annotatedWith(Names.named(ISharedConsts.JYTHONMESSSERVER))
+					.toProvider(MessProvider.class).in(Singleton.class);
 
-            bind(IReservationForm.class).to(HotelReservations.class).in(
-                    Singleton.class);
+			bind(IReservationForm.class).to(HotelReservations.class).in(Singleton.class);
 
-            bind(IReservationOp.class).to(ReservationOp.class).in(
-                    Singleton.class);
-            bind(IClearHotel.class).to(ClearObjects.class).in(Singleton.class);
-            bind(ICustomerBills.class).to(CustomerBillJpa.class).in(
-                    Singleton.class);
-            bind(IPaymentBillOp.class).to(PaymentOp.class).in(Singleton.class);
-            // common
-            bind(IStorageJpaRegistryFactory.class).to(
-                    StorageJpaRegistryFactory.class).in(Singleton.class);
-            bind(ISequenceRealmGenFactory.class).to(
-                    SequenceRealmGenFactory.class).in(Singleton.class);
-            bind(IBlobHandler.class).to(BlobEntryJpaHandler.class).in(
-                    Singleton.class);
+			bind(IReservationOp.class).to(ReservationOp.class).in(Singleton.class);
+			bind(IClearHotel.class).to(ClearObjects.class).in(Singleton.class);
+			bind(ICustomerBills.class).to(CustomerBillJpa.class).in(Singleton.class);
+			bind(IPaymentBillOp.class).to(PaymentOp.class).in(Singleton.class);
+			// common
+			bind(IStorageJpaRegistryFactory.class).to(StorageJpaRegistryFactory.class).in(Singleton.class);
+			bind(ISequenceRealmGenFactory.class).to(SequenceRealmGenFactory.class).in(Singleton.class);
+			bind(IBlobHandler.class).to(BlobEntryJpaHandler.class).in(Singleton.class);
 
-            bind(ISymGeneratorFactory.class).to(SymGeneratorFactory.class).in(
-                    Singleton.class);
-            bind(ISemaphore.class).to(SemaphoreRegistry.class).in(
-                    Singleton.class);
-            bind(ISetTestToday.class).toProvider(SetTestTodayProvider.class)
-                    .in(Singleton.class);
-            bind(IReadResourceFactory.class).to(ReadResourceFactory.class).in(
-                    Singleton.class);
-            bind(IAppInstanceOObject.class).to(OObjectAdminInstance.class).in(
-                    Singleton.class);
-            bind(IOObjectAdmin.class).to(OObjectAdminJpa.class).in(
-                    Singleton.class);
-            bind(INoteStorage.class).to(JpaNoteStorage.class).in(
-                    Singleton.class);
-            bind(IJpaObjectGenSymFactory.class).to(
-                    JpaObjectGenSymFactoryImpl.class).in(Singleton.class);
-            bind(IAddNewBlob.class).to(AddNewBlob.class).in(Singleton.class);
-            bind(IHotelMailList.class).to(HotelMailing.class).in(
-                    Singleton.class);
-            // -----
+			bind(ISymGeneratorFactory.class).to(SymGeneratorFactory.class).in(Singleton.class);
+			bind(ISemaphore.class).to(SemaphoreRegistry.class).in(Singleton.class);
+			bind(ISetTestToday.class).toProvider(SetTestTodayProvider.class).in(Singleton.class);
+			bind(IReadResourceFactory.class).to(ReadResourceFactory.class).in(Singleton.class);
+			bind(IAppInstanceOObject.class).to(OObjectAdminInstance.class).in(Singleton.class);
+			bind(IOObjectAdmin.class).to(OObjectAdminJpa.class).in(Singleton.class);
+			bind(INoteStorage.class).to(JpaNoteStorage.class).in(Singleton.class);
+			bind(IJpaObjectGenSymFactory.class).to(JpaObjectGenSymFactoryImpl.class).in(Singleton.class);
+			bind(IAddNewBlob.class).to(AddNewBlob.class).in(Singleton.class);
+			bind(IHotelMailList.class).to(HotelMailing.class).in(Singleton.class);
+			bind(IJournal.class).to(JpaJournal.class).in(Singleton.class);
 
-        }
+			// -----
 
-        // common
-        @Provides
-        @Singleton
-        IStorageRealmRegistry getStorageRealmRegistry(
-                IStorageJpaRegistryFactory rFactory,
-                ITransactionContextFactory iC) {
-            return rFactory.construct(iC);
-        }
+		}
 
-        @Provides
-        @Singleton
-        ITransactionContextFactory getTransactionContextFactory() {
-            return new ITransactionContextFactory() {
-                @Override
-                public ITransactionContext construct() {
-                    return new JpaNonTransactionContext(EMHolder.getEm());
-                }
-            };
-        }
+		// common
+		@Provides
+		@Singleton
+		IStorageRealmRegistry getStorageRealmRegistry(IStorageJpaRegistryFactory rFactory,
+				ITransactionContextFactory iC) {
+			return rFactory.construct(iC);
+		}
 
-        @Provides
-        @Singleton
-        ISequenceRealmGen getSequenceRealmGen(
-                ISequenceRealmGenFactory seqFactory,
-                IStorageRealmRegistry iReg, ISemaphore iSem) {
-            return seqFactory.construct(iReg, iSem);
-        }
+		@Provides
+		@Singleton
+		ITransactionContextFactory getTransactionContextFactory() {
+			return new ITransactionContextFactory() {
+				@Override
+				public ITransactionContext construct() {
+					return new JpaNonTransactionContext(EMHolder.getEm());
+				}
+			};
+		}
 
-    }
+		@Provides
+		@Singleton
+		ISequenceRealmGen getSequenceRealmGen(ISequenceRealmGenFactory seqFactory, IStorageRealmRegistry iReg,
+				ISemaphore iSem) {
+			return seqFactory.construct(iReg, iSem);
+		}
+
+	}
 }

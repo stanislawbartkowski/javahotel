@@ -10,29 +10,13 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.shared;
+package com.jythonui.server;
 
-import com.jythonui.server.ISharedConsts;
-import com.jythonui.shared.RMap;
+import com.jythonui.server.security.token.ICustomSecurity;
 
-abstract public class PropDescription extends RMap {
+public interface IJournalLogin {
 
-    private static final long serialVersionUID = 1L;
+	void login(String userName, ICustomSecurity iCust);
 
-    public String getAutomPattern() {
-        return getAttr(ISharedConsts.PATTPROP);
-    }
-
-    public boolean isGensymbol() {
-        return isAttr(ISharedConsts.PATTPROP);
-    }
-
-    public void setOOBjectId(String object) {
-        setAttr(ISharedConsts.OBJECTPROP, object);
-    }
-
-    public String getOObjectId() {
-        return getAttr(ISharedConsts.OBJECTPROP);
-    }
-
+	void logout(String token);
 }

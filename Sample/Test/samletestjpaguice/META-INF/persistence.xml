@@ -9,6 +9,7 @@
 		<class>com.jython.ui.server.jpastoragekey.entity.RegistryEntry</class>
         <class>com.jython.ui.server.jpastoragekey.entity.BlobEntry</class>
         <class>com.jython.ui.server.jpastoragekey.entity.EMailNote</class>       
+        <class>com.jython.ui.server.jpastoragekey.entity.EJournalEntry</class>       
         <class>com.jython.serversecurity.jpa.entities.EObject</class>
         <class>com.jython.serversecurity.jpa.entities.EPersonPassword</class>
         <class>com.jython.serversecurity.jpa.entities.EPersonRoles</class>

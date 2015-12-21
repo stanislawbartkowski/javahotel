@@ -23,30 +23,35 @@ import com.jythonui.server.security.token.ICustomSecurity;
 
 public class ResolveNameFromToken implements IResolveNameFromToken {
 
-    private final ISecurity iSec;
-    private final IGetInstanceOObjectIdCache iGet;
+	private final ISecurity iSec;
+	private final IGetInstanceOObjectIdCache iGet;
 
-    @Inject
-    public ResolveNameFromToken(ISecurity iSec, IGetInstanceOObjectIdCache iGet) {
-        this.iSec = iSec;
-        this.iGet = iGet;
-    }
+	@Inject
+	public ResolveNameFromToken(ISecurity iSec, IGetInstanceOObjectIdCache iGet) {
+		this.iSec = iSec;
+		this.iGet = iGet;
+	}
 
-    @Override
-    public OObjectId getObject(String token) {
-        ICustomSecurity sec = iSec.getCustom(token);
-        ObjectCustom cust = (ObjectCustom) sec;
-        String instanceId = cust.getInstanceId();
-        String hotelName = cust.getObjectName();
-        return iGet.getOObject(instanceId, hotelName, iSec.getUserName(token));
-    }
+	@Override
+	public OObjectId getObject(String token) {
+		ICustomSecurity sec = iSec.getCustom(token);
+		ObjectCustom cust = (ObjectCustom) sec;
+		String instanceId = cust.getInstanceId();
+		String hotelName = cust.getObjectName();
+		return iGet.getOObject(instanceId, hotelName, iSec.getUserName(token));
+	}
 
-    @Override
-    public AppInstanceId getInstance(String token) {
-        ICustomSecurity sec = iSec.getCustom(token);
-        ObjectCustom cust = (ObjectCustom) sec;
-        String instanceId = cust.getInstanceId();
-        return iGet.getInstance(instanceId, iSec.getUserName(token));
-    }
+	@Override
+	public AppInstanceId getInstance(String token) {
+		ICustomSecurity sec = iSec.getCustom(token);
+		ObjectCustom cust = (ObjectCustom) sec;
+		String instanceId = cust.getInstanceId();
+		return iGet.getInstance(instanceId, iSec.getUserName(token));
+	}
+
+	@Override
+	public boolean isCustom(String token) {
+		return iSec.getCustom(token) != null;
+	}
 
 }

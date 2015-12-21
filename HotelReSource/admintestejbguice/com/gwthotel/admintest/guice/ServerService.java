@@ -58,6 +58,7 @@ import com.jythonui.server.defa.EmptyRPCNotifier;
 import com.jythonui.server.defa.JavaMailSessionProvider;
 import com.jythonui.server.defa.StorageRealmRegistryFactory;
 import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.server.journal.IJournal;
 import com.jythonui.server.jython.ConvertPython27;
 import com.jythonui.server.mail.INoteStorage;
 import com.jythonui.server.objectgensymimpl.CrudObjectGenSym;
@@ -74,172 +75,165 @@ import com.jythonui.server.storage.registry.IStorageRealmRegistry;
  */
 public class ServerService {
 
-    public static class ServiceModule extends HotelServiceModule {
-        @Override
-        protected void configure() {
-            configureHotel();
-            bind(IJythonUIServerProperties.class).to(ServerProperties.class)
-                    .in(Singleton.class);
-            bind(ITestEnhancer.class).to(TestEnhancer.class);
-            bind(IJythonUIServerProperties.class).to(ServerProperties.class)
-                    .in(Singleton.class);
-            bind(ICommonCacheFactory.class).to(SimpleMapCacheFactory.class).in(
-                    Singleton.class);
-            bind(IStorageRegistryFactory.class).to(
-                    StorageRealmRegistryFactory.class).in(Singleton.class);
-            bind(ISemaphore.class).to(SemaphoreRegistry.class).in(
-                    Singleton.class);
-            bind(IGetAutomPatterns.class).to(GetTestPatterns.class).in(
-                    Singleton.class);
-            bind(IGetConnection.class)
-                    .toProvider(EmptyConnectionProvider.class).in(
-                            Singleton.class);
-            bind(IJythonRPCNotifier.class).to(EmptyRPCNotifier.class).in(
-                    Singleton.class);
-            // bind(IBeanLocator.class).to(EjbLocatorGlassfish.class).in(
-            // Singleton.class);
-            bind(IGetEnvDefaultData.class).to(EmptyGetEnvDefaultData.class).in(
-                    Singleton.class);
-            bind(IBeanLocator.class).to(EjbLocatorWildFly.class).in(
-                    Singleton.class);
-            bind(Session.class).annotatedWith(Names.named(IConsts.SENDMAIL))
-                    .toProvider(JavaMailSessionProvider.class)
-                    .in(Singleton.class);
-			bind(IConvertJythonTimestamp.class).to(ConvertPython27.class).in(
-					Singleton.class);
+	public static class ServiceModule extends HotelServiceModule {
+		@Override
+		protected void configure() {
+			configureHotel();
+			bind(IJythonUIServerProperties.class).to(ServerProperties.class).in(Singleton.class);
+			bind(ITestEnhancer.class).to(TestEnhancer.class);
+			bind(IJythonUIServerProperties.class).to(ServerProperties.class).in(Singleton.class);
+			bind(ICommonCacheFactory.class).to(SimpleMapCacheFactory.class).in(Singleton.class);
+			bind(IStorageRegistryFactory.class).to(StorageRealmRegistryFactory.class).in(Singleton.class);
+			bind(ISemaphore.class).to(SemaphoreRegistry.class).in(Singleton.class);
+			bind(IGetAutomPatterns.class).to(GetTestPatterns.class).in(Singleton.class);
+			bind(IGetConnection.class).toProvider(EmptyConnectionProvider.class).in(Singleton.class);
+			bind(IJythonRPCNotifier.class).to(EmptyRPCNotifier.class).in(Singleton.class);
+			// bind(IBeanLocator.class).to(EjbLocatorGlassfish.class).in(
+			// Singleton.class);
+			bind(IGetEnvDefaultData.class).to(EmptyGetEnvDefaultData.class).in(Singleton.class);
+			bind(IBeanLocator.class).to(EjbLocatorWildFly.class).in(Singleton.class);
+			bind(Session.class).annotatedWith(Names.named(IConsts.SENDMAIL)).toProvider(JavaMailSessionProvider.class)
+					.in(Singleton.class);
+			bind(IConvertJythonTimestamp.class).to(ConvertPython27.class).in(Singleton.class);
 
-            // bind(Session.class).annotatedWith(Names.named(IConsts.GETMAIL))
-            // .toProvider(JavaGetMailSessionProvider.class)
-            // .in(Singleton.class);
+			// bind(Session.class).annotatedWith(Names.named(IConsts.GETMAIL))
+			// .toProvider(JavaGetMailSessionProvider.class)
+			// .in(Singleton.class);
 
-            requestStatic();
-            requestStaticInjection(TestHelper.class);
-        }
+			requestStatic();
+			requestStaticInjection(TestHelper.class);
+		}
 
-        @Provides
-        @Singleton
-        @Named(IConsts.GETMAIL)
-        Session getGetMail() {
-            return null;
-        }
+		@Provides
+		@Singleton
+		@Named(IConsts.GETMAIL)
+		Session getGetMail() {
+			return null;
+		}
 
-        @Provides
-        @Singleton
-        IReservationForm getReservationForm(IBeanLocator iBean) {
-            return iBean.getReservationForm();
-        }
+		@Provides
+		@Singleton
+		IReservationForm getReservationForm(IBeanLocator iBean) {
+			return iBean.getReservationForm();
+		}
 
-        @Provides
-        @Singleton
-        IReservationOp getReservationOp(IBeanLocator iBean) {
-            return iBean.getReservationOp();
-        }
+		@Provides
+		@Singleton
+		IReservationOp getReservationOp(IBeanLocator iBean) {
+			return iBean.getReservationOp();
+		}
 
-        @Provides
-        @Singleton
-        IClearHotel getClearHotel(IBeanLocator iBean) {
-            return iBean.getClearHotel();
-        }
+		@Provides
+		@Singleton
+		IClearHotel getClearHotel(IBeanLocator iBean) {
+			return iBean.getClearHotel();
+		}
 
-        @Provides
-        @Singleton
-        ICustomerBills getCustomerBills(IBeanLocator iBean) {
-            return iBean.getCustomerBills();
-        }
+		@Provides
+		@Singleton
+		ICustomerBills getCustomerBills(IBeanLocator iBean) {
+			return iBean.getCustomerBills();
+		}
 
-        @Provides
-        @Singleton
-        IPaymentBillOp getPaymentBillOp(IBeanLocator iBean) {
-            return iBean.getBillPaymentOp();
-        }
+		@Provides
+		@Singleton
+		IPaymentBillOp getPaymentBillOp(IBeanLocator iBean) {
+			return iBean.getBillPaymentOp();
+		}
 
-        @Provides
-        @Singleton
-        IBlobHandler getBlobHandler(IBeanLocator iBean) {
-            return iBean.getBlobHandler();
-        }
+		@Provides
+		@Singleton
+		IBlobHandler getBlobHandler(IBeanLocator iBean) {
+			return iBean.getBlobHandler();
+		}
 
-        @Provides
-        @Singleton
-        INoteStorage getNoteStorage(IBeanLocator iBean) {
-            return iBean.getNoteStorage();
-        }
+		@Provides
+		@Singleton
+		INoteStorage getNoteStorage(IBeanLocator iBean) {
+			return iBean.getNoteStorage();
+		}
 
-        @Provides
-        @Singleton
-        IAppInstanceOObject getAppHotel(IBeanLocator iBean) {
-            return iBean.getAppInstanceObject();
-        }
+		@Provides
+		@Singleton
+		IAppInstanceOObject getAppHotel(IBeanLocator iBean) {
+			return iBean.getAppInstanceObject();
+		}
 
-        @Provides
-        @Singleton
-        IOObjectAdmin getHotelAdmin(IBeanLocator iBean) {
-            return iBean.getObjectAdmin();
-        }
+		@Provides
+		@Singleton
+		IOObjectAdmin getHotelAdmin(IBeanLocator iBean) {
+			return iBean.getObjectAdmin();
+		}
 
-        @Provides
-        @Singleton
-        IStorageRealmRegistry getRealmRegistry(IBeanLocator iBean) {
-            return iBean.getStorageRealm();
-        }
+		@Provides
+		@Singleton
+		IStorageRealmRegistry getRealmRegistry(IBeanLocator iBean) {
+			return iBean.getStorageRealm();
+		}
 
-        @Provides
-        @Singleton
-        IHotelServices getHotelServices(IBeanLocator iBean) {
-            return iBean.getHotelServices();
-        }
+		@Provides
+		@Singleton
+		IHotelServices getHotelServices(IBeanLocator iBean) {
+			return iBean.getHotelServices();
+		}
 
-        @Provides
-        @Singleton
-        IHotelPriceList getHotelPriceList(IBeanLocator iBean) {
-            return iBean.getHotelPriceList();
-        }
+		@Provides
+		@Singleton
+		IHotelPriceList getHotelPriceList(IBeanLocator iBean) {
+			return iBean.getHotelPriceList();
+		}
 
-        @Provides
-        @Singleton
-        IHotelPriceElem getPriceElem(IBeanLocator iBean) {
-            return iBean.getHotelPriceElem();
-        }
+		@Provides
+		@Singleton
+		IHotelPriceElem getPriceElem(IBeanLocator iBean) {
+			return iBean.getHotelPriceElem();
+		}
 
-        @Provides
-        @Singleton
-        IHotelRooms getHotelRooms(IBeanLocator iBean) {
-            return iBean.getHotelRooms();
-        }
+		@Provides
+		@Singleton
+		IHotelRooms getHotelRooms(IBeanLocator iBean) {
+			return iBean.getHotelRooms();
+		}
 
-        @Provides
-        @Singleton
-        IHotelCustomers getHotelCustomers(IBeanLocator iBean) {
-            return iBean.getHotelCustomers();
-        }
+		@Provides
+		@Singleton
+		IHotelCustomers getHotelCustomers(IBeanLocator iBean) {
+			return iBean.getHotelCustomers();
+		}
 
-        @Provides
-        @Singleton
-        IHotelMailList getHotelMailing(IBeanLocator iBean) {
-            return iBean.getHotelMail();
-        }
+		@Provides
+		@Singleton
+		IHotelMailList getHotelMailing(IBeanLocator iBean) {
+			return iBean.getHotelMail();
+		}
 
-        @Provides
-        @Singleton
-        ICrudObjectGenSym getCrudObjectGenSym(ISymGenerator iGen,
-                @Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess lMess) {
-            return new CrudObjectGenSym(iGen, lMess);
-        }
+		@Provides
+		@Singleton
+		ICrudObjectGenSym getCrudObjectGenSym(ISymGenerator iGen,
+				@Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess lMess) {
+			return new CrudObjectGenSym(iGen, lMess);
+		}
 
-        @Provides
-        @Singleton
-        ISetTestToday getSetToday(final IClearHotel iClear) {
-            return new ISetTestToday() {
+		@Provides
+		@Singleton
+		IJournal getJournal(IBeanLocator iBean) {
+			return iBean.getJournal();
+		}
 
-                @Override
-                public void setToday(Date p) {
-                    DateFormatUtil.setTestToday(p);
-                    iClear.setTestDataToday(p);
-                }
+		@Provides
+		@Singleton
+		ISetTestToday getSetToday(final IClearHotel iClear) {
+			return new ISetTestToday() {
 
-            };
-        }
+				@Override
+				public void setToday(Date p) {
+					DateFormatUtil.setTestToday(p);
+					iClear.setTestDataToday(p);
+				}
 
-    }
+			};
+		}
+
+	}
 
 }

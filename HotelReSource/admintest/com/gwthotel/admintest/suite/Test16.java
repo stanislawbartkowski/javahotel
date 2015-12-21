@@ -35,135 +35,123 @@ import com.jythonui.shared.DialogVariables;
 
 public class Test16 extends TestHelper {
 
-    private final static String SERVICE1 = "beef";
-    private final static String RESNAME = "2013/R/2";
+	private final static String SERVICE1 = "beef";
+	private final static String RESNAME = "2013/R/2";
 
-    @Before
-    public void before() {
-        clearObjects();
-        createHotels();
-        setTestToday(DateFormatUtil.toD(2013, 6, 13));
-    }
+	@Before
+	public void before() {
+		clearObjects();
+		createHotels();
+		setTestToday(DateFormatUtil.toD(2013, 6, 13));
+	}
 
-    @Test
-    public void test1() {
-        HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL),
-                HotelObjects.CUSTOMER);
-        p.setGensymbol(true);
-        p = iCustomers.addElem(getH(HOTEL), p);
-        ReservationForm r = (ReservationForm) hObjects.construct(getH(HOTEL),
-                HotelObjects.RESERVATION);
-        r.setCustomerName(p.getName());
-        r.setName(RESNAME);
-        r = iRes.addElem(getH(HOTEL), r);
-        System.out.println(r.getName());
+	@Test
+	public void test1() {
+		HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL), HotelObjects.CUSTOMER);
+		p = iCustomers.addElem(getH(HOTEL), p);
+		ReservationForm r = (ReservationForm) hObjects.construct(getH(HOTEL), HotelObjects.RESERVATION);
+		r.setCustomerName(p.getName());
+		r.setName(RESNAME);
+		r = iRes.addElem(getH(HOTEL), r);
+		System.out.println(r.getName());
 
-        assertNotNull(r.getName());
-        HotelRoom ho = new HotelRoom();
-        ho.setName("P10");
-        ho.setNoPersons(3);
-        iRooms.addElem(getH(HOTEL), ho);
+		assertNotNull(r.getName());
+		HotelRoom ho = new HotelRoom();
+		ho.setName("P10");
+		ho.setNoPersons(3);
+		iRooms.addElem(getH(HOTEL), ho);
 
-        HotelServices se = new HotelServices();
-        se.setName(SERVICE1);
-        se.setDescription("Restaurant");
-        se.setAttr(IHotelConsts.VATPROP, "7%");
-        se.setServiceType(ServiceType.OTHER);
-        iServices.addElem(getH(HOTEL), se);
-        se = iServices.findElem(getH(HOTEL), "beef");
+		HotelServices se = new HotelServices();
+		se.setName(SERVICE1);
+		se.setDescription("Restaurant");
+		se.setAttr(IHotelConsts.VATPROP, "7%");
+		se.setServiceType(ServiceType.OTHER);
+		iServices.addElem(getH(HOTEL), se);
+		se = iServices.findElem(getH(HOTEL), "beef");
 
-        p = (HotelCustomer) hObjects.construct(getH(HOTEL),
-                HotelObjects.CUSTOMER);
-        p.setGensymbol(true);
-        String guest1 = iCustomers.addElem(getH(HOTEL), p).getName();
+		p = (HotelCustomer) hObjects.construct(getH(HOTEL), HotelObjects.CUSTOMER);
+		String guest1 = iCustomers.addElem(getH(HOTEL), p).getName();
 
-        ReservationPaymentDetail add = new ReservationPaymentDetail();
-        add.setDescription("Beverage");
-        add.setGuestName(guest1);
-        add.setPrice(new BigDecimal(100));
-        add.setPriceList(new BigDecimal(150.00));
-        add.setPriceTotal(new BigDecimal(200.0));
-        add.setQuantity(2);
-        add.setRoomName("P10");
-        add.setServDate(toDate(2013, 4, 5));
-        add.setService(SERVICE1);
-        add.setVat("22%");
-        iResOp.addResAddPayment(getH(HOTEL), RESNAME, add);
+		ReservationPaymentDetail add = new ReservationPaymentDetail();
+		add.setDescription("Beverage");
+		add.setGuestName(guest1);
+		add.setPrice(new BigDecimal(100));
+		add.setPriceList(new BigDecimal(150.00));
+		add.setPriceTotal(new BigDecimal(200.0));
+		add.setQuantity(2);
+		add.setRoomName("P10");
+		add.setServDate(toDate(2013, 4, 5));
+		add.setService(SERVICE1);
+		add.setVat("22%");
+		iResOp.addResAddPayment(getH(HOTEL), RESNAME, add);
 
-        List<ReservationPaymentDetail> aList = iResOp.getResAddPaymentList(
-                getH(HOTEL), RESNAME);
-        assertEquals(1, aList.size());
-        add = aList.get(0);
-        assertEquals("Beverage", add.getDescription());
-        assertEquals(guest1, add.getGuestName());
-        assertEqB(100.0, add.getPrice());
-        assertEqB(150.0, add.getPriceList());
-        assertEqB(200.0, add.getPriceTotal());
-        assertEquals(2, add.getQuantity());
-        eqD(2013, 4, 5, add.getServDate());
-        assertEquals(SERVICE1, add.getService());
-        assertEquals("22%", add.getVat());
-    }
+		List<ReservationPaymentDetail> aList = iResOp.getResAddPaymentList(getH(HOTEL), RESNAME);
+		assertEquals(1, aList.size());
+		add = aList.get(0);
+		assertEquals("Beverage", add.getDescription());
+		assertEquals(guest1, add.getGuestName());
+		assertEqB(100.0, add.getPrice());
+		assertEqB(150.0, add.getPriceList());
+		assertEqB(200.0, add.getPriceTotal());
+		assertEquals(2, add.getQuantity());
+		eqD(2013, 4, 5, add.getServDate());
+		assertEquals(SERVICE1, add.getService());
+		assertEquals("22%", add.getVat());
+	}
 
-    @Test
-    public void test2() {
-        test1();
-        HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL),
-                HotelObjects.CUSTOMER);
-        p.setGensymbol(true);
-        String guest1 = iCustomers.addElem(getH(HOTEL), p).getName();
+	@Test
+	public void test2() {
+		test1();
+		HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL), HotelObjects.CUSTOMER);
+		String guest1 = iCustomers.addElem(getH(HOTEL), p).getName();
 
-        for (int i = 0; i < 100; i++) {
-            ReservationPaymentDetail add = new ReservationPaymentDetail();
-            add.setDescription("Beverage");
-            add.setGuestName(guest1);
-            add.setPrice(new BigDecimal(100));
-            add.setPriceList(new BigDecimal(150.00));
-            add.setPriceTotal(new BigDecimal(200.0));
-            add.setQuantity(2);
-            add.setRoomName("P10");
-            add.setServDate(toDate(2013, 4, 5));
-            add.setVat("7%");
-            iResOp.addResAddPayment(getH(HOTEL), RESNAME, add);
-        }
-        List<ReservationPaymentDetail> aList = iResOp.getResAddPaymentList(
-                getH(HOTEL), RESNAME);
-        assertEquals(101, aList.size());
-    }
+		for (int i = 0; i < 100; i++) {
+			ReservationPaymentDetail add = new ReservationPaymentDetail();
+			add.setDescription("Beverage");
+			add.setGuestName(guest1);
+			add.setPrice(new BigDecimal(100));
+			add.setPriceList(new BigDecimal(150.00));
+			add.setPriceTotal(new BigDecimal(200.0));
+			add.setQuantity(2);
+			add.setRoomName("P10");
+			add.setServDate(toDate(2013, 4, 5));
+			add.setVat("7%");
+			iResOp.addResAddPayment(getH(HOTEL), RESNAME, add);
+		}
+		List<ReservationPaymentDetail> aList = iResOp.getResAddPaymentList(getH(HOTEL), RESNAME);
+		assertEquals(101, aList.size());
+	}
 
-    @Test
-    public void test3() {
-        test1();
-        HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL),
-                HotelObjects.CUSTOMER);
-        p.setGensymbol(true);
-        String guest1 = iCustomers.addElem(getH(HOTEL), p).getName();
+	@Test
+	public void test3() {
+		test1();
+		HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL), HotelObjects.CUSTOMER);
+		String guest1 = iCustomers.addElem(getH(HOTEL), p).getName();
 
-        ReservationPaymentDetail add = new ReservationPaymentDetail();
-        add.setDescription("Beverage");
-        add.setGuestName(guest1);
-        add.setPrice(new BigDecimal(100));
-        add.setPriceList(new BigDecimal(150));
-        // decimal part
-        add.setPriceTotal(new BigDecimal(200));
-        add.setQuantity(2);
-        add.setRoomName("P10");
-        add.setServDate(toDate(2013, 4, 5));
-        add.setVat("7%");
-        iResOp.addResAddPayment(getH(HOTEL), RESNAME, add);
+		ReservationPaymentDetail add = new ReservationPaymentDetail();
+		add.setDescription("Beverage");
+		add.setGuestName(guest1);
+		add.setPrice(new BigDecimal(100));
+		add.setPriceList(new BigDecimal(150));
+		// decimal part
+		add.setPriceTotal(new BigDecimal(200));
+		add.setQuantity(2);
+		add.setRoomName("P10");
+		add.setServDate(toDate(2013, 4, 5));
+		add.setVat("7%");
+		iResOp.addResAddPayment(getH(HOTEL), RESNAME, add);
 
-        List<ReservationPaymentDetail> aList = iResOp.getResAddPaymentList(
-                getH(HOTEL), RESNAME);
-        assertEquals(2, aList.size());
+		List<ReservationPaymentDetail> aList = iResOp.getResAddPaymentList(getH(HOTEL), RESNAME);
+		assertEquals(2, aList.size());
 
-        DialogFormat d = findDialog("dialog2.xml");
-        assertNotNull(d);
-        DialogVariables v = new DialogVariables();
-        runAction(v, "dialog3.xml", "addpayment");
+		DialogFormat d = findDialog("dialog2.xml");
+		assertNotNull(d);
+		DialogVariables v = new DialogVariables();
+		runAction(v, "dialog3.xml", "addpayment");
 
-        aList = iResOp.getResAddPaymentList(getH(HOTEL), RESNAME);
-        assertEquals(3, aList.size());
+		aList = iResOp.getResAddPaymentList(getH(HOTEL), RESNAME);
+		assertEquals(3, aList.size());
 
-    }
+	}
 
 }

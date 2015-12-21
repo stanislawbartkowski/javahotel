@@ -35,6 +35,7 @@ import com.jython.ui.TestHelper;
 import com.jython.ui.server.datastore.IDateLineOp;
 import com.jython.ui.server.datastore.IDateRecordOp;
 import com.jython.ui.server.datastore.IPersonOp;
+import com.jython.ui.server.jpajournal.JpaJournal;
 import com.jython.ui.server.jpanote.JpaNoteStorage;
 import com.jython.ui.server.jpastoragekey.BlobEntryJpaHandler;
 import com.jython.ui.server.jpastoragekey.IStorageJpaRegistryFactory;
@@ -62,6 +63,7 @@ import com.jythonui.server.defa.JavaMailSessionProvider;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.guavacache.GuavaCacheFactory;
 import com.jythonui.server.guice.JythonServerService.JythonServiceModule;
+import com.jythonui.server.journal.IJournal;
 import com.jythonui.server.jython.ConvertPython27;
 import com.jythonui.server.mail.INoteStorage;
 import com.jythonui.server.objectgensymimpl.CrudObjectGenSym;
@@ -124,6 +126,7 @@ public class ServerService {
 					Singleton.class);
 			bind(IConvertJythonTimestamp.class).to(ConvertPython27.class).in(
 					Singleton.class);
+			bind(IJournal.class).to(JpaJournal.class).in(Singleton.class);
 			requestStatic();
 			requestStaticInjection(TestHelper.class);
 

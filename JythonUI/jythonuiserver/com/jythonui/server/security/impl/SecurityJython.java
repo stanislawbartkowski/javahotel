@@ -20,6 +20,7 @@ import javax.inject.Named;
 import org.apache.shiro.subject.Subject;
 
 import com.jythonui.server.IConsts;
+import com.jythonui.server.IJournalLogin;
 import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.IStorageMemCache;
 import com.jythonui.server.UtilHelper;
@@ -37,24 +38,25 @@ public class SecurityJython extends UtilHelper implements ISecurity {
 	private final SubjectCache cCache;
 	private final ISecurityResolver iResolver;
 	private final IStorageMemCache iCache;
+	private final IJournalLogin iLog;
 
 	@Inject
-	public SecurityJython(
-			@Named(IConsts.SECURITYREALM) IStorageMemCache iCache,
-			ISecurityResolver iResolver,
-			@Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess gMess) {
+	public SecurityJython(@Named(IConsts.SECURITYREALM) IStorageMemCache iCache, ISecurityResolver iResolver,
+			@Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess gMess, IJournalLogin iLog) {
 		cCache = new SubjectCache(iCache, gMess);
 		this.iResolver = iResolver;
 		this.gMess = gMess;
 		this.iCache = iCache;
+		this.iLog = iLog;
 	}
 
 	@Override
-	public String authenticateToken(String realm, String userName,
-			String password, ICustomSecurity iCustom) {
-		SessionEntry se = new SessionEntry(userName, password, realm, iCustom,
-				true);
-		return cCache.authenticateS(se);
+	public String authenticateToken(String realm, String userName, String password, ICustomSecurity iCustom) {
+		SessionEntry se = new SessionEntry(userName, password, realm, iCustom, true);
+		String token = cCache.authenticateS(se);
+		if (token != null)
+			iLog.login(userName, iCustom);
+		return token;
 	}
 
 	@Override
@@ -63,6 +65,7 @@ public class SecurityJython extends UtilHelper implements ISecurity {
 		String tokenS = i.toString();
 		SessionEntry se = new SessionEntry(null, null, null, iCustom, false);
 		iCache.put(tokenS, se);
+		iLog.login(null, null);
 		return tokenS;
 	}
 
@@ -71,6 +74,7 @@ public class SecurityJython extends UtilHelper implements ISecurity {
 		Subject currentUser = cCache.getSubject(token);
 		if (currentUser == null)
 			return; // TODO: more detailed log
+		iLog.logout(token);
 		currentUser.logout();
 		if (currentUser.getSession() != null)
 			currentUser.getSession().stop();
@@ -86,8 +90,7 @@ public class SecurityJython extends UtilHelper implements ISecurity {
 	public boolean isAuthorized(String token, String permission) {
 		Subject currentUser = cCache.getSubject(token);
 		if (currentUser == null) {
-			severe(gMess.getMess(IErrorCode.ERRORCODE21, ILogMess.INVALIDTOKEN,
-					token));
+			severe(gMess.getMess(IErrorCode.ERRORCODE21, ILogMess.INVALIDTOKEN, token));
 			return false;
 		}
 		return iResolver.isAuthorized(currentUser, permission);
@@ -109,8 +112,7 @@ public class SecurityJython extends UtilHelper implements ISecurity {
 		if (token != null && cCache.isAutenticated(token)) {
 			currentUser = cCache.getSubject(token);
 			if (currentUser == null) {
-				severe(gMess.getMess(IErrorCode.ERRORCODE96,
-						ILogMess.INVALIDTOKEN, token));
+				severe(gMess.getMess(IErrorCode.ERRORCODE96, ILogMess.INVALIDTOKEN, token));
 				return null;
 			}
 		}

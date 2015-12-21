@@ -377,7 +377,6 @@ class ConstructObject :
         if t == 1 : oType = HotelObjects.RESERVATION
         if t == 2 : oType = HotelObjects.BILL
         o = self.factory.construct(self.hotel,oType)
-        o.setGensymbol(True)
         return o
             
 def newResForm(var):

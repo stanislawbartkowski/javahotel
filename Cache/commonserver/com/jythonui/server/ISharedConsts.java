@@ -24,6 +24,7 @@ public interface ISharedConsts {
 	String COMMONAPPINSTANCEJNDI = "java:global/AppInstance";
 
 	String COMMONNOTESTORAGEJNDI = "java:global/NoteStorage";
+	String COMMONNOJOURNALJNDI = "java:global/JournalStorage";
 
 	String JYTHONMESSSERVER = "jythonservermess";
 
@@ -72,4 +73,10 @@ public interface ISharedConsts {
 
 	String SUGGESTIONREALM = "SUGGESTION-REALM";
 	String REMEMBERREALM = "REMEMBER-REALM";
+
+	String JOURNALPATT = "JOURNAL (Y) / (M) / (N)";
+	String JOURNALTYPE = "JOURNALTYPE";
+	String JOURNALTYPESPEC = "JOURNALTYPESPEC";
+	String JOURNALELEM1 = "JOURNALELEM1";
+	String JOURNALELEM2 = "JOURNALELEM2";
 }

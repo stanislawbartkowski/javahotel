@@ -48,6 +48,7 @@ import com.jythonui.server.IXMLToMap;
 import com.jythonui.server.crud.ICrudObjectGenSym;
 import com.jythonui.server.dict.IGetLocalizedDict;
 import com.jythonui.server.holder.Holder;
+import com.jythonui.server.journal.IJournal;
 import com.jythonui.server.mail.INoteStorage;
 import com.jythonui.server.newblob.IAddNewBlob;
 import com.jythonui.server.registry.IStorageRegistryFactory;
@@ -133,6 +134,8 @@ abstract public class CommonTestHelper {
 	protected static ISuggestionStorage iSugg;
 	@Inject
 	protected static IRememberValue iRem;
+	@Inject
+	protected static IJournal iJournal;
 
 	protected CommonTestHelper() {
 		iListC = Holder.getListOfCountries();
@@ -235,9 +238,10 @@ abstract public class CommonTestHelper {
 		assertNotNull(v.getValue("OK"));
 		assertTrue(v.getValue("OK").getValueB());
 	}
-	
+
 	protected void assertNotOK(DialogVariables v) {
-		if (v.getValue("OK") == null) return;
+		if (v.getValue("OK") == null)
+			return;
 		assertFalse(v.getValue("OK").getValueB());
 	}
 

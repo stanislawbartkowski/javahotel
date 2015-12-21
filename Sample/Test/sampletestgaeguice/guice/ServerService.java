@@ -33,6 +33,7 @@ import com.jython.ui.server.datastore.IPersonOp;
 import com.jython.ui.server.datastore.gae.DateLineOp;
 import com.jython.ui.server.datastore.gae.DateRecordOp;
 import com.jython.ui.server.datastore.gae.PersonOp;
+import com.jython.ui.server.gae.journalimpl.JournalImpl;
 import com.jython.ui.server.gae.noteimpl.NoteStoreImpl;
 import com.jython.ui.server.gae.security.impl.ObjectAdminGae;
 import com.jython.ui.server.gae.security.impl.ObjectInstanceImpl;
@@ -53,6 +54,7 @@ import com.jythonui.server.defa.JavaGetMailSessionProvider;
 import com.jythonui.server.defa.JavaMailSessionProvider;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.guice.JythonServerService.JythonServiceModule;
+import com.jythonui.server.journal.IJournal;
 import com.jythonui.server.jython.GAEConvert;
 import com.jythonui.server.mail.INoteStorage;
 import com.jythonui.server.objectgensymimpl.CrudObjectGenSym;
@@ -69,59 +71,43 @@ import com.table.testenhancer.gae.LocalDataStoreTestEnvironment;
  */
 public class ServerService {
 
-    public static class ServiceModule extends JythonServiceModule {
-        @Override
-        protected void configure() {
-            configureJythonUi();
-            bind(IPersonOp.class).to(PersonOp.class).in(Singleton.class);
-            bind(IDateLineOp.class).to(DateLineOp.class).in(Singleton.class);
-            bind(IJythonUIServerProperties.class).to(ServerProperties.class)
-                    .in(Singleton.class);
-            bind(ITestEnhancer.class).to(LocalDataStoreTestEnvironment.class);
-            bind(ICommonCacheFactory.class).to(CommonCacheFactory.class).in(
-                    Singleton.class);
-            // common
-            bind(IBlobHandler.class).to(BlobStorage.class).in(Singleton.class);
-            bind(IStorageRealmRegistry.class).to(GaeStorageRegistry.class).in(
-                    Singleton.class);
-            bind(IDateRecordOp.class).to(DateRecordOp.class)
-                    .in(Singleton.class);
-            bind(ISemaphore.class).to(SemaphoreRegistry.class).in(
-                    Singleton.class);
-            bind(IGetConnection.class)
-                    .toProvider(EmptyConnectionProvider.class).in(
-                            Singleton.class);
-            bind(ISetTestToday.class).toProvider(SetTestTodayProvider.class)
-                    .in(Singleton.class);
-            bind(IJythonRPCNotifier.class).to(EmptyRPCNotifier.class).in(
-                    Singleton.class);
-            bind(IOObjectAdmin.class).to(ObjectAdminGae.class).in(
-                    Singleton.class);
-            bind(IAppInstanceOObject.class).to(ObjectInstanceImpl.class).in(
-                    Singleton.class);
-            bind(Session.class).annotatedWith(Names.named(IConsts.SENDMAIL))
-                    .toProvider(JavaMailSessionProvider.class)
-                    .in(Singleton.class);
-            bind(Session.class).annotatedWith(Names.named(IConsts.GETMAIL))
-                    .toProvider(JavaGetMailSessionProvider.class)
-                    .in(Singleton.class);
-            bind(INoteStorage.class).to(NoteStoreImpl.class)
-                    .in(Singleton.class);
-            bind(IGetEnvDefaultData.class).to(EmptyGetEnvDefaultData.class).in(
-                    Singleton.class);
-			bind(IConvertJythonTimestamp.class).to(GAEConvert.class).in(
-					Singleton.class);
-            requestStatic();
-            requestStaticInjection(TestHelper.class);
-        }
+	public static class ServiceModule extends JythonServiceModule {
+		@Override
+		protected void configure() {
+			configureJythonUi();
+			bind(IPersonOp.class).to(PersonOp.class).in(Singleton.class);
+			bind(IDateLineOp.class).to(DateLineOp.class).in(Singleton.class);
+			bind(IJythonUIServerProperties.class).to(ServerProperties.class).in(Singleton.class);
+			bind(ITestEnhancer.class).to(LocalDataStoreTestEnvironment.class);
+			bind(ICommonCacheFactory.class).to(CommonCacheFactory.class).in(Singleton.class);
+			// common
+			bind(IBlobHandler.class).to(BlobStorage.class).in(Singleton.class);
+			bind(IStorageRealmRegistry.class).to(GaeStorageRegistry.class).in(Singleton.class);
+			bind(IDateRecordOp.class).to(DateRecordOp.class).in(Singleton.class);
+			bind(ISemaphore.class).to(SemaphoreRegistry.class).in(Singleton.class);
+			bind(IGetConnection.class).toProvider(EmptyConnectionProvider.class).in(Singleton.class);
+			bind(ISetTestToday.class).toProvider(SetTestTodayProvider.class).in(Singleton.class);
+			bind(IJythonRPCNotifier.class).to(EmptyRPCNotifier.class).in(Singleton.class);
+			bind(IOObjectAdmin.class).to(ObjectAdminGae.class).in(Singleton.class);
+			bind(IAppInstanceOObject.class).to(ObjectInstanceImpl.class).in(Singleton.class);
+			bind(Session.class).annotatedWith(Names.named(IConsts.SENDMAIL)).toProvider(JavaMailSessionProvider.class)
+					.in(Singleton.class);
+			bind(Session.class).annotatedWith(Names.named(IConsts.GETMAIL)).toProvider(JavaGetMailSessionProvider.class)
+					.in(Singleton.class);
+			bind(INoteStorage.class).to(NoteStoreImpl.class).in(Singleton.class);
+			bind(IGetEnvDefaultData.class).to(EmptyGetEnvDefaultData.class).in(Singleton.class);
+			bind(IConvertJythonTimestamp.class).to(GAEConvert.class).in(Singleton.class);
+			bind(IJournal.class).to(JournalImpl.class).in(Singleton.class);
+			requestStatic();
+			requestStaticInjection(TestHelper.class);
+		}
 
-        @Provides
-        @Singleton
-        ICrudObjectGenSym getObjectGen(ISymGenerator iGen,
-                @Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess lMess) {
-            return new CrudObjectGenSym(iGen, lMess);
-        }
+		@Provides
+		@Singleton
+		ICrudObjectGenSym getObjectGen(ISymGenerator iGen, @Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess lMess) {
+			return new CrudObjectGenSym(iGen, lMess);
+		}
 
-    }
+	}
 
 }

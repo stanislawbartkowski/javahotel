@@ -20,67 +20,66 @@ import com.jythonui.shared.PropDescription;
 
 public class Note extends PropDescription {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private boolean text;
+	private boolean text;
 
-    private List<NoteAttach> aList = new ArrayList<NoteAttach>();
-    private List<String> recipientsList = new ArrayList<String>();
+	private List<NoteAttach> aList = new ArrayList<NoteAttach>();
+	private List<String> recipientsList = new ArrayList<String>();
 
-    public Note() {
-        setGensymbol(true);
-        setAttr(ISharedConsts.PATTPROP, ISharedConsts.MAILNOTEPATT);
-    }
+	public Note() {
+		setAttr(ISharedConsts.PATTPROP, ISharedConsts.MAILNOTEPATT);
+	}
 
-    public String getFrom() {
-        return getAttr(ISharedConsts.MAILFROM);
-    }
+	public String getFrom() {
+		return getAttr(ISharedConsts.MAILFROM);
+	}
 
-    public void setFrom(String from) {
-        setAttr(ISharedConsts.MAILFROM, from);
-    }
+	public void setFrom(String from) {
+		setAttr(ISharedConsts.MAILFROM, from);
+	}
 
-    public String getContent() {
-        return getAttr(ISharedConsts.MAILCONTENT);
-    }
+	public String getContent() {
+		return getAttr(ISharedConsts.MAILCONTENT);
+	}
 
-    public void setSendResult(String res) {
-        setAttr(ISharedConsts.MAILSENTRESULT, res);
-    }
+	public void setSendResult(String res) {
+		setAttr(ISharedConsts.MAILSENTRESULT, res);
+	}
 
-    public String getSendResult() {
-        return getAttr(ISharedConsts.MAILSENTRESULT);
-    }
+	public String getSendResult() {
+		return getAttr(ISharedConsts.MAILSENTRESULT);
+	}
 
-    public void setContent(String content) {
-        setAttr(ISharedConsts.MAILCONTENT, content);
-    }
+	public void setContent(String content) {
+		setAttr(ISharedConsts.MAILCONTENT, content);
+	}
 
-    public List<NoteAttach> getaList() {
-        return aList;
-    }
+	public List<NoteAttach> getaList() {
+		return aList;
+	}
 
-    public boolean isText() {
-        return text;
-    }
+	public boolean isText() {
+		return text;
+	}
 
-    public void setText(boolean text) {
-        this.text = text;
-    }
+	public void setText(boolean text) {
+		this.text = text;
+	}
 
-    public List<String> getRecipientsList() {
-        return recipientsList;
-    }
+	public List<String> getRecipientsList() {
+		return recipientsList;
+	}
 
-    public void setRecipient(String recipient) {
-        recipientsList.clear();
-        recipientsList.add(recipient);
-    }
+	public void setRecipient(String recipient) {
+		recipientsList.clear();
+		recipientsList.add(recipient);
+	}
 
-    public Object getRecipient() {
-        if (recipientsList.isEmpty())
-            return null;
-        return recipientsList.get(0);
-    }
+	public Object getRecipient() {
+		if (recipientsList.isEmpty())
+			return null;
+		return recipientsList.get(0);
+	}
 
 }

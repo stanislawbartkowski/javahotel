@@ -57,7 +57,6 @@ public class Test32 extends TestHelper {
     public void test2() {
         HotelCustomer cust = (HotelCustomer) hObjects.construct(getH(HOTEL),
                 HotelObjects.CUSTOMER);
-        cust.setGensymbol(true);
         cust = iCustomers.addElem(getH(HOTEL), cust);
         assertNotNull(cust);
         List<String> li = iResOp.getReseForInfoType(getH(HOTEL),
@@ -75,7 +74,6 @@ public class Test32 extends TestHelper {
     public void test3() {
         HotelCustomer cust = (HotelCustomer) hObjects.construct(getH(HOTEL),
                 HotelObjects.CUSTOMER);
-        cust.setGensymbol(true);
         cust = iCustomers.addElem(getH(HOTEL), cust);
         assertNotNull(cust);
         List<String> li = iResOp.getReseForInfoType(getH(HOTEL),
@@ -107,7 +105,6 @@ public class Test32 extends TestHelper {
     public void test4() {
         HotelCustomer cust = (HotelCustomer) hObjects.construct(getH(HOTEL),
                 HotelObjects.CUSTOMER);
-        cust.setGensymbol(true);
         cust = iCustomers.addElem(getH(HOTEL), cust);
         assertNotNull(cust);
         List<String> li = iResOp.getReseForInfoType(getH(HOTEL),

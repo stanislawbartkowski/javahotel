@@ -25,6 +25,7 @@ import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.jython.serversecurity.IOObjectAdmin;
 import com.jython.serversecurity.instance.IAppInstanceOObject;
+import com.jythonui.server.journal.IJournal;
 import com.jythonui.server.mail.INoteStorage;
 import com.jythonui.server.storage.blob.IBlobHandler;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
@@ -32,38 +33,40 @@ import com.jythonui.server.storage.seq.ISequenceRealmGen;
 
 public interface IBeanLocator {
 
-    IOObjectAdmin getObjectAdmin();
+	IOObjectAdmin getObjectAdmin();
 
-    IAppInstanceOObject getAppInstanceObject();
+	IAppInstanceOObject getAppInstanceObject();
 
-    IStorageRealmRegistry getStorageRealm();
+	IStorageRealmRegistry getStorageRealm();
 
-    IBlobHandler getBlobHandler();
+	IBlobHandler getBlobHandler();
 
-    IHotelServices getHotelServices();
+	IHotelServices getHotelServices();
 
-    IHotelPriceList getHotelPriceList();
+	IHotelPriceList getHotelPriceList();
 
-    IHotelPriceElem getHotelPriceElem();
+	IHotelPriceElem getHotelPriceElem();
 
-    IHotelRooms getHotelRooms();
+	IHotelRooms getHotelRooms();
 
-    IHotelCustomers getHotelCustomers();
+	IHotelCustomers getHotelCustomers();
 
-    ISequenceRealmGen getSequenceRealmGen();
+	ISequenceRealmGen getSequenceRealmGen();
 
-    IReservationForm getReservationForm();
+	IReservationForm getReservationForm();
 
-    IReservationOp getReservationOp();
+	IReservationOp getReservationOp();
 
-    IClearHotel getClearHotel();
+	IClearHotel getClearHotel();
 
-    ICustomerBills getCustomerBills();
+	ICustomerBills getCustomerBills();
 
-    IPaymentBillOp getBillPaymentOp();
+	IPaymentBillOp getBillPaymentOp();
 
-    INoteStorage getNoteStorage();
+	INoteStorage getNoteStorage();
 
-    IHotelMailList getHotelMail();
+	IJournal getJournal();
+
+	IHotelMailList getHotelMail();
 
 }

@@ -36,7 +36,6 @@ public class Test11 extends TestHelper {
     public void test1() {        
         HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL),
                 HotelObjects.CUSTOMER);
-        p.setGensymbol(true);
         p.setDescription("Hejka");
         p.setDoctype('X');
         iGenSym.reset(getH(HOTEL), HotelObjects.CUSTOMER.name());
@@ -49,7 +48,6 @@ public class Test11 extends TestHelper {
         for (int i = 0; i < 100; i++) {
             p = (HotelCustomer) hObjects.construct(getH(HOTEL),
                     HotelObjects.CUSTOMER);
-            p.setGensymbol(true);
             p = iCustomers.addElem(getH(HOTEL), p);
         }
         System.out.println(p.getName());

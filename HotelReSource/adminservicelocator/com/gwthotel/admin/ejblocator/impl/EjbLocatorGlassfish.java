@@ -36,6 +36,7 @@ import com.jython.serversecurity.instance.IAppInstanceOObject;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.UtilHelper;
+import com.jythonui.server.journal.IJournal;
 import com.jythonui.server.mail.INoteStorage;
 import com.jythonui.server.storage.blob.IBlobHandler;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
@@ -172,5 +173,11 @@ public class EjbLocatorGlassfish extends UtilHelper implements IBeanLocator {
         // TODO Auto-generated method stub
         return null;
     }
+
+	@Override
+	public IJournal getJournal() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

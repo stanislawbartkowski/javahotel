@@ -29,7 +29,6 @@ public class Test30 extends TestHelper {
 
         HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL),
                 HotelObjects.CUSTOMER);
-        p.setGensymbol(true);
         p = iCustomers.addElem(getH(HOTEL), p);
         String name = p.getName();
         Long id = p.getId();

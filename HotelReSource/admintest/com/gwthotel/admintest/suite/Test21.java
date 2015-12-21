@@ -43,12 +43,10 @@ public class Test21 extends TestHelper {
 
         HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL),
                 HotelObjects.CUSTOMER);
-        p.setGensymbol(true);
         p = iCustomers.addElem(getH(HOTEL), p);
         ReservationForm r = (ReservationForm) hObjects.construct(getH(HOTEL),
                 HotelObjects.RESERVATION);
         r.setCustomerName(p.getName());
-        r.setGensymbol(true);
         ReservationPaymentDetail det = new ReservationPaymentDetail();
         det.setNoP(3);
         det.setPrice(new BigDecimal("100.0"));

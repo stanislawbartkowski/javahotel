@@ -36,6 +36,7 @@ import com.jythonui.server.IGetMailFrom;
 import com.jythonui.server.IGetResourceFile;
 import com.jythonui.server.IGetResourceMap;
 import com.jythonui.server.IGetTransformer;
+import com.jythonui.server.IJournalLogin;
 import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.IJythonUIServerProperties;
@@ -71,6 +72,7 @@ import com.jythonui.server.holder.Holder;
 import com.jythonui.server.holder.SHolder;
 import com.jythonui.server.impl.GetAppProperties;
 import com.jythonui.server.impl.JythonUIServer;
+import com.jythonui.server.journallog.JournalLog;
 import com.jythonui.server.jython.DecoratorRunJython;
 import com.jythonui.server.jython.RunJython;
 import com.jythonui.server.logmess.MessProvider;
@@ -180,6 +182,7 @@ public class JythonServerService {
 			bind(IVerifyXML.class).to(VeryfyXML.class).in(Singleton.class);
 			bind(ISuggestionStorage.class).to(SuggestionStorage.class).in(Singleton.class);
 			bind(IRememberValue.class).to(RememberValue.class).in(Singleton.class);
+			bind(IJournalLogin.class).to(JournalLog.class).in(Singleton.class);
 		}
 
 		@Provides

@@ -116,7 +116,6 @@ public class Test26 extends TestHelper {
 //        void setResGuestList(HotelId hotel, String resName, List<ResGuest> gList);
         HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL),
                 HotelObjects.CUSTOMER);
-        p.setGensymbol(true);
         p.setAttr("country", "gb");
         p = iCustomers.addElem(getH(HOTEL), p);
         ResGuest g = new ResGuest();

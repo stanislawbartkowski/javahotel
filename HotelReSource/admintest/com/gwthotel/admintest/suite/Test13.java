@@ -66,13 +66,11 @@ public class Test13 extends TestHelper {
 
         HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL),
                 HotelObjects.CUSTOMER);
-        p.setGensymbol(true);
         p = iCustomers.addElem(getH(HOTEL), p);
         System.out.println(p.getName());
         ReservationForm r = (ReservationForm) hObjects.construct(getH(HOTEL),
                 HotelObjects.RESERVATION);
         r.setCustomerName(p.getName());
-        r.setGensymbol(true);
         r.getResDetail().add(det);
         r = iRes.addElem(getH(HOTEL), r);
 
@@ -125,12 +123,10 @@ public class Test13 extends TestHelper {
 
         HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL),
                 HotelObjects.CUSTOMER);
-        p.setGensymbol(true);
         p = iCustomers.addElem(getH(HOTEL), p);
         ReservationForm re = (ReservationForm) hObjects.construct(getH(HOTEL),
                 HotelObjects.RESERVATION);
         re.setCustomerName(p.getName());
-        re.setGensymbol(true);
         ReservationPaymentDetail det = new ReservationPaymentDetail();
         det.setNoP(1);
         det.setResDate(r.dFrom);
@@ -222,7 +218,6 @@ public class Test13 extends TestHelper {
 
         HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL),
                 HotelObjects.CUSTOMER);
-        p.setGensymbol(true);
         String guest1 = iCustomers.addElem(getH(HOTEL), p).getName();
         
         ReservationPaymentDetail add = new ReservationPaymentDetail();

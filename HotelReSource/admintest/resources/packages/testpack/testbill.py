@@ -21,7 +21,7 @@ def dialogaction(action,var):
             print type(r.getId())
             
         b = util.newBill(var)
-        b.setGensymbol(True);
+#        b.setGensymbol(True);
         b.setPayer(bb.getPayer());
         b.setReseName(resname)
         dat = datetime.date(2010,1,2)

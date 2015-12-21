@@ -131,7 +131,6 @@ public class Test37 extends TestHelper {
         
         CustomerBill b = (CustomerBill) hObjects.construct(getH(HOTEL),
                 HotelObjects.BILL);
-        b.setGensymbol(true);
         b.setPayer(r.getCustomerName());
         b.setReseName(sym);
         b.setIssueDate(toDate(2014, 10, 12));
@@ -182,7 +181,6 @@ public class Test37 extends TestHelper {
         
         CustomerBill b = (CustomerBill) hObjects.construct(getH(HOTEL),
                 HotelObjects.BILL);
-        b.setGensymbol(true);
         b.setPayer(r.getCustomerName());
         b.setReseName(sym);
         b.setIssueDate(toDate(2014, 10, 12));

@@ -37,12 +37,10 @@ public class Test12 extends TestHelper {
     public void test1() {
         HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL),
                 HotelObjects.CUSTOMER);
-        p.setGensymbol(true);
         p = iCustomers.addElem(getH(HOTEL), p);
         ReservationForm r = (ReservationForm) hObjects.construct(getH(HOTEL),
                 HotelObjects.RESERVATION);
         r.setCustomerName(p.getName());
-        r.setGensymbol(true);
         r = iRes.addElem(getH(HOTEL), r);
         System.out.println(r.getName());
         assertNotNull(r.getName());
@@ -57,7 +55,6 @@ public class Test12 extends TestHelper {
     public void test2() {
         HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL),
                 HotelObjects.CUSTOMER);
-        p.setGensymbol(true);
         p = iCustomers.addElem(getH(HOTEL), p);
 
         HotelServices se = new HotelServices();
@@ -75,7 +72,6 @@ public class Test12 extends TestHelper {
                 HotelObjects.RESERVATION);
         Date res = DateFormatUtil.toD(2013, 2, 1);
         r.setCustomerName(p.getName());
-        r.setGensymbol(true);
 
         ReservationPaymentDetail det = new ReservationPaymentDetail();
         det.setNoP(1);
@@ -157,7 +153,6 @@ public class Test12 extends TestHelper {
             ReservationForm r = (ReservationForm) hObjects.construct(
                     getH(HOTEL), HotelObjects.RESERVATION);
             r.setCustomerName("CUST" + i);
-            r.setGensymbol(true);
             // Calendar c = Calendar.getInstance();
             // r.setName("RES"+i);
             for (int j = 0; j < 100; j++) {

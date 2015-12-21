@@ -30,7 +30,6 @@ public class Test34 extends TestHelper {
     public void test1() {
         HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL),
                 HotelObjects.CUSTOMER);
-        p.setGensymbol(true);
         p.setAttr("country", "gb");
         p = iCustomers.addElem(getH(HOTEL), p);
         String custsym = p.getName();
@@ -51,7 +50,6 @@ public class Test34 extends TestHelper {
     public void test2() {
         HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL),
                 HotelObjects.CUSTOMER);
-        p.setGensymbol(true);
         p = iCustomers.addElem(getH(HOTEL), p);
         CustomerBill b = createP();
         String mName = null;

@@ -39,6 +39,7 @@ import com.jython.serversecurity.instance.IAppInstanceOObject;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.UtilHelper;
+import com.jythonui.server.journal.IJournal;
 import com.jythonui.server.mail.INoteStorage;
 import com.jythonui.server.storage.blob.IBlobHandler;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
@@ -46,168 +47,159 @@ import com.jythonui.server.storage.seq.ISequenceRealmGen;
 
 public class EjbLocatorWildFly extends UtilHelper implements IBeanLocator {
 
-    private final IJythonUIServerProperties iServer;
+	private final IJythonUIServerProperties iServer;
 
-    // important: the name should reflect the WAR name
-//    private static final String APPNAME = "ejb:/HotelEJBWild";
-    private static final String APPNAME = "ejb:/HotelEJB";
+	// important: the name should reflect the WAR name
+	// private static final String APPNAME = "ejb:/HotelEJBWild";
+	private static final String APPNAME = "ejb:/HotelEJB";
 
-    private static final Map<String, String> jndiM = new HashMap<String, String>();
+	private static final Map<String, String> jndiM = new HashMap<String, String>();
 
-    @Inject
-    public EjbLocatorWildFly(IJythonUIServerProperties iServer) {
-        this.iServer = iServer;
-        jndiM.put(ISharedConsts.COMMONAPPINSTANCEJNDI,
-                "AppInstanceOObjectEJB!com.jython.serversecurity.instance.IAppInstanceOObject");
-        jndiM.put(ISharedConsts.COMMONOBJECTADMINJNDI,
-                "OObjectAdminEJB!com.jython.serversecurity.IOObjectAdmin");
-        jndiM.put(
-                ISharedConsts.COMMONREGISTRYBEANJNDI,
-                "StorageJpaRegistryEJB!com.jythonui.server.storage.registry.IStorageRealmRegistry");
-        jndiM.put(ISharedConsts.COMMONBEANBLOBJNDI,
-                "StorageBlobRegistryEJB!com.jythonui.server.storage.blob.IBlobHandler");
-        jndiM.put(ISharedConsts.COMMONNOTESTORAGEJNDI,
-                "NoteStorageEJB!com.jythonui.server.mail.INoteStorage");
-        jndiM.put(IHotelConsts.HOTELSERVICESJNDI,
-                "HotelServicesEJB!com.gwthotel.hotel.services.IHotelServices");
-        jndiM.put(IHotelConsts.HOTELPRICELISTJNDI,
-                "HotelPriceListEJB!com.gwthotel.hotel.pricelist.IHotelPriceList");
-        jndiM.put(IHotelConsts.HOTELPRICEELEMJNDI,
-                "HotelPriceElemEJB!com.gwthotel.hotel.prices.IHotelPriceElem");
-        jndiM.put(IHotelConsts.HOTELROOMSJNDI,
-                "HotelRoomsEJB!com.gwthotel.hotel.rooms.IHotelRooms");
-        jndiM.put(IHotelConsts.HOTELCUSTOMERSJNDI,
-                "HotelCustomersEJB!com.gwthotel.hotel.customer.IHotelCustomers");
-        jndiM.put(ISharedConsts.COMMONSEQGENJNDI,
-                "SequenceGenRealmEJB!com.jythonui.server.storage.seq.ISequenceRealmGen");
-        jndiM.put(IHotelConsts.HOTELRESERVATIONJNDI,
-                "HotelReservationsEJB!com.gwthotel.hotel.reservation.IReservationForm");
-        jndiM.put(IHotelConsts.HOTELRESERVATIONOPJNDI,
-                "HotelReservationOpEJB!com.gwthotel.hotel.reservationop.IReservationOp");
-        jndiM.put(IHotelConsts.HOTELCLEAROPJNDI,
-                "HotelClearOpEJB!com.gwthotel.hotel.IClearHotel");
-        jndiM.put(IHotelConsts.HOTELBILLJNDI,
-                "CustomerBillEJB!com.gwthotel.hotel.bill.ICustomerBills");
-        jndiM.put(IHotelConsts.HOTELPAYMENTOPJNDI,
-                "BillPaymentOpEJB!com.gwthotel.hotel.payment.IPaymentBillOp");
-        jndiM.put(IHotelConsts.HOTELMAILJNDI,
-                "HotelMailingEJB!com.gwthotel.hotel.mailing.IHotelMailList");
-    }
+	@Inject
+	public EjbLocatorWildFly(IJythonUIServerProperties iServer) {
+		this.iServer = iServer;
+		jndiM.put(ISharedConsts.COMMONAPPINSTANCEJNDI,
+				"AppInstanceOObjectEJB!com.jython.serversecurity.instance.IAppInstanceOObject");
+		jndiM.put(ISharedConsts.COMMONOBJECTADMINJNDI, "OObjectAdminEJB!com.jython.serversecurity.IOObjectAdmin");
+		jndiM.put(ISharedConsts.COMMONREGISTRYBEANJNDI,
+				"StorageJpaRegistryEJB!com.jythonui.server.storage.registry.IStorageRealmRegistry");
+		jndiM.put(ISharedConsts.COMMONBEANBLOBJNDI,
+				"StorageBlobRegistryEJB!com.jythonui.server.storage.blob.IBlobHandler");
+		jndiM.put(ISharedConsts.COMMONNOJOURNALJNDI, "JournalEJB!com.jythonui.server.journal.IJournal");
+		jndiM.put(ISharedConsts.COMMONNOTESTORAGEJNDI, "NoteStorageEJB!com.jythonui.server.mail.INoteStorage");
+		jndiM.put(IHotelConsts.HOTELSERVICESJNDI, "HotelServicesEJB!com.gwthotel.hotel.services.IHotelServices");
+		jndiM.put(IHotelConsts.HOTELPRICELISTJNDI, "HotelPriceListEJB!com.gwthotel.hotel.pricelist.IHotelPriceList");
+		jndiM.put(IHotelConsts.HOTELPRICEELEMJNDI, "HotelPriceElemEJB!com.gwthotel.hotel.prices.IHotelPriceElem");
+		jndiM.put(IHotelConsts.HOTELROOMSJNDI, "HotelRoomsEJB!com.gwthotel.hotel.rooms.IHotelRooms");
+		jndiM.put(IHotelConsts.HOTELCUSTOMERSJNDI, "HotelCustomersEJB!com.gwthotel.hotel.customer.IHotelCustomers");
+		jndiM.put(ISharedConsts.COMMONSEQGENJNDI,
+				"SequenceGenRealmEJB!com.jythonui.server.storage.seq.ISequenceRealmGen");
+		jndiM.put(IHotelConsts.HOTELRESERVATIONJNDI,
+				"HotelReservationsEJB!com.gwthotel.hotel.reservation.IReservationForm");
+		jndiM.put(IHotelConsts.HOTELRESERVATIONOPJNDI,
+				"HotelReservationOpEJB!com.gwthotel.hotel.reservationop.IReservationOp");
+		jndiM.put(IHotelConsts.HOTELCLEAROPJNDI, "HotelClearOpEJB!com.gwthotel.hotel.IClearHotel");
+		jndiM.put(IHotelConsts.HOTELBILLJNDI, "CustomerBillEJB!com.gwthotel.hotel.bill.ICustomerBills");
+		jndiM.put(IHotelConsts.HOTELPAYMENTOPJNDI, "BillPaymentOpEJB!com.gwthotel.hotel.payment.IPaymentBillOp");
+		jndiM.put(IHotelConsts.HOTELMAILJNDI, "HotelMailingEJB!com.gwthotel.hotel.mailing.IHotelMailList");
+	}
 
-    private <T> T construct(String bName) {
-        String name = APPNAME + "/" + jndiM.get(bName);
-        try {
-            Properties props = null;
-            traceLog("Search for EJB " + bName);
-            String eHost = iServer.getEJBHost();
-            // eHost = "think";
-            if (eHost != null) {
-                info("EJB on host " + eHost);
-                props = new Properties();
-                props.put(Context.INITIAL_CONTEXT_FACTORY,
-                        "org.jboss.naming.remote.client.InitialContextFactory");
-                props.put(Context.URL_PKG_PREFIXES,
-                        "org.jboss.ejb.client.naming");
-                props.put(Context.PROVIDER_URL, "XXXXXX");
-            }
-            InitialContext ic = new InitialContext(props);
-            Object remoteObj = ic.lookup(name);
-            T inter = (T) remoteObj;
-            traceLog("OK " + bName + " found.");
-            ic.close();
-            return inter;
-        } catch (NamingException e) {
-            errorLog("Cannot load service " + name, e);
-        }
-        return null;
-    }
+	private <T> T construct(String bName) {
+		String name = APPNAME + "/" + jndiM.get(bName);
+		try {
+			Properties props = null;
+			traceLog("Search for EJB " + bName);
+			String eHost = iServer.getEJBHost();
+			// eHost = "think";
+			if (eHost != null) {
+				info("EJB on host " + eHost);
+				props = new Properties();
+				props.put(Context.INITIAL_CONTEXT_FACTORY, "org.jboss.naming.remote.client.InitialContextFactory");
+				props.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
+				props.put(Context.PROVIDER_URL, "XXXXXX");
+			}
+			InitialContext ic = new InitialContext(props);
+			Object remoteObj = ic.lookup(name);
+			T inter = (T) remoteObj;
+			traceLog("OK " + bName + " found.");
+			ic.close();
+			return inter;
+		} catch (NamingException e) {
+			errorLog("Cannot load service " + name, e);
+		}
+		return null;
+	}
 
-    @Override
-    public INoteStorage getNoteStorage() {
-        return construct(ISharedConsts.COMMONNOTESTORAGEJNDI);
-    }
+	@Override
+	public INoteStorage getNoteStorage() {
+		return construct(ISharedConsts.COMMONNOTESTORAGEJNDI);
+	}
 
-    @Override
-    public IOObjectAdmin getObjectAdmin() {
-        return construct(ISharedConsts.COMMONOBJECTADMINJNDI);
-    }
+	@Override
+	public IOObjectAdmin getObjectAdmin() {
+		return construct(ISharedConsts.COMMONOBJECTADMINJNDI);
+	}
 
-    @Override
-    public IAppInstanceOObject getAppInstanceObject() {
-        return construct(ISharedConsts.COMMONAPPINSTANCEJNDI);
-    }
+	@Override
+	public IAppInstanceOObject getAppInstanceObject() {
+		return construct(ISharedConsts.COMMONAPPINSTANCEJNDI);
+	}
 
-    @Override
-    public IStorageRealmRegistry getStorageRealm() {
-        return construct(ISharedConsts.COMMONREGISTRYBEANJNDI);
-    }
+	@Override
+	public IStorageRealmRegistry getStorageRealm() {
+		return construct(ISharedConsts.COMMONREGISTRYBEANJNDI);
+	}
 
-    @Override
-    public IBlobHandler getBlobHandler() {
-        return construct(ISharedConsts.COMMONBEANBLOBJNDI);
-    }
+	@Override
+	public IBlobHandler getBlobHandler() {
+		return construct(ISharedConsts.COMMONBEANBLOBJNDI);
+	}
 
-    @Override
-    public IHotelServices getHotelServices() {
-        return construct(IHotelConsts.HOTELSERVICESJNDI);
-    }
+	@Override
+	public IHotelServices getHotelServices() {
+		return construct(IHotelConsts.HOTELSERVICESJNDI);
+	}
 
-    @Override
-    public IHotelPriceList getHotelPriceList() {
-        return construct(IHotelConsts.HOTELPRICELISTJNDI);
-    }
+	@Override
+	public IHotelPriceList getHotelPriceList() {
+		return construct(IHotelConsts.HOTELPRICELISTJNDI);
+	}
 
-    @Override
-    public IHotelPriceElem getHotelPriceElem() {
-        jndiM.put(IHotelConsts.HOTELBILLJNDI,
-                "CustomerBillEJB!com.gwthotel.hotel.bill.ICustomerBills");
+	@Override
+	public IHotelPriceElem getHotelPriceElem() {
+		// jndiM.put(IHotelConsts.HOTELBILLJNDI,
+		// "CustomerBillEJB!com.gwthotel.hotel.bill.ICustomerBills");
+		return construct(IHotelConsts.HOTELPRICEELEMJNDI);
+	}
 
-        return construct(IHotelConsts.HOTELPRICEELEMJNDI);
-    }
+	@Override
+	public IHotelRooms getHotelRooms() {
+		return construct(IHotelConsts.HOTELROOMSJNDI);
+	}
 
-    @Override
-    public IHotelRooms getHotelRooms() {
-        return construct(IHotelConsts.HOTELROOMSJNDI);
-    }
+	@Override
+	public IHotelCustomers getHotelCustomers() {
+		return construct(IHotelConsts.HOTELCUSTOMERSJNDI);
+	}
 
-    @Override
-    public IHotelCustomers getHotelCustomers() {
-        return construct(IHotelConsts.HOTELCUSTOMERSJNDI);
-    }
+	@Override
+	public ISequenceRealmGen getSequenceRealmGen() {
+		return construct(ISharedConsts.COMMONSEQGENJNDI);
+	}
 
-    @Override
-    public ISequenceRealmGen getSequenceRealmGen() {
-        return construct(ISharedConsts.COMMONSEQGENJNDI);
-    }
+	@Override
+	public IReservationForm getReservationForm() {
+		return construct(IHotelConsts.HOTELRESERVATIONJNDI);
+	}
 
-    @Override
-    public IReservationForm getReservationForm() {
-        return construct(IHotelConsts.HOTELRESERVATIONJNDI);
-    }
+	@Override
+	public IReservationOp getReservationOp() {
+		return construct(IHotelConsts.HOTELRESERVATIONOPJNDI);
+	}
 
-    @Override
-    public IReservationOp getReservationOp() {
-        return construct(IHotelConsts.HOTELRESERVATIONOPJNDI);
-    }
+	@Override
+	public IClearHotel getClearHotel() {
+		return construct(IHotelConsts.HOTELCLEAROPJNDI);
+	}
 
-    @Override
-    public IClearHotel getClearHotel() {
-        return construct(IHotelConsts.HOTELCLEAROPJNDI);
-    }
+	@Override
+	public ICustomerBills getCustomerBills() {
+		return construct(IHotelConsts.HOTELBILLJNDI);
+	}
 
-    @Override
-    public ICustomerBills getCustomerBills() {
-        return construct(IHotelConsts.HOTELBILLJNDI);
-    }
+	@Override
+	public IPaymentBillOp getBillPaymentOp() {
+		return construct(IHotelConsts.HOTELPAYMENTOPJNDI);
+	}
 
-    @Override
-    public IPaymentBillOp getBillPaymentOp() {
-        return construct(IHotelConsts.HOTELPAYMENTOPJNDI);
-    }
+	@Override
+	public IHotelMailList getHotelMail() {
+		return construct(IHotelConsts.HOTELMAILJNDI);
+	}
 
-    @Override
-    public IHotelMailList getHotelMail() {
-        return construct(IHotelConsts.HOTELMAILJNDI);
-    }
+	@Override
+	public IJournal getJournal() {
+		return construct(ISharedConsts.COMMONNOJOURNALJNDI);
+	}
 
 }

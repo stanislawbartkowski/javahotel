@@ -44,12 +44,10 @@ public class Test18 extends TestHelper {
         iRooms.addElem(getH(HOTEL), ho);
         HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL),
                 HotelObjects.CUSTOMER);
-        p.setGensymbol(true);
         p = iCustomers.addElem(getH(HOTEL), p);
         ReservationForm r = (ReservationForm) hObjects.construct(getH(HOTEL),
                 HotelObjects.RESERVATION);
         r.setCustomerName(p.getName());
-        r.setGensymbol(true);
         ReservationPaymentDetail det = new ReservationPaymentDetail();
         det.setNoP(3);
         det.setPrice(new BigDecimal("100.0"));
@@ -64,7 +62,6 @@ public class Test18 extends TestHelper {
 
         CustomerBill b = (CustomerBill) hObjects.construct(getH(HOTEL),
                 HotelObjects.BILL);
-        b.setGensymbol(true);
         b.setPayer(p.getName());
         b.setReseName(sym);
         b.setIssueDate(toDate(2010, 10, 12));
@@ -122,11 +119,9 @@ public class Test18 extends TestHelper {
         assertNotNull(bList.get(0).getName());
         HotelCustomer cust = (HotelCustomer) hObjects.construct(getH(HOTEL),
                 HotelObjects.CUSTOMER);
-        cust.setGensymbol(true);
         cust = iCustomers.addElem(getH(HOTEL), cust);
 
         b = (CustomerBill) hObjects.construct(getH(HOTEL), HotelObjects.BILL);
-        b.setGensymbol(true);
         b.setPayer(cust.getName());
         b.setReseName(resName);
         b.setIssueDate(toDate(2010, 10, 13));
