@@ -46,7 +46,7 @@ import com.gwthotel.hotel.server.service.H;
 import com.gwthotel.hotel.services.HotelServices;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.hotel.stay.ResGuest;
-import com.gwtmodel.table.common.dateutil.DateFormatUtil;
+import com.gwtmodel.table.common.DateFormat;
 import com.jython.serversecurity.OObject;
 import com.jython.serversecurity.OObjectRoles;
 import com.jython.serversecurity.Person;
@@ -81,7 +81,7 @@ public class TestHelper extends CommonTestHelper {
     public void before() {
         clearObjects();
         createHotels();
-        setTestToday(DateFormatUtil.toD(2013, 6, 13));
+        setTestToday(DateFormat.toD(2013, 6, 13));
     }
 
     protected void createHotels() {
@@ -116,6 +116,7 @@ public class TestHelper extends CommonTestHelper {
     @AfterClass
     public static void tearDown() {
         iTest.afterTest();
+        setTestToday(null);
     }
 
     @Before
@@ -144,26 +145,30 @@ public class TestHelper extends CommonTestHelper {
         return cu;
     }
 
-    protected void setUserPassword() {
+    private void setUserPassword(String username) {
         // iAdmin.clearAll(getI());
         Person pe = new Person();
-        pe.setName("user");
-        pe.setDescription("user name");
+        pe.setName(username);
+        pe.setDescription(username + " very important user");
         List<OObjectRoles> roles = new ArrayList<OObjectRoles>();
         iAdmin.addOrModifPerson(getI(), pe, roles);
-        iAdmin.changePasswordForPerson(getI(), "user", "secret");
+        iAdmin.changePasswordForPerson(getI(), username, "secret");
+        
         OObject ho = new OObject();
-
         ho.setName(HOTEL);
         ho.setDescription("Pod Pieskiem");
         roles = new ArrayList<OObjectRoles>();
         pe = new Person();
-        pe.setName("user");
+        pe.setName(username);
         OObjectRoles rol = new OObjectRoles(pe);
         rol.getRoles().add("mana");
         rol.getRoles().add("acc");
         roles.add(rol);
         iAdmin.addOrModifObject(getI(), ho, roles);
+    }
+    
+    protected void setUserPassword() {
+    	setUserPassword("user");
     }
 
     protected void addGuest(String reseName) {
@@ -265,28 +270,29 @@ public class TestHelper extends CommonTestHelper {
     protected String createRes(int no) {
         return createResV(no, null);
     }
-
-    protected void scriptTest(String dialogName, String action, String locale,
+    
+    protected String scriptTest(String dialogName, String username,String action, String locale,
             DialogVariables v) {
-        setUserPassword();
+        setUserPassword(username);
         ICustomSecurity cu = getSec(HOTEL);
-        String token = iSec.authenticateToken(realM, "user", "secret", cu);
+        String token = iSec.authenticateToken(realM, username, "secret", cu);
         assertNotNull(token);
         runAction(token, v, dialogName, action, locale);
         assertOK(v);
+        return token;
     }
 
     protected void scriptTest(String dialogName, String action, String locale) {
-        scriptTest(dialogName, action, locale, new DialogVariables());
+        scriptTest(dialogName, "user",action, locale, new DialogVariables());
     }
 
-    protected void scriptTest(String dialogName, String action) {
-        scriptTest(dialogName, action, null, new DialogVariables());
+    protected String scriptTest(String dialogName, String action) {
+        return scriptTest(dialogName, "user",action, null, new DialogVariables());
     }
 
     protected void scriptTest(String dialogName, String action,
             DialogVariables v) {
-        scriptTest(dialogName, action, null, v);
+        scriptTest(dialogName, "user",action, null, v);
     }
 
 }

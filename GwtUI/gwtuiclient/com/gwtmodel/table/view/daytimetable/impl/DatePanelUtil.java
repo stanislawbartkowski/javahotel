@@ -17,7 +17,8 @@ import java.util.Date;
 import java.util.List;
 
 import com.gwtmodel.table.DateUtil;
-import com.gwtmodel.table.common.dateutil.DateFormatUtil;
+import com.gwtmodel.table.common.DateFormat;
+import com.jython.dateutil.DateFormatUtil;
 
 class DatePanelUtil {
 
@@ -112,7 +113,7 @@ class DatePanelUtil {
 			Date da = new Date(d.getTime());
 			da.setDate(1);
 			da = DateUtil.NextDayD(da);
-			while (DateFormatUtil.getD(da) != 1)
+			while (DateFormat.getD(da) != 1)
 				da = DateUtil.NextDayD(da);
 			return da;
 		}
@@ -122,25 +123,25 @@ class DatePanelUtil {
 			Date da = new Date(d.getTime());
 			da.setDate(1);
 			da = DateUtil.PrevDayD(da);
-			while (DateFormatUtil.getD(da) != 1)
+			while (DateFormat.getD(da) != 1)
 				da = DateUtil.PrevDayD(da);
 			return da;
 		}
 
 		@Override
 		public boolean eqD(Date d1, Date d2) {
-			if (DateFormatUtil.getY(d1) != DateFormatUtil.getY(d2))
+			if (DateFormat.getY(d1) != DateFormat.getY(d2))
 				return false;
-			if (DateFormatUtil.getM(d1) != DateFormatUtil.getM(d2))
+			if (DateFormat.getM(d1) != DateFormat.getM(d2))
 				return false;
 			return true;
 		}
 
 		@Override
 		public Date getBeg(Date d) {
-			int y = DateFormatUtil.getY(d);
-			int dt = DateFormatUtil.getD(d);
-			return DateFormatUtil.toD(y, 1, dt);
+			int y = DateFormat.getY(d);
+			int dt = DateFormat.getD(d);
+			return DateFormat.toD(y, 1, dt);
 		}
 	}
 
@@ -196,8 +197,8 @@ class DatePanelUtil {
 
 	static List<Integer> getListOfYears(Date firstD, Date lastD) {
 		List<Integer> yList = new ArrayList<Integer>();
-		int y1 = DateFormatUtil.getY(firstD);
-		int y2 = DateFormatUtil.getY(lastD);
+		int y1 = DateFormat.getY(firstD);
+		int y2 = DateFormat.getY(lastD);
 		for (int i = y1; i <= y2; i++)
 			yList.add(i);
 		return yList;

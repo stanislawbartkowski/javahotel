@@ -1,13 +1,13 @@
 import cutil,xmlutil;
 
-def doctoXML(ma,li):
+def doctoXML(ma,li,verify=True):
     xml = xmlutil.toXML(ma,li,True)
-    print xml
-    cutil.verifyXML("fdocument.xsd",xml)
+#    print xml
+    if verify : cutil.verifyXML("fdocument.xsd",xml)
     return xml
 
-def doctoMap(xml):
-    cutil.verifyXML("fdocument.xsd",xml)
+def doctoMap(xml,verify=True):
+    if verify: cutil.verifyXML("fdocument.xsd",xml)
     return xmlutil.toMap(xml)  
   
 def getDocGrossValue(ma) :

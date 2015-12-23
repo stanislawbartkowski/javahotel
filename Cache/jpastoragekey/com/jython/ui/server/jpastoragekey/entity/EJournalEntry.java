@@ -23,7 +23,7 @@ import com.jython.serversecurity.jpa.entities.EObjectDict;
 
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "hotel", "name" }) )
-@NamedQueries({ @NamedQuery(name = "findAllJournal", query = "SELECT x FROM EJournalEntry x WHERE x.hotel = ?1"),
+@NamedQueries({ @NamedQuery(name = "findAllJournal", query = "SELECT x FROM EJournalEntry x WHERE x.hotel = ?1 ORDER BY x.id DESC"),
 		@NamedQuery(name = "findOneJournal", query = "SELECT x FROM EJournalEntry x WHERE x.hotel = ?1 AND x.name = ?2"), 
         @NamedQuery(name = "removeAllJournals", query = "DELETE FROM EJournalEntry x WHERE x.hotel = ?1") 
 })

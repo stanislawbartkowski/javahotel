@@ -24,18 +24,16 @@ import com.jythonui.shared.RequestContext;
  */
 public interface JythonServiceAsync {
 
-    void getDialogFormat(RequestContext context, String name,
-            AsyncCallback<DialogInfo> callback);
+	void getDialogFormat(RequestContext context, String name, AsyncCallback<DialogInfo> callback);
 
-    void runAction(RequestContext context, DialogVariables v, String name,
-            String actionId, AsyncCallback<DialogVariables> callback);
+	void runAction(RequestContext context, DialogVariables v, String name, String actionId,
+			AsyncCallback<DialogVariables> callback);
 
-    void getClientRes(RequestContext context, AsyncCallback<ClientProp> callback);
+	void getClientRes(RequestContext context, AsyncCallback<ClientProp> callback);
 
-    void login(String shiroRealm, String user, String password,
-            CustomSecurity iCustom, AsyncCallback<String> callback);
+	void login(String shiroRealm, String user, String password, CustomSecurity iCustom, AsyncCallback<String> callback);
 
-    void logout(String token, AsyncCallback<Void> callback);
+	void withoutlogin(CustomSecurity iCustom, AsyncCallback<String> callback);
 
-    void withoutlogin(CustomSecurity iCustom, AsyncCallback<String> callback);
+	void logout(RequestContext context, AsyncCallback<Void> callback);
 }

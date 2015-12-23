@@ -18,7 +18,6 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 import com.gwtmodel.table.common.TT;
-import com.gwtmodel.table.common.dateutil.DateP;
 
 /**
  * @author hotel
@@ -26,154 +25,146 @@ import com.gwtmodel.table.common.dateutil.DateP;
  */
 public class FieldValue implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    private TT type;
-    private byte afterdot;
+	private static final long serialVersionUID = 1L;
+	private TT type;
+	private byte afterdot;
 
-    transient private Object o;
+	transient private Object o;
 
-    /**
-     * @return the valueS
-     */
-    public String getValueS() {
-        return (String) o;
-    }
+	/**
+	 * @return the valueS
+	 */
+	public String getValueS() {
+		return (String) o;
+	}
 
-    /**
-     * @return the valueB
-     */
-    public Boolean getValueB() {
-        return (Boolean) o;
-    }
+	/**
+	 * @return the valueB
+	 */
+	public Boolean getValueB() {
+		return (Boolean) o;
+	}
 
-    public Date getValueD() {
-        DateP valueD = (DateP) o;
-        return valueD.getD();
-    }
+	public Date getValueD() {
+		return (Date) o;
+	}
 
-    public Timestamp getValueT() {
-        DateP valueD = (DateP) o;
-        return valueD.getT();
-    }
+	public Timestamp getValueT() {
+		return (Timestamp) o;
+	}
 
-    public Long getValueL() {
-        return (Long) o;
-    }
+	public Long getValueL() {
+		return (Long) o;
+	}
 
-    public Integer getValueI() {
-        return (Integer) o;
-    }
+	public Integer getValueI() {
+		return (Integer) o;
+	}
 
-    public BigDecimal getValueBD() {
-        return (BigDecimal) o;
-    }
+	public BigDecimal getValueBD() {
+		return (BigDecimal) o;
+	}
 
-    public void setValue(String valueS) {
-        this.o = valueS;
-        this.type = TT.STRING;
-    }
+	public void setValue(String valueS) {
+		this.o = valueS;
+		this.type = TT.STRING;
+	}
 
-    public void setValue(Boolean b) {
-        this.o = b;
-        type = TT.BOOLEAN;
-    }
+	public void setValue(Boolean b) {
+		this.o = b;
+		type = TT.BOOLEAN;
+	}
 
-    public void setValue(Date d) {
-        DateP valueD = new DateP();
-        valueD.setD(d);
-        this.o = valueD;
-        this.type = TT.DATE;
-    }
+	public void setValue(Date d) {
+		this.o = d;
+		this.type = TT.DATE;
+	}
 
-    public void setValue(Timestamp t) {
-        DateP valueD = new DateP();
-        valueD.setT(t);
-        this.o = valueD;
-        this.type = TT.DATETIME;
-    }
+	public void setValue(Timestamp t) {
+		this.o = t;
+		this.type = TT.DATETIME;
+	}
 
-    public void setValue(Long l) {
-        this.o = l;
-        type = TT.LONG;
-    }
+	public void setValue(Long l) {
+		this.o = l;
+		type = TT.LONG;
+	}
 
-    public void setValue(Integer i) {
-        this.o = i;
-        type = TT.INT;
-    }
+	public void setValue(Integer i) {
+		this.o = i;
+		type = TT.INT;
+	}
 
-    public void setValue(BigDecimal b, int afterdot) {
-        this.o = b;
-        type = TT.BIGDECIMAL;
-        this.afterdot = (byte) afterdot;
-    }
+	public void setValue(BigDecimal b, int afterdot) {
+		this.o = b;
+		type = TT.BIGDECIMAL;
+		this.afterdot = (byte) afterdot;
+	}
 
-    /**
-     * @return the type
-     */
-    public TT getType() {
-        return type;
-    }
+	/**
+	 * @return the type
+	 */
+	public TT getType() {
+		return type;
+	}
 
-    public int getAfterdot() {
-        return afterdot;
-    }
+	public int getAfterdot() {
+		return afterdot;
+	}
 
-    public void setValue(TT type, Object val, int afterdot) {
-        this.type = type;
-        this.afterdot = (byte) afterdot;
-        // it can simplified by o = val
-        // but casting has been added to force type checking
-        switch (type) {
-        case STRING:
-            setValue((String) val);
-            break;
-        case BOOLEAN:
-            setValue((Boolean) val);
-            break;
-        case DATE:
-            setValue((Date) val);
-            break;
-        case DATETIME:
-            setValue((Timestamp) val);
-            break;
-        case LONG:
-            setValue((Long) val);
-            break;
-        case INT:
-            setValue((Integer) val);
-            break;
-        case BIGDECIMAL:
-            o = (BigDecimal) val;
-            break;
-        default:
-            throw new JythonUIFatal(type.toString()
-                    + " setValue, not implemented yet");
-        }
-    }
+	public void setValue(TT type, Object val, int afterdot) {
+		this.type = type;
+		this.afterdot = (byte) afterdot;
+		// it can simplified by o = val
+		// but casting has been added to force type checking
+		switch (type) {
+		case STRING:
+			setValue((String) val);
+			break;
+		case BOOLEAN:
+			setValue((Boolean) val);
+			break;
+		case DATE:
+			setValue((Date) val);
+			break;
+		case DATETIME:
+			setValue((Timestamp) val);
+			break;
+		case LONG:
+			setValue((Long) val);
+			break;
+		case INT:
+			setValue((Integer) val);
+			break;
+		case BIGDECIMAL:
+			o = (BigDecimal) val;
+			break;
+		default:
+			throw new JythonUIFatal(type.toString() + " setValue, not implemented yet");
+		}
+	}
 
-    public Object getValue() {
-        // it can be simplified by return o
-        // but casting has been added to force type checking
-        switch (type) {
-        case STRING:
-            return (String) o;
-        case BOOLEAN:
-            return (Boolean) o;
-        case DATE:
-            return getValueD();
-        case DATETIME:
-            return getValueT();
-        case LONG:
-            return (Long) o;
-        case INT:
-            return (Integer) o;
-        case BIGDECIMAL:
-            return (BigDecimal) o;
-        default:
-            throw new JythonUIFatal(type.toString()
-                    + " getValue, not implemented yet");
-        }
-    }
+	public Object getValue() {
+		// it can be simplified by return o
+		// but casting has been added to force type checking
+		switch (type) {
+		case STRING:
+			return (String) o;
+		case BOOLEAN:
+			return (Boolean) o;
+		case DATE:
+			return getValueD();
+		case DATETIME:
+			return getValueT();
+		case LONG:
+			return (Long) o;
+		case INT:
+			return (Integer) o;
+		case BIGDECIMAL:
+			return (BigDecimal) o;
+		default:
+			throw new JythonUIFatal(type.toString() + " getValue, not implemented yet");
+		}
+	}
 
 }

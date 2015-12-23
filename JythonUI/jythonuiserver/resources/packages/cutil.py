@@ -94,8 +94,8 @@ def setJCheckList(var,list,seq):
   else : var["JCHECK_MAP"] = { list : seq }
 
 def disableJCheckList(var,id,disable=True) :
-       var["JSETATTR_CHECKLIST_" + id +"_readonly"] = disable
-       var["JVALATTR_CHECKLIST_"+ id +"_readonly"] = "" 
+    var["JSETATTR_CHECKLIST_" + id +"_readonly"] = disable
+    var["JVALATTR_CHECKLIST_"+ id +"_readonly"] = "" 
 
 def createArrayList() :
   return ArrayList()   
@@ -696,5 +696,17 @@ class CRUDLIST :
       
     def deleteElemByName(self,name) :
         elem = self.findElem(name)
-        self.deleteElem(elem)    
+        self.deleteElem(elem)   
+        
+# ==========================
+
+class JOURNAL(CRUDLIST):
+    
+    def __init__(self,var):
+        CRUDLIST.__init__(self,var)
+        self.serviceS = Holder.getiJournal()
+
+
+    
+             
       

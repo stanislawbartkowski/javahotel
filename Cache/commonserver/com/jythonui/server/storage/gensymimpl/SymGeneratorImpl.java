@@ -14,7 +14,7 @@ package com.jythonui.server.storage.gensymimpl;
 
 import java.util.Date;
 
-import com.gwtmodel.table.common.dateutil.DateFormatUtil;
+import com.jython.dateutil.DateFormatUtil;
 import com.jythonui.server.UObjects;
 import com.jythonui.server.storage.gensym.ISymGenerator;
 import com.jythonui.server.storage.seq.ISequenceRealmGen;
@@ -29,7 +29,7 @@ class SymGeneratorImpl implements ISymGenerator {
 
     @Override
     public String genSym(String realm, String key, String pattern) {
-        Date today = DateFormatUtil.getToday();
+        Date today = DateFormatUtil.getToday(false);
         Long l = iSeq.genNext(realm, key);
         return UObjects.genName(pattern, l, today);
     }

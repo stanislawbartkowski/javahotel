@@ -28,7 +28,7 @@ import com.gwtmodel.table.GFocusWidgetFactory;
 import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.IGFocusWidget;
-import com.gwtmodel.table.common.dateutil.DateFormatUtil;
+import com.gwtmodel.table.common.DateFormat;
 import com.gwtmodel.table.factories.IWebPanelResources;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.MM;
@@ -39,216 +39,206 @@ import com.gwtmodel.table.view.daytimetable.IDrawPartSeason;
 import com.gwtmodel.table.view.daytimetable.IDrawPartSeasonContext;
 import com.gwtmodel.table.view.daytimetable.IScrollSeason;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
+import com.jython.dateutil.DateFormatUtil;
 
 public class ScrollWidget implements IScrollSeason {
 
-    private final IDrawPartSeason dPart;
-    private final Date todayC;
-    private DatePanelUtil.PanelDesc panelMonth;
-    private DatePanelUtil.PanelDesc panelDay;
+	private final IDrawPartSeason dPart;
+	private final Date todayC;
+	private DatePanelUtil.PanelDesc panelMonth;
+	private DatePanelUtil.PanelDesc panelDay;
 
-    private final IGFocusWidget leftP;
-    private final IGFocusWidget rightP;
-    private final IFormLineView dDate;
+	private final IGFocusWidget leftP;
+	private final IGFocusWidget rightP;
+	private final IFormLineView dDate;
 
-    private final static String C_BUTTON_LEFT = "BUTTON-LEFT";
-    private final static String C_BUTTON_RIGHT = "BUTTON-LRIGHT";
+	private final static String C_BUTTON_LEFT = "BUTTON-LEFT";
+	private final static String C_BUTTON_RIGHT = "BUTTON-LRIGHT";
 
-    private final HorizontalPanel vPanel = new HorizontalPanel();
-    private final HorizontalPanel mPanel = new HorizontalPanel();
-    private final HorizontalPanel dPanel = new HorizontalPanel();
-    private final ListBox cyList = new ListBox();
-    private int curPos = -1;
+	private final HorizontalPanel vPanel = new HorizontalPanel();
+	private final HorizontalPanel mPanel = new HorizontalPanel();
+	private final HorizontalPanel dPanel = new HorizontalPanel();
+	private final ListBox cyList = new ListBox();
+	private int curPos = -1;
 
-    private Date firstDay, lastDay;
+	private Date firstDay, lastDay;
 
-    ScrollWidget(IDrawPartSeason dPart, final Date todayC) {
-        this.dPart = dPart;
-        this.todayC = todayC;
+	ScrollWidget(IDrawPartSeason dPart, final Date todayC) {
+		this.dPart = dPart;
+		this.todayC = todayC;
 
-        IWebPanelResources pResources = GwtGiniInjector.getI()
-                .getWebPanelResources();
-        String[] titles = MM.getL().ScrollDays();
-        leftP = ImgButtonFactory.getButton(C_BUTTON_LEFT, titles[1],
-                pResources.getRes(IWebPanelResources.SCROLLLEFT));
-        rightP = ImgButtonFactory.getButton(C_BUTTON_RIGHT, titles[2],
-                pResources.getRes(IWebPanelResources.SCROLLRIGHT));
-        EditWidgetFactory eFactory = GwtGiniInjector.getI()
-                .getEditWidgetFactory();
-        dDate = eFactory.construcDateBoxCalendar(Empty.getFieldType(), null);
-        dPanel.add(leftP.getGWidget());
-        dPanel.add(dDate.getGWidget());
-        dPanel.add(rightP.getGWidget());
-    }
+		IWebPanelResources pResources = GwtGiniInjector.getI().getWebPanelResources();
+		String[] titles = MM.getL().ScrollDays();
+		leftP = ImgButtonFactory.getButton(C_BUTTON_LEFT, titles[1], pResources.getRes(IWebPanelResources.SCROLLLEFT));
+		rightP = ImgButtonFactory.getButton(C_BUTTON_RIGHT, titles[2],
+				pResources.getRes(IWebPanelResources.SCROLLRIGHT));
+		EditWidgetFactory eFactory = GwtGiniInjector.getI().getEditWidgetFactory();
+		dDate = eFactory.construcDateBoxCalendar(Empty.getFieldType(), null);
+		dPanel.add(leftP.getGWidget());
+		dPanel.add(dDate.getGWidget());
+		dPanel.add(rightP.getGWidget());
+	}
 
-    private class DrawContext implements IDrawPartSeasonContext {
+	private class DrawContext implements IDrawPartSeasonContext {
 
-        @Override
-        public Date getD(int c) {
-            return DatePanelUtil.getPanelDay(panelDay, c);
-        }
+		@Override
+		public Date getD(int c) {
+			return DatePanelUtil.getPanelDay(panelDay, c);
+		}
 
-        @Override
-        public int getFirstD() {
-            return 0;
-        }
+		@Override
+		public int getFirstD() {
+			return 0;
+		}
 
-        @Override
-        public int getLastD() {
-            return panelDay.getpSize() - 1;
-        }
+		@Override
+		public int getLastD() {
+			return panelDay.getpSize() - 1;
+		}
 
-    }
+	}
 
-    private class ClickArrow implements ClickHandler {
+	private class ClickArrow implements ClickHandler {
 
-        private final boolean forward;
+		private final boolean forward;
 
-        ClickArrow(boolean forward) {
-            this.forward = forward;
-        }
+		ClickArrow(boolean forward) {
+			this.forward = forward;
+		}
 
-        @Override
-        public void onClick(ClickEvent event) {
-            Date newD;
-            if (forward)
-                newD = DateUtil.NextDayD(panelDay.getCurDay());
-            else
-                newD = DateUtil.PrevDayD(panelDay.getCurDay());
-            redraw(newD);
-        }
+		@Override
+		public void onClick(ClickEvent event) {
+			Date newD;
+			if (forward)
+				newD = DateUtil.NextDayD(panelDay.getCurDay());
+			else
+				newD = DateUtil.PrevDayD(panelDay.getCurDay());
+			redraw(newD);
+		}
 
-    }
+	}
 
-    private class MonthButton implements ClickHandler {
+	private class MonthButton implements ClickHandler {
 
-        private final int no;
+		private final int no;
 
-        MonthButton(int no) {
-            this.no = no;
-        }
+		MonthButton(int no) {
+			this.no = no;
+		}
 
-        @Override
-        public void onClick(ClickEvent event) {
-            Date md = panelMonth.getMonthI(no);
-            int m = DateFormatUtil.getM(md);
-            int y = DateFormatUtil.getY(md);
-            int d = DateFormatUtil.getD(panelDay.getCurDay());
-            Date newCur = constructValidDate(y, m, d);
-            redraw(newCur);
-        }
-    }
+		@Override
+		public void onClick(ClickEvent event) {
+			Date md = panelMonth.getMonthI(no);
+			int m = DateFormat.getM(md);
+			int y = DateFormat.getY(md);
+			int d = DateFormat.getD(panelDay.getCurDay());
+			Date newCur = constructValidDate(y, m, d);
+			redraw(newCur);
+		}
+	}
 
-    private void setCurrentDate() {
-        dDate.setValObj(DatePanelUtil.getPanelDay(panelDay, panelDay.getcurD()));
-    }
+	private void setCurrentDate() {
+		dDate.setValObj(DatePanelUtil.getPanelDay(panelDay, panelDay.getcurD()));
+	}
 
-    private void setYear() {
-        int curY = DateFormatUtil.getY(panelDay.getCurDay());
-        int firstY = Integer.parseInt(cyList.getValue(0));
-        cyList.setItemSelected(curY - firstY, true);
-    }
+	private void setYear() {
+		int curY = DateFormat.getY(panelDay.getCurDay());
+		int firstY = Integer.parseInt(cyList.getValue(0));
+		cyList.setItemSelected(curY - firstY, true);
+	}
 
-    private String getMonthName(int i) {
-        Date d = DatePanelUtil.getPanelMonth(panelMonth, i);
-        return DateUtil.getMonths()[DateFormatUtil.getM(d) - 1];
-    }
+	private String getMonthName(int i) {
+		Date d = DatePanelUtil.getPanelMonth(panelMonth, i);
+		return DateUtil.getMonths()[DateFormat.getM(d) - 1];
+	}
 
-    @Override
-    public void redraw(Date dCur) {
-        // Warning: curPos or -1
-        panelDay = DatePanelUtil.createLDays(firstDay, lastDay, dCur,
-                panelDay.getpSize(), -1);
-        setCurrentDate();
-        dPart.refresh(new DrawContext());
-        setYear();
-        // check if month in the month panel
-        for (int i = 0; i < panelMonth.getpSize(); i++)
-            if (DatePanelUtil.eqMonth(panelMonth.getMonthI(i),
-                    panelDay.getCurDay()))
-                return;
-        panelMonth = DatePanelUtil.createLMonth(firstDay, lastDay,
-                panelDay.getCurDay(), panelMonth.getpSize());
-        for (int i = 0; i < mPanel.getWidgetCount(); i++) {
-            Button b = (Button) mPanel.getWidget(i);
-            b.setText(getMonthName(i));
-        }
-    }
+	@Override
+	public void redraw(Date dCur) {
+		// Warning: curPos or -1
+		panelDay = DatePanelUtil.createLDays(firstDay, lastDay, dCur, panelDay.getpSize(), -1);
+		setCurrentDate();
+		dPart.refresh(new DrawContext());
+		setYear();
+		// check if month in the month panel
+		for (int i = 0; i < panelMonth.getpSize(); i++)
+			if (DatePanelUtil.eqMonth(panelMonth.getMonthI(i), panelDay.getCurDay()))
+				return;
+		panelMonth = DatePanelUtil.createLMonth(firstDay, lastDay, panelDay.getCurDay(), panelMonth.getpSize());
+		for (int i = 0; i < mPanel.getWidgetCount(); i++) {
+			Button b = (Button) mPanel.getWidget(i);
+			b.setText(getMonthName(i));
+		}
+	}
 
-    private class DateChange implements IFormChangeListener {
+	private class DateChange implements IFormChangeListener {
 
-        @Override
-        public void onChange(IFormLineView i, boolean afterFocus) {
-            if (!afterFocus)
-                return;
-            Date d = (Date) i.getValObj();
-            if (d == null)
-                return;
-            Date currDay = panelDay.getCurDay();
-            if (DateUtil.eqDate(d, currDay))
-                return;
-            redraw(d);
-        }
+		@Override
+		public void onChange(IFormLineView i, boolean afterFocus) {
+			if (!afterFocus)
+				return;
+			Date d = (Date) i.getValObj();
+			if (d == null)
+				return;
+			Date currDay = panelDay.getCurDay();
+			if (DateUtil.eqDate(d, currDay))
+				return;
+			redraw(d);
+		}
 
-    }
+	}
 
-    private Date constructValidDate(int y, int m, int d) {
-        if (DateUtil.isOkDate(y, m, d))
-            return DateFormatUtil.toD(y, m, d);
-        return DateUtil.toLastMonthDay(y, m);
-    }
+	private Date constructValidDate(int y, int m, int d) {
+		if (DateUtil.isOkDate(y, m, d))
+			return DateFormat.toD(y, m, d);
+		return DateUtil.toLastMonthDay(y, m);
+	}
 
-    private class YearChange implements ChangeHandler {
+	private class YearChange implements ChangeHandler {
 
-        @Override
-        public void onChange(ChangeEvent event) {
-            int selectedY = Integer.parseInt(cyList.getValue(cyList
-                    .getSelectedIndex()));
-            int curY = DateFormatUtil.getY(panelDay.getCurDay());
-            if (curY == selectedY)
-                return;
-            int montY = DateFormatUtil.getM(panelDay.getCurDay());
-            int dayY = DateFormatUtil.getD(panelDay.getCurDay());
-            Date newCur = constructValidDate(selectedY, montY, dayY);
-            redraw(newCur);
-        }
+		@Override
+		public void onChange(ChangeEvent event) {
+			int selectedY = Integer.parseInt(cyList.getValue(cyList.getSelectedIndex()));
+			int curY = DateFormat.getY(panelDay.getCurDay());
+			if (curY == selectedY)
+				return;
+			int montY = DateFormat.getM(panelDay.getCurDay());
+			int dayY = DateFormat.getD(panelDay.getCurDay());
+			Date newCur = constructValidDate(selectedY, montY, dayY);
+			redraw(newCur);
+		}
 
-    }
+	}
 
-    @Override
-    public void createVPanel(Date firstData, Date lastDate, int panelW,
-            int curPos) {
-        this.firstDay = firstData;
-        this.lastDay = lastDate;
-        this.curPos = curPos;
-        panelMonth = DatePanelUtil.createLMonth(firstData, lastDate, todayC,
-                IConsts.MonthPanel);
-        for (int i = 0; i < panelMonth.getpSize(); i++) {
-            Button l = new Button(getMonthName(i), new MonthButton(i));
-            l.setStyleName("month-style");
-            IGFocusWidget w = GFocusWidgetFactory.construct(l, MM.getL()
-                    .GotoMonth());
-            mPanel.add(w.getGWidget());
-        }
+	@Override
+	public void createVPanel(Date firstData, Date lastDate, int panelW, int curPos) {
+		this.firstDay = firstData;
+		this.lastDay = lastDate;
+		this.curPos = curPos;
+		panelMonth = DatePanelUtil.createLMonth(firstData, lastDate, todayC, IConsts.MonthPanel);
+		for (int i = 0; i < panelMonth.getpSize(); i++) {
+			Button l = new Button(getMonthName(i), new MonthButton(i));
+			l.setStyleName("month-style");
+			IGFocusWidget w = GFocusWidgetFactory.construct(l, MM.getL().GotoMonth());
+			mPanel.add(w.getGWidget());
+		}
 
-        List<Integer> yList = DatePanelUtil.getListOfYears(firstData, lastDate);
-        for (Integer y : yList)
-            cyList.addItem(y.toString());
-        cyList.addChangeHandler(new YearChange());
-        dDate.addChangeListener(new DateChange());
-        leftP.addClickHandler(new ClickArrow(false));
-        rightP.addClickHandler(new ClickArrow(true));
+		List<Integer> yList = DatePanelUtil.getListOfYears(firstData, lastDate);
+		for (Integer y : yList)
+			cyList.addItem(y.toString());
+		cyList.addChangeHandler(new YearChange());
+		dDate.addChangeListener(new DateChange());
+		leftP.addClickHandler(new ClickArrow(false));
+		rightP.addClickHandler(new ClickArrow(true));
 
-        vPanel.add(cyList);
-        vPanel.add(dPanel);
-        vPanel.add(mPanel);
+		vPanel.add(cyList);
+		vPanel.add(dPanel);
+		vPanel.add(mPanel);
 
-        panelDay = DatePanelUtil.createLDays(firstData, lastDate, todayC,
-                panelW, curPos);
-        setYear();
+		panelDay = DatePanelUtil.createLDays(firstData, lastDate, todayC, panelW, curPos);
+		setYear();
 
-        dPart.setW(new GWidget(vPanel));
-        setCurrentDate();
-        dPart.refresh(new DrawContext());
-    }
+		dPart.setW(new GWidget(vPanel));
+		setCurrentDate();
+		dPart.refresh(new DrawContext());
+	}
 }

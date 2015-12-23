@@ -66,9 +66,9 @@ public class JythonServiceImpl extends RemoteServiceServlet implements
     }
 
     @Override
-    public void logout(String token) {
+    public void logout(RequestContext context) {
         ISecurity iSec = Holder.getiSec();
-        iSec.logout(token);
+        iSec.logout(context.getToken());
     }
 
     @Override

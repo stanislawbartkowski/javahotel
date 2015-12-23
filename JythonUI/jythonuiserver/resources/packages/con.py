@@ -1,16 +1,75 @@
 from java.util import Calendar
 from java.math import BigDecimal
+from java.sql import Timestamp
 import java
 
 import datetime
 
-from com.gwtmodel.table.common.dateutil import DateFormatUtil
+from com.gwtmodel.table.common import DateFormat
 from com.gwtmodel.containertype import ContainerInfo
 from com.jythonui.server import MUtil
 
+import ctimezone
+
+# ===========================
+# date time
+# ===========================    
+
+def toJDate(value):
+    if value == None : return None
+    y = DateFormat.getY(value)
+    m = DateFormat.getM(value)
+    d = DateFormat.getD(value)
+    return datetime.date(y,m,d)
+
 def StoDate(s,timestamp = False):
-    if timestamp : return toJDateTime(DateFormatUtil.toD(s,True))
-    return toJDate(DateFormatUtil.toD(s,False))
+    if timestamp : return toJDateTime(DateFormat.toD(s,True))
+    return toJDate(DateFormat.toD(s,False))
+
+def toDate(value):
+    if value == None : return None
+    ca = Calendar.getInstance()
+    ca.clear()
+    ca.set(value.year,value.month - 1,value.day)
+    return ca.getTime()
+
+def eqDate(d1,d2):
+    dd1 = toDate(d1)
+    return dd1.equals(d2)
+        
+def toJDateTime(value):
+    if value == None : return None
+    if type(value) == java.sql.Date : raise Exception("toJDateTime cannot be applied to java.sql.Date")        
+    y = DateFormat.getY(value)
+    m = DateFormat.getM(value)
+    d = DateFormat.getD(value)
+    # works only for java.util.Data
+    # not for java.sql.Date
+    hh = value.getHours()
+    mm = value.getMinutes()
+    ss = value.getSeconds()
+    da = datetime.datetime(y,m,d,hh,mm,ss)
+    return da.replace(tzinfo=ctimezone.LZONE)
+
+def jTimestamp(da):
+#    print da,type(da)
+    if type(da) == java.sql.Timestamp : return da
+    y = da.year - 1900
+    m = da.month - 1
+    d = da.day
+    ho = da.hour
+    mi = da.minute
+    se = da.second
+    ti = Timestamp(y,m,d,ho,mi,se,0)
+#    print "tttt",ti
+    return ti
+
+def jDate(y,m,d,ho=None,mi=None,se=None):
+    if ho == None : return datetime.date(y,m,d)
+    da = datetime.datetime(y,m,d,ho,mi,se)
+    return da.replace(tzinfo=ctimezone.LZONE)
+    
+# ===============================================
 
 def toP(s,prefix):
     if prefix : return prefix + s
@@ -29,36 +88,6 @@ def toL(l) :
   if type(l) == long : return l  
   return l.longValue()
 
-def toDate(value):
-    if value == None : return None
-    ca = Calendar.getInstance()
-    ca.clear()
-    ca.set(value.year,value.month - 1,value.day)
-    return ca.getTime()
-
-def eqDate(d1,d2):
-    dd1 = toDate(d1)
-    return dd1.equals(d2)
-
-def toJDate(value):
-    if value == None : return None
-    y = DateFormatUtil.getY(value)
-    m = DateFormatUtil.getM(value)
-    d = DateFormatUtil.getD(value)
-    return datetime.date(y,m,d)
-        
-def toJDateTime(value):
-    if value == None : return None
-    if type(value) == java.sql.Date : raise Exception("toJDateTime cannot be applied to java.sql.Date")        
-    y = DateFormatUtil.getY(value)
-    m = DateFormatUtil.getM(value)
-    d = DateFormatUtil.getD(value)
-    # works only for java.util.Data
-    # not for java.sql.Date
-    hh = value.getHours()
-    mm = value.getMinutes()
-    ss = value.getSeconds()
-    return datetime.datetime(y,m,d,hh,mm,ss)
 
 def toB(value):
     if value == None : return None

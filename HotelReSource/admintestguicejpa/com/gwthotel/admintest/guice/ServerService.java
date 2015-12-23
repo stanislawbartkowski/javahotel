@@ -46,10 +46,10 @@ import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.gwtmodel.mapcache.SimpleMapCacheFactory;
-import com.gwtmodel.table.common.dateutil.ISetTestToday;
-import com.gwtmodel.table.common.dateutil.SetTestTodayProvider;
 import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.gwtmodel.testenhancer.notgae.TestEnhancer;
+import com.jython.dateutil.ISetTestToday;
+import com.jython.dateutil.SetTestTodayProvider;
 import com.jython.jpautil.crudimpl.gensym.IJpaObjectGenSymFactory;
 import com.jython.jpautil.crudimpl.gensym.JpaObjectGenSymFactoryImpl;
 import com.jython.serversecurity.IOObjectAdmin;
@@ -65,7 +65,6 @@ import com.jython.ui.server.jpatrans.ITransactionContext;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaTransactionContext;
 import com.jythonui.server.IConsts;
-import com.jythonui.server.IConvertJythonTimestamp;
 import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IGetEnvDefaultData;
 import com.jythonui.server.IJythonRPCNotifier;
@@ -78,7 +77,6 @@ import com.jythonui.server.defa.EmptyRPCNotifier;
 import com.jythonui.server.defa.JavaMailSessionProvider;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.journal.IJournal;
-import com.jythonui.server.jython.ConvertPython27;
 import com.jythonui.server.mail.INoteStorage;
 import com.jythonui.server.objectgensymimpl.CrudObjectGenSym;
 import com.jythonui.server.semaphore.ISemaphore;
@@ -128,7 +126,6 @@ public class ServerService {
 
 			bind(ISetTestToday.class).toProvider(SetTestTodayProvider.class).in(Singleton.class);
 			bind(IGetEnvDefaultData.class).to(EmptyGetEnvDefaultData.class).in(Singleton.class);
-			bind(IConvertJythonTimestamp.class).to(ConvertPython27.class).in(Singleton.class);
 			bind(IJournal.class).to(JpaJournal.class).in(Singleton.class);
 
 			// -----

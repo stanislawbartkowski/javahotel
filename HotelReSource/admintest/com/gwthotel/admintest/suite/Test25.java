@@ -23,7 +23,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.gwthotel.hotel.bill.CustomerBill;
-import com.gwtmodel.table.common.dateutil.DateFormatUtil;
+import com.jython.dateutil.DateFormatUtil;
 import com.jythonui.server.security.token.ICustomSecurity;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogVariables;
@@ -112,10 +112,10 @@ public class Test25 extends TestHelper {
 
     @Test
     public void test2() {
-        Date da = DateFormatUtil.getToday();
+        Date da = DateFormatUtil.getToday(false);
         assertTrue(eqD(2013, 6, 13, da));
         setTestToday(null);
-        da = DateFormatUtil.getToday();
+        da = DateFormatUtil.getToday(false);
         assertFalse(eqD(2013, 6, 13, da));
     }
 

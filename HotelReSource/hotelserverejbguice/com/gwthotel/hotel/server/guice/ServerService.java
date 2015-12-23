@@ -39,7 +39,6 @@ import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.jython.serversecurity.IOObjectAdmin;
 import com.jython.serversecurity.instance.IAppInstanceOObject;
 import com.jythonui.server.IConsts;
-import com.jythonui.server.IConvertJythonTimestamp;
 import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IGetEnvDefaultData;
 import com.jythonui.server.IJythonRPCNotifier;
@@ -53,7 +52,6 @@ import com.jythonui.server.envvar.impl.GetEnvVariables;
 import com.jythonui.server.envvar.impl.ServerPropertiesEnv;
 import com.jythonui.server.guavacache.GuavaCacheFactory;
 import com.jythonui.server.journal.IJournal;
-import com.jythonui.server.jython.ConvertPython27;
 import com.jythonui.server.mail.INoteStorage;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.resbundle.Mess;
@@ -81,7 +79,6 @@ public class ServerService {
 			bind(IStorageRegistryFactory.class).to(StorageRealmRegistryFactory.class).in(Singleton.class);
 			bind(Mess.class).in(Singleton.class);
 			bind(IGetResourceJNDI.class).to(GetResourceJNDI.class).in(Singleton.class);
-			bind(IConvertJythonTimestamp.class).to(ConvertPython27.class).in(Singleton.class);
 
 			// common
 			bind(IGetAutomPatterns.class).to(GetAutomPatterns.class).in(Singleton.class);

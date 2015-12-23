@@ -28,7 +28,7 @@ import com.gwthotel.hotel.reservation.ReservationForm;
 import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
 import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwthotel.hotel.services.HotelServices;
-import com.gwtmodel.table.common.dateutil.DateFormatUtil;
+import com.gwtmodel.table.common.DateFormat;
 
 public class Test12 extends TestHelper {
 
@@ -70,7 +70,7 @@ public class Test12 extends TestHelper {
 
         ReservationForm r = (ReservationForm) hObjects.construct(getH(HOTEL),
                 HotelObjects.RESERVATION);
-        Date res = DateFormatUtil.toD(2013, 2, 1);
+        Date res = DateFormat.toD(2013, 2, 1);
         r.setCustomerName(p.getName());
 
         ReservationPaymentDetail det = new ReservationPaymentDetail();
@@ -148,7 +148,7 @@ public class Test12 extends TestHelper {
             iServices.addElem(getH(HOTEL), se);
         }
 
-        Date res = DateFormatUtil.toD(2013, 2, 1);
+        Date res = DateFormat.toD(2013, 2, 1);
         for (int i = 0; i < 100; i++) {
             ReservationForm r = (ReservationForm) hObjects.construct(
                     getH(HOTEL), HotelObjects.RESERVATION);

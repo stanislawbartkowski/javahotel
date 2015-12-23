@@ -25,7 +25,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
-import com.gwtmodel.table.common.dateutil.DateFormatUtil;
+import com.jython.dateutil.DateFormatUtil;
 import com.jythonui.server.holder.SHolder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
@@ -33,7 +33,7 @@ import com.jythonui.server.logmess.ILogMess;
 public class BUtil extends UtilHelper {
 
     private static void setD(Object o, String propname) {
-        Date d = DateFormatUtil.getToday();
+        Date d = DateFormatUtil.getToday(true);
         try {
             BeanUtils.setProperty(o, propname, d);
         } catch (IllegalAccessException | InvocationTargetException e) {

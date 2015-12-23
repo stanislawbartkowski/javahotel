@@ -12,10 +12,11 @@
  */
 package com.gwtmodel.table.daytimeline;
 
-import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import com.gwtmodel.table.common.DateFormat;
 
 /**
  * 
@@ -34,8 +35,8 @@ class CreateMonthPeList {
         int noD = -1;
         int inde = 0;
         for (Date d : dList) {
-            int y = DateFormatUtil.getY(d);
-            int m = DateFormatUtil.getM(d);
+            int y = DateFormat.getY(d);
+            int m = DateFormat.getM(d);
             if ((y != year) || (m != month)) {
                 if (year != -1) {
                     YearMonthPe pe = new YearMonthPe(year, month, noD, startT);

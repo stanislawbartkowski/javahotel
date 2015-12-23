@@ -213,7 +213,7 @@ class MAKERESE(util.HOTELTRANSACTION) :
           custo.setName(name)
           R.changeElem(custo)
       else :
-          custo.setGensymbol(True);
+#          custo.setGensymbol(True);
           name = R.addElem(custo).getName()
       cust.saveDefaCustomer(var,CUST)               
       # --- customer added
@@ -221,7 +221,7 @@ class MAKERESE(util.HOTELTRANSACTION) :
       resename = rutil.getReseName(var) 
       reservation = util.newResForm(var)
       if resename : reservation.setName(resename)
-      else : reservation.setGensymbol(True);
+#      else : reservation.setGensymbol(True);
       reservation.setCustomerName(name)
       # advance      
       A = advarese.createAdvaRese(var)

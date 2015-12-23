@@ -11,6 +11,7 @@
   <button id="customerlist" displayname="@lofcustomer" actiontype="JMAIN_DIALOG" actionparam="hotel/resources/customerlist.xml"/>
   <!--  <button id="mailtest" displayname="@mailtest" actiontype="JMAIN_DIALOG" actionparam="mail/sendmailmulti.xml"/> -->
   <button id="reservation" displayname="@reservations" actiontype="JMAIN_DIALOG" actionparam="hotel/reservation/reservations.xml"/>
+  <button id="journal" displayname="@journal" actiontype="JMAIN_DIALOG" actionparam="hotel/journal/journal.xml"/>
 </leftmenu>
 
 </dialog>

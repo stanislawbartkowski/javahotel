@@ -1,5 +1,6 @@
 from cutil import printVar
 import datetime
+import con
 
 def dialogaction(action,var):
     
@@ -10,7 +11,8 @@ def dialogaction(action,var):
         rec = li[0]
         assert rec["id_name"] == 5
         assert rec["name"] == "hello"
-        da = datetime.date(2013,10,3)
+#        da = datetime.date(2013,10,3)
+        da = con.jDate(2013,10,3)
         assert rec["date"] == da
         
     if action == "test2" :

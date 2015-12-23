@@ -62,7 +62,8 @@ public class GetInstanceObjectId extends UtilHelper implements
     @Override
     public OObjectId getOObject(String instanceName, String objectName,
             String userName) {
-        String key = instanceName + " " + objectName;
+    	// important: add username to key
+        String key = instanceName + " " + objectName + " " + userName;
         Object o = null;
         o = iCache.get(key);
         if (o != null)

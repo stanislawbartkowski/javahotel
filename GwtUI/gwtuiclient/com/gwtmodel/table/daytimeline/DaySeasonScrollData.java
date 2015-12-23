@@ -12,9 +12,10 @@
  */
 package com.gwtmodel.table.daytimeline;
 
-import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import java.util.Date;
 import java.util.List;
+
+import com.gwtmodel.table.common.DateFormat;
 
 /**
  * 
@@ -71,9 +72,9 @@ public class DaySeasonScrollData {
         boolean found = false;
         for (Date d : dList) {
             no++;
-            int y = DateFormatUtil.getY(d);
-            int mt = DateFormatUtil.getM(d);
-            int dt = DateFormatUtil.getD(d);
+            int y = DateFormat.getY(d);
+            int mt = DateFormat.getM(d);
+            int dt = DateFormat.getD(d);
             if (y != m.getYear()) {
                 continue;
             }

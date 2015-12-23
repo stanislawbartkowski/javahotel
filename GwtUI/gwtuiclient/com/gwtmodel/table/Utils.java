@@ -35,7 +35,6 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.common.CUtil;
-import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
@@ -450,7 +449,8 @@ public class Utils {
 	}
 
 	public static void SetCookie(String key, String value) {
-		Date today = DateFormatUtil.getToday();
+		// today
+		Date today = new Date();
 		Date exp = DateUtil.addDaysD(today, 100);
 		Cookies.setCookie(jPrefix() + key, value, exp);
 	}

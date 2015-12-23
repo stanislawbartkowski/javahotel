@@ -29,7 +29,7 @@ import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
 import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwthotel.hotel.services.HotelServices;
 import com.gwthotel.shared.IHotelConsts;
-import com.gwtmodel.table.common.dateutil.DateFormatUtil;
+import com.gwtmodel.table.common.DateFormat;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogVariables;
 
@@ -42,7 +42,7 @@ public class Test16 extends TestHelper {
 	public void before() {
 		clearObjects();
 		createHotels();
-		setTestToday(DateFormatUtil.toD(2013, 6, 13));
+		setTestToday(DateFormat.toD(2013, 6, 13));
 	}
 
 	@Test

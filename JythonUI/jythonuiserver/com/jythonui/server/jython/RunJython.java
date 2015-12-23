@@ -17,6 +17,7 @@ import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -36,6 +37,7 @@ import org.python.core.Py;
 import org.python.core.PyBoolean;
 import org.python.core.PyDictionary;
 import org.python.core.PyFloat;
+import org.python.core.PyFunction;
 import org.python.core.PyInteger;
 import org.python.core.PyIterator;
 import org.python.core.PyList;
@@ -45,12 +47,12 @@ import org.python.core.PyString;
 import org.python.core.PySystemState;
 import org.python.core.PyTuple;
 import org.python.core.PyUnicode;
+import org.python.core.__builtin__;
 import org.python.util.PythonInterpreter;
 
 import com.google.inject.Inject;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.TT;
-import com.jythonui.server.IConvertJythonTimestamp;
 import com.jythonui.server.IExecuteJython;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.ISharedConsts;
@@ -93,35 +95,52 @@ public class RunJython extends UtilHelper implements IExecuteJython {
 	private final static String AATempVariable = "AA";
 
 	/** Constant Jython string. */
-/*	
-	private static final PyObject JLISTMAP = toString(ICommonConsts.JLISTMAP);
-	private static final PyObject JCHECKMAP = toString(ICommonConsts.JCHECKLISTMAP);
-	private static final PyObject JDATELINEMAP = toString(ICommonConsts.JDATELINEMAP);
-	private static final PyObject JCHARTMAP = toString(ICommonConsts.JCHARTMAP);
-*/
-	
+	/*
+	 * private static final PyObject JLISTMAP =
+	 * toString(ICommonConsts.JLISTMAP); private static final PyObject JCHECKMAP
+	 * = toString(ICommonConsts.JCHECKLISTMAP); private static final PyObject
+	 * JDATELINEMAP = toString(ICommonConsts.JDATELINEMAP); private static final
+	 * PyObject JCHARTMAP = toString(ICommonConsts.JCHARTMAP);
+	 */
+
 	// important : cannot make any Jython call before initialing intepreter
 	private PyObject JLISTMAP;
 	private PyObject JCHECKMAP;
 	private PyObject JDATELINEMAP;
 	private PyObject JCHARTMAP;
 
+	private PyObject CON;
+
 	private final IJythonUIServerProperties p;
 	private final IGetLogMess logMess;
-	private final IConvertJythonTimestamp iConvert;
 	private final ISuggestionStorage iSugg;
 	private final IRememberValue iRem;
 
 	@Inject
 	public RunJython(IJythonUIServerProperties p, @Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess logMess,
-			IConvertJythonTimestamp iConvert, ISuggestionStorage iSugg, IRememberValue iRem) {
+			ISuggestionStorage iSugg, IRememberValue iRem) {
 		this.p = p;
 		this.logMess = logMess;
-		this.iConvert = iConvert;
 		this.iSugg = iSugg;
 		this.iRem = iRem;
-//		PyType TYPE = PyString.TYPE;
-//		PyType TYPE1 = PyBaseString.TYPE;
+		// PyType TYPE = PyString.TYPE;
+		// PyType TYPE1 = PyBaseString.TYPE;
+	}
+
+	private PyObject toDate(Date d, boolean withtime) {
+		PyFunction py = (PyFunction) CON.__getattr__("jDate");
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(d);
+		PyObject[] args;
+		if (withtime)
+			args = new PyObject[] { new PyInteger(cal.get(Calendar.YEAR)), new PyInteger(cal.get(Calendar.MONTH) + 1),
+					new PyInteger(cal.get(Calendar.DAY_OF_MONTH)), new PyInteger(cal.get(Calendar.HOUR_OF_DAY)),
+					new PyInteger(cal.get(Calendar.MINUTE)), new PyInteger(cal.get(Calendar.SECOND)) };
+		else
+			args = new PyObject[] { new PyInteger(cal.get(Calendar.YEAR)), new PyInteger(cal.get(Calendar.MONTH) + 1),
+					new PyInteger(cal.get(Calendar.DAY_OF_MONTH)) };
+		PyObject o = py.__call__(args);
+		return o;
 	}
 
 	private Map<PyObject, PyObject> toPythonMap(MapDialogVariable v) {
@@ -166,13 +185,22 @@ public class RunJython extends UtilHelper implements IExecuteJython {
 					valP = new PyFloat(bi.doubleValue());
 					break;
 				case DATE:
-					java.sql.Date dt = new java.sql.Date(val.getValueD().getTime());
-					PyObject da = Py.newDate(dt);
-					valP = da;
+					// java.sql.Date dt = new
+					// java.sql.Date(val.getValueD().getTime());
+					// PyObject da = Py.newDate(dt);
+					// valP = da;
+					valP = toDate(val.getValueD(), false);
 					break;
 				case DATETIME:
-					PyObject ti = Py.newDatetime(val.getValueT());
-					valP = ti;
+					// PyObject ti = Py.newDatetime(val.getValueT());
+					// ti.__setattr__("tzinfo", LZONE);
+					// PyFunction py = (PyFunction) CON.__getattr__("jDate");
+					// PyObject[] args = new PyObject[] { new PyInteger(2000),
+					// new PyInteger(11), new PyInteger(7) };
+					// PyObject o = py.__call__(args);
+					// valP = ti;
+					// o = toDate(val.getValueT(), true);
+					valP = toDate(val.getValueT(), true);
 					break;
 				default:
 					errorLog(logMess.getMess(IErrorCode.ERRORCODE33, ILogMess.TYPEMAPNOTIMPLEMENTS, s,
@@ -563,6 +591,28 @@ public class RunJython extends UtilHelper implements IExecuteJython {
 
 	}
 
+	private Date fromJythonToDate(Object val) {
+		if (val instanceof java.sql.Date) {
+			java.sql.Date dt = (java.sql.Date) val;
+			return new Date(dt.getTime());
+		}
+		return (Date) val;
+	}
+
+	private Timestamp fromJythonToTimestamp(Object val, PyObject py) {
+		if (val instanceof java.sql.Date) {
+			java.sql.Date dti = (java.sql.Date) val;
+			return new Timestamp(dti.getTime());
+		}
+		if (val instanceof Timestamp) {
+			PyFunction pyF = (PyFunction) CON.__getattr__("jTimestamp");
+			PyObject o = pyF.__call__(py);
+			return (Timestamp) o.__tojava__(Timestamp.class);
+		}
+		java.util.Date dti = (java.util.Date) val;
+		return new Timestamp(dti.getTime());
+	}
+
 	private void toDialogVariables(List<FieldItem> fList, List<ListFormat> listList, DialogVariables v,
 			PyDictionary pyMap, boolean strict) {
 		PyObject item = pyMap.iteritems();
@@ -572,6 +622,8 @@ public class RunJython extends UtilHelper implements IExecuteJython {
 			PyTuple tu = (PyTuple) next;
 			Object key = tu.get(0);
 			Object val = tu.get(1);
+			PyObject valp = tu.getArray()[1];
+
 			if (key.equals(ICommonConsts.JLISTMAP)) {
 				continue;
 			}
@@ -662,25 +714,29 @@ public class RunJython extends UtilHelper implements IExecuteJython {
 						f.setValue(bx, afterdot);
 						break;
 					case DATE:
-						Date dat;
-						if (val instanceof java.sql.Date) {
-							java.sql.Date dt = (java.sql.Date) val;
-							dat = new Date(dt.getTime());
-						} else {
-							dat = (Date) val;
-						}
-						f.setValue(dat);
+						// Date dat;
+						// if (val instanceof java.sql.Date) {
+						// java.sql.Date dt = (java.sql.Date) val;
+						// dat = new Date(dt.getTime());
+						// } else {
+						// dat = (Date) val;
+						// }
+						f.setValue(fromJythonToDate(val));
 						break;
 					case DATETIME:
-						Timestamp ti;
-						if (val instanceof java.sql.Date) {
-							java.sql.Date dti = (java.sql.Date) val;
-							ti = new Timestamp(dti.getTime());
-						} else {
-							// ti = fromJythonToJava(val);
-							ti = iConvert.fromJython(val);
-						}
-						f.setValue(ti);
+						// Timestamp ti;
+						// Hibernate returns java.util.Date
+						// if (val instanceof java.sql.Date) {
+						// java.sql.Date dti = (java.sql.Date) val;
+						// ti = new Timestamp(dti.getTime());
+						// } else if (val instanceof java.util.Date) {
+						// java.util.Date dti = (java.util.Date) val;
+						// ti = new Timestamp(dti.getTime());
+						// } else {
+						// ti = fromJythonToJava(val);
+						// ti = iConvert.fromJython(val);
+						// }
+						f.setValue(fromJythonToTimestamp(val, valp));
 						break;
 					default:
 						errorLog(logMess.getMess(IErrorCode.ERRORCODE32, ILogMess.TYPEMAPNOTIMPLEMENTS, keyS,
@@ -804,7 +860,6 @@ public class RunJython extends UtilHelper implements IExecuteJython {
 		JDATELINEMAP = toString(ICommonConsts.JDATELINEMAP);
 		JCHARTMAP = toString(ICommonConsts.JCHARTMAP);
 
-
 		// check sys.path
 		// String[] packageList = p.getJythonPackageDirectory().split(",");
 		// for (String p : packageList)
@@ -815,6 +870,9 @@ public class RunJython extends UtilHelper implements IExecuteJython {
 		for (String p : pList)
 			addIfNotExisttoPath(interp, p);
 		// add common directory
+
+		PyObject module = __builtin__.__import__("ctimezone");
+		CON = __builtin__.__import__("con");
 
 		Map<PyObject, PyObject> pMap = toPythonMap(v);
 		addListToMap(pMap, d, v);
@@ -975,6 +1033,7 @@ public class RunJython extends UtilHelper implements IExecuteJython {
 
 	@Override
 	public void executeJython(DialogVariables v, DialogFormat d, String actionId) {
+
 		String cu = FieldItem.getCustomT(actionId);
 		if (!CUtil.EmptyS(cu)) {
 			executeForType(v, d, cu, false);

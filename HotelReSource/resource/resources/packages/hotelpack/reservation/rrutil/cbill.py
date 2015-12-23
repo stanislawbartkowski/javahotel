@@ -84,7 +84,7 @@ class HOTELBILLSAVE(util.HOTELTRANSACTION) :
         self._total = ma["total"]
         P = PAID(var,self._rese_name)
         b = util.newBill(var)
-        b.setGensymbol(True);
+#        b.setGensymbol(True);
         b.setPayer(self._cust_name)
         b.setReseName(self._rese_name)
         b.setIssueDate(cutil.toDate(cutil.today()))

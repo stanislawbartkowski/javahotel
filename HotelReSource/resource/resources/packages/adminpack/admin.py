@@ -1,7 +1,6 @@
 from com.gwthotel.hotel.server.service import H
-import sec
+import sec,cutil
 from util import util
-import cutil
 
 PERM="perm"
 M = util.MESS()

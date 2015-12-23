@@ -16,97 +16,97 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import com.gwtmodel.table.common.dateutil.DateFormatUtil;
+import com.jython.dateutil.DateFormatUtil;
 
 public class ConvertTT {
 
-    private ConvertTT() {
+	private ConvertTT() {
 
-    }
+	}
 
-    public static Object toO(TT t, String s) {
-        if (CUtil.EmptyS(s)) {
-            return null;
-        }
-        Object o;
-        switch (t) {
-        case DATE:
-            o = DateFormatUtil.toD(s, false);
-            break;
-        case DATETIME:
-            Date d = DateFormatUtil.toD(s, true);
-            o = new Timestamp(d.getTime());
-            break;
-        case BIGDECIMAL:
-            o = DecimalUtils.toBig(s);
-            break;
-        case LONG:
-            o = CUtil.toLong(s);
-            break;
-        case INT:
-            o = CUtil.toInteger(s);
-            break;
-        case BOOLEAN:
-            o = Boolean.parseBoolean(s);
-            break;
-        default:
-            o = s;
-            break;
-        }
-        return o;
-    }
+	public static Object toO(TT t, String s) {
+		if (CUtil.EmptyS(s)) {
+			return null;
+		}
+		Object o;
+		switch (t) {
+		case DATE:
+			o = DateFormat.toD(s, false);
+			break;
+		case DATETIME:
+			Date d = DateFormat.toD(s, true);
+			o = new Timestamp(d.getTime());
+			break;
+		case BIGDECIMAL:
+			o = DecimalUtils.toBig(s);
+			break;
+		case LONG:
+			o = CUtil.toLong(s);
+			break;
+		case INT:
+			o = CUtil.toInteger(s);
+			break;
+		case BOOLEAN:
+			o = Boolean.parseBoolean(s);
+			break;
+		default:
+			o = s;
+			break;
+		}
+		return o;
+	}
 
-    private static String getBigDecimalS(Object o, int afterdot) {
-        BigDecimal b = (BigDecimal) o;
-        if (b == null) {
-            return "";
-        }
-        return DecimalUtils.DecimalToS(b, afterdot);
-    }
+	private static String getBigDecimalS(Object o, int afterdot) {
+		BigDecimal b = (BigDecimal) o;
+		if (b == null) {
+			return "";
+		}
+		return DecimalUtils.DecimalToS(b, afterdot);
+	}
 
-    private static String getLongS(Object o) {
-        Long l = (Long) o;
-        if (l == null) {
-            return "";
-        }
-        return l.toString();
-    }
+	private static String getLongS(Object o) {
+		Long l = (Long) o;
+		if (l == null) {
+			return "";
+		}
+		return l.toString();
+	}
 
-    private static String getIntS(Object o) {
-        Integer l = (Integer) o;
-        if (l == null) {
-            return "";
-        }
-        return l.toString();
-    }
+	private static String getIntS(Object o) {
+		Integer l = (Integer) o;
+		if (l == null) {
+			return "";
+		}
+		return l.toString();
+	}
 
-    private static String getStringS(Object o) {
-        String s = (String) o;
-        return s;
-    }
+	private static String getStringS(Object o) {
+		String s = (String) o;
+		return s;
+	}
 
-    public static String toS(Object o, TT t, int afterdot) {
-        if (o == null)
-            return null;
-        switch (t) {
-        case DATE:
-            Date d = (Date) o;
-            return DateFormatUtil.toS(d, false);
-        case BIGDECIMAL:
-            return getBigDecimalS(o, afterdot);
-        case LONG:
-            return getLongS(o);
-        case INT:
-            return getIntS(o);
-        case BOOLEAN:
-            Boolean b = (Boolean) o;
-            return b.toString();
-        case DATETIME:
-            Timestamp ti = (Timestamp) o;
-            return DateFormatUtil.toS(new Date(ti.getTime()), true);
-        default:
-            return getStringS(o);
-        }
-    }
+	public static String toS(Object o, TT t, int afterdot) {
+		if (o == null)
+			return null;
+		switch (t) {
+		case DATE:
+			Date d = (Date) o;
+			return DateFormat.toS(d, false);
+		case BIGDECIMAL:
+			return getBigDecimalS(o, afterdot);
+		case LONG:
+			return getLongS(o);
+		case INT:
+			return getIntS(o);
+		case BOOLEAN:
+			Boolean b = (Boolean) o;
+			return b.toString();
+		case DATETIME:
+			Timestamp ti = (Timestamp) o;
+			return DateFormat.toS(new Date(ti.getTime()), true);
+		default:
+			return getStringS(o);
+		}
+	}
 
 }

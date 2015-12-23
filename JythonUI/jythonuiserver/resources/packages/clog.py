@@ -23,6 +23,9 @@ class LOGGERJYTHON :
      
   def debug(self,*args):
      self.logger.debug(_toL(*args))
+     
+  def error(self,*args):
+     self.logger.error(_toL(*args))
 
 class LOGGERJAVA:
     
@@ -33,6 +36,12 @@ class LOGGERJAVA:
     def info(self,*args):
         self.logger.info(_toL(*args))
 
+    def debug(self,*args):
+        self.logger.info(_toL(*args))
+        
+    def error(self,*args):
+        self.logger.info(_toL(*args))
+
 if con.isAppEngine() : LOGGER = LOGGERJAVA()
 else : LOGGER = LOGGERJYTHON()
 
@@ -40,4 +49,8 @@ def info(*args):
     LOGGER.info(*args)
     
 def debug(*args):
-    LOGGER.debug(*args)             
+    LOGGER.debug(*args)
+    
+def error(*args):
+    LOGGER.error(*args)
+                     

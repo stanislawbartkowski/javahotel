@@ -50,6 +50,9 @@ public class JournalLog implements IJournalLogin {
 		ObjectCustom cust = (ObjectCustom) iCust;
 		String appId = cust.getInstanceId();
 		String objectName = cust.getObjectName();
+		// TODO: possible if admin not belonging to anu instance
+		// TODO: fix later, 
+		if (objectName == null) return;
 		OObjectId oObject = iCa.getOObject(appId, objectName, userName);
 		addEntry(oObject, IConsts.LOGINJOURNAL);
 	}
@@ -59,6 +62,8 @@ public class JournalLog implements IJournalLogin {
 		if (!iRes.isCustom(token))
 			return;
 		OObjectId oObject = iRes.getObject(token);
+		// TODO: admin
+		if (oObject == null) return;
 		addEntry(oObject, IConsts.LOGOUTJOURNAL);
 	}
 

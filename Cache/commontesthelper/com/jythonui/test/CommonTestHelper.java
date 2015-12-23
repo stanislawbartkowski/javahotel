@@ -28,9 +28,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.gwtmodel.commoncache.ICommonCache;
-import com.gwtmodel.table.common.dateutil.DateFormatUtil;
-import com.gwtmodel.table.common.dateutil.ISetTestToday;
+import com.gwtmodel.table.common.DateFormat;
 import com.gwtmodel.testenhancer.ITestEnhancer;
+import com.jython.dateutil.DateFormatUtil;
+import com.jython.dateutil.ISetTestToday;
 import com.jython.serversecurity.AppInstanceId;
 import com.jython.serversecurity.IOObjectAdmin;
 import com.jython.serversecurity.OObject;
@@ -165,7 +166,7 @@ abstract public class CommonTestHelper {
 		Holder.setContext(req);
 	}
 
-	protected void setTestToday(Date d) {
+	static protected void setTestToday(Date d) {
 		setTestToday.setToday(d);
 	}
 
@@ -218,17 +219,17 @@ abstract public class CommonTestHelper {
 	}
 
 	protected Date getD(int year, int m, int d) {
-		return DateFormatUtil.toD(year, m, d);
+		return DateFormat.toD(year, m, d);
 	}
 
 	protected boolean eqD(int year, int m, int d, Date da) {
-		int dd = DateFormatUtil.getY(da);
+		int dd = DateFormat.getY(da);
 		if (year != dd)
 			return false;
-		int mm = DateFormatUtil.getM(da);
+		int mm = DateFormat.getM(da);
 		if (m != mm)
 			return false;
-		int day = DateFormatUtil.getD(da);
+		int day = DateFormat.getD(da);
 		if (d != day)
 			return false;
 		return true;

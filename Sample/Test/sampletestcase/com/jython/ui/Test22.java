@@ -19,7 +19,7 @@ import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.gwtmodel.table.common.dateutil.DateFormatUtil;
+import com.gwtmodel.table.common.DateFormat;
 
 public class Test22 extends TestHelper {
 
@@ -56,7 +56,7 @@ public class Test22 extends TestHelper {
 
     @Test
     public void test2() {
-        Date today = DateFormatUtil.toD(2008, 5, 2);
+        Date today = DateFormat.toD(2008, 5, 2);
         this.setTestToday.setToday(today);
         String sym = iSym.genSym(REALM, KEY1, PATTERN);
         System.out.println(sym);

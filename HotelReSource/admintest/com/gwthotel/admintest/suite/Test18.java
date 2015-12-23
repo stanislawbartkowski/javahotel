@@ -19,7 +19,6 @@ import static org.junit.Assert.assertTrue;
 import java.math.BigDecimal;
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import com.gwthotel.hotel.HotelObjects;
@@ -30,7 +29,6 @@ import com.gwthotel.hotel.reservation.ReservationForm;
 import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
 import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwthotel.hotel.services.HotelServices;
-import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 
 public class Test18 extends TestHelper {
 

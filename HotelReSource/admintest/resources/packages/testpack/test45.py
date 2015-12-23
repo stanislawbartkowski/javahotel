@@ -9,7 +9,7 @@ M = cutil.MESS()
 def _createX(var,rese_name,paymentmethod=None):
     print rese_name
     cu = cust.newCustomer(var)
-    cu.setGensymbol(True);
+#    cu.setGensymbol(True);
     cu = util.CUSTOMERLIST(var).addElem(cu)
     cust_name = cu.getName()
     print cust_name

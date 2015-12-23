@@ -10,12 +10,24 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.common.dateutil;
+package com.jython.dateutil;
 
 import java.util.Date;
 
-public interface ISetTestToday {
+import javax.inject.Provider;
 
-    void setToday(Date p);
+public class SetTestTodayProvider implements Provider<ISetTestToday> {
+
+	@Override
+	public ISetTestToday get() {
+		return new ISetTestToday() {
+
+			@Override
+			public void setToday(Date p) {
+				DateFormatUtil.setTestToday(p);
+			}
+
+		};
+	}
 
 }

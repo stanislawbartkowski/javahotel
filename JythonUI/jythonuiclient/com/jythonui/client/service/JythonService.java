@@ -38,6 +38,6 @@ public interface JythonService extends RemoteService {
 
     String withoutlogin(CustomSecurity iCustom);
 
-    void logout(String token);
+	void logout(RequestContext context);
 
 }

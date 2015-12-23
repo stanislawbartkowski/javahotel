@@ -35,13 +35,13 @@ import com.gwthotel.hotel.reservationop.ResQuery;
 import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwthotel.hotel.services.HotelServices;
 import com.gwthotel.shared.IHotelConsts;
-import com.gwtmodel.table.common.dateutil.DateFormatUtil;
+import com.gwtmodel.table.common.DateFormat;
 
 public class Test13 extends TestHelper {
 
     @Test
     public void test1() {
-        Date d = DateFormatUtil.toD(2013, 6, 12);
+        Date d = DateFormat.toD(2013, 6, 12);
         List<ResQuery> rQuery = new ArrayList<ResQuery>();
         ResQuery q = new ResQuery();
         q.setRoomName("R10");
@@ -96,8 +96,8 @@ public class Test13 extends TestHelper {
 
     private R createRese() {
         R r = new R();
-        r.dFrom = DateFormatUtil.toD(2013, 6, 12);
-        r.dTo = DateFormatUtil.toD(2013, 6, 15);
+        r.dFrom = DateFormat.toD(2013, 6, 12);
+        r.dTo = DateFormat.toD(2013, 6, 15);
         r.rQuery = new ArrayList<ResQuery>();
         ResQuery q = new ResQuery();
         q.setRoomName("R10");

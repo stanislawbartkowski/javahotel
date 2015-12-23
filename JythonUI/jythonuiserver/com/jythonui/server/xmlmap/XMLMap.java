@@ -32,7 +32,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import com.gwtmodel.table.common.CUtil;
-import com.gwtmodel.table.common.dateutil.DateFormatUtil;
+import com.gwtmodel.table.common.DateFormat;
 import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.IXMLToMap;
 import com.jythonui.server.UtilHelper;
@@ -120,10 +120,10 @@ public class XMLMap extends UtilHelper implements IXMLToMap {
                 v = d;
             }
             if (CUtil.EqNS(type, IMapValues.DATE)) {
-                Date d = DateFormatUtil.toD(value, false);
+                Date d = DateFormat.toD(value, false);
                 if (d == null)
                     // try to recognize date in format YYYY-MM-DD also
-                    d = DateFormatUtil.toD(value.replace('-', '/'), false);
+                    d = DateFormat.toD(value.replace('-', '/'), false);
                 v = d;
             }
             curr.put(qName, v);

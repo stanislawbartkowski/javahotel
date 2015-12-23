@@ -50,13 +50,14 @@ import com.gwthotel.hotel.server.service.H;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.resource.GetResourceJNDI;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
-import com.gwtmodel.table.common.dateutil.ISetTestToday;
+import com.jython.dateutil.ISetTestToday;
 import com.jython.jpautil.crudimpl.gensym.IJpaObjectGenSymFactory;
 import com.jython.jpautil.crudimpl.gensym.JpaObjectGenSymFactoryImpl;
 import com.jython.serversecurity.IOObjectAdmin;
 import com.jython.serversecurity.instance.IAppInstanceOObject;
 import com.jython.serversecurity.jpa.OObjectAdminInstance;
 import com.jython.serversecurity.jpa.OObjectAdminJpa;
+import com.jython.ui.server.jpajournal.JpaJournal;
 import com.jython.ui.server.jpanote.JpaNoteStorage;
 import com.jython.ui.server.jpastoragekey.BlobEntryJpaHandler;
 import com.jython.ui.server.jpastoragekey.IStorageJpaRegistryFactory;
@@ -65,7 +66,6 @@ import com.jython.ui.server.jpatrans.ITransactionContext;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaTransactionContext;
 import com.jythonui.server.IConsts;
-import com.jythonui.server.IConvertJythonTimestamp;
 import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IGetEnvDefaultData;
 import com.jythonui.server.IJythonRPCNotifier;
@@ -79,7 +79,7 @@ import com.jythonui.server.envvar.defa.GetEnvDefaultData;
 import com.jythonui.server.envvar.impl.GetEnvVariables;
 import com.jythonui.server.envvar.impl.ServerPropertiesEnv;
 import com.jythonui.server.guavacache.GuavaCacheFactory;
-import com.jythonui.server.jython.ConvertPython27;
+import com.jythonui.server.journal.IJournal;
 import com.jythonui.server.mail.INoteStorage;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.resbundle.Mess;
@@ -99,75 +99,46 @@ public class ServerService {
 		@Override
 		protected void configure() {
 			configureHotel();
-			bind(IJythonUIServerProperties.class).to(ServerPropertiesEnv.class)
-					.in(Singleton.class);
-			bind(ICommonCacheFactory.class).to(GuavaCacheFactory.class).in(
-					Singleton.class);
-			bind(IStorageRegistryFactory.class).to(
-					StorageRealmRegistryFactory.class).in(Singleton.class);
-			bind(EntityManagerFactory.class).toProvider(
-					EntityManagerFactoryProvider.class).in(Singleton.class);
+			bind(IJythonUIServerProperties.class).to(ServerPropertiesEnv.class).in(Singleton.class);
+			bind(ICommonCacheFactory.class).to(GuavaCacheFactory.class).in(Singleton.class);
+			bind(IStorageRegistryFactory.class).to(StorageRealmRegistryFactory.class).in(Singleton.class);
+			bind(EntityManagerFactory.class).toProvider(EntityManagerFactoryProvider.class).in(Singleton.class);
 			bind(Mess.class).in(Singleton.class);
-			bind(IGetResourceJNDI.class).to(GetResourceJNDI.class).in(
-					Singleton.class);
-			bind(IHotelServices.class).to(HotelJpaServices.class).in(
-					Singleton.class);
-			bind(IHotelPriceList.class).to(HotelJpaPriceList.class).in(
-					Singleton.class);
-			bind(IHotelPriceElem.class).to(HotelJpaPrices.class).in(
-					Singleton.class);
-			bind(IHotelCustomers.class).to(HotelJpaCustomers.class).in(
-					Singleton.class);
+			bind(IGetResourceJNDI.class).to(GetResourceJNDI.class).in(Singleton.class);
+			bind(IHotelServices.class).to(HotelJpaServices.class).in(Singleton.class);
+			bind(IHotelPriceList.class).to(HotelJpaPriceList.class).in(Singleton.class);
+			bind(IHotelPriceElem.class).to(HotelJpaPrices.class).in(Singleton.class);
+			bind(IHotelCustomers.class).to(HotelJpaCustomers.class).in(Singleton.class);
 			bind(IHotelRooms.class).to(HotelJpaRooms.class).in(Singleton.class);
-			bind(ICustomerBills.class).to(CustomerBillJpa.class).in(
-					Singleton.class);
-			bind(IGetAutomPatterns.class).to(GetAutomPatterns.class).in(
-					Singleton.class);
+			bind(ICustomerBills.class).to(CustomerBillJpa.class).in(Singleton.class);
+			bind(IGetAutomPatterns.class).to(GetAutomPatterns.class).in(Singleton.class);
 
-			bind(IReservationForm.class).to(HotelReservations.class).in(
-					Singleton.class);
+			bind(IReservationForm.class).to(HotelReservations.class).in(Singleton.class);
 
 			bind(IPaymentBillOp.class).to(PaymentOp.class).in(Singleton.class);
 
-			bind(IReservationOp.class).to(ReservationOp.class).in(
-					Singleton.class);
+			bind(IReservationOp.class).to(ReservationOp.class).in(Singleton.class);
 
 			bind(IClearHotel.class).to(ClearObjects.class).in(Singleton.class);
-			bind(IGetEnvVariable.class).to(GetEnvVariables.class).in(
-					Singleton.class);
-			bind(IAppInstanceOObject.class).to(OObjectAdminInstance.class).in(
-					Singleton.class);
-			bind(IGetEnvDefaultData.class).to(GetEnvDefaultData.class).in(
-					Singleton.class);
-			bind(IHotelMailList.class).to(HotelMailing.class).in(
-					Singleton.class);
-			bind(IConvertJythonTimestamp.class).to(ConvertPython27.class).in(
-					Singleton.class);
+			bind(IGetEnvVariable.class).to(GetEnvVariables.class).in(Singleton.class);
+			bind(IAppInstanceOObject.class).to(OObjectAdminInstance.class).in(Singleton.class);
+			bind(IGetEnvDefaultData.class).to(GetEnvDefaultData.class).in(Singleton.class);
+			bind(IHotelMailList.class).to(HotelMailing.class).in(Singleton.class);
+			bind(IJournal.class).to(JpaJournal.class).in(Singleton.class);
 
 			// common
-			bind(IStorageJpaRegistryFactory.class).to(
-					StorageJpaRegistryFactory.class).in(Singleton.class);
-			bind(IAppInstanceOObject.class).to(OObjectAdminInstance.class).in(
-					Singleton.class);
-			bind(IOObjectAdmin.class).to(OObjectAdminJpa.class).in(
-					Singleton.class);
-			bind(IStorageRegistryFactory.class).to(
-					StorageRealmRegistryFactory.class).in(Singleton.class);
+			bind(IStorageJpaRegistryFactory.class).to(StorageJpaRegistryFactory.class).in(Singleton.class);
+			bind(IAppInstanceOObject.class).to(OObjectAdminInstance.class).in(Singleton.class);
+			bind(IOObjectAdmin.class).to(OObjectAdminJpa.class).in(Singleton.class);
+			bind(IStorageRegistryFactory.class).to(StorageRealmRegistryFactory.class).in(Singleton.class);
 			bind(ISemaphore.class).to(SemaphoreSynch.class).in(Singleton.class);
-			bind(IGetConnection.class)
-					.toProvider(EmptyConnectionProvider.class).in(
-							Singleton.class);
-			bind(IBlobHandler.class).to(BlobEntryJpaHandler.class).in(
-					Singleton.class);
-			bind(IJythonRPCNotifier.class).to(EmptyRPCNotifier.class).in(
-					Singleton.class);
-			bind(IJpaObjectGenSymFactory.class).to(
-					JpaObjectGenSymFactoryImpl.class).in(Singleton.class);
-			bind(INoteStorage.class).to(JpaNoteStorage.class).in(
-					Singleton.class);
+			bind(IGetConnection.class).toProvider(EmptyConnectionProvider.class).in(Singleton.class);
+			bind(IBlobHandler.class).to(BlobEntryJpaHandler.class).in(Singleton.class);
+			bind(IJythonRPCNotifier.class).to(EmptyRPCNotifier.class).in(Singleton.class);
+			bind(IJpaObjectGenSymFactory.class).to(JpaObjectGenSymFactoryImpl.class).in(Singleton.class);
+			bind(INoteStorage.class).to(JpaNoteStorage.class).in(Singleton.class);
 			// common
-			bind(Session.class).annotatedWith(Names.named(IConsts.SENDMAIL))
-					.toProvider(ResGetMailSessionProvider.class)
+			bind(Session.class).annotatedWith(Names.named(IConsts.SENDMAIL)).toProvider(ResGetMailSessionProvider.class)
 					.in(Singleton.class);
 
 			requestStatic();
@@ -177,16 +148,14 @@ public class ServerService {
 		// common
 		@Provides
 		@Singleton
-		IStorageRealmRegistry getStorageRealmRegistry(
-				IStorageJpaRegistryFactory rFactory,
+		IStorageRealmRegistry getStorageRealmRegistry(IStorageJpaRegistryFactory rFactory,
 				ITransactionContextFactory iC) {
 			return rFactory.construct(iC);
 		}
 
 		@Provides
 		@Singleton
-		ITransactionContextFactory getTransactionContextFactory(
-				final EntityManagerFactory eFactory) {
+		ITransactionContextFactory getTransactionContextFactory(final EntityManagerFactory eFactory) {
 			return new ITransactionContextFactory() {
 				@Override
 				public ITransactionContext construct() {

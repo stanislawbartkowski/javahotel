@@ -32,7 +32,7 @@ def dialogaction(action,var):
         li.append({"roomnumber" : "10", "rate" : 123.45})
         li.append({"roomnumber" : "11"})
 
-        xml = dutil.doctoXML(ma,li)
+        xml = dutil.doctoXML(ma,li,False)
         print xml
         var["OK"] = True
         
@@ -41,9 +41,9 @@ def dialogaction(action,var):
         ma["doctype"] = "I"
         ma["docid"] = "FA/1/2043"
         ma["departuredate"] = datetime.date(2014,10,10)
-        xml = dutil.doctoXML(ma,[])
+        xml = dutil.doctoXML(ma,[],False)
         print xml
-        (mx,li) = dutil.doctoMap(xml)
+        (mx,li) = dutil.doctoMap(xml,False)
         print mx,li
         assert ma["doctype"] == mx["doctype"]
         assert ma["docid"] == mx["docid"]

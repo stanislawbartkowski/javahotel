@@ -18,8 +18,8 @@ import java.util.Date;
 import com.google.common.base.Objects;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.datepicker.client.CalendarUtil;
+import com.gwtmodel.table.common.DateFormat;
 import com.gwtmodel.table.common.PeriodT;
-import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 
 /**
  * Utilities related to date methods
@@ -250,10 +250,14 @@ public class DateUtil {
             return true;
         return false;
     }
+    
+    public static Date getToday() {
+    	return new Date();
+    }
 
     public static Date toLastMonthDay(int y, int m) {
-        Date dd = DateFormatUtil.toD(y, m, 1);
-        while (DateFormatUtil.getM(dd) == m) {
+  		Date dd = DateFormat.toD(y, m, 1);
+        while (DateFormat.getM(dd) == m) {
             dd = NextDayD(dd);
         }
         return PrevDayD(dd);

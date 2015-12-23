@@ -50,7 +50,7 @@ import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.common.CUtil;
-import com.gwtmodel.table.common.dateutil.DateFormatUtil;
+import com.gwtmodel.table.common.DateFormat;
 import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
 import com.gwtmodel.table.controlbuttonview.IControlButtonView;
 import com.gwtmodel.table.injector.GwtGiniInjector;
@@ -193,8 +193,7 @@ class DateLineManager implements IDateLineManager {
 			if (dVariables != null)
 				for (RowContent r : dVariables.getValues().getRowList()) {
 					FieldValue rO = rI.get(r, fId.getId());
-					int comp = FUtils.compareValue(cData.lId, rO.getValue(),
-							fId.getFieldType(), fId.getAfterDot());
+					int comp = FUtils.compareValue(cData.lId, rO.getValue(), fId.getFieldType(), fId.getAfterDot());
 					if (comp != 0)
 						continue;
 					FieldValue d = rI.get(r, dList.getDateColId());
@@ -214,9 +213,7 @@ class DateLineManager implements IDateLineManager {
 				span.clear();
 				dVariables = arg.getDatelineVariables().get(dList.getId());
 				if (dVariables == null) {
-					String mess = M.M().NoValuesRelatedTo(
-							dContainer.getInfo().getDialog().getId(),
-							dList.getId());
+					String mess = M.M().NoValuesRelatedTo(dContainer.getInfo().getDialog().getId(), dList.getId());
 					Utils.errAlert(mess);
 				}
 				iTable.refresh();
@@ -303,8 +300,8 @@ class DateLineManager implements IDateLineManager {
 				queryDateLine.addRow(row);
 			}
 			var.setValueS(ICommonConsts.JDATELINEQUERYID, dList.getId());
-			ExecuteAction.action(var, dContainer.getInfo().getDialog().getId(),
-					ICommonConsts.JDATEACTIONGETVALUES, new DrawContent());
+			ExecuteAction.action(var, dContainer.getInfo().getDialog().getId(), ICommonConsts.JDATEACTIONGETVALUES,
+					new DrawContent());
 		}
 
 		private class CVField implements IVField {
@@ -343,7 +340,7 @@ class DateLineManager implements IDateLineManager {
 		}
 
 		private boolean isToday(Date d) {
-			return DateUtil.eqDate(DateFormatUtil.getToday(), d);
+			return DateUtil.eqDate(DateUtil.getToday(), d);
 		}
 
 		private class TableModel implements IGwtTableModel {
@@ -351,8 +348,7 @@ class DateLineManager implements IDateLineManager {
 			DateLineVariables v = null;
 
 			@Override
-			public void readChunkRange(int startw, int rangew, IVField sortC,
-					boolean asc, ISuccess signal) {
+			public void readChunkRange(int startw, int rangew, IVField sortC, boolean asc, ISuccess signal) {
 			}
 
 			@Override
@@ -397,21 +393,16 @@ class DateLineManager implements IDateLineManager {
 						Date d = sData.getD(sData.getFirstD() + col);
 						// String[] weekdays =
 						// LocaleInfo.getCurrentLocale().getDateTimeFormatInfo().weekdaysNarrow();
-						String[] months = LocaleInfo.getCurrentLocale()
-								.getDateTimeFormatInfo().monthsShort();
-						String[] weekdays = LocaleInfo.getCurrentLocale()
-								.getDateTimeFormatInfo().weekdaysShort();
+						String[] months = LocaleInfo.getCurrentLocale().getDateTimeFormatInfo().monthsShort();
+						String[] weekdays = LocaleInfo.getCurrentLocale().getDateTimeFormatInfo().weekdaysShort();
 						// sb.appendEscaped(months[DateFormatUtil.getM(d)-1]);
 						// sb.appendEscaped(weekdays[d.getDay()]);
-						int day = DateFormatUtil.getD(d);
-						String m = months[DateFormatUtil.getM(d) - 1];
+						int day = DateFormat.getD(d);
+						String m = months[DateFormat.getM(d) - 1];
 						String w = weekdays[d.getDay()];
 						Joiner join = Joiner.on(' ').skipNulls();
-						sb.append(headerInput.input(
-								join.join(isToday(d) ? IUIConsts.HEADER_TODAY
-										: null,
-										isWeekend(d) ? IUIConsts.HEADER_WEEKEND
-												: null), day, m, w));
+						sb.append(headerInput.input(join.join(isToday(d) ? IUIConsts.HEADER_TODAY : null,
+								isWeekend(d) ? IUIConsts.HEADER_WEEKEND : null), day, m, w));
 					}
 
 				}
@@ -425,8 +416,7 @@ class DateLineManager implements IDateLineManager {
 					}
 
 					@Override
-					public void render(Context context, MutableInteger value,
-							SafeHtmlBuilder sb) {
+					public void render(Context context, MutableInteger value, SafeHtmlBuilder sb) {
 						CellData cData = getCellData(context, value);
 						RowContent val = null;
 						if (dVariables != null)
@@ -438,11 +428,9 @@ class DateLineManager implements IDateLineManager {
 							FieldValue form = rI.get(val, dList.getForm());
 							formId = form.getValueS();
 						}
-						FormDef fo = DialogFormat.findE(dList.getFormList(),
-								formId);
+						FormDef fo = DialogFormat.findE(dList.getFormList(), formId);
 						if (fo == null) {
-							String mess = M.M().NoFormRelatedToValue(
-									dContainer.getInfo().getDialog().getId(),
+							String mess = M.M().NoFormRelatedToValue(dContainer.getInfo().getDialog().getId(),
 									dList.getId(), formId);
 							Utils.errAlert(mess);
 							return;
@@ -459,8 +447,7 @@ class DateLineManager implements IDateLineManager {
 								if (pos == -1)
 									continue;
 								FieldValue v = val.getRow(noC + i);
-								String valS = FUtils.getValueS(v.getValue(),
-										v.getType(), v.getAfterdot());
+								String valS = FUtils.getValueS(v.getValue(), v.getType(), v.getAfterdot());
 								if (valS == null)
 									valS = "";
 								buf.replace(pos, pos + 3, valS);
@@ -469,8 +456,7 @@ class DateLineManager implements IDateLineManager {
 						}
 					}
 
-					public void onBrowserEvent(Context context, Element parent,
-							MutableInteger value, NativeEvent event,
+					public void onBrowserEvent(Context context, Element parent, MutableInteger value, NativeEvent event,
 							ValueUpdater<MutableInteger> valueUpdater) {
 						String eventType = event.getType();
 						if (eventType.equals(BrowserEvents.CLICK)) {
@@ -481,26 +467,20 @@ class DateLineManager implements IDateLineManager {
 							aVar.clear();
 							FieldItem fId = dList.getFieldId();
 							FieldValue idVal = new FieldValue();
-							idVal.setValue(fId.getFieldType(), cData.lId,
-									fId.getAfterDot());
-							aVar.add(new AddVar(ICommonConsts.JDATELINELINEID,
-									idVal));
+							idVal.setValue(fId.getFieldType(), cData.lId, fId.getAfterDot());
+							aVar.add(new AddVar(ICommonConsts.JDATELINELINEID, idVal));
 							idVal = new FieldValue();
 							idVal.setValue(cData.date);
-							aVar.add(new AddVar(ICommonConsts.JDATELINEDATEID,
-									idVal));
-							iClick.click(ICommonConsts.JDATELINE_CELLACTION,
-									new WSize(parent));
+							aVar.add(new AddVar(ICommonConsts.JDATELINEDATEID, idVal));
+							iClick.click(ICommonConsts.JDATELINE_CELLACTION, new WSize(parent));
 							// dContainer.
 						}
-						super.onBrowserEvent(context, parent, value, event,
-								valueUpdater);
+						super.onBrowserEvent(context, parent, value, event, valueUpdater);
 
 					}
 				}
 
-				private class DataColumn extends
-						Column<MutableInteger, MutableInteger> {
+				private class DataColumn extends Column<MutableInteger, MutableInteger> {
 
 					DataColumn() {
 						super(new DataCell());
@@ -528,18 +508,15 @@ class DateLineManager implements IDateLineManager {
 
 			@Override
 			public VListHeaderContainer getHeaderList() {
-				ColumnsDesc desc = CreateForm.constructColumns(
-						dList.getColList(), null, null);
+				ColumnsDesc desc = CreateForm.constructColumns(dList.getColList(), null, null);
 				rowCol = desc.colvisNo;
 
 				for (int i = 0; i < dList.getColNo(); i++) {
-					VListHeaderDesc vNagl = new VListHeaderDesc(new CustomH(i),
-							constructV(i));
+					VListHeaderDesc vNagl = new VListHeaderDesc(new CustomH(i), constructV(i));
 					desc.hList.add(vNagl);
 				}
-				return new VListHeaderContainer(desc.hList,
-						dList.getDisplayName(), dList.getRowNo(), null, null,
-						null, desc.footList, 0, false);
+				return new VListHeaderContainer(desc.hList, dList.getDisplayName(), dList.getRowNo(), null, null, null,
+						desc.footList, 0, false);
 			}
 
 			@Override
@@ -583,9 +560,8 @@ class DateLineManager implements IDateLineManager {
 				CVField c = (CVField) v;
 				Date d = sData.getD(c.cId);
 				Joiner join = Joiner.on(' ').skipNulls();
-				return join.join(isToday(d) ? IUIConsts.CELL_COLUMN_TODAY
-						: null, isWeekend(d) ? (IUIConsts.CELL_COLUMN_WEEKEND)
-						: null);
+				return join.join(isToday(d) ? IUIConsts.CELL_COLUMN_TODAY : null,
+						isWeekend(d) ? (IUIConsts.CELL_COLUMN_WEEKEND) : null);
 			}
 
 			@Override
@@ -695,15 +671,13 @@ class DateLineManager implements IDateLineManager {
 			@Override
 			public void signal(ISlotSignalContext slContext) {
 				WSize w = new WSize(slContext.getGwtWidget());
-				String s = slContext.getSlType().getButtonClick()
-						.getCustomButt();
+				String s = slContext.getSlType().getButtonClick().getCustomButt();
 				customClick.click(s, w);
 			}
 
 		}
 
-		DateLineSlot(IDataType publishdType, IDataType dType, DateLine dl,
-				CellId cell, IPerformClickAction iClick,
+		DateLineSlot(IDataType publishdType, IDataType dType, DateLine dl, CellId cell, IPerformClickAction iClick,
 				IPerformClickAction customClick) {
 			this.publishType = publishdType;
 			this.dType = dType;
@@ -712,30 +686,23 @@ class DateLineManager implements IDateLineManager {
 			this.customClick = customClick;
 			String sButton = dl.getStandButt();
 			if (!CUtil.EmptyS(sButton)) {
-				ListOfButt.IGetButtons i = ListOfButt.constructList(
-						dContainer.getD(), sButton);
+				ListOfButt.IGetButtons i = ListOfButt.constructList(dContainer.getD(), sButton);
 				if (!i.getCustomList().isEmpty()) {
-					ListOfControlDesc cButton = new ListOfControlDesc(
-							i.getCustomList());
-					ControlButtonViewFactory vFactory = GwtGiniInjector.getI()
-							.getControlButtonViewFactory();
+					ListOfControlDesc cButton = new ListOfControlDesc(i.getCustomList());
+					ControlButtonViewFactory vFactory = GwtGiniInjector.getI().getControlButtonViewFactory();
 					iView = vFactory.construct(dType, cButton);
 					SlU.registerWidgetListener0(dType, iView, new GetBWidget());
 					for (ControlButtonDesc b : i.getCustomList())
-						iView.getSlContainer().registerSubscriber(dType,
-								b.getActionId(), new CustomClick());
+						iView.getSlContainer().registerSubscriber(dType, b.getActionId(), new CustomClick());
 				}
 			}
 			CustomStringSlot sl = RefreshData.constructRefreshData(dType);
 			registerSubscriber(sl, new Refresh());
 			sl = RefreshData.constructRequestForRefreshData(dType);
 			registerSubscriber(sl, new RequestForRefresh());
-			registerSubscriber(GotoDateSignal.constructSlot(dType),
-					new GotoDate());
-			registerSubscriber(dType, DataActionEnum.FindRowBeginningList,
-					new FindRow());
-			iTable = gFactory.construct(null, null, null, null, null, null,
-					false, new GetColSpan());
+			registerSubscriber(GotoDateSignal.constructSlot(dType), new GotoDate());
+			registerSubscriber(dType, DataActionEnum.FindRowBeginningList, new FindRow());
+			iTable = gFactory.construct(null, null, null, null, null, null, false, new GetColSpan());
 			iTable.setModel(tModel);
 			rColI = new RowIndex(dl.getColList());
 			rI = new RowIndex(dList.constructDataLine());
@@ -756,29 +723,22 @@ class DateLineManager implements IDateLineManager {
 
 		@Override
 		public void startPublish(CellId cellId) {
-			IDatePanelScroll wFactory = GwtGiniInjector.getI()
-					.getDatePanelScroll();
-			Date today = DateFormatUtil.getToday();
+			IDatePanelScroll wFactory = GwtGiniInjector.getI().getDatePanelScroll();
+			Date today = DateUtil.getToday();
 			iSeason = wFactory.getScrollSeason(new DrawPart(), today);
-			int firstY = getyear(IUIConsts.DATELINE_STARTYEAR,
-					IUIConsts.DATELINE_STARTYEARDEFAULT);
-			int lastY = getyear(IUIConsts.DATELINE_ENDYEAR,
-					IUIConsts.DATELINE_ENDYEARDEFAULT);
+			int firstY = getyear(IUIConsts.DATELINE_STARTYEAR, IUIConsts.DATELINE_STARTYEARDEFAULT);
+			int lastY = getyear(IUIConsts.DATELINE_ENDYEAR, IUIConsts.DATELINE_ENDYEARDEFAULT);
 			if (firstY > lastY) {
-				String s = M.M().FirstYearCannotBeGreateThenLastYear(firstY,
-						lastY);
+				String s = M.M().FirstYearCannotBeGreateThenLastYear(firstY, lastY);
 				Utils.errAlert(s);
 			}
-			if (DateFormatUtil.getY(today) < firstY
-					|| DateFormatUtil.getY(today) > lastY) {
-				String s = M.M().CurrentDateNotInRange(
-						DateFormatUtil.getY(today), firstY, lastY);
+			if (DateFormat.getY(today) < firstY || DateFormat.getY(today) > lastY) {
+				String s = M.M().CurrentDateNotInRange(DateFormat.getY(today), firstY, lastY);
 				Utils.errAlert(s);
 			}
-			Date firstDate = DateFormatUtil.toD(firstY, 1, 1);
-			Date lastDate = DateFormatUtil.toD(lastY, 12, 31);
-			iSeason.createVPanel(firstDate, lastDate, dList.getColNo(),
-					dList.getCurrentPos());
+			Date firstDate = DateFormat.toD(firstY, 1, 1);
+			Date lastDate = DateFormat.toD(lastY, 12, 31);
+			iSeason.createVPanel(firstDate, lastDate, dList.getColNo(), dList.getCurrentPos());
 			sy.signalDone();
 			if (iView == null) {
 				sy.bView = null;
@@ -790,11 +750,9 @@ class DateLineManager implements IDateLineManager {
 	}
 
 	@Override
-	public ISlotable contructSlotable(IDataType publishType, IDataType dType,
-			DateLine dl, CellId cell, IPerformClickAction iClick,
-			IPerformClickAction customClick) {
-		return new DateLineSlot(publishType, dType, dl, cell, iClick,
-				customClick);
+	public ISlotable contructSlotable(IDataType publishType, IDataType dType, DateLine dl, CellId cell,
+			IPerformClickAction iClick, IPerformClickAction customClick) {
+		return new DateLineSlot(publishType, dType, dl, cell, iClick, customClick);
 	}
 
 	@Override
