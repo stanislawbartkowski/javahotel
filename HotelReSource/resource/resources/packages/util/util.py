@@ -95,7 +95,7 @@ def clearHotel(var,hotel) :
   
 class SERVICES(cutil.CRUDLIST) :
     def __init__(self,var):
-        cutil.CRUDLIST.__init__(self,var)
+        cutil.CRUDLIST.__init__(self,var,str(HotelObjects.SERVICE))
         self.serviceS = H.getHotelServices()
         
     def getOtherServices(self):
@@ -107,25 +107,25 @@ class SERVICES(cutil.CRUDLIST) :
 class PRICELIST(cutil.CRUDLIST) :
 
     def __init__(self,var):
-        cutil.CRUDLIST.__init__(self,var)
+        cutil.CRUDLIST.__init__(self,var,str(HotelObjects.PRICELIST))
         self.serviceS = H.getHotelPriceList()
         
 class CUSTOMERLIST(cutil.CRUDLIST) :
 
     def __init__(self,var):
-        cutil.CRUDLIST.__init__(self,var)
+        cutil.CRUDLIST.__init__(self,var,str(HotelObjects.CUSTOMER))
         self.serviceS = H.getHotelCustomers()
         
 class BILLLIST(cutil.CRUDLIST) :
 
     def __init__(self,var):
-        cutil.CRUDLIST.__init__(self,var)
+        cutil.CRUDLIST.__init__(self,var,str(HotelObjects.BILL))
         self.serviceS = H.getCustomerBills()
 
                 
 class ROOMLIST(cutil.CRUDLIST):        
     def __init__(self,var):
-        cutil.CRUDLIST.__init__(self,var)
+        cutil.CRUDLIST.__init__(self,var,str(HotelObjects.ROOM))
         self.serviceS = H.getHotelRooms()
   
     def setRoomServices(self,roomName,services):
@@ -183,7 +183,7 @@ class RESOP :
          self.changeStatus(resId,ResStatus.STAY)    
 
      def changeStatusToCancel(self,resId):
-         self.changeStatus(resId,ResStatus.CANCEL)    
+         self.changeStatus(resId,ResStatus.CANCEL)
 
      def changeStatusToReserv(self,resId):
          self.changeStatus(resId,ResStatus.OPEN)    
@@ -233,7 +233,7 @@ class RESOP :
 class RESFORM(cutil.CRUDLIST) :
 
     def __init__(self,var):
-        cutil.CRUDLIST.__init__(self,var)
+        cutil.CRUDLIST.__init__(self,var,str(HotelObjects.RESERVATION))
         self.serviceS = H.getResForm()
         
     def changeCustName(self,resename,custname) :

@@ -36,7 +36,7 @@ import com.jython.serversecurity.jpa.entities.EObjectDict;
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "hotel", "name" }))
 @NamedQueries({
         @NamedQuery(name = "findReservationsForCustomer", query = "SELECT x FROM EHotelReservation x WHERE x.customer = ?1"),
-        @NamedQuery(name = "findAllReservations", query = "SELECT x FROM EHotelReservation x WHERE x.hotel = ?1"),
+        @NamedQuery(name = "findAllReservations", query = "SELECT x FROM EHotelReservation x WHERE x.hotel = ?1 ORDER BY x.id DESC"),
         @NamedQuery(name = "deleteAllReservations", query = "DELETE FROM EHotelReservation x WHERE x.hotel = ?1"),
         @NamedQuery(name = "findOneReservation", query = "SELECT x FROM EHotelReservation x WHERE x.hotel = ?1 AND x.name = ?2") })
 public class EHotelReservation extends EObjectDict {

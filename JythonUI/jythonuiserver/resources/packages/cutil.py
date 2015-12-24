@@ -9,6 +9,8 @@ from com.jythonui.server.holder import SHolder
 from com.gwtmodel.table.common import CUtil
 from com.jythonui.server.semaphore import ISemaphore
 from com.jythonui.server.xmlmap import IMapValues
+from com.jythonui.server.journal import JournalRecord
+from com.gwtmodel.table.common import PersistTypeEnum
 
 import datetime,time
 
@@ -661,12 +663,25 @@ def getAppId(var):
 def getObject(var=None):
     return Holder.getO()
     
-# -----------------
+    
+# ==========================
 
+def createJournalRecord(type,typespec,elem1=None,elem2=None,descr=None):    
+    r = JournalRecord()
+    r.setJournalType(type)
+    r.setJournalTypeSpec(typespec)
+    r.setJournalElem1(elem1)
+    r.setJournalElem2(elem2)
+    r.setDescription(descr)
+    return r
+
+# ==================
 class CRUDLIST :
-    def __init__(self,var):
+    def __init__(self,var,recordid = None):
         self.serviceS = None
         self.var = var
+        self.recordid = recordid
+        if recordid : self.jserviceS = Holder.getiJournal()        
         
     def _getO(self):
         return getObject(self.var)        
@@ -680,16 +695,26 @@ class CRUDLIST :
         for l in li :
             if not f(l) : continue
             nli.add(l)
-        return nli    
+        return nli
+    
+    def _addJournal(self,typespec,r):
+        if self.recordid == None : return
+        re = createJournalRecord(self.recordid,str(typespec),r.getName(),r.getDescription())
+        self.jserviceS.addElem(self._getO(),re)
+            
     
     def addElem(self,elem):
-        return self.serviceS.addElem(self._getO(),elem)
+        res = self.serviceS.addElem(self._getO(),elem)
+        self._addJournal(PersistTypeEnum.ADD, res)
+        return res
        
     def changeElem(self,elem):
         self.serviceS.changeElem(self._getO(),elem)
+        self._addJournal(PersistTypeEnum.MODIF, elem)
             
     def deleteElem(self,elem):
         self.serviceS.deleteElem(self._getO(),elem)
+        self._addJournal(PersistTypeEnum.REMOVE, elem)
         
     def findElem(self,name):
         return self.serviceS.findElem(self._getO(),name)    
@@ -697,16 +722,14 @@ class CRUDLIST :
     def deleteElemByName(self,name) :
         elem = self.findElem(name)
         self.deleteElem(elem)   
-        
-# ==========================
 
+# ------------------------
+        
 class JOURNAL(CRUDLIST):
     
     def __init__(self,var):
         CRUDLIST.__init__(self,var)
         self.serviceS = Holder.getiJournal()
-
-
     
-             
-      
+# -----------------
+        

@@ -32,50 +32,45 @@ import com.gwthotel.hotel.service.gae.entities.EHotelRoom;
 import com.gwthotel.hotel.service.gae.entities.EHotelRoomServices;
 import com.gwthotel.hotel.service.gae.entities.EHotelServices;
 import com.gwthotel.hotel.service.gae.entities.EResDetails;
-import com.gwtmodel.table.common.dateutil.DateFormatUtil;
+import com.jython.dateutil.DateFormatUtil;
 import com.jython.serversecurity.cache.OObjectId;
 import com.jython.ui.server.gae.security.entities.EObject;
 import com.jython.ui.server.gae.security.impl.EntUtil;
 
 public class ClearHotelImpl implements IClearHotel {
 
-    @Override
-    public void clearObjects(OObjectId hotel) {
-        final EObject eh = EntUtil.findEOObject(hotel);
-        ofy().transact(new VoidWork() {
-            public void vrun() {
-                // partial list
-                Class[] e = { EResDetails.class, EBillPayment.class,
-                        ECustomerBill.class, EHotelGuest.class,
-                        EHotelReservation.class, EHotelServices.class,
-                        EHotelRoomServices.class, EHotelPriceElem.class,
-                        EHotelPriceList.class, EHotelRoom.class,
-                        EHotelCustomer.class };
-                for (Class c : e) {
-                    ofy().delete().entities(
-                            (ofy().load().type(c).ancestor(eh).list()));
-                }
-            }
-        });
+	@Override
+	public void clearObjects(OObjectId hotel) {
+		final EObject eh = EntUtil.findEOObject(hotel);
+		ofy().transact(new VoidWork() {
+			public void vrun() {
+				// partial list
+				Class[] e = { EResDetails.class, EBillPayment.class, ECustomerBill.class, EHotelGuest.class,
+						EHotelReservation.class, EHotelServices.class, EHotelRoomServices.class, EHotelPriceElem.class,
+						EHotelPriceList.class, EHotelRoom.class, EHotelCustomer.class };
+				for (Class c : e) {
+					ofy().delete().entities((ofy().load().type(c).ancestor(eh).list()));
+				}
+			}
+		});
 
-    }
+	}
 
-    @Override
-    public void setTestDataToday(Date d) {
-        DateFormatUtil.setTestToday(d);
-    }
+	@Override
+	public void setTestDataToday(Date d) {
+		DateFormatUtil.setTestToday(d);
+	}
 
-    @SuppressWarnings("rawtypes")
-    @Override
-    public long numberOf(OObjectId hotel, HotelObjects o) {
-        Class cl = DictUtil.getClass(o);
-        boolean nof = true;
-        if (nof) {
-            List li = ofy().load().type(cl)
-                    .ancestor(EntUtil.findEOObject(hotel)).list();
-            return li.size();
-        }
-        return 0;
-    }
+	@SuppressWarnings("rawtypes")
+	@Override
+	public long numberOf(OObjectId hotel, HotelObjects o) {
+		Class cl = DictUtil.getClass(o);
+		boolean nof = true;
+		if (nof) {
+			List li = ofy().load().type(cl).ancestor(EntUtil.findEOObject(hotel)).list();
+			return li.size();
+		}
+		return 0;
+	}
 
 }
