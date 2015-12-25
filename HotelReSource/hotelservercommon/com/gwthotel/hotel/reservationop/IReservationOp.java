@@ -22,29 +22,26 @@ import com.jython.serversecurity.cache.OObjectId;
 
 public interface IReservationOp {
 
-    List<ResData> queryReservation(OObjectId hotel, List<ResQuery> rQuery);
+	List<ResData> queryReservation(OObjectId hotel, List<ResQuery> rQuery);
 
-    List<ResData> searchReservation(OObjectId hotel, ResQuery rQuery);
+	List<ResData> searchReservation(OObjectId hotel, ResQuery rQuery);
 
-    void changeStatus(OObjectId hotel, String resName, ResStatus newStatus);
+	void changeStatus(OObjectId hotel, String resName, ResStatus newStatus);
 
-    void setResGuestList(OObjectId hotel, String resName, List<ResGuest> gList);
+	void setResGuestList(OObjectId hotel, String resName, List<ResGuest> gList);
 
-    List<ResGuest> getResGuestList(OObjectId hotel, String resName);
+	List<ResGuest> getResGuestList(OObjectId hotel, String resName);
 
-    void addResAddPayment(OObjectId hotel, String resName,
-            ReservationPaymentDetail add);
+	ReservationPaymentDetail addResAddPayment(OObjectId hotel, String resName, ReservationPaymentDetail add);
 
-    List<ReservationPaymentDetail> getResAddPaymentList(OObjectId hotel,
-            String resName);
+	List<ReservationPaymentDetail> getResAddPaymentList(OObjectId hotel, String resName);
 
-    List<CustomerBill> findBillsForReservation(OObjectId hotel, String resName);
+	List<CustomerBill> findBillsForReservation(OObjectId hotel, String resName);
 
-    enum ResInfoType {
-        FORSERVICE, FORROOM, FORCUSTOMER, FORGUEST, FORPAYER, FORPRICELIST
-    }
+	enum ResInfoType {
+		FORSERVICE, FORROOM, FORCUSTOMER, FORGUEST, FORPAYER, FORPRICELIST
+	}
 
-    List<String> getReseForInfoType(OObjectId hotel, ResInfoType iType,
-            String serviceName);
+	List<String> getReseForInfoType(OObjectId hotel, ResInfoType iType, String serviceName);
 
 }

@@ -43,62 +43,56 @@ import com.jythonui.server.defa.GuiceInterceptor;
 @Interceptors(value = { GuiceInterceptor.class })
 public class HotelReservationOpEJB implements IReservationOp {
 
-    private IReservationOp rOp;
+	private IReservationOp rOp;
 
-    @Inject
-    public void injectHotelServices(IReservationOp injectedServices) {
-        rOp = injectedServices;
-    }
+	@Inject
+	public void injectHotelServices(IReservationOp injectedServices) {
+		rOp = injectedServices;
+	}
 
-    @Override
-    public List<ResData> queryReservation(OObjectId hotel, List<ResQuery> rQuery) {
-        return rOp.queryReservation(hotel, rQuery);
-    }
+	@Override
+	public List<ResData> queryReservation(OObjectId hotel, List<ResQuery> rQuery) {
+		return rOp.queryReservation(hotel, rQuery);
+	}
 
-    @Override
-    public void changeStatus(OObjectId hotel, String resName,
-            ResStatus newStatus) {
-        rOp.changeStatus(hotel, resName, newStatus);
-    }
+	@Override
+	public void changeStatus(OObjectId hotel, String resName, ResStatus newStatus) {
+		rOp.changeStatus(hotel, resName, newStatus);
+	}
 
-    @Override
-    public void setResGuestList(OObjectId hotel, String resName,
-            List<ResGuest> gList) {
-        rOp.setResGuestList(hotel, resName, gList);
-    }
+	@Override
+	public void setResGuestList(OObjectId hotel, String resName, List<ResGuest> gList) {
+		rOp.setResGuestList(hotel, resName, gList);
+	}
 
-    @Override
-    public List<ResGuest> getResGuestList(OObjectId hotel, String resName) {
-        return rOp.getResGuestList(hotel, resName);
-    }
+	@Override
+	public List<ResGuest> getResGuestList(OObjectId hotel, String resName) {
+		return rOp.getResGuestList(hotel, resName);
+	}
 
-    @Override
-    public void addResAddPayment(OObjectId hotel, String resName,
-            ReservationPaymentDetail add) {
-        rOp.addResAddPayment(hotel, resName, add);
-    }
+	@Override
+	public ReservationPaymentDetail addResAddPayment(OObjectId hotel, String resName, ReservationPaymentDetail add) {
+		return rOp.addResAddPayment(hotel, resName, add);
+	}
 
-    @Override
-    public List<ReservationPaymentDetail> getResAddPaymentList(OObjectId hotel,
-            String resName) {
-        return rOp.getResAddPaymentList(hotel, resName);
-    }
+	@Override
+	public List<ReservationPaymentDetail> getResAddPaymentList(OObjectId hotel, String resName) {
+		return rOp.getResAddPaymentList(hotel, resName);
+	}
 
-    @Override
-    public List<CustomerBill> findBillsForReservation(OObjectId hotel,
-            String resName) {
-        return rOp.findBillsForReservation(hotel, resName);
-    }
+	@Override
+	public List<CustomerBill> findBillsForReservation(OObjectId hotel, String resName) {
+		return rOp.findBillsForReservation(hotel, resName);
+	}
 
-    @Override
-    public List<ResData> searchReservation(OObjectId hotel, ResQuery rQuery) {
-        return rOp.searchReservation(hotel, rQuery);
-    }
+	@Override
+	public List<ResData> searchReservation(OObjectId hotel, ResQuery rQuery) {
+		return rOp.searchReservation(hotel, rQuery);
+	}
 
-    @Override
-    public List<String> getReseForInfoType(OObjectId hotel, ResInfoType iType,
-            String serviceName) {
-        return rOp.getReseForInfoType(hotel, iType, serviceName);
-    }
+	@Override
+	public List<String> getReseForInfoType(OObjectId hotel, ResInfoType iType, String serviceName) {
+		return rOp.getReseForInfoType(hotel, iType, serviceName);
+	}
 
 }

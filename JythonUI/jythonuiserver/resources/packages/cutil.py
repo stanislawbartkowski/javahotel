@@ -696,13 +696,12 @@ class CRUDLIST :
             if not f(l) : continue
             nli.add(l)
         return nli
-    
+        
     def _addJournal(self,typespec,r):
         if self.recordid == None : return
         re = createJournalRecord(self.recordid,str(typespec),r.getName(),r.getDescription())
         self.jserviceS.addElem(self._getO(),re)
-            
-    
+                
     def addElem(self,elem):
         res = self.serviceS.addElem(self._getO(),elem)
         self._addJournal(PersistTypeEnum.ADD, res)
@@ -721,7 +720,8 @@ class CRUDLIST :
       
     def deleteElemByName(self,name) :
         elem = self.findElem(name)
-        self.deleteElem(elem)   
+        self.deleteElem(elem)
+           
 
 # ------------------------
         
@@ -730,6 +730,13 @@ class JOURNAL(CRUDLIST):
     def __init__(self,var):
         CRUDLIST.__init__(self,var)
         self.serviceS = Holder.getiJournal()
+        
+    def addJournalElem(self,type,typespec,elem1=None,elem2=None,descr=None):
+        re = createJournalRecord(type,typespec,elem1,elem2,descr)
+        self.addElem(re) 
+        
+        
+            
     
 # -----------------
         

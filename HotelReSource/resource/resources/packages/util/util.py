@@ -19,6 +19,15 @@ from com.gwthotel.hotel.reservationop.IReservationOp import ResInfoType
 
 import cutil,xmlutil,con,sparam,pdfutil
 
+#=============== JOURNAL TYPE
+JOURNAL_RESCANCEL="STAYCANCEL"
+JOURNAL_CHECKIN="CHECKIN"
+JOURNAL_ADDPAYMENT="ADDPAYMENT"
+JOURNAL_CHANGELISTOFGUEST="CHANGEGUESTS"
+JOURNAL_STATUSCONFIRMED="CONFIRMED"
+JOURNAL_STATUSNOTCONFIRMED="NOTCONFIRMED"
+JOURNAL_CHANGEADVANCEPAYMENT="ADVANCEPAYMENT"
+
 def setIntField(var,key,setF) :
   if var[key] == None : setF(IHotelConsts.PERSONIDNO)
   else : setF(var[key])
@@ -167,11 +176,24 @@ class PAYMENTOP :
          
      def removePaymentForBill(self,billName,id) :
          self.service.removePaymentForBill(getHotelName(self.var),billName,id)
+         
+class RESFORM(cutil.CRUDLIST) :
+
+    def __init__(self,var):
+        cutil.CRUDLIST.__init__(self,var,str(HotelObjects.RESERVATION))
+        self.serviceS = H.getResForm()
+        
+    def changeCustName(self,resename,custname) :
+        r = self.findElem(resename)
+        r.setCustomerName(custname)
+        self.changeElem(r)
+         
         
 class RESOP :
      def __init__(self,var):
          self.var = var
          self.service = H.getResOp()
+         self.J = cutil.JOURNAL(var)
          
      def queryReservation(self,query):
          return self.service.queryReservation(getHotelName(self.var),query)
@@ -180,16 +202,20 @@ class RESOP :
          self.service.changeStatus(getHotelName(self.var),resId,status)
          
      def changeStatusToStay(self,resId):
-         self.changeStatus(resId,ResStatus.STAY)    
-
+         self.changeStatus(resId,ResStatus.STAY)
+         self.J.addJournalElem(JOURNAL_CHECKIN,None,resId)
+         
      def changeStatusToCancel(self,resId):
          self.changeStatus(resId,ResStatus.CANCEL)
+         self.J.addJournalElem(JOURNAL_RESCANCEL,None,resId)
 
      def changeStatusToReserv(self,resId):
-         self.changeStatus(resId,ResStatus.OPEN)    
-         
+         self.changeStatus(resId,ResStatus.OPEN)
+         self.J.addJournalElem(JOURNAL_STATUSCONFIRMED,None,resId)
+             
      def changeStatusToNotConfirmed(self,resId) :
          self.changeStatus(resId,ResStatus.SCHEDULED)             
+         self.J.addJournalElem(JOURNAL_STATUSNOTCONFIRMED,None,resId)
          
      def setResGuestList(self,resId,list):
          self.service.setResGuestList(getHotelName(self.var),resId,list)
@@ -198,7 +224,9 @@ class RESOP :
          return self.service.getResGuestList(getHotelName(self.var),resId)
        
      def addResAddPayment(self,resId,a) :  
-         self.service.addResAddPayment(getHotelName(self.var),resId,a)
+         rese = self.service.addResAddPayment(getHotelName(self.var),resId,a)
+         self.J.addJournalElem(JOURNAL_ADDPAYMENT,None,resId,str(rese.getId()))
+         return rese
          
      def getResAddPaymentList(self,resId) :
          return self.service.getResAddPaymentList(getHotelName(self.var),resId)
@@ -229,18 +257,7 @@ class RESOP :
 
      def getReseForPayer(self,customer) :
          return self.getReseForInfoType(ResInfoType.FORPAYER,customer)
-       
-class RESFORM(cutil.CRUDLIST) :
-
-    def __init__(self,var):
-        cutil.CRUDLIST.__init__(self,var,str(HotelObjects.RESERVATION))
-        self.serviceS = H.getResForm()
-        
-    def changeCustName(self,resename,custname) :
-        r = self.findElem(resename)
-        r.setCustomerName(custname)
-        self.changeElem(r)
-                
+                       
 def addRoom(var,roomid,map,capa,descr) :
     RO = ROOMLIST(var).findElem(roomid)
     map[capa] = RO.getNoPersons()

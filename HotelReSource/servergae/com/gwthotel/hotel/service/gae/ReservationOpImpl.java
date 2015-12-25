@@ -43,253 +43,241 @@ import com.jython.ui.server.gae.security.impl.EntUtil;
 
 public class ReservationOpImpl implements IReservationOp {
 
-    static {
-        ObjectifyService.register(EHotelGuest.class);
-    }
+	static {
+		ObjectifyService.register(EHotelGuest.class);
+	}
 
-    @Override
-    public List<ResData> queryReservation(OObjectId hotel, List<ResQuery> rQuery) {
-        List<ResData> resList = new ArrayList<ResData>();
-        EObject eh = EntUtil.findEOObject(hotel);
-        for (ResQuery r : rQuery) {
-            List<EResDetails> re = ofy().load().type(EResDetails.class)
-                    .ancestor(eh).filter("resDate >=", r.getFromRes())
-                    .filter("resDate <=", r.getToRes())
-                    .filter("roomName ==", r.getRoomName()).list();
-            for (EResDetails er : re) {
-                if (er.getReservation().getStatus() == ResStatus.CANCEL)
-                    continue;
-                if (er.getServiceType() != ServiceType.HOTEL)
-                    continue;
-                ResData res = new ResData();
-                res.setResDate(er.getResDate());
-                res.setRoomName(er.getRoom().getName());
-                res.setResId(er.getReservation().getName());
-                resList.add(res);
-            }
-        }
-        return resList;
-    }
+	@Override
+	public List<ResData> queryReservation(OObjectId hotel, List<ResQuery> rQuery) {
+		List<ResData> resList = new ArrayList<ResData>();
+		EObject eh = EntUtil.findEOObject(hotel);
+		for (ResQuery r : rQuery) {
+			List<EResDetails> re = ofy().load().type(EResDetails.class).ancestor(eh)
+					.filter("resDate >=", r.getFromRes()).filter("resDate <=", r.getToRes())
+					.filter("roomName ==", r.getRoomName()).list();
+			for (EResDetails er : re) {
+				if (er.getReservation().getStatus() == ResStatus.CANCEL)
+					continue;
+				if (er.getServiceType() != ServiceType.HOTEL)
+					continue;
+				ResData res = new ResData();
+				res.setResDate(er.getResDate());
+				res.setRoomName(er.getRoom().getName());
+				res.setResId(er.getReservation().getName());
+				resList.add(res);
+			}
+		}
+		return resList;
+	}
 
-    @Override
-    public void changeStatus(OObjectId hotel, String resName,
-            ResStatus newStatus) {
-        EObject eh = EntUtil.findEOObject(hotel);
-        final EHotelReservation e = DictUtil.findReservation(eh, resName);
-        e.setStatus(newStatus);
-        ofy().save().entity(e).now();
-    }
+	@Override
+	public void changeStatus(OObjectId hotel, String resName, ResStatus newStatus) {
+		EObject eh = EntUtil.findEOObject(hotel);
+		final EHotelReservation e = DictUtil.findReservation(eh, resName);
+		e.setStatus(newStatus);
+		ofy().save().entity(e).now();
+	}
 
-    private List<EHotelGuest> findGuestsForRes(EObject ho, String resName) {
-        final List<EHotelGuest> li = ofy().load().type(EHotelGuest.class)
-                .ancestor(ho).filter("resName == ", resName).list();
-        return li;
-    }
+	private List<EHotelGuest> findGuestsForRes(EObject ho, String resName) {
+		final List<EHotelGuest> li = ofy().load().type(EHotelGuest.class).ancestor(ho).filter("resName == ", resName)
+				.list();
+		return li;
+	}
 
-    @Override
-    public void setResGuestList(OObjectId hotel, String resName,
-            List<ResGuest> gList) {
-        EObject eh = EntUtil.findEOObject(hotel);
-        final List<EHotelGuest> li = findGuestsForRes(eh, resName);
-        final List<EHotelGuest> nLi = new ArrayList<EHotelGuest>();
-        EHotelReservation re = DictUtil.findReservation(eh, resName);
-        for (ResGuest r : gList) {
-            EHotelGuest g = new EHotelGuest();
-            g.setReservation(re);
-            g.setHotel(eh);
-            g.setRoom(DictUtil.findRoom(eh, r.getRoomName()));
-            g.setGuest(DictUtil.findCustomer(eh, r.getGuestName()));
-            nLi.add(g);
-        }
-        ofy().transact(new VoidWork() {
-            public void vrun() {
-                ofy().delete().entities(li);
-                ofy().save().entities(nLi);
-            }
-        });
-    }
+	@Override
+	public void setResGuestList(OObjectId hotel, String resName, List<ResGuest> gList) {
+		EObject eh = EntUtil.findEOObject(hotel);
+		final List<EHotelGuest> li = findGuestsForRes(eh, resName);
+		final List<EHotelGuest> nLi = new ArrayList<EHotelGuest>();
+		EHotelReservation re = DictUtil.findReservation(eh, resName);
+		for (ResGuest r : gList) {
+			EHotelGuest g = new EHotelGuest();
+			g.setReservation(re);
+			g.setHotel(eh);
+			g.setRoom(DictUtil.findRoom(eh, r.getRoomName()));
+			g.setGuest(DictUtil.findCustomer(eh, r.getGuestName()));
+			nLi.add(g);
+		}
+		ofy().transact(new VoidWork() {
+			public void vrun() {
+				ofy().delete().entities(li);
+				ofy().save().entities(nLi);
+			}
+		});
+	}
 
-    @Override
-    public List<ResGuest> getResGuestList(OObjectId hotel, String resName) {
-        EObject eh = EntUtil.findEOObject(hotel);
-        List<ResGuest> resLi = new ArrayList<ResGuest>();
-        List<EHotelGuest> li = findGuestsForRes(eh, resName);
-        for (EHotelGuest g : li) {
-            ResGuest r = new ResGuest();
-            r.setRoomName(g.getRoom().getName());
-            r.setGuestName(g.getGuest().getName());
-            resLi.add(r);
-        }
-        return resLi;
-    }
+	@Override
+	public List<ResGuest> getResGuestList(OObjectId hotel, String resName) {
+		EObject eh = EntUtil.findEOObject(hotel);
+		List<ResGuest> resLi = new ArrayList<ResGuest>();
+		List<EHotelGuest> li = findGuestsForRes(eh, resName);
+		for (EHotelGuest g : li) {
+			ResGuest r = new ResGuest();
+			r.setRoomName(g.getRoom().getName());
+			r.setGuestName(g.getGuest().getName());
+			resLi.add(r);
+		}
+		return resLi;
+	}
 
-    @Override
-    public void addResAddPayment(OObjectId hotel, String resName,
-            ReservationPaymentDetail add) {
-        EObject eh = EntUtil.findEOObject(hotel);
-        EHotelReservation re = DictUtil.findReservation(eh, resName);
-        add.setServiceType(ServiceType.OTHER);
-        EResDetails eRes = DictUtil.toEResDetail(eh, re, add);
-        ofy().save().entity(eRes).now();
+	@Override
+	public ReservationPaymentDetail addResAddPayment(OObjectId hotel, String resName, ReservationPaymentDetail add) {
+		EObject eh = EntUtil.findEOObject(hotel);
+		EHotelReservation re = DictUtil.findReservation(eh, resName);
+		add.setServiceType(ServiceType.OTHER);
+		EResDetails eRes = DictUtil.toEResDetail(eh, re, add);
+		ofy().save().entity(eRes).now();
+		EResDetails e = ofy().load().type(EResDetails.class).parent(eh).id(eRes.getId()).now();
+		return DictUtil.toResD(e);
+	}
 
-    }
+	@Override
+	public List<ReservationPaymentDetail> getResAddPaymentList(OObjectId hotel, String resName) {
+		EObject eh = EntUtil.findEOObject(hotel);
+		List<EResDetails> li = DictUtil.findResDetailsForRes(eh, resName, ServiceType.OTHER);
+		List<ReservationPaymentDetail> rList = new ArrayList<ReservationPaymentDetail>();
+		DictUtil.toRP(rList, li);
+		return rList;
+	}
 
-    @Override
-    public List<ReservationPaymentDetail> getResAddPaymentList(OObjectId hotel,
-            String resName) {
-        EObject eh = EntUtil.findEOObject(hotel);
-        List<EResDetails> li = DictUtil.findResDetailsForRes(eh, resName,
-                ServiceType.OTHER);
-        List<ReservationPaymentDetail> rList = new ArrayList<ReservationPaymentDetail>();
-        DictUtil.toRP(rList, li);
-        return rList;
-    }
+	@Override
+	public List<CustomerBill> findBillsForReservation(OObjectId hotel, String resName) {
+		EObject eh = EntUtil.findEOObject(hotel);
+		List<ECustomerBill> re = DictUtil.findBillsForRese(eh, resName);
+		List<CustomerBill> bList = new ArrayList<CustomerBill>();
+		for (ECustomerBill b : re) {
+			CustomerBill bi = DictUtil.toCustomerBill(b);
+			EntUtil.toProp(bi, b);
+			bList.add(bi);
+		}
+		return bList;
+	}
 
-    @Override
-    public List<CustomerBill> findBillsForReservation(OObjectId hotel,
-            String resName) {
-        EObject eh = EntUtil.findEOObject(hotel);
-        List<ECustomerBill> re = DictUtil.findBillsForRese(eh, resName);
-        List<CustomerBill> bList = new ArrayList<CustomerBill>();
-        for (ECustomerBill b : re) {
-            CustomerBill bi = DictUtil.toCustomerBill(b);
-            EntUtil.toProp(bi, b);
-            bList.add(bi);
-        }
-        return bList;
-    }
+	@Override
+	public List<ResData> searchReservation(OObjectId hotel, ResQuery rQuery) {
+		Date dFrom = rQuery.getFromRes();
+		Date dTo = rQuery.getToRes();
+		EObject eh = EntUtil.findEOObject(hotel);
+		List<EHotelRoom> li = ofy().load().type(EHotelRoom.class).ancestor(eh).list();
+		List<ResQuery> ql = new ArrayList<ResQuery>();
+		for (EHotelRoom r : li) {
+			ResQuery q = new ResQuery();
+			q.setFromRes(dFrom);
+			q.setToRes(dTo);
+			q.setRoomName(r.getName());
+			ql.add(q);
+		}
+		List<ResData> dRes = queryReservation(hotel, ql);
+		Set<String> rMap = new HashSet<String>();
+		for (ResData r : dRes)
+			rMap.add(r.getRoomName());
 
-    @Override
-    public List<ResData> searchReservation(OObjectId hotel, ResQuery rQuery) {
-        Date dFrom = rQuery.getFromRes();
-        Date dTo = rQuery.getToRes();
-        EObject eh = EntUtil.findEOObject(hotel);
-        List<EHotelRoom> li = ofy().load().type(EHotelRoom.class).ancestor(eh)
-                .list();
-        List<ResQuery> ql = new ArrayList<ResQuery>();
-        for (EHotelRoom r : li) {
-            ResQuery q = new ResQuery();
-            q.setFromRes(dFrom);
-            q.setToRes(dTo);
-            q.setRoomName(r.getName());
-            ql.add(q);
-        }
-        List<ResData> dRes = queryReservation(hotel, ql);
-        Set<String> rMap = new HashSet<String>();
-        for (ResData r : dRes)
-            rMap.add(r.getRoomName());
+		List<ResData> outres = new ArrayList<ResData>();
+		for (EHotelRoom r : li)
+			if (!rMap.contains(r.getName())) {
+				ResData rd = new ResData();
+				rd.setRoomName(r.getName());
+				outres.add(rd);
+			}
+		return outres;
+	}
 
-        List<ResData> outres = new ArrayList<ResData>();
-        for (EHotelRoom r : li)
-            if (!rMap.contains(r.getName())) {
-                ResData rd = new ResData();
-                rd.setRoomName(r.getName());
-                outres.add(rd);
-            }
-        return outres;
-    }
+	private class DistinctResName {
+		private Set<String> rName = new HashSet<String>();
 
-    private class DistinctResName {
-        private Set<String> rName = new HashSet<String>();
+		void addRes(String resName) {
+			rName.add(resName);
+		}
 
-        void addRes(String resName) {
-            rName.add(resName);
-        }
+		List<String> getResName() {
+			List<String> rList = new ArrayList<String>();
+			Iterator<String> r = rName.iterator();
+			while (r.hasNext())
+				rList.add(r.next());
+			return rList;
+		}
 
-        List<String> getResName() {
-            List<String> rList = new ArrayList<String>();
-            Iterator<String> r = rName.iterator();
-            while (r.hasNext())
-                rList.add(r.next());
-            return rList;
-        }
+	}
 
-    }
+	private List<String> getReseForInfo(EObject eh, ResInfoType iType, String iName) {
+		DistinctResName re = new DistinctResName();
+		List<EResDetails> li = ofy().load().type(EResDetails.class).ancestor(eh).list();
+		for (EResDetails e : li) {
+			switch (iType) {
+			case FORSERVICE:
+				if (!e.getService().getName().equals(iName))
+					continue;
+				break;
+			case FORROOM:
+				if (!e.getRoom().getName().equals(iName))
+					continue;
+				break;
+			case FORPRICELIST:
+				if (e.getPricelistName() == null)
+					continue;
+				if (!e.getPricelistName().equals(iName))
+					continue;
+				break;
+			case FORGUEST:
+				if (e.getGuest() == null)
+					continue;
+				if (!e.getGuest().getName().equals(iName))
+					continue;
+				break;
+			default:
+				break;
+			}
+			re.addRes(e.getReservation().getName());
+		}
 
-    private List<String> getReseForInfo(EObject eh, ResInfoType iType,
-            String iName) {
-        DistinctResName re = new DistinctResName();
-        List<EResDetails> li = ofy().load().type(EResDetails.class)
-                .ancestor(eh).list();
-        for (EResDetails e : li) {
-            switch (iType) {
-            case FORSERVICE:
-                if (!e.getService().getName().equals(iName))
-                    continue;
-                break;
-            case FORROOM:
-                if (!e.getRoom().getName().equals(iName))
-                    continue;
-                break;
-            case FORPRICELIST:
-                if (e.getPricelistName() == null)
-                    continue;
-                if (!e.getPricelistName().equals(iName))
-                    continue;
-                break;
-            case FORGUEST:
-                if (e.getGuest() == null)
-                    continue;
-                if (!e.getGuest().getName().equals(iName))
-                    continue;
-                break;
-            default:
-                break;
-            }
-            re.addRes(e.getReservation().getName());
-        }
+		return re.getResName();
+	}
 
-        return re.getResName();
-    }
+	private List<String> getReseForCustomer(EObject eh, String iName) {
+		List<String> rList = new ArrayList<String>();
+		List<EHotelReservation> li = ofy().load().type(EHotelReservation.class).ancestor(eh).list();
+		for (EHotelReservation r : li)
+			if (r.getCustomer().getName().equals(iName))
+				rList.add(r.getName());
+		return rList;
+	}
 
-    private List<String> getReseForCustomer(EObject eh, String iName) {
-        List<String> rList = new ArrayList<String>();
-        List<EHotelReservation> li = ofy().load().type(EHotelReservation.class)
-                .ancestor(eh).list();
-        for (EHotelReservation r : li)
-            if (r.getCustomer().getName().equals(iName))
-                rList.add(r.getName());
-        return rList;
-    }
+	private List<String> getReseForPayer(EObject eh, String iName) {
+		DistinctResName re = new DistinctResName();
+		List<ECustomerBill> rel = ofy().load().type(ECustomerBill.class).ancestor(eh).filter("payerName ==", iName)
+				.list();
+		for (ECustomerBill b : rel)
+			re.addRes(b.getReservation().getName());
+		return re.getResName();
+	}
 
-    private List<String> getReseForPayer(EObject eh, String iName) {
-        DistinctResName re = new DistinctResName();
-        List<ECustomerBill> rel = ofy().load().type(ECustomerBill.class)
-                .ancestor(eh).filter("payerName ==", iName).list();
-        for (ECustomerBill b : rel)
-            re.addRes(b.getReservation().getName());
-        return re.getResName();
-    }
+	private List<String> getReseForGuest(EObject eh, String iName) {
+		DistinctResName re = new DistinctResName();
+		List<EHotelGuest> rel = ofy().load().type(EHotelGuest.class).ancestor(eh).filter("guestName ==", iName).list();
+		for (EHotelGuest g : rel)
+			re.addRes(g.getReservation().getName());
+		return re.getResName();
+	}
 
-    private List<String> getReseForGuest(EObject eh, String iName) {
-        DistinctResName re = new DistinctResName();
-        List<EHotelGuest> rel = ofy().load().type(EHotelGuest.class)
-                .ancestor(eh).filter("guestName ==", iName).list();
-        for (EHotelGuest g : rel)
-            re.addRes(g.getReservation().getName());
-        return re.getResName();
-    }
+	@Override
+	public List<String> getReseForInfoType(OObjectId hotel, ResInfoType iType, String iName) {
+		EObject eh = EntUtil.findEOObject(hotel);
+		switch (iType) {
+		case FORSERVICE:
+		case FORROOM:
+		case FORPRICELIST:
+			return getReseForInfo(eh, iType, iName);
+		case FORGUEST:
+			return getReseForGuest(eh, iName);
+		case FORCUSTOMER:
+			return getReseForCustomer(eh, iName);
+		case FORPAYER:
+			return getReseForPayer(eh, iName);
+		default:
+			break;
+		}
+		return null;
 
-    @Override
-    public List<String> getReseForInfoType(OObjectId hotel, ResInfoType iType,
-            String iName) {
-        EObject eh = EntUtil.findEOObject(hotel);
-        switch (iType) {
-        case FORSERVICE:
-        case FORROOM:
-        case FORPRICELIST:
-            return getReseForInfo(eh, iType, iName);
-        case FORGUEST:
-            return getReseForGuest(eh, iName);
-        case FORCUSTOMER:
-            return getReseForCustomer(eh, iName);
-        case FORPAYER:
-            return getReseForPayer(eh, iName);
-        default:
-            break;
-        }
-        return null;
-
-    }
+	}
 
 }

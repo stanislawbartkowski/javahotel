@@ -68,6 +68,10 @@ def jDate(y,m,d,ho=None,mi=None,se=None):
     if ho == None : return datetime.date(y,m,d)
     da = datetime.datetime(y,m,d,ho,mi,se)
     return da.replace(tzinfo=ctimezone.LZONE)
+
+def javaDate(y,m,d):
+    da = jDate(y,m,d)
+    return toDate(da)
     
 # ===============================================
 

@@ -797,6 +797,17 @@ class ListControler {
 
 		}
 
+		private class SetEditRow implements ISlotListener {
+
+			@Override
+			public void signal(ISlotSignalContext slContext) {
+				ICustomObject i = slContext.getCustom();
+				SetListEditRow s = (SetListEditRow) i;
+				setLastRow(s.getValue());
+			}
+
+		}
+
 		private class ClickImageCol implements ISlotListener {
 
 			@Override
@@ -861,6 +872,7 @@ class ListControler {
 			registerSubscriber(StartNextRowSignal.constructSlotStartNextRowSignal(d), new NextRowListener());
 			registerSubscriber(AfterRowOk.constructSignal(d), new AfterRowActionOk());
 			registerSubscriber(SetNewValues.constructSignal(d), new ChangeValues());
+			registerSubscriber(SetListEditRow.constructSignal(d), new SetEditRow());
 			registerCaller(GetImageColSignal.constructSlotGetImageCol(d), new GetImageCol());
 			registerCaller(GetRowSelected.constructSignal(d), new IsRowSelected());
 			registerSubscriber(ClickColumnImageSignal.constructSlotClickColumnSignal(d), new ClickImageCol());
@@ -1012,16 +1024,23 @@ class ListControler {
 
 		private final IPerformClickAction iClick;
 		private final IVariablesContainer iCon;
+		private final ISlotable iS;
+		private final IDataType dType;
 
-		ActionClicked(IPerformClickAction iClick, IVariablesContainer iCon) {
+		ActionClicked(IPerformClickAction iClick, IVariablesContainer iCon, ISlotable i, IDataType dType) {
 			this.iClick = iClick;
 			this.iCon = iCon;
+			this.iS = i;
+			this.dType = dType;
 		}
 
 		@Override
 		public void signal(ISlotSignalContext slContext) {
 			ICustomObject i = slContext.getCustom();
 			WChoosedLine wC = (WChoosedLine) i;
+			// 2015/12/25
+			iS.getSlContainer().publish(SetListEditRow.constructSignal(dType), new SetListEditRow(wC.getChoosedLine()));
+			// setLastRow(1);
 
 			IVField fie = wC.getvField();
 			WSize w = wC.getwSize();
@@ -1152,7 +1171,8 @@ class ListControler {
 		ISlotable i = tFactory.constructDataControler(dList);
 		CustomStringSlot sl = ReadChunkSignal.constructReadChunkSignal(da);
 		i.getSlContainer().registerSubscriber(sl, new ReadInChunk(da, iCon, rM));
-		i.getSlContainer().registerSubscriber(da, DataActionEnum.TableCellClicked, new ActionClicked(iClick, iCon));
+		i.getSlContainer().registerSubscriber(da, DataActionEnum.TableCellClicked,
+				new ActionClicked(iClick, iCon, i, da));
 		for (ControlButtonDesc b : customList)
 			i.getSlContainer().registerSubscriber(da, b.getActionId(), new CustomClick(custClick));
 

@@ -22,8 +22,7 @@
           <field id="isstay" type="bool" hidden=""/>
         </form>
 	
-	<list id="checkinlist" pagesize="5">
-		<standbutt>TOOLS,FIND,FILTER</standbutt>
+	<list id="checkinlist" pagesize="5" toolbartype="listonly">
   		<buttons-addlist>makecheckin</buttons-addlist> 
 		<columns>                       
 			<column id="roomid" displayname="@roomname" />

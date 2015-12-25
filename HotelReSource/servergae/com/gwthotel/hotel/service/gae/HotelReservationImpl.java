@@ -37,99 +37,94 @@ import com.jythonui.server.crud.ICrudObjectGenSym;
 
 public class HotelReservationImpl implements IReservationForm {
 
-    private final ICrudObjectGenSym iGen;
+	private final ICrudObjectGenSym iGen;
 
-    @Inject
-    public HotelReservationImpl(ICrudObjectGenSym iGen) {
-        this.iGen = iGen;
-    }
+	@Inject
+	public HotelReservationImpl(ICrudObjectGenSym iGen) {
+		this.iGen = iGen;
+	}
 
-    static {
-        ObjectifyService.register(EHotelReservation.class);
-        ObjectifyService.register(EResDetails.class);
-    }
+	static {
+		ObjectifyService.register(EHotelReservation.class);
+		ObjectifyService.register(EResDetails.class);
+	}
 
-    private ReservationForm constructProp(EObject ho, EHotelReservation e) {
-        ReservationForm r = new ReservationForm();
-        EntUtil.toProp(r, e);
-        r.setAttr(ISharedConsts.OBJECTPROP, ho.getName());
-        r.setId(e.getId());
-        r.setStatus(e.getStatus());
-        r.setCustomerName(e.getCustomer().getName());
-        r.setAdvanceDeposit(e.getAdvanceDeposit());
-        r.setAdvancePayment(e.getAdvancePayment());
-        r.setDateofadvancePayment(e.getDateofadvancePayment());
-        r.setTermOfAdvanceDeposit(e.getTermOfAdvanceDeposit());
-        List<EResDetails> li = DictUtil.findResDetailsForRes(ho, e.getName(),
-                ServiceType.HOTEL);
-        DictUtil.toRP(r.getResDetail(), li);
-        return r;
-    }
+	private ReservationForm constructProp(EObject ho, EHotelReservation e) {
+		ReservationForm r = new ReservationForm();
+		EntUtil.toProp(r, e);
+		r.setAttr(ISharedConsts.OBJECTPROP, ho.getName());
+		r.setId(e.getId());
+		r.setStatus(e.getStatus());
+		r.setCustomerName(e.getCustomer().getName());
+		r.setAdvanceDeposit(e.getAdvanceDeposit());
+		r.setAdvancePayment(e.getAdvancePayment());
+		r.setDateofadvancePayment(e.getDateofadvancePayment());
+		r.setTermOfAdvanceDeposit(e.getTermOfAdvanceDeposit());
+		List<EResDetails> li = DictUtil.findResDetailsForRes(ho, e.getName(), ServiceType.HOTEL);
+		DictUtil.toRP(r.getResDetail(), li);
+		return r;
+	}
 
-    @Override
-    public List<ReservationForm> getList(OObjectId hotel) {
-        EObject eh = EntUtil.findEOObject(hotel);
-        List<EHotelReservation> li = ofy().load().type(EHotelReservation.class)
-                .ancestor(eh).list();
-        List<ReservationForm> outList = new ArrayList<ReservationForm>();
-        for (EHotelReservation e : li) {
-            outList.add(constructProp(eh, e));
-        }
-        return outList;
-    }
+	@Override
+	public List<ReservationForm> getList(OObjectId hotel) {
+		EObject eh = EntUtil.findEOObject(hotel);
+		List<EHotelReservation> li = ofy().load().type(EHotelReservation.class).ancestor(eh).list();
+		List<ReservationForm> outList = new ArrayList<ReservationForm>();
+		for (EHotelReservation e : li)
+			outList.add(constructProp(eh, e));
+		// sort desc
+		EntUtil.sortT(outList);
+		return outList;
+	}
 
-    @Override
-    public ReservationForm addElem(OObjectId hotel, final ReservationForm elem) {
-        ReservationAdd add = new ReservationAdd(hotel, elem, false, iGen);
-        add.beforeAdd();
-        add.addTran();
-        return findElem(hotel, elem.getName());
-    }
+	@Override
+	public ReservationForm addElem(OObjectId hotel, final ReservationForm elem) {
+		ReservationAdd add = new ReservationAdd(hotel, elem, false, iGen);
+		add.beforeAdd();
+		add.addTran();
+		return findElem(hotel, elem.getName());
+	}
 
-    @Override
-    public void changeElem(OObjectId hotel, ReservationForm elem) {
-        ReservationAdd add = new ReservationAdd(hotel, elem, true, iGen);
-        add.beforeAdd();
-        add.addTran();
-    }
+	@Override
+	public void changeElem(OObjectId hotel, ReservationForm elem) {
+		ReservationAdd add = new ReservationAdd(hotel, elem, true, iGen);
+		add.beforeAdd();
+		add.addTran();
+	}
 
-    @Override
-    public void deleteElem(OObjectId hotel, ReservationForm elem) {
-        EObject eh = EntUtil.findEOObject(hotel);
-        final List<EBillPayment> liP = new ArrayList<EBillPayment>();
-        final List<ECustomerBill> re = DictUtil.findBillsForRese(eh,
-                elem.getName());
-        for (ECustomerBill b : re)
-            liP.addAll(DictUtil.findPaymentsForBill(eh, b.getName()));
+	@Override
+	public void deleteElem(OObjectId hotel, ReservationForm elem) {
+		EObject eh = EntUtil.findEOObject(hotel);
+		final List<EBillPayment> liP = new ArrayList<EBillPayment>();
+		final List<ECustomerBill> re = DictUtil.findBillsForRese(eh, elem.getName());
+		for (ECustomerBill b : re)
+			liP.addAll(DictUtil.findPaymentsForBill(eh, b.getName()));
 
-        final List<EResDetails> li = DictUtil.findResDetailsForRes(eh,
-                elem.getName(), ServiceType.HOTEL);
-        final EHotelReservation rese = DictUtil.findReservation(eh,
-                elem.getName());
+		final List<EResDetails> li = DictUtil.findResDetailsForRes(eh, elem.getName(), ServiceType.HOTEL);
+		final EHotelReservation rese = DictUtil.findReservation(eh, elem.getName());
 
-        ofy().transact(new VoidWork() {
-            public void vrun() {
-                ofy().delete().entities(liP);
-                ofy().delete().entities(re);
-                ofy().delete().entities(li);
-                ofy().delete().entity(rese);
-            }
-        });
-    }
+		ofy().transact(new VoidWork() {
+			public void vrun() {
+				ofy().delete().entities(liP);
+				ofy().delete().entities(re);
+				ofy().delete().entities(li);
+				ofy().delete().entity(rese);
+			}
+		});
+	}
 
-    @Override
-    public ReservationForm findElem(OObjectId hotel, String name) {
-        EObject eh = EntUtil.findEOObject(hotel);
-        EHotelReservation rese = DictUtil.findReservation(eh, name);
-        return constructProp(eh, rese);
-    }
+	@Override
+	public ReservationForm findElem(OObjectId hotel, String name) {
+		EObject eh = EntUtil.findEOObject(hotel);
+		EHotelReservation rese = DictUtil.findReservation(eh, name);
+		return constructProp(eh, rese);
+	}
 
-    @Override
-    public ReservationForm findElemById(OObjectId hotel, Long id) {
-        EObject eh = EntUtil.findEOObject(hotel);
-        EHotelReservation e = ofy().load().type(EHotelReservation.class).id(id)
-                .now();
-        return constructProp(eh, e);
-    }
+	@Override
+	public ReservationForm findElemById(OObjectId hotel, Long id) {
+		EObject eh = EntUtil.findEOObject(hotel);
+		EHotelReservation e = ofy().load().type(EHotelReservation.class).id(id).now();
+		return constructProp(eh, e);
+	}
 
 }

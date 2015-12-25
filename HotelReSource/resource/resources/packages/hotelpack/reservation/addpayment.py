@@ -21,7 +21,7 @@ def _createList(var):
        list.append(map)
    var["JLIST_MAP"] = { RLIST : list}
 
-LI = ["paymentdate","pricelist","service","pricefromlist","price","descr","quantity","total"]
+LI = ["paymentdate","service","pricefromlist","price","descr","quantity","total"]
 
 def _setPrice(var,val=None) :
     cutil.setCopy(var,["pricefromlist","price"])
@@ -124,7 +124,7 @@ def doaction(action,var):
         cutil.setCopy(var,LI)
         for l in LI :
           var[l] = None
-        var["pricelist"] = ""
+#        var["pricelist"] = ""
         var["service"] = ""
         var["quantity"] = 1
         var["paymentdate"] = cutil.today()

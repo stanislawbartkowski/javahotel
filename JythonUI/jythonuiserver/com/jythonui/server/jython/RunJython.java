@@ -1046,6 +1046,10 @@ public class RunJython extends UtilHelper implements IExecuteJython {
 			executeForEnum(v, d);
 		boolean checksuggest = false;
 		ButtonItem bu = DialogFormat.findE(d.getButtonList(), actionId);
+		if (bu == null)
+			for (ButtonItem b : d.getButtonList())
+				if (CUtil.EqNS(actionId, b.getAttr(ICommonConsts.ACTIONPARAM2)))
+					bu = b;
 		if (bu != null && bu.isValidateAction())
 			checksuggest = true;
 		if (ICommonConsts.CRUD_ADD.equals(actionId) || ICommonConsts.CRUD_CHANGE.equals(actionId))

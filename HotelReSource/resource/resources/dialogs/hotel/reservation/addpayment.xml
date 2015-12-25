@@ -20,7 +20,7 @@
 	<form>
 		<field id="paymentdate" displayname="@paymentdate" type="date" notempty="" />
 		<field id="pricelist" type="custom:allpricelist" displayname="@pricelist"
-			signalchange="" />
+			signalchange="" remember=""/>
 		<field id="service" type="custom:otherservice" displayname="@servicename"
 			signalchange="" />
                <field id="pricefromlist" type="decimal" displayname="@pricefromlist" readonly = "" />
@@ -31,8 +31,7 @@
                <field id="descr" displayname = "@description" /> 
 	</form>
 
-	<list id="roomlist" displayname="@guests" pagesize="5">
-		<standbutt>TOOLS,FIND,FILTER</standbutt>
+	<list id="roomlist" displayname="@guests" pagesize="5" toolbartype="listonly">
 		<columns>
 			<column id="roomid" displayname="@roomname" />
 			<column id="roomdesc" displayname="@roomdescription" />

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+	<before />
+
+	<jython>
+		<import>from testpack import test48</import>
+		<method>test48.dialogaction({0},{1})</method>
+	</jython>
+
+
+</dialog>

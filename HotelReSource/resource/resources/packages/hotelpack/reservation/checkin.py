@@ -47,6 +47,8 @@ class MAKECHECKIN(util.HOTELTRANSACTION) :
            rGuest.setRoomName(rid)
            a.add(rGuest)
      ROP.setResGuestList(resName,a)
+     if var["isstay"] : cutil.JOURNAL(var).addJournalElem(util.JOURNAL_CHANGELISTOFGUEST,None,resName)
+
      var["JCLOSE_DIALOG"] = True   
 
 def checkinaction(action,var):
@@ -79,7 +81,7 @@ def checkinaction(action,var):
         cutil.setCopy(var,li,CHECKINLIST)
     
     if action == "selectguest" :
-        var["JUP_DIALOG"] = "hotel/reservation/customerselection.xml"
+        var["JUP_DIALOG"] = "?customerselection.xml"
         var['JAFTERDIALOG_ACTION'] = "selectguestfromlist"
         
     if action == "before" :

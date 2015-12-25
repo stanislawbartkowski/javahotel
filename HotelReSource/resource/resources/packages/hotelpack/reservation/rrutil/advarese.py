@@ -83,6 +83,7 @@ class ADVA :
     reservation = R.findElem(resename)
     self.setAdvaData(reservation)
     R.changeElem(reservation)    
+    cutil.JOURNAL(self.var).addJournalElem(util.JOURNAL_CHANGEADVANCEPAYMENT,None,resename)
     
 def createAdvaRese(var,pre=None,addP=False) :
     p1 = None

@@ -30,7 +30,7 @@ public class JournalImpl extends CrudGaeAbstract<JournalRecord, EJournal> implem
 
 	@Inject
 	public JournalImpl(ICrudObjectGenSym iGen) {
-		super(EJournal.class, EJournal.class.getSimpleName(), iGen);
+		super(EJournal.class, EJournal.class.getSimpleName(), iGen, true);
 	}
 
 	@Override

@@ -1,7 +1,6 @@
-import con
-import cutil
-from util import util
 from com.gwthotel.hotel.reservation import ResStatus
+import con,cutil
+from util import util
 
 class CONFIRM :
   

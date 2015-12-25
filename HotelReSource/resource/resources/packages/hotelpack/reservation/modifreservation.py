@@ -1,12 +1,8 @@
 from com.jythonui.server.holder import Holder
 
-import cutil
-import xmlutil
-import con
-import miscutil
+import cutil,xmlutil,conmiscutil
 
-from util import rutil
-from util import util
+from util import rutil,util
 
 LI="resmodiflist"  
 
