@@ -21,60 +21,68 @@ import java.util.List;
  */
 public class ChangeEditableRowsParam {
 
-    public enum ModifMode {
-        ADDCHANGEDELETEMODE, CHANGEMODE, NORMALMODE
-    };
+	public enum ModifMode {
+		/** edit mode with +- buttons */
+		ADDCHANGEDELETEMODE,
+		/** edit mode with stable number of rows */
+		CHANGEMODE,
+		/** display mode, no edit */
+		NORMALMODE
+	};
 
-    public static int ALLROWS = -1;
+	public static int ALLROWS = -1;
 
-    private final int row;
-    private final boolean editable;
-    private final List<IVField> eList;
-    private final ModifMode mode;
+	private final int row;
+	private final boolean editable;
+	private final List<IVField> eList;
+	private final ModifMode mode;
 
-    /**
-     * @param i
-     * @param editable
-     * @param eList
-     */
-    public ChangeEditableRowsParam(int row, boolean editable, ModifMode mode,
-            List<IVField> eList) {
-        this.row = row;
-        this.editable = editable;
-        this.eList = eList;
-        this.mode = mode;
-    }
+	/**
+	 * @param i
+	 * @param editable
+	 * @param eList
+	 */
+	public ChangeEditableRowsParam(int row, boolean editable, ModifMode mode, List<IVField> eList) {
+		this.row = row;
+		this.editable = editable;
+		this.eList = eList;
+		this.mode = mode;
+	}
 
-    /**
-     * @return the editable
-     */
-    public boolean isEditable() {
-        return editable;
-    }
+	/**
+	 * @return the editable
+	 */
+	public boolean isEditable() {
+		return editable;
+	}
 
-    /**
-     * @return the eList
-     */
-    public List<IVField> geteList() {
-        return eList;
-    }
+	/**
+	 * @return the eList
+	 */
+	public List<IVField> geteList() {
+		return eList;
+	}
 
-    /**
-     * @return the row
-     */
-    public int getRow() {
-        return row;
-    }
+	/**
+	 * @return the row
+	 */
+	public int getRow() {
+		return row;
+	}
 
-    /**
-     * @return the mode
-     */
-    ModifMode getMode() {
-        return mode;
-    }
+	/**
+	 * @return the mode
+	 */
+	ModifMode getMode() {
+		return mode;
+	}
 
-    public boolean fullEdit() {
-        return mode != ModifMode.NORMALMODE;
-    }
+	public boolean editMode() {
+		return mode != ModifMode.NORMALMODE;
+	}
+
+	public boolean addEditMode() {
+		return mode == ModifMode.ADDCHANGEDELETEMODE;
+	}
 
 }

@@ -58,7 +58,7 @@ public class PerformVariableAction {
 		}
 
 		public class EditListMode {
-			private ChangeEditableRowsParam.ModifMode mode = ChangeEditableRowsParam.ModifMode.ADDCHANGEDELETEMODE;
+			private ChangeEditableRowsParam.ModifMode mode = ChangeEditableRowsParam.ModifMode.NORMALMODE;
 			private List<IVField> eList = new ArrayList<IVField>();
 
 			public ChangeEditableRowsParam.ModifMode getMode() {

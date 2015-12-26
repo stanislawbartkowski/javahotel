@@ -39,26 +39,18 @@ import com.gwtmodel.table.view.table.edit.IPresentationCellEdit;
 public abstract class PresentationCellHelper {
 
 	protected IGwtTableModel model = null;
-	protected final IGetCustomValues cValues = GwtGiniInjector.getI()
-			.getCustomValues();
-	protected final IWebPanelResources pResources = GwtGiniInjector.getI()
-			.getWebPanelResources();
-	protected final DateTimeFormat fo = DateTimeFormat.getFormat(cValues
-			.getCustomValue(IGetCustomValues.DATEFORMAT));
+	protected final IGetCustomValues cValues = GwtGiniInjector.getI().getCustomValues();
+	protected final IWebPanelResources pResources = GwtGiniInjector.getI().getWebPanelResources();
+	protected final DateTimeFormat fo = DateTimeFormat.getFormat(cValues.getCustomValue(IGetCustomValues.DATEFORMAT));
 	protected static final SafeHtml INPUT_CHECKED = SafeHtmlUtils
 			.fromSafeConstant("<input type=\"checkbox\" tabindex=\"-1\" disabled=\"disabled\" checked/>");
 	protected static final SafeHtml INPUT_UNCHECKED = SafeHtmlUtils
 			.fromSafeConstant("<input type=\"checkbox\" disabled=\"disabled\" tabindex=\"-1\"/>");
-	protected final NumberCell iCell = new NumberCell(
-			NumberFormat.getFormat(getNumberFormat(0)));
-	protected final NumberCell nCell1 = new NumberCell(
-			NumberFormat.getFormat(getNumberFormat(1)));
-	protected final NumberCell nCell2 = new NumberCell(
-			NumberFormat.getFormat(getNumberFormat(2)));
-	protected final NumberCell nCell3 = new NumberCell(
-			NumberFormat.getFormat(getNumberFormat(3)));
-	protected final NumberCell nCell4 = new NumberCell(
-			NumberFormat.getFormat(getNumberFormat(4)));
+	protected final NumberCell iCell = new NumberCell(NumberFormat.getFormat(getNumberFormat(0)));
+	protected final NumberCell nCell1 = new NumberCell(NumberFormat.getFormat(getNumberFormat(1)));
+	protected final NumberCell nCell2 = new NumberCell(NumberFormat.getFormat(getNumberFormat(2)));
+	protected final NumberCell nCell3 = new NumberCell(NumberFormat.getFormat(getNumberFormat(3)));
+	protected final NumberCell nCell4 = new NumberCell(NumberFormat.getFormat(getNumberFormat(4)));
 
 	public void setGModel(IGwtTableModel model) {
 		this.model = model;

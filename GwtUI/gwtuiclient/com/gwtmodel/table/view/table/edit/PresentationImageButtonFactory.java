@@ -177,10 +177,12 @@ class PresentationImageButtonFactory extends PresentationEditCellHelper {
 	private class ButtonImageList extends CompositeCell implements IGetField {
 
 		private Object o;
+		private final IVField v;
 
 		@SuppressWarnings("unchecked")
 		public ButtonImageList(VListHeaderDesc he) {
 			super(createList(he));
+			this.v = he.getFie();
 		}
 
 		@Override
@@ -191,6 +193,11 @@ class PresentationImageButtonFactory extends PresentationEditCellHelper {
 		@Override
 		public void setValObj(MutableInteger key, Object o) {
 			this.o = o;
+		}
+
+		@Override
+		public IVField getV() {
+			return v;
 		}
 	}
 

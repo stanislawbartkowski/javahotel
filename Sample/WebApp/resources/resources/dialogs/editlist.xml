@@ -40,6 +40,8 @@
 				editable="" notempty="" />
 			<column id="date2" displayname="End date" type="date"
 				editable="" notempty="" />
+			<column id="vals" displayname="Name"
+				editable="" />
 		</columns>
 		<validaterules>
 			<validate id="date1" op="le" id1="date2"
@@ -52,7 +54,7 @@
                 <standbutt>TOOLS,SHOW,FIND,FILTER</standbutt>
                 <columns>
                         <column id="id" displayname="id" type="long" editable="" width="20%"/>
-                        <column id="name" displayname="Name" editable="" width="60%" editcss="background-color:#d0e4fe;" />
+                        <column id="name" displayname="Name" editable="" width="50%" editcss="background-color:#d0e4fe;" />
                         <column id="check" displayname="Check" type="bool" editable=""  signalchange="" editcss="width:2em;" width="20%" />
                 </columns>
 

@@ -1,10 +1,6 @@
-import cutil
-import con
-import xmlutil
+import cutil,con,xmlutil
 
-from util import rutil
-from util import util
-from util import diallaunch
+from util import rutil,util,diallaunch
 
 from rrutil import rparam
 
@@ -18,7 +14,7 @@ def _validate(var) :
     cutil.setCopy(var,"search_to")
     return True
   if cutil.checkEmpty(var,"search_to") : return False
-  da = nofDays(var["search_from"],var["search_to"])
+  da = con.nofDays(var["search_from"],var["search_to"])
   if da <= 0 :
     cutil.setErrorField(var,"search_to","@datefromlessto")
     return False

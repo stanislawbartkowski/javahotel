@@ -133,6 +133,11 @@ class PresentationEditSelectionCellFactory extends PresentationEditCellHelper {
             String eventType = event.getType();
             afterChange(eventType, context, v, new WSize(parent));
         }
+
+		@Override
+		public IVField getV() {
+			return v;
+		}
     }
 
     @SuppressWarnings("rawtypes")

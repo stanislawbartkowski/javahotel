@@ -297,12 +297,34 @@ def __defineEditMode(var,llist,li,mode):
     for l in li :
       var["JLIST_EDIT_"+llist+"_"+l] = ""
     var["JLIST_EDIT_"+llist+"_MODE"] = mode
-    
+
+""" Set edit list in non-edit mode, switch off editing
+  Args:
+    var
+    list list identifier
+    li list of columns identifiers to remove editing    
+"""    
 def setStandEditMode(var,list,li):
     __defineEditMode(var,list,li,"NORMALMODE")
-    
-def setAddEditMode(var,list,li):
+
+""" Set edit list in edit mode, switch on editing, editing with stable number of rows
+  Args:
+    var
+    list list identifier
+    li list of columns identifiers to be edited    
+"""        
+def setChangeEditMode(var,list,li):
     __defineEditMode(var,list,li,"CHANGEMODE")  
+
+""" Set edit list in edit mode, switch on editing, +- buttons, can add or remove rows
+  Args:
+    var
+    list list identifier
+    li list of columns identifiers to be edited    
+"""        
+def setAddEditMode(var,list,li):
+    __defineEditMode(var,list,li,"ADDCHANGEDELETEMODE")  
+    
 
 class StorageRegistry() :
      

@@ -118,8 +118,7 @@ class PresentationTable implements IGwtTableView {
 	final SingleSelectionModel<MutableInteger> selectionModel = new SingleSelectionModel<MutableInteger>();
 	private WChoosedLine wChoosed;
 	private final SimplePager sPager = new SimplePager(TextLocation.CENTER,
-			(Resources) GWT.create(SimplePager.Resources.class), false, 1000,
-			true);
+			(Resources) GWT.create(SimplePager.Resources.class), false, 1000, true);
 	private final VerticalPanel vPanel = new VerticalPanel();
 	private final ListDataProvider<MutableInteger> dProvider = new ListDataProvider<MutableInteger>();
 	private final AsyncDataProvider<MutableInteger> aProvider = new MyAsyncProvider();
@@ -133,8 +132,7 @@ class PresentationTable implements IGwtTableView {
 	private boolean sortInc;
 	private final ILostFocusEdit lostFocus;
 	private final boolean async;
-	private IGetStandardMessage iMess = GwtGiniInjector.getI()
-			.getStandardMessage();
+	private IGetStandardMessage iMess = GwtGiniInjector.getI().getStandardMessage();
 	private final ColToVHeader coV = new ColToVHeader();
 
 	private final IGetColSpan iSpan;
@@ -146,8 +144,7 @@ class PresentationTable implements IGwtTableView {
 			// Get the new range.
 			final Range range = display.getVisibleRange();
 			final int start = range.getStart();
-			final int length = MaxI.min((int) model.getSize() - start,
-					range.getLength());
+			final int length = MaxI.min((int) model.getSize() - start, range.getLength());
 
 			ISuccess iSignal = new ISuccess() {
 
@@ -170,8 +167,7 @@ class PresentationTable implements IGwtTableView {
 					Column<MutableInteger, ?> co = table.getColumn(i);
 					// compare references !
 					if (co == cSort) {
-						VListHeaderDesc v = model.getHeaderList()
-								.getVisHeList().get(i);
+						VListHeaderDesc v = model.getHeaderList().getVisHeList().get(i);
 						sFie = v.getFie();
 						break;
 					}
@@ -215,8 +211,8 @@ class PresentationTable implements IGwtTableView {
 			if (he == null)
 				continue;
 			Joiner join = Joiner.on(" ").skipNulls();
-			String aClass = join.join(model.getClassNameForColumn(he.getFie()),
-					he.getColumnClass(), noWrap ? IConsts.nowrapStyle : null);
+			String aClass = join.join(model.getClassNameForColumn(he.getFie()), he.getColumnClass(),
+					noWrap ? IConsts.nowrapStyle : null);
 			Column<MutableInteger, ?> co = table.getColumn(i);
 			co.setCellStyleNames(aClass);
 		}
@@ -248,8 +244,7 @@ class PresentationTable implements IGwtTableView {
 
 		@Override
 		public void setEditRow(MutableInteger row, WSize w) {
-			LogT.getLT().info(
-					LogT.getT().TablePresentationSetEditRow(row.intValue()));
+			LogT.getLT().info(LogT.getT().TablePresentationSetEditRow(row.intValue()));
 			setNewEditFocusLine(pgetClicked(row, null, w));
 		}
 	}
@@ -264,9 +259,7 @@ class PresentationTable implements IGwtTableView {
 
 		@Override
 		public void onSelectionChange(SelectionChangeEvent event) {
-			LogT.getLT().info(
-					LogT.getT().TablePresentationSelectionChangeNow(
-							wChoosed.getChoosedLine()));
+			LogT.getLT().info(LogT.getT().TablePresentationSelectionChangeNow(wChoosed.getChoosedLine()));
 			MutableInteger sel = selectionModel.getSelectedObject();
 			if (sel == null) {
 				return;
@@ -278,9 +271,7 @@ class PresentationTable implements IGwtTableView {
 			}
 			if (selectEnabled()) {
 				iClick.execute(whilefind);
-				LogT.getLT().info(
-						LogT.getT().TablePresentationSelectionChange(
-								wChoosed.getChoosedLine()));
+				LogT.getLT().info(LogT.getT().TablePresentationSelectionChange(wChoosed.getChoosedLine()));
 				setNewEditFocusLine(wChoosed);
 			}
 			if (model.unSelectAtOnce()) {
@@ -395,10 +386,8 @@ class PresentationTable implements IGwtTableView {
 		}
 	}
 
-	PresentationTable(IRowClick iClick, ICommand actionColumn,
-			IGetCellValue gValue, INewEditLineFocus iEditFocus,
-			ILostFocusEdit lostFocus, IColumnImage iIma, boolean async,
-			final IGetColSpan iSpan) {
+	PresentationTable(IRowClick iClick, ICommand actionColumn, IGetCellValue gValue, INewEditLineFocus iEditFocus,
+			ILostFocusEdit lostFocus, IColumnImage iIma, boolean async, final IGetColSpan iSpan) {
 		this.iSpan = iSpan;
 		this.iEditFocus = iEditFocus;
 		this.iClick = iClick;
@@ -428,8 +417,7 @@ class PresentationTable implements IGwtTableView {
 		// faEdit = new PresentationEditCellFactory(e, table, new
 		// StartEditLine(),
 		// this, iIma);
-		faEdit = PresentationEditCellProvider.contruct(e, table,
-				new StartEditLine(), this, iIma);
+		faEdit = PresentationEditCellProvider.contruct(e, table, new StartEditLine(), this, iIma);
 		table.addRowHoverHandler(new RowHover());
 		footFactory = new PresentationFooterFactory(fa, faEdit);
 		if (iSpan != null) {
@@ -478,8 +466,7 @@ class PresentationTable implements IGwtTableView {
 		}
 
 		@Override
-		public void render(com.google.gwt.cell.client.Cell.Context context,
-				SafeHtml value, SafeHtmlBuilder sb) {
+		public void render(com.google.gwt.cell.client.Cell.Context context, SafeHtml value, SafeHtmlBuilder sb) {
 			sb.append(value);
 		}
 	}
@@ -516,8 +503,7 @@ class PresentationTable implements IGwtTableView {
 		}
 
 		@Override
-		public void onBrowserEvent(Context context, Element elem,
-				final MutableInteger i, NativeEvent event) {
+		public void onBrowserEvent(Context context, Element elem, final MutableInteger i, NativeEvent event) {
 			// do not check event type, only clicked is raised here
 			WSize wSize = new WSize(elem);
 			// it is possible for cell to provide position of the single cell
@@ -592,8 +578,8 @@ class PresentationTable implements IGwtTableView {
 			if (co == null) {
 				FieldDataType fType = he.getFie().getType();
 				if (he.getButtonAction() != null) {
-					co = fa.constructActionButtonCell(he.getButtonAction(),
-							he.getFie(), fType, new AttachClass(he.getFie()));
+					co = fa.constructActionButtonCell(he.getButtonAction(), he.getFie(), fType,
+							new AttachClass(he.getFie()));
 				} else if (fType.isConvertableToString()) {
 					if (editable) {
 						co = faEdit.constructEditTextCol(he);
@@ -620,8 +606,7 @@ class PresentationTable implements IGwtTableView {
 						break;
 					case BOOLEAN:
 						if (editable) {
-							co = faEdit.contructBooleanCol(he.getFie(),
-									!selectEnabled());
+							co = faEdit.contructBooleanCol(he.getFie(), !selectEnabled());
 						} else {
 							co = fa.contructBooleanCol(he.getFie());
 						}
@@ -660,8 +645,7 @@ class PresentationTable implements IGwtTableView {
 					try {
 						wi = DecimalUtils.toDouble(pa[0]);
 					} catch (NumberFormatException e) {
-						String info = LogT.getT().InproperWidthInColumn(
-								he.getHeaderString(), pa[0]);
+						String info = LogT.getT().InproperWidthInColumn(he.getHeaderString(), pa[0]);
 						LogT.errorLogE(info, e);
 						return;
 					}
@@ -669,8 +653,7 @@ class PresentationTable implements IGwtTableView {
 					try {
 						u = Style.Unit.valueOf(pa[1]);
 					} catch (IllegalArgumentException e) {
-						String info = LogT.getT().InproperColumnUnit(
-								he.getHeaderString(), pa[1]);
+						String info = LogT.getT().InproperColumnUnit(he.getHeaderString(), pa[1]);
 						LogT.errorLogE(info, e);
 						return;
 					}
@@ -678,14 +661,12 @@ class PresentationTable implements IGwtTableView {
 				}
 			}
 			//
-			if (header == null
-					&& (he.isHidden() || he.getHeaderString() == null)) {
+			if (header == null && (he.isHidden() || he.getHeaderString() == null)) {
 				// Important: for some reason the assert violation cause
 				// breaking without Exception throwing
 				// So additional error alert is displayed to avoid confusion
 				Utils.errAlert(he.getFie().getId(), LogT.getT().HeaderNull());
-				assert !he.isHidden() && he.getHeaderString() != null : LogT
-						.getT().cannotBeNull();
+				assert !he.isHidden() && he.getHeaderString() != null : LogT.getT().cannotBeNull();
 			}
 
 			VFooterDesc footer = null;
@@ -711,13 +692,11 @@ class PresentationTable implements IGwtTableView {
 			}
 
 			if (!async) {
-				ListHandler<MutableInteger> columnSortHandler = new ListHandler<MutableInteger>(
-						dProvider.getList());
+				ListHandler<MutableInteger> columnSortHandler = new ListHandler<MutableInteger>(dProvider.getList());
 				columnSortHandler.setComparator(co, new CoComparator(he));
 				table.addColumnSortHandler(columnSortHandler);
 			} else {
-				ColumnSortEvent.AsyncHandler sortHandler = new ColumnSortEvent.AsyncHandler(
-						table);
+				ColumnSortEvent.AsyncHandler sortHandler = new ColumnSortEvent.AsyncHandler(table);
 				table.addColumnSortHandler(sortHandler);
 			}
 			// ColumnSortEvent.fire(myTable, myTable.getColumnSortList());
@@ -743,8 +722,7 @@ class PresentationTable implements IGwtTableView {
 			Column<MutableInteger, ?> co = table.getColumn(i);
 			VListHeaderDesc v = model.getHeaderList().getVisHeList().get(i);
 			if (v.getFie().eq(sortCol)) {
-				ColumnSortList.ColumnSortInfo sInfo = new ColumnSortList.ColumnSortInfo(
-						co, !sortInc);
+				ColumnSortList.ColumnSortInfo sInfo = new ColumnSortList.ColumnSortInfo(co, !sortInc);
 				sList.push(sInfo);
 				ColumnSortEvent.fire(table, sList);
 				break;
@@ -928,9 +906,8 @@ class PresentationTable implements IGwtTableView {
 		if (actParam != null) {
 			actMode = actParam.getMode();
 		}
-		if (eParam.fullEdit()) {
-			if (actMode == null
-					|| actMode == ChangeEditableRowsParam.ModifMode.NORMALMODE) {
+		if (eParam.addEditMode()) {
+			if (actMode == null || actMode == ChangeEditableRowsParam.ModifMode.NORMALMODE) {
 				faEdit.addActionColumn();
 				coV.setActionCol(true);
 			}
@@ -940,7 +917,7 @@ class PresentationTable implements IGwtTableView {
 	}
 
 	private int toVColNo(int col) {
-		if (faEdit.geteParam() != null && faEdit.geteParam().fullEdit()) {
+		if (faEdit.geteParam() != null && faEdit.geteParam().addEditMode()) {
 			return col - 1;
 		}
 		return col;
@@ -949,37 +926,30 @@ class PresentationTable implements IGwtTableView {
 
 	private class GetSet implements IGetSetVField {
 
-		private final int i;
 		private final int rowno;
 		private final boolean keepNull;
+		private final VListHeaderDesc v;
 
-		private GetSet(int i, int rowno, boolean keepNull) {
-			this.i = i;
+		private GetSet(int rowno, boolean keepNull, VListHeaderDesc v) {
 			this.rowno = rowno;
 			this.keepNull = keepNull;
+			this.v = v;
 		}
 
 		@Override
 		public IVField getV() {
-			VListHeaderDesc v = model.getHeaderList().getVisHeList().get(i);
 			return v.getFie();
 		}
 
-		private int getColNo() {
-			// omit first column, contains edit controls
-			if (faEdit.geteParam() != null && faEdit.geteParam().fullEdit()) {
-				return i + 1;
-			}
-			return i;
-
-		}
-
 		private IGetField getI() {
-			Column<?, ?> co = table.getColumn(getColNo());
-			Cell<?> ce = co.getCell();
-			if (ce instanceof IGetField) {
-				IGetField iGet = (IGetField) ce;
-				return iGet;
+			for (int i = 0; i < table.getColumnCount(); i++) {
+				Column<?, ?> co = table.getColumn(i);
+				Cell<?> ce = co.getCell();
+				if (ce instanceof IGetField) {
+					IGetField iGet = (IGetField) ce;
+					if (iGet.getV().eq(getV()))
+						return iGet;
+				}
 			}
 			return null;
 		}
@@ -1003,8 +973,7 @@ class PresentationTable implements IGwtTableView {
 			IGetField iGet = getI();
 			if (iGet == null) {
 				IVField fie = getV();
-				String mess = LogT.getT().PresentationTableNullSetValObj(
-						fie.getId());
+				String mess = LogT.getT().PresentationTableNullSetValObj(fie.getId());
 				Utils.errAlertB(mess);
 			}
 			iGet.setValObj(new MutableInteger(rowno), o);
@@ -1013,13 +982,11 @@ class PresentationTable implements IGwtTableView {
 	}
 
 	private List<IGetSetVField> getVList(int rowno, boolean keepNull) {
-		int no = 0;
 		List<IGetSetVField> vList = new ArrayList<IGetSetVField>();
 		for (VListHeaderDesc v : model.getHeaderList().getVisHeList()) {
 			if (v.isEditable()) {
-				vList.add(new GetSet(no, rowno, keepNull));
+				vList.add(new GetSet(rowno, keepNull, v));
 			}
-			no++;
 		}
 		return vList;
 	}
@@ -1088,8 +1055,7 @@ class PresentationTable implements IGwtTableView {
 		if (ro == null) {
 			w = new WSize(table.getAbsoluteTop(), table.getAbsoluteLeft(), 0, 0);
 		} else {
-			w = new WSize(ro.getAbsoluteTop(), ro.getAbsoluteLeft(),
-					ro.getClientHeight(), ro.getClientWidth());
+			w = new WSize(ro.getAbsoluteTop(), ro.getAbsoluteLeft(), ro.getClientHeight(), ro.getClientWidth());
 		}
 		return w;
 	}
@@ -1155,8 +1121,7 @@ class PresentationTable implements IGwtTableView {
 
 	@Override
 	public void showInvalidate(int rowno, InvalidateFormContainer errContainer) {
-		faEdit.setErrorLineInfo(new MutableInteger(rowno), errContainer,
-				new GetRowNo());
+		faEdit.setErrorLineInfo(new MutableInteger(rowno), errContainer, new GetRowNo());
 	}
 
 	@Override

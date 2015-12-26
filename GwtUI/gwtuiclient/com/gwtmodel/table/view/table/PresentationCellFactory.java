@@ -96,8 +96,7 @@ class PresentationCellFactory extends PresentationCellHelper {
 
 	private class NTextCell extends AbstractCell<String> {
 
-		private final StringTemplate template = GWT
-				.create(StringTemplate.class);
+		private final StringTemplate template = GWT.create(StringTemplate.class);
 
 		private final VListHeaderDesc he;
 
@@ -106,11 +105,9 @@ class PresentationCellFactory extends PresentationCellHelper {
 		}
 
 		@Override
-		public void render(com.google.gwt.cell.client.Cell.Context context,
-				String value, SafeHtmlBuilder sb) {
+		public void render(com.google.gwt.cell.client.Cell.Context context, String value, SafeHtmlBuilder sb) {
 			if (value != null) {
-				sb.append(template.input(getS(he.getInputStyle()),
-						getS(he.getInputClass()), value));
+				sb.append(template.input(getS(he.getInputStyle()), getS(he.getInputClass()), value));
 			}
 
 		}
@@ -119,8 +116,7 @@ class PresentationCellFactory extends PresentationCellHelper {
 
 	private class ATextCell extends TextCell {
 
-		private final StringTemplate template = GWT
-				.create(StringTemplate.class);
+		private final StringTemplate template = GWT.create(StringTemplate.class);
 
 		private final VListHeaderDesc he;
 
@@ -131,8 +127,7 @@ class PresentationCellFactory extends PresentationCellHelper {
 		@Override
 		public void render(Context context, SafeHtml value, SafeHtmlBuilder sb) {
 			if (value != null) {
-				sb.append(template.input(getS(he.getInputStyle()),
-						getS(he.getInputClass()), value.asString()));
+				sb.append(template.input(getS(he.getInputStyle()), getS(he.getInputClass()), value.asString()));
 
 			}
 		}
@@ -175,8 +170,7 @@ class PresentationCellFactory extends PresentationCellHelper {
 
 	// 2013/08/11 : added implementation IGetField
 	// Only marker is necessary, no additional implementation
-	private class ActionButtonCell extends ActionCell<MutableInteger> implements
-			IGetField {
+	private class ActionButtonCell extends ActionCell<MutableInteger> implements IGetField {
 
 		@SuppressWarnings("unused")
 		private final String buttonString;
@@ -190,8 +184,7 @@ class PresentationCellFactory extends PresentationCellHelper {
 		}
 
 		@Override
-		public void render(Cell.Context context, MutableInteger value,
-				SafeHtmlBuilder sb) {
+		public void render(Cell.Context context, MutableInteger value, SafeHtmlBuilder sb) {
 			IVModelData v = model.get(value.intValue());
 			if (getCell != null) {
 				SafeHtml sa = getCell.getValue(v, iF);
@@ -203,16 +196,14 @@ class PresentationCellFactory extends PresentationCellHelper {
 			// sb.appendHtmlConstant("<strong>");
 			String s = FUtils.getValueS(v, iF);
 			if (CUtil.EmptyS(s)) {
-				TemplateEmptyButtonAction template = GWT
-						.create(TemplateEmptyButtonAction.class);
+				TemplateEmptyButtonAction template = GWT.create(TemplateEmptyButtonAction.class);
 				sb.append(template.input());
 				return;
 			}
 			// sb.appendEscaped(s);
 			// sb.appendHtmlConstant("</strong>");
 
-			TemplateButtonAction template = GWT
-					.create(TemplateButtonAction.class);
+			TemplateButtonAction template = GWT.create(TemplateButtonAction.class);
 			sb.append(template.input(s));
 		}
 
@@ -227,6 +218,11 @@ class PresentationCellFactory extends PresentationCellHelper {
 		public void setValObj(MutableInteger key, Object o) {
 			// IVModelData v = model.get(key.intValue());
 			// v.setF(iF, o);
+		}
+
+		@Override
+		public IVField getV() {
+			return iF;
 		}
 	}
 
@@ -300,10 +296,9 @@ class PresentationCellFactory extends PresentationCellHelper {
 	}
 
 	@SuppressWarnings("rawtypes")
-	Column constructActionButtonCell(String buttonString, IVField iF,
-			FieldDataType fType, ActionCell.Delegate<MutableInteger> aCell) {
-		return new ButtonColumn(new ActionButtonCell(buttonString, iF, fType,
-				aCell));
+	Column constructActionButtonCell(String buttonString, IVField iF, FieldDataType fType,
+			ActionCell.Delegate<MutableInteger> aCell) {
+		return new ButtonColumn(new ActionButtonCell(buttonString, iF, fType, aCell));
 	}
 
 	@SuppressWarnings("rawtypes")

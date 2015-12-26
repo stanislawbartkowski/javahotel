@@ -31,6 +31,7 @@ import com.jython.ui.server.Cached;
 import com.jython.ui.server.datastore.IDateLineOp;
 import com.jython.ui.server.datastore.IDateRecordOp;
 import com.jython.ui.server.datastore.IPersonOp;
+import com.jython.ui.server.jpajournal.JpaJournal;
 import com.jython.ui.server.jpanote.JpaNoteStorage;
 import com.jython.ui.server.jpastoragekey.BlobEntryJpaHandler;
 import com.jython.ui.server.jpastoragekey.IStorageJpaRegistryFactory;
@@ -43,7 +44,6 @@ import com.jythonui.datastore.DateRecordOp;
 import com.jythonui.datastore.EntityManagerFactoryProvider;
 import com.jythonui.datastore.PersonOp;
 import com.jythonui.server.IConsts;
-import com.jythonui.server.IConvertJythonTimestamp;
 import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IGetEnvDefaultData;
 import com.jythonui.server.IGetMailFrom;
@@ -59,7 +59,7 @@ import com.jythonui.server.envvar.defa.GetEnvDefaultData;
 import com.jythonui.server.envvar.impl.GetEnvVariables;
 import com.jythonui.server.envvar.impl.ServerPropertiesEnv;
 import com.jythonui.server.guice.JythonServerService;
-import com.jythonui.server.jython.ConvertPython27;
+import com.jythonui.server.journal.IJournal;
 import com.jythonui.server.mail.INoteStorage;
 import com.jythonui.server.ressession.ResGetMailSessionProvider;
 import com.jythonui.server.semaphore.ISemaphore;
@@ -73,96 +73,75 @@ import com.jythonui.server.storage.registry.IStorageRealmRegistry;
  */
 public class ServerService {
 
-    public static class ServiceModule extends
-            JythonServerService.JythonServiceModule {
-        @Override
-        protected void configure() {
-            configureJythonUi();
-            bind(IsCached.class).to(Cached.class).in(Singleton.class);
-            bind(IPersonOp.class).to(PersonOp.class).in(Singleton.class);
-            bind(IDateLineOp.class).to(DateLineOp.class).in(Singleton.class);
-            bind(IDateRecordOp.class).to(DateRecordOp.class)
-                    .in(Singleton.class);
+	public static class ServiceModule extends JythonServerService.JythonServiceModule {
+		@Override
+		protected void configure() {
+			configureJythonUi();
+			bind(IsCached.class).to(Cached.class).in(Singleton.class);
+			bind(IPersonOp.class).to(PersonOp.class).in(Singleton.class);
+			bind(IDateLineOp.class).to(DateLineOp.class).in(Singleton.class);
+			bind(IDateRecordOp.class).to(DateRecordOp.class).in(Singleton.class);
 
-            bind(IJythonUIServerProperties.class).to(ServerPropertiesEnv.class)
-                    .in(Singleton.class);
-            bind(ICommonCacheFactory.class).to(SimpleMapCacheFactory.class).in(
-                    Singleton.class);
-            bind(EntityManagerFactory.class).toProvider(
-                    EntityManagerFactoryProvider.class).in(Singleton.class);
-            bind(IGetResourceJNDI.class).to(GetResourceJNDI.class).in(
-                    Singleton.class);
-            bind(ISemaphore.class).to(SemaphoreSynch.class).in(Singleton.class);
-            bind(IGetEnvDefaultData.class).to(GetEnvDefaultData.class).in(
-                    Singleton.class);
-			bind(IConvertJythonTimestamp.class).to(ConvertPython27.class).in(
-					Singleton.class);
-            // common
-            bind(IStorageJpaRegistryFactory.class).to(
-                    StorageJpaRegistryFactory.class).in(Singleton.class);
-            bind(IGetConnection.class)
-                    .toProvider(EmptyConnectionProvider.class).in(
-                            Singleton.class);
-            bind(IBlobHandler.class).to(BlobEntryJpaHandler.class).in(
-                    Singleton.class);
-            bind(IJythonRPCNotifier.class).to(EmptyRPCNotifier.class).in(
-                    Singleton.class);
-            bind(IAppInstanceOObject.class).to(OObjectAdminInstance.class).in(
-                    Singleton.class);
-            bind(IOObjectAdmin.class).to(OObjectAdminJpa.class).in(
-                    Singleton.class);
-            bind(IGetEnvVariable.class).to(GetEnvVariables.class).in(
-                    Singleton.class);
-            bind(Session.class).annotatedWith(Names.named(IConsts.SENDMAIL))
-                    .toProvider(ResGetMailSessionProvider.class)
-                    .in(Singleton.class);
-            bind(IJpaObjectGenSymFactory.class).to(
-                    JpaObjectGenSymFactoryImpl.class).in(Singleton.class);
-            bind(INoteStorage.class).to(JpaNoteStorage.class).in(
-                    Singleton.class);
-            bind(IGetMailFrom.class).to(GetMailFromApp.class).in(
-                    Singleton.class);
-            // -----
+			bind(IJythonUIServerProperties.class).to(ServerPropertiesEnv.class).in(Singleton.class);
+			bind(ICommonCacheFactory.class).to(SimpleMapCacheFactory.class).in(Singleton.class);
+			bind(EntityManagerFactory.class).toProvider(EntityManagerFactoryProvider.class).in(Singleton.class);
+			bind(IGetResourceJNDI.class).to(GetResourceJNDI.class).in(Singleton.class);
+			bind(ISemaphore.class).to(SemaphoreSynch.class).in(Singleton.class);
+			bind(IGetEnvDefaultData.class).to(GetEnvDefaultData.class).in(Singleton.class);
+			// common
+			bind(IStorageJpaRegistryFactory.class).to(StorageJpaRegistryFactory.class).in(Singleton.class);
+			bind(IGetConnection.class).toProvider(EmptyConnectionProvider.class).in(Singleton.class);
+			bind(IBlobHandler.class).to(BlobEntryJpaHandler.class).in(Singleton.class);
+			bind(IJythonRPCNotifier.class).to(EmptyRPCNotifier.class).in(Singleton.class);
+			bind(IAppInstanceOObject.class).to(OObjectAdminInstance.class).in(Singleton.class);
+			bind(IOObjectAdmin.class).to(OObjectAdminJpa.class).in(Singleton.class);
+			bind(IGetEnvVariable.class).to(GetEnvVariables.class).in(Singleton.class);
+			bind(Session.class).annotatedWith(Names.named(IConsts.SENDMAIL)).toProvider(ResGetMailSessionProvider.class)
+					.in(Singleton.class);
+			bind(IJpaObjectGenSymFactory.class).to(JpaObjectGenSymFactoryImpl.class).in(Singleton.class);
+			bind(INoteStorage.class).to(JpaNoteStorage.class).in(Singleton.class);
+			bind(IGetMailFrom.class).to(GetMailFromApp.class).in(Singleton.class);
+			bind(IJournal.class).to(JpaJournal.class).in(Singleton.class);
 
-            requestStatic();
-        }
+			// -----
 
-        // common
-        @Provides
-        @Singleton
-        IStorageRealmRegistry getStorageRealmRegistry(
-                IStorageJpaRegistryFactory rFactory,
-                ITransactionContextFactory iC) {
-            return rFactory.construct(iC);
-        }
+			requestStatic();
+		}
 
-        @Provides
-        @Singleton
-        ITransactionContextFactory getTransactionContextFactory(
-                final EntityManagerFactory eFactory) {
-            return new ITransactionContextFactory() {
-                @Override
-                public ITransactionContext construct() {
-                    return new JpaTransactionContext(eFactory);
-                }
-            };
-        }
+		// common
+		@Provides
+		@Singleton
+		IStorageRealmRegistry getStorageRealmRegistry(IStorageJpaRegistryFactory rFactory,
+				ITransactionContextFactory iC) {
+			return rFactory.construct(iC);
+		}
 
-        @Provides
-        @Named(IConsts.GETMAIL)
-        @Singleton
-        Session getGetSession() {
-            return null;
-        }
+		@Provides
+		@Singleton
+		ITransactionContextFactory getTransactionContextFactory(final EntityManagerFactory eFactory) {
+			return new ITransactionContextFactory() {
+				@Override
+				public ITransactionContext construct() {
+					return new JpaTransactionContext(eFactory);
+				}
+			};
+		}
 
-        /*
-         * @Provides
-         * 
-         * @Named(IConsts.SENDMAIL)
-         * 
-         * @Singleton Session getSendSession() { return null; }
-         */
+		@Provides
+		@Named(IConsts.GETMAIL)
+		@Singleton
+		Session getGetSession() {
+			return null;
+		}
 
-    }
+		/*
+		 * @Provides
+		 * 
+		 * @Named(IConsts.SENDMAIL)
+		 * 
+		 * @Singleton Session getSendSession() { return null; }
+		 */
+
+	}
 
 }

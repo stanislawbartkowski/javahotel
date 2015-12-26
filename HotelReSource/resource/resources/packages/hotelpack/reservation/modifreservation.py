@@ -1,6 +1,6 @@
 from com.jythonui.server.holder import Holder
 
-import cutil,xmlutil,conmiscutil
+import cutil,xmlutil,con,miscutil
 
 from util import rutil,util
 
@@ -66,7 +66,8 @@ def dialogaction(action,var) :
           first = False
           
       cutil.setJMapList(var, LI,li)
-      cutil.setAddEditMode(var,LI,ELIST)
+#      cutil.setAddEditMode(var,LI,ELIST)
+      cutil.setChangeEditMode(var,LI,ELIST)
       cutil.setFooter(var,LI,"rlist_pricetotal",sum.sum)
       
   if action == "aftereditrow" :

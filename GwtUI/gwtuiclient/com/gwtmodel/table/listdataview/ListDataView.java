@@ -309,12 +309,10 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 			ICustomObject o = slContext.getCustom();
 			EditRowsSignal e = (EditRowsSignal) o;
 			tableView.setEditable(e);
-			handleChange.fullChange = e.fullEdit();
+			handleChange.fullChange = e.editMode();
 			for (IDataType d : activateRedirect) {
-				CustomStringSlot sl = ButtonRedirectActivateSignal
-						.constructSlotButtonRedirectActivateSignal(d);
-				ButtonRedirectActivateSignal si = new ButtonRedirectActivateSignal(
-						handleChange.fullChange);
+				CustomStringSlot sl = ButtonRedirectActivateSignal.constructSlotButtonRedirectActivateSignal(d);
+				ButtonRedirectActivateSignal si = new ButtonRedirectActivateSignal(handleChange.fullChange);
 				publish(sl, si);
 			}
 		}
@@ -418,12 +416,9 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 				buType = dType;
 			}
 			addActivateRedirect(buType);
-			SlotType slRet = ButtonCheckLostFocusSignal
-					.constructSlotButtonCheckBackFocusSignal(dType);
-			ButtonRedirectSignal reSignal = new ButtonRedirectSignal(slRet,
-					buType, bType);
-			CustomStringSlot bSlot = ButtonRedirectSignal
-					.constructSlotButtonRedirectSignal(buType);
+			SlotType slRet = ButtonCheckLostFocusSignal.constructSlotButtonCheckBackFocusSignal(dType);
+			ButtonRedirectSignal reSignal = new ButtonRedirectSignal(slRet, buType, bType);
+			CustomStringSlot bSlot = ButtonRedirectSignal.constructSlotButtonRedirectSignal(buType);
 			publish(bSlot, reSignal);
 		}
 	}
@@ -438,10 +433,8 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 				bRedir.sendButtonSignal(ListDataView.this);
 				return;
 			}
-			CustomStringSlot sl = FinishEditRowSignal
-					.constructSlotFinishEditRowSignal(dType);
-			FinishEditRowSignal si = new FinishEditRowSignal(
-					handleChange.prevW, bRedir);
+			CustomStringSlot sl = FinishEditRowSignal.constructSlotFinishEditRowSignal(dType);
+			FinishEditRowSignal si = new FinishEditRowSignal(handleChange.prevW, bRedir);
 			publish(sl, si);
 		}
 	}
@@ -603,8 +596,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
 		@Override
 		public ISlotSignalContext call(ISlotSignalContext slContext) {
-			DataIntegerSignal si = new DataIntegerSignal(
-					tableView.getPageSize());
+			DataIntegerSignal si = new DataIntegerSignal(tableView.getPageSize());
 			return coFactory.construct(slContext.getSlType(), si);
 		}
 	}
@@ -628,8 +620,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 			vData = tableView.getViewModel().get(w.getChoosedLine());
 			v = w.getvField();
 		}
-		return construct(dType, GetActionEnum.GetListLineChecked, vData, wSize,
-				v);
+		return construct(dType, GetActionEnum.GetListLineChecked, vData, wSize, v);
 	}
 
 	private class GetListData implements ISlotCallerListener {
@@ -716,8 +707,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 				return;
 			}
 			if (eRow.getE() == PersistTypeEnum.ADDBEFORE) {
-				CustomStringSlot sl = EditRowActionSignal
-						.constructSlotEditActionSignal(dType);
+				CustomStringSlot sl = EditRowActionSignal.constructSlotEditActionSignal(dType);
 				publish(sl, eRow);
 				eRow = null;
 				return;
@@ -726,8 +716,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 				return;
 			}
 			if (prevW.getChoosedLine() == eRow.getRownum()) {
-				CustomStringSlot sl = EditRowActionSignal
-						.constructSlotEditActionSignal(dType);
+				CustomStringSlot sl = EditRowActionSignal.constructSlotEditActionSignal(dType);
 				publish(sl, eRow);
 				eRow = null;
 			}
@@ -737,8 +726,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 			if (prevW == null) {
 				return;
 			}
-			CustomStringSlot sl = StartNextRowSignal
-					.constructSlotStartNextRowSignal(dType);
+			CustomStringSlot sl = StartNextRowSignal.constructSlotStartNextRowSignal(dType);
 			StartNextRowSignal si = new StartNextRowSignal(prevW);
 			publish(sl, si);
 			publishRowAction();
@@ -747,23 +735,18 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
 		void nextClicked(WChoosedLine w) {
 
-			LogT.getLT().info(
-					LogT.getT().NextClickedAction("A", WChooseLogInfo(w)));
+			LogT.getLT().info(LogT.getT().NextClickedAction("A", WChooseLogInfo(w)));
 
 			if (prevW != null && prevW.getChoosedLine() == w.getChoosedLine()) {
 				return;
 			}
 			if (prevW != null) {
-				LogT.getLT().info(
-						LogT.getT().NextClickedAction("B",
-								WChooseLogInfo(prevW)));
-				CustomStringSlot sl = FinishEditRowSignal
-						.constructSlotFinishEditRowSignal(dType);
+				LogT.getLT().info(LogT.getT().NextClickedAction("B", WChooseLogInfo(prevW)));
+				CustomStringSlot sl = FinishEditRowSignal.constructSlotFinishEditRowSignal(dType);
 				FinishEditRowSignal si = new FinishEditRowSignal(prevW, w);
 				publish(sl, si);
 			} else {
-				LogT.getLT().info(
-						LogT.getT().NextClickedAction("C", WChooseLogInfo(w)));
+				LogT.getLT().info(LogT.getT().NextClickedAction("C", WChooseLogInfo(w)));
 				prevW = w;
 				publishStartNext();
 			}
@@ -773,16 +756,14 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 	private String WChooseLogInfo(WChoosedLine c) {
 		if (c == null)
 			return "null";
-		return LogT.getT().WChoosedInfo(c.getChoosedLine(),
-				c.getvField() == null ? "null" : c.getvField().getId());
+		return LogT.getT().WChoosedInfo(c.getChoosedLine(), c.getvField() == null ? "null" : c.getvField().getId());
 	}
 
 	private class NewEditLineFocus implements INewEditLineFocus {
 
 		@Override
 		public void lineClicked(WChoosedLine newRow) {
-			LogT.getLT().info(
-					LogT.getT().NewEditLineFocus(WChooseLogInfo(newRow)));
+			LogT.getLT().info(LogT.getT().NewEditLineFocus(WChooseLogInfo(newRow)));
 			if (handleChange.fullChange) {
 				handleChange.nextClicked(newRow);
 			}
@@ -794,8 +775,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 		@Override
 		public void execute(boolean whileFind) {
 			if (!whileFind) {
-				publish(dType, DataActionEnum.TableLineClicked,
-						constructChoosedContext());
+				publish(dType, DataActionEnum.TableLineClicked, constructChoosedContext());
 			}
 		}
 	}
@@ -805,8 +785,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 		@Override
 		public void execute() {
 			WChoosedLine w = tableView.getClicked();
-			SlotType sl = slTypeFactory.construct(dType,
-					DataActionEnum.TableCellClicked);
+			SlotType sl = slTypeFactory.construct(dType, DataActionEnum.TableCellClicked);
 			publish(sl, w);
 		}
 	}
@@ -862,10 +841,8 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 			if (w == null) {
 				w = tableView.getRowWidget(row);
 			}
-			ChangeFieldEditSignal sig = new ChangeFieldEditSignal(dType,
-					before, row, v, w);
-			CustomStringSlot sl = ChangeFieldEditSignal
-					.constructSlotChangeEditSignal(dType);
+			ChangeFieldEditSignal sig = new ChangeFieldEditSignal(dType, before, row, v, w);
+			CustomStringSlot sl = ChangeFieldEditSignal.constructSlotChangeEditSignal(dType);
 			publish(sl, sig);
 		}
 	}
@@ -874,35 +851,28 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
 		@Override
 		public Optional<String[]> getImageButton(int row, IVField v) {
-			CustomStringSlot sl = GetImageColSignal
-					.constructSlotGetImageCol(dType);
+			CustomStringSlot sl = GetImageColSignal.constructSlotGetImageCol(dType);
 			GetImageColSignal sig = new GetImageColSignal(row, v);
 			ISlotSignalContext slContext = getSlContainer().getGetter(sl, sig);
-			GetImageColSignalReturn slRe = (GetImageColSignalReturn) slContext
-					.getCustom();
+			GetImageColSignalReturn slRe = (GetImageColSignalReturn) slContext.getCustom();
 			return slRe.getImageList();
 		}
 
 		@Override
 		public void click(WSize w, int row, IVField v, int imno) {
-			ISlotCustom sl = ClickColumnImageSignal
-					.constructSlotClickColumnSignal(dType);
-			ClickColumnImageSignal sig = new ClickColumnImageSignal(w, row, v,
-					imno);
+			ISlotCustom sl = ClickColumnImageSignal.constructSlotClickColumnSignal(dType);
+			ClickColumnImageSignal sig = new ClickColumnImageSignal(w, row, v, imno);
 			publish(sl, sig);
 		}
 	}
 
 	private void constructView(boolean treeView, boolean async) {
 		if (treeView) {
-			tableView = gFactory.constructTree(selectedRow ? new ClickList()
-					: null);
+			tableView = gFactory.constructTree(selectedRow ? new ClickList() : null);
 			isTreeNow = true;
 		} else {
-			tableView = gFactory.construct(
-					selectedRow ? new ClickList() : null, new ClickColumn(),
-					gValue, new NewEditLineFocus(), new LostFocus(),
-					new ImageColumnAction(), async, null);
+			tableView = gFactory.construct(selectedRow ? new ClickList() : null, new ClickColumn(), gValue,
+					new NewEditLineFocus(), new LostFocus(), new ImageColumnAction(), async, null);
 		}
 	}
 
@@ -929,11 +899,9 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 		@Override
 		public void readChunk(Chunk c) {
 			BackRead b = new BackRead(c);
-			ReadChunkSignal r = new ReadChunkSignal(c.start, c.len, c.fSort,
-					c.asc, b, getiOk());
+			ReadChunkSignal r = new ReadChunkSignal(c.start, c.len, c.fSort, c.asc, b, getiOk());
 			b.r = r;
-			CustomStringSlot sl = ReadChunkSignal
-					.constructReadChunkSignal(dType);
+			CustomStringSlot sl = ReadChunkSignal.constructReadChunkSignal(dType);
 			publish(sl, r);
 		}
 	}
@@ -966,8 +934,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 		@Override
 		public void clicked(IVField v, WSize w) {
 			List<ControlButtonDesc> mList = new ArrayList<ControlButtonDesc>();
-			ControlButtonDesc bu = new ControlButtonDesc(MM.getL().CheckAll(),
-					CHECKALL);
+			ControlButtonDesc bu = new ControlButtonDesc(MM.getL().CheckAll(), CHECKALL);
 			mList.add(bu);
 			bu = new ControlButtonDesc(MM.getL().UncheckAll(), UNCHECKALL);
 			mList.add(bu);
@@ -979,9 +946,8 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
 	}
 
-	ListDataView(GwtTableFactory gFactory, IDataType dType,
-			IGetCellValue gValue, boolean selectedRow, boolean unSelectAtOnce,
-			boolean treeView, boolean async, String className) {
+	ListDataView(GwtTableFactory gFactory, IDataType dType, IGetCellValue gValue, boolean selectedRow,
+			boolean unSelectAtOnce, boolean treeView, boolean async, String className) {
 		cReader = new ChunkReader(new ReadChunk());
 		listView = new DataListModelView(cReader);
 		listView.setrAction(new RowActionListener());
@@ -998,99 +964,52 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 		coFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
 		// subscriber
 		registerSubscriber(dType, DataActionEnum.DrawListAction, new DrawList());
-		registerSubscriber(dType, DataActionEnum.RefreshListAction,
-				new RefreshList());
-		registerSubscriber(dType, DataActionEnum.FindRowList, new FindRow(
-				false, false));
-		registerSubscriber(dType, DataActionEnum.FindRowBeginningList,
-				new FindRow(false, true));
-		registerSubscriber(dType, DataActionEnum.DrawFooterAction,
-				new DrawFooter());
-		registerSubscriber(dType, DataActionEnum.FindRowNextList, new FindRow(
-				true, false));
-		registerSubscriber(dType, DataActionEnum.DrawListSetFilter,
-				new SetFilter());
-		registerSubscriber(dType, DataActionEnum.DrawListRemoveFilter,
-				new RemoveFilter());
-		registerSubscriber(dType, DataActionEnum.ReadHeaderContainerSignal,
-				new DrawHeader());
-		registerSubscriber(EditRowsSignal.constructEditRowSignal(dType),
-				new ChangeEditRows());
-		registerSubscriber(ActionTableSignal.constructToTableSignal(dType),
-				new ToTableTree(false));
-		registerSubscriber(ActionTableSignal.constructToTreeSignal(dType),
-				new ToTableTree(true));
-		registerSubscriber(ActionTableSignal.constructRemoveSortSignal(dType),
-				new RemoveSort());
-		registerSubscriber(ActionTableSignal.constructSetPageSizeSignal(dType),
-				new ChangeTableSize());
-		registerSubscriber(
-				FinishEditRowSignal
-						.constructSlotFinishEditRowReturnSignal(dType),
+		registerSubscriber(dType, DataActionEnum.RefreshListAction, new RefreshList());
+		registerSubscriber(dType, DataActionEnum.FindRowList, new FindRow(false, false));
+		registerSubscriber(dType, DataActionEnum.FindRowBeginningList, new FindRow(false, true));
+		registerSubscriber(dType, DataActionEnum.DrawFooterAction, new DrawFooter());
+		registerSubscriber(dType, DataActionEnum.FindRowNextList, new FindRow(true, false));
+		registerSubscriber(dType, DataActionEnum.DrawListSetFilter, new SetFilter());
+		registerSubscriber(dType, DataActionEnum.DrawListRemoveFilter, new RemoveFilter());
+		registerSubscriber(dType, DataActionEnum.ReadHeaderContainerSignal, new DrawHeader());
+		registerSubscriber(EditRowsSignal.constructEditRowSignal(dType), new ChangeEditRows());
+		registerSubscriber(ActionTableSignal.constructToTableSignal(dType), new ToTableTree(false));
+		registerSubscriber(ActionTableSignal.constructToTreeSignal(dType), new ToTableTree(true));
+		registerSubscriber(ActionTableSignal.constructRemoveSortSignal(dType), new RemoveSort());
+		registerSubscriber(ActionTableSignal.constructSetPageSizeSignal(dType), new ChangeTableSize());
+		registerSubscriber(FinishEditRowSignal.constructSlotFinishEditRowReturnSignal(dType),
 				new ReceiveReturnSignalFromFinish());
-		registerSubscriber(
-				ButtonCheckLostFocusSignal
-						.constructSlotButtonCheckFocusSignal(dType),
+		registerSubscriber(ButtonCheckLostFocusSignal.constructSlotButtonCheckFocusSignal(dType),
 				new ButtonCheckFocusRedirect());
-		registerSubscriber(
-				ButtonCheckLostFocusSignal
-						.constructSlotButtonCheckBackFocusSignal(dType),
+		registerSubscriber(ButtonCheckLostFocusSignal.constructSlotButtonCheckBackFocusSignal(dType),
 				new ButtonCheckLostFocus());
-		registerSubscriber(DataIntegerSignal.constructSlotRemoveVSignal(dType),
-				new RemoveRow());
-		registerSubscriber(
-				DataIntegerVDataSignal.constructSlotAddRowSignal(dType),
-				new AddRow());
-		registerSubscriber(
-				EditRowErrorSignal.constructSlotLineErrorSignal(dType),
-				new SetErrorLine());
-		registerSubscriber(
-				IsBooleanSignalNow.constructSlotSetLineNoWrap(dType),
-				new SetLineWrap());
-		registerSubscriber(
-				SetSortColumnSignal.constructSlotSetSortColumnSignal(dType),
-				new SetSortColumn());
-		registerSubscriber(
-				ChangeFieldEditSignal.constructReturnChangeSlotSignal(dType),
-				new LostFocusFinished());
-		registerSubscriber(DataIntegerSignal.constructSlotSetTableSize(dType),
-				new DrawListBySize());
-		registerSubscriber(DataIntegerSignal.constructSlotRedrawRow(dType),
-				new RedrawRow());
-		registerSubscriber(
-				ChangeHeaderSignal.constructSlotChangeHeaderSignal(dType),
-				new ChangeHeader());
+		registerSubscriber(DataIntegerSignal.constructSlotRemoveVSignal(dType), new RemoveRow());
+		registerSubscriber(DataIntegerVDataSignal.constructSlotAddRowSignal(dType), new AddRow());
+		registerSubscriber(EditRowErrorSignal.constructSlotLineErrorSignal(dType), new SetErrorLine());
+		registerSubscriber(IsBooleanSignalNow.constructSlotSetLineNoWrap(dType), new SetLineWrap());
+		registerSubscriber(SetSortColumnSignal.constructSlotSetSortColumnSignal(dType), new SetSortColumn());
+		registerSubscriber(ChangeFieldEditSignal.constructReturnChangeSlotSignal(dType), new LostFocusFinished());
+		registerSubscriber(DataIntegerSignal.constructSlotSetTableSize(dType), new DrawListBySize());
+		registerSubscriber(DataIntegerSignal.constructSlotRedrawRow(dType), new RedrawRow());
+		registerSubscriber(ChangeHeaderSignal.constructSlotChangeHeaderSignal(dType), new ChangeHeader());
 
 		// caller
-		registerCaller(DataIntegerSignal.constructSlotGetVSignal(dType),
-				new GetVDataByI());
-		registerCaller(GetVListSignal.constructSlotGetVSignal(dType),
-				new GetVListByI());
-		registerCaller(dType, GetActionEnum.GetListLineChecked,
-				new GetListData());
-		registerCaller(dType, GetActionEnum.GetListComboField,
-				new GetComboField());
+		registerCaller(DataIntegerSignal.constructSlotGetVSignal(dType), new GetVDataByI());
+		registerCaller(GetVListSignal.constructSlotGetVSignal(dType), new GetVListByI());
+		registerCaller(dType, GetActionEnum.GetListLineChecked, new GetListData());
+		registerCaller(dType, GetActionEnum.GetListComboField, new GetComboField());
 		registerCaller(dType, GetActionEnum.GetHeaderList, new GetHeader());
 		registerCaller(dType, GetActionEnum.GetListData, new GetWholeList());
 		registerCaller(dType, GetActionEnum.GetFilterData, new GetFilterData());
-		registerCaller(NoPropertyColumn.constructNoPropertyColumn(dType),
-				new GetNoPropertyColumn());
+		registerCaller(NoPropertyColumn.constructNoPropertyColumn(dType), new GetNoPropertyColumn());
 
-		registerCaller(IsBooleanSignalNow.constructSlotGetTreeView(dType),
-				new GetTreeViewNow());
-		registerCaller(
-				IsBooleanSignalNow.constructSlotGetTableTreeEnabled(dType),
-				new GetTableTreeEnabled());
-		registerCaller(IsBooleanSignalNow.constructSlotGetTableIsFilter(dType),
-				new GetTableIsFilter());
-		registerCaller(IsBooleanSignalNow.constructSlotGetTableIsSorted(dType),
-				new GetTableIsSorted());
-		registerCaller(ActionTableSignal.constructGetPageSizeSignal(dType),
-				new GetTablePageSize());
-		registerCaller(IsBooleanSignalNow.constructSlotGetLineNoWrap(dType),
-				new GetLineWrap());
-		registerCaller(IsBooleanSignalNow.constructSlotAsyncProvider(dType),
-				new GetAsyncProvider());
+		registerCaller(IsBooleanSignalNow.constructSlotGetTreeView(dType), new GetTreeViewNow());
+		registerCaller(IsBooleanSignalNow.constructSlotGetTableTreeEnabled(dType), new GetTableTreeEnabled());
+		registerCaller(IsBooleanSignalNow.constructSlotGetTableIsFilter(dType), new GetTableIsFilter());
+		registerCaller(IsBooleanSignalNow.constructSlotGetTableIsSorted(dType), new GetTableIsSorted());
+		registerCaller(ActionTableSignal.constructGetPageSizeSignal(dType), new GetTablePageSize());
+		registerCaller(IsBooleanSignalNow.constructSlotGetLineNoWrap(dType), new GetLineWrap());
+		registerCaller(IsBooleanSignalNow.constructSlotAsyncProvider(dType), new GetAsyncProvider());
 	}
 
 	@Override

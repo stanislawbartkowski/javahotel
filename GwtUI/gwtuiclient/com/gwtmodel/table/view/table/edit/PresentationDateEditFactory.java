@@ -57,262 +57,268 @@ import com.gwtmodel.table.view.util.ClickPopUp;
  */
 class PresentationDateEditFactory extends PresentationEditCellHelper {
 
-    PresentationDateEditFactory(ErrorLineInfo errorInfo,
-            CellTable<MutableInteger> table, ILostFocusEdit lostFocus,
-            EditableCol eCol, IStartEditRow iStartEdit) {
-        super(errorInfo, table, lostFocus, eCol, iStartEdit);
-    }
+	PresentationDateEditFactory(ErrorLineInfo errorInfo, CellTable<MutableInteger> table, ILostFocusEdit lostFocus,
+			EditableCol eCol, IStartEditRow iStartEdit) {
+		super(errorInfo, table, lostFocus, eCol, iStartEdit);
+	}
 
-    private class EditDateCell extends AbstractInputCell<Date, Date> implements
-            IGetField {
+	private class EditDateCell extends AbstractInputCell<Date, Date> implements IGetField {
 
-        private final IVField v;
-        private final VListHeaderDesc he;
-        private final DateTimeFormat format;
+		private final IVField v;
+		private final VListHeaderDesc he;
+		private final DateTimeFormat format;
 
-        EditDateCell(VListHeaderDesc he, DateTimeFormat format) {
-            super(BrowserEvents.CHANGE, BrowserEvents.KEYPRESS);
-            this.v = he.getFie();
-            this.he = he;
-            this.format = format;
-        }
+		EditDateCell(VListHeaderDesc he, DateTimeFormat format) {
+			super(BrowserEvents.CHANGE, BrowserEvents.KEYPRESS);
+			this.v = he.getFie();
+			this.he = he;
+			this.format = format;
+		}
 
-        @Override
-        public Object getValObj(MutableInteger key) {
-            return getViewData(key);
-        }
+		@Override
+		public Object getValObj(MutableInteger key) {
+			return getViewData(key);
+		}
 
-        @Override
-        public void setValObj(MutableInteger key, Object o) {
-            this.setViewData(key, (Date) o);
-        }
+		@Override
+		public void setValObj(MutableInteger key, Object o) {
+			this.setViewData(key, (Date) o);
+		}
 
-        @Override
-        public void render(Context context, Date value, SafeHtmlBuilder sb) {
-            Object key = context.getKey();
-            MutableInteger i = (MutableInteger) key;
-            boolean editenabled = eCol.isEditable(i.intValue(), v);
-            Date d = getViewData(key);
-            if (d == null) {
-                d = value;
-            }
-            String val = null;
-            if (d != null) {
-                val = format.format(d);
-            }
-            if (editenabled) {
-                addInputSb(sb, i, val, he);
-            } else {
-                if (val != null) {
-                    sb.append(templateDisplay.input(val));
-                } else {
-                    sb.appendHtmlConstant("");
-                }
+		@Override
+		public void render(Context context, Date value, SafeHtmlBuilder sb) {
+			Object key = context.getKey();
+			MutableInteger i = (MutableInteger) key;
+			boolean editenabled = eCol.isEditable(i.intValue(), v);
+			Date d = getViewData(key);
+			if (d == null) {
+				d = value;
+			}
+			String val = null;
+			if (d != null) {
+				val = format.format(d);
+			}
+			if (editenabled) {
+				addInputSb(sb, i, val, he);
+			} else {
+				if (val != null) {
+					sb.append(templateDisplay.input(val));
+				} else {
+					sb.appendHtmlConstant("");
+				}
 
-            }
-        }
+			}
+		}
 
-        @Override
-        public void onBrowserEvent(Context context, Element parent, Date value,
-                NativeEvent event, ValueUpdater<Date> valueUpdater) {
-            super.onBrowserEvent(context, parent, value, event, valueUpdater);
-            String eventType = event.getType();
-            if (eventType.equals(BrowserEvents.CHANGE)) {
-                InputElement e = super.getInputElement(parent).cast();
-                String s = e.getValue();
-                Object key = context.getKey();
-                Date d;
-                try {
-                    if (CUtil.EmptyS(s)) {
-                        d = null;
-                    } else {
-                        d = format.parse(s);
-                    }
-                    setViewData(key, d);
-                } catch (IllegalArgumentException ee) {
-                }
-            }
-            if (eventType.equals(BrowserEvents.KEYPRESS)) {
-                removeErrorStyle();
-            }
-            afterChange(eventType, context, v, new WSize(parent));
-        }
-    }
+		@Override
+		public void onBrowserEvent(Context context, Element parent, Date value, NativeEvent event,
+				ValueUpdater<Date> valueUpdater) {
+			super.onBrowserEvent(context, parent, value, event, valueUpdater);
+			String eventType = event.getType();
+			if (eventType.equals(BrowserEvents.CHANGE)) {
+				InputElement e = super.getInputElement(parent).cast();
+				String s = e.getValue();
+				Object key = context.getKey();
+				Date d;
+				try {
+					if (CUtil.EmptyS(s)) {
+						d = null;
+					} else {
+						d = format.parse(s);
+					}
+					setViewData(key, d);
+				} catch (IllegalArgumentException ee) {
+				}
+			}
+			if (eventType.equals(BrowserEvents.KEYPRESS)) {
+				removeErrorStyle();
+			}
+			afterChange(eventType, context, v, new WSize(parent));
+		}
 
-    @SuppressWarnings("rawtypes")
-    private class HasEditDateCell implements HasCell {
+		@Override
+		public IVField getV() {
+			return v;
+		}
+	}
 
-        private final EditDateCell iCell;
+	@SuppressWarnings("rawtypes")
+	private class HasEditDateCell implements HasCell {
 
-        HasEditDateCell(VListHeaderDesc he, DateTimeFormat format) {
-            iCell = new EditDateCell(he, format);
-        }
+		private final EditDateCell iCell;
 
-        @Override
-        public Cell getCell() {
-            return iCell;
-        }
+		HasEditDateCell(VListHeaderDesc he, DateTimeFormat format) {
+			iCell = new EditDateCell(he, format);
+		}
 
-        @Override
-        public FieldUpdater getFieldUpdater() {
-            return null;
-        }
+		@Override
+		public Cell getCell() {
+			return iCell;
+		}
 
-        @Override
-        public Object getValue(Object object) {
-            return object;
-        }
-    }
+		@Override
+		public FieldUpdater getFieldUpdater() {
+			return null;
+		}
 
-    @SuppressWarnings("rawtypes")
-    private class HasDateButtonCellImage implements HasCell {
+		@Override
+		public Object getValue(Object object) {
+			return object;
+		}
+	}
 
-        private final IVField v;
-        private final DateButtonImageCell bCell;
-        private final HasEditDateCell hasDate;
+	@SuppressWarnings("rawtypes")
+	private class HasDateButtonCellImage implements HasCell {
 
-        HasDateButtonCellImage(IVField v, HasEditDateCell hasDate) {
-            this.v = v;
-            bCell = new DateButtonImageCell(new Delegate(), v);
-            this.hasDate = hasDate;
-        }
+		private final IVField v;
+		private final DateButtonImageCell bCell;
+		private final HasEditDateCell hasDate;
 
-        class Delegate implements ActionCell.Delegate<Date> {
+		HasDateButtonCellImage(IVField v, HasEditDateCell hasDate) {
+			this.v = v;
+			bCell = new DateButtonImageCell(new Delegate(), v);
+			this.hasDate = hasDate;
+		}
 
-            WSize lastRendered = null;
-            Context lastContext = null;
+		class Delegate implements ActionCell.Delegate<Date> {
 
-            private class DatePickerChanger implements ValueChangeHandler<Date> {
+			WSize lastRendered = null;
+			Context lastContext = null;
 
-                ClickPopUp pUp;
+			private class DatePickerChanger implements ValueChangeHandler<Date> {
 
-                @Override
-                public void onValueChange(ValueChangeEvent<Date> event) {
+				ClickPopUp pUp;
 
-                    Date date = event.getValue();
-                    EditDateCell eCell = (EditDateCell) hasDate.getCell();
-                    if (lastContext != null) {
-                        eCell.setValObj((MutableInteger) lastContext.getKey(),
-                                date);
-                        modifUpdate(false, lastContext.getKey(), v, null);
-                        removeErrorStyle();
-                        table.redrawRow(lastContext.getIndex());
-                    }
-                    pUp.setVisible(false);
-                }
-            }
+				@Override
+				public void onValueChange(ValueChangeEvent<Date> event) {
 
-            @Override
-            public void execute(Date object) {
-                if (lastRendered == null) {
-                    return;
-                }
-                DatePicker dPicker = new DatePicker();
-                if (object != null) {
-                    dPicker.setValue(object);
-                }
-                DatePickerChanger pChanger = new DatePickerChanger();
+					Date date = event.getValue();
+					EditDateCell eCell = (EditDateCell) hasDate.getCell();
+					if (lastContext != null) {
+						eCell.setValObj((MutableInteger) lastContext.getKey(), date);
+						modifUpdate(false, lastContext.getKey(), v, null);
+						removeErrorStyle();
+						table.redrawRow(lastContext.getIndex());
+					}
+					pUp.setVisible(false);
+				}
+			}
 
-                dPicker.addValueChangeHandler(pChanger);
-                pChanger.pUp = new ClickPopUp(lastRendered, dPicker);
-                pChanger.pUp.setVisible(true);
-            }
-        }
+			@Override
+			public void execute(Date object) {
+				if (lastRendered == null) {
+					return;
+				}
+				DatePicker dPicker = new DatePicker();
+				if (object != null) {
+					dPicker.setValue(object);
+				}
+				DatePickerChanger pChanger = new DatePickerChanger();
 
-        @Override
-        public Cell getCell() {
-            return bCell;
-        }
+				dPicker.addValueChangeHandler(pChanger);
+				pChanger.pUp = new ClickPopUp(lastRendered, dPicker);
+				pChanger.pUp.setVisible(true);
+			}
+		}
 
-        @Override
-        public FieldUpdater getFieldUpdater() {
-            return null;
-        }
+		@Override
+		public Cell getCell() {
+			return bCell;
+		}
 
-        @Override
-        public Object getValue(Object object) {
-            return object;
-        }
-    }
+		@Override
+		public FieldUpdater getFieldUpdater() {
+			return null;
+		}
 
-    private class DateButtonImageCell extends ActionCell<Date> {
+		@Override
+		public Object getValue(Object object) {
+			return object;
+		}
+	}
 
-        private final IVField v;
-        private final HasDateButtonCellImage.Delegate delegate;
+	private class DateButtonImageCell extends ActionCell<Date> {
 
-        DateButtonImageCell(HasDateButtonCellImage.Delegate delegate, IVField v) {
-            super("", delegate);
-            this.v = v;
-            this.delegate = delegate;
-        }
+		private final IVField v;
+		private final HasDateButtonCellImage.Delegate delegate;
 
-        @Override
-        public void onBrowserEvent(Context context, Element parent, Date value,
-                NativeEvent event, ValueUpdater<Date> valueUpdater) {
-            delegate.lastRendered = new WSize(parent);
-            delegate.lastContext = context;
-            super.onBrowserEvent(context, parent, value, event, valueUpdater);
-        }
+		DateButtonImageCell(HasDateButtonCellImage.Delegate delegate, IVField v) {
+			super("", delegate);
+			this.v = v;
+			this.delegate = delegate;
+		}
 
-        @Override
-        public void render(Context context, Date value, SafeHtmlBuilder sb) {
-            Object key = context.getKey();
-            MutableInteger i = (MutableInteger) key;
-            boolean editenabled = eCol.isEditable(i.intValue(), v);
-            if (editenabled) {
-                String ima = pResources.getRes(IWebPanelResources.CALENDAR);
-                String s = Utils.getImageHTML(ima);
-                SafeHtml html = SafeHtmlUtils.fromTrustedString(s);
-                sb.append(html);
-            }
-        }
-    }
+		@Override
+		public void onBrowserEvent(Context context, Element parent, Date value, NativeEvent event,
+				ValueUpdater<Date> valueUpdater) {
+			delegate.lastRendered = new WSize(parent);
+			delegate.lastContext = context;
+			super.onBrowserEvent(context, parent, value, event, valueUpdater);
+		}
 
-    /**
-     * Creates list to be used as an argument to constructor
-     * 
-     * @param c1
-     *            First element
-     * @param c2
-     *            Second element
-     * @return List containing two elements
-     */
-    private List<HasCell<Date, ?>> createList(HasCell<Date, ?> c1,
-            HasCell<Date, ?> c2) {
-        List<HasCell<Date, ?>> rList = new ArrayList<HasCell<Date, ?>>();
-        rList.add(c1);
-        rList.add(c2);
-        return rList;
-    }
+		@Override
+		public void render(Context context, Date value, SafeHtmlBuilder sb) {
+			Object key = context.getKey();
+			MutableInteger i = (MutableInteger) key;
+			boolean editenabled = eCol.isEditable(i.intValue(), v);
+			if (editenabled) {
+				String ima = pResources.getRes(IWebPanelResources.CALENDAR);
+				String s = Utils.getImageHTML(ima);
+				SafeHtml html = SafeHtmlUtils.fromTrustedString(s);
+				sb.append(html);
+			}
+		}
+	}
 
-    private class CellPickerDate extends CompositeCell<Date> implements
-            IGetField {
+	/**
+	 * Creates list to be used as an argument to constructor
+	 * 
+	 * @param c1
+	 *            First element
+	 * @param c2
+	 *            Second element
+	 * @return List containing two elements
+	 */
+	private List<HasCell<Date, ?>> createList(HasCell<Date, ?> c1, HasCell<Date, ?> c2) {
+		List<HasCell<Date, ?>> rList = new ArrayList<HasCell<Date, ?>>();
+		rList.add(c1);
+		rList.add(c2);
+		return rList;
+	}
 
-        private final EditDateCell dCell;
+	private class CellPickerDate extends CompositeCell<Date> implements IGetField {
 
-        @SuppressWarnings("unchecked")
-        public CellPickerDate(HasEditDateCell dateCell,
-                HasDateButtonCellImage cellImage) {
-            super(createList(dateCell, cellImage));
-            this.dCell = (EditDateCell) dateCell.getCell();
-        }
+		private final EditDateCell dCell;
+		private final IVField iF;
 
-        @Override
-        public Object getValObj(MutableInteger key) {
-            return dCell.getValObj(key);
-        }
+		@SuppressWarnings("unchecked")
+		public CellPickerDate(IVField iF, HasEditDateCell dateCell, HasDateButtonCellImage cellImage) {
+			super(createList(dateCell, cellImage));
+			this.dCell = (EditDateCell) dateCell.getCell();
+			this.iF = iF;
+		}
 
-        @Override
-        public void setValObj(MutableInteger key, Object o) {
-            dCell.setValObj(key, o);
-        }
-    }
+		@Override
+		public Object getValObj(MutableInteger key) {
+			return dCell.getValObj(key);
+		}
 
-    @SuppressWarnings("rawtypes")
-    Column constructDateEditCol(VListHeaderDesc he) {
-        HasEditDateCell c1 = new HasEditDateCell(he, fo);
-        HasDateButtonCellImage c2 = new HasDateButtonCellImage(he.getFie(), c1);
-        CellPickerDate ceCell = new CellPickerDate(c1, c2);
-        return new DateColumn(he.getFie(), ceCell);
-    }
+		@Override
+		public void setValObj(MutableInteger key, Object o) {
+			dCell.setValObj(key, o);
+		}
+
+		@Override
+		public IVField getV() {
+			return iF;
+		}
+	}
+
+	@SuppressWarnings("rawtypes")
+	Column constructDateEditCol(VListHeaderDesc he) {
+		HasEditDateCell c1 = new HasEditDateCell(he, fo);
+		HasDateButtonCellImage c2 = new HasDateButtonCellImage(he.getFie(), c1);
+		CellPickerDate ceCell = new CellPickerDate(he.getFie(), c1, c2);
+		return new DateColumn(he.getFie(), ceCell);
+	}
 }

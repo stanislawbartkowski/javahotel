@@ -49,261 +49,257 @@ import com.gwtmodel.table.view.table.util.PresentationCellHelper;
  */
 abstract class PresentationEditCellHelper extends PresentationCellHelper {
 
-    protected final ErrorLineInfo errorInfo;
-    protected final CellTable<MutableInteger> table;
-    protected final ILostFocusEdit lostFocus;
-    protected final EditableCol eCol;
-    private final IStartEditRow iStartEdit;
+	protected final ErrorLineInfo errorInfo;
+	protected final CellTable<MutableInteger> table;
+	protected final ILostFocusEdit lostFocus;
+	protected final EditableCol eCol;
+	private final IStartEditRow iStartEdit;
 
-    // cannot be private
-    interface InputTemplate extends SafeHtmlTemplates {
+	// cannot be private
+	interface InputTemplate extends SafeHtmlTemplates {
 
-        @SafeHtmlTemplates.Template("<input type=\"text\" value=\"{0}\" tabindex=\"-1\" style=\"{1}\" class=\"{2}\"></input>")
-        SafeHtml input(String value, String style, String classC);
-    }
+		@SafeHtmlTemplates.Template("<input type=\"text\" value=\"{0}\" tabindex=\"-1\" style=\"{1}\" class=\"{2}\"></input>")
+		SafeHtml input(String value, String style, String classC);
+	}
 
-    // cannot be private
-    interface TemplateDisplay extends SafeHtmlTemplates {
+	// cannot be private
+	interface TemplateDisplay extends SafeHtmlTemplates {
 
-        @Template("{0}")
-        SafeHtml input(String value);
-    }
+		@Template("{0}")
+		SafeHtml input(String value);
+	}
 
-    private InputTemplate templateInput = GWT.create(InputTemplate.class);
-    protected TemplateDisplay templateDisplay = GWT
-            .create(TemplateDisplay.class);
+	private InputTemplate templateInput = GWT.create(InputTemplate.class);
+	protected TemplateDisplay templateDisplay = GWT.create(TemplateDisplay.class);
 
-    PresentationEditCellHelper(ErrorLineInfo errorInfo,
-            CellTable<MutableInteger> table, ILostFocusEdit lostFocus,
-            EditableCol eCol, IStartEditRow iStartEdit) {
-        this.errorInfo = errorInfo;
-        this.table = table;
-        this.lostFocus = lostFocus;
-        this.eCol = eCol;
-        this.iStartEdit = iStartEdit;
-    }
+	PresentationEditCellHelper(ErrorLineInfo errorInfo, CellTable<MutableInteger> table, ILostFocusEdit lostFocus,
+			EditableCol eCol, IStartEditRow iStartEdit) {
+		this.errorInfo = errorInfo;
+		this.table = table;
+		this.lostFocus = lostFocus;
+		this.eCol = eCol;
+		this.iStartEdit = iStartEdit;
+	}
 
-    interface InsertStyleAndClass {
+	interface InsertStyleAndClass {
 
-        void set(String inputStyle, String inputClass);
-    }
+		void set(String inputStyle, String inputClass);
+	}
 
-    protected void addInputSbI(MutableInteger i, VListHeaderDesc he,
-            InsertStyleAndClass ins) {
-        String sClass = null;
-        if (errorInfo.isErrorLine(i)) {
-            InvalidateMess me = errorInfo.getErrContainer().findV(he.getFie());
-            if (me != null) {
-                sClass = IConsts.errorStyle + " " + getS(he.getInputClass());
-            }
-        }
-        if (sClass == null) {
-            sClass = getS(he.getInputClass());
-        }
-        // sb.append(templateInput.input(getS(value), getS(he.getInputStyle()),
-        // sClass));
-        ins.set(getS(getS(he.getInputStyle())), getS(sClass));
-    }
+	protected void addInputSbI(MutableInteger i, VListHeaderDesc he, InsertStyleAndClass ins) {
+		String sClass = null;
+		if (errorInfo.isErrorLine(i)) {
+			InvalidateMess me = errorInfo.getErrContainer().findV(he.getFie());
+			if (me != null) {
+				sClass = IConsts.errorStyle + " " + getS(he.getInputClass());
+			}
+		}
+		if (sClass == null) {
+			sClass = getS(he.getInputClass());
+		}
+		// sb.append(templateInput.input(getS(value), getS(he.getInputStyle()),
+		// sClass));
+		ins.set(getS(getS(he.getInputStyle())), getS(sClass));
+	}
 
-    protected void addInputSb(final SafeHtmlBuilder sb, MutableInteger i,
-            final String value, VListHeaderDesc he) {
-        addInputSbI(i, he, new InsertStyleAndClass() {
+	protected void addInputSb(final SafeHtmlBuilder sb, MutableInteger i, final String value, VListHeaderDesc he) {
+		addInputSbI(i, he, new InsertStyleAndClass() {
 
-            @Override
-            public void set(String inputStyle, String inputClass) {
-                sb.append(templateInput.input(getS(value), inputStyle,
-                        inputClass));
-            }
-        });
-    }
+			@Override
+			public void set(String inputStyle, String inputClass) {
+				sb.append(templateInput.input(getS(value), inputStyle, inputClass));
+			}
+		});
+	}
 
-    protected void removeErrorStyle() {
-        if (errorInfo.isActive()) {
-            errorInfo.setActive(false);
-            int rowno = errorInfo.getI().row(errorInfo.getKey());
-            if (rowno == -1) {
-                return;
-            }
-            NodeList<TableCellElement> cList = table.getRowElement(rowno)
-                    .getCells();
-            for (int i = 0; i < cList.getLength(); i++) {
-                TableCellElement el = cList.getItem(i);
-                Element elex = el.getFirstChildElement();
-                assert elex != null : LogT.getT().cannotBeNull();
-                Element ele = elex.getFirstChildElement();
-                // assert ele != null : LogT.getT().cannotBeNull();
-                // it is possible for a cell do not have inner element
-                if (ele == null) {
-                    continue;
-                }
-                // assuming that it is HTML describing inner cell
-                String cl = ele.getClassName();
-                int x = cl.indexOf(IConsts.errorStyle);
-                if (x != -1) {
-                    // remove error class attribute
-                    cl = cl.replace(IConsts.errorStyle, "");
-                    ele.setClassName(cl);
-                }
-            }
-        }
-    }
+	protected void removeErrorStyle() {
+		if (errorInfo.isActive()) {
+			errorInfo.setActive(false);
+			int rowno = errorInfo.getI().row(errorInfo.getKey());
+			if (rowno == -1) {
+				return;
+			}
+			NodeList<TableCellElement> cList = table.getRowElement(rowno).getCells();
+			for (int i = 0; i < cList.getLength(); i++) {
+				TableCellElement el = cList.getItem(i);
+				Element elex = el.getFirstChildElement();
+				assert elex != null : LogT.getT().cannotBeNull();
+				Element ele = elex.getFirstChildElement();
+				// assert ele != null : LogT.getT().cannotBeNull();
+				// it is possible for a cell do not have inner element
+				if (ele == null) {
+					continue;
+				}
+				// assuming that it is HTML describing inner cell
+				String cl = ele.getClassName();
+				int x = cl.indexOf(IConsts.errorStyle);
+				if (x != -1) {
+					// remove error class attribute
+					cl = cl.replace(IConsts.errorStyle, "");
+					ele.setClassName(cl);
+				}
+			}
+		}
+	}
 
-    protected void modifUpdate(boolean before, Object key, IVField v, WSize w) {
-        if (lostFocus != null) {
-            MutableInteger i = (MutableInteger) key;
-            lostFocus.action(before, i.intValue(), v, w);
-        }
-    }
+	protected void modifUpdate(boolean before, Object key, IVField v, WSize w) {
+		if (lostFocus != null) {
+			MutableInteger i = (MutableInteger) key;
+			lostFocus.action(before, i.intValue(), v, w);
+		}
+	}
 
-    protected void afterChange(String eventType, Context context, IVField v,
-            WSize w) {
-        if (eventType.equals(BrowserEvents.CHANGE)) {
-            modifUpdate(false, context.getKey(), v, w);
-        }
-        if (eventType.equals(BrowserEvents.FOCUS)) {
-            modifUpdate(true, context.getKey(), v, w);
-        }
-    }
+	protected void afterChange(String eventType, Context context, IVField v, WSize w) {
+		if (eventType.equals(BrowserEvents.CHANGE)) {
+			modifUpdate(false, context.getKey(), v, w);
+		}
+		if (eventType.equals(BrowserEvents.FOCUS)) {
+			modifUpdate(true, context.getKey(), v, w);
+		}
+	}
 
-    protected void setEditLine(Context context, WSize w) {
-        Object key = context.getKey();
-        MutableInteger i = (MutableInteger) key;
-        if (iStartEdit != null) {
-            iStartEdit.setEditRow(i, w);
-        }
-    }
+	protected void setEditLine(Context context, WSize w) {
+		Object key = context.getKey();
+		MutableInteger i = (MutableInteger) key;
+		if (iStartEdit != null) {
+			iStartEdit.setEditRow(i, w);
+		}
+	}
 
-    protected class TColumnEdit extends Column<MutableInteger, String> {
+	protected class TColumnEdit extends Column<MutableInteger, String> {
 
-        private final IVField iF;
+		private final IVField iF;
 
-        TColumnEdit(IVField iF, Cell<String> ce) {
-            super(ce);
-            this.iF = iF;
-        }
+		TColumnEdit(IVField iF, Cell<String> ce) {
+			super(ce);
+			this.iF = iF;
+		}
 
-        @Override
-        public String getValue(MutableInteger object) {
-            IVModelData v = model.get(object.intValue());
-            String s = FUtils.getValueS(v, iF);
-            if (s == null) {
-                return "";
-            }
-            return s;
-        }
-    }
+		@Override
+		public String getValue(MutableInteger object) {
+			IVModelData v = model.get(object.intValue());
+			String s = FUtils.getValueS(v, iF);
+			if (s == null) {
+				return "";
+			}
+			return s;
+		}
+	}
 
-    protected interface ICustomEditStringRender {
-        void render(SafeHtmlBuilder sb, MutableInteger i, String value);
-    };
+	protected interface ICustomEditStringRender {
+		void render(SafeHtmlBuilder sb, MutableInteger i, String value);
+	};
 
-    protected class EditStringCell extends TextInputCell implements IGetField {
+	protected class EditStringCell extends TextInputCell implements IGetField {
 
-        protected final IVField v;
-        protected final VListHeaderDesc he;
+		protected final IVField v;
+		protected final VListHeaderDesc he;
 
-        EditStringCell(VListHeaderDesc he) {
-            this.v = he.getFie();
-            this.he = he;
-        }
+		EditStringCell(VListHeaderDesc he) {
+			this.v = he.getFie();
+			this.he = he;
+		}
 
-        protected void customRender(Context context, String value,
-                SafeHtmlBuilder sb, ICustomEditStringRender iCustom) {
-            Object key = context.getKey();
-            MutableInteger i = (MutableInteger) key;
-            boolean editenabled = eCol.isEditable(i.intValue(), v);
-            ViewData viewData = getViewData(key);
-            if (viewData != null && viewData.getCurrentValue().equals(value)) {
-                clearViewData(key);
-                viewData = null;
-            }
-            String s = (viewData != null) ? viewData.getCurrentValue() : value;
-            if (editenabled) {
-                // addInputSb(sb, i, s, he);
-                // super.render(context, value, sb);
-                iCustom.render(sb, i, s);
-                return;
-            }
-            // Get the view data.
-            // copy and paste from TextInputCell
-            // the only difference is different HTML for displaying value
-            if (s != null) {
-                sb.append(templateDisplay.input(s));
-            } else {
-                sb.appendHtmlConstant("");
-            }
-        }
+		protected void customRender(Context context, String value, SafeHtmlBuilder sb,
+				ICustomEditStringRender iCustom) {
+			Object key = context.getKey();
+			MutableInteger i = (MutableInteger) key;
+			boolean editenabled = eCol.isEditable(i.intValue(), v);
+			ViewData viewData = getViewData(key);
+			if (viewData != null && viewData.getCurrentValue().equals(value)) {
+				clearViewData(key);
+				viewData = null;
+			}
+			String s = (viewData != null) ? viewData.getCurrentValue() : value;
+			if (editenabled) {
+				// addInputSb(sb, i, s, he);
+				// super.render(context, value, sb);
+				iCustom.render(sb, i, s);
+				return;
+			}
+			// Get the view data.
+			// copy and paste from TextInputCell
+			// the only difference is different HTML for displaying value
+			if (s != null) {
+				sb.append(templateDisplay.input(s));
+			} else {
+				sb.appendHtmlConstant("");
+			}
+		}
 
-        @Override
-        public void render(Context context, String value, SafeHtmlBuilder sb) {
-            customRender(context, value, sb, new ICustomEditStringRender() {
+		@Override
+		public void render(Context context, String value, SafeHtmlBuilder sb) {
+			customRender(context, value, sb, new ICustomEditStringRender() {
 
-                @Override
-                public void render(SafeHtmlBuilder sb, MutableInteger i,
-                        String value) {
-                    addInputSb(sb, i, value, he);
-                }
-            });
-        }
+				@Override
+				public void render(SafeHtmlBuilder sb, MutableInteger i, String value) {
+					addInputSb(sb, i, value, he);
+				}
+			});
+		}
 
-        @Override
-        public void onBrowserEvent(Context context, Element parent,
-                String value, NativeEvent event,
-                ValueUpdater<String> valueUpdater) {
-            if (isEditing(context, parent, value)) {
-                setEditLine(context, new WSize(parent));
-            }
-            super.onBrowserEvent(context, parent, value, event, valueUpdater);
-            String eventType = event.getType();
-            afterChange(eventType, context, v, new WSize(parent));
-            // only because KEYUP is consumed in TextInputCell
-            if (eventType.equals(BrowserEvents.KEYUP)) {
-                removeErrorStyle();
-            }
-        }
+		@Override
+		public void onBrowserEvent(Context context, Element parent, String value, NativeEvent event,
+				ValueUpdater<String> valueUpdater) {
+			if (isEditing(context, parent, value)) {
+				setEditLine(context, new WSize(parent));
+			}
+			super.onBrowserEvent(context, parent, value, event, valueUpdater);
+			String eventType = event.getType();
+			afterChange(eventType, context, v, new WSize(parent));
+			// only because KEYUP is consumed in TextInputCell
+			if (eventType.equals(BrowserEvents.KEYUP)) {
+				removeErrorStyle();
+			}
+		}
 
-        @Override
-        public Object getValObj(MutableInteger key) {
-            ViewData viewData = getViewData(key);
-            if (viewData == null) {
-                return null;
-            }
-            return viewData.getCurrentValue();
-        }
+		@Override
+		public Object getValObj(MutableInteger key) {
+			ViewData viewData = getViewData(key);
+			if (viewData == null) {
+				return null;
+			}
+			return viewData.getCurrentValue();
+		}
 
-        @Override
-        public void setValObj(MutableInteger key, Object o) {
-            if (o == null) {
-                this.setViewData(key, null);
-                return;
-            }
-            String s = (String) o;
-            ViewData vv = new ViewData(s);
-            this.setViewData(key, vv);
-        }
-    }
+		@Override
+		public void setValObj(MutableInteger key, Object o) {
+			if (o == null) {
+				this.setViewData(key, null);
+				return;
+			}
+			String s = (String) o;
+			ViewData vv = new ViewData(s);
+			this.setViewData(key, vv);
+		}
 
-    protected class EditNumberCell extends EditStringCell {
+		@Override
+		public IVField getV() {
+			return v;
+		}
+	}
 
-        EditNumberCell(VListHeaderDesc he) {
-            super(he);
-        }
+	protected class EditNumberCell extends EditStringCell {
 
-        @Override
-        public Object getValObj(MutableInteger key) {
-            ViewData viewData = getViewData(key);
-            if (viewData == null) {
-                return null;
-            }
-            return FUtils.getValue(v, viewData.getCurrentValue());
-        }
+		EditNumberCell(VListHeaderDesc he) {
+			super(he);
+		}
 
-        @Override
-        public void setValObj(MutableInteger key, Object o) {
-            String s = FUtils.getValueOS(o, v);
-            super.setValObj(key, s);
-        }
+		@Override
+		public Object getValObj(MutableInteger key) {
+			ViewData viewData = getViewData(key);
+			if (viewData == null) {
+				return null;
+			}
+			return FUtils.getValue(v, viewData.getCurrentValue());
+		}
 
-    }
+		@Override
+		public void setValObj(MutableInteger key, Object o) {
+			String s = FUtils.getValueOS(o, v);
+			super.setValObj(key, s);
+		}
+
+	}
 
 }

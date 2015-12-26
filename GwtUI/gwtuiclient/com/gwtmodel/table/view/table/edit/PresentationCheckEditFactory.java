@@ -117,6 +117,11 @@ class PresentationCheckEditFactory extends PresentationEditCellHelper {
             }
 
         }
+
+		@Override
+		public IVField getV() {
+			return v;
+		}
     }
 
     @SuppressWarnings("rawtypes")

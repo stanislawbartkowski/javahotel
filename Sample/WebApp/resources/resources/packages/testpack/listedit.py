@@ -5,6 +5,7 @@ from java.util import Calendar
 from cutil import printVar
 from cutil import setJMapList
 from cutil import setAddEditMode
+import cutil
 
 def toDate(value):
     if value == None : return None
@@ -64,19 +65,27 @@ def editlistaction(action,var):
           
   if action == "before" :
     __create_list(op,var)
-    var["JLIST_EDIT_list_pname"] = ""
-    var["JLIST_EDIT_list_pnumber"] = ""
+#    var["JLIST_EDIT_list_pname"] = ""
+#    var["JLIST_EDIT_list_pnumber"] = ""
 #    var["JLIST_EDIT_list_MODE"] = "NORMALMODE" 
-    var["JLIST_EDIT_list_MODE"] = "CHANGEMODE" 
+#    var["JLIST_EDIT_list_MODE"] = "CHANGEMODE" 
 #    var["JLIST_EDIT_list_MODE"] = "ADDCHANGEDELETEMODE" 
 
     __create_listda(dOp,var)
-    var["JLIST_EDIT_listda_date1"] = ""
-    var["JLIST_EDIT_listda_date2"] = ""
-    var["JLIST_EDIT_listda_MODE"] = "CHANGEMODE" 
+#    var["JLIST_EDIT_listda_date1"] = ""
+#    var["JLIST_EDIT_listda_date2"] = ""
+#    var["JLIST_EDIT_listda_vals"] = ""
+#    var["JLIST_EDIT_listda_MODE"] = "CHANGEMODE" 
+#    var["JLIST_EDIT_listda_MODE"] = "NORMALMODE" 
+#    var["JLIST_EDIT_listda_MODE"] = "ADDCHANGEDELETEMODE" 
+#    setAddEditMode(var,"listda",["date1","date2","vals"])
+#    cutil.setChangeEditMode(var,"listda",["date1","date2","vals"])
+    
     
     __create_listb(var)
     setAddEditMode(var,"listb",["id","name","check"])
+#    cutil.setChangeEditMode(var,"listb",["id","name","check"])
+#    setAddEditMode(var,"listb",["id","name","check"])
     
     return
 
@@ -150,6 +159,7 @@ def editlistaction(action,var):
         d1 = toDate(var["date1"])
         d2 = toDate(var["date2"])
         iRec = dOp.findRecord(var["id"])
-        iRec.setDates(d1,d2)
-        dOp.changeRecord(iRec)
+        if iRec != None : 
+          iRec.setDates(d1,d2)
+          dOp.changeRecord(iRec)
         var["JEDIT_ROW_OK_listda"] = True

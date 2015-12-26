@@ -37,6 +37,7 @@ public class EditableCol {
 
     public boolean isEditable(Integer i, IVField v) {
         Set<IVField> se;
+        if (!eParam.editMode()) return false;
         if (allRows) {
             se = eList.get(ChangeEditableRowsParam.ALLROWS);
         } else {
