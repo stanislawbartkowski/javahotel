@@ -26,9 +26,14 @@ def listaction(action,var) :
     cutil.setCopy(var,"blob_billname")
     B = _constructB(billname)
     B.readBlobList(var)
+    # test
+#    li = var["JLIST_MAP"][LIST]
+#    print li
+#    for l in li : print l
+    
 
   if action == "edit" :
-     cutil.setAddEditMode(var,LIST,"blob_comment")
+     cutil.setChangeEditMode(var,LIST,"blob_comment")
      
   if action == "editlistrowaction" :
      if var["JLIST_EDIT_ACTION_" + LIST] == "REMOVE" :

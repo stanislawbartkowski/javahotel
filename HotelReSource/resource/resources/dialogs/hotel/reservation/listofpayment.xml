@@ -11,7 +11,7 @@
         </jython>
                 
         <form>
-          <field id="paybillname" hidden="" />
+          <field id="paybillname" displayname="@bill" readonly="" />
           <field id="waschanged" type="bool" hidden="" />
         </form>  
 

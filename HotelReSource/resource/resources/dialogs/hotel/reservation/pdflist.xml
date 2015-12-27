@@ -14,12 +14,12 @@
         </actions>          
 
         <form>
-                <field id="blob_billname" hidden="" />
+                <field id="blob_billname" displayname="@bill" readonly="" />
         </form>
                 
         <list id="pdflist" pagesize="5">
                 <standbutt>TOOLS,FIND,FILTER,custom:edit,custom:send</standbutt>
-		<buttons-selected>edit,send</buttons-selected>
+		<buttons-selected>send</buttons-selected>
                 <columns>
                         <column id="id" type="long" hidden=""/>
                         <column id="blob_key" hidden=""/>

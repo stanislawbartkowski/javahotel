@@ -27,6 +27,10 @@ JOURNAL_CHANGELISTOFGUEST="CHANGEGUESTS"
 JOURNAL_STATUSCONFIRMED="CONFIRMED"
 JOURNAL_STATUSNOTCONFIRMED="NOTCONFIRMED"
 JOURNAL_CHANGEADVANCEPAYMENT="ADVANCEPAYMENT"
+JOURNAL_SENDCONFMAIL="SENDCONFMAIN"
+JOURNAL_ADDBILLPAYMENT="ADDBILLPAYMENT"
+JOURNAL_REMOVEBILLPAYMENT="REMOVEBILLPAYMENT"
+
 
 def setIntField(var,key,setF) :
   if var[key] == None : setF(IHotelConsts.PERSONIDNO)
@@ -130,7 +134,6 @@ class BILLLIST(cutil.CRUDLIST) :
     def __init__(self,var):
         cutil.CRUDLIST.__init__(self,var,str(HotelObjects.BILL))
         self.serviceS = H.getCustomerBills()
-
                 
 class ROOMLIST(cutil.CRUDLIST):        
     def __init__(self,var):
@@ -167,15 +170,19 @@ class PAYMENTOP :
      def __init__(self,var):
          self.var = var
          self.service = H.getPaymentsOp()
+         self.J = cutil.JOURNAL(var)
 
      def getPaymentsForBill(self,billName) :
          return self.service.getPaymentsForBill(getHotelName(self.var),billName)
        
      def addPaymentForBill(self,billName,p) :
-         self.service.addPaymentForBill(getHotelName(self.var),billName,p)
+         r = self.service.addPaymentForBill(getHotelName(self.var),billName,p)
+         self.J.addJournalElem(JOURNAL_ADDBILLPAYMENT,None,str(r.getId()),billName)
+         return r         
          
      def removePaymentForBill(self,billName,id) :
          self.service.removePaymentForBill(getHotelName(self.var),billName,id)
+         self.J.addJournalElem(JOURNAL_REMOVEBILLPAYMENT,None,str(id),billName)
          
 class RESFORM(cutil.CRUDLIST) :
 

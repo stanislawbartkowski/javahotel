@@ -33,7 +33,7 @@ def _createPosList(var) :
   L1.close()
   L2.close()
   
-  cutil.setStandEditMode(var,NOPAID,["add"])
+  cutil.setChangeEditMode(var,NOPAID,["add"])
                   
 class HOTELBILLSAVE(cbill.HOTELBILLSAVE) :
   

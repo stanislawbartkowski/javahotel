@@ -30,55 +30,58 @@ import com.jython.ui.server.gae.security.impl.EntUtil;
 
 public class PaymentBillImpl implements IPaymentBillOp {
 
-    static {
-        ObjectifyService.register(EBillPayment.class);
-    }
+	static {
+		ObjectifyService.register(EBillPayment.class);
+	}
 
-    @Override
-    public List<PaymentBill> getPaymentsForBill(OObjectId hotel, String billName) {
-        EObject ho = EntUtil.findEOObject(hotel);
-        // List<EBillPayment> li = ofy().load().type(EBillPayment.class)
-        // .ancestor(ho).filter("billName == ", billName).list();
-        List<EBillPayment> li = DictUtil.findPaymentsForBill(ho, billName);
-        List<PaymentBill> bList = new ArrayList<PaymentBill>();
-        for (EBillPayment b : li) {
-            PaymentBill bi = new PaymentBill();
-            bi.setBillName(b.getCustomerBill().getName());
-            bi.setDateOfPayment(b.getDateOfPayment());
-            bi.setId(b.getId());
-            bi.setPaymentTotal(b.getPaymentTotal());
-            bi.setPaymentMethod(b.getPaymentMethod());
-            bi.setDescription(b.getDescription());
-            bi.setAdvancepayment(b.isAdvancepayment());
-            bList.add(bi);
-        }
-        return bList;
-    }
+	private PaymentBill toP(EBillPayment b) {
+		PaymentBill bi = new PaymentBill();
+		bi.setBillName(b.getCustomerBill().getName());
+		bi.setDateOfPayment(b.getDateOfPayment());
+		bi.setId(b.getId());
+		bi.setPaymentTotal(b.getPaymentTotal());
+		bi.setPaymentMethod(b.getPaymentMethod());
+		bi.setDescription(b.getDescription());
+		bi.setAdvancepayment(b.isAdvancepayment());
+		return bi;
+	}
 
-    @Override
-    public void addPaymentForBill(OObjectId hotel, String billName,
-            PaymentBill payment) {
-        EObject ho = EntUtil.findEOObject(hotel);
-        ECustomerBill eB = DictUtil.findCustomerBill(ho, billName);
-        EBillPayment pa = new EBillPayment();
-        pa.setCustomerBill(eB);
-        pa.setDateOfPayment(payment.getDateOfPayment());
-        pa.setDescription(payment.getDescription());
-        pa.setHotel(ho);
-        pa.setPaymentMethod(payment.getPaymentMethod());
-        pa.setPaymentTotal(payment.getPaymentTotal());
-        pa.setAdvancepayment(payment.isAdvancepayment());
-        ofy().save().entity(pa).now();
-    }
+	@Override
+	public List<PaymentBill> getPaymentsForBill(OObjectId hotel, String billName) {
+		EObject ho = EntUtil.findEOObject(hotel);
+		// List<EBillPayment> li = ofy().load().type(EBillPayment.class)
+		// .ancestor(ho).filter("billName == ", billName).list();
+		List<EBillPayment> li = DictUtil.findPaymentsForBill(ho, billName);
+		List<PaymentBill> bList = new ArrayList<PaymentBill>();
+		for (EBillPayment b : li)
+			bList.add(toP(b));
+		return bList;
+	}
 
-    @Override
-    public void removePaymentForBill(OObjectId hotel, String billName,
-            Long paymentId) {
-        EObject ho = EntUtil.findEOObject(hotel);
-        Key<EBillPayment> bKey = Key.create(Key.create(ho), EBillPayment.class,
-                paymentId);
-        EBillPayment b = ofy().load().key(bKey).now();
-        ofy().delete().entities(b).now();
-    }
+	@Override
+	public PaymentBill addPaymentForBill(OObjectId hotel, String billName, PaymentBill payment) {
+		EObject ho = EntUtil.findEOObject(hotel);
+		ECustomerBill eB = DictUtil.findCustomerBill(ho, billName);
+		EBillPayment pa = new EBillPayment();
+		pa.setCustomerBill(eB);
+		pa.setDateOfPayment(payment.getDateOfPayment());
+		pa.setDescription(payment.getDescription());
+		pa.setHotel(ho);
+		pa.setPaymentMethod(payment.getPaymentMethod());
+		pa.setPaymentTotal(payment.getPaymentTotal());
+		pa.setAdvancepayment(payment.isAdvancepayment());
+		ofy().save().entity(pa).now();
+		Key<EBillPayment> bKey = Key.create(Key.create(ho), EBillPayment.class, pa.getId());
+		EBillPayment b = ofy().load().key(bKey).now();
+		return toP(b);
+	}
+
+	@Override
+	public void removePaymentForBill(OObjectId hotel, String billName, Long paymentId) {
+		EObject ho = EntUtil.findEOObject(hotel);
+		Key<EBillPayment> bKey = Key.create(Key.create(ho), EBillPayment.class, paymentId);
+		EBillPayment b = ofy().load().key(bKey).now();
+		ofy().delete().entities(b).now();
+	}
 
 }

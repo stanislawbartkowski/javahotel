@@ -46,3 +46,32 @@ def dialogaction(action,var):
         assert resename == J.getJournalElem1()
         assert arpa.getId() == int(J.getJournalElem2())
         var["OK"] = True
+
+    if action == "test2" :
+        bname = var["bname"]
+        p = util.newBillPayment()
+        p.setBillName(bname)
+        p.setPaymentMethod("Cache")
+        p.setDateOfPayment(cutil.toDate(cutil.today()))
+        p.setPaymentTotal(con.toB(1000))
+        addP = util.PAYMENTOP(var).addPaymentForBill(bname,p)         
+        li = cutil.JOURNAL(var).getList()
+        for l in li :
+            print l.getId(),l.getJournalType(),l.getJournalElem1(),l.getJournalElem2(),l.getCreationDate()
+        J = li[0]
+        print J.getName(),J.getJournalType(),J.getJournalTypeSpec(),J.getJournalElem1(),J.getJournalElem2(),
+        assert "ADDBILLPAYMENT" == J.getJournalType()
+        assert addP.getId() == int(J.getJournalElem1())
+        assert bname == J.getJournalElem2()
+        # now remove
+        util.PAYMENTOP(var).removePaymentForBill(bname,addP.getId())
+        li = cutil.JOURNAL(var).getList()
+        for l in li :
+            print l.getId(),l.getJournalType(),l.getJournalElem1(),l.getJournalElem2(),l.getCreationDate()
+        J = li[0]
+        print J.getName(),J.getJournalType(),J.getJournalTypeSpec(),J.getJournalElem1(),J.getJournalElem2()
+        assert "REMOVEBILLPAYMENT" == J.getJournalType()
+        assert addP.getId() == int(J.getJournalElem1())
+        assert bname == J.getJournalElem2()
+        var["OK"] = True
+

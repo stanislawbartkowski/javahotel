@@ -38,29 +38,27 @@ import com.jythonui.server.defa.GuiceInterceptor;
 @Interceptors(value = { GuiceInterceptor.class })
 public class BillPaymentOpEJB implements IPaymentBillOp {
 
-    private IPaymentBillOp service;
+	private IPaymentBillOp service;
 
-    @Inject
-    public void injectHotelServices(IPaymentBillOp injectedServices) {
-        service = injectedServices;
-    }
+	@Inject
+	public void injectHotelServices(IPaymentBillOp injectedServices) {
+		service = injectedServices;
+	}
 
-    @Override
-    public List<PaymentBill> getPaymentsForBill(OObjectId hotel, String billName) {
-        return service.getPaymentsForBill(hotel, billName);
-    }
+	@Override
+	public List<PaymentBill> getPaymentsForBill(OObjectId hotel, String billName) {
+		return service.getPaymentsForBill(hotel, billName);
+	}
 
-    @Override
-    public void addPaymentForBill(OObjectId hotel, String billName,
-            PaymentBill payment) {
-        service.addPaymentForBill(hotel, billName, payment);
+	@Override
+	public PaymentBill addPaymentForBill(OObjectId hotel, String billName, PaymentBill payment) {
+		return service.addPaymentForBill(hotel, billName, payment);
 
-    }
+	}
 
-    @Override
-    public void removePaymentForBill(OObjectId hotel, String billName,
-            Long paymentId) {
-        service.removePaymentForBill(hotel, billName, paymentId);
-    }
+	@Override
+	public void removePaymentForBill(OObjectId hotel, String billName, Long paymentId) {
+		service.removePaymentForBill(hotel, billName, paymentId);
+	}
 
 }

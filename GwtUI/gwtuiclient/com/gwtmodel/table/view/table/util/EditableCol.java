@@ -29,7 +29,7 @@ public class EditableCol {
 
     private final Map<Integer, Set<IVField>> eList = new HashMap<Integer, Set<IVField>>();
     private boolean allRows = false;
-    private ChangeEditableRowsParam eParam;
+    private ChangeEditableRowsParam eParam = null;
 
     public ChangeEditableRowsParam geteParam() {
         return eParam;
@@ -37,7 +37,7 @@ public class EditableCol {
 
     public boolean isEditable(Integer i, IVField v) {
         Set<IVField> se;
-        if (!eParam.editMode()) return false;
+        if (eParam == null || !eParam.editMode()) return false;
         if (allRows) {
             se = eList.get(ChangeEditableRowsParam.ALLROWS);
         } else {

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+	<before />
+
+	<jython>
+		<import>from testpack import test49</import>
+		<method>test49.dialogaction({0},{1})</method>
+	</jython>
+
+	<list id="pdflist" pagesize="5">
+		<standbutt>TOOLS,FIND,FILTER,custom:edit,custom:send</standbutt>
+		<buttons-selected>edit,send</buttons-selected>
+		<columns>
+			<column id="id" type="long" hidden="" />
+			<column id="blob_key" hidden="" />
+			<column id="blob_comment" displayname="@description" editable=""
+				signalchange="" />
+			<column id="blob_person" displayname="@person" />
+			<column id="blob_date" type="date" displayname="@date" />
+			<column id="download" defvalue="@download" actionid="pdfdownload"
+				displayname="" />
+		</columns>
+	</list>
+
+
+
+</dialog>

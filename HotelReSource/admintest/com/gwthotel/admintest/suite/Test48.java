@@ -27,4 +27,12 @@ public class Test48 extends TestHelper {
 		scriptTest("dialog48.xml", "test1", v);
 	}
 
+	@Test
+	public void test2() {
+		String bname = createP().getName();
+		DialogVariables v = new DialogVariables();
+		v.setValueS("bname", bname);
+		scriptTest("dialog48.xml", "test2", v);
+	}
+
 }

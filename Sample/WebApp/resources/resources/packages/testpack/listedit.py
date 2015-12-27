@@ -65,11 +65,11 @@ def editlistaction(action,var):
           
   if action == "before" :
     __create_list(op,var)
-#    var["JLIST_EDIT_list_pname"] = ""
-#    var["JLIST_EDIT_list_pnumber"] = ""
+    var["JLIST_EDIT_list_pname"] = ""
+    var["JLIST_EDIT_list_pnumber"] = ""
 #    var["JLIST_EDIT_list_MODE"] = "NORMALMODE" 
 #    var["JLIST_EDIT_list_MODE"] = "CHANGEMODE" 
-#    var["JLIST_EDIT_list_MODE"] = "ADDCHANGEDELETEMODE" 
+    var["JLIST_EDIT_list_MODE"] = "ADDCHANGEDELETEMODE" 
 
     __create_listda(dOp,var)
 #    var["JLIST_EDIT_listda_date1"] = ""
@@ -78,13 +78,15 @@ def editlistaction(action,var):
 #    var["JLIST_EDIT_listda_MODE"] = "CHANGEMODE" 
 #    var["JLIST_EDIT_listda_MODE"] = "NORMALMODE" 
 #    var["JLIST_EDIT_listda_MODE"] = "ADDCHANGEDELETEMODE" 
-#    setAddEditMode(var,"listda",["date1","date2","vals"])
+    setAddEditMode(var,"listda",["date1","date2","vals"])
 #    cutil.setChangeEditMode(var,"listda",["date1","date2","vals"])
+#    cutil.setStandEditMode(var,"listda",["date1","date2","vals"])
     
     
     __create_listb(var)
-    setAddEditMode(var,"listb",["id","name","check"])
-#    cutil.setChangeEditMode(var,"listb",["id","name","check"])
+#    setAddEditMode(var,"listb",["id","name","check"])
+    cutil.setChangeEditMode(var,"listb",["id","name","check"])
+#    cutil.setStandEditMode(var,"listb",["id","name","check"])
 #    setAddEditMode(var,"listb",["id","name","check"])
     
     return

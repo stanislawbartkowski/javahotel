@@ -38,7 +38,7 @@ def mailattachaction(action,var) :
       return True
     
     if action == "showattach" :      
-      _showattach(var,var["subject"])
+      showattach(var,var["subject"])
       return True
     
     return False

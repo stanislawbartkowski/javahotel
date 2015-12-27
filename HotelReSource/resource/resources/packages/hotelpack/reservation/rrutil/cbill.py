@@ -107,6 +107,8 @@ class HOTELBILLSAVE(util.HOTELTRANSACTION) :
         key = B.addNewBlob(rutil.getFinnDocRealm(var,b_name),"BILLXML",self._xml)
         if self._paymentmethod != None :
             _addPayment(var,b_name,self._total,self._paymentmethod)
+#        cutil.JOURNAL(var).addJournalElem(util.JOURNAL_ISSUEBILL,None,self._rese_name,b_name)
+
     
     def getB(self):
         """ Getter, get the bill just created

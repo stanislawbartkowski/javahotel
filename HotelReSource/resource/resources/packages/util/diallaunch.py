@@ -26,15 +26,11 @@ def showmailnote(var,name) :
     var["JUPDIALOG_START"] = name
     var["JUP_DIALOG"]="hotel/info/showhotelmail.xml" 
     
-#def pdfdownload(var,blobkey) :
-#    var["JUPDIALOG_START"] = blobkey
-#    var["JUP_DIALOG"]="mail/attachdownload.xml" 
     
 def showlistofmail(var,resename) :
     var["JUPDIALOG_START"] = resename
     var["JUP_DIALOG"]="hotel/info/showlistofmails.xml" 
         
-
 # -------------------------
 # reservation
 # -------------------------

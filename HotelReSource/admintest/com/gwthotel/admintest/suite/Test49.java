@@ -10,17 +10,15 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.hotel.payment;
+package com.gwthotel.admintest.suite;
 
-import java.util.List;
+import org.junit.Test;
 
-import com.jython.serversecurity.cache.OObjectId;
+public class Test49 extends TestHelper {
 
-public interface IPaymentBillOp {
+	@Test
+	public void test1() {
+		scriptTest("dialog49.xml", "test1");
+	}
 
-	List<PaymentBill> getPaymentsForBill(OObjectId hotel, String billName);
-
-	PaymentBill addPaymentForBill(OObjectId hotel, String billName, PaymentBill payment);
-
-	void removePaymentForBill(OObjectId hotel, String billName, Long paymentId);
 }

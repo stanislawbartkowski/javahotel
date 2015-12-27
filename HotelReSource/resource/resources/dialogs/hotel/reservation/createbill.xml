@@ -43,8 +43,7 @@
         </form>
 
         
-        <list id="poslist" pagesize="5">
-                <standbutt>TOOLS,FIND,FILTER</standbutt>
+        <list id="poslist" pagesize="5" toolbartype="listonly">
                 <columns>
                         <column id="billed" displayname="@billed" type="bool" />
                         <column id="idp" type="long" hidden="" />
@@ -60,8 +59,7 @@
                 </columns>
        </list>
 
-        <list id="billlist" pagesize="5">
-                <standbutt>TOOLS,FIND,FILTER</standbutt>
+        <list id="billlist" pagesize="5" toolbartype="listonly">
                 <buttons-addlist>acceptdocument,accept</buttons-addlist>
                 <columns>
                         <column id="add" displayname="@addtobill" type="bool" editable="" signalchange="" />

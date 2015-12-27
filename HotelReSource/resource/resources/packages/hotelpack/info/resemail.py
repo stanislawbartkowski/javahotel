@@ -73,12 +73,9 @@ def dialogaction(action,var) :
     else :
        var["JERROR_MESSAGE"] = ressend
        var["JMESSAGE_TITLE"] = "@errormailsent"
+    cutil.JOURNAL(var).addJournalElem(util.JOURNAL_SENDCONFMAIL,None,hh.getName(),rese)
        
   if action == "sendmail" : return
 
-  cmailaction.mailattachaction(action,var)
-           
-  if action == "ccccccccccccdownload" :
-    diallaunch.pdfdownload(var,var["blobid"])
-      
+  cmailaction.mailattachaction(action,var)      
     

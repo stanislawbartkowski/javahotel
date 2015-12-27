@@ -11,7 +11,6 @@ class BLOBREGISTRY(cutil.RegistryFile):
       self._billno = billno
       self._bloblist = bloblist
       map = {"id" : cutil.LONG, "blob_person" : cutil.STRING, "blob_comment" : cutil.STRING, "blob_key" : cutil.STRING  }
-#      cutil.RegistryFile.__init__(self,None,"BILLBLOB" + billno ,None,map, bloblist,"id")
       cutil.RegistryFile.__init__(self,None,realmblobid + billno ,None,map, bloblist,"id")
       
     def readBlobList(self,var):
@@ -19,7 +18,6 @@ class BLOBREGISTRY(cutil.RegistryFile):
         l = var["JLIST_MAP"][self._bloblist]
         for k in l :
             bkey = k["blob_key"]
-#           d = IBLOB.getModifTime(__getO(var),bkey).getCreationDate()
             d = B.getModifTime(__getO(var),bkey).getCreationDate()
             dd = con.toJDate(d)
             k["blob_date"] = dd
@@ -28,9 +26,7 @@ class BLOBREGISTRY(cutil.RegistryFile):
       return __getO(var)
 
     def addBlob(self,var,comment,tempkey):
-      #b = IBLOB.findBlob(cutil.PDFTEMPORARY,tempkey)
       b = B.findBlob(cutil.PDFTEMPORARY,tempkey)
-      #key = ADDBLOB.addNewBlob(__getO(var),self._billno,b)
       key = B.addNewBlob(__getO(var),self._billno,b)
       id = self.nextKey()
       map = { "id" : id, "blob_comment" : comment, "blob_key" : key, "blob_person" : cutil.getPerson(var)}
@@ -54,5 +50,4 @@ class BLOBREGISTRY(cutil.RegistryFile):
       self.removeMap(var)
 
 def constructPDFBLOB(var,pdfkey,name="receipt.pdf") :
-#  return util.getHotel(var) + ":" + pdfkey + ":" + name  
     return __getO(var)  + ":" + pdfkey + ":" + name
