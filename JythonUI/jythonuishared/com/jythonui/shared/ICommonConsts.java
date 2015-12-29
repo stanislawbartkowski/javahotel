@@ -159,6 +159,7 @@ public interface ICommonConsts {
 	String CLOSEDIALOGIMAGE = "closeimage";
 	String JCRUD_AFTERCONF = "JCRUD_AFTERCONF";
 	String JLOGOUTACTION = "JLOGOUT_ACTION";
+	String JEXECUTEACTION = "JEXECUTE_ACTION";
 	String JFOOTER = "JFOOTER_";
 	String JLISTEDITMODE = "MODE";
 	String TYPES = "types";

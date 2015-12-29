@@ -11,6 +11,7 @@ from com.jythonui.server.semaphore import ISemaphore
 from com.jythonui.server.xmlmap import IMapValues
 from com.jythonui.server.journal import JournalRecord
 from com.gwtmodel.table.common import PersistTypeEnum
+from com.jythonui.server import IConsts
 
 import datetime,time
 
@@ -758,7 +759,19 @@ class JOURNAL(CRUDLIST):
         self.addElem(re) 
         
         
-            
+class JOURNALMESS():
     
+    def __init__(self):
+        self.M = MESS()
+    
+    def getEntryDescr(self,j):
+        jtype = j.getJournalType()        
+        if jtype == IConsts.LOGINJOURNAL : return self.M("loginjournalmess")
+        if jtype == IConsts.LOGOUTJOURNAL : return self.M("logoutjournalmess")
+        return None
+    
+    def standTypes(self):
+        return [IConsts.LOGINJOURNAL,IConsts.LOGOUTJOURNAL]
+                        
 # -----------------
         

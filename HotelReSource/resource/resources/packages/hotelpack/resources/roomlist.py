@@ -1,5 +1,4 @@
-import cutil
-import xmlutil
+import cutil,xmlutil
 
 from util import util
 
@@ -141,7 +140,7 @@ def elemroomaction(action,var) :
 
   if action == "before" :
       _createServicesList(var)
-      if var["JCRUD_DIALOG"] == "crud_add" or var["JCRUD_DIALOG"] == "crud_change" : cutil.setStandEditMode(var,SERVLIST,"check")
+      if var["JCRUD_DIALOG"] == "crud_add" or var["JCRUD_DIALOG"] == "crud_change" : cutil.setChangeEditMode(var,SERVLIST,"check")
     
   if action == "crud_add"  and not var["JCRUD_AFTERCONF"] :
       if _duplicatedRoomName(var) or _notValidRoomDesc(var): return

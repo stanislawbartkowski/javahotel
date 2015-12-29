@@ -1,4 +1,4 @@
-import cutil
+import cutil,sec
 
 from util import util
 
@@ -25,4 +25,12 @@ def dictaction(action,var,what) :
     if what == "countries" :
       seq = var["JLIST_MAP"][action]
       seq.sort(key=lambda d: d["name"])
-       
+      
+def usersaction(action,var) :
+
+   li = sec.ObjectAdmin(util.getAppId(var)).getListOfPersons()
+   seq = []
+   
+   for l in li : seq.append({"id" : l.getName()})
+     
+   cutil.setJMapList(var,"users",seq)

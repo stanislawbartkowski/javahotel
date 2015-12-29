@@ -955,6 +955,23 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 			modelessList.add(d);
 		}
 
+		@Override
+		public void executeFromModeless(boolean first, String action, String paramVal) {
+			// avoid recursion, only one level
+			if (first) {
+				if (iEx != null)
+					iEx.executeFromModeless(false, action, paramVal);
+				return;
+			}
+			if (CUtil.EmptyS(afterAction))
+				return;
+			// call parent action
+			DialogVariables v = iCon.getVariables(afterAction);
+			v.setValueS(IUIConsts.JBUTTONRES, action);
+			v.setValueS(IUIConsts.JBUTTONDIALOGRES, paramVal);
+			ExecuteAction.action(v, d.getId(), afterAction, new BackClass(afterAction, false, lastWClicked, null));
+		}
+
 	}
 
 	private boolean verifyListSelected(String id, WSize w) {

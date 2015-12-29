@@ -1,5 +1,5 @@
 import cutil
-from util import util
+from util import util,journalmess
 
 def dialogaction(action,var):
     
@@ -59,4 +59,32 @@ def dialogaction(action,var):
         assert l.getJournalTypeSpec() == "REMOVE"
         assert l.getJournalElem1() == "SERV"
         assert l.getJournalType() == "SERVICE"
-        var["OK"] = True        
+        var["OK"] = True
+        
+    if action == "test4" :
+        dialogaction("test2",var)
+        li = cutil.JOURNAL(var).getList()
+        JM = journalmess.JournalMess(var)
+        var["OK"] = False
+        for l in li :
+            print l.getJournalType(),l.getJournalTypeSpec(),l.getJournalElem1()
+            print "mess=",JM.getJournalDescr(l)
+            assert JM.getJournalDescr(l) != None
+        print JM.getListOfType()
+        var["OK"] = True
+
+    if action == "test5" :
+        dialogaction("test3",var)
+        li = cutil.JOURNAL(var).getList()
+        JM = journalmess.JournalMess(var)
+        var["OK"] = False
+        for l in li :
+            print l.getJournalType(),l.getJournalTypeSpec(),l.getJournalElem1()
+            print "mess=",JM.getJournalDescr(l)
+            assert JM.getJournalDescr(l) != None
+        print JM.getListOfType()
+        var["OK"] = True
+
+        
+        
+            

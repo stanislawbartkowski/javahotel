@@ -31,4 +31,14 @@ public class Test47 extends TestHelper {
 		scriptTest("dialog47.xml", "test3");
 	}
 
+	@Test
+	public void test4() {
+		scriptTest("dialog47.xml", "test4");
+	}
+
+	@Test
+	public void test5() {
+		scriptTest("dialog47.xml", "test5");
+	}
+
 }

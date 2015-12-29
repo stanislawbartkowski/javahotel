@@ -14,6 +14,11 @@ def dialogaction(action,var) :
       var['JCOPY_' + n + '_out'] = True
       var[n + '_out'] = var[n]
       return
+    
+  if action == "execute" :
+     var["JEXECUTE_ACTION"] = "dosomething"
+     var["JUPDIALOG_RES"] = "param"
+     return
  
   list.dialogaction(action,var)
    

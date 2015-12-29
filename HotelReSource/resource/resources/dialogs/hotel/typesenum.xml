@@ -53,5 +53,13 @@
       
    </typedef>
 
+   <typedef id="users" type="combo" comboid="id" displayname = "id">
+  
+    <jython>
+        <method>defenum.usersaction({0},{1})</method>
+      </jython>
+      
+   </typedef>
+
 
 </typedefs>

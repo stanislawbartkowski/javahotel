@@ -72,6 +72,7 @@ class HOTELDEFADATA(cutil.DEFAULTDATA) :
     elif what == 40 : return "advancepaymentpercent"
     elif what == 41 : return "advancepaymentdays"
   
+    elif what == 50 : return "journalfilter"
     
   def getDataH(self,what,defa=None) :
     return self.getData(self.__getV(what),defa)
@@ -361,18 +362,7 @@ def createListOfNames(li) :
 
 
 def createSeq(list,addName=False, displayname=None):    
-    seq = []
-    for s in list :
-        m = {}
-        m["id"] = s.getName()
-        if displayname : m["displayname"] = displayname(s)
-        else :
-          if s.getDescription() == None : m["displayname"] = m["id"]
-          else :
-            if addName :  m["displayname"] = s.getName() + " " + s.getDescription()
-            else : m["displayname"] = s.getDescription()
-        seq.append(m)
-    return seq    
+  return cutil.createSeq(list,addName,displayname)
 
 def toVar(var,sou,list,prefix=None):
     for s in list :

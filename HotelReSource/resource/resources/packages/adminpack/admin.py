@@ -20,7 +20,6 @@ class HotelAdmin(sec.ObjectAdmin) :
     
      for s in seq :
        ma = {"name" : s.getName(), "descr" : s.getDescription()}
-#       if hotel : ma["clearhotel"] = M("clearhotel")
        list.append(ma)
 
      if self.hotel : cutil.setJMapList(self.var,"hotels",list)
@@ -29,13 +28,9 @@ class HotelAdmin(sec.ObjectAdmin) :
    def preparePermissionForHotel(self):
      if self.hotel : seq = self.getListOfPersons()
      else : seq = self.getListOfObjects()
-     print seq
      if len(seq) == 0 : return
-     print len(seq)
- #    rolesdef = H.getHotelRoles().getList()
      rolesdef = cutil.getDict("roles")
      map = {"lines" : util.createSeq(seq,True), "columns" : util.createSeq(rolesdef,False)}
-#     self.var["JCHECK_MAP"] = { "perm" : map}
      cutil.setJCheckList(self.var,PERM,map)
 
    def __existHotelPerson(self,pname):

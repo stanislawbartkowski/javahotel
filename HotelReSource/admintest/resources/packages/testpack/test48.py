@@ -1,5 +1,5 @@
 import cutil,con
-from util import util
+from util import util,journalmess
 
 def dialogaction(action,var):
     
@@ -74,4 +74,36 @@ def dialogaction(action,var):
         assert addP.getId() == int(J.getJournalElem1())
         assert bname == J.getJournalElem2()
         var["OK"] = True
+        
+    if action == "test3" :
+        li = cutil.JOURNAL(var).getList()
+        JM = journalmess.JournalMess(var)
+        for l in li :
+            print l.getId(),l.getJournalType(),l.getJournalElem1(),l.getJournalElem2(),l.getCreationDate()
+            print "mess=",JM.getJournalDescr(l)
+            assert None != JM.getJournalDescr(l)
+        J = li[1]
+        print J.getName(),J.getJournalType(),J.getJournalTypeSpec(),J.getJournalElem1(),J.getJournalElem2()
+        billname = J.getJournalElem2()
+        print billname
+        # remove bill and test message with removed bill
+        util.BILLLIST(var).deleteElemByName(billname)
+        li = cutil.JOURNAL(var).getList()
+        JM = journalmess.JournalMess(var)
+        for l in li :
+            print l.getId(),l.getJournalType(),l.getJournalElem1(),l.getJournalElem2(),l.getCreationDate()
+            print "mess=",JM.getJournalDescr(l)
+            assert None != JM.getJournalDescr(l)
+        var["OK"] = True
+
+    if action == "test4" :
+        li = cutil.JOURNAL(var).getList()
+        JM = journalmess.JournalMess(var)
+        for l in li :
+            print l.getId(),l.getJournalType(),l.getJournalElem1(),l.getJournalElem2(),l.getCreationDate()
+            print "mess=",JM.getJournalDescr(l)
+            assert None != JM.getJournalDescr(l)
+        var["OK"] = True
+
+        
 

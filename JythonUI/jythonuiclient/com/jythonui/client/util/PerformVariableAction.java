@@ -83,10 +83,9 @@ public class PerformVariableAction {
 
 	}
 
-	public static void perform(IYesNoAction iYesno, ISendCloseAction iClose,
-			final DialogVariables arg, IVariablesContainer iCon,
-			IRowListDataManager liManager, IChartManager chManager,
-			final VisitList vis, WSize w, IExecuteAfterModalDialog iEx) {
+	public static void perform(IYesNoAction iYesno, ISendCloseAction iClose, final DialogVariables arg,
+			IVariablesContainer iCon, IRowListDataManager liManager, IChartManager chManager, final VisitList vis,
+			WSize w, IExecuteAfterModalDialog iEx) {
 		iCon.setVariablesToForm(arg);
 		// charts
 		if (chManager != null)
@@ -108,8 +107,7 @@ public class PerformVariableAction {
 				public void action(final String fie, String field) {
 					FieldValue val = arg.getValue(field);
 					if (val.getType() != TT.BOOLEAN) {
-						String mess = M.M().FooterSetValueShouldBeBoolean(s,
-								field);
+						String mess = M.M().FooterSetValueShouldBeBoolean(s, field);
 						Utils.errAlert(mess);
 						return;
 					}
@@ -118,8 +116,7 @@ public class PerformVariableAction {
 					String vName = ICommonConsts.JFOOTER + s + "_" + fie;
 					final FieldValue v = arg.getValue(vName);
 					if (v == null) {
-						String mess = M.M().FooterSetDefinedButValueBot(field,
-								vName);
+						String mess = M.M().FooterSetDefinedButValueBot(field, vName);
 						Utils.errAlert(mess);
 						return;
 					}
@@ -153,8 +150,7 @@ public class PerformVariableAction {
 					if (fie.equals(ICommonConsts.JLISTEDITMODE)) {
 						String mode = arg.getValue(field).getValueS();
 						try {
-							listMode.mode = ChangeEditableRowsParam.ModifMode
-									.valueOf(mode);
+							listMode.mode = ChangeEditableRowsParam.ModifMode.valueOf(mode);
 						} catch (java.lang.IllegalArgumentException e) {
 							Utils.errAlert(mode, e);
 						}
@@ -199,18 +195,14 @@ public class PerformVariableAction {
 		JUtils.visitListOfFields(arg, IUIConsts.JCOOKIESET, cookSet);
 
 		// it a little tricky but this way allows code reuse with performAction
-		String[] kom = { ICommonConsts.JMAINDIALOG, ICommonConsts.JUPDIALOG,
-				ICommonConsts.JOKMESSAGE, ICommonConsts.JERRORMESSAGE,
-				ICommonConsts.JYESNOMESSAGE, ICommonConsts.JSUBMIT,
-				ICommonConsts.JURL_OPEN };
-		String[] param = { null, IUIConsts.JBUTTONDIALOGSTART,
-				ICommonConsts.JMESSAGE_TITLE, ICommonConsts.JMESSAGE_TITLE,
-				ICommonConsts.JMESSAGE_TITLE, null,
-				ICommonConsts.JMESSAGE_TITLE };
-		String[] param2 = { null, ICommonConsts.JAFTERDIALOGACTION, null, null,
-				ICommonConsts.JAFTERDIALOGACTION, null, null };
-		String[] param3 = { null, IUIConsts.JBUTTONDIALOGSTART1, null, null,
-				null, null, null };
+		String[] kom = { ICommonConsts.JMAINDIALOG, ICommonConsts.JUPDIALOG, ICommonConsts.JOKMESSAGE,
+				ICommonConsts.JERRORMESSAGE, ICommonConsts.JYESNOMESSAGE, ICommonConsts.JSUBMIT,
+				ICommonConsts.JURL_OPEN, ICommonConsts.JEXECUTEACTION };
+		String[] param = { null, IUIConsts.JBUTTONDIALOGSTART, ICommonConsts.JMESSAGE_TITLE,
+				ICommonConsts.JMESSAGE_TITLE, ICommonConsts.JMESSAGE_TITLE, null, ICommonConsts.JMESSAGE_TITLE, null };
+		String[] param2 = { null, ICommonConsts.JAFTERDIALOGACTION, null, null, ICommonConsts.JAFTERDIALOGACTION, null,
+				null, IUIConsts.JBUTTONDIALOGRES };
+		String[] param3 = { null, IUIConsts.JBUTTONDIALOGSTART1, null, null, null, null, null, null };
 		for (int i = 0; i < kom.length; i++) {
 			FieldValue val = arg.getValue(kom[i]);
 			String[] pars = { null, null, null, null };
@@ -230,8 +222,7 @@ public class PerformVariableAction {
 			performAction(iYesno, iClose, kom[i], pars, w, iCon, iEx);
 		}
 		if (arg.getValue(ICommonConsts.JLOGOUTACTION) != null) {
-			performAction(null, iClose, ICommonConsts.JLOGOUTACTION, null, w,
-					iCon, iEx);
+			performAction(null, iClose, ICommonConsts.JLOGOUTACTION, null, w, iCon, iEx);
 			return;
 		}
 		if (arg.getValue(ICommonConsts.JCLOSEDIALOG) != null) {
@@ -244,13 +235,12 @@ public class PerformVariableAction {
 			if (val != null)
 				closeButton = val.getValueS();
 
-			performAction(null, iClose, ICommonConsts.JCLOSEDIALOG,
-					new String[] { resString, closeButton }, w, iCon, iEx);
+			performAction(null, iClose, ICommonConsts.JCLOSEDIALOG, new String[] { resString, closeButton }, w, iCon,
+					iEx);
 		}
 	}
 
-	private static boolean checkW(String action, String param, String param1,
-			final String param2, WSize w) {
+	private static boolean checkW(String action, String param, String param1, final String param2, WSize w) {
 		if (w != null)
 			return true;
 		String mess = action + " " + param;
@@ -274,9 +264,8 @@ public class PerformVariableAction {
 		return null;
 	}
 
-	public static void performAction(final IYesNoAction iYesno,
-			ISendCloseAction iClose, String action, String[] pars, WSize w,
-			IVariablesContainer iCon, IExecuteAfterModalDialog iEx) {
+	public static void performAction(final IYesNoAction iYesno, ISendCloseAction iClose, String action, String[] pars,
+			WSize w, IVariablesContainer iCon, IExecuteAfterModalDialog iEx) {
 		String param = null;
 		String param1 = null;
 		String param2 = null;
@@ -312,12 +301,10 @@ public class PerformVariableAction {
 				return;
 			if (iEx != null)
 				iEx.setAction(param2);
-			new RunAction().upDialog(param, w, iCon, iEx, param1, param3, null,
-					null);
+			new RunAction().upDialog(param, w, iCon, iEx, param1, param3, null, null);
 			return;
 		}
-		if (action.equals(ICommonConsts.JOKMESSAGE)
-				|| action.equals(ICommonConsts.JERRORMESSAGE)) {
+		if (action.equals(ICommonConsts.JOKMESSAGE) || action.equals(ICommonConsts.JERRORMESSAGE)) {
 			if (!checkW(action, param, param1, param2, w))
 				return;
 			OkDialog ok = new OkDialog(param, param1);
@@ -348,6 +335,11 @@ public class PerformVariableAction {
 				iClose.submitAction();
 			return;
 		}
+		if (action.equals(ICommonConsts.JEXECUTEACTION)) {
+			iEx.executeFromModeless(true, param, param2);
+			return;
+		}
+
 		Utils.errAlert(M.M().UnknownAction(action, param));
 	}
 

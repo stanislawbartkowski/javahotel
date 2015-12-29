@@ -14,6 +14,7 @@
 
 <buttons>
   <button id="run" displayname="Run" validate=""/>
+  <button id="execute" displayname="Execute something" />
 </buttons>
 
  <form>

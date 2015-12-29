@@ -21,6 +21,7 @@ import org.junit.Test;
 import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.journal.JournalRecord;
 import com.jythonui.server.security.token.ICustomSecurity;
+import com.jythonui.shared.DialogVariables;
 
 public class Test64 extends TestHelper {
 
@@ -72,7 +73,17 @@ public class Test64 extends TestHelper {
 			System.out.println(re.getCreationDate());
 			System.out.println(re.getCreationPerson());
 		}
-
+	}
+	
+	@Test
+	public void test3() {
+		test2();
+		ICustomSecurity cu = getPersonSec();
+		String t = iSec.authenticateToken(realmIni, "guest", "guest", cu);
+		assertNotNull(t);
+		DialogVariables v = new DialogVariables();
+		runAction(t,v, "test111.xml", "test1");
+		assertOK(v);
 	}
 
 }
