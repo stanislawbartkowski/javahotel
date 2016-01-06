@@ -127,7 +127,7 @@ def checkinaction(action,var):
                     list.append(map)
                     
             var["JLIST_MAP"] = { CHECKINLIST : list}
-            cutil.setStandEditMode(var,CHECKINLIST,["surname","firstname","title","country"])
+            cutil.setChangeEditMode(var,CHECKINLIST,["surname","firstname","title","country"])
             resform = R.findElem(resName)
             assert resform != None
             status = util.resStatus(resform)
