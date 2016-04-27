@@ -1,0 +1,10 @@
+# EXPORT_DIR : directory where all export file are stored
+EXPORT_DIR=/tmp/data
+# log directory
+LOGDIR=$PWD/log
+# DB2 load script created
+LOADSQL=$PWD/db2load.sql
+# connection properties
+CONNPROP=$PWD/oracleexp.properties
+#CONNPROP=$PWD/mssqlexpdb.properties
+#CONNPROP=$PWD/db2expdb.properties

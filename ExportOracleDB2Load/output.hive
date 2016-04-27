@@ -1,0 +1,10 @@
+
+
+CREATE TABLE Sales.CountryRegionCurrency(
+  CountryRegionCode varchar(3)
+, CurrencyCode char(3)
+, ModifiedDate timestamp
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '~'
+LINES TERMINATED BY '\n' STORED AS TEXTFILE;
+
