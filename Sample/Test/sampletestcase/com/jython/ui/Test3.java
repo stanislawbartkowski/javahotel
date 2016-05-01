@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 stanislawbartkowski@gmail.com 
+ * Copyright 2016 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -24,6 +24,8 @@ import org.junit.Test;
 
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldValue;
+import com.jythonui.shared.ListOfRows;
+import com.jythonui.shared.RowContent;
 
 /**
  * @author hotel
@@ -263,5 +265,37 @@ public class Test3 extends TestHelper {
 		}
 
 	}
+	
+    @Test
+    public void test12() {
+        DialogVariables v = new DialogVariables();
+        FieldValue val = new FieldValue();
+        val.setValue((Timestamp) null);
+        v.setValue("globtimestamp", val);
+        runAction(v, "test8.xml", "setTimeList");
+        ListOfRows li = v.getList("lista");
+        assertNotNull(li);
+        assertEquals(24, li.getRowList().size());
+        int ho = 0;
+        for (RowContent ro : li.getRowList()) {
+            FieldValue fa = ro.getRow(0);
+            Timestamp ta = fa.getValueT();
+            assertNotNull(ta);
+            System.out.println("y=" + ta.getYear());
+            System.out.println("m=" + ta.getMonth());
+            System.out.println("d=" + ta.getDate());
+            System.out.println("h=" + ta.getHours());
+            System.out.println("mi=" + ta.getMinutes());
+            System.out.println("se=" + ta.getSeconds());
+            assertEquals(101, ta.getYear());
+            assertEquals(9, ta.getMonth());
+            assertEquals(2, ta.getDate());
+            assertEquals(ho, ta.getHours());
+            assertEquals(4, ta.getMinutes());
+            assertEquals(6, ta.getSeconds());
+            ho++;
+        }
+    }
+
 
 }

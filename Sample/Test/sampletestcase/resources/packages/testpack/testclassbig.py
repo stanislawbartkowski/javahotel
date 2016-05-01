@@ -46,5 +46,13 @@ def dialogactiontime(action,var) :
     for i in range(12) :
       var['globtimestamp' + str(i+1)] = con.jDate(2001, i+1, 2, 23, 4, 6)
       print var['globtimestamp' + str(i+1)]
+      
+  if action == 'setTimeList' :
+      li = []
+      for i in range(24) : 
+          ti = datetime.datetime(2001, 10, 2, i, 4, 6)
+          li.append({ "ti" : ti})
+      cutil.setJMapList(var,"lista",li)
+
         
        
