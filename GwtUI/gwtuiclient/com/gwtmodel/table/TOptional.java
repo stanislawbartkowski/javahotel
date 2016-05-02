@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 stanislawbartkowski@gmail.com 
+ * Copyright 2016 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -10,28 +10,36 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.listdataview;
+package com.gwtmodel.table;
 
-import com.gwtmodel.table.ICustomObject;
-import com.gwtmodel.table.TOptional;
+public class TOptional<T> {
 
-/**
- * @author hotel
- * 
- */
-public class GetImageColSignalReturn implements ICustomObject {
+	final private T obj;
 
-    private final TOptional<String[]> imageList;
+	private TOptional(T obj) {
+		this.obj = obj;
+	}
 
-    public GetImageColSignalReturn(TOptional<String[]> imageList) {
-        this.imageList = imageList;
-    }
+	public T orNull() {
+		return obj;
+	}
 
-    /**
-     * @return the imageList
-     */
-    public TOptional<String[]> getImageList() {
-        return imageList;
-    }
+	public boolean isPresent() {
+		return obj != null;
+	}
+
+	public T get() {
+		assert obj != null;
+		return obj;
+	}
+
+	public static <T> TOptional<T> of(T obj) {
+		assert obj != null;
+		return new TOptional<T>(obj);
+	}
+
+	public static <T> TOptional<T> fromNullable(T obj) {
+		return new TOptional<T>(obj);
+	}
 
 }

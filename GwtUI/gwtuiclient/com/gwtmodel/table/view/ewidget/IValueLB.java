@@ -14,7 +14,7 @@ package com.gwtmodel.table.view.ewidget;
 
 import java.util.List;
 
-import com.google.common.base.Optional;
+import com.gwtmodel.table.TOptional;
 import com.gwtmodel.table.rdef.IFormLineView;
 
 /**
@@ -27,7 +27,7 @@ interface IValueLB extends IFormLineView {
 
     void setIdList(List<String> li);
 
-    Optional<String> getBeforeVal();
+    TOptional<String> getBeforeVal();
 
     boolean addEmpty();
 }

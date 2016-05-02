@@ -12,8 +12,8 @@
  */
 package com.gwtmodel.table.view.table;
 
-import com.google.common.base.Optional;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.TOptional;
 import com.gwtmodel.table.WSize;
 
 /**
@@ -22,7 +22,7 @@ import com.gwtmodel.table.WSize;
  */
 public interface IColumnImage {
 
-    Optional<String[]> getImageButton(int row, IVField v);
+    TOptional<String[]> getImageButton(int row, IVField v);
 
     void click(WSize w, int row, IVField v, int imno);
 

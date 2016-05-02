@@ -17,7 +17,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.common.base.Optional;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.FieldDataType.IGetListValues;
@@ -35,6 +34,7 @@ import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.MutableInteger;
 import com.gwtmodel.table.SynchronizeList;
+import com.gwtmodel.table.TOptional;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.VModelData;
 import com.gwtmodel.table.WChoosedLine;
@@ -486,7 +486,7 @@ class ListControler {
 				}
 			}
 
-			private final Map<KeyTable, Optional<Object>> valsBefore = new HashMap<KeyTable, Optional<Object>>();
+			private final Map<KeyTable, TOptional<Object>> valsBefore = new HashMap<KeyTable, TOptional<Object>>();
 
 			@Override
 			public void signal(ISlotSignalContext slContext) {
@@ -502,12 +502,12 @@ class ListControler {
 				key.row = c.getValue();
 				setLastRow(c.getValue());
 				key.v = vv;
-				Optional<Object> beforeD = null;
+				TOptional<Object> beforeD = null;
 				focusFinalSignal();
 				lastC = c;
 				if (c.isBefore()) {
 					key.v = vv;
-					valsBefore.put(key, Optional.fromNullable(o));
+					valsBefore.put(key, TOptional.fromNullable(o));
 				} else {
 					// Important: before does not work boolean, set value
 					// manually
@@ -516,7 +516,7 @@ class ListControler {
 						assert b != null;
 						// negate previous value
 						Object oo = new Boolean(!b.booleanValue());
-						beforeD = Optional.of(oo);
+						beforeD = TOptional.of(oo);
 					} else {
 						beforeD = valsBefore.get(key);
 						valsBefore.remove(key);
@@ -843,7 +843,7 @@ class ListControler {
 					}
 				});
 
-				GetImageColSignalReturn sl = new GetImageColSignalReturn(Optional.fromNullable(res));
+				GetImageColSignalReturn sl = new GetImageColSignalReturn(TOptional.fromNullable(res));
 				return slContextFactory.construct(slContext.getSlType(), sl);
 			}
 

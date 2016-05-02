@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.google.common.base.Joiner;
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.cell.client.DateCell;
@@ -88,6 +87,7 @@ import com.jythonui.client.dialog.VField;
 import com.jythonui.client.util.CreateForm;
 import com.jythonui.client.util.CreateForm.ColumnsDesc;
 import com.jythonui.client.util.ExecuteAction;
+import com.jythonui.client.util.JUtils;
 import com.jythonui.client.util.ListOfButt;
 import com.jythonui.client.util.RowVModelData;
 import com.jythonui.shared.DateLine;
@@ -400,9 +400,14 @@ class DateLineManager implements IDateLineManager {
 						int day = DateFormat.getD(d);
 						String m = months[DateFormat.getM(d) - 1];
 						String w = weekdays[d.getDay()];
-						Joiner join = Joiner.on(' ').skipNulls();
-						sb.append(headerInput.input(join.join(isToday(d) ? IUIConsts.HEADER_TODAY : null,
-								isWeekend(d) ? IUIConsts.HEADER_WEEKEND : null), day, m, w));
+						// Joiner join = Joiner.on(' ').skipNulls();
+						// sb.append(headerInput.input(join.join(isToday(d) ?
+						// IUIConsts.HEADER_TODAY : null,
+						// isWeekend(d) ? IUIConsts.HEADER_WEEKEND : null), day,
+						// m, w));
+						String s = Utils.joinS(' ', isToday(d) ? IUIConsts.HEADER_TODAY : null,
+								isWeekend(d) ? IUIConsts.HEADER_WEEKEND : null);
+						sb.append(headerInput.input(s, day, m, w));
 					}
 
 				}
@@ -559,8 +564,11 @@ class DateLineManager implements IDateLineManager {
 					return null;
 				CVField c = (CVField) v;
 				Date d = sData.getD(c.cId);
-				Joiner join = Joiner.on(' ').skipNulls();
-				return join.join(isToday(d) ? IUIConsts.CELL_COLUMN_TODAY : null,
+				// Joiner join = Joiner.on(' ').skipNulls();
+				// return join.join(isToday(d) ? IUIConsts.CELL_COLUMN_TODAY :
+				// null,
+				// isWeekend(d) ? (IUIConsts.CELL_COLUMN_WEEKEND) : null);
+				return Utils.joinS(' ', isToday(d) ? IUIConsts.CELL_COLUMN_TODAY : null,
 						isWeekend(d) ? (IUIConsts.CELL_COLUMN_WEEKEND) : null);
 			}
 

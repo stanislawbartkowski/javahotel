@@ -15,7 +15,6 @@ package com.gwtmodel.table.listdataview;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.base.Optional;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.Widget;
@@ -30,6 +29,7 @@ import com.gwtmodel.table.ISuccess;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.SynchronizeList;
+import com.gwtmodel.table.TOptional;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
@@ -850,7 +850,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 	private class ImageColumnAction implements IColumnImage {
 
 		@Override
-		public Optional<String[]> getImageButton(int row, IVField v) {
+		public TOptional<String[]> getImageButton(int row, IVField v) {
 			CustomStringSlot sl = GetImageColSignal.constructSlotGetImageCol(dType);
 			GetImageColSignal sig = new GetImageColSignal(row, v);
 			ISlotSignalContext slContext = getSlContainer().getGetter(sl, sig);

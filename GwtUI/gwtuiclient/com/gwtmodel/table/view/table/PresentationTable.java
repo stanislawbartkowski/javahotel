@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import com.google.common.base.Joiner;
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.ActionCell;
 import com.google.gwt.cell.client.Cell;
@@ -210,8 +209,8 @@ class PresentationTable implements IGwtTableView {
 			VListHeaderDesc he = coV.getV(i);
 			if (he == null)
 				continue;
-			Joiner join = Joiner.on(" ").skipNulls();
-			String aClass = join.join(model.getClassNameForColumn(he.getFie()), he.getColumnClass(),
+			// Joiner join = Joiner.on(" ").skipNulls();
+			String aClass = Utils.joinS(' ', model.getClassNameForColumn(he.getFie()), he.getColumnClass(),
 					noWrap ? IConsts.nowrapStyle : null);
 			Column<MutableInteger, ?> co = table.getColumn(i);
 			co.setCellStyleNames(aClass);

@@ -15,7 +15,6 @@ package com.gwtmodel.table.view.table.edit;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.base.Optional;
 import com.google.gwt.cell.client.ActionCell;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.CompositeCell;
@@ -32,6 +31,7 @@ import com.google.gwt.user.cellview.client.Column;
 import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.MutableInteger;
+import com.gwtmodel.table.TOptional;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.factories.IGetCustomValues;
@@ -140,7 +140,7 @@ class PresentationImageButtonFactory extends PresentationEditCellHelper {
 			Object key = context.getKey();
 			MutableInteger i = (MutableInteger) key;
 			int rowno = i.intValue();
-			Optional<String[]> li = iIma.getImageButton(rowno, v);
+			TOptional<String[]> li = iIma.getImageButton(rowno, v);
 
 			String ima = null;
 			if (li != null) {

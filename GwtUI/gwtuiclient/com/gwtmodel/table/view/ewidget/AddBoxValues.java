@@ -15,7 +15,6 @@ package com.gwtmodel.table.view.ewidget;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.base.Optional;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
@@ -25,6 +24,7 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.ReadDictList;
 import com.gwtmodel.table.ReadDictList.IListCallBack;
+import com.gwtmodel.table.TOptional;
 
 /**
  * 
@@ -57,7 +57,7 @@ class AddBoxValues {
             }
         }
 
-        Optional<String> be = e.getBeforeVal();
+        TOptional<String> be = e.getBeforeVal();
         Object o = e.getValObj();
         String av = FUtils.getValueOS(o, e.getV());
         if (displayLi != null) {

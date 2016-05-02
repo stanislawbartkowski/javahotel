@@ -14,14 +14,15 @@ package com.gwtmodel.table.view.ewidget;
 
 import java.util.List;
 
+import com.google.common.base.Optional;
 import com.google.gwt.user.client.ui.ChangeListener;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.TOptional;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.rdef.IFormChangeListener;
-import com.google.common.base.Optional;
 
 /**
  * 
@@ -31,7 +32,7 @@ import com.google.common.base.Optional;
 class GetValueLB extends AbstractField implements IValueLB {
 
 	final protected ListBox lB = new ListBox();
-	private Optional<String> beforeVal = null;
+	private TOptional<String> beforeVal = null;
 	private final boolean addEmpty;
 	private List<String> idList = null;
 
@@ -78,7 +79,7 @@ class GetValueLB extends AbstractField implements IValueLB {
 
 	private void setV(final String s) {
 		if (lB.getItemCount() == 0) {
-			beforeVal = Optional.fromNullable(s);
+			beforeVal = TOptional.fromNullable(s);
 			return;
 		}
 		if (s == null) {
@@ -146,7 +147,7 @@ class GetValueLB extends AbstractField implements IValueLB {
 	 * @return the beforeVal
 	 */
 	@Override
-	public Optional<String> getBeforeVal() {
+	public TOptional<String> getBeforeVal() {
 		return beforeVal;
 	}
 

@@ -120,8 +120,7 @@ public class Utils {
 		return ".";
 	}
 
-	public static String getImageHTML(final String imageUrlPar, int w, int h,
-			String name) {
+	public static String getImageHTML(final String imageUrlPar, int w, int h, String name) {
 		String[] im = imageUrlPar.split(",");
 		String imageUrl = im[0];
 		if (im.length >= 2)
@@ -280,8 +279,7 @@ public class Utils {
 	// replace immutable (not serializable) collection to something serializable
 	public static Map<String, String> getURLMap() {
 		Map<String, String> ma = new HashMap<String, String>();
-		for (Entry<String, List<String>> e : Window.Location.getParameterMap()
-				.entrySet()) {
+		for (Entry<String, List<String>> e : Window.Location.getParameterMap().entrySet()) {
 			String key = e.getKey();
 			String val = "";
 			if (!e.getValue().isEmpty())
@@ -347,8 +345,7 @@ public class Utils {
 		return u;
 	}
 
-	public static String createURL(String u, String firstPar, String firstVal,
-			Map<String, String> args) {
+	public static String createURL(String u, String firstPar, String firstVal, Map<String, String> args) {
 		String url = u + "?" + firstPar + "=" + firstVal;
 		if (args != null)
 			for (Entry<String, String> e : args.entrySet()) {
@@ -386,8 +383,7 @@ public class Utils {
 		return $wnd.eval(jsonFun + '(\'' + paramS + '\')');
 	}-*/;
 
-	public static native JavaScriptObject callJsObjectFun(String jsonFun,
-			String paramS) /*-{
+	public static native JavaScriptObject callJsObjectFun(String jsonFun, String paramS) /*-{
 		return $wnd.eval(jsonFun + '(\'' + paramS + '\')');
 	}-*/;
 
@@ -463,4 +459,16 @@ public class Utils {
 		Window.open(url, "_blank", "");
 	}
 
+	public static String joinS(char joinC, String... args) {
+		StringBuilder build = new StringBuilder();
+		for (String s : args) {
+			if (s == null)
+				continue;
+			if (build.toString() != null)
+				build.append(joinC);
+			build.append(s);
+		}
+		return build.toString();
+	}
+		
 }

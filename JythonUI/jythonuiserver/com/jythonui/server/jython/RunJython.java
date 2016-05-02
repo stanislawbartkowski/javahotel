@@ -94,15 +94,6 @@ public class RunJython extends UtilHelper implements IExecuteJython {
 	private final static String GGTempVariable = "GG";
 	private final static String AATempVariable = "AA";
 
-	/** Constant Jython string. */
-	/*
-	 * private static final PyObject JLISTMAP =
-	 * toString(ICommonConsts.JLISTMAP); private static final PyObject JCHECKMAP
-	 * = toString(ICommonConsts.JCHECKLISTMAP); private static final PyObject
-	 * JDATELINEMAP = toString(ICommonConsts.JDATELINEMAP); private static final
-	 * PyObject JCHARTMAP = toString(ICommonConsts.JCHARTMAP);
-	 */
-
 	// important : cannot make any Jython call before initialing intepreter
 	private PyObject JLISTMAP;
 	private PyObject JCHECKMAP;
@@ -123,8 +114,6 @@ public class RunJython extends UtilHelper implements IExecuteJython {
 		this.logMess = logMess;
 		this.iSugg = iSugg;
 		this.iRem = iRem;
-		// PyType TYPE = PyString.TYPE;
-		// PyType TYPE1 = PyBaseString.TYPE;
 	}
 
 	private PyObject toDate(Date d, boolean withtime) {
@@ -185,21 +174,9 @@ public class RunJython extends UtilHelper implements IExecuteJython {
 					valP = new PyFloat(bi.doubleValue());
 					break;
 				case DATE:
-					// java.sql.Date dt = new
-					// java.sql.Date(val.getValueD().getTime());
-					// PyObject da = Py.newDate(dt);
-					// valP = da;
 					valP = toDate(val.getValueD(), false);
 					break;
 				case DATETIME:
-					// PyObject ti = Py.newDatetime(val.getValueT());
-					// ti.__setattr__("tzinfo", LZONE);
-					// PyFunction py = (PyFunction) CON.__getattr__("jDate");
-					// PyObject[] args = new PyObject[] { new PyInteger(2000),
-					// new PyInteger(11), new PyInteger(7) };
-					// PyObject o = py.__call__(args);
-					// valP = ti;
-					// o = toDate(val.getValueT(), true);
 					valP = toDate(val.getValueT(), true);
 					break;
 				default:
@@ -714,28 +691,9 @@ public class RunJython extends UtilHelper implements IExecuteJython {
 						f.setValue(bx, afterdot);
 						break;
 					case DATE:
-						// Date dat;
-						// if (val instanceof java.sql.Date) {
-						// java.sql.Date dt = (java.sql.Date) val;
-						// dat = new Date(dt.getTime());
-						// } else {
-						// dat = (Date) val;
-						// }
 						f.setValue(fromJythonToDate(val));
 						break;
 					case DATETIME:
-						// Timestamp ti;
-						// Hibernate returns java.util.Date
-						// if (val instanceof java.sql.Date) {
-						// java.sql.Date dti = (java.sql.Date) val;
-						// ti = new Timestamp(dti.getTime());
-						// } else if (val instanceof java.util.Date) {
-						// java.util.Date dti = (java.util.Date) val;
-						// ti = new Timestamp(dti.getTime());
-						// } else {
-						// ti = fromJythonToJava(val);
-						// ti = iConvert.fromJython(val);
-						// }
 						f.setValue(fromJythonToTimestamp(val, valp));
 						break;
 					default:
