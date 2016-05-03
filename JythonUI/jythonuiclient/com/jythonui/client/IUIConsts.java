@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 stanislawbartkowski@gmail.com 
+ * Copyright 2016 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -52,7 +52,7 @@ public interface IUIConsts {
 	String STARTPAGEQUERY = "start";
 	String STARTPAGES = "StartPages";
 	String NOCHARTSQUERY = "nocharts";
-	String NOCHARTSYES = "Y";
+	String ANSWERYES = "Y";
 	String LOGINDELIMITER = ",";
 
 	String CRUD_REMOVE = "crud_remove";

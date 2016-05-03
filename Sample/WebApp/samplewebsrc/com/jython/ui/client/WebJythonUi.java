@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 stanislawbartkowski@gmail.com 
+ * Copyright 2016 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -14,9 +14,6 @@ package com.jython.ui.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.jythonui.client.injector.UIGiniInjector;
-import com.jythonui.server.IConsts;
-import com.jythonui.server.ISharedConsts;
-import com.jythonui.shared.CustomSecurity;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.

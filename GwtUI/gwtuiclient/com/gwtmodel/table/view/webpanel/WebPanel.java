@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 stanislawbartkowski@gmail.com
+ * Copyright 2016 stanislawbartkowski@gmail.com
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -18,7 +18,6 @@ import java.util.List;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.HTML;
@@ -33,7 +32,6 @@ import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WSize;
-import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.factories.IWebPanelResources;
 import com.gwtmodel.table.htmlview.HtmlElemDesc;
 import com.gwtmodel.table.htmlview.HtmlPanelFactory;
@@ -42,315 +40,236 @@ import com.gwtmodel.table.htmlview.IHtmlPanelCallBack;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.injector.MM;
-import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.gwtmodel.table.view.util.PopupTip;
 import com.gwtmodel.table.view.util.YesNoDialog;
+import com.gwtmodel.table.view.webpanel.common.AbstractWebPanel;
 
 /**
  * 
  * @author stanislaw.bartkowski@gmail.com
  */
-class WebPanel implements IWebPanel {
+class WebPanel extends AbstractWebPanel implements IWebPanel {
 
-    private final DockPanel dPanel = new DockPanel();
-    private final DockPanel middlePanel = new DockPanel();
-    private final IWebPanelResources pResources;
-    private final CallBackProgress bCounter;
-    private String centerSize = "90%";
-    private ISignal centreHideSignal = null;
+	private final DockPanel dPanel = new DockPanel();
+	private final DockPanel middlePanel = new DockPanel();
+	private final String centerSize = "90%";
 
-    private final StatusL statusl;
-    private Widget wCenter = null;
-    private Widget wWest = null;
-    private Widget wWest1 = null;
-    private final static String HOTELHEADER_LOGOUT = "header_logout";
-    private final static String HOTELHEADER_LOGO = "header_logo";
-    private final static String HOTELHEADER_DOWNMENU = "header_downmenu";
-    private final static String HOTELHEADER_STATUSBAR = "header_statusbar";
-    private final static String HEADER_UPINFO = "header_upinfo";
-    private final Button outButt;
-    private final LogoH logo;
-    private final ICommand logOut;
-    private final Label tL; // product name
-    private final Label ownerName; // owner name
-    private final Label userName = new Label();
-    private final Label hotelName = new Label();
-    private final Label upInfo = new Label();
-    private final VerticalPanel vp = new VerticalPanel();
-    private final VerticalPanel vmenu = new VerticalPanel();
-    private HTMLPanel uPanel = null;
-    private boolean autologoutmode = true;
+	private final StatusL statusl;
+	private Widget wCenter = null;
+	private Widget wWest = null;
+	private final static String HOTELHEADER_LOGOUT = "header_logout";
+	private final static String HOTELHEADER_LOGO = "header_logo";
+	private final static String HOTELHEADER_DOWNMENU = "header_downmenu";
+	private final static String HOTELHEADER_STATUSBAR = "header_statusbar";
+	private final static String HEADER_UPINFO = "header_upinfo";
+	private final Button outButt;
+	private final LogoH logo;
+	private final VerticalPanel vp = new VerticalPanel();
+	private final VerticalPanel vmenu = new VerticalPanel();
+	private HTMLPanel uPanel = null;
 
-    @Override
-    public void IncDecCounter(boolean inc) {
-        bCounter.IncDecL(inc);
-    }
+	public void setPullDownMenu(Widget m) {
+		vmenu.clear();
+		if (m != null)
+			vmenu.add(m);
+	}
 
-    @Override
-    public void setCenterSize(String size) {
-        this.centerSize = size;
-        setWidth();
-    }
+	@Override
+	public void setReplay(int replNo) {
+		if (replNo == 1) {
+			statusl.setProgres();
+			statusl.setStatus(true);
+		} else if (replNo == 0)
+			statusl.setStatus(false);
+	}
 
-    @Override
-    public void setCentreHideSignal(ISignal iSig) {
-        centreHideSignal = iSig;
-    }
+	private class StatusL extends PopupTip {
 
-    public void setPullDownMenu(Widget m) {
-        vmenu.clear();
-        if (m != null)
-            vmenu.add(m);
-    }
+		private final VerticalPanel vp = new VerticalPanel();
+		private final Image progress = new Image();
+		private final Label l = new Label();
 
-    @Override
-    public void setReplay(int replNo) {
-        if (replNo == 1) {
-            statusl.setProgres();
-            statusl.setStatus(true);
-        } else if (replNo == 0)
-            statusl.setStatus(false);
-    }
+		StatusL() {
+			String ima = pResources.getRes(IWebPanelResources.PROGRESSICON);
+			String url = Utils.getImageAdr(ima);
+			progress.setUrl(url);
+			initWidget(vp);
+			l.setText(Utils.getEmptytyLabel());
+		}
 
-    private class StatusL extends PopupTip {
+		void setProgres() {
+			removeStyleName("error-reply");
+			vp.clear();
+			vp.add(progress);
+		}
 
-        private final VerticalPanel vp = new VerticalPanel();
-        private final Image progress = new Image();
-        private final Label l = new Label();
+		void setError(String errMess) {
+			vp.clear();
+			vp.add(l);
+			setVisible(true);
+			setMessage(errMess);
+			setStyleName("error-reply");
+		}
 
-        StatusL() {
-            String ima = pResources.getRes(IWebPanelResources.PROGRESSICON);
-            String url = Utils.getImageAdr(ima);
-            progress.setUrl(url);
-            initWidget(vp);
-            l.setText(Utils.getEmptytyLabel());
-        }
+		void setStatus(boolean visible) {
+			setVisible(visible);
+		}
+	}
 
-        void setProgres() {
-            removeStyleName("error-reply");
-            vp.clear();
-            vp.add(progress);
-        }
+	@Override
+	public void setErrorL(String errmess) {
+		statusl.setError(errmess);
+	}
 
-        void setError(String errMess) {
-            vp.clear();
-            vp.add(l);
-            setVisible(true);
-            setMessage(errMess);
-            setStyleName("error-reply");
-        }
+	private void initStatus() {
+	}
 
-        void setStatus(boolean visible) {
-            setVisible(visible);
-        }
-    }
+	private void setWidth() {
+		if (wWest != null) {
+			dPanel.setCellWidth(middlePanel, centerSize);
+		} else {
+			dPanel.setCellWidth(middlePanel, "100%");
+		}
+	}
 
-    @Override
-    public void setErrorL(String errmess) {
-        statusl.setError(errmess);
-    }
+	@Override
+	public void setDCenter(final Widget w) {
+		if (wCenter != null) {
+			middlePanel.remove(wCenter);
+			if (centreHideSignal != null) {
+				centreHideSignal.signal();
+			}
+		}
+		wCenter = w;
+		if (w != null) {
+			middlePanel.add(w, DockPanel.CENTER);
+			setWidth();
+		}
+		centreHideSignal = null;
+	}
 
-    private void initStatus() {
-    }
+	@Override
+	public void setMenuPanel(Widget w) {
+		if (w == null)
+			w = new Label("");
+		if (w != null) {
+			uPanel.addAndReplaceElement(w, HOTELHEADER_DOWNMENU);
+			// important: set id again to enable next replacement by
+			// HOTELHEADER_DOWNMENU
+			w.getElement().setId(HOTELHEADER_DOWNMENU);
+		}
+	}
 
-    private void setWidth() {
-        if (wWest != null) {
-            dPanel.setCellWidth(middlePanel, centerSize);
-        } else {
-            dPanel.setCellWidth(middlePanel, "100%");
-        }
-    }
+	private class ClickLogOut implements ClickHandler {
 
-    @Override
-    public void setDCenter(final Widget w) {
-        if (wCenter != null) {
-            middlePanel.remove(wCenter);
-            if (centreHideSignal != null) {
-                centreHideSignal.signal();
-            }
-        }
-        wCenter = w;
-        if (w != null) {
-            middlePanel.add(w, DockPanel.CENTER);
-            setWidth();
-        }
-        centreHideSignal = null;
-    }
+		@Override
+		public void onClick(ClickEvent event) {
+			IClickYesNo yes = new IClickYesNo() {
+				@Override
+				public void click(boolean yes) {
+					if (!yes) {
+						return;
+					}
+					logOut.execute();
+				}
+			};
+			String q = pResources.getRes(IWebPanelResources.LOGOUTQUESTION);
+			if (q == null)
+				q = MM.getL().LogOutQuestion();
+			YesNoDialog yesD = new YesNoDialog(q, null, yes);
+			yesD.show(new WSize(event.getRelativeElement()));
+		}
+	}
 
-    @Override
-    public void setMenuPanel(Widget w) {
-        if (w == null)
-            w = new Label("");
-        if (w != null) {
-            uPanel.addAndReplaceElement(w, HOTELHEADER_DOWNMENU);
-            // important: set id again to enable next replacement by
-            // HOTELHEADER_DOWNMENU
-            w.getElement().setId(HOTELHEADER_DOWNMENU);
-        }
-    }
+	private void setOut(boolean visible) {
+		outButt.setVisible(visible);
+	}
 
-    @Override
-    public void setWest1(Widget w) {
-        if (wWest1 != null) {
-            dPanel.remove(wWest1);
-        }
-        if (w != null) {
-            dPanel.add(w, DockPanel.WEST);
-        }
-        wWest1 = w;
-    }
+	private class PanelCallback implements IHtmlPanelCallBack {
 
-    private class ClickLogOut implements ClickHandler {
+		@Override
+		public void setHtmlPanel(Panel ha) {
+			uPanel = (HTMLPanel) ha;
+			initStatus();
+			dPanel.add(uPanel, DockPanel.NORTH);
+			uPanel.setHeight("25px");
+			setOut(false);
+		}
+	}
 
-        @Override
-        public void onClick(ClickEvent event) {
-            IClickYesNo yes = new IClickYesNo() {
-                @Override
-                public void click(boolean yes) {
-                    if (!yes) {
-                        return;
-                    }
-                    logOut.execute();
-                }
-            };
-            String q = pResources.getRes(IWebPanelResources.LOGOUTQUESTION);
-            if (q == null)
-                q = MM.getL().LogOutQuestion();
-            YesNoDialog yesD = new YesNoDialog(q, null, yes);
-            yesD.show(new WSize(event.getRelativeElement()));
-        }
-    }
+	private class LogoH extends PopupTip {
 
-    private void setOut(boolean visible) {
-        outButt.setVisible(visible);
-    }
+		private final HTML ha;
 
-    private class PanelCallback implements IHtmlPanelCallBack {
+		LogoH(String h) {
+			ha = new HTML(h);
+			initWidget(ha);
+			VerticalPanel vp = new VerticalPanel();
+			vp.add(new Label(pResources.getRes(IWebPanelResources.VERSION)));
+			String JVersion = pResources.getRes(IWebPanelResources.JUIVERSION);
+			vp.add(new Label(LogT.getT().GWTVersion(GWT.getVersion(), JVersion)));
+			setMessage(vp);
+		}
+	}
 
-        @Override
-        public void setHtmlPanel(Panel ha) {
-            uPanel = (HTMLPanel) ha;
-            initStatus();
-            dPanel.add(uPanel, DockPanel.NORTH);
-            uPanel.setHeight("25px");
-            setOut(false);
-        }
-    }
+	WebPanel(IWebPanelResources pResources, ICommand logOut) {
+		super(pResources, logOut);
+		setLabels(new Label(), new Label(), new Label(), new Label(), new Label());
+		statusl = new StatusL();
 
-    private class LogoH extends PopupTip {
+		String h = Utils.getImageHTML(pResources.getRes(IWebPanelResources.IIMAGEPRODUCT), IConsts.headerImageWidth,
+				IConsts.headerImageHeight, null);
+		logo = new LogoH(h);
 
-        private final HTML ha;
+		dPanel.add(vp, DockPanel.NORTH);
 
-        LogoH(String h) {
-            ha = new HTML(h);
-            initWidget(ha);
-            VerticalPanel vp = new VerticalPanel();
-            vp.add(new Label(pResources.getRes(IWebPanelResources.VERSION)));
-            String JVersion = pResources.getRes(IWebPanelResources.JUIVERSION);
-            vp.add(new Label(LogT.getT().GWTVersion(GWT.getVersion(), JVersion)));
-            setMessage(vp);
-        }
-    }
+		dPanel.add(middlePanel, DockPanel.CENTER);
+		middlePanel.add(this.vmenu, DockPanel.NORTH);
 
-    WebPanel(IWebPanelResources pResources, ICommand logOut) {
-        this.pResources = pResources;
-        statusl = new StatusL();
-        bCounter = new CallBackProgress(this);
-        Window.setTitle(pResources.getRes(IWebPanelResources.TITLE));
-        this.logOut = logOut;
-        tL = new Label(pResources.getRes(IWebPanelResources.PRODUCTNAME));
-        ownerName = new Label(pResources.getRes(IWebPanelResources.OWNERNAME));
+		List<HtmlElemDesc> hList = new ArrayList<HtmlElemDesc>();
+		hList.add(new HtmlElemDesc(productName, "header_appname"));
+		hList.add(new HtmlElemDesc(ownerName, "header_ownername"));
+		hList.add(new HtmlElemDesc(userName, "header_user"));
+		hList.add(new HtmlElemDesc(hotelName, "header_ename"));
+		String hout = Utils.getImageHTML(pResources.getRes(IWebPanelResources.IMAGELOGOUT), IConsts.headerImageWidth,
+				IConsts.headerImageHeight, IConsts.LOGOUTHTMLNAME);
+		outButt = new Button();
+		outButt.setHTML(hout);
+		outButt.addClickHandler(new ClickLogOut());
+		hList.add(new HtmlElemDesc(outButt, HOTELHEADER_LOGOUT));
+		hList.add(new HtmlElemDesc(logo, HOTELHEADER_LOGO));
+		hList.add(new HtmlElemDesc(statusl, HOTELHEADER_STATUSBAR));
+		hList.add(new HtmlElemDesc(upInfo, HEADER_UPINFO));
 
-        String h = Utils.getImageHTML(
-                pResources.getRes(IWebPanelResources.IIMAGEPRODUCT),
-                IConsts.headerImageWidth, IConsts.headerImageHeight, null);
-        logo = new LogoH(h);
+		HtmlPanelFactory fa = GwtGiniInjector.getI().getHtmlPanelFactory();
+		fa.getHtmlPanel(HtmlTypeEnum.MainStatus, new PanelCallback(), hList);
+	}
 
-        dPanel.add(vp, DockPanel.NORTH);
+	@Override
+	public Widget getWidget() {
+		return dPanel;
+	}
 
-        dPanel.add(middlePanel, DockPanel.CENTER);
-        middlePanel.add(this.vmenu, DockPanel.NORTH);
+	@Override
+	public void setWest(Widget w) {
+		if (wWest != null) {
+			dPanel.remove(wWest);
+		}
+		if (w != null) {
+			dPanel.add(w, DockPanel.WEST);
+		}
+		wWest = w;
+		setWidth();
+	}
 
-        List<HtmlElemDesc> hList = new ArrayList<HtmlElemDesc>();
-        hList.add(new HtmlElemDesc(tL, "header_appname"));
-        hList.add(new HtmlElemDesc(ownerName, "header_ownername"));
-        hList.add(new HtmlElemDesc(userName, "header_user"));
-        hList.add(new HtmlElemDesc(hotelName, "header_ename"));
-        String hout = Utils.getImageHTML(
-                pResources.getRes(IWebPanelResources.IMAGELOGOUT),
-                IConsts.headerImageWidth, IConsts.headerImageHeight,
-                IConsts.LOGOUTHTMLNAME);
-        outButt = new Button();
-        outButt.setHTML(hout);
-        outButt.addClickHandler(new ClickLogOut());
-        hList.add(new HtmlElemDesc(outButt, HOTELHEADER_LOGOUT));
-        hList.add(new HtmlElemDesc(logo, HOTELHEADER_LOGO));
-        hList.add(new HtmlElemDesc(statusl, HOTELHEADER_STATUSBAR));
-        hList.add(new HtmlElemDesc(upInfo, HEADER_UPINFO));
+	@Override
+	public void logOut() {
+		logOut.execute();
+	}
 
-        HtmlPanelFactory fa = GwtGiniInjector.getI().getHtmlPanelFactory();
-        fa.getHtmlPanel(HtmlTypeEnum.MainStatus, new PanelCallback(), hList);
-    }
+	@Override
+	public void SetMenuSize(String size) {
+		
+	}
 
-    @Override
-    public Widget getWidget() {
-        return dPanel;
-    }
-
-    @Override
-    public void setWest(Widget w) {
-        if (wWest != null) {
-            dPanel.remove(wWest);
-        }
-        if (w != null) {
-            dPanel.add(w, DockPanel.WEST);
-        }
-        wWest = w;
-        setWidth();
-    }
-
-    @Override
-    public void setPaneText(InfoType t, String te) {
-        IGetStandardMessage iMess = GwtGiniInjector.getI().getStandardMessage();
-        String text = iMess.getMessage(te);
-        switch (t) {
-        case USER:
-            userName.setText(text);
-            if (autologoutmode)
-                setOut(text != null ? true : false);
-            break;
-        case DATA:
-            hotelName.setText(text);
-            break;
-        case OWNER:
-            ownerName.setText(text);
-            break;
-        case TITLE:
-            Window.setTitle(text);
-            break;
-        case PRODUCT:
-            tL.setText(text);
-            break;
-        case UPINFO:
-            if (text == null) {
-                upInfo.setVisible(false);
-            } else {
-                upInfo.setVisible(true);
-                upInfo.setText(text);
-            }
-            break;
-
-        }
-
-    }
-
-    @Override
-    public void logOut() {
-        logOut.execute();
-    }
-
-    @Override
-    public void setLogOutMode(boolean logout) {
-        autologoutmode = logout;
-    }
 }

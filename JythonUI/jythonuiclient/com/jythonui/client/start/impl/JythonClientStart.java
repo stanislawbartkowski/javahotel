@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 stanislawbartkowski@gmail.com 
+ * Copyright 2016 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -157,7 +157,6 @@ public class JythonClientStart implements IJythonClientStart {
 				// do nothing in async back
 				M.JR().logout(UIGiniInjector.getI().getRequestContext(), new LogoutBack());
 				IWebPanel wPanel = GwtGiniInjector.getI().getWebPanel();
-				wPanel.setWest1(null);
 				wPanel.setWest(null);
 				wPanel.setPaneText(IWebPanel.InfoType.USER, null);
 				wPanel.setPaneText(IWebPanel.InfoType.DATA, null);
@@ -242,8 +241,10 @@ public class JythonClientStart implements IJythonClientStart {
 			tFactories.registerWebPanelResources(iResFactory.construct(result));
 			iRegister.registerCustom(result);
 
+			recognizePolymer(result);
+
 			// construct WebPanel handler
-			IWebPanel wPan = wFactory.construct(new LogOut(auth));
+			IWebPanel wPan = wFactory.construct(new LogOut(auth), M.isPolymer());
 			wPan.setLogOutMode(result.addLogOut());
 			WebPanelHolder.setWebPanel(wPan);
 			RootPanel.get().add(wPan.getWidget());
@@ -255,9 +256,17 @@ public class JythonClientStart implements IJythonClientStart {
 
 	private void recognizeNoCharts() {
 		String noCharts = Utils.getURLParam(IUIConsts.NOCHARTSQUERY);
-		if (CUtil.EqNS(noCharts, IUIConsts.NOCHARTSYES)) {
+		if (CUtil.EqNS(noCharts, IUIConsts.ANSWERYES)) {
 			M.setNocharts(true);
 		}
+	}
+
+	private void recognizePolymer(ClientProp result) {
+		M.setPolymer(result.isPolymer());
+		String polymerS = Utils.getURLParam(ICommonConsts.POLYMER);
+		if (CUtil.EmptyS(polymerS))
+			return;
+		M.setPolymer(CUtil.EqNS(polymerS, IUIConsts.ANSWERYES));
 	}
 
 	@Override

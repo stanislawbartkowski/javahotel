@@ -153,6 +153,7 @@
 			<xs:element minOccurs="0" name="left" type="xs:positiveInteger" />
 			<xs:element minOccurs="0" name="top" type="xs:positiveInteger" />
 			<xs:element minOccurs="0" name="signalclose" type="emptyT" />
+			<xs:element minOccurs="0" name="polymer" type="emptyT" />
 		</xs:sequence>
 	</xs:group>
 
@@ -176,6 +177,7 @@
 		<xs:attribute name="left" type="xs:positiveInteger" />
 		<xs:attribute name="top" type="xs:positiveInteger" />
 		<xs:attribute name="signalclose" type="emptyT" />
+		<xs:attribute name="polymer" type="emptyT" />
 	</xs:attributeGroup>
 
 	<xs:group name="chartG">

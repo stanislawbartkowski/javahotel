@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 stanislawbartkowski@gmail.com
+ * Copyright 2016 stanislawbartkowski@gmail.com
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,6 +15,7 @@ package com.gwtmodel.table.view.webpanel;
 import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.factories.IWebPanelResources;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.view.webpanel.polymer.PanelPolymer;
 
 /**
  *
@@ -22,9 +23,8 @@ import com.gwtmodel.table.injector.GwtGiniInjector;
  */
 public class WebPanelFactory {
 
-    public IWebPanel construct(ICommand logOut) {
-        IWebPanelResources pResources = GwtGiniInjector.getI()
-                .getWebPanelResources();
-        return new WebPanel(pResources, logOut);
-    }
+	public IWebPanel construct(ICommand logOut, boolean isPolymer) {
+		IWebPanelResources pResources = GwtGiniInjector.getI().getWebPanelResources();
+		return isPolymer ? new PanelPolymer(pResources, logOut) : new WebPanel(pResources, logOut);
+	}
 }

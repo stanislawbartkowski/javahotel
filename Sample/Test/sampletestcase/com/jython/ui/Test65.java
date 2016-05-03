@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 stanislawbartkowski@gmail.com 
+ * Copyright 2016 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -10,28 +10,21 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
+package com.jython.ui;
 
-package com.gwtmodel.table.view.webpanel;
+import static org.junit.Assert.*;
 
-/**
- * 
- * @author stanislaw.bartkowski@gmail.com
- */
-class CallBackProgress {
+import org.junit.Test;
 
-    final private IWebPanel pLoc;
-    private int coL = 0;
+import com.jythonui.shared.DialogFormat;
 
-    CallBackProgress(final IWebPanel p) {
-        this.pLoc = p;
-    }
+public class Test65 extends TestHelper {
+	
+	@Test
+	public void test1() {
+        DialogFormat d = findDialog("test112.xml");
+        assertNotNull(d);
+        assertTrue(d.isPolymer());
+	}
 
-    void IncDecL(final boolean inc) {
-        if (inc) {
-            coL++;
-        } else {
-            coL--;
-        }
-        pLoc.setReplay(coL);
-    }
 }

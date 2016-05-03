@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 stanislawbartkowski@gmail.com 
+ * Copyright 2016 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -39,6 +39,7 @@ public class M {
 
 	private static boolean cached = false;
 	private static boolean nocharts = false;
+	private static boolean polymer = false;
 
 	public static JMessages M() {
 		return jMess;
@@ -108,6 +109,14 @@ public class M {
 
 	public static void setNocharts(boolean nocharts) {
 		M.nocharts = nocharts;
+	}
+
+	public static boolean isPolymer() {
+		return polymer;
+	}
+
+	public static void setPolymer(boolean polymer) {
+		M.polymer = polymer;
 	}
 
 }

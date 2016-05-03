@@ -1,0 +1,46 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui' xmlns:p='urn:import:com.vaadin.polymer.paper.widget'
+	xmlns:i='urn:import:com.vaadin.polymer.iron.widget'>
+
+	<ui:style>
+	body {
+		margin: 0px;
+	}
+	
+	paper-icon-item {
+		position: relative;
+		overflow: hidden;
+	}
+	
+	</ui:style>
+
+	<g:HTMLPanel ui:field="htmlPanel">
+		<p:PaperHeaderPanel class="flex" mode="seamed">
+			<div class="paper-header">
+				<p:PaperToolbar addStyleNames="mainmenubar">
+					<g:Image ui:field="titleIcon" addStyleNames="titleimage"></g:Image>
+					<g:HTMLPanel width="5%" ui:field="progressHtml">
+						<g:Image ui:field="progressIcon" visible="false"></g:Image>
+						<g:Label ui:field="labelError" visible="true"></g:Label>
+					</g:HTMLPanel>
+					<g:Label ui:field="personLabel" addStyleNames="personlabel"></g:Label>
+					<g:Label ui:field="productLabel" addStyleNames="productlabel"></g:Label>
+					<g:Label ui:field="ownerLabel" addStyleNames="ownerlabel"></g:Label>
+					<g:Label ui:field="hotelLabel" addStyleNames="hotellabel"></g:Label>
+					<g:Label ui:field="infoLabel" addStyleNames="infolabel"></g:Label>
+				</p:PaperToolbar>
+			</div>
+			<div class="fit">
+				<p:PaperDrawerPanel ui:field="drawerPanel" drawerWidth="10%">
+					<div drawer="">
+						<div id="leftmenu">.</div>
+					</div>
+					<div main="">
+						<div id="mainpanel">.</div>
+					</div>
+				</p:PaperDrawerPanel>
+			</div>
+		</p:PaperHeaderPanel>
+	</g:HTMLPanel>
+
+</ui:UiBinder>	

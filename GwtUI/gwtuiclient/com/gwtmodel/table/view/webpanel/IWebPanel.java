@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 stanislawbartkowski@gmail.com
+ * Copyright 2016 stanislawbartkowski@gmail.com
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -21,35 +21,33 @@ import com.gwtmodel.table.common.ISignal;
  */
 public interface IWebPanel {
 
-    void setErrorL(String errmess);
+	void setErrorL(String errmess);
 
-    void setReplay(int replNo);
+	void setReplay(int replNo);
 
-    enum InfoType {
-        USER, DATA, UPINFO, OWNER, PRODUCT, TITLE
-    }
+	enum InfoType {
+		USER, DATA, UPINFO, OWNER, PRODUCT, TITLE
+	}
 
-    void setPaneText(InfoType t, String text);
+	void setPaneText(InfoType t, String text);
 
-    void setDCenter(Widget w);
+	void setDCenter(Widget w);
 
-    void setCentreHideSignal(ISignal iSig);
+	void setCentreHideSignal(ISignal iSig);
 
-    void setWest(Widget w);
+	void setWest(Widget w);
 
-    void setWest1(Widget w);
+	Widget getWidget();
 
-    Widget getWidget();
+	void setMenuPanel(Widget pa);
 
-    void setMenuPanel(Widget pa);
+	void setPullDownMenu(Widget m);
 
-    void setPullDownMenu(Widget m);
+	void IncDecCounter(boolean inc);
 
-    void IncDecCounter(boolean inc);
+	void SetMenuSize(String size);
 
-    void setCenterSize(String size);
+	void logOut();
 
-    void logOut();
-
-    void setLogOutMode(boolean logout);
+	void setLogOutMode(boolean logout);
 }
