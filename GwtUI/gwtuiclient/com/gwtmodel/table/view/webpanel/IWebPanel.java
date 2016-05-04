@@ -13,6 +13,7 @@
 package com.gwtmodel.table.view.webpanel;
 
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.ISignal;
 
 /**
@@ -39,12 +40,15 @@ public interface IWebPanel {
 
 	Widget getWidget();
 
+	/* Set menu panel widget in the status bar */
 	void setMenuPanel(Widget pa);
 
+	/* set pull down menu in the main area */
 	void setPullDownMenu(Widget m);
 
 	void IncDecCounter(boolean inc);
 
+	/* set left panel width */
 	void SetMenuSize(String size);
 
 	void logOut();

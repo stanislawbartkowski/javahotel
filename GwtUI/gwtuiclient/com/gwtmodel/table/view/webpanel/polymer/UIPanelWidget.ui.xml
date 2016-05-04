@@ -11,7 +11,6 @@
 		position: relative;
 		overflow: hidden;
 	}
-	
 	</ui:style>
 
 	<g:HTMLPanel ui:field="htmlPanel">
@@ -23,15 +22,20 @@
 						<g:Image ui:field="progressIcon" visible="false"></g:Image>
 						<g:Label ui:field="labelError" visible="true"></g:Label>
 					</g:HTMLPanel>
+					<div id="menuicon"></div>
 					<g:Label ui:field="personLabel" addStyleNames="personlabel"></g:Label>
 					<g:Label ui:field="productLabel" addStyleNames="productlabel"></g:Label>
 					<g:Label ui:field="ownerLabel" addStyleNames="ownerlabel"></g:Label>
 					<g:Label ui:field="hotelLabel" addStyleNames="hotellabel"></g:Label>
-					<g:Label ui:field="infoLabel" addStyleNames="infolabel"></g:Label>
+					<span class="title">
+						<g:Label ui:field="infoLabel" addStyleNames="infolabel"></g:Label>
+					</span>
+					<p:PaperIconButton ui:field="exitIcon" icon="exit-to-app" visible="false"></p:PaperIconButton>
 				</p:PaperToolbar>
 			</div>
 			<div class="fit">
-				<p:PaperDrawerPanel ui:field="drawerPanel" drawerWidth="10%">
+				<p:PaperDrawerPanel ui:field="drawerPanel"
+					drawerWidth="10%">
 					<div drawer="">
 						<div id="leftmenu">.</div>
 					</div>

@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.vaadin.polymer.paper.widget.PaperDrawerPanel;
+import com.vaadin.polymer.paper.widget.PaperIconButton;
 
 public class UIPanelWidget extends Composite {
 	interface MainUiBinder extends UiBinder<HTMLPanel, UIPanelWidget> {
@@ -35,7 +36,7 @@ public class UIPanelWidget extends Composite {
 	Image progressIcon;
 	@UiField
 	HTMLPanel progressHtml;
-	
+
 	@UiField
 	PaperDrawerPanel drawerPanel;
 
@@ -49,6 +50,9 @@ public class UIPanelWidget extends Composite {
 	Label infoLabel;
 	@UiField
 	Label hotelLabel;
+
+	@UiField
+	PaperIconButton exitIcon;
 
 	private static MainUiBinder ourUiBinder = GWT.create(MainUiBinder.class);
 

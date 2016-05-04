@@ -39,6 +39,8 @@ import com.jythonui.client.start.IJythonClientStart;
 import com.jythonui.shared.ClientProp;
 import com.jythonui.shared.CustomSecurity;
 import com.jythonui.shared.ICommonConsts;
+import com.vaadin.polymer.Polymer;
+import com.vaadin.polymer.elemental.Function;
 
 public class JythonClientStart implements IJythonClientStart {
 	private static final String START = "start.xml";
@@ -249,7 +251,17 @@ public class JythonClientStart implements IJythonClientStart {
 			WebPanelHolder.setWebPanel(wPan);
 			RootPanel.get().add(wPan.getWidget());
 			// start running
-			startBegin(auth);
+			if (M.isPolymer()) {
+				final boolean fauth = auth;
+				Polymer.importHref("iron-icons/iron-icons.html", new Function() {
+					public Object call(Object arg) {
+						// The app is executed when all imports succeed.
+						startBegin(fauth);
+						return null;
+					}
+				});
+			} else
+				startBegin(auth);
 		}
 
 	}

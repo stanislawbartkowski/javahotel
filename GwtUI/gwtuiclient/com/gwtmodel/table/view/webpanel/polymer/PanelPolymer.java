@@ -14,11 +14,14 @@ package com.gwtmodel.table.view.webpanel.polymer;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.factories.IWebPanelResources;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
@@ -30,6 +33,7 @@ public class PanelPolymer extends AbstractWebPanel implements IWebPanel {
 
 	private Element menuWidget;
 	private Element mainWidget;
+	private Element menuiconWidget;
 
 	public PanelPolymer(IWebPanelResources pResources, ICommand logOut) {
 		super(pResources, logOut);
@@ -47,6 +51,7 @@ public class PanelPolymer extends AbstractWebPanel implements IWebPanel {
 		Window.setTitle(pResources.getRes(IWebPanelResources.TITLE));
 		menuWidget = uW.htmlPanel.getElementById("leftmenu");
 		mainWidget = uW.htmlPanel.getElementById("mainpanel");
+		menuiconWidget = uW.htmlPanel.getElementById("menuicon");
 	}
 
 	private void setProgIcon(boolean visible) {
@@ -111,10 +116,14 @@ public class PanelPolymer extends AbstractWebPanel implements IWebPanel {
 		return uW;
 	}
 
+	private void setMenuIcon(Widget w) {
+		uW.htmlPanel.addAndReplaceElement(w, menuiconWidget);
+		menuiconWidget = w.getElement();
+	}
+
 	@Override
 	public void setMenuPanel(Widget pa) {
-		// TODO Auto-generated method stub
-
+		setMenuIcon(pa == null ? new Label() : pa);
 	}
 
 	@Override
@@ -125,7 +134,7 @@ public class PanelPolymer extends AbstractWebPanel implements IWebPanel {
 
 	@Override
 	public void logOut() {
-		// TODO Auto-generated method stub
+		uW.exitIcon.setVisible(true);
 
 	}
 

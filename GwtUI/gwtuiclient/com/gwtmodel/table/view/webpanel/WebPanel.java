@@ -268,8 +268,7 @@ class WebPanel extends AbstractWebPanel implements IWebPanel {
 	}
 
 	@Override
-	public void SetMenuSize(String size) {
-		
+	public void SetMenuSize(String size) {		
 	}
 
 }
