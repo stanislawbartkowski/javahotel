@@ -15,7 +15,7 @@ package com.jythonui.client.dialog;
 import com.gwtmodel.table.FieldDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.common.TT;
-import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.mm.LogT;
 import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.FieldValue;
 import com.jythonui.shared.ICommonConsts;

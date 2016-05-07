@@ -12,7 +12,7 @@
  */
 package com.gwtmodel.table.slotmodel;
 
-import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.mm.LogT;
 
 /**
  *

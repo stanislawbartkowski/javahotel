@@ -53,6 +53,10 @@ public class UIPanelWidget extends Composite {
 
 	@UiField
 	PaperIconButton exitIcon;
+	
+	@UiField
+	PaperIconButton menuIcon;					
+
 
 	private static MainUiBinder ourUiBinder = GWT.create(MainUiBinder.class);
 

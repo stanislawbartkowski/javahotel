@@ -30,6 +30,10 @@ public interface IWebPanel {
 		USER, DATA, UPINFO, OWNER, PRODUCT, TITLE
 	}
 
+	interface IStatusMenuIcon {
+		void click(WSize w);
+	}
+
 	void setPaneText(InfoType t, String text);
 
 	void setDCenter(Widget w);
@@ -40,10 +44,10 @@ public interface IWebPanel {
 
 	Widget getWidget();
 
-	/* Set menu panel widget in the status bar */
-	void setMenuPanel(Widget pa);
+	/* Set menu widget in the status bar */
+	void setMenuPanel(Widget pa, IStatusMenuIcon i);
 
-	/* set pull down menu in the main area */
+	/* set pull down menu in the main area (not implemented for Polymer) */
 	void setPullDownMenu(Widget m);
 
 	void IncDecCounter(boolean inc);

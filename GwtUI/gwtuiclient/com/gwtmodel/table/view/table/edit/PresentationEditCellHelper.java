@@ -34,7 +34,7 @@ import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.MutableInteger;
 import com.gwtmodel.table.WSize;
-import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.mm.LogT;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import com.gwtmodel.table.view.table.ILostFocusEdit;
 import com.gwtmodel.table.view.table.util.EditableCol;

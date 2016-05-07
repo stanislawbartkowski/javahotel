@@ -13,7 +13,7 @@
 package com.gwtmodel.table;
 
 import com.gwtmodel.table.common.ISignal;
-import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.mm.LogT;
 
 /**
  * @author hotel

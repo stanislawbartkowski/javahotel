@@ -19,7 +19,7 @@ import com.gwtmodel.table.chooselist.ChooseListFactory;
 import com.gwtmodel.table.chooselist.ICallBackWidget;
 import com.gwtmodel.table.chooselist.IChooseList;
 import com.gwtmodel.table.injector.GwtGiniInjector;
-import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.mm.LogT;
 import com.gwtmodel.table.slotmodel.*;
 import com.gwtmodel.table.view.util.ModalDialog;
 

@@ -71,7 +71,7 @@ import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.DecimalUtils;
 import com.gwtmodel.table.common.MaxI;
 import com.gwtmodel.table.injector.GwtGiniInjector;
-import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.mm.LogT;
 import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.gwtmodel.table.tabledef.VFooterDesc;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;

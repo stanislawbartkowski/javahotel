@@ -13,7 +13,7 @@
 package com.gwtmodel.table.tabledef;
 
 import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.mm.LogT;
 
 public class VListHeaderDesc {
 

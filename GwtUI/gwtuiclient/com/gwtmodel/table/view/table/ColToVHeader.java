@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.gwtmodel.table.Utils;
-import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.mm.LogT;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
 
 class ColToVHeader {

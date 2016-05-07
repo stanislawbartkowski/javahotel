@@ -20,7 +20,7 @@ import javax.inject.Inject;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.IMessConsts;
 import com.gwtmodel.table.factories.IGetCustomValues;
-import com.gwtmodel.table.injector.MM;
+import com.gwtmodel.table.mm.MM;
 import com.gwtmodel.table.slotmodel.ClickButtonType.StandClickEnum;
 
 public class GetStandardMessage implements IGetStandardMessage {

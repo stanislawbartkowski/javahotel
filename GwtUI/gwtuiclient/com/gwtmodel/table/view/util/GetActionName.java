@@ -12,7 +12,7 @@
  */
 package com.gwtmodel.table.view.util;
 
-import com.gwtmodel.table.injector.MM;
+import com.gwtmodel.table.mm.MM;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import java.util.Map;
 

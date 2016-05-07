@@ -23,7 +23,7 @@ import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.factories.IWebPanelResources;
-import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.mm.LogT;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.gwtmodel.table.view.webpanel.common.AbstractWebPanel;
 
@@ -34,6 +34,7 @@ public class PanelPolymer extends AbstractWebPanel implements IWebPanel {
 	private Element menuWidget;
 	private Element mainWidget;
 	private Element menuiconWidget;
+	private IStatusMenuIcon i = null;
 
 	public PanelPolymer(IWebPanelResources pResources, ICommand logOut) {
 		super(pResources, logOut);
@@ -52,6 +53,15 @@ public class PanelPolymer extends AbstractWebPanel implements IWebPanel {
 		menuWidget = uW.htmlPanel.getElementById("leftmenu");
 		mainWidget = uW.htmlPanel.getElementById("mainpanel");
 		menuiconWidget = uW.htmlPanel.getElementById("menuicon");
+		uW.menuIcon.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				if (i == null)
+					return;
+				i.click(new WSize(event.getClientY(), event.getClientX(), 0, 0));
+			}
+		});
 	}
 
 	private void setProgIcon(boolean visible) {
@@ -121,9 +131,14 @@ public class PanelPolymer extends AbstractWebPanel implements IWebPanel {
 		menuiconWidget = w.getElement();
 	}
 
+	/* Widget pa ignored */
 	@Override
-	public void setMenuPanel(Widget pa) {
-		setMenuIcon(pa == null ? new Label() : pa);
+	public void setMenuPanel(Widget pa, IStatusMenuIcon i) {
+		if (pa != null)
+			setMenuIcon(pa == null ? new Label() : pa);
+		else
+			uW.menuIcon.setVisible(i != null);
+		this.i = i;
 	}
 
 	@Override

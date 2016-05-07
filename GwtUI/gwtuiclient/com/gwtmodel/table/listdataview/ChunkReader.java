@@ -20,7 +20,7 @@ import com.gwtmodel.table.ISuccess;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.Utils;
-import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.mm.LogT;
 
 class ChunkReader {
 

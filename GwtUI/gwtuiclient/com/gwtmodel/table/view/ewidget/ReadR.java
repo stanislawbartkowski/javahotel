@@ -21,7 +21,7 @@ import com.gwtmodel.table.IGetDataListCallBack;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.factories.IGetCustomValues;
-import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.mm.LogT;
 
 /**
  * 

@@ -22,6 +22,7 @@
 						<g:Image ui:field="progressIcon" visible="false"></g:Image>
 						<g:Label ui:field="labelError" visible="true"></g:Label>
 					</g:HTMLPanel>
+					<p:PaperIconButton icon="menu" ui:field="menuIcon" visible="false"/>					
 					<div id="menuicon"></div>
 					<g:Label ui:field="personLabel" addStyleNames="personlabel"></g:Label>
 					<g:Label ui:field="productLabel" addStyleNames="productlabel"></g:Label>

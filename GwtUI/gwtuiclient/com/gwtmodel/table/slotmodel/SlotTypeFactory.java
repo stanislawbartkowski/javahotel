@@ -14,7 +14,7 @@ package com.gwtmodel.table.slotmodel;
 
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.mm.LogT;
 
 public class SlotTypeFactory {
 

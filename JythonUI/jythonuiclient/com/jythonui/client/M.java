@@ -39,7 +39,6 @@ public class M {
 
 	private static boolean cached = false;
 	private static boolean nocharts = false;
-	private static boolean polymer = false;
 
 	public static JMessages M() {
 		return jMess;
@@ -109,14 +108,6 @@ public class M {
 
 	public static void setNocharts(boolean nocharts) {
 		M.nocharts = nocharts;
-	}
-
-	public static boolean isPolymer() {
-		return polymer;
-	}
-
-	public static void setPolymer(boolean polymer) {
-		M.polymer = polymer;
 	}
 
 }

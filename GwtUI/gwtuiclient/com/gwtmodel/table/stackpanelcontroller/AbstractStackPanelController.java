@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
+import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.view.controlpanel.IControlClick;
@@ -24,21 +25,32 @@ import com.gwtmodel.table.view.controlpanel.IControlClick;
  *
  * @author stanislaw.bartkowski@gmail.com
  */
-abstract class AbstractStackPanelController extends AbstractSlotContainer
-        implements IStackPanelController {
+abstract class AbstractStackPanelController extends AbstractSlotContainer implements IStackPanelController {
 
-    protected IGWidget sView;
+	protected IGWidget sView;
 
-    protected class CallBack implements IControlClick {
+	protected class CallBack implements IControlClick {
 
-        @Override
-        public void click(ControlButtonDesc bu, Widget w) {
-            publish(bu.getActionId(), w != null ? new GWidget(w) : sView);
-        }
-    }
+		private final ISignal click;
 
-    @Override
-    public void startPublish(CellId cellId) {
-        publish(dType, cellId, sView);
-    }
+		CallBack(ISignal click) {
+			this.click = click;
+		}
+
+		CallBack() {
+			this.click = null;
+		}
+
+		@Override
+		public void click(ControlButtonDesc bu, Widget w) {
+			publish(bu.getActionId(), w != null ? new GWidget(w) : sView);
+			if (click != null)
+				click.signal();
+		}
+	}
+
+	@Override
+	public void startPublish(CellId cellId) {
+		publish(dType, cellId, sView);
+	}
 }

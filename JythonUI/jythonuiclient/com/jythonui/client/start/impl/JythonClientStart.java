@@ -25,6 +25,7 @@ import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.WebPanelHolder;
+import com.gwtmodel.table.mm.MM;
 import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.gwtmodel.table.view.webpanel.WebPanelFactory;
@@ -41,6 +42,8 @@ import com.jythonui.shared.CustomSecurity;
 import com.jythonui.shared.ICommonConsts;
 import com.vaadin.polymer.Polymer;
 import com.vaadin.polymer.elemental.Function;
+import com.vaadin.polymer.iron.widget.IronDropdown;
+import com.vaadin.polymer.paper.widget.PaperDialog;
 
 public class JythonClientStart implements IJythonClientStart {
 	private static final String START = "start.xml";
@@ -162,7 +165,7 @@ public class JythonClientStart implements IJythonClientStart {
 				wPanel.setWest(null);
 				wPanel.setPaneText(IWebPanel.InfoType.USER, null);
 				wPanel.setPaneText(IWebPanel.InfoType.DATA, null);
-				wPanel.setMenuPanel(null);
+				wPanel.setMenuPanel(null, null);
 				startBegin(auth);
 			}
 
@@ -246,12 +249,19 @@ public class JythonClientStart implements IJythonClientStart {
 			recognizePolymer(result);
 
 			// construct WebPanel handler
-			IWebPanel wPan = wFactory.construct(new LogOut(auth), M.isPolymer());
+			IWebPanel wPan = wFactory.construct(new LogOut(auth), MM.isPolymer());
 			wPan.setLogOutMode(result.addLogOut());
 			WebPanelHolder.setWebPanel(wPan);
 			RootPanel.get().add(wPan.getWidget());
 			// start running
-			if (M.isPolymer()) {
+			if (MM.isPolymer()) {
+				// for some reason this empty declarations are necessary here
+				// for Polymer to work properly
+				// otherwise a message "open is not a function"
+				PaperDialog p = new PaperDialog();
+				IronDropdown pi = new IronDropdown();
+				// end of emptydeclaration
+
 				final boolean fauth = auth;
 				Polymer.importHref("iron-icons/iron-icons.html", new Function() {
 					public Object call(Object arg) {
@@ -274,11 +284,11 @@ public class JythonClientStart implements IJythonClientStart {
 	}
 
 	private void recognizePolymer(ClientProp result) {
-		M.setPolymer(result.isPolymer());
+		MM.setPolymer(result.isPolymer());
 		String polymerS = Utils.getURLParam(ICommonConsts.POLYMER);
 		if (CUtil.EmptyS(polymerS))
 			return;
-		M.setPolymer(CUtil.EqNS(polymerS, IUIConsts.ANSWERYES));
+		MM.setPolymer(CUtil.EqNS(polymerS, IUIConsts.ANSWERYES));
 	}
 
 	@Override

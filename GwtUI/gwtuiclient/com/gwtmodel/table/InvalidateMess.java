@@ -13,7 +13,7 @@
 package com.gwtmodel.table;
 
 import com.gwtmodel.table.injector.GwtGiniInjector;
-import com.gwtmodel.table.injector.MM;
+import com.gwtmodel.table.mm.MM;
 import com.gwtmodel.table.smessage.IGetStandardMessage;
 
 public class InvalidateMess {

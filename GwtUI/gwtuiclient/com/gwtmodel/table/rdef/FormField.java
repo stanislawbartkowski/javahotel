@@ -14,7 +14,7 @@ package com.gwtmodel.table.rdef;
 
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.injector.GwtGiniInjector;
-import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.mm.LogT;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 
 public class FormField {

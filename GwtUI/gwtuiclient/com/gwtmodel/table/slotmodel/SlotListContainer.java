@@ -15,7 +15,7 @@ package com.gwtmodel.table.slotmodel;
 import javax.inject.Inject;
 import com.gwtmodel.table.*;
 import com.gwtmodel.table.common.PersistTypeEnum;
-import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.mm.LogT;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;

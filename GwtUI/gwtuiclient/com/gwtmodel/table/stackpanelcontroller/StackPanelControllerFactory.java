@@ -12,12 +12,15 @@
  */
 package com.gwtmodel.table.stackpanelcontroller;
 
+import java.util.List;
+
 import javax.inject.Inject;
+
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
+import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.controlbuttonview.StackPanelButtonFactory;
 import com.gwtmodel.table.view.stackpanel.ViewStackPanelFactory;
-import java.util.List;
 
 /**
  *
@@ -25,28 +28,25 @@ import java.util.List;
  */
 public class StackPanelControllerFactory {
 
-    private final StackPanelButtonFactory baFactory;
-    private final ViewStackPanelFactory fFactory;
+	private final StackPanelButtonFactory baFactory;
+	private final ViewStackPanelFactory fFactory;
 
-    @Inject
-    public StackPanelControllerFactory(StackPanelButtonFactory baFactory,
-            ViewStackPanelFactory fFactory) {
-        this.baFactory = baFactory;
-        this.fFactory = fFactory;
-    }
+	@Inject
+	public StackPanelControllerFactory(StackPanelButtonFactory baFactory, ViewStackPanelFactory fFactory) {
+		this.baFactory = baFactory;
+		this.fFactory = fFactory;
+	}
 
-    public IStackPanelController construct(IDataType dType,
-            List<ControlButtonDesc> bList, String html) {
-        return baFactory.construct(dType, bList, html);
-    }
+	public IStackPanelController construct(IDataType dType, List<ControlButtonDesc> bList, String html) {
+		return baFactory.construct(dType, bList, html);
+	}
 
-    public IStackPanelController constructDownMenu(IDataType dType,
-            String downMenuImage, List<ControlButtonDesc> bList) {
-        return new MenuPanelController(dType, downMenuImage, bList);
-    }
+	public IStackPanelController constructDownMenu(IDataType dType, String downMenuImage, List<ControlButtonDesc> bList,
+			ISignal click) {
+		return new MenuPanelController(dType, downMenuImage, bList, click);
+	}
 
-    public IStackPanelController constructStackMenu(IDataType dType,
-            List<ControlButtonDesc> bList) {
-        return new StackViewPanelController(dType, fFactory, bList);
-    }
+	public IStackPanelController constructStackMenu(IDataType dType, List<ControlButtonDesc> bList) {
+		return new StackViewPanelController(dType, fFactory, bList);
+	}
 }

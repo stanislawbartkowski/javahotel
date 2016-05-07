@@ -16,7 +16,7 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IOkModelData;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.WChoosedLine;
-import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.mm.LogT;
 import com.gwtmodel.table.view.table.IGwtTableView;
 
 public class SearchTable {

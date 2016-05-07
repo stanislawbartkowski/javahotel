@@ -16,7 +16,7 @@ import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateMess;
-import com.gwtmodel.table.injector.MM;
+import com.gwtmodel.table.mm.MM;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.view.util.CreateReadOnly;
 import java.util.ArrayList;

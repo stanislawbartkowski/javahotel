@@ -16,7 +16,7 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.SynchronizeList;
 import com.gwtmodel.table.factories.IDataModelFactory;
-import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.mm.LogT;
 import com.gwtmodel.table.panelview.IPanelView;
 import com.gwtmodel.table.slotmodel.*;
 import java.util.ArrayList;

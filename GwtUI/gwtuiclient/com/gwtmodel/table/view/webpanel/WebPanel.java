@@ -38,10 +38,11 @@ import com.gwtmodel.table.htmlview.HtmlPanelFactory;
 import com.gwtmodel.table.htmlview.HtmlTypeEnum;
 import com.gwtmodel.table.htmlview.IHtmlPanelCallBack;
 import com.gwtmodel.table.injector.GwtGiniInjector;
-import com.gwtmodel.table.injector.LogT;
-import com.gwtmodel.table.injector.MM;
+import com.gwtmodel.table.mm.LogT;
+import com.gwtmodel.table.mm.MM;
 import com.gwtmodel.table.view.util.PopupTip;
 import com.gwtmodel.table.view.util.YesNoDialog;
+import com.gwtmodel.table.view.webpanel.IWebPanel.IStatusMenuIcon;
 import com.gwtmodel.table.view.webpanel.common.AbstractWebPanel;
 
 /**
@@ -148,8 +149,9 @@ class WebPanel extends AbstractWebPanel implements IWebPanel {
 		centreHideSignal = null;
 	}
 
+	/* IStatusMenuIcon parameter ignored */
 	@Override
-	public void setMenuPanel(Widget w) {
+	public void setMenuPanel(Widget w, IStatusMenuIcon i) {
 		if (w == null)
 			w = new Label("");
 		if (w != null) {
@@ -268,7 +270,7 @@ class WebPanel extends AbstractWebPanel implements IWebPanel {
 	}
 
 	@Override
-	public void SetMenuSize(String size) {		
+	public void SetMenuSize(String size) {
 	}
 
 }

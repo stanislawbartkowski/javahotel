@@ -22,8 +22,8 @@ import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.smessage.IGetStandardMessage;
-import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
 import com.gwtmodel.table.view.controlpanel.IContrButtonView;
+import com.gwtmodel.table.view.controlpanel.IContrButtonViewFactory;
 import com.gwtmodel.table.view.controlpanel.IControlClick;
 
 /**
@@ -32,65 +32,62 @@ import com.gwtmodel.table.view.controlpanel.IControlClick;
  */
 public class OkDialog extends ModalDialog {
 
-    private final String kom;
-    private IGetStandardMessage iMess = GwtGiniInjector.getI()
-            .getStandardMessage();
+	private final String kom;
+	private IGetStandardMessage iMess = GwtGiniInjector.getI().getStandardMessage();
 
-    @Override
-    protected void addVP(VerticalPanel vp) {
-        vp.add(new Label(kom));
-    }
+	@Override
+	protected void addVP(VerticalPanel vp) {
+		vp.add(new Label(kom));
+	}
 
-    public OkDialog(String kom, String title) {
-        this(kom, title, null);
-    }
+	public OkDialog(String kom, String title) {
+		this(kom, title, null);
+	}
 
-    public OkDialog(String kom) {
-        this(kom, null, null);
-    }
+	public OkDialog(String kom) {
+		this(kom, null, null);
+	}
 
-    private void close(ISignal ok) {
-        hide();
-        if (ok != null) {
-            ok.signal();
-        }
-    }
+	private void close(ISignal ok) {
+		hide();
+		if (ok != null) {
+			ok.signal();
+		}
+	}
 
-    public OkDialog(String kom, String title, final ISignal ok) {
-        super(new VerticalPanel(), null);
-        this.kom = iMess.getMessage(kom);
-        if (title == null) {
-            IGetCustomValues va = GwtGiniInjector.getI().getCustomValues();
-            title = va.getCustomValue(IGetCustomValues.INFO);
-        }
-        setTitle(title);
+	public OkDialog(String kom, String title, final ISignal ok) {
+		super(new VerticalPanel(), null);
+		this.kom = iMess.getMessage(kom);
+		if (title == null) {
+			IGetCustomValues va = GwtGiniInjector.getI().getCustomValues();
+			title = va.getCustomValue(IGetCustomValues.INFO);
+		}
+		setTitle(title);
 
-        ISignal co = new ISignal() {
+		ISignal co = new ISignal() {
 
-            @Override
-            public void signal() {
-                close(ok);
-            }
-        };
+			@Override
+			public void signal() {
+				close(ok);
+			}
+		};
 
-        create(co);
+		create(co);
 
-        ControlButtonFactory fa = GwtGiniInjector.getI()
-                .getControlButtonFactory();
-        ListOfControlDesc yesB = fa.constructOkButton();
+		ControlButtonFactory fa = GwtGiniInjector.getI().getControlButtonFactory();
+		ListOfControlDesc yesB = fa.constructOkButton();
 
-        IControlClick cli = new IControlClick() {
+		IControlClick cli = new IControlClick() {
 
-            @Override
-            public void click(ControlButtonDesc co, Widget w) {
-                close(ok);
-            }
-        };
+			@Override
+			public void click(ControlButtonDesc co, Widget w) {
+				close(ok);
+			}
+		};
 
-        ContrButtonViewFactory ba = GwtGiniInjector.getI()
-                .getContrButtonViewFactory();
-        IContrButtonView vButton = ba.getView(yesB, cli);
+		IContrButtonViewFactory ba = GwtGiniInjector.getI().getContrButtonViewFactory();
+		IContrButtonView vButton = ba.getView(yesB, cli, true);
 
-        vP.add(vButton.getGWidget());
-    }
+		vP.add(vButton.getGWidget());
+	}
 }

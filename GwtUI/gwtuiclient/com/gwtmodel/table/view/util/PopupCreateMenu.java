@@ -54,7 +54,7 @@ public class PopupCreateMenu {
     public static MenuBar createMenu(final ListOfControlDesc coP,
             final IControlClick cli, final Widget w) {
 
-        IGetStandardMessage iMess = GwtGiniInjector.getI().getStandardMessage();
+        IGetStandardMessage iMess = GwtGiniInjector .getI().getStandardMessage();
         MenuBar menu = null;
         if (coP != null) {
             List<ControlButtonDesc> cL = coP.getcList();
@@ -72,10 +72,10 @@ public class PopupCreateMenu {
     }
 
     public static IGWidget createImageMenu(String imageHtml,
-            final ListOfControlDesc coP, final IControlClick cli, final Widget w) {
+            final ListOfControlDesc coP, final IControlClick cli) {
 
         HorizontalPanel hp = new HorizontalPanel();
-        MenuBar menu = createMenu(coP, cli, w);
+        MenuBar menu = createMenu(coP, cli, null);
         MenuBar mp = new MenuBar();
         hp.add(mp);
         mp.addItem(imageHtml, true, menu);

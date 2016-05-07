@@ -22,7 +22,7 @@ import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.common.MaxI;
 import com.gwtmodel.table.injector.GwtGiniInjector;
-import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.mm.LogT;
 import com.gwtmodel.table.smessage.IGetStandardMessage;
 
 abstract public class ModalDialog {

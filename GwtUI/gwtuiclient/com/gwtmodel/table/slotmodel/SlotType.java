@@ -16,7 +16,8 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IEquatable;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.Utils;
-import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.mm.LogT;
+
 import java.util.List;
 
 public class SlotType implements IEquatable<SlotType> {

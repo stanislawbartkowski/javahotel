@@ -37,7 +37,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.injector.GwtGiniInjector;
-import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.mm.LogT;
 
 public class Utils {
 

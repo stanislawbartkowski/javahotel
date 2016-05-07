@@ -20,7 +20,7 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.injector.ICallContext;
-import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.mm.LogT;
 
 /**
  * 

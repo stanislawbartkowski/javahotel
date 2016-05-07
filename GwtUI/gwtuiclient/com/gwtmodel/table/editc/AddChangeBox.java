@@ -19,7 +19,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.injector.GwtGiniInjector;
-import com.gwtmodel.table.injector.MM;
+import com.gwtmodel.table.mm.MM;
 
 class AddChangeBox extends Composite {
 

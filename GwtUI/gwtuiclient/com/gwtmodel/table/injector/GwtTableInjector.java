@@ -41,7 +41,7 @@ import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.gwtmodel.table.stackpanelcontroller.StackPanelControllerFactory;
 import com.gwtmodel.table.tabpanelview.TabPanelViewFactory;
 import com.gwtmodel.table.view.checkstring.CheckDictModelFactory;
-import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
+import com.gwtmodel.table.view.controlpanel.IContrButtonViewFactory;
 import com.gwtmodel.table.view.daytimetable.IDatePanelScroll;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.gwtmodel.table.view.grid.GridViewFactory;
@@ -91,7 +91,7 @@ public interface GwtTableInjector extends Ginjector {
 
     ControlButtonFactory getControlButtonFactory();
 
-    ContrButtonViewFactory getContrButtonViewFactory();
+    IContrButtonViewFactory getContrButtonViewFactory();
 
     WebPanelFactory getWebPanelFactory();
 

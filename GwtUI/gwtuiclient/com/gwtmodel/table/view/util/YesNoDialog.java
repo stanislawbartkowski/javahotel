@@ -24,8 +24,8 @@ import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.smessage.IGetStandardMessage;
-import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
 import com.gwtmodel.table.view.controlpanel.IContrButtonView;
+import com.gwtmodel.table.view.controlpanel.IContrButtonViewFactory;
 import com.gwtmodel.table.view.controlpanel.IControlClick;
 
 /**
@@ -34,58 +34,53 @@ import com.gwtmodel.table.view.controlpanel.IControlClick;
  */
 public class YesNoDialog extends ModalDialog {
 
-    private final String ask;
-    private IGetStandardMessage iMess = GwtGiniInjector.getI()
-            .getStandardMessage();
+	private final String ask;
+	private IGetStandardMessage iMess = GwtGiniInjector.getI().getStandardMessage();
 
-    @Override
-    protected void addVP(VerticalPanel vp) {
-        vp.add(new Label(ask));
-    }
+	@Override
+	protected void addVP(VerticalPanel vp) {
+		vp.add(new Label(ask));
+	}
 
-    public YesNoDialog(String ask, final IClickYesNo yes) {
-        this(ask, null, yes);
-    }
+	public YesNoDialog(String ask, final IClickYesNo yes) {
+		this(ask, null, yes);
+	}
 
-    public YesNoDialog(String ask, String title, final IClickYesNo yes) {
-        super(new VerticalPanel(), null);
-        this.ask = iMess.getMessage(ask);
-        if (title == null) {
-            IGetCustomValues va = GwtGiniInjector.getI().getCustomValues();
-            title = va.getCustomValue(IGetCustomValues.QUESTION);
-        }
-        setTitle(title);
+	public YesNoDialog(String ask, String title, final IClickYesNo yes) {
+		super(new VerticalPanel(), null);
+		this.ask = iMess.getMessage(ask);
+		if (title == null) {
+			IGetCustomValues va = GwtGiniInjector.getI().getCustomValues();
+			title = va.getCustomValue(IGetCustomValues.QUESTION);
+		}
+		setTitle(title);
 
-        ISignal closeC = new ISignal() {
+		ISignal closeC = new ISignal() {
 
-            @Override
-            public void signal() {
-                hide();
-                yes.click(false);
-            }
-        };
+			@Override
+			public void signal() {
+				hide();
+				yes.click(false);
+			}
+		};
 
-        create(closeC);
+		create(closeC);
 
-        ControlButtonFactory fa = GwtGiniInjector.getI()
-                .getControlButtonFactory();
-        ListOfControlDesc yesB = fa.constructYesNoButton();
+		ControlButtonFactory fa = GwtGiniInjector.getI().getControlButtonFactory();
+		ListOfControlDesc yesB = fa.constructYesNoButton();
 
-        IControlClick cli = new IControlClick() {
+		IControlClick cli = new IControlClick() {
 
-            @Override
-            public void click(ControlButtonDesc co, Widget w) {
-                hide();
-                yes.click(co.getActionId().eq(
-                        new ClickButtonType(
-                                ClickButtonType.StandClickEnum.ACCEPT)));
-            }
-        };
+			@Override
+			public void click(ControlButtonDesc co, Widget w) {
+				hide();
+				yes.click(co.getActionId().eq(new ClickButtonType(ClickButtonType.StandClickEnum.ACCEPT)));
+			}
+		};
 
-        ContrButtonViewFactory ba = GwtGiniInjector.getI()
-                .getContrButtonViewFactory();
-        IContrButtonView vButton = ba.getView(yesB, cli);
+		IContrButtonViewFactory ba = GwtGiniInjector.getI().getContrButtonViewFactory();
+		IContrButtonView vButton = ba.getView(yesB, cli, true);
 
-        vP.add(vButton.getGWidget());
-    }
+		vP.add(vButton.getGWidget());
+	}
 }

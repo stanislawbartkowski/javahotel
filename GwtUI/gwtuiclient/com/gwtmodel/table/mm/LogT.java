@@ -14,7 +14,7 @@
  *  limitations under the License.
  *  under the License.
  */
-package com.gwtmodel.table.injector;
+package com.gwtmodel.table.mm;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.safehtml.client.SafeHtmlTemplates;

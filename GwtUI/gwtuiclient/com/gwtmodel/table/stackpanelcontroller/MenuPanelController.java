@@ -12,11 +12,15 @@
  */
 package com.gwtmodel.table.stackpanelcontroller;
 
+import java.util.List;
+
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
+import com.gwtmodel.table.common.ISignal;
+import com.gwtmodel.table.mm.MM;
 import com.gwtmodel.table.view.util.PopupCreateMenu;
-import java.util.List;
+import com.gwtmodel.table.view.util.polymer.CreatePolymerMenu;
 
 /**
  *
@@ -24,10 +28,11 @@ import java.util.List;
  */
 class MenuPanelController extends AbstractStackPanelController {
 
-    MenuPanelController(IDataType dType, String downMenuImage,
-            List<ControlButtonDesc> li) {
-        this.dType = dType;
-        this.sView = PopupCreateMenu.createImageMenu(downMenuImage,
-                new ListOfControlDesc(li), new CallBack(), null);
-    }
+	MenuPanelController(IDataType dType, String downMenuImage, List<ControlButtonDesc> li, ISignal click) {
+		this.dType = dType;
+		if (MM.isPolymer())
+			this.sView = CreatePolymerMenu.createImageMenu(null, new ListOfControlDesc(li), new CallBack(click));
+		else
+			this.sView = PopupCreateMenu.createImageMenu(downMenuImage, new ListOfControlDesc(li), new CallBack(click));
+	}
 }

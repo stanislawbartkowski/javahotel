@@ -18,9 +18,12 @@ import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.Empty;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
+import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.factories.IWebPanelResources;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.mm.MM;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.ISlotListener;
@@ -28,6 +31,7 @@ import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.stackpanelcontroller.IStackPanelController;
 import com.gwtmodel.table.stackpanelcontroller.StackPanelControllerFactory;
+import com.gwtmodel.table.view.util.polymer.PolymerUtil;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.jythonui.client.IUIConsts;
 import com.jythonui.client.util.CreateForm;
@@ -39,61 +43,81 @@ import com.jythonui.shared.ButtonItem;
  */
 public class LeftMenu {
 
-    private final static IDataType leftMenuD = Empty.getDataType();
+	private final static IDataType leftMenuD = Empty.getDataType();
 
-    public enum MenuType {
-        LEFTPANEL, UPPANELMENU, LEFTSTACK;
-    }
+	public enum MenuType {
+		LEFTPANEL, UPPANELMENU, LEFTSTACK;
+	}
 
-    private class GetWidget implements ISlotListener {
+	private class Click implements ISignal {
 
-        private final MenuType mType;
+		ISignal close;
 
-        GetWidget(MenuType mType) {
-            this.mType = mType;
-        }
+		@Override
+		public void signal() {
+			if (close != null)
+				close.signal();
+		}
 
-        @Override
-        public void signal(ISlotSignalContext slContext) {
-            Widget w = slContext.getGwtWidget().getGWidget();
-            IWebPanel i = GwtGiniInjector.getI().getWebPanel();
-            if (mType == MenuType.UPPANELMENU)
-                i.setMenuPanel(w);
-            else
-                i.setWest(w);
-        }
-    }
+	}
 
-    public void createLeftButton(ISlotListener clickButton,
-            List<ButtonItem> buttList, MenuType mType, String html) {
-        if (!buttList.isEmpty()) {
-            List<ControlButtonDesc> bList = CreateForm.constructBList(buttList);
-            StackPanelControllerFactory sFactory = GwtGiniInjector.getI()
-                    .getStackPanelControllerFactory();
-            IStackPanelController iSlo = null;
-            switch (mType) {
-            case LEFTPANEL:
-                iSlo = sFactory.construct(leftMenuD, bList, html);
-                break;
-            case UPPANELMENU:
-                IWebPanelResources iW = GwtGiniInjector.getI()
-                        .getWebPanelResources();
-                String iName = iW.getRes(IWebPanelResources.PANELMENU);
-                String iHtml = Utils.getImageHTML(iName,
-                        IUIConsts.PANELMENUDEFAW, IUIConsts.PANELMENUDEFAH,
-                        IUIConsts.PANELMENUNAME);
-                iSlo = sFactory.constructDownMenu(leftMenuD, iHtml, bList);
-                break;
-            case LEFTSTACK:
-                iSlo = sFactory.constructStackMenu(leftMenuD, bList);
-                break;
+	private class GetWidget implements ISlotListener {
 
-            }
-            SlU.registerWidgetListener0(leftMenuD, iSlo, new GetWidget(mType));
-            iSlo.getSlContainer().registerSubscriber(leftMenuD,
-                    ClickButtonType.StandClickEnum.ALL, clickButton);
-            CellId cId = new CellId(0);
-            iSlo.startPublish(cId);
-        }
-    }
+		private final MenuType mType;
+		private final Click click;
+
+		GetWidget(MenuType mType, Click click) {
+			this.mType = mType;
+			this.click = click;
+		}
+
+		@Override
+		public void signal(ISlotSignalContext slContext) {
+			Widget w = slContext.getGwtWidget().getGWidget();
+			IWebPanel i = GwtGiniInjector.getI().getWebPanel();
+			if (mType == MenuType.UPPANELMENU)
+				if (MM.isPolymer())
+					i.setMenuPanel(null, new IWebPanel.IStatusMenuIcon() {
+
+						@Override
+						public void click(WSize ws) {
+							// very complicated to close menu if item hit
+							click.close = PolymerUtil.popupPolymer(ws, w);
+						}
+					});
+				else
+					i.setMenuPanel(w, null);
+			else
+				i.setWest(w);
+		}
+	}
+
+	public void createLeftButton(ISlotListener clickButton, List<ButtonItem> buttList, MenuType mType, String html) {
+		if (!buttList.isEmpty()) {
+			List<ControlButtonDesc> bList = CreateForm.constructBList(buttList);
+			StackPanelControllerFactory sFactory = GwtGiniInjector.getI().getStackPanelControllerFactory();
+			IStackPanelController iSlo = null;
+			Click click = new Click();
+			switch (mType) {
+			case LEFTPANEL:
+				iSlo = sFactory.construct(leftMenuD, bList, html);
+				break;
+			case UPPANELMENU:
+				IWebPanelResources iW = GwtGiniInjector.getI().getWebPanelResources();
+				String iName = iW.getRes(IWebPanelResources.PANELMENU);
+				String iHtml = Utils.getImageHTML(iName, IUIConsts.PANELMENUDEFAW, IUIConsts.PANELMENUDEFAH,
+						IUIConsts.PANELMENUNAME);
+				iSlo = sFactory.constructDownMenu(leftMenuD, iHtml, bList, click);
+				break;
+			case LEFTSTACK:
+				iSlo = sFactory.constructStackMenu(leftMenuD, bList);
+				break;
+
+			}
+			SlU.registerWidgetListener0(leftMenuD, iSlo, new GetWidget(mType, click));
+			iSlo.getSlContainer().registerSubscriber(leftMenuD, ClickButtonType.StandClickEnum.ALL, clickButton);
+			CellId cId = new CellId(0);
+			iSlo.startPublish(cId);
+		}
+	}
 }

@@ -14,7 +14,7 @@
  *  limitations under the License.
  *  under the License.
  */
-package com.gwtmodel.table.injector;
+package com.gwtmodel.table.mm;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.LocaleInfo;
@@ -29,8 +29,18 @@ public class MM {
     private final static TLabels sLabel;
     private final static String[] weekdays = LocaleInfo.getCurrentLocale()
             .getDateTimeFormatInfo().weekdaysFull();
+    
+    private static boolean polymer = false;
 
-    static {
+    public static boolean isPolymer() {
+		return polymer;
+	}
+
+	public static void setPolymer(boolean polymer) {
+		MM.polymer = polymer;
+	}
+
+	static {
         sLabel = (TLabels) GWT.create(TLabels.class);
     }
 

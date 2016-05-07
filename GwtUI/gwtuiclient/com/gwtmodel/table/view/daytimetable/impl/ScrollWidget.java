@@ -31,7 +31,7 @@ import com.gwtmodel.table.IGFocusWidget;
 import com.gwtmodel.table.common.DateFormat;
 import com.gwtmodel.table.factories.IWebPanelResources;
 import com.gwtmodel.table.injector.GwtGiniInjector;
-import com.gwtmodel.table.injector.MM;
+import com.gwtmodel.table.mm.MM;
 import com.gwtmodel.table.rdef.IFormChangeListener;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.view.button.ImgButtonFactory;

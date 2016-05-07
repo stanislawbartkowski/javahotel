@@ -17,7 +17,7 @@ import java.util.Set;
 
 import com.gwtmodel.table.IOkModelData;
 import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.mm.LogT;
 import com.jythonui.client.IUIConsts;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogVariables;

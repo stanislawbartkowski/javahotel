@@ -22,7 +22,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.Empty;
 import com.gwtmodel.table.SynchronizeList;
 import com.gwtmodel.table.injector.GwtGiniInjector;
-import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.mm.LogT;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.rdef.ITouchListener;
 import com.gwtmodel.table.smessage.IGetStandardMessage;
