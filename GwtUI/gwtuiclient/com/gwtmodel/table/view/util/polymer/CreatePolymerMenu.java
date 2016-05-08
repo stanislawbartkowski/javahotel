@@ -12,6 +12,9 @@
  */
 package com.gwtmodel.table.view.util.polymer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.gwtmodel.table.GWidget;
@@ -23,6 +26,7 @@ import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.gwtmodel.table.view.controlpanel.IControlClick;
 import com.vaadin.polymer.paper.widget.PaperItem;
 import com.vaadin.polymer.paper.widget.PaperMenu;
+import com.vaadin.polymer.paper.widget.PaperSubmenu;
 
 public class CreatePolymerMenu {
 
@@ -30,11 +34,10 @@ public class CreatePolymerMenu {
 
 	}
 
-	public static PaperMenu construct(final ListOfControlDesc coP, final IControlClick cli) {
+	private static void constructM(PaperMenu menu, List<ControlButtonDesc> bList, final IControlClick cli) {
 		IGetStandardMessage iMess = GwtGiniInjector.getI().getStandardMessage();
-		PaperMenu menu = new PaperMenu();
 		menu.addStyleName("menupaper-custom");
-		for (ControlButtonDesc bu : coP.getcList()) {
+		for (ControlButtonDesc bu : bList) {
 			String m = iMess.getMessage(bu.getDisplayName());
 			PaperItem i = new PaperItem(m);
 			i.addClickHandler(new ClickHandler() {
@@ -45,6 +48,11 @@ public class CreatePolymerMenu {
 			});
 			menu.add(i);
 		}
+	}
+
+	public static PaperMenu construct(final ListOfControlDesc coP, final IControlClick cli) {
+		PaperMenu menu = new PaperMenu();
+		constructM(menu, coP.getcList(), cli);
 		return menu;
 	}
 
@@ -52,6 +60,49 @@ public class CreatePolymerMenu {
 	public static IGWidget createImageMenu(String imageHtml, final ListOfControlDesc coP, final IControlClick cli) {
 
 		return new GWidget(construct(coP, cli));
+	}
+
+	private static class MenuD {
+		PaperMenu menu = null;
+		final List<ControlButtonDesc> subl = new ArrayList<ControlButtonDesc>();
+		PaperMenu submenu = null;
+		final IControlClick cli;
+
+		MenuD(IControlClick cli) {
+			this.cli = cli;
+		}
+
+		void addS() {
+			if (!subl.isEmpty())
+				if (menu == null) {
+					menu = new PaperMenu();
+					constructM(menu, subl, cli);
+				} else
+					constructM(submenu, subl, cli);
+
+			subl.clear();
+		}
+	}
+
+	public static PaperMenu constructStackMenu(List<ControlButtonDesc> bList, final IControlClick cli) {
+		MenuD m = new MenuD(cli);
+		IGetStandardMessage iMess = GwtGiniInjector.getI().getStandardMessage();
+		for (ControlButtonDesc co : bList) {
+			if (!co.isMenuTitle()) {
+				m.subl.add(co);
+				continue;
+			}
+			m.addS();
+			PaperSubmenu subm = new PaperSubmenu(
+					"<div class=\"menu-trigger\" id=\"trigger\"></div><div class=\"menu-content\" id=\"content\"></div>");
+			String mess = iMess.getMessage(co.getDisplayName());
+			PaperItem i = new PaperItem(mess);
+			subm.add(i, "trigger");
+			m.menu = new PaperMenu();
+			subm.add(m.submenu, "content");
+		}
+		m.addS();
+		return m.menu;
 	}
 
 }

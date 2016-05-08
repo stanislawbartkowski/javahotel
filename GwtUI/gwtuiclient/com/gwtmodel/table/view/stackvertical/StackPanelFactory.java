@@ -12,11 +12,14 @@
  */
 package com.gwtmodel.table.view.stackvertical;
 
-import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
-import com.gwtmodel.table.view.controlpanel.IControlClick;
 import java.util.List;
 
-// TODO: Remove candidate
+import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
+import com.gwtmodel.table.mm.MM;
+import com.gwtmodel.table.view.controlpanel.IControlClick;
+import com.gwtmodel.table.view.util.polymer.CreatePolymerMenu;
+import com.vaadin.polymer.paper.widget.PaperMenu;
 
 /**
  *
@@ -24,14 +27,21 @@ import java.util.List;
  */
 public class StackPanelFactory {
 
-    public StackPanelFactory() {
-    }
+	public IStackPanelView construct(List<ControlButtonDesc> bList, IControlClick click, String html) {
+		if (MM.isPolymer()) {
+			PaperMenu menu = CreatePolymerMenu.constructStackMenu(bList, click);
+			return new IStackPanelView() {
 
-    public IStackPanelView construct(List<ControlButtonDesc> bList,
-            IControlClick click, String html) {
-        if (html == null) {
-            return new StackPanelView(bList, click);
-        }
-        return new StackPanelHtmlView(bList, click, html);
-    }
+				@Override
+				public Widget getGWidget() {
+					return menu;
+				}
+
+			};
+		}
+		if (html == null) {
+			return new StackPanelView(bList, click);
+		}
+		return new StackPanelHtmlView(bList, click, html);
+	}
 }
