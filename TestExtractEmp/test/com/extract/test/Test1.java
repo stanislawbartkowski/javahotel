@@ -27,8 +27,8 @@ import com.extract.extractemp.IExtractEmp;
 public class Test1 {
 
 //	private static final ExtractFactory.dbtype dType = ExtractFactory.dbtype.OracleJDBC;
-//	private static final ExtractFactory.dbtype dType = ExtractFactory.dbtype.OracleHibernate;
-	private static final ExtractFactory.dbtype dType = ExtractFactory.dbtype.DB2Hibernate;
+	private static final ExtractFactory.dbtype dType = ExtractFactory.dbtype.OracleHibernate;
+//	private static final ExtractFactory.dbtype dType = ExtractFactory.dbtype.DB2Hibernate;
 //	private static final ExtractFactory.dbtype dType = ExtractFactory.dbtype.DB2JDBC;
 	private IExtractEmp iEmp;
 

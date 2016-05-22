@@ -12,24 +12,10 @@
  */
 package com.extract.extractemp;
 
-import java.sql.SQLException;
-
-import org.hibernate.Query;
-
 public class ExtractEmpDB2Hibernate extends AbstractHibernate {
 
 	ExtractEmpDB2Hibernate() {
-		super("hibernate.db2cfg.xml");
-		
-	}
-	
-	@Override
-	public IResultSet getEmp(String empName, String mgmName, String depName) throws SQLException {
-		final Query query = session.getNamedQuery("searchEmpDB2");
-		query.setString("p_empname", empName);
-		query.setString("p_deptname", depName);
-		query.setString("p_mgmname", mgmName);
-		return getResultSet(query);
+		super("hibernate.db2cfg.xml", "searchEmpDB2");
 	}
 
 }

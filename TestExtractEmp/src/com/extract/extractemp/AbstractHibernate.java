@@ -20,14 +20,18 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import com.extract.extractemp.IExtractEmp.IResultSet;
+
 abstract class AbstractHibernate implements IExtractEmp {
 
 	protected Session session;
 	private SessionFactory sessionFactory;
 	private final String confName;
+	private final String queryName;
 	
-	protected AbstractHibernate(String confName) {
+	protected AbstractHibernate(String confName,String queryName) {
 		this.confName = confName;
+		this.queryName = queryName;
 	}
 
 	@Override
@@ -43,7 +47,7 @@ abstract class AbstractHibernate implements IExtractEmp {
 		sessionFactory.close();
 	}
 
-	protected IResultSet getResultSet(final Query q) {
+	private IResultSet getResultSet(final Query q) {
 		ScrollableResults res = q.scroll();
 		
 		
@@ -67,5 +71,15 @@ abstract class AbstractHibernate implements IExtractEmp {
 
 		};
 	}
+	
+	@Override
+	public IResultSet getEmp(String empName, String mgmName, String depName) throws SQLException {
+		final Query query = session.getNamedQuery(queryName);
+		query.setString("p_empname", empName);
+		query.setString("p_deptname", depName);
+		query.setString("p_mgmname", mgmName);
+		return getResultSet(query);
+	}
+
 
 }
