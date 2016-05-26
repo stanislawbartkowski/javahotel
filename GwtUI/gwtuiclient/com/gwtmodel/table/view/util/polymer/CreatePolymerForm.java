@@ -10,17 +10,25 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.form;
+package com.gwtmodel.table.view.util.polymer;
 
-import com.gwtmodel.table.IGWidget;
-import com.gwtmodel.table.InvalidateFormContainer;
+import java.util.List;
 
-public interface IGwtFormView extends IGWidget {
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.editw.FormField;
 
-    void showInvalidate(InvalidateFormContainer errContainer);
+public class CreatePolymerForm {
 
-    void fillHtml(IGWidget g);
+	private CreatePolymerForm() {
 
-    void setHtmlId(String is, IGWidget g);
+	}
+
+	public static Widget construct(final List<FormField> fList) {
+		VerticalPanel v = new VerticalPanel();
+		for (FormField f : fList)
+			v.add(f.getELine().getGWidget());
+		return v;
+	}
 
 }

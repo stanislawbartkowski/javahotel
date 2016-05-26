@@ -1,12 +1,20 @@
 <?xml version="1.0"?>
 <dialog xmlns="http://www.jythongwt.dialogxsd.com" polymer="">
 
+  <before/>  
+  
+<jython>
+   <import>from testpack import main</import>
+   <method>main.dialogactionpoly({0},{1})</method>
+ </jython>  
+
 <leftmenu>
   <button id="main" displayname="Main form"/>
 </leftmenu>  
   
  <form>
    <field id="glob1" />
+   <field id="name1" displayname="Wprowadź napis" />
  </form>  
  
 </dialog>

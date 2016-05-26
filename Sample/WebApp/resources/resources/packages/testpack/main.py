@@ -63,4 +63,10 @@ def textaction(action,var) :
       var[n + '_out'] = var[n]
       
         
-        
+def dialogactionpoly(action,var) :
+  cutil.printVar("main poly",action,var)
+  
+  if action == "before" :
+     cutil.setCopy(var,"glob1") 
+     var["glob1"] = "Hello, I'm here"
+  

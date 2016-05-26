@@ -18,7 +18,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.editw.IFormChangeListener;
 import com.gwtmodel.table.editw.ITouchListener;
-import com.gwtmodel.table.factories.IGetCustomValues;
 import com.vaadin.polymer.paper.widget.PaperInput;
 
 class PolymerTextField extends AbstractWField {
@@ -32,14 +31,12 @@ class PolymerTextField extends AbstractWField {
 
 	@Override
 	public Object getValObj() {
-		// TODO Auto-generated method stub
-		return null;
+		return in.getValue();
 	}
 
 	@Override
 	public void setValObj(Object o) {
-		// TODO Auto-generated method stub
-
+		in.setValue((String) o);
 	}
 
 	@Override

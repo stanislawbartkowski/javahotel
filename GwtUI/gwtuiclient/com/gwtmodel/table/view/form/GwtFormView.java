@@ -12,7 +12,6 @@
  */
 package com.gwtmodel.table.view.form;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -29,8 +28,8 @@ import com.gwtmodel.table.editw.ITouchListener;
 import com.gwtmodel.table.factories.IDataFormConstructorAbstractFactory;
 import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.validate.ErrorLineContainer;
-import com.gwtmodel.table.view.controlpanel.IContrButtonView;
 import com.gwtmodel.table.view.util.CreateFormView;
+import com.gwtmodel.table.view.util.polymer.CreatePolymerForm;
 
 class GwtFormView implements IGwtFormView {
 
@@ -52,21 +51,14 @@ class GwtFormView implements IGwtFormView {
 		}
 	}
 
-	private List<FormField> findFormCommon() {
-		List<FormField> uList = new ArrayList<FormField>();
-		for (FormField f : fContainer.getfList()) {
-			if (f.getTabId() == null) {
-				uList.add(f);
-			}
-		}
-		return uList;
-	}
-
 	GwtFormView(ICallContext iContext, final FormLineContainer fContainer,
 			IDataFormConstructorAbstractFactory.CType cType, final ISignal iSignal) {
 		this.fContainer = fContainer;
 		if (cType.getfConstructor() == null) {
-			gg = CreateFormView.construct(fContainer.getfList());
+			if (fContainer.isPolymer())
+				gg = CreatePolymerForm.construct(fContainer.getfList());
+			else
+				gg = CreateFormView.construct(fContainer.getfList());
 			iSignal.signal();
 		} else {
 			ISetGWidget iSet = new ISetGWidget() {
@@ -128,9 +120,4 @@ class GwtFormView implements IGwtFormView {
 		}
 	}
 
-	public void setButtonList(IContrButtonView cList) {
-	}
-
-	public void changeToTab(String tabId) {
-	}
 }

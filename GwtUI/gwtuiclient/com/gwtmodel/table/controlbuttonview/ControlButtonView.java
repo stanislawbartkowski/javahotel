@@ -174,8 +174,7 @@ class ControlButtonView extends AbstractSlotContainer implements IControlButtonV
 		}
 	}
 
-	ControlButtonView(IContrButtonViewFactory vFactory, ListOfControlDesc listButton,
-			IDataType dType, boolean hori) {
+	ControlButtonView(IContrButtonViewFactory vFactory, ListOfControlDesc listButton, IDataType dType, boolean hori) {
 		this.dType = dType;
 		this.vButton = vFactory.getView(listButton, new Click(), hori);
 		for (ControlButtonDesc b : listButton.getcList()) {
@@ -205,11 +204,6 @@ class ControlButtonView extends AbstractSlotContainer implements IControlButtonV
 	@Override
 	public void startPublish(CellId cellId) {
 		IGWidget w = this.getMainHtmlWidget();
-		if (vButton != null) {
-			CustomStringSlot cSlot = ButtonSendListOfButtons.constructSlotSendListOfButtons(dType);
-			ButtonSendListOfButtons sl = new ButtonSendListOfButtons(vButton);
-			publish(cSlot, sl);
-		}
 		if (w != null) {
 			vButton.setHtml(w);
 			return;
