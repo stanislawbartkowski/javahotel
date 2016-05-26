@@ -16,7 +16,7 @@ import java.util.List;
 
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.rdef.FormLineContainer;
+import com.gwtmodel.table.editw.FormLineContainer;
 
 /**
  * @author hotel

@@ -17,35 +17,32 @@ import java.util.List;
 
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.editw.FormField;
+import com.gwtmodel.table.editw.FormLineContainer;
+import com.gwtmodel.table.editw.IFormLineView;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.IDataValidateAction;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.mm.MM;
-import com.gwtmodel.table.rdef.FormField;
-import com.gwtmodel.table.rdef.FormLineContainer;
-import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.slotmodel.CellId;
-import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
+import com.gwtmodel.table.view.ewidget.IEditWidget;
 
 public class LoginViewFactory {
 
-    public FormLineContainer construct() {
-        EditWidgetFactory eFactory = GwtGiniInjector.getI()
-                .getEditWidgetFactory();
-        List<FormField> di = new ArrayList<FormField>();
-        IVField loginV = new LoginField(LoginField.F.LOGINNAME);
-        IFormLineView loginName = eFactory.constructTextField(loginV, null);
-        di.add(new FormField(MM.getL().User(), loginName));
-        IVField passwordV = new LoginField(LoginField.F.PASSWORD);
-        IFormLineView password = eFactory.constructPasswordField(passwordV,
-                null);
-        di.add(new FormField(MM.getL().Password(), password));
-        return new FormLineContainer(di);
-    }
+	public FormLineContainer construct() {
+		IEditWidget eFactory = GwtGiniInjector.getI().getEditWidgetFactory().getGwtE();
+		List<FormField> di = new ArrayList<FormField>();
+		IVField loginV = new LoginField(LoginField.F.LOGINNAME);
+		IFormLineView loginName = eFactory.constructTextField(loginV, null);
+		di.add(new FormField(MM.getL().User(), loginName));
+		IVField passwordV = new LoginField(LoginField.F.PASSWORD);
+		IFormLineView password = eFactory.constructPasswordField(passwordV, null);
+		di.add(new FormField(MM.getL().Password(), password));
+		return new FormLineContainer(di, false);
+	}
 
-    public ILoginDataView contructView(CellId cellId, IDataType dType,
-            FormLineContainer lContainer, IDataModelFactory dFactory,
-            IDataValidateAction vAction) {
-        return new LoginDataView(cellId, dType, lContainer, dFactory, vAction);
-    }
+	public ILoginDataView contructView(CellId cellId, IDataType dType, FormLineContainer lContainer,
+			IDataModelFactory dFactory, IDataValidateAction vAction) {
+		return new LoginDataView(cellId, dType, lContainer, dFactory, vAction);
+	}
 }

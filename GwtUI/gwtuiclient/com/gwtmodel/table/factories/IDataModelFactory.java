@@ -15,7 +15,7 @@ package com.gwtmodel.table.factories;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.common.PersistTypeEnum;
-import com.gwtmodel.table.rdef.FormLineContainer;
+import com.gwtmodel.table.editw.FormLineContainer;
 
 public interface IDataModelFactory {
 

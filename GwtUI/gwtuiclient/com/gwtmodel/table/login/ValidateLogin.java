@@ -13,8 +13,8 @@
 package com.gwtmodel.table.login;
 
 import com.gwtmodel.table.*;
+import com.gwtmodel.table.editw.FormLineContainer;
 import com.gwtmodel.table.factories.IDataValidateAction;
-import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.slotmodel.*;
 import com.gwtmodel.table.validate.ValidateUtil;
 import com.gwtmodel.table.view.util.FormUtil;

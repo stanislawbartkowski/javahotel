@@ -26,15 +26,15 @@ import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.controler.BoxActionMenuOptions;
+import com.gwtmodel.table.editw.FormLineContainer;
+import com.gwtmodel.table.editw.IFormChangeListener;
+import com.gwtmodel.table.editw.IFormLineView;
+import com.gwtmodel.table.editw.ITouchListener;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.listdataview.DataIntegerSignal;
 import com.gwtmodel.table.listdataview.GetVListSignal;
 import com.gwtmodel.table.listdataview.NoPropertyColumn;
 import com.gwtmodel.table.mm.LogT;
-import com.gwtmodel.table.rdef.FormLineContainer;
-import com.gwtmodel.table.rdef.IFormChangeListener;
-import com.gwtmodel.table.rdef.IFormLineView;
-import com.gwtmodel.table.rdef.ITouchListener;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
 
 /**

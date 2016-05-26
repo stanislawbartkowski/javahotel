@@ -14,6 +14,7 @@ package com.gwtmodel.table.injector;
 
 import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.Singleton;
+import com.google.inject.name.Names;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonFactory;
 import com.gwtmodel.table.chooselist.ChooseListFactory;
 import com.gwtmodel.table.composecontroller.ComposeControllerFactory;
@@ -54,6 +55,9 @@ import com.gwtmodel.table.view.controlpanel.IContrButtonViewFactory;
 import com.gwtmodel.table.view.daytimetable.IDatePanelScroll;
 import com.gwtmodel.table.view.daytimetable.impl.WidgetScrollSeasonFactory;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
+import com.gwtmodel.table.view.ewidget.IEditWidget;
+import com.gwtmodel.table.view.ewidget.gwt.GwtWidgetImpl;
+import com.gwtmodel.table.view.ewidget.polymer.EditWidgetPolymer;
 import com.gwtmodel.table.view.form.GwtFormViewFactory;
 import com.gwtmodel.table.view.grid.GridViewFactory;
 import com.gwtmodel.table.view.panel.GwtPanelViewFactory;
@@ -84,6 +88,9 @@ public class GwtTableInjectModule extends AbstractGinModule {
 		bind(DataViewModelFactory.class).in(Singleton.class);
 		bind(ControlButtonFactory.class).in(Singleton.class);
 		bind(ComposeControllerFactory.class).in(Singleton.class);
+		bind(IEditWidget.class).annotatedWith(Names.named(IEditWidget.GWT)).to(GwtWidgetImpl.class).in(Singleton.class);
+		bind(IEditWidget.class).annotatedWith(Names.named(IEditWidget.POLYMER)).to(EditWidgetPolymer.class)
+				.in(Singleton.class);
 		bind(EditWidgetFactory.class).in(Singleton.class);
 		bind(CheckDictModelFactory.class).in(Singleton.class);
 		bind(ReadResFactory.class).in(Singleton.class);

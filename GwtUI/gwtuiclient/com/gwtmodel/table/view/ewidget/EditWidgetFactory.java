@@ -12,215 +12,60 @@
  */
 package com.gwtmodel.table.view.ewidget;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Inject;
-
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import com.gwtmodel.table.FieldDataType;
-import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.IGetDataList;
 import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.editc.IRequestForGWidget;
-import com.gwtmodel.table.factories.IGetCustomValues;
-import com.gwtmodel.table.rdef.IFormLineView;
-import com.gwtmodel.table.rdef.IGetListOfIcons;
+import com.gwtmodel.table.editw.IFormLineView;
 
 public class EditWidgetFactory {
 
-	private final IGetCustomValues cValues;
+	private final IEditWidget gwtE;
+	private final IEditWidget polymerE;
 
 	@Inject
-	public EditWidgetFactory(IGetCustomValues cValues) {
-		this.cValues = cValues;
+	public EditWidgetFactory(@Named(IEditWidget.GWT) IEditWidget gwtE, @Named(IEditWidget.POLYMER) IEditWidget polymerE) {
+		this.gwtE = gwtE;
+		this.polymerE = polymerE;
 	}
 
-	public IFormLineView constructLabelField(IVField v, String displayName) {
-		return new VLabel(v, displayName);
+	public IEditWidget getGwtE() {
+		return gwtE;
 	}
 
-	public IFormLineView constructHTMLField(IVField v) {
-		return new VHtml(v);
+	public IEditWidget getE(boolean polymer) {
+		return polymer ? polymerE : gwtE;
 	}
 
-	public IFormLineView constructAnchorField(IVField v) {
-		return new AnchorField(v);
-	}
-
-	// used
-	public RadioBoxString constructRadioBoxString(IVField v, IGetDataList iGet, final boolean enable, String htmlName) {
-		return new RadioBoxString(cValues, v, iGet, enable, htmlName);
-	}
-
-	// used
-	public IFormLineView contructCalculatorNumber(IVField v, String htmlName) {
-		return new NumberCalculator(cValues, v,
-				new ExtendTextBox.EParam(false, false, false, false, false, false, false, null, null), htmlName);
-	}
-
-	// used
-	public IFormLineView constructCheckField(IVField v, String text, String htmlName) {
-		return new FieldCheckField(cValues, v, text, htmlName);
-	}
-
-	public IFormLineView constructListValuesCombo(IVField v, IDataType dType, String htmlName) {
-		GetValueLB lB = new GetValueLB(cValues, v, htmlName);
-		AddBoxValues.addValues(dType, lB);
-		return lB;
-	}
-
-	// used
-	public IFormLineView constructListValuesCombo(IVField v, IGetDataList iGet, boolean addEmpty, String htmlName) {
-		GetValueLB lB = new GetValueLB(cValues, v, addEmpty, htmlName);
-		AddBoxValues.addValues(v, iGet, lB);
-		return lB;
-	}
-
-	@SuppressWarnings("unused")
-	private void setComboList(IFormLineView i, IGetDataList iGet) {
-		GetValueLB lB = (GetValueLB) i;
-		AddBoxValues.addValues(i.getV(), iGet, lB);
-	}
-
-	private ExtendTextBox.EParam newE(boolean password, boolean area) {
-		return new ExtendTextBox.EParam(password, false, false, area, false, false, false, null, null);
-	}
-
-	public IFormLineView constructHelperList(IVField v, IDataType dType, boolean refreshAlways, String htmlName) {
-		ExtendTextBox.EParam e = new ExtendTextBox.EParam(false, true, false, false, false, false, false, null, null);
-		return new ListFieldWithHelp(cValues, v, dType, e, refreshAlways, htmlName);
-
-	}
-
-	// used
-	public IFormLineView constructPasswordField(IVField v, String htmlName) {
-		return new ExtendTextBox(cValues, v, newE(true, false), htmlName);
-	}
-
-	// used
-	public IFormLineView constructTextField(IVField v, String htmlName) {
-		return constructTextField(v, null, null, false, false, false, htmlName);
-	}
-
-	public IFormLineView constructTextField(IVField v, IGetDataList iGet, IRequestForGWidget iHelper, boolean textarea,
-			boolean richtext, boolean refreshAlways, String htmlName) {
-		ExtendTextBox.EParam e;
-		boolean panel = (iGet != null || iHelper != null);
-		e = new ExtendTextBox.EParam(false, panel, false, textarea, false, richtext, false, iGet, null);
-		if (iHelper == null)
-			return new ExtendTextBox(cValues, v, e, htmlName);
-		return new EditTextFieldWithHelper(cValues, v, e, iHelper, refreshAlways, htmlName);
-	}
-
-	@SuppressWarnings("unused")
-	private IFormLineView constructLabelTextEdit(IVField v, String la, String htmlName) {
-		return new LabelEdit(cValues, v, newE(false, false), la, htmlName);
-	}
-
-	public IFormLineView constructLabelFor(IVField v, String la) {
-		return new LabelFor(cValues, v, la);
-	}
-
-	// used
-	public IFormLineView construcDateBoxCalendar(IVField v, String htmlName) {
-		return new DateBoxCalendar(cValues, v, htmlName);
-	}
-
-	public IFormLineView constructDateBoxCalendarWithHelper(IVField v, IRequestForGWidget i, boolean refreshAlways,
-			String htmlName) {
-		return new DateBoxWithHelper(cValues, v, i, refreshAlways, htmlName);
-	}
-
-	@SuppressWarnings("unused")
-	private IFormLineView constructBoxSelectField(IVField v, List<ComboVal> wy, String htmlName) {
-		return new ComboBoxField(cValues, v, wy, htmlName);
-	}
-
-	public IFormLineView constructRadioSelectField(IVField v, String htmlName) {
-		return new RadioBoxField(cValues, v, htmlName);
-	}
-
-	public IFormLineView constructListComboValuesHelp(IVField v, IDataType dType, String htmlName) {
-		GetValueLB lB = new ListBoxWithHelp(cValues, v, dType, htmlName);
-		AddBoxValues.addValues(dType, lB);
-		return lB;
-	}
-
-	// used
-	public IFormLineView constructEditFileName(IVField v, String htmlName) {
-		return new FileChooser(cValues, v, htmlName);
-	}
-
-	private List<ComboVal> createVals(List<String> ma) {
-		List<ComboVal> vals = new ArrayList<ComboVal>();
-		for (String s : ma) {
-			vals.add(new ComboVal(s));
-		}
-		return vals;
-	}
-
-	// used
-	public IFormLineView constructListCombo(IVField v, List<String> ma, String htmlName) {
-		return new ComboBoxField(cValues, v, createVals(ma), htmlName);
-	}
-
-	public IFormLineView constructListCombo(IVField v, List<String> ma, boolean addEmpty, String htmlName) {
-		return new ComboBoxField(cValues, v, createVals(ma), addEmpty, htmlName);
-	}
-
-	public IFormLineView constructListCombo(IVField v, String htmlName) {
-		return new ComboListBoxField(cValues, v, htmlName);
-	}
-
-	private IFormLineView constructListComboEnum(IVField v, String htmlName) {
-		List<String> la = new ArrayList<String>();
-		la.addAll(v.getType().getE().getValues());
-		return constructListCombo(v, la, htmlName);
-	}
-
-	public IFormLineView constructSpinner(IVField v, String htmlName, int min, int max) {
-		return new TextWidgetBox(cValues, v, htmlName, new SpinnerInt(min, max));
-	}
-
-	public IFormLineView constructSuggestBox(IVField v, IGetDataList iGet, String htmlName) {
-		return new SuggestWidget(cValues, v, iGet, htmlName);
-	}
-
-	public IFormLineView constructEmail(IVField v, String htmlName) {
-		return new TextWidgetBox(cValues, v, htmlName, new EmailVal());
-	}
-
-	public IFormLineView constructImageButton(IVField v, String htmlName, int imageNo, IGetListOfIcons iList) {
-		return new ImageButton(cValues, v, htmlName, imageNo, iList);
-	}
-
-	public IFormLineView constructEditWidget(IVField v, String htmlName) {
+	public IFormLineView constructEditWidget(IVField v, String htmlName, boolean polymer) {
 		FieldDataType.IFormLineViewFactory fa = v.getType().getiFactory();
 		if (fa != null) {
 			return fa.construct(v);
 		}
+		IEditWidget i = getE(polymer);
 		switch (v.getType().getType()) {
 		case DATETIME:
-			return new DateTimePicker(cValues, v, htmlName);
+			return i.constructDateTimePicker(v, htmlName);
 		case DATE:
-			return construcDateBoxCalendar(v, htmlName);
+			return i.construcDateBoxCalendar(v, htmlName);
 		case INT:
 		case LONG:
 		case BIGDECIMAL:
 			if (v.getType().getLi() != null) {
-				return constructListCombo(v, htmlName);
+				return i.constructListCombo(v, htmlName);
 			}
-			return contructCalculatorNumber(v, htmlName);
+			return i.contructCalculatorNumber(v, htmlName);
 		case ENUM:
-			return constructListComboEnum(v, htmlName);
+			return i.constructListComboEnum(v, htmlName);
 		case BOOLEAN:
-			return constructCheckField(v, null, htmlName);
+			return i.constructCheckField(v, null, htmlName);
 		default:
 			if (v.getType().getLi() != null) {
-				return constructListCombo(v, htmlName);
+				return i.constructListCombo(v, htmlName);
 			}
-			return constructTextField(v, htmlName);
+			return i.constructTextField(v, htmlName);
 		}
 
 	}
+
 }

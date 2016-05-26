@@ -15,6 +15,7 @@ package com.gwtmodel.table.view.controlpanel.polymer;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IGWidget;
+import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.view.controlpanel.IContrButtonView;
@@ -38,37 +39,32 @@ public class PolymerMenuButton implements IContrButtonView {
 
 	@Override
 	public void setEnable(ClickButtonType actionId, boolean enable) {
-		// TODO Auto-generated method stub
-
+		Utils.PolymerNotImplemented("Button:setEnable");
 	}
 
 	@Override
 	public void setHidden(ClickButtonType actionId, boolean hidden) {
-		// TODO Auto-generated method stub
-
+		Utils.PolymerNotImplemented("Button:setHidden");
 	}
 
 	@Override
 	public void setHtml(IGWidget g) {
-		// TODO Auto-generated method stub
-
+		Utils.PolymerNotImplemented("Button:setHtml");
 	}
 
 	@Override
 	public void fillHtml(HTMLPanel pa) {
-		// TODO Auto-generated method stub
-
+		Utils.PolymerNotImplemented("Button:fillHtml");
 	}
 
 	@Override
 	public void emulateClick(ClickButtonType actionId) {
-		// TODO Auto-generated method stub
-
+		Utils.PolymerNotImplemented("Button:emulateClick");
 	}
 
 	@Override
 	public IGetButtons construct() {
-		// TODO Auto-generated method stub
+		Utils.PolymerNotImplemented("Button:construct");
 		return null;
 	}
 

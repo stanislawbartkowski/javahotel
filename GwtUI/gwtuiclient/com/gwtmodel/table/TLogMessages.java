@@ -141,5 +141,7 @@ public interface TLogMessages extends Messages {
     String CannotReadThisUrl(String url);
 
     String CannotReadThisUrlCode(String url, int errocode);
-
+    
+    String PolymerDialogNotImplemented(String mess);
+   
 }

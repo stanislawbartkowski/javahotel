@@ -24,12 +24,12 @@ import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.TT;
 import com.gwtmodel.table.editc.IRequestForGWidget;
+import com.gwtmodel.table.editw.FormField;
+import com.gwtmodel.table.editw.FormLineContainer;
+import com.gwtmodel.table.editw.IFormLineView;
+import com.gwtmodel.table.editw.IGetListOfIcons;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.mm.MM;
-import com.gwtmodel.table.rdef.FormField;
-import com.gwtmodel.table.rdef.FormLineContainer;
-import com.gwtmodel.table.rdef.IFormLineView;
-import com.gwtmodel.table.rdef.IGetListOfIcons;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.ClickButtonType.StandClickEnum;
 import com.gwtmodel.table.smessage.IGetStandardMessage;
@@ -39,6 +39,7 @@ import com.gwtmodel.table.tabledef.VFooterDesc;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
+import com.gwtmodel.table.view.ewidget.IEditWidget;
 import com.jythonui.client.IUIConsts;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.IEnumTypesList;
@@ -65,19 +66,13 @@ public class CreateForm {
 	private CreateForm() {
 	}
 
-	private static String getDisplayName(FieldItem f) {
-		String name = f.getDisplayName();
-		if (name == null) {
-			name = MM.getL().DefaStringName();
-		}
-		return name;
-	}
-
 	public static FormLineContainer construct(DialogInfo dInfo, IGetDataList iGet, IGetDataList iSuggest,
 			IEnumTypesList eList, IRequestForGWidget iHelper, IConstructCustomDataType fType, IGetListOfIcons imaList) {
 		DialogFormat d = dInfo.getDialog();
 		List<FieldItem> iList = d.getFieldList();
-		EditWidgetFactory eFactory = GwtGiniInjector.getI().getEditWidgetFactory();
+		EditWidgetFactory eeFactory = GwtGiniInjector.getI().getEditWidgetFactory();
+		boolean isPolymer = JUtils.isPolymerD(dInfo.getDialog());
+		IEditWidget eFactory = eeFactory.getE(isPolymer);
 		List<FormField> fList = new ArrayList<FormField>();
 		IGetStandardMessage iMess = GwtGiniInjector.getI().getStandardMessage();
 		for (FieldItem f : iList) {
@@ -129,7 +124,7 @@ public class CreateForm {
 					else
 						v = eFactory.constructDateBoxCalendarWithHelper(vf, iHelper, true, htmlId);
 				} else {
-					v = eFactory.constructEditWidget(vf, htmlId);
+					v = eeFactory.constructEditWidget(vf, htmlId, isPolymer);
 				}
 
 			}
@@ -163,16 +158,16 @@ public class CreateForm {
 					fRange = VField.construct(ff);
 			}
 			if (name == null)
-				name = getDisplayName(f);
+				name = JUtils.getDisplayName(f);
 
 			if (!CUtil.EmptyS(f.getCellTitle()))
 				v.setCellTitle(f.getCellTitle());
 
 			FormField fie = new FormField(name, v, vf, fRange, f.isReadOnlyChange(), f.isReadOnlyAdd(), modeSetAlready,
-					f.isLabel() || f.isHtmlType());
+					f.isLabel() || f.isHtmlType(), JUtils.isPolymerD(dInfo.getDialog()));
 			fList.add(fie);
 		}
-		return new FormLineContainer(fList);
+		return new FormLineContainer(fList, isPolymer);
 	}
 
 	public static class ColumnsDesc {
@@ -249,7 +244,7 @@ public class CreateForm {
 					colNo = f.getImageColumn();
 				}
 			}
-			VListHeaderDesc v = new VListHeaderDesc(getDisplayName(f), vf, f.isHidden(), f.getActionId(),
+			VListHeaderDesc v = new VListHeaderDesc(JUtils.getDisplayName(f), vf, f.isHidden(), f.getActionId(),
 					f.isColumnEditable(), al, f.getWidth(), f.getEditClass(), f.getEditCss(), iHelper, colNo,
 					f.getColumnClass(), f.getHeaderClass(), iSpinner);
 			heList.add(v);

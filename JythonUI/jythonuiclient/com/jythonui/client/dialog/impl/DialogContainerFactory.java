@@ -28,9 +28,9 @@ public class DialogContainerFactory implements IDialogContainerFactory {
 	public IDialogContainer construct(IDataType dType, DialogInfo info,
 			IVariablesContainer pCon, ISendCloseAction iClose,
 			DialogVariables addV, IExecuteAfterModalDialog iEx,
-			String[] startVal, ICustomClickAction iCustomClick) {
+			String[] startVal, ICustomClickAction iCustomClick, boolean mainD) {
 		return new DialogContainer(dType, info, pCon, iClose, addV, iEx,
-				startVal, iCustomClick);
+				startVal, iCustomClick, mainD);
 	}
 
 }

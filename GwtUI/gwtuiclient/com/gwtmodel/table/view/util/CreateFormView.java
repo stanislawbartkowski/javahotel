@@ -27,191 +27,173 @@ import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.IGFocusWidget;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.editw.FormField;
+import com.gwtmodel.table.editw.IFormLineView;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.injector.GwtGiniInjector;
-import com.gwtmodel.table.rdef.FormField;
-import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.smessage.IGetStandardMessage;
-import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
+import com.gwtmodel.table.view.ewidget.IEditWidget;
 
 public class CreateFormView {
 
-    private CreateFormView() {
-    }
+	private CreateFormView() {
+	}
 
-    private static void replaceId(HTMLPanel ha, String htmlId, Widget w,
-            boolean addId) {
-        try {
-            if (addId)
-                w.getElement().setId(htmlId);
-            // ha.add(w, htmlId);
-            ha.addAndReplaceElement(w, htmlId);
-        } catch (NoSuchElementException e) {
-            // expected
-        }
+	private static void replaceId(HTMLPanel ha, String htmlId, Widget w, boolean addId) {
+		try {
+			if (addId)
+				w.getElement().setId(htmlId);
+			// ha.add(w, htmlId);
+			ha.addAndReplaceElement(w, htmlId);
+		} catch (NoSuchElementException e) {
+			// expected
+		}
 
-    }
+	}
 
-    /**
-     * Inserts one position into HTML panel. Do nothing if position not found
-     * 
-     * @param ha
-     *            HTMLpanel
-     * @param htmlId
-     *            Position id inside HTML
-     * @param w
-     *            Widget to insert Important: do nothing if position not found
-     */
-    public static void replace(HTMLPanel ha, String htmlId, Widget w) {
-        replaceId(ha, htmlId, w, false);
-    }
+	/**
+	 * Inserts one position into HTML panel. Do nothing if position not found
+	 * 
+	 * @param ha
+	 *            HTMLpanel
+	 * @param htmlId
+	 *            Position id inside HTML
+	 * @param w
+	 *            Widget to insert Important: do nothing if position not found
+	 */
+	public static void replace(HTMLPanel ha, String htmlId, Widget w) {
+		replaceId(ha, htmlId, w, false);
+	}
 
-    public interface IGetButtons {
-        List<ClickButtonType> getDList();
+	public interface IGetButtons {
+		List<ClickButtonType> getDList();
 
-        List<IGFocusWidget> getBList();
-    }
+		List<IGFocusWidget> getBList();
+	}
 
-    public static void setHtml(HTMLPanel pa, IGetButtons iG) {
-        int i = 0;
-        for (ClickButtonType c : iG.getDList()) {
-            IGFocusWidget b = iG.getBList().get(i++);
-            String htmlId = c.getHtmlElementName();
-            replace(pa, htmlId, b.getGWidget());
-        }
-    }
+	public static void setHtml(HTMLPanel pa, IGetButtons iG) {
+		int i = 0;
+		for (ClickButtonType c : iG.getDList()) {
+			IGFocusWidget b = iG.getBList().get(i++);
+			String htmlId = c.getHtmlElementName();
+			replace(pa, htmlId, b.getGWidget());
+		}
+	}
 
-    public static void setHtml(HTMLPanel pa, List<FormField> fList) {
-        EditWidgetFactory eFactory = GwtGiniInjector.getI()
-                .getEditWidgetFactory();
-        IGetStandardMessage iMess = GwtGiniInjector.getI().getStandardMessage();
-        IGetCustomValues c = GwtGiniInjector.getI().getCustomValues();
-        boolean addId = CUtil.EqNS(
-                c.getCustomValue(IGetCustomValues.HTMLPANELADDID),
-                IGetCustomValues.VALUEYES);
+	public static void setHtml(HTMLPanel pa, List<FormField> fList) {
+		IEditWidget eFactory = GwtGiniInjector.getI().getEditWidgetFactory().getGwtE();
+		IGetStandardMessage iMess = GwtGiniInjector.getI().getStandardMessage();
+		IGetCustomValues c = GwtGiniInjector.getI().getCustomValues();
+		boolean addId = CUtil.EqNS(c.getCustomValue(IGetCustomValues.HTMLPANELADDID), IGetCustomValues.VALUEYES);
 
-        for (FormField d : fList) {
-            String htmlId = d.getELine().getHtmlName();
-            if (CUtil.EmptyS(htmlId)) {
-                continue;
-            }
-            Widget w = d.getELine().getGWidget();
-            // in case of label always visible
-            if (d.isLabel())
-                w.setVisible(true);
+		for (FormField d : fList) {
+			String htmlId = d.getELine().getHtmlName();
+			if (CUtil.EmptyS(htmlId)) {
+				continue;
+			}
+			Widget w = d.getELine().getGWidget();
+			// in case of label always visible
+			if (d.isLabel())
+				w.setVisible(true);
 
-            replaceId(pa, htmlId, w, addId);
-            if (d.isLabel())
-                continue;
+			replaceId(pa, htmlId, w, addId);
+			if (d.isLabel())
+				continue;
 
-            String labelId = IConsts.LABELPREFIX + htmlId;
-            if (pa.getElementById(labelId) != null) {
-                IFormLineView v = eFactory.constructLabelField(d.getFie(),
-                        iMess.getMessage(d.getPLabel()));
-                replace(pa, labelId, v.getGWidget());
-            }
+			String labelId = IConsts.LABELPREFIX + htmlId;
+			if (pa.getElementById(labelId) != null) {
+				IFormLineView v = eFactory.constructLabelField(d.getFie(), iMess.getMessage(d.getPLabel()));
+				replace(pa, labelId, v.getGWidget());
+			}
 
-            String labelFor = IConsts.LABELFORPREFIX + htmlId;
-            if (pa.getElementById(labelFor) != null) {
-                IFormLineView v = eFactory.constructLabelFor(d.getFie(),
-                        iMess.getMessage(d.getPLabel()));
-                replace(pa, labelFor, v.getGWidget());
-            }
+			String labelFor = IConsts.LABELFORPREFIX + htmlId;
+			if (pa.getElementById(labelFor) != null) {
+				IFormLineView v = eFactory.constructLabelFor(d.getFie(), iMess.getMessage(d.getPLabel()));
+				replace(pa, labelFor, v.getGWidget());
+			}
 
-        }
-    }
+		}
+	}
 
-    public static HTMLPanel setHtml(String html, List<FormField> fList) {
-        HTMLPanel pa = new HTMLPanel(html);
-        setHtml(pa, fList);
-        return pa;
-    }
+	public static HTMLPanel setHtml(String html, List<FormField> fList) {
+		HTMLPanel pa = new HTMLPanel(html);
+		setHtml(pa, fList);
+		return pa;
+	}
 
-    /**
-     * Creates widget grid for list of form (enter) fields
-     * 
-     * @param fList
-     *            List of fields
-     * @param add
-     *            if not null contains set of fields for add (ignore the others)
-     * @return Grid created
-     */
-    public static Grid construct(final List<FormField> fList, Set<IVField> add) {
+	/**
+	 * Creates widget grid for list of form (enter) fields
+	 * 
+	 * @param fList
+	 *            List of fields
+	 * @param add
+	 *            if not null contains set of fields for add (ignore the others)
+	 * @return Grid created
+	 */
+	public static Grid construct(final List<FormField> fList) {
 
-        IGetStandardMessage iMess = GwtGiniInjector.getI().getStandardMessage();
-        // number of rows
-        int rows = 0;
-        for (FormField d : fList) {
-            IVField v = d.getFie();
-            if (add != null) {
-                if (!add.contains(v)) {
-                    continue;
-                }
-            }
-            if (d.isRange())
-                continue;
-            rows++;
-        }
-        Grid g = new Grid(rows, 2);
-        rows = 0;
-        for (FormField d : fList) {
-            if (d.isLabel()) {
-                g.setWidget(rows, 0, d.getELine().getGWidget());
-                Element e = g.getCellFormatter().getElement(rows, 0);
-                e.setAttribute("colspan", "2");
-                rows++;
-                continue;
-            }
-            if (d.isRange())
-                continue;
-            IVField v = d.getFie();
-            if (add != null) {
-                if (!add.contains(v))
-                    continue;
-            }
-            String mLabel = iMess.getMessage(d.getPLabel());
+		IGetStandardMessage iMess = GwtGiniInjector.getI().getStandardMessage();
+		// number of rows
+		int rows = 0;
+		for (FormField d : fList) {
+			IVField v = d.getFie();
+			if (d.isRange())
+				continue;
+			rows++;
+		}
+		Grid g = new Grid(rows, 2);
+		rows = 0;
+		for (FormField d : fList) {
+			if (d.isLabel()) {
+				g.setWidget(rows, 0, d.getELine().getGWidget());
+				Element e = g.getCellFormatter().getElement(rows, 0);
+				e.setAttribute("colspan", "2");
+				rows++;
+				continue;
+			}
+			if (d.isRange())
+				continue;
+			IVField v = d.getFie();
+			String mLabel = iMess.getMessage(d.getPLabel());
 
-            // FormField fRange = null;
-            List<FormField> fRange = new ArrayList<FormField>();
-            for (FormField fo : fList) {
-                if (!fo.isRange())
-                    continue;
-                if (fo.getFRange().eq(d.getFie()))
-                    fRange.add(fo);
-            }
-            Label la = new Label(mLabel);
-            if (d.getELine().isHidden())
-                la.setVisible(false);
-            Widget w1;
-            Widget w2;
-            if (fRange.isEmpty()) {
-                w1 = la;
-                w2 = d.getELine().getGWidget();
-            } else {
-                HorizontalPanel vp1 = new HorizontalPanel();
-                HorizontalPanel vp2 = new HorizontalPanel();
-                vp1.add(la);
-                vp2.add(d.getELine().getGWidget());
-                w1 = vp1;
-                w2 = vp2;
-                for (FormField f : fRange) {
-                    if (f.getPLabel() != null) {
-                        String rLabel = iMess.getMessage(f.getPLabel());
-                        Label la2 = new Label(rLabel);
-                        vp2.add(la2);
-                    }
-                    vp2.add(f.getELine().getGWidget());
-                }
-            }
-            g.setWidget(rows, 0, w1);
-            g.setWidget(rows, 1, w2);
-            rows++;
-        }
-        return g;
-    }
+			// FormField fRange = null;
+			List<FormField> fRange = new ArrayList<FormField>();
+			for (FormField fo : fList) {
+				if (!fo.isRange())
+					continue;
+				if (fo.getFRange().eq(d.getFie()))
+					fRange.add(fo);
+			}
+			Label la = new Label(mLabel);
+			if (d.getELine().isHidden())
+				la.setVisible(false);
+			Widget w1;
+			Widget w2;
+			if (fRange.isEmpty()) {
+				w1 = la;
+				w2 = d.getELine().getGWidget();
+			} else {
+				HorizontalPanel vp1 = new HorizontalPanel();
+				HorizontalPanel vp2 = new HorizontalPanel();
+				vp1.add(la);
+				vp2.add(d.getELine().getGWidget());
+				w1 = vp1;
+				w2 = vp2;
+				for (FormField f : fRange) {
+					if (f.getPLabel() != null) {
+						String rLabel = iMess.getMessage(f.getPLabel());
+						Label la2 = new Label(rLabel);
+						vp2.add(la2);
+					}
+					vp2.add(f.getELine().getGWidget());
+				}
+			}
+			g.setWidget(rows, 0, w1);
+			g.setWidget(rows, 1, w2);
+			rows++;
+		}
+		return g;
+	}
 
-    public static Grid construct(final List<FormField> fList) {
-        return construct(fList, null);
-    }
 }

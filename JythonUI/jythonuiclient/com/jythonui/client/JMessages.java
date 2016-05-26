@@ -108,6 +108,6 @@ public interface JMessages extends Messages {
 
 	String ListOfImagesCannotBeEmpty(String field, String paramImages);
 
-	String ListOfImagesDoNotComply(String field, String paramImages, String list, int no);
+	String ListOfImagesDoNotComply(String field, String paramImages, String list, int no);	
 
 }

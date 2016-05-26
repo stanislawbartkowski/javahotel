@@ -13,9 +13,9 @@
 package com.gwtmodel.table.view.form;
 
 import com.gwtmodel.table.common.ISignal;
+import com.gwtmodel.table.editw.FormLineContainer;
 import com.gwtmodel.table.factories.IDataFormConstructorAbstractFactory;
 import com.gwtmodel.table.injector.ICallContext;
-import com.gwtmodel.table.rdef.FormLineContainer;
 
 public class GwtFormViewFactory {
 

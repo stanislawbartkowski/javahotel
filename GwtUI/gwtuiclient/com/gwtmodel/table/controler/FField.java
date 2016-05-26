@@ -12,110 +12,96 @@
  */
 package com.gwtmodel.table.controler;
 
+import com.gwtmodel.table.AbstractVField;
 import com.gwtmodel.table.FieldDataType;
 import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.mm.LogT;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
 
 /**
  * 
  * @author perseus
  */
-class FField implements IVField {
+class FField extends AbstractVField {
 
-    private final IVField fie;
-    private final boolean from;
-    private final VListHeaderDesc v;
-    private final boolean checkField;
-    private final boolean ignoreField;
+	private final IVField fie;
+	private final boolean from;
+	private final VListHeaderDesc v;
+	private final boolean checkField;
+	private final boolean ignoreField;
 
-    private FField(IVField fie, boolean from, VListHeaderDesc v,
-            boolean checkField, boolean ignoreField) {
-        this.fie = fie;
-        this.from = from;
-        this.v = v;
-        this.checkField = checkField;
-        this.ignoreField = ignoreField;
-    }
+	private FField(IVField fie, boolean from, VListHeaderDesc v, boolean checkField, boolean ignoreField) {
+		super(fie.getId(), (checkField || ignoreField) ? FieldDataType.constructBoolean() : v.getFie().getType());
+		this.fie = fie;
+		this.from = from;
+		this.v = v;
+		this.checkField = checkField;
+		this.ignoreField = ignoreField;
+	}
 
-    static FField constructIgnore(VListHeaderDesc h) {
-        return new FField(h.getFie(), false, h, false, true);
-    }
+	static FField constructIgnore(VListHeaderDesc h) {
+		return new FField(h.getFie(), false, h, false, true);
+	}
 
-    static FField constructCheck(VListHeaderDesc h) {
-        return new FField(h.getFie(), false, h, true, false);
-    }
+	static FField constructCheck(VListHeaderDesc h) {
+		return new FField(h.getFie(), false, h, true, false);
+	}
 
-    static FField constructFrom(VListHeaderDesc h) {
-        return new FField(h.getFie(), true, h, false, false);
-    }
+	static FField constructFrom(VListHeaderDesc h) {
+		return new FField(h.getFie(), true, h, false, false);
+	}
 
-    static FField constructTo(VListHeaderDesc h) {
-        return new FField(h.getFie(), false, h, false, false);
-    }
+	static FField constructTo(VListHeaderDesc h) {
+		return new FField(h.getFie(), false, h, false, false);
+	}
 
-    @Override
-    public boolean eq(IVField o) {
-        FField f = (FField) o;
-        if (checkField != f.isCheckField()) {
-            return false;
-        }
-        if (ignoreField != f.isIgnoreField()) {
-            return false;
-        }
-        if (isFrom() != f.isFrom()) {
-            return false;
-        }
-        return getFie().eq(f.getFie());
-    }
+	@Override
+	public boolean eq(IVField o) {
+		FField f = (FField) o;
+		if (checkField != f.isCheckField()) {
+			return false;
+		}
+		if (ignoreField != f.isIgnoreField()) {
+			return false;
+		}
+		if (isFrom() != f.isFrom()) {
+			return false;
+		}
+		return getFie().eq(f.getFie());
+	}
 
-    /**
-     * @return the fie
-     */
-    public IVField getFie() {
-        return fie;
-    }
+	/**
+	 * @return the fie
+	 */
+	public IVField getFie() {
+		return fie;
+	}
 
-    /**
-     * @return the from
-     */
-    public boolean isFrom() {
-        return from;
-    }
+	/**
+	 * @return the from
+	 */
+	public boolean isFrom() {
+		return from;
+	}
 
-    /**
-     * @return the v
-     */
-    public VListHeaderDesc getV() {
-        return v;
-    }
+	/**
+	 * @return the v
+	 */
+	public VListHeaderDesc getV() {
+		return v;
+	}
 
-    @Override
-    public FieldDataType getType() {
-        if (checkField || ignoreField) {
-            return FieldDataType.constructBoolean();
-        }
-        return v.getFie().getType();
-    }
+	/**
+	 * @return the checkField
+	 */
+	public boolean isCheckField() {
+		return checkField;
+	}
 
-    @Override
-    public String getId() {
-        assert v.getFie().getId() != null : LogT.getT().cannotBeNull();
-        return v.getFie().getId();
-    }
-
-    /**
-     * @return the checkField
-     */
-    public boolean isCheckField() {
-        return checkField;
-    }
-
-    /**
-     * @return the ignoreField
-     */
-    public boolean isIgnoreField() {
-        return ignoreField;
-    }
+	/**
+	 * @return the ignoreField
+	 */
+	public boolean isIgnoreField() {
+		return ignoreField;
+	}
 
 }

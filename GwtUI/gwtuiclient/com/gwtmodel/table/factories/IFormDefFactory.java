@@ -17,8 +17,8 @@
 
 package com.gwtmodel.table.factories;
 
+import com.gwtmodel.table.editw.FormLineContainer;
 import com.gwtmodel.table.injector.ICallContext;
-import com.gwtmodel.table.rdef.FormLineContainer;
 
 /**
  *

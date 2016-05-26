@@ -23,6 +23,7 @@ import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.common.TT;
 import com.gwtmodel.table.datalisttype.DataListTypeFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.mm.MM;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.view.util.SolidPos;
@@ -214,6 +215,25 @@ public class JUtils {
 				rI.setRowField(row, id, vali);
 			}
 		}
+	}
+
+	public static boolean isPolymerD(DialogFormat d) {
+		return d.isPolymer() && MM.isPolymer();
+	}
+
+	public static String[] toA(List<String> l) {
+		String[] aout = new String[l.size()];
+		for (int i = 0; i < l.size(); i++)
+			aout[i] = l.get(i);
+		return aout;
+	}
+
+	public static String getDisplayName(FieldItem f) {
+		String name = f.getDisplayName();
+		if (name == null) {
+			name = MM.getL().DefaStringName();
+		}
+		return name;
 	}
 
 }

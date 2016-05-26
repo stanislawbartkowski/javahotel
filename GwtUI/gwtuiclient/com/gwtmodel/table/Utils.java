@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.eclipse.jdt.internal.compiler.ast.MagicLiteral;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
@@ -470,5 +472,13 @@ public class Utils {
 		}
 		return build.toString();
 	}
-		
+
+	public static void PolymerNotImplemented(String mess1, String mess2) {
+		errAlert(mess1, LogT.getT().PolymerDialogNotImplemented(mess2));
+	}
+
+	public static void PolymerNotImplemented(String mess) {
+		errAlert(LogT.getT().PolymerDialogNotImplemented(mess));
+	}
+
 }

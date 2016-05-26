@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" polymer="">
+
+<leftmenu>
+  <button id="main" displayname="Main form"/>
+</leftmenu>  
+  
+ <form>
+   <field id="glob1" />
+ </form>  
+ 
+</dialog>
+

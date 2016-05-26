@@ -16,7 +16,7 @@ import java.util.List;
 
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.TT;
-import com.gwtmodel.table.rdef.IFormLineView;
+import com.gwtmodel.table.editw.IFormLineView;
 
 /**
  * 

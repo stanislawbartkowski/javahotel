@@ -14,10 +14,10 @@ package com.gwtmodel.table.datamodelview;
 
 import javax.inject.Inject;
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.editw.FormLineContainer;
 import com.gwtmodel.table.factories.IDataFormConstructorAbstractFactory;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.ITableCustomFactories;
-import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.view.form.GwtFormViewFactory;
 
 public class DataViewModelFactory {

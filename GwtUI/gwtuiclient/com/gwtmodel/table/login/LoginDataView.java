@@ -17,11 +17,11 @@ import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.controlbuttonview.IControlButtonView;
 import com.gwtmodel.table.datamodelview.IDataViewModel;
+import com.gwtmodel.table.editw.FormLineContainer;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.IDataValidateAction;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.panelview.IPanelView;
-import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.slotmodel.*;
 
 class LoginDataView extends AbstractSlotMediatorContainer implements

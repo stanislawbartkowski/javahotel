@@ -20,84 +20,68 @@ import com.gwtmodel.table.common.CUtil;
  * 
  * @author perseus
  */
-public class VSField implements IVField {
+public class VSField extends AbstractVField {
 
-    /** Id. */
-    private final String vName;
-    /** Type. */
-    private final FieldDataType dType;
+	/**
+	 * Creates FSField (private, is created through factory)
+	 * 
+	 * @param vName
+	 *            Id
+	 * @param dType
+	 *            Type
+	 */
+	private VSField(String vName, FieldDataType dType) {
+		super(vName, dType);
+	}
 
-    /**
-     * Creates FSField (private, is created through factory)
-     * 
-     * @param vName
-     *            Id
-     * @param dType
-     *            Type
-     */
-    private VSField(String vName, FieldDataType dType) {
-        this.vName = vName;
-        this.dType = dType;
-    }
+	@Override
+	public boolean eq(IVField o) {
+		if (o instanceof VSField) {
+			VSField v = (VSField) o;
+			return CUtil.EqNS(getId(), v.getId());
+		}
+		return false;
+	}
 
-    @Override
-    public FieldDataType getType() {
-        return dType;
-    }
+	/**
+	 * Creates VSField (type of String)
+	 * 
+	 * @param vName
+	 *            String id
+	 * @return VSField
+	 */
+	public static IVField createVString(String vName) {
+		return new VSField(vName, FieldDataType.constructString());
+	}
 
-    @Override
-    public String getId() {
-        return vName;
-    }
+	/**
+	 * Creates VSField (type of Date)
+	 * 
+	 * @param vName
+	 *            String id
+	 * @return VSField
+	 */
+	public static IVField createVDate(String vName) {
+		return new VSField(vName, FieldDataType.constructDate());
+	}
 
-    @Override
-    public boolean eq(IVField o) {
-        if (o instanceof VSField) {
-            VSField v = (VSField) o;
-            return CUtil.EqNS(vName, v.vName);
-        }
-        return false;
-    }
+	/**
+	 * Creates VSField (type of Integer)
+	 * 
+	 * @param vName
+	 *            String id
+	 * @return VSField
+	 */
+	public static IVField createVInteger(String vName) {
+		return new VSField(vName, FieldDataType.constructInt());
+	}
 
-    /**
-     * Creates VSField (type of String)
-     * 
-     * @param vName
-     *            String id
-     * @return VSField
-     */
-    public static IVField createVString(String vName) {
-        return new VSField(vName, FieldDataType.constructString());
-    }
+	public static IVField createVDecimal(String vName) {
+		return new VSField(vName, FieldDataType.constructBigDecimal());
+	}
 
-    /**
-     * Creates VSField (type of Date)
-     * 
-     * @param vName
-     *            String id
-     * @return VSField
-     */
-    public static IVField createVDate(String vName) {
-        return new VSField(vName, FieldDataType.constructDate());
-    }
-
-    /**
-     * Creates VSField (type of Integer)
-     * 
-     * @param vName
-     *            String id
-     * @return VSField
-     */
-    public static IVField createVInteger(String vName) {
-        return new VSField(vName, FieldDataType.constructInt());
-    }
-
-    public static IVField createVDecimal(String vName) {
-        return new VSField(vName, FieldDataType.constructBigDecimal());
-    }
-
-    public static IVField createVSField(String vName, FieldDataType t) {
-        return new VSField(vName, t);
-    }
+	public static IVField createVSField(String vName, FieldDataType t) {
+		return new VSField(vName, t);
+	}
 
 }

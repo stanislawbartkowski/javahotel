@@ -279,7 +279,7 @@ class GetViewController implements IGetViewControllerFactory {
 		DialogFormat dElem = li.getfElem();
 		assert dElem != null;
 		DialogInfo elemInfo = new DialogInfo(dElem, null);
-		IDialogContainer sLo = dialFactory.construct(da, elemInfo, iCon, null, addV, null, null, null);
+		IDialogContainer sLo = dialFactory.construct(da, elemInfo, iCon, null, addV, null, null, null, false);
 		ComposeControllerType cType = new ComposeControllerType(sLo, da, 0, 0);
 		i.registerControler(cType);
 

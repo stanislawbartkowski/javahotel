@@ -16,8 +16,9 @@ import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IGetSetVField;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.rdef.FormField;
-import com.gwtmodel.table.rdef.FormLineContainer;
+import com.gwtmodel.table.editw.FormField;
+import com.gwtmodel.table.editw.FormLineContainer;
+
 import java.util.ArrayList;
 import java.util.List;
 

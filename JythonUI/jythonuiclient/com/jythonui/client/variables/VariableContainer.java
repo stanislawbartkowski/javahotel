@@ -19,9 +19,9 @@ import java.util.Set;
 
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.rdef.FormField;
-import com.gwtmodel.table.rdef.FormLineContainer;
-import com.gwtmodel.table.rdef.IFormLineView;
+import com.gwtmodel.table.editw.FormField;
+import com.gwtmodel.table.editw.FormLineContainer;
+import com.gwtmodel.table.editw.IFormLineView;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlU;
 import com.jythonui.shared.DialogVariables;

@@ -12,51 +12,48 @@
  */
 package com.gwtmodel.table.login;
 
+import com.gwtmodel.table.AbstractVField;
 import com.gwtmodel.table.FieldDataType;
 import com.gwtmodel.table.IVField;
 
-public class LoginField implements IVField {
+public class LoginField extends AbstractVField {
 
-    @Override
-    public FieldDataType getType() {
-        return FieldDataType.constructString();
-    }
+	@Override
+	public FieldDataType getType() {
+		return FieldDataType.constructString();
+	}
 
-    @Override
-    public String getId() {
-        return f.toString();
-    }
+	public enum F {
 
-    public enum F {
+		LOGINNAME, PASSWORD, REPASSWORD, OTHER
+	};
 
-        LOGINNAME, PASSWORD, REPASSWORD, OTHER
-    };
+	public F getF() {
+		return f;
+	}
 
-    public F getF() {
-        return f;
-    }
+	private final F f;
 
-    private final F f;
+	public LoginField(F f) {
+		super(f.toString());
+		this.f = f;
+	}
 
-    public LoginField(F f) {
-        this.f = f;
-    }
+	@Override
+	public boolean eq(IVField o) {
+		LoginField l = (LoginField) o;
+		return f == l.f;
+	}
 
-    @Override
-    public boolean eq(IVField o) {
-        LoginField l = (LoginField) o;
-        return f == l.f;
-    }
+	public boolean isLogin() {
+		return f == F.LOGINNAME;
+	}
 
-    public boolean isLogin() {
-        return f == F.LOGINNAME;
-    }
+	public boolean isPassword() {
+		return f == F.PASSWORD;
+	}
 
-    public boolean isPassword() {
-        return f == F.PASSWORD;
-    }
-
-    public boolean isRePassword() {
-        return f == F.REPASSWORD;
-    }
+	public boolean isRePassword() {
+		return f == F.REPASSWORD;
+	}
 }

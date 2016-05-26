@@ -186,10 +186,8 @@ public class RunAction implements IJythonUIClient {
 				return;
 			}
 
-			AfterUploadSubmitSignal sig = new AfterUploadSubmitSignal(res, wS,
-					submitId);
-			CustomStringSlot sl = AfterUploadSubmitSignal
-					.constructSignal(dType);
+			AfterUploadSubmitSignal sig = new AfterUploadSubmitSignal(res, wS, submitId);
+			CustomStringSlot sl = AfterUploadSubmitSignal.constructSignal(dType);
 			sy.dI.getSlContainer().publish(sl, sig);
 		}
 
@@ -217,17 +215,14 @@ public class RunAction implements IJythonUIClient {
 				formP = new FormPanel();
 				formP.add(w);
 				// String action = GWT.getHostPageBaseURL() + "/upLoadHandler";
-				String action = Utils
-						.getURLServlet(ICommonConsts.UPLOADSERVLET);
+				String action = Utils.getURLServlet(ICommonConsts.UPLOADSERVLET);
 				formP.setAction(action);
 				formP.setEncoding(FormPanel.ENCODING_MULTIPART);
 				formP.setMethod(FormPanel.METHOD_POST);
 				formP.addSubmitCompleteHandler(sC);
-				md = new UpDialog(formP, dType, d.isAutoHideDialog(),
-						!d.isModelessDialog());
+				md = new UpDialog(formP, dType, d.isAutoHideDialog(), !d.isModelessDialog());
 			} else
-				md = new UpDialog(w, dType, d.isAutoHideDialog(),
-						!d.isModelessDialog());
+				md = new UpDialog(w, dType, d.isAutoHideDialog(), !d.isModelessDialog());
 			if (!CUtil.EmptyS(d.getDisplayName())) {
 				md.setTitle(d.getDisplayName());
 			}
@@ -274,8 +269,7 @@ public class RunAction implements IJythonUIClient {
 			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 				@Override
 				public void execute() {
-					syM.mDial = new MDialog(wd, slContext.getSlType()
-							.getdType());
+					syM.mDial = new MDialog(wd, slContext.getSlType().getdType());
 					// syM.mDial.show(w);
 					syM.mDial.setW(w);
 					syM.signalDone();
@@ -352,11 +346,11 @@ public class RunAction implements IJythonUIClient {
 		private final String[] startVal;
 		private final IDialogContainerFactory dialFactory;
 		private final ICustomClickAction iCustomClick;
+		private final boolean startD;
 
-		StartBack(IDataType dType, ISlotListener getW,
-				IVariablesContainer iCon, ISendCloseAction iClose,
-				DialogVariables addV, IExecuteAfterModalDialog iEx,
-				String[] startVal,ICustomClickAction iCustomClick) {
+		StartBack(IDataType dType, ISlotListener getW, IVariablesContainer iCon, ISendCloseAction iClose,
+				DialogVariables addV, IExecuteAfterModalDialog iEx, String[] startVal, ICustomClickAction iCustomClick,
+				boolean startD) {
 			this.dType = dType;
 			this.getW = getW;
 			this.iCon = iCon;
@@ -366,30 +360,23 @@ public class RunAction implements IJythonUIClient {
 			this.startVal = startVal;
 			dialFactory = UIGiniInjector.getI().getDialogContainterFactory();
 			this.iCustomClick = iCustomClick;
+			this.startD = startD;
 		}
 
 		@Override
 		public void onMySuccess(DialogInfo arg) {
-			IDialogContainer d = dialFactory.construct(dType, arg, iCon,
-					iClose, addV, iEx, startVal,iCustomClick);
+			IDialogContainer d = dialFactory.construct(dType, arg, iCon, iClose, addV, iEx, startVal, iCustomClick,
+					startD);
 			if (sy.mainW)
 				M.setMainD(d);
 			if (d.getD().isModelessDialog())
 				iEx.registerModeless(d);
-			d.getSlContainer().registerSubscriber(
-					SendDialogFormSignal.constructSignal(dType),
-					new GetDialog());
+			d.getSlContainer().registerSubscriber(SendDialogFormSignal.constructSignal(dType), new GetDialog());
 			// SlU.registerWidgetListener0(dType, d, getW);
 			SlU.registerWidgetListener0(dType, d, new GetW());
-			d.getSlContainer().registerSubscriber(
-					SendCloseSignal.constructSignal(dType), new CloseDialog());
-			d.getSlContainer()
-					.registerSubscriber(
-							SendSubmitSignal.constructSignal(dType),
-							new SubmitDialog());
-			d.getSlContainer().registerSubscriber(
-					SignalAfterBefore.constructSignal(dType),
-					new BeforeFinished());
+			d.getSlContainer().registerSubscriber(SendCloseSignal.constructSignal(dType), new CloseDialog());
+			d.getSlContainer().registerSubscriber(SendSubmitSignal.constructSignal(dType), new SubmitDialog());
+			d.getSlContainer().registerSubscriber(SignalAfterBefore.constructSignal(dType), new BeforeFinished());
 			CellId cId = new CellId(0);
 			sy.dI = d;
 			sy.sl = getW;
@@ -401,14 +388,8 @@ public class RunAction implements IJythonUIClient {
 	public void start(String startdialogName) {
 		IDataType dType = DataType.construct(startdialogName, null);
 		sy.mainW = true;
-		UIGiniInjector
-				.getI()
-				.getDialogFormatHandler()
-				.getDialogFormat(
-						null,
-						startdialogName,
-						new StartBack(dType, new GetCenterWidget(), null, null,
-								null, null, null,null));
+		UIGiniInjector.getI().getDialogFormatHandler().getDialogFormat(null, startdialogName,
+				new StartBack(dType, new GetCenterWidget(), null, null, null, null, null, null, true));
 
 	}
 
@@ -422,34 +403,21 @@ public class RunAction implements IJythonUIClient {
 	 * @param iCon
 	 *            Variable top copy from
 	 */
-	public void upDialog(String dialogName, WSize w, IVariablesContainer iCon,
-			IExecuteAfterModalDialog iEx, String startVal, String startVal1,
-			DialogVariables addV,ICustomClickAction iCustomClick) {
+	public void upDialog(String dialogName, WSize w, IVariablesContainer iCon, IExecuteAfterModalDialog iEx,
+			String startVal, String startVal1, DialogVariables addV, ICustomClickAction iCustomClick) {
 		IDataType dType = DataType.construct(dialogName, null);
 
-		UIGiniInjector
-				.getI()
-				.getDialogFormatHandler()
-				.getDialogFormat(
-						iCon.getDialogName(),
-						dialogName,
-						new StartBack(dType, new GetUpWidget(w), iCon, null,
-								addV, iEx, new String[] { startVal, startVal1 },iCustomClick));
+		UIGiniInjector.getI().getDialogFormatHandler().getDialogFormat(iCon.getDialogName(), dialogName,
+				new StartBack(dType, new GetUpWidget(w), iCon, null, addV, iEx, new String[] { startVal, startVal1 },
+						iCustomClick, false));
 	}
 
-	public void getHelperDialog(String dialogName, ISlotListener sl,
-			IVariablesContainer iCon, ISendCloseAction iClose,
+	public void getHelperDialog(String dialogName, ISlotListener sl, IVariablesContainer iCon, ISendCloseAction iClose,
 			DialogVariables addV, String startVal) {
 		IDataType dType = DataType.construct(dialogName, null);
 
-		UIGiniInjector
-				.getI()
-				.getDialogFormatHandler()
-				.getDialogFormat(
-						iCon.getDialogName(),
-						dialogName,
-						new StartBack(dType, sl, iCon, iClose, addV, null,
-								new String[] { startVal, null },null));
+		UIGiniInjector.getI().getDialogFormatHandler().getDialogFormat(iCon.getDialogName(), dialogName,
+				new StartBack(dType, sl, iCon, iClose, addV, null, new String[] { startVal, null }, null, false));
 
 	}
 

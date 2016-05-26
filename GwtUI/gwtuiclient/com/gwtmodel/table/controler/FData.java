@@ -21,7 +21,7 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.VModelData;
 import com.gwtmodel.table.common.TT;
-import com.gwtmodel.table.rdef.FormField;
+import com.gwtmodel.table.editw.FormField;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
 
 /**

@@ -18,89 +18,79 @@ package com.gwtmodel.table;
  */
 public class Empty {
 
-    private Empty() {
-    }
+	private Empty() {
+	}
 
-    private static class EmptyDataType implements IDataType {
+	private static class EmptyDataType implements IDataType {
 
-        @Override
-        public boolean eq(IDataType dType) {
-            // return true;
-            return (dType instanceof EmptyDataType);
-        }
-    }
+		@Override
+		public boolean eq(IDataType dType) {
+			// return true;
+			return (dType instanceof EmptyDataType);
+		}
+	}
 
-    private static class EmptyDataType1 implements IDataType {
+	private static class EmptyDataType1 implements IDataType {
 
-        @Override
-        public boolean eq(IDataType dType) {
-            // return true;
-            return (dType instanceof EmptyDataType1);
-        }
-    }
+		@Override
+		public boolean eq(IDataType dType) {
+			// return true;
+			return (dType instanceof EmptyDataType1);
+		}
+	}
 
-    private static class EmptyFieldType implements IVField {
+	private static class EmptyFieldType extends AbstractVField {
 
-        @Override
-        public boolean eq(IVField o) {
-            // return true;
-            return (o instanceof EmptyFieldType);
-        }
+		EmptyFieldType() {
+			super(IConsts.UKNOWNHTMLNAME, FieldDataType.constructString());
+		}
 
-        @Override
-        public FieldDataType getType() {
-            return FieldDataType.constructString();
-        }
+		@Override
+		public boolean eq(IVField o) {
+			// return true;
+			return (o instanceof EmptyFieldType);
+		}
 
-        @Override
-        public String getId() {
-            return IConsts.UKNOWNHTMLNAME;
-        }
-    }
+	}
 
-    private static class EmptyDecimalFieldType implements IVField {
+	private static class EmptyDecimalFieldType extends AbstractVField {
 
-        @Override
-        public boolean eq(IVField o) {
-            return (o instanceof EmptyDecimalFieldType);
-        }
+		EmptyDecimalFieldType() {
+			super(IConsts.UKNOWNHTMLNAME, FieldDataType.constructBigDecimal());
+		}
 
-        @Override
-        public FieldDataType getType() {
-            return FieldDataType.constructBigDecimal();
-        }
+		@Override
+		public boolean eq(IVField o) {
+			return (o instanceof EmptyDecimalFieldType);
+		}
 
-        @Override
-        public String getId() {
-            return IConsts.UKNOWNHTMLNAME;
-        }
-    }
+	}
 
-    private static IDataType eType;
-    private static IDataType eType1;
-    private static IVField eField;
-    private static IVField deField;
+	private static IDataType eType;
+	private static IDataType eType1;
+	private static IVField eField;
+	private static IVField deField;
 
-    static {
-        eType = new EmptyDataType();
-        eType1 = new EmptyDataType1();
-        eField = new EmptyFieldType();
-        deField = new EmptyDecimalFieldType();
-    }
+	static {
+		eType = new EmptyDataType();
+		eType1 = new EmptyDataType1();
+		eField = new EmptyFieldType();
+		deField = new EmptyDecimalFieldType();
+	}
 
-    public static IVField getFieldType() {
-        return eField;
-    }
+	public static IVField getFieldType() {
+		return eField;
+	}
 
-    public static IDataType getDataType() {
-        return eType;
-    }
+	public static IDataType getDataType() {
+		return eType;
+	}
 
-    public static IDataType getDataType1() {
-        return eType1;
-    }
+	public static IDataType getDataType1() {
+		return eType1;
+	}
 
-    public static IVField getDecimalType() {
-        return deField;
-    }
+	public static IVField getDecimalType() {
+		return deField;
+	}
 }

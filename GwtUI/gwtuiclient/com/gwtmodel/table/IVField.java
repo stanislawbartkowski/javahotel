@@ -14,8 +14,10 @@ package com.gwtmodel.table;
 
 public interface IVField extends IEquatable<IVField> {
 
-    FieldDataType getType();
+	FieldDataType getType();
 
-    String getId();
+	String getId();
+
+	String getLabel();
 
 }

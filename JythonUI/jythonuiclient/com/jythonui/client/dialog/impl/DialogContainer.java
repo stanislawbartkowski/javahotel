@@ -46,6 +46,9 @@ import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.datamodelview.IDataViewModel;
 import com.gwtmodel.table.disclosure.DisclosureEvent;
 import com.gwtmodel.table.editc.IRequestForGWidget;
+import com.gwtmodel.table.editw.FormLineContainer;
+import com.gwtmodel.table.editw.IFormLineView;
+import com.gwtmodel.table.editw.IGetListOfIcons;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.IDisclosurePanelFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
@@ -53,9 +56,6 @@ import com.gwtmodel.table.listdataview.ButtonCheckLostFocusSignal;
 import com.gwtmodel.table.listdataview.IsBooleanSignalNow;
 import com.gwtmodel.table.mm.LogT;
 import com.gwtmodel.table.panelview.IPanelView;
-import com.gwtmodel.table.rdef.FormLineContainer;
-import com.gwtmodel.table.rdef.IFormLineView;
-import com.gwtmodel.table.rdef.IGetListOfIcons;
 import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
@@ -169,8 +169,11 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 
 	private final GetSuggestList iSuggest = new GetSuggestList();
 
+	private final boolean mainD;
+
 	DialogContainer(IDataType dType, DialogInfo info, IVariablesContainer pCon, ISendCloseAction iClose,
-			DialogVariables addV, IExecuteAfterModalDialog iEx, String[] startVal, ICustomClickAction iCustomClick) {
+			DialogVariables addV, IExecuteAfterModalDialog iEx, String[] startVal, ICustomClickAction iCustomClick,
+			boolean mainD) {
 		this.info = info;
 		this.d = info.getDialog();
 		this.dType = dType;
@@ -202,6 +205,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 		// executeJS = UIGiniInjector.getI().getExecuteJS();
 		executeBack = UIGiniInjector.getI().getExecuteBackAction();
 		this.iCustomClick = iCustomClick;
+		this.mainD = mainD;
 	}
 
 	private class CButton implements ISlotListener {
@@ -727,6 +731,29 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 
 	}
 
+	private void verifyPolymer() {
+		if (!JUtils.isPolymerD(getD()))
+			return;
+		List<String> err = new ArrayList<String>();
+		if (!d.getDiscList().isEmpty())
+			err.add(ICommonConsts.DISCLOSUREPANEL);
+		if (!d.getDatelineList().isEmpty())
+			err.add(ICommonConsts.DATELINE);
+		if (!d.getListList().isEmpty())
+			err.add(ICommonConsts.LIST);
+		if (!d.getCheckList().isEmpty())
+			err.add(ICommonConsts.CHECKLIST);
+		if (!d.getChartList().isEmpty())
+			err.add(ICommonConsts.CHARTLIST);
+		if (!d.getButtonList().isEmpty())
+			err.add(ICommonConsts.BUTTONS);
+		if (!err.isEmpty()) {
+			String errmess = null;
+			Utils.joinS(',', JUtils.toA(err));
+			Utils.PolymerNotImplemented(d.getId(), errmess);
+		}
+	}
+
 	@Override
 	public void startPublish(CellId cId) {
 
@@ -744,14 +771,15 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 		if (d.isJsCode())
 			Utils.callJs(d.getJsCode());
 
-		PViewData pView = new PViewData(cId);
-
 		M.getLeftMenu().createLeftButton(constructCButton(d.getLeftButtonList()), d.getLeftButtonList(),
 				LeftMenu.MenuType.LEFTPANEL, d.getHtmlLeftMenu());
 		M.getLeftMenu().createLeftButton(constructCButton(d.getUpMenuList()), d.getUpMenuList(),
 				LeftMenu.MenuType.UPPANELMENU, d.getHtmlLeftMenu());
 		M.getLeftMenu().createLeftButton(constructCButton(d.getLeftStackList()), d.getLeftStackList(),
 				LeftMenu.MenuType.LEFTSTACK, d.getHtmlLeftMenu());
+
+		verifyPolymer();
+		PViewData pView = new PViewData(cId);
 		IEnumTypesList eList = UIGiniInjector.getI().getEnumTypesFactory().construct(d, liManager);
 		if (!d.getFieldList().isEmpty()) {
 			FormLineContainer fContainer = CreateForm.construct(info, new GetEnumList(eList), iSuggest, eList,

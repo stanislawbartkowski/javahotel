@@ -21,10 +21,10 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.Empty;
 import com.gwtmodel.table.SynchronizeList;
+import com.gwtmodel.table.editw.IFormLineView;
+import com.gwtmodel.table.editw.ITouchListener;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.mm.LogT;
-import com.gwtmodel.table.rdef.IFormLineView;
-import com.gwtmodel.table.rdef.ITouchListener;
 import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.gwtmodel.table.validate.ErrorLineContainer;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
@@ -140,7 +140,7 @@ class GridView implements IGridView {
                 w = ce;
                 break;
             case DECIMAL:
-                IFormLineView nView = wFactory.contructCalculatorNumber(
+                IFormLineView nView = wFactory.getGwtE().contructCalculatorNumber(
                         Empty.getDecimalType(), htmlName);
                 NumerW nu = new NumerW(nView);
                 w = nu;

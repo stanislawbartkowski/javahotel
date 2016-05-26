@@ -21,8 +21,9 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.common.PersistTypeEnum;
+import com.gwtmodel.table.editw.FormLineContainer;
 import com.gwtmodel.table.factories.IDataModelFactory;
-import com.gwtmodel.table.rdef.FormLineContainer;
+
 import java.util.List;
 
 /**

@@ -328,6 +328,12 @@ class DateLineManager implements IDateLineManager {
 				return CUtil.NumbToS(cId);
 			}
 
+			@Override
+			public String getLabel() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
 		}
 
 		private IVField constructV(int i) {

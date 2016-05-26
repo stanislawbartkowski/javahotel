@@ -26,89 +26,83 @@ import com.gwtmodel.table.common.CUtil;
  */
 abstract public class AbstractLpVModelData implements IVModelDataEquable {
 
-    private Long lp;
-    private Object o;
+	private Long lp;
+	private Object o;
 
-    @Override
-    public Object getF(IVField fie) {
-        return lp;
-    }
+	@Override
+	public Object getF(IVField fie) {
+		return lp;
+	}
 
-    @Override
-    public void setF(IVField fie, Object o) {
-        lp = CUtil.LToL(o);
-    }
+	@Override
+	public void setF(IVField fie, Object o) {
+		lp = CUtil.LToL(o);
+	}
 
-    @Override
-    public boolean isValid(IVField fie) {
-        if (fie instanceof L) {
-            return true;
-        }
-        return false;
-    }
+	@Override
+	public boolean isValid(IVField fie) {
+		if (fie instanceof L) {
+			return true;
+		}
+		return false;
+	}
 
-    protected List<IVField> addV(List<IVField> li) {
-        li.add(new L());
-        return li;
-    }
+	protected List<IVField> addV(List<IVField> li) {
+		li.add(new L());
+		return li;
+	}
 
-    Object getL(IVField f) {
-        return lp;
-    }
+	Object getL(IVField f) {
+		return lp;
+	}
 
-    void setL(IVField f, Object o) {
-        lp = (Long) o;
-    }
+	void setL(IVField f, Object o) {
+		lp = (Long) o;
+	}
 
-    static private class L implements IVField {
+	static private class L extends AbstractVField {
 
-        @Override
-        public boolean eq(IVField o) {
-            if (o instanceof L) {
-                return true;
-            }
-            return false;
-        }
+		L() {
+			super("XX",FieldDataType.constructDate());
+		}
 
-        @Override
-        public FieldDataType getType() {
-            return FieldDataType.constructDate();
-        }
+		@Override
+		public boolean eq(IVField o) {
+			if (o instanceof L) {
+				return true;
+			}
+			return false;
+		}
+	}
 
-        @Override
-        public String getId() {
-            return "XX";
-        }
-    }
+	/**
+	 * @return the lp
+	 */
+	long getLp() {
+		return lp;
+	}
 
-    /**
-     * @return the lp
-     */
-    long getLp() {
-        return lp;
-    }
+	/**
+	 * @param lp
+	 *            the lp to set
+	 */
+	void setLp(long lp) {
+		this.lp = lp;
+	}
 
-    /**
-     * @param lp
-     *            the lp to set
-     */
-    void setLp(long lp) {
-        this.lp = lp;
-    }
+	@Override
+	public boolean eq(IVModelDataEquable o) {
+		AbstractLpVModelData aa = (AbstractLpVModelData) o;
+		return aa.lp.equals(lp);
+	}
 
-    @Override
-    public boolean eq(IVModelDataEquable o) {
-        AbstractLpVModelData aa = (AbstractLpVModelData) o;
-        return aa.lp.equals(lp);
-    }
+	@Override
+	public Object getCustomData() {
+		return o;
+	}
 
-    @Override
-    public Object getCustomData() {
-        return o;
-    }
-
-    @Override
-    public void setCustomData(Object o) {
-        this.o = o;
-    }
+	@Override
+	public void setCustomData(Object o) {
+		this.o = o;
+	}
 }

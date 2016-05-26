@@ -17,7 +17,7 @@ import java.util.List;
 
 import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.InvalidateMess;
-import com.gwtmodel.table.rdef.IFormLineView;
+import com.gwtmodel.table.editw.IFormLineView;
 
 public class ErrorLineContainer {
 

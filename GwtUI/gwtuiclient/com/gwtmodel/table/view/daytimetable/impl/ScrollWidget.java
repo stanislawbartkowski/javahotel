@@ -29,17 +29,16 @@ import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.IGFocusWidget;
 import com.gwtmodel.table.common.DateFormat;
+import com.gwtmodel.table.editw.IFormChangeListener;
+import com.gwtmodel.table.editw.IFormLineView;
 import com.gwtmodel.table.factories.IWebPanelResources;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.mm.MM;
-import com.gwtmodel.table.rdef.IFormChangeListener;
-import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.view.button.ImgButtonFactory;
 import com.gwtmodel.table.view.daytimetable.IDrawPartSeason;
 import com.gwtmodel.table.view.daytimetable.IDrawPartSeasonContext;
 import com.gwtmodel.table.view.daytimetable.IScrollSeason;
-import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
-import com.jython.dateutil.DateFormatUtil;
+import com.gwtmodel.table.view.ewidget.IEditWidget;
 
 public class ScrollWidget implements IScrollSeason {
 
@@ -72,7 +71,7 @@ public class ScrollWidget implements IScrollSeason {
 		leftP = ImgButtonFactory.getButton(C_BUTTON_LEFT, titles[1], pResources.getRes(IWebPanelResources.SCROLLLEFT));
 		rightP = ImgButtonFactory.getButton(C_BUTTON_RIGHT, titles[2],
 				pResources.getRes(IWebPanelResources.SCROLLRIGHT));
-		EditWidgetFactory eFactory = GwtGiniInjector.getI().getEditWidgetFactory();
+		IEditWidget eFactory = GwtGiniInjector.getI().getEditWidgetFactory().getGwtE();
 		dDate = eFactory.construcDateBoxCalendar(Empty.getFieldType(), null);
 		dPanel.add(leftP.getGWidget());
 		dPanel.add(dDate.getGWidget());

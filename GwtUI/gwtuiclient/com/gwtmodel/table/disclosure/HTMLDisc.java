@@ -21,7 +21,7 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.controlbuttonview.GetButtons;
-import com.gwtmodel.table.rdef.FormLineContainer;
+import com.gwtmodel.table.editw.FormLineContainer;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ISlotCustom;

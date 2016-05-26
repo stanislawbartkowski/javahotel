@@ -19,7 +19,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IGetDataList;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
-import com.gwtmodel.table.view.ewidget.RadioBoxString;
+import com.gwtmodel.table.view.ewidget.gwt.RadioBoxString;
 
 /**
  * 
@@ -27,38 +27,38 @@ import com.gwtmodel.table.view.ewidget.RadioBoxString;
  */
 class CheckDictModel implements ICheckDictModel {
 
-    private final RadioBoxString serv;
+	private final RadioBoxString serv;
 
-    CheckDictModel(EditWidgetFactory eFactory, IVField v, IGetDataList iGet) {
-        serv = eFactory.constructRadioBoxString(v, iGet, true, null);
-    }
+	CheckDictModel(EditWidgetFactory eFactory, IVField v, IGetDataList iGet) {
+		serv = eFactory.getGwtE().constructRadioBoxString(v, iGet, true, null);
+	}
 
-    @Override
-    public void setValues(final List<String> val) {
-        List<String> v = val;
-        if (v == null) {
-            v = new ArrayList<String>();
-        }
-        serv.setValues(v);
-    }
+	@Override
+	public void setValues(final List<String> val) {
+		List<String> v = val;
+		if (v == null) {
+			v = new ArrayList<String>();
+		}
+		serv.setValues(v);
+	}
 
-    @Override
-    public List<String> getValues() {
-        return serv.getValues();
-    }
+	@Override
+	public List<String> getValues() {
+		return serv.getValues();
+	}
 
-    @Override
-    public void setReadOnly(boolean readOnly) {
-        serv.setReadOnly(readOnly);
-    }
+	@Override
+	public void setReadOnly(boolean readOnly) {
+		serv.setReadOnly(readOnly);
+	}
 
-    @Override
-    public void refresh() {
-        serv.refresh();
-    }
+	@Override
+	public void refresh() {
+		serv.refresh();
+	}
 
-    @Override
-    public Widget getGWidget() {
-        return serv.getGWidget();
-    }
+	@Override
+	public Widget getGWidget() {
+		return serv.getGWidget();
+	}
 }
