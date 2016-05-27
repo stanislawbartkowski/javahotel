@@ -174,9 +174,10 @@ class ControlButtonView extends AbstractSlotContainer implements IControlButtonV
 		}
 	}
 
-	ControlButtonView(IContrButtonViewFactory vFactory, ListOfControlDesc listButton, IDataType dType, boolean hori) {
+	ControlButtonView(IContrButtonViewFactory vFactory, ListOfControlDesc listButton, IDataType dType, boolean hori,
+			boolean polymer) {
 		this.dType = dType;
-		this.vButton = vFactory.getView(listButton, new Click(), hori);
+		this.vButton = vFactory.getView(listButton, new Click(), hori, polymer);
 		for (ControlButtonDesc b : listButton.getcList()) {
 			register(ButtonAction.Action.EnableButton, b);
 			register(ButtonAction.Action.DisableButton, b);

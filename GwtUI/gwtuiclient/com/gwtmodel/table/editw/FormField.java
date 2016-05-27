@@ -33,8 +33,7 @@ public class FormField {
 		this.pLabel = p;
 		if (e == null) {
 			assert fie != null : LogT.getT().cannotBeNull();
-			EditWidgetFactory eFactory = GwtGiniInjector.getI().getEditWidgetFactory();
-			this.eLine = eFactory.constructEditWidget(fie, null, polymer);
+			this.eLine = EditWidgetFactory.constructEditWidget(fie, null, polymer);
 		} else {
 			this.eLine = e;
 		}

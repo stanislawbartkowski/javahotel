@@ -21,112 +21,99 @@ import com.gwtmodel.table.factories.IHeaderListContainer;
 import com.gwtmodel.table.listdataview.IListDataView;
 import com.gwtmodel.table.listdataview.ListDataViewFactory;
 import com.gwtmodel.table.panelview.IPanelView;
-import com.gwtmodel.table.slotmodel.*;
+import com.gwtmodel.table.panelview.PanelViewFactory;
+import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
+import com.gwtmodel.table.slotmodel.CellId;
+import com.gwtmodel.table.slotmodel.DataActionEnum;
+import com.gwtmodel.table.slotmodel.ISlotCallerListener;
+import com.gwtmodel.table.slotmodel.ISlotListener;
+import com.gwtmodel.table.slotmodel.ISlotSignalContext;
+import com.gwtmodel.table.slotmodel.SlotType;
 
-class DisplayListControler extends AbstractSlotMediatorContainer implements
-        IDataControler {
+class DisplayListControler extends AbstractSlotMediatorContainer implements IDataControler {
 
-    private final CellId cellTableId;
-    private final CellId controlId;
-    private final boolean startM;
-    private final DisplayListControlerParam cParam;
+	private final CellId cellTableId;
+	private final CellId controlId;
+	private final boolean startM;
+	private final DisplayListControlerParam cParam;
 
-    private class GetHTML implements ISlotCallerListener {
+	private class GetHTML implements ISlotCallerListener {
 
-        private String htmlButton;
+		private String htmlButton;
 
-        GetHTML(String htmlButton) {
-            this.htmlButton = htmlButton;
-        }
+		GetHTML(String htmlButton) {
+			this.htmlButton = htmlButton;
+		}
 
-        public ISlotSignalContext call(ISlotSignalContext slContext) {
-            HTMLPanel ha = new HTMLPanel("div", htmlButton);
-            return slContextFactory.construct(slContext.getSlType(),
-                    new GWidget(ha));
-        }
-    }
+		public ISlotSignalContext call(ISlotSignalContext slContext) {
+			HTMLPanel ha = new HTMLPanel("div", htmlButton);
+			return slContextFactory.construct(slContext.getSlType(), new GWidget(ha));
+		}
+	}
 
-    DisplayListControler(DisplayListControlerParam cParam) {
-        this.cParam = cParam;
-        IDataPersistListAction persistA = cParam.getListParam().getPersistA();
-        IHeaderListContainer heList = cParam.getListParam().getHeList();
-        // create panel View
-        IPanelView pView = pViewFactory.construct(cParam.getdType(),
-                cParam.getPanelId());
-        controlId = pView.addCellPanel(0, 0);
-        cellTableId = pView.addCellPanel(1, 0);
-        pView.createView();
-        // persist layer
-        // header list
-        ListDataViewFactory lDataFactory = cParam.gettFactories()
-                .getlDataFactory();
-        IListDataView daView = lDataFactory.construct(cParam.getdType(),
-                cParam.getGetCell(), cParam.isSelectRows(), false,
-                cParam.isTreeView(), cParam.isAsyncRow(), null);
-        ControlButtonViewFactory bFactory = cParam.gettFactories()
-                .getbViewFactory();
-        IControlButtonView bView = bFactory.construct(cParam.getdType(),
-                cParam.getListButton());
-        if (cParam.getMe() == null) {
-            startM = true;
-        } else {
-            slMediator = cParam.getMe();
-            startM = false;
-        }
-        slMediator.registerSlotContainer(cParam.getPanelId(), pView);
-        if (persistA != null) {
-            slMediator.registerSlotContainer(-1, persistA);
-        }
-        slMediator.registerSlotContainer(cellTableId, daView);
-        slMediator.registerSlotContainer(controlId, bView);
-        if (cParam.getcControler() != null) {
-            slMediator.registerSlotContainer(-1, cParam.getcControler());
-        }
-        if (heList != null) {
-            slMediator.registerSlotContainer(-1, heList);
-        }
-        if (cParam.getListButton().getHtmlFormat() != null) {
-            ISlotCallerListener l = new GetHTML(cParam.getListButton()
-                    .getHtmlFormat());
-            SlotType slType = slTypeFactory.constructH(controlId);
-            slMediator.getSlContainer().registerCaller(slType, l);
-        }
-    }
+	DisplayListControler(DisplayListControlerParam cParam) {
+		this.cParam = cParam;
+		IDataPersistListAction persistA = cParam.getListParam().getPersistA();
+		IHeaderListContainer heList = cParam.getListParam().getHeList();
+		// create panel View
+		IPanelView pView = PanelViewFactory.construct(cParam.getdType(), cParam.getPanelId());
+		controlId = pView.addCellPanel(0, 0);
+		cellTableId = pView.addCellPanel(1, 0);
+		pView.createView();
+		// persist layer
+		// header list
+		ListDataViewFactory lDataFactory = cParam.gettFactories().getlDataFactory();
+		IListDataView daView = lDataFactory.construct(cParam.getdType(), cParam.getGetCell(), cParam.isSelectRows(),
+				false, cParam.isAsyncRow(), null);
+		IControlButtonView bView = ControlButtonViewFactory.construct(cParam.getdType(), cParam.getListButton(), false);
+		if (cParam.getMe() == null) {
+			startM = true;
+		} else {
+			slMediator = cParam.getMe();
+			startM = false;
+		}
+		slMediator.registerSlotContainer(cParam.getPanelId(), pView);
+		if (persistA != null) {
+			slMediator.registerSlotContainer(-1, persistA);
+		}
+		slMediator.registerSlotContainer(cellTableId, daView);
+		slMediator.registerSlotContainer(controlId, bView);
+		if (cParam.getcControler() != null) {
+			slMediator.registerSlotContainer(-1, cParam.getcControler());
+		}
+		if (heList != null) {
+			slMediator.registerSlotContainer(-1, heList);
+		}
+		if (cParam.getListButton().getHtmlFormat() != null) {
+			ISlotCallerListener l = new GetHTML(cParam.getListButton().getHtmlFormat());
+			SlotType slType = slTypeFactory.constructH(controlId);
+			slMediator.getSlContainer().registerCaller(slType, l);
+		}
+	}
 
-    private class DrawListAction implements ISlotListener {
+	private class DrawListAction implements ISlotListener {
 
-        @Override
-        public void signal(ISlotSignalContext slContext) {
-            slMediator.getSlContainer().publish(cParam.getdType(),
-                    DataActionEnum.DrawListAction, slContext.getDataList(),
-                    cParam.getwSize());
-        }
-    }
+		@Override
+		public void signal(ISlotSignalContext slContext) {
+			slMediator.getSlContainer().publish(cParam.getdType(), DataActionEnum.DrawListAction,
+					slContext.getDataList(), cParam.getwSize());
+		}
+	}
 
-    @Override
-    public void startPublish(CellId cellId) {
-        if (startM) {
-            slMediator.startPublish(cellId);
-        }
-        slMediator.getSlContainer().registerSubscriber(cParam.getdType(),
-                DataActionEnum.ListReadSuccessSignal, new DrawListAction());
-        slMediator
-                .getSlContainer()
-                .registerRedirector(
-                        cParam.gettFactories()
-                                .getSlTypeFactory()
-                                .construct(
-                                        cParam.getdType(),
-                                        DataActionEnum.RefreshAfterPersistActionSignal),
-                        cParam.gettFactories()
-                                .getSlTypeFactory()
-                                .construct(cParam.getdType(),
-                                        DataActionEnum.ReadListAction));
+	@Override
+	public void startPublish(CellId cellId) {
+		if (startM) {
+			slMediator.startPublish(cellId);
+		}
+		slMediator.getSlContainer().registerSubscriber(cParam.getdType(), DataActionEnum.ListReadSuccessSignal,
+				new DrawListAction());
+		slMediator.getSlContainer().registerRedirector(
+				cParam.gettFactories().getSlTypeFactory().construct(cParam.getdType(),
+						DataActionEnum.RefreshAfterPersistActionSignal),
+				cParam.gettFactories().getSlTypeFactory().construct(cParam.getdType(), DataActionEnum.ReadListAction));
 
-        // secondly publish
-        slMediator.getSlContainer().publish(cParam.getdType(),
-                DataActionEnum.ReadListAction, cParam.getwSize());
-        slMediator.getSlContainer().publish(cParam.getdType(),
-                DataActionEnum.ReadHeaderContainer);
-    }
+		// secondly publish
+		slMediator.getSlContainer().publish(cParam.getdType(), DataActionEnum.ReadListAction, cParam.getwSize());
+		slMediator.getSlContainer().publish(cParam.getdType(), DataActionEnum.ReadHeaderContainer);
+	}
 }

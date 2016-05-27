@@ -57,15 +57,13 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
     private final Map<CellId, PanelRowCell> colM = new HashMap<CellId, PanelRowCell>();
     private CellId panelId;
     private IGwtPanelView pView;
-    private final GwtPanelViewFactory gFactory;
     private HTMLPanel htmlWidget;
     private final SlotSignalContextFactory slFactory;
 
-    PanelView(GwtPanelViewFactory gFactory, SlotSignalContextFactory slFactory,
+    PanelView(SlotSignalContextFactory slFactory,
             IDataType dType, CellId panelId) {
         assert dType != null : LogT.getT().dTypeCannotBeNull();
         this.panelId = panelId;
-        this.gFactory = gFactory;
         this.slFactory = slFactory;
         this.dType = dType;
         htmlWidget = null;
@@ -156,7 +154,7 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
                 maxR = MaxI.max(maxR, ro.getRowNo());
                 maxC = MaxI.max(maxC, ro.getCellNo());
             }
-            pView = gFactory.construct(maxR + 1, maxC + 1);
+            pView = GwtPanelViewFactory.construct(maxR + 1, maxC + 1);
         } else {
             htmlWidget = new HTMLPanel(html);
             c = new GetMainHtml();

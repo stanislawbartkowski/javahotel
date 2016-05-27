@@ -30,45 +30,40 @@ import java.util.List;
  * @author hotel
  *
  */
-class ChooseFromList extends AbstractSlotContainer implements
-        IChooseRecordContainer {
+class ChooseFromList extends AbstractSlotContainer implements IChooseRecordContainer {
 
-    private final static String LIST_BUTTON = "HOTEL-LIST-BUTTON";
-    private final IControlButtonView bView;
+	private final static String LIST_BUTTON = "HOTEL-LIST-BUTTON";
+	private final IControlButtonView bView;
 
-    private class ChooseC extends AbstractChooseListener {
+	private class ChooseC extends AbstractChooseListener {
 
-        /**
-         * @param dType
-         * @param iSlo
-         */
-        ChooseC(IDataType dType, ISlotable iSlo) {
-            super(dType, iSlo);
-        }
+		/**
+		 * @param dType
+		 * @param iSlo
+		 */
+		ChooseC(IDataType dType, ISlotable iSlo) {
+			super(dType, iSlo);
+		}
 
-        @Override
-        void modifAfterSelect() {
-        }
-    }
+		@Override
+		void modifAfterSelect() {
+		}
+	}
 
-    ChooseFromList(IDataType dType, IDataType publishType) {
-        this.dType = dType;
-        ClickButtonType sChoose = new ClickButtonType(LIST_BUTTON);
-        ControlButtonDesc bChoose = new ControlButtonDesc(MM.getL()
-                .ChooseFromList(), sChoose);
-        List<ControlButtonDesc> bList = new ArrayList<ControlButtonDesc>();
-        bList.add(bChoose);
-        ListOfControlDesc cList = new ListOfControlDesc(bList);
-        ControlButtonViewFactory bFactory = GwtGiniInjector.getI()
-                .getControlButtonViewFactory();
-        bView = bFactory.construct(dType, cList);
-        bView.getSlContainer().registerSubscriber(dType, sChoose,
-                new ChooseC(dType, this));
-        this.setSlContainer(bView);
-    }
+	ChooseFromList(IDataType dType, IDataType publishType) {
+		this.dType = dType;
+		ClickButtonType sChoose = new ClickButtonType(LIST_BUTTON);
+		ControlButtonDesc bChoose = new ControlButtonDesc(MM.getL().ChooseFromList(), sChoose);
+		List<ControlButtonDesc> bList = new ArrayList<ControlButtonDesc>();
+		bList.add(bChoose);
+		ListOfControlDesc cList = new ListOfControlDesc(bList);
+		bView = ControlButtonViewFactory.construct(dType, cList, false);
+		bView.getSlContainer().registerSubscriber(dType, sChoose, new ChooseC(dType, this));
+		this.setSlContainer(bView);
+	}
 
-    @Override
-    public void startPublish(CellId cellId) {
-        bView.startPublish(cellId);
-    }
+	@Override
+	public void startPublish(CellId cellId) {
+		bView.startPublish(cellId);
+	}
 }

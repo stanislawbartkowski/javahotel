@@ -92,14 +92,6 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
 	}
 
 	@Override
-	public int getChooseResult() {
-		return NOCHOOSECHECK;
-	}
-
-	public void setChooseCheck(boolean enable) {
-	}
-
-	@Override
 	public void setGStyleName(final String sName, final boolean set) {
 		if (set) {
 			// 2013/05/28 : "add" instead of "set"

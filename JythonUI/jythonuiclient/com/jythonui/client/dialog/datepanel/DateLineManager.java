@@ -703,8 +703,7 @@ class DateLineManager implements IDateLineManager {
 				ListOfButt.IGetButtons i = ListOfButt.constructList(dContainer.getD(), sButton);
 				if (!i.getCustomList().isEmpty()) {
 					ListOfControlDesc cButton = new ListOfControlDesc(i.getCustomList());
-					ControlButtonViewFactory vFactory = GwtGiniInjector.getI().getControlButtonViewFactory();
-					iView = vFactory.construct(dType, cButton);
+					iView = ControlButtonViewFactory.construct(dType, cButton, false);
 					SlU.registerWidgetListener0(dType, iView, new GetBWidget());
 					for (ControlButtonDesc b : i.getCustomList())
 						iView.getSlContainer().registerSubscriber(dType, b.getActionId(), new CustomClick());

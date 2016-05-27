@@ -48,4 +48,8 @@ public interface IConsts {
 	int headerImageWidth = 20;
 	int headerImageHeight = 20;
 	String EMPTYIM = "-";
+
+	String GWT = "gwtwidget";
+	String POLYMER = "polymerwidget";
+
 }

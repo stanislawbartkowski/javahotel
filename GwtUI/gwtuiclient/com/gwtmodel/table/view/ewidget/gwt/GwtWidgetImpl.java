@@ -51,7 +51,7 @@ public class GwtWidgetImpl implements IEditWidget {
 	@Override
 	public IFormLineView contructCalculatorNumber(IVField v, String htmlName) {
 		return new NumberCalculator( v,
-				new ExtendTextBox.EParam(false, false, false, false, false, false, false, null, null), htmlName);
+				new ExtendTextBox.EParam(false, false, false, false, false, false, null, null), htmlName);
 	}
 
 	@Override
@@ -80,12 +80,12 @@ public class GwtWidgetImpl implements IEditWidget {
 	}
 
 	private ExtendTextBox.EParam newE(boolean password, boolean area) {
-		return new ExtendTextBox.EParam(password, false, false, area, false, false, false, null, null);
+		return new ExtendTextBox.EParam(password, false, false, area, false, false, null, null);
 	}
 
 	@Override
 	public IFormLineView constructHelperList(IVField v, IDataType dType, boolean refreshAlways, String htmlName) {
-		ExtendTextBox.EParam e = new ExtendTextBox.EParam(false, true, false, false, false, false, false, null, null);
+		ExtendTextBox.EParam e = new ExtendTextBox.EParam(false, true, false, false, false, false, null, null);
 		return new ListFieldWithHelp( v, dType, e, refreshAlways, htmlName);
 	}
 
@@ -104,7 +104,7 @@ public class GwtWidgetImpl implements IEditWidget {
 			boolean richtext, boolean refreshAlways, String htmlName) {
 		ExtendTextBox.EParam e;
 		boolean panel = (iGet != null || iHelper != null);
-		e = new ExtendTextBox.EParam(false, panel, false, textarea, false, richtext, false, iGet, null);
+		e = new ExtendTextBox.EParam(false, panel, false, textarea, richtext, false, iGet, null);
 		if (iHelper == null)
 			return new ExtendTextBox( v, e, htmlName);
 		return new EditTextFieldWithHelper( v, e, iHelper, refreshAlways, htmlName);

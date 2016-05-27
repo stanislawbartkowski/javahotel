@@ -16,8 +16,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.editw.IFormChangeListener;
-import com.gwtmodel.table.editw.ITouchListener;
+import com.gwtmodel.table.common.CUtil;
 import com.vaadin.polymer.paper.widget.PaperInput;
 
 class PolymerTextField extends AbstractWField {
@@ -27,6 +26,8 @@ class PolymerTextField extends AbstractWField {
 	PolymerTextField(IVField v, String htmlName) {
 		super(v);
 		in.setLabel(v.getLabel());
+		in.addChangeHandler(new ChangeHa());
+		in.getPolymerElement().addEventListener("keydown", new TouchEvent());
 	}
 
 	@Override
@@ -36,7 +37,9 @@ class PolymerTextField extends AbstractWField {
 
 	@Override
 	public void setValObj(Object o) {
+		runOnTouch();
 		in.setValue((String) o);
+		onChangeEdit(false);
 	}
 
 	@Override
@@ -45,33 +48,30 @@ class PolymerTextField extends AbstractWField {
 	}
 
 	@Override
-	public void addChangeListener(IFormChangeListener cListener) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void setReadOnly(boolean readOnly) {
-		// TODO Auto-generated method stub
-
+		in.setReadonly(readOnly);
+//		if (readOnly)
+//			setAttr("aria-disabled", "true");
 	}
 
 	@Override
 	public void setHidden(boolean hidden) {
-		// TODO Auto-generated method stub
-
+		in.setVisible(!hidden);
 	}
 
 	@Override
 	public boolean isHidden() {
-		// TODO Auto-generated method stub
-		return false;
+		return in.isVisible();
 	}
 
 	@Override
 	public void setInvalidMess(String errmess) {
-		// TODO Auto-generated method stub
-
+		if (CUtil.EmptyS(errmess))
+			in.setInvalid(false);
+		else {
+			in.setErrorMessage(errmess);
+			in.setInvalid(true);
+		}
 	}
 
 	@Override
@@ -81,33 +81,14 @@ class PolymerTextField extends AbstractWField {
 	}
 
 	@Override
-	public void setOnTouch(ITouchListener lTouch) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public int getChooseResult() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public String getHtmlName() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void setAttr(String attrName, String attrValue) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void setCellTitle(String title) {
-		// TODO Auto-generated method stub
-
+		in.setTitle(title);
 	}
 
 	@Override
@@ -118,8 +99,7 @@ class PolymerTextField extends AbstractWField {
 
 	@Override
 	public void setFocus(boolean focus) {
-		// TODO Auto-generated method stub
-
+		in.setFocused(focus);
 	}
 
 }

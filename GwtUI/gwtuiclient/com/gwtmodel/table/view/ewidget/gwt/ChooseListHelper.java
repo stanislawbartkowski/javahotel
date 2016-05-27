@@ -32,59 +32,55 @@ import com.gwtmodel.table.injector.GwtGiniInjector;
  */
 abstract class ChooseListHelper {
 
-    private final IDataType dType;
+	private final IDataType dType;
 
-    ChooseListHelper(IDataType dType) {
-        this.dType = dType;
-    }
+	ChooseListHelper(IDataType dType) {
+		this.dType = dType;
+	}
 
-    abstract void asetValue(String sy);
+	abstract void asetValue(String sy);
 
-    abstract void hide();
+	abstract void hide();
 
-    private class ChooseD implements ICallBackWidget<IVModelData> {
+	private class ChooseD implements ICallBackWidget<IVModelData> {
 
-        private final ISetGWidget iSet;
+		private final ISetGWidget iSet;
 
-        ChooseD(ISetGWidget iSet) {
-            this.iSet = iSet;
-        }
+		ChooseD(ISetGWidget iSet) {
+			this.iSet = iSet;
+		}
 
-        @Override
-        public void setWidget(WSize ws, IGWidget w) {
-            iSet.setW(w);
-        }
+		@Override
+		public void setWidget(WSize ws, IGWidget w) {
+			iSet.setW(w);
+		}
 
-        @Override
-        public void setChoosed(IVModelData vData, IVField comboFie) {
-            String sy = FUtils.getValueS(vData, comboFie);
-            asetValue(sy);
-            hide();
-        }
+		@Override
+		public void setChoosed(IVModelData vData, IVField comboFie) {
+			String sy = FUtils.getValueS(vData, comboFie);
+			asetValue(sy);
+			hide();
+		}
 
-        @Override
-        public void setResign() {
-            hide();
-        }
-    }
+		@Override
+		public void setResign() {
+			hide();
+		}
+	}
 
-    private class PopU implements IRequestForGWidget {
+	private class PopU implements IRequestForGWidget {
 
-        @Override
-        public void run(IVField v, WSize startW, ISetGWidget iSet,
-                ICommand close) {
-            ChooseListFactory fa = GwtGiniInjector.getI()
-                    .getChooseListFactory();
-            IChooseList i = fa.constructChooseList(dType, startW, new ChooseD(
-                    iSet));
-        }
-    }
+		@Override
+		public void run(IVField v, WSize startW, ISetGWidget iSet, ICommand close) {
+			IChooseList i = ChooseListFactory.constructChooseList(dType, startW, new ChooseD(iSet));
+		}
+	}
 
-    IRequestForGWidget getI() {
-        return new PopU();
-    }
+	IRequestForGWidget getI() {
+		return new PopU();
+	}
 
-    ICallBackWidget<IVModelData> getC(ISetGWidget iSet) {
-        return new ChooseD(iSet);
-    }
+	ICallBackWidget<IVModelData> getC(ISetGWidget iSet) {
+		return new ChooseD(iSet);
+	}
 }

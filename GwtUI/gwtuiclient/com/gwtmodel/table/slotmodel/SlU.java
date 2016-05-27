@@ -361,11 +361,6 @@ public class SlU {
 		}
 
 		@Override
-		public int getChooseResult() {
-			return 0;
-		}
-
-		@Override
 		public String getHtmlName() {
 			return null;
 		}

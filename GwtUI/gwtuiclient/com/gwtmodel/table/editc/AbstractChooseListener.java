@@ -29,65 +29,62 @@ import com.gwtmodel.table.view.util.ModalDialog;
  */
 abstract class AbstractChooseListener extends AbstractSlotListener {
 
-    AbstractChooseListener(IDataType dType, ISlotable iSlo) {
-        super(dType, iSlo);
-    }
+	AbstractChooseListener(IDataType dType, ISlotable iSlo) {
+		super(dType, iSlo);
+	}
 
-    abstract void modifAfterSelect();
+	abstract void modifAfterSelect();
 
-    private class SelectC implements ICallBackWidget<IVModelData> {
+	private class SelectC implements ICallBackWidget<IVModelData> {
 
-        private D d;
+		private D d;
 
-        private class D extends ModalDialog {
+		private class D extends ModalDialog {
 
-            private final Widget w;
+			private final Widget w;
 
-            D(VerticalPanel vp, Widget w) {
-                super(vp, "");
-                this.w = w;
-                create();
-            }
+			D(VerticalPanel vp, Widget w) {
+				super(vp, "");
+				this.w = w;
+				create();
+			}
 
-            @Override
-            protected void addVP(VerticalPanel vp) {
-                vp.add(w);
-            }
-        }
+			@Override
+			protected void addVP(VerticalPanel vp) {
+				vp.add(w);
+			}
+		}
 
-        @Override
-        public void setWidget(WSize ws, IGWidget w) {
-            VerticalPanel vp = new VerticalPanel();
-            d = new D(vp, w.getGWidget());
-            d.show(ws);
-        }
+		@Override
+		public void setWidget(WSize ws, IGWidget w) {
+			VerticalPanel vp = new VerticalPanel();
+			d = new D(vp, w.getGWidget());
+			d.show(ws);
+		}
 
-        @Override
-        public void setChoosed(IVModelData vData, IVField comboFie) {
-            assert vData != null : LogT.getT().cannotBeNull();
-            LogT.getL().info(LogT.getT().choosedEdit(vData.toString()));
-            iSlo.getSlContainer().publish(dType,
-                    DataActionEnum.DrawViewComposeFormAction, vData);
-            modifAfterSelect();
-            d.hide();
-            // send signal : object was chose and set
-            SlotType slType = slTypeFactory
-                    .construct(IChangeObject.choosedString);
-            ISlotSignalContext con = slContextFactory.construct(slType, vData);
-            // iSlo.getSlContainer().publish(IChangeObject.choosedString);
-            iSlo.getSlContainer().publish(con);
-        }
+		@Override
+		public void setChoosed(IVModelData vData, IVField comboFie) {
+			assert vData != null : LogT.getT().cannotBeNull();
+			LogT.getL().info(LogT.getT().choosedEdit(vData.toString()));
+			iSlo.getSlContainer().publish(dType, DataActionEnum.DrawViewComposeFormAction, vData);
+			modifAfterSelect();
+			d.hide();
+			// send signal : object was chose and set
+			SlotType slType = slTypeFactory.construct(IChangeObject.choosedString);
+			ISlotSignalContext con = slContextFactory.construct(slType, vData);
+			// iSlo.getSlContainer().publish(IChangeObject.choosedString);
+			iSlo.getSlContainer().publish(con);
+		}
 
-        @Override
-        public void setResign() {
-            d.hide();
-        }
-    }
+		@Override
+		public void setResign() {
+			d.hide();
+		}
+	}
 
-    @Override
-    public void signal(ISlotSignalContext slContext) {
-        WSize w = new WSize(slContext.getGwtWidget().getGWidget());
-        ChooseListFactory fa = GwtGiniInjector.getI().getChooseListFactory();
-        IChooseList i = fa.constructChooseList(dType, w, new SelectC());
-    }
+	@Override
+	public void signal(ISlotSignalContext slContext) {
+		WSize w = new WSize(slContext.getGwtWidget().getGWidget());
+		IChooseList i = ChooseListFactory.constructChooseList(dType, w, new SelectC());
+	}
 }

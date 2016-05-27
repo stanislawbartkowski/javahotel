@@ -736,9 +736,8 @@ class ListControler {
 
 			@Override
 			public void executeImage(String val, int row, WSize w, IExecuteSetString i) {
-				ChooseListFactory fa = GwtGiniInjector.getI().getChooseListFactory();
 				IDataType d = rM.gettConstruct().construct(f.getTypeName());
-				IChooseList iC = fa.constructChooseList(d, w, new ChooseD(i));
+				IChooseList iC = ChooseListFactory.constructChooseList(d, w, new ChooseD(i));
 			}
 
 		}

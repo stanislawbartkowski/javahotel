@@ -24,7 +24,4 @@ public class GwtTableFactory {
                 lostFocus, iImage, async, iSpan);
     }
 
-    public IGwtTableView constructTree(IRowClick click) {
-        return new PresentationTree(click);
-    }
 }

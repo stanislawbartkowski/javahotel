@@ -69,4 +69,20 @@ def dialogactionpoly(action,var) :
   if action == "before" :
      cutil.setCopy(var,"glob1") 
      var["glob1"] = "Hello, I'm here"
+     
+  if action == "seterror" :
+     cutil.setErrorField(var,"glob1","@cannotbeempty")
+
+  if action == "setenable" :
+     cutil.enableField(var,"glob1",True);
+
+  if action == "setdisable" :
+     cutil.enableField(var,"glob1",False);
+     
+  if action == "sethidden" :
+     cutil.hideButton(var,"seterror")
+
+  if action == "setvisible" :
+     cutil.hideButton(var,"seterror",False)
+    
   

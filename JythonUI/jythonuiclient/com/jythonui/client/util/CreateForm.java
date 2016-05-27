@@ -70,9 +70,8 @@ public class CreateForm {
 			IEnumTypesList eList, IRequestForGWidget iHelper, IConstructCustomDataType fType, IGetListOfIcons imaList) {
 		DialogFormat d = dInfo.getDialog();
 		List<FieldItem> iList = d.getFieldList();
-		EditWidgetFactory eeFactory = GwtGiniInjector.getI().getEditWidgetFactory();
 		boolean isPolymer = JUtils.isPolymerD(dInfo.getDialog());
-		IEditWidget eFactory = eeFactory.getE(isPolymer);
+		IEditWidget eFactory = EditWidgetFactory.getE(isPolymer);
 		List<FormField> fList = new ArrayList<FormField>();
 		IGetStandardMessage iMess = GwtGiniInjector.getI().getStandardMessage();
 		for (FieldItem f : iList) {
@@ -124,7 +123,7 @@ public class CreateForm {
 					else
 						v = eFactory.constructDateBoxCalendarWithHelper(vf, iHelper, true, htmlId);
 				} else {
-					v = eeFactory.constructEditWidget(vf, htmlId, isPolymer);
+					v = EditWidgetFactory.constructEditWidget(vf, htmlId, isPolymer);
 				}
 
 			}

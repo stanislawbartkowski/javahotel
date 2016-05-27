@@ -22,20 +22,16 @@ import com.gwtmodel.table.view.pullmenu.PullMenuFactory;
 
 public class ControlButtonViewFactory {
 
-	private final ContrButtonViewFactory vFactory;
-	private final PullMenuFactory menuFactory;
-
 	@Inject
-	public ControlButtonViewFactory(ContrButtonViewFactory vFactory, PullMenuFactory menuFactory) {
-		this.vFactory = vFactory;
-		this.menuFactory = menuFactory;
+	static private ContrButtonViewFactory vFactory;
+	@Inject
+	static private PullMenuFactory menuFactory;
+
+	public static IControlButtonView construct(IDataType dType, ListOfControlDesc listButton, boolean polymer) {
+		return new ControlButtonView(vFactory, listButton, dType, true, polymer);
 	}
 
-	public IControlButtonView construct(IDataType dType, ListOfControlDesc listButton) {
-		return new ControlButtonView(vFactory, listButton, dType, true);
-	}
-
-	public IControlButtonView construct(IDataType dType, MenuPullContainer menu) {
+	public static IControlButtonView construct(IDataType dType, MenuPullContainer menu) {
 		return new ControlButtonView(menuFactory, menu, dType);
 	}
 }

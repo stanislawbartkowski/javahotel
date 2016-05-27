@@ -29,6 +29,7 @@ import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.composecontroller.ComposeControllerType;
 import com.gwtmodel.table.composecontroller.IComposeController;
+import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
 import com.gwtmodel.table.controlbuttonview.IControlButtonView;
 import com.gwtmodel.table.factories.IDataCrudModifButtonAction;
 import com.gwtmodel.table.injector.GwtGiniInjector;
@@ -378,8 +379,8 @@ class DataListActionItemFactory {
         final SlotListContainer slControlerContainer = fController
                 .getSlContainer();
         if (!contentOnly) {
-            IControlButtonView cView = tFactories.getbViewFactory().construct(
-                    dType, liControls);
+            IControlButtonView cView = ControlButtonViewFactory.construct(
+                    dType, liControls,false);
             ComposeControllerType bType = new ComposeControllerType(cView,
                     null, 1, 0);
             fController.registerControler(bType);

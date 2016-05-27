@@ -18,7 +18,6 @@ package com.gwtmodel.table.slotmodel;
 
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.TablesFactories;
-import com.gwtmodel.table.panelview.PanelViewFactory;
 import com.gwtmodel.table.slotmediator.ISlotMediator;
 
 /**
@@ -31,7 +30,6 @@ public abstract class AbstractSlotMediatorContainer extends
     protected final TablesFactories tFactories;
     // not final
     protected ISlotMediator slMediator;
-    protected final PanelViewFactory pViewFactory;
     protected final SlotSignalContextFactory slContextFactory;
     protected final SlotTypeFactory slTypeFactory;
 
@@ -39,7 +37,6 @@ public abstract class AbstractSlotMediatorContainer extends
         tFactories = GwtGiniInjector.getI().getTablesFactories();
         slMediator = tFactories.getSlotMediatorFactory().construct();
         iSlot = slMediator;
-        pViewFactory = tFactories.getpViewFactory();
         slContextFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
         slTypeFactory = GwtGiniInjector.getI().getSlotTypeFactory();
     }

@@ -19,10 +19,6 @@ import com.gwtmodel.table.IGetSetVField;
 
 public interface IFormLineView extends IGetSetVField, IGWidget {
 
-	int NOCHOOSECHECK = 0;
-	int CHOOSECHECKTRUE = 1;
-	int CHOOSECHECKFALSE = 2;
-
 	void addChangeListener(IFormChangeListener cListener);
 
 	void setReadOnly(boolean readOnly);
@@ -36,8 +32,6 @@ public interface IFormLineView extends IGetSetVField, IGWidget {
 	void setGStyleName(String styleMess, boolean set);
 
 	void setOnTouch(ITouchListener lTouch);
-
-	int getChooseResult();
 
 	String getHtmlName();
 

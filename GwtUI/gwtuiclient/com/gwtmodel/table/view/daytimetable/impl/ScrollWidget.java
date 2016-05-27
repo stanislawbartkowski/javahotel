@@ -34,10 +34,12 @@ import com.gwtmodel.table.editw.IFormLineView;
 import com.gwtmodel.table.factories.IWebPanelResources;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.mm.MM;
+import com.gwtmodel.table.view.button.IImgButton;
 import com.gwtmodel.table.view.button.ImgButtonFactory;
 import com.gwtmodel.table.view.daytimetable.IDrawPartSeason;
 import com.gwtmodel.table.view.daytimetable.IDrawPartSeasonContext;
 import com.gwtmodel.table.view.daytimetable.IScrollSeason;
+import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.gwtmodel.table.view.ewidget.IEditWidget;
 
 public class ScrollWidget implements IScrollSeason {
@@ -66,12 +68,12 @@ public class ScrollWidget implements IScrollSeason {
 		this.dPart = dPart;
 		this.todayC = todayC;
 
+		IImgButton iIma = ImgButtonFactory.getGwtB();
 		IWebPanelResources pResources = GwtGiniInjector.getI().getWebPanelResources();
 		String[] titles = MM.getL().ScrollDays();
-		leftP = ImgButtonFactory.getButton(C_BUTTON_LEFT, titles[1], pResources.getRes(IWebPanelResources.SCROLLLEFT));
-		rightP = ImgButtonFactory.getButton(C_BUTTON_RIGHT, titles[2],
-				pResources.getRes(IWebPanelResources.SCROLLRIGHT));
-		IEditWidget eFactory = GwtGiniInjector.getI().getEditWidgetFactory().getGwtE();
+		leftP = iIma.getButton(C_BUTTON_LEFT, titles[1], pResources.getRes(IWebPanelResources.SCROLLLEFT));
+		rightP = iIma.getButton(C_BUTTON_RIGHT, titles[2], pResources.getRes(IWebPanelResources.SCROLLRIGHT));
+		IEditWidget eFactory = EditWidgetFactory.getGwtE();
 		dDate = eFactory.construcDateBoxCalendar(Empty.getFieldType(), null);
 		dPanel.add(leftP.getGWidget());
 		dPanel.add(dDate.getGWidget());

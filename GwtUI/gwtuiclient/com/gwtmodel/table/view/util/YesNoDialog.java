@@ -79,7 +79,7 @@ public class YesNoDialog extends ModalDialog {
 		};
 
 		IContrButtonViewFactory ba = GwtGiniInjector.getI().getContrButtonViewFactory();
-		IContrButtonView vButton = ba.getView(yesB, cli, true);
+		IContrButtonView vButton = ba.getView(yesB, cli, true, false);
 
 		vP.add(vButton.getGWidget());
 	}

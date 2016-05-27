@@ -225,17 +225,15 @@ class ExtendTextBox extends AbstractField {
 		private final boolean area;
 		private final boolean suggestbox;
 		private final boolean panel;
-		private final boolean checkBox;
 		private final boolean enable;
 		private final boolean isRich;
 		private final IGetDataList iGet;
 		private final TextBoxBase tBox;
 
-		EParam(boolean password, boolean panel, boolean checkBox, boolean area, boolean enable, boolean isRich,
-				boolean suggestbox, IGetDataList iGet, TextBoxBase tBox) {
+		EParam(boolean password, boolean panel, boolean area, boolean enable, boolean isRich, boolean suggestbox,
+				IGetDataList iGet, TextBoxBase tBox) {
 			this.password = password;
 			this.panel = panel;
-			this.checkBox = checkBox;
 			this.area = area;
 			this.enable = enable;
 			this.isRich = isRich;
@@ -262,14 +260,7 @@ class ExtendTextBox extends AbstractField {
 		 * @return the panel
 		 */
 		public boolean isPanel() {
-			return panel || checkBox;
-		}
-
-		/**
-		 * @return the checkBox
-		 */
-		public boolean isCheckBox() {
-			return checkBox;
+			return panel;
 		}
 
 		/**
@@ -290,7 +281,7 @@ class ExtendTextBox extends AbstractField {
 	protected final Widget wW;
 	private final EWidget eW;
 	protected final HorizontalPanel hPanel;
-	protected final CheckBox check;
+	// protected final CheckBox check;
 	protected final boolean isArea;
 
 	protected ExtendTextBox(IVField v, EParam param, String htmlName) {
@@ -298,20 +289,8 @@ class ExtendTextBox extends AbstractField {
 		this.isArea = param.isArea();
 		eW = new EWidget(param);
 		eW.setName(getHtmlName());
-		if (param.isCheckBox()) {
-			check = new CheckBox("Auto");
-			check.setChecked(param.isEnable());
-			check.addClickListener(new ChangeC());
-			changeS();
-
-		} else {
-			check = null;
-		}
 		if (param.isPanel()) {
 			hPanel = new HorizontalPanel();
-			if (check != null) {
-				hPanel.add(check);
-			}
 			hPanel.add(eW.getGWidget());
 			wW = hPanel;
 		} else {
@@ -322,34 +301,7 @@ class ExtendTextBox extends AbstractField {
 	}
 
 	private void changeS() {
-		if (check.isChecked()) {
-			eW.setEnabled(false);
-		} else {
-			eW.setEnabled(true);
-		}
-	}
-
-	private class ChangeC implements ClickListener {
-
-		@Override
-		public void onClick(Widget sender) {
-			if (check.isChecked()) {
-				eW.setText("");
-			}
-			changeS();
-		}
-	}
-
-	@Override
-	public int getChooseResult() {
-		if (check == null) {
-			return NOCHOOSECHECK;
-		}
-		if (check.isChecked()) {
-			return CHOOSECHECKTRUE;
-		} else {
-			return CHOOSECHECKFALSE;
-		}
+		eW.setEnabled(true);
 	}
 
 	@Override
@@ -389,9 +341,6 @@ class ExtendTextBox extends AbstractField {
 	@Override
 	public void setReadOnly(final boolean r) {
 		eW.setReadOnly(r);
-		if (check != null) {
-			check.setEnabled(!r);
-		}
 	}
 
 	public boolean validateField() {
@@ -435,6 +384,6 @@ class ExtendTextBox extends AbstractField {
 
 	@Override
 	public void setFocus(boolean focus) {
-		eW.setFocus(focus);		
+		eW.setFocus(focus);
 	}
 }

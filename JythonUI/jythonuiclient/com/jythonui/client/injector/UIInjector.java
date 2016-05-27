@@ -54,8 +54,6 @@ public interface UIInjector extends Ginjector {
 
 	RequestContext getRequestContext();
 
-	LoginViewFactory getLoginViewFactory();
-
 	ILoginPage getLoginPage();
 
 	IJythonUIClient getJythonUIClient();

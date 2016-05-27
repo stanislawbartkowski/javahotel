@@ -15,9 +15,7 @@ package com.gwtmodel.table.injector;
 import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonFactory;
-import com.gwtmodel.table.chooselist.ChooseListFactory;
 import com.gwtmodel.table.composecontroller.ComposeControllerFactory;
-import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
 import com.gwtmodel.table.controlbuttonview.StackPanelButtonFactory;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
 import com.gwtmodel.table.datalisttype.DataListTypeFactory;
@@ -30,8 +28,6 @@ import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.factories.IWebPanelResources;
 import com.gwtmodel.table.htmlview.HtmlPanelFactory;
 import com.gwtmodel.table.json.IJsonConvert;
-import com.gwtmodel.table.login.LoginViewFactory;
-import com.gwtmodel.table.panelview.PanelViewFactory;
 import com.gwtmodel.table.readres.ReadResFactory;
 import com.gwtmodel.table.slotmediator.SlotMediatorFactory;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
@@ -40,12 +36,8 @@ import com.gwtmodel.table.slotmodel.SlotTypeFactory;
 import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.gwtmodel.table.stackpanelcontroller.StackPanelControllerFactory;
 import com.gwtmodel.table.tabpanelview.TabPanelViewFactory;
-import com.gwtmodel.table.view.checkstring.CheckDictModelFactory;
 import com.gwtmodel.table.view.controlpanel.IContrButtonViewFactory;
 import com.gwtmodel.table.view.daytimetable.IDatePanelScroll;
-import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
-import com.gwtmodel.table.view.grid.GridViewFactory;
-import com.gwtmodel.table.view.pullmenu.PullMenuFactory;
 import com.gwtmodel.table.view.stackpanel.ViewStackPanelFactory;
 import com.gwtmodel.table.view.stackvertical.StackPanelFactory;
 import com.gwtmodel.table.view.table.GwtTableFactory;
@@ -71,21 +63,13 @@ public interface GwtTableInjector extends Ginjector {
 
     DataViewModelFactory getDataViewModelFactory();
 
-    CheckDictModelFactory getCheckDictModelFactory();
-
     ReadResFactory getReadResFactory();
-
-    GridViewFactory getGridViewFactory();
 
     ITableCustomFactories getTableFactoriesContainer();
 
     GwtTableFactory getGwtTableFactory();
 
-    EditWidgetFactory getEditWidgetFactory();
-
     SlotMediatorFactory getSlotMediatorFactory();
-
-    PanelViewFactory getPanelViewFactory();
 
     HtmlPanelFactory getHtmlPanelFactory();
 
@@ -96,8 +80,6 @@ public interface GwtTableInjector extends Ginjector {
     WebPanelFactory getWebPanelFactory();
 
     IWebPanel getWebPanel();
-
-    ControlButtonViewFactory getControlButtonViewFactory();
 
     ICallContext getCallContext();
 
@@ -111,10 +93,6 @@ public interface GwtTableInjector extends Ginjector {
 
     ViewStackPanelFactory getViewStackPanelFactory();
 
-    ChooseListFactory getChooseListFactory();
-
-    PullMenuFactory getPullMenuFactory();
-
     DataListTypeFactory getDataListTypeFactory();
 
     IGetStandardMessage getStandardMessage();
@@ -122,8 +100,6 @@ public interface GwtTableInjector extends Ginjector {
     IGetCustomValues getCustomValues();
 
     IWebPanelResources getWebPanelResources();
-
-    LoginViewFactory getLoginViewFactory();
 
     TabPanelViewFactory getTabPanelViewFactory();
 

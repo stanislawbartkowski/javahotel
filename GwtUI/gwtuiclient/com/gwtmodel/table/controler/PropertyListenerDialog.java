@@ -56,18 +56,6 @@ class PropertyListenerDialog {
 		this.ddType = ddType;
 	}
 
-	private boolean isTreeEnabled(ISlotable publishSlo) {
-		CustomStringSlot slType = IsBooleanSignalNow
-				.constructSlotGetTableTreeEnabled(ddType);
-		return TUtil.isBoolProp(publishSlo, slType);
-	}
-
-	private boolean isTreeSorted(ISlotable publishSlo) {
-		CustomStringSlot slType = IsBooleanSignalNow
-				.constructSlotGetTableIsSorted(ddType);
-		return TUtil.isBoolProp(publishSlo, slType);
-	}
-
 	private boolean isFilterOn(ISlotable publishSlo) {
 		CustomStringSlot slType = IsBooleanSignalNow
 				.constructSlotGetTableIsFilter(ddType);
@@ -93,8 +81,6 @@ class PropertyListenerDialog {
 
 		private final ISlotable publishSlo;
 		private final IDataType publishdType;
-		private final static String CHANGE_TO_TREE = "CHANGE_TO_TREE";
-		private final static String CHANGE_TO_TABLE = "CHANGE_TO_TABLE";
 		private final static String REMOVE_SORT = "REMOVE_SORT";
 		private final static String CHANGE_PAGE_SIZE = "CHANGE_PAGE_SIZE";
 		private final static String WRAP_LINE_ON = "WRAP_LINE_ON";
@@ -125,20 +111,10 @@ class PropertyListenerDialog {
 		}
 
 		private boolean onlyForTable(Widget w) {
-			if (TUtil.isTreeView(publishSlo, ddType)) {
-				OkDialog ok = new OkDialog(MM.getL().OnlyForTable(), null, null);
-				ok.show(w);
-				return false;
-			}
 			return true;
 		}
 
 		private boolean onlyForTree(Widget w) {
-			if (!TUtil.isTreeView(publishSlo, ddType)) {
-				OkDialog ok = new OkDialog(MM.getL().OnlyForTree(), null, null);
-				ok.show(w);
-				return false;
-			}
 			return true;
 		}
 
@@ -221,45 +197,10 @@ class PropertyListenerDialog {
 					if (!onlyForTable(w)) {
 						return;
 					}
-					if (!isTreeSorted(publishSlo)) {
-						OkDialog ok = new OkDialog(
-								MM.getL().TableIsNotSorted(), null, null);
-						ok.show(w);
-						return;
-					}
 					SlotType sl = ActionTableSignal
 							.constructRemoveSortSignal(ddType);
 					publishSlo.getSlContainer().publish(sl);
 					return;
-				}
-				if (id.equals(CHANGE_TO_TREE)) {
-					if (!onlyForTable(w)) {
-						return;
-					}
-					if (!isTreeEnabled(publishSlo)) {
-						OkDialog ok = new OkDialog(MM.getL()
-								.CannotDisplayAsTree(), null, null);
-						ok.show(w);
-						return;
-					}
-					if (isFilterOn(publishSlo)) {
-						OkDialog ok = new OkDialog(MM.getL()
-								.CannotSwitchToTreeWhileFilter(), null, null);
-						ok.show(w);
-						return;
-					}
-					SlotType sl = ActionTableSignal
-							.constructToTreeSignal(ddType);
-					publishSlo.getSlContainer().publish(sl);
-					return;
-				}
-				if (id.equals(CHANGE_TO_TABLE)) {
-					if (!onlyForTree(w)) {
-						return;
-					}
-					SlotType sl = ActionTableSignal
-							.constructToTableSignal(ddType);
-					publishSlo.getSlContainer().publish(sl);
 				}
 				if (id.equals(CHANGE_COLUMNS)) {
 					fContainer
@@ -279,10 +220,6 @@ class PropertyListenerDialog {
 		@Override
 		public void signal(ISlotSignalContext slContext) {
 			List<ControlButtonDesc> mList = new ArrayList<ControlButtonDesc>();
-			if (isTreeEnabled(publishSlo)) {
-				addMenu(mList, MM.getL().ChangeToTable(), CHANGE_TO_TABLE);
-				addMenu(mList, MM.getL().ChangeToTree(), CHANGE_TO_TREE);
-			}
 			addMenu(mList, MM.getL().RemoveSortOrder(), REMOVE_SORT);
 			addMenu(mList, MM.getL().ChangeNumberOfRows(), CHANGE_PAGE_SIZE);
 			addMenu(mList, MM.getL().WrapLines(), WRAP_LINE_ON);

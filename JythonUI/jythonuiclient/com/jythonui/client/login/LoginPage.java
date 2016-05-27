@@ -15,7 +15,6 @@ package com.jythonui.client.login;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.inject.Inject;
 import com.gwtmodel.table.Empty;
 import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.IDataType;
@@ -48,13 +47,6 @@ import com.jythonui.client.interfaces.ILoginPage;
 import com.jythonui.shared.CustomSecurity;
 
 public class LoginPage implements ILoginPage {
-
-	private final LoginViewFactory lFactory;
-
-	@Inject
-	public LoginPage(LoginViewFactory lFactory) {
-		this.lFactory = lFactory;
-	}
 
 	static class DataValidate extends AbstractSlotContainer implements IDataValidateAction {
 
@@ -137,8 +129,8 @@ public class LoginPage implements ILoginPage {
 		IDataType dType = Empty.getDataType();
 		CellId ce = new CellId(0);
 		LoginDataModelFactory logFactory = new LoginDataModelFactory();
-		FormLineContainer lForm = lFactory.construct();
-		ILoginDataView lView = lFactory.contructView(ce, dType, lForm, logFactory,
+		FormLineContainer lForm = LoginViewFactory.construct();
+		ILoginDataView lView = LoginViewFactory.contructView(ce, dType, lForm, logFactory,
 				new DataValidate(dType, shiroRealm, iCustom, ok));
 		SlU.registerWidgetListener0(dType, lView, new GetWidget());
 		lView.startPublish(null);

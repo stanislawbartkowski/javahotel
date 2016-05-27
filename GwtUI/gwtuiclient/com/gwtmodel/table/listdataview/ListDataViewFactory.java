@@ -19,21 +19,19 @@ import com.gwtmodel.table.view.table.IGetCellValue;
 
 public class ListDataViewFactory {
 
-    private final GwtTableFactory gFactory;
+	private final GwtTableFactory gFactory;
 
-    @Inject
-    public ListDataViewFactory(GwtTableFactory gFactory) {
-        this.gFactory = gFactory;
-    }
+	@Inject
+	public ListDataViewFactory(GwtTableFactory gFactory) {
+		this.gFactory = gFactory;
+	}
 
-    public IListDataView construct(IDataType dType) {
-        return construct(dType, null, true, false, false, false, null);
-    }
+	public IListDataView construct(IDataType dType) {
+		return construct(dType, null, true, false, false, null);
+	}
 
-    public IListDataView construct(IDataType dType, IGetCellValue getCell,
-            boolean selectedRow, boolean unSelectAtOnce, boolean treeView,
-            boolean async, String className) {
-        return new ListDataView(gFactory, dType, getCell, selectedRow,
-                unSelectAtOnce, treeView, async, className);
-    }
+	public IListDataView construct(IDataType dType, IGetCellValue getCell, boolean selectedRow, boolean unSelectAtOnce,
+			boolean async, String className) {
+		return new ListDataView(gFactory, dType, getCell, selectedRow, unSelectAtOnce, async, className);
+	}
 }

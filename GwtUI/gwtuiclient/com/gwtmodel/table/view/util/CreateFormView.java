@@ -15,7 +15,6 @@ package com.gwtmodel.table.view.util;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Set;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.Grid;
@@ -33,6 +32,7 @@ import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.smessage.IGetStandardMessage;
+import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.gwtmodel.table.view.ewidget.IEditWidget;
 
 public class CreateFormView {
@@ -82,7 +82,7 @@ public class CreateFormView {
 	}
 
 	public static void setHtml(HTMLPanel pa, List<FormField> fList) {
-		IEditWidget eFactory = GwtGiniInjector.getI().getEditWidgetFactory().getGwtE();
+		IEditWidget eFactory = EditWidgetFactory.getGwtE();
 		IGetStandardMessage iMess = GwtGiniInjector.getI().getStandardMessage();
 		IGetCustomValues c = GwtGiniInjector.getI().getCustomValues();
 		boolean addId = CUtil.EqNS(c.getCustomValue(IGetCustomValues.HTMLPANELADDID), IGetCustomValues.VALUEYES);

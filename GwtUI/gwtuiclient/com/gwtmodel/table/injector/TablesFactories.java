@@ -13,71 +13,49 @@
 package com.gwtmodel.table.injector;
 
 import javax.inject.Inject;
+
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonFactory;
-import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.listdataview.ListDataViewFactory;
 import com.gwtmodel.table.panelview.PanelViewFactory;
 import com.gwtmodel.table.slotmediator.SlotMediatorFactory;
 import com.gwtmodel.table.slotmodel.SlotTypeFactory;
-import com.gwtmodel.table.splitview.SplitViewFactory;
 
 public class TablesFactories {
 
-    private final ControlButtonViewFactory bViewFactory;
-    private final PanelViewFactory pViewFactory;
-    private final ListDataViewFactory lDataFactory;
-    private final SlotTypeFactory slTypeFactory;
-    private final DataViewModelFactory dViewFactory;
-    private final ControlButtonFactory cButtonFactory;
-    private final SlotMediatorFactory meFactory;
-    private final SplitViewFactory sSplitFactory;
+	private final ListDataViewFactory lDataFactory;
+	private final SlotTypeFactory slTypeFactory;
+	private final DataViewModelFactory dViewFactory;
+	private final ControlButtonFactory cButtonFactory;
+	private final SlotMediatorFactory meFactory;
 
-    public ControlButtonViewFactory getbViewFactory() {
-        return bViewFactory;
-    }
+	@Inject
+	public TablesFactories(ListDataViewFactory lDataFactory, SlotTypeFactory slTypeFactory,
+			DataViewModelFactory dViewFactory, ControlButtonFactory cButtonFactory, SlotMediatorFactory meFactory) {
+		this.lDataFactory = lDataFactory;
+		this.slTypeFactory = slTypeFactory;
+		this.dViewFactory = dViewFactory;
+		this.cButtonFactory = cButtonFactory;
+		this.meFactory = meFactory;
+	}
 
-    public PanelViewFactory getpViewFactory() {
-        return pViewFactory;
-    }
+	public SlotTypeFactory getSlTypeFactory() {
+		return slTypeFactory;
+	}
 
-    @Inject
-    public TablesFactories(ControlButtonViewFactory bViewFactory,
-            PanelViewFactory pViewFactory, ListDataViewFactory lDataFactory,
-            SlotTypeFactory slTypeFactory, DataViewModelFactory dViewFactory,
-            ControlButtonFactory cButtonFactory, SlotMediatorFactory meFactory,
-            SplitViewFactory sSplitFactory) {
-        this.bViewFactory = bViewFactory;
-        this.pViewFactory = pViewFactory;
-        this.lDataFactory = lDataFactory;
-        this.slTypeFactory = slTypeFactory;
-        this.dViewFactory = dViewFactory;
-        this.cButtonFactory = cButtonFactory;
-        this.meFactory = meFactory;
-        this.sSplitFactory = sSplitFactory;
-    }
+	public ListDataViewFactory getlDataFactory() {
+		return lDataFactory;
+	}
 
-    public SlotTypeFactory getSlTypeFactory() {
-        return slTypeFactory;
-    }
+	public DataViewModelFactory getdViewFactory() {
+		return dViewFactory;
+	}
 
-    public ListDataViewFactory getlDataFactory() {
-        return lDataFactory;
-    }
+	public ControlButtonFactory getControlButtonFactory() {
+		return cButtonFactory;
+	}
 
-    public DataViewModelFactory getdViewFactory() {
-        return dViewFactory;
-    }
-
-    public ControlButtonFactory getControlButtonFactory() {
-        return cButtonFactory;
-    }
-
-    public SlotMediatorFactory getSlotMediatorFactory() {
-        return meFactory;
-    }
-
-    public SplitViewFactory getsSplitFactory() {
-        return sSplitFactory;
-    }
+	public SlotMediatorFactory getSlotMediatorFactory() {
+		return meFactory;
+	}
 }

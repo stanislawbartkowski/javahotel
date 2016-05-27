@@ -21,8 +21,11 @@ import com.gwtmodel.table.WSize;
  */
 public class ChooseListFactory {
 
-    public IChooseList constructChooseList(IDataType dType, WSize wSize,
-            ICallBackWidget i) {
-        return new ChooseDictList(dType, wSize, i);
-    }
+	private ChooseListFactory() {
+
+	}
+
+	public static IChooseList constructChooseList(IDataType dType, WSize wSize, ICallBackWidget i) {
+		return new ChooseDictList(dType, wSize, i);
+	}
 }

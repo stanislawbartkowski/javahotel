@@ -24,9 +24,6 @@ import com.gwtmodel.table.view.ewidget.gwt.RadioBoxString;
 
 public interface IEditWidget {
 
-	String GWT = "gwtwidget";
-	String POLYMER = "polymerwidget";
-
 	IFormLineView constructLabelField(IVField v, String displayName);
 
 	IFormLineView constructHTMLField(IVField v);

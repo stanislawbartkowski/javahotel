@@ -22,15 +22,18 @@ import com.gwtmodel.table.editw.FormLineContainer;
 import com.gwtmodel.table.editw.IFormLineView;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.IDataValidateAction;
-import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.mm.MM;
 import com.gwtmodel.table.slotmodel.CellId;
+import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.gwtmodel.table.view.ewidget.IEditWidget;
 
 public class LoginViewFactory {
 
-	public FormLineContainer construct() {
-		IEditWidget eFactory = GwtGiniInjector.getI().getEditWidgetFactory().getGwtE();
+	private LoginViewFactory() {
+	}
+
+	public static FormLineContainer construct() {
+		IEditWidget eFactory = EditWidgetFactory.getGwtE();
 		List<FormField> di = new ArrayList<FormField>();
 		IVField loginV = new LoginField(LoginField.F.LOGINNAME);
 		IFormLineView loginName = eFactory.constructTextField(loginV, null);
@@ -41,7 +44,7 @@ public class LoginViewFactory {
 		return new FormLineContainer(di, false);
 	}
 
-	public ILoginDataView contructView(CellId cellId, IDataType dType, FormLineContainer lContainer,
+	public static ILoginDataView contructView(CellId cellId, IDataType dType, FormLineContainer lContainer,
 			IDataModelFactory dFactory, IDataValidateAction vAction) {
 		return new LoginDataView(cellId, dType, lContainer, dFactory, vAction);
 	}

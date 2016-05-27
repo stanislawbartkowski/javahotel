@@ -35,9 +35,4 @@ class TUtil {
 
     }
 
-    static boolean isTreeView(ISlotable publishSlo, IDataType ddType) {
-        return TUtil.isBoolProp(publishSlo,
-                IsBooleanSignalNow.constructSlotGetTreeView(ddType));
-    }
-
 }

@@ -15,29 +15,29 @@ package com.gwtmodel.table.view.ewidget;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import com.gwtmodel.table.FieldDataType;
+import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.editw.IFormLineView;
 
 public class EditWidgetFactory {
 
-	private final IEditWidget gwtE;
-	private final IEditWidget polymerE;
-
-	@Inject
-	public EditWidgetFactory(@Named(IEditWidget.GWT) IEditWidget gwtE, @Named(IEditWidget.POLYMER) IEditWidget polymerE) {
-		this.gwtE = gwtE;
-		this.polymerE = polymerE;
+	private EditWidgetFactory() {
 	}
 
-	public IEditWidget getGwtE() {
+	@Inject
+	private static @Named(IConsts.GWT) IEditWidget gwtE;
+	@Inject
+	private static @Named(IConsts.POLYMER) IEditWidget polymerE;
+
+	public static IEditWidget getGwtE() {
 		return gwtE;
 	}
 
-	public IEditWidget getE(boolean polymer) {
+	public static IEditWidget getE(boolean polymer) {
 		return polymer ? polymerE : gwtE;
 	}
 
-	public IFormLineView constructEditWidget(IVField v, String htmlName, boolean polymer) {
+	public static IFormLineView constructEditWidget(IVField v, String htmlName, boolean polymer) {
 		FieldDataType.IFormLineViewFactory fa = v.getType().getiFactory();
 		if (fa != null) {
 			return fa.construct(v);

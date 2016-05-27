@@ -11,7 +11,15 @@
 <leftmenu>
   <button id="main" displayname="Main form"/>
 </leftmenu>  
-  
+
+<buttons>
+  <button id="seterror" displayname="Set error"/>
+  <button id="setdisable" displayname="Set read only"/>
+  <button id="setenable" displayname="Set enable"/>
+  <button id="sethidden" displayname="Set hidden"/>
+  <button id="setvisible" displayname="Set visible"/>
+</buttons>
+
  <form>
    <field id="glob1" />
    <field id="name1" displayname="Wprowadź napis" />

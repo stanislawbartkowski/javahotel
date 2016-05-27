@@ -12,13 +12,24 @@
  */
 package com.gwtmodel.table.view.ewidget.polymer;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.gwt.dom.client.Element;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.editw.IFormChangeListener;
 import com.gwtmodel.table.editw.IFormLineView;
-import com.gwtmodel.table.factories.IGetCustomValues;
+import com.gwtmodel.table.editw.ITouchListener;
+import com.vaadin.polymer.elemental.EventListener;
+import com.vaadin.polymer.iron.event.KeysPressedEvent;
+import com.vaadin.polymer.paper.widget.event.ChangeEvent;
+import com.vaadin.polymer.paper.widget.event.ChangeEventHandler;
 
 abstract class AbstractWField implements IFormLineView {
 
 	protected final IVField v;
+	private final List<ITouchListener> lTouch = new ArrayList<ITouchListener>();
+	private final List<IFormChangeListener> cList = new ArrayList<IFormChangeListener>();
 
 	protected AbstractWField(IVField v) {
 		this.v = v;
@@ -29,4 +40,45 @@ abstract class AbstractWField implements IFormLineView {
 		return v;
 	}
 
+	@Override
+	public void setOnTouch(ITouchListener lTouch) {
+		this.lTouch.add(lTouch);
+	}
+
+	protected void runOnTouch() {
+		for (ITouchListener i : lTouch)
+			i.onTouch();
+	}
+
+	protected void onChangeEdit(boolean afterfocus) {
+		for (IFormChangeListener c : cList)
+			c.onChange(AbstractWField.this, afterfocus);
+	}
+
+	/* focus lost and something changed */
+	protected class ChangeHa implements ChangeEventHandler {
+
+		@Override
+		public void onChange(ChangeEvent event) {
+			onChangeEdit(true);
+		}
+	}
+
+	protected class TouchEvent implements EventListener<KeysPressedEvent> {
+
+		@Override
+		public void handleEvent(KeysPressedEvent event) {
+			runOnTouch();
+		}
+	}
+
+	@Override
+	public void addChangeListener(IFormChangeListener cListener) {
+		cList.add(cListener);
+	}
+
+	@Override
+	public void setAttr(String attrName, String attrValue) {
+		this.getGWidget().getElement().setAttribute(attrName, attrValue);
+	}
 }

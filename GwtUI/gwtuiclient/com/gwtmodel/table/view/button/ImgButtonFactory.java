@@ -12,13 +12,9 @@
  */
 package com.gwtmodel.table.view.button;
 
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Label;
-import com.gwtmodel.table.GFocusWidgetFactory;
-import com.gwtmodel.table.IGFocusWidget;
-import com.gwtmodel.table.Utils;
-import com.gwtmodel.table.injector.GwtGiniInjector;
-import com.gwtmodel.table.smessage.IGetStandardMessage;
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
+import com.gwtmodel.table.IConsts;
 
 /**
  * 
@@ -26,51 +22,24 @@ import com.gwtmodel.table.smessage.IGetStandardMessage;
  */
 public class ImgButtonFactory {
 
-    private ImgButtonFactory() {
-    }
+	private ImgButtonFactory() {
 
-    public static IGFocusWidget getButton(String bId, String bName, String img) {
-        Button but;
-        IGFocusWidget w;
-        IGetStandardMessage iMess = GwtGiniInjector.getI().getStandardMessage();
-        if (img != null) {
-            String h = Utils.getImageHTML(img);
-            but = new NamedButton(bId);
-            but.setHTML(h);
-            w = GFocusWidgetFactory.construct(but, iMess.getMessage(bName));
-        } else {
-            but = new NamedButton(iMess.getMessage(bName), bId);
-            w = GFocusWidgetFactory.construct(but);
-        }
-        return w;
-    }
+	}
 
-    private static class NamedButton extends Button {
+	@Inject
+	static private @Named(IConsts.GWT) IImgButton iGwt;
 
-        NamedButton(String bId) {
-            super();
-            if (bId != null)
-                getButtonElement().setName(bId);
-        }
+	@Inject
+	static private @Named(IConsts.POLYMER) IImgButton iPolymer;
 
-        NamedButton(String text, String bId) {
-            super(text);
-            if (bId != null)
-                getButtonElement().setName(bId);
-        }
+	public static IImgButton getGwtB() {
+		return iGwt;
+	}
 
-    }
+	public static IImgButton getB(boolean polymer) {
+		if (polymer)
+			return iPolymer;
+		return iGwt;
+	}
 
-    public static IGFocusWidget getButtonTextImage(String bId, String bName,
-            String img) {
-        String ht = "<table><tr>";
-        String h = Utils.getImageHTML(img);
-        ht += h;
-        Label la = new Label(bName);
-        ht += "<td>" + la.getElement().getInnerHTML() + "</td>";
-        ht += "</tr></table>";
-        Button b = new NamedButton(bId);
-        b.setHTML(ht);
-        return GFocusWidgetFactory.construct(b);
-    }
 }

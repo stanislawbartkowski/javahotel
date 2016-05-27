@@ -82,11 +82,6 @@ class VLabel implements IFormLineView {
 	}
 
 	@Override
-	public int getChooseResult() {
-		return 0;
-	}
-
-	@Override
 	public String getHtmlName() {
 		return v.getId();
 	}

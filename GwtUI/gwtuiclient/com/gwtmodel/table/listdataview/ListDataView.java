@@ -82,7 +82,6 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 	private final SlotSignalContextFactory coFactory;
 	private boolean isFilter = false;
 	private IOkModelData iOk;
-	private boolean isTreeNow = false;
 	private final GwtTableFactory gFactory;
 	private final IGetCellValue gValue;
 	private final boolean selectedRow;
@@ -453,25 +452,6 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 		}
 	}
 
-	private class ToTableTree extends ModifListener {
-
-		private final boolean totree;
-
-		ToTableTree(boolean totree) {
-			this.totree = totree;
-		}
-
-		@Override
-		void modif(ISlotSignalContext slContext) {
-			constructView(totree, async);
-			vp.clear();
-			vp.add(tableView.getGWidget());
-			tableView.setModel(listView);
-			tableView.refresh();
-			isTreeNow = totree;
-		}
-	}
-
 	private class SetSortColumn implements ISlotListener {
 
 		@Override
@@ -549,15 +529,6 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 			List<IGetSetVField> vList = tableView.getVList(row);
 			e = new GetVListSignal(vList);
 			return coFactory.construct(slContext.getSlType(), e);
-		}
-	}
-
-	private class GetTreeViewNow implements ISlotCallerListener {
-
-		@Override
-		public ISlotSignalContext call(ISlotSignalContext slContext) {
-			IsBooleanSignalNow si = new IsBooleanSignalNow(isTreeNow);
-			return coFactory.construct(slContext.getSlType(), si);
 		}
 	}
 
@@ -866,14 +837,9 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 		}
 	}
 
-	private void constructView(boolean treeView, boolean async) {
-		if (treeView) {
-			tableView = gFactory.constructTree(selectedRow ? new ClickList() : null);
-			isTreeNow = true;
-		} else {
-			tableView = gFactory.construct(selectedRow ? new ClickList() : null, new ClickColumn(), gValue,
-					new NewEditLineFocus(), new LostFocus(), new ImageColumnAction(), async, null);
-		}
+	private void constructView(boolean async) {
+		tableView = gFactory.construct(selectedRow ? new ClickList() : null, new ClickColumn(), gValue,
+				new NewEditLineFocus(), new LostFocus(), new ImageColumnAction(), async, null);
 	}
 
 	private class ReadChunk implements ChunkReader.IReadChunk {
@@ -947,7 +913,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 	}
 
 	ListDataView(GwtTableFactory gFactory, IDataType dType, IGetCellValue gValue, boolean selectedRow,
-			boolean unSelectAtOnce, boolean treeView, boolean async, String className) {
+			boolean unSelectAtOnce, boolean async, String className) {
 		cReader = new ChunkReader(new ReadChunk());
 		listView = new DataListModelView(cReader);
 		listView.setrAction(new RowActionListener());
@@ -959,7 +925,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 		this.gValue = gValue;
 		this.selectedRow = selectedRow;
 		this.async = async;
-		constructView(treeView, async);
+		constructView(async);
 		iJson = GwtGiniInjector.getI().getJsonConvert();
 		coFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
 		// subscriber
@@ -973,8 +939,6 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 		registerSubscriber(dType, DataActionEnum.DrawListRemoveFilter, new RemoveFilter());
 		registerSubscriber(dType, DataActionEnum.ReadHeaderContainerSignal, new DrawHeader());
 		registerSubscriber(EditRowsSignal.constructEditRowSignal(dType), new ChangeEditRows());
-		registerSubscriber(ActionTableSignal.constructToTableSignal(dType), new ToTableTree(false));
-		registerSubscriber(ActionTableSignal.constructToTreeSignal(dType), new ToTableTree(true));
 		registerSubscriber(ActionTableSignal.constructRemoveSortSignal(dType), new RemoveSort());
 		registerSubscriber(ActionTableSignal.constructSetPageSizeSignal(dType), new ChangeTableSize());
 		registerSubscriber(FinishEditRowSignal.constructSlotFinishEditRowReturnSignal(dType),
@@ -1003,8 +967,6 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 		registerCaller(dType, GetActionEnum.GetFilterData, new GetFilterData());
 		registerCaller(NoPropertyColumn.constructNoPropertyColumn(dType), new GetNoPropertyColumn());
 
-		registerCaller(IsBooleanSignalNow.constructSlotGetTreeView(dType), new GetTreeViewNow());
-		registerCaller(IsBooleanSignalNow.constructSlotGetTableTreeEnabled(dType), new GetTableTreeEnabled());
 		registerCaller(IsBooleanSignalNow.constructSlotGetTableIsFilter(dType), new GetTableIsFilter());
 		registerCaller(IsBooleanSignalNow.constructSlotGetTableIsSorted(dType), new GetTableIsSorted());
 		registerCaller(ActionTableSignal.constructGetPageSizeSignal(dType), new GetTablePageSize());

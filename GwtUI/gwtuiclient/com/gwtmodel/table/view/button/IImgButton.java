@@ -10,24 +10,14 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.checkstring;
+package com.gwtmodel.table.view.button;
 
-import java.util.List;
+import com.gwtmodel.table.IGFocusWidget;
 
-import com.gwtmodel.table.IGWidget;
-
-/**
- *
- * @author stanislawbartkowski@gmail.com
- */
-public interface ICheckDictModel extends IGWidget {
-
-    void setValues(final List<String> val);
-
-    List<String> getValues();
-
-    void setReadOnly(boolean readonly);
-
-    void refresh();
-
+public interface IImgButton {
+	
+    IGFocusWidget getButton(String bId, String bName, String img);
+    
+    IGFocusWidget getButtonTextImage(String bId, String bName,String img);
+    
 }

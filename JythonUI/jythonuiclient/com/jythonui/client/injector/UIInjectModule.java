@@ -22,7 +22,6 @@ import com.gwtmodel.table.factories.ITableAbstractFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.json.CreateJSonForIVData;
 import com.gwtmodel.table.json.IJsonConvert;
-import com.gwtmodel.table.login.LoginViewFactory;
 import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.jythonui.client.IJythonUIClient;
 import com.jythonui.client.cache.MemCache;
@@ -105,11 +104,6 @@ public class UIInjectModule extends AbstractGinModule {
 				Singleton.class);
 	}
 
-	@Provides
-	@Singleton
-	LoginViewFactory getLoginFactory() {
-		return GwtGiniInjector.getI().getLoginViewFactory();
-	}
 
 	@Provides
 	@Singleton

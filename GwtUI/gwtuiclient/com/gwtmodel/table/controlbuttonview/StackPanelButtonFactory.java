@@ -55,7 +55,7 @@ public class StackPanelButtonFactory {
 
 		ControlButtonDescPanel(IContrButtonViewFactory vFactory, ListOfControlDesc listButton, IDataType dType,
 				String html) {
-			super(vFactory, listButton, dType, false);
+			super(vFactory, listButton, dType, false, false);
 			this.html = html;
 		}
 
@@ -89,13 +89,14 @@ public class StackPanelButtonFactory {
 			return new ControlButtonView(new IContrButtonViewFactory() {
 
 				@Override
-				public IContrButtonView getView(ListOfControlDesc model, IControlClick co, boolean hori) {
+				public IContrButtonView getView(ListOfControlDesc model, IControlClick co, boolean hori,
+						boolean polymer) {
 					return new PolymerMenuButton(model, co);
 				}
-			}, listButton, dType, false);
+			}, listButton, dType, false, false);
 		}
 		if (html == null) {
-			return new ControlButtonView(vFactory, listButton, dType, false);
+			return new ControlButtonView(vFactory, listButton, dType, false, false);
 		} else {
 			return new ControlButtonDescPanel(vFactory, listButton, dType, html);
 		}

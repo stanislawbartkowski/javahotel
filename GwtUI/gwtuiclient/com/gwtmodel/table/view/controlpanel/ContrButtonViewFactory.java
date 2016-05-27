@@ -24,7 +24,8 @@ public class ContrButtonViewFactory implements IContrButtonViewFactory {
 	}
 
 	@Override
-	public IContrButtonView getView(final ListOfControlDesc model, final IControlClick co, boolean hori) {
-		return new ContrButtonView(model, co, hori);
+	public IContrButtonView getView(final ListOfControlDesc model, final IControlClick co, boolean hori,
+			boolean polymer) {
+		return new ContrButtonView(model, co, hori, polymer);
 	}
 }

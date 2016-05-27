@@ -56,6 +56,7 @@ import com.gwtmodel.table.listdataview.ButtonCheckLostFocusSignal;
 import com.gwtmodel.table.listdataview.IsBooleanSignalNow;
 import com.gwtmodel.table.mm.LogT;
 import com.gwtmodel.table.panelview.IPanelView;
+import com.gwtmodel.table.panelview.PanelViewFactory;
 import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
@@ -567,7 +568,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 		}
 
 		PViewData(CellId cId) {
-			pView = pViewFactory.construct(dType, cId);
+			pView = PanelViewFactory.construct(dType, cId);
 			TabPanelViewFactory pFactory = GwtGiniInjector.getI().getTabPanelViewFactory();
 			for (int i = 0; i < d.getTabList().size(); i++)
 				pList.add(pFactory.construct(dType, cId, d.getTabList().get(i).getId()));
@@ -745,11 +746,8 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 			err.add(ICommonConsts.CHECKLIST);
 		if (!d.getChartList().isEmpty())
 			err.add(ICommonConsts.CHARTLIST);
-		if (!d.getButtonList().isEmpty())
-			err.add(ICommonConsts.BUTTONS);
 		if (!err.isEmpty()) {
-			String errmess = null;
-			Utils.joinS(',', JUtils.toA(err));
+			String errmess = Utils.joinS(',', JUtils.toA(err));
 			Utils.PolymerNotImplemented(d.getId(), errmess);
 		}
 	}
@@ -809,8 +807,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 		if (!d.getButtonList().isEmpty()) {
 			bList = CreateForm.constructBList(d.getButtonList());
 			ListOfControlDesc deList = new ListOfControlDesc(bList);
-			ControlButtonViewFactory bFactory = GwtGiniInjector.getI().getControlButtonViewFactory();
-			IControlButtonView bView = bFactory.construct(dType, deList);
+			IControlButtonView bView = ControlButtonViewFactory.construct(dType, deList, JUtils.isPolymerD(d));
 			slMediator.getSlContainer().registerSubscriber(dType, ClickButtonType.StandClickEnum.ALL,
 					constructCButton(d.getButtonList()));
 			pView.addElem(ICommonConsts.BUTTONS, dType, bView);

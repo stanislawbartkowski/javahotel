@@ -30,6 +30,7 @@ import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
+import com.gwtmodel.table.view.button.IImgButton;
 import com.gwtmodel.table.view.button.ImgButtonFactory;
 import com.gwtmodel.table.view.util.CreateFormView;
 
@@ -118,8 +119,7 @@ class ContrButtonView implements IContrButtonView {
 		}
 	}
 
-	ContrButtonView(final ListOfControlDesc model, final IControlClick co,
-			final boolean hori) {
+	ContrButtonView(final ListOfControlDesc model, final IControlClick co, final boolean hori, boolean polymer) {
 		this.co = co;
 		if (hori) {
 			hP = new HorizontalPanel();
@@ -127,16 +127,16 @@ class ContrButtonView implements IContrButtonView {
 			hP = new VerticalPanel();
 			hP.setStyleName("stack-panel");
 		}
+		IImgButton iIma = ImgButtonFactory.getB(polymer);
+
 		List<ControlButtonDesc> bu = model.getcList();
 		for (ControlButtonDesc b : bu) {
 			IGFocusWidget but;
 			String htmlElementName = b.getActionId().getHtmlElementName();
 			if (b.isTextimage()) {
-				but = ImgButtonFactory.getButtonTextImage(htmlElementName,
-						b.getDisplayName(), b.getImageHtml());
+				but = iIma.getButtonTextImage(htmlElementName, b.getDisplayName(), b.getImageHtml());
 			} else {
-				but = ImgButtonFactory.getButton(htmlElementName,
-						b.getDisplayName(), b.getImageHtml());
+				but = iIma.getButton(htmlElementName, b.getDisplayName(), b.getImageHtml());
 			}
 			if (!hori) {
 				but.getGWidget().setWidth("100%");

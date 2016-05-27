@@ -14,64 +14,52 @@ package com.gwtmodel.table.view.grid;
 
 import java.math.BigDecimal;
 
-import javax.inject.Inject;
-
-import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
-
 public class GridViewFactory {
 
-    private final EditWidgetFactory eFactory;
+	private GridViewFactory() {
+	}
 
-    @Inject
-    public GridViewFactory(EditWidgetFactory eFactory) {
-        this.eFactory = eFactory;
-    }
+	private static class Decimal extends GridView implements IGridViewDecimal {
 
-    private class Decimal extends GridView implements IGridViewDecimal {
+		Decimal(GridViewType gType) {
+			super(gType);
+		}
 
-        Decimal(GridViewType gType) {
-            super(eFactory, gType);
-        }
+		@Override
+		public BigDecimal getCellDecimal(int row, int c) {
+			return (BigDecimal) getCell(row, c);
+		}
 
-        @Override
-        public BigDecimal getCellDecimal(int row, int c) {
-            return (BigDecimal) getCell(row, c);
-        }
+		@Override
+		public void setRowDecimal(int row, int c, BigDecimal b) {
+			setRowVal(row, c, b);
+		}
 
-        @Override
-        public void setRowDecimal(int row, int c, BigDecimal b) {
-            setRowVal(row, c, b);
-        }
+	}
 
-    }
+	private static class GBoolean extends GridView implements IGridViewBoolean {
 
-    private class GBoolean extends GridView implements IGridViewBoolean {
+		GBoolean(GridViewType gType) {
+			super(gType);
+		}
 
-        GBoolean(GridViewType gType) {
-            super(eFactory, gType);
-        }
+		@Override
+		public Boolean getCellBoolean(int row, int c) {
+			return (Boolean) getCell(row, c);
+		}
 
-        @Override
-        public Boolean getCellBoolean(int row, int c) {
-            return (Boolean) getCell(row, c);
-        }
+		@Override
+		public void setRowBoolean(int row, int c, Boolean b) {
+			setRowVal(row, c, b);
+		}
 
-        @Override
-        public void setRowBoolean(int row, int c, Boolean b) {
-            setRowVal(row, c, b);
-        }
+	}
 
-    }
+	public static IGridViewDecimal constructDecimal(boolean horizontal, boolean rowBeginning, boolean colHeaders) {
+		return new Decimal(new GridViewType(GridViewType.GridType.DECIMAL, horizontal, rowBeginning, colHeaders));
+	}
 
-    public IGridViewDecimal constructDecimal(boolean horizontal,
-            boolean rowBeginning, boolean colHeaders) {
-        return new Decimal(new GridViewType(GridViewType.GridType.DECIMAL,
-                horizontal, rowBeginning, colHeaders));
-    }
-
-    public IGridViewBoolean constructBoolean(boolean horizontal,
-            boolean rowBeginning, boolean colHeaders) {
-        return new GBoolean(new GridViewType(GridViewType.GridType.BOOLEAN,
-                horizontal, rowBeginning, colHeaders));
-    }
+	public static IGridViewBoolean constructBoolean(boolean horizontal, boolean rowBeginning, boolean colHeaders) {
+		return new GBoolean(new GridViewType(GridViewType.GridType.BOOLEAN, horizontal, rowBeginning, colHeaders));
+	}
 }

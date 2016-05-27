@@ -14,8 +14,11 @@ package com.gwtmodel.table.view.panel;
 
 public class GwtPanelViewFactory {
 
-    public IGwtPanelView construct(int rowNo, int colNo) {
-        return new GwtPanelView(rowNo, colNo);
-    }
+	private GwtPanelViewFactory() {
+	}
+
+	public static IGwtPanelView construct(int rowNo, int colNo) {
+		return new GwtPanelView(rowNo, colNo);
+	}
 
 }

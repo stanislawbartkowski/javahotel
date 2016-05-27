@@ -98,12 +98,6 @@ class AnchorField implements IFormLineView {
     }
 
     @Override
-    public int getChooseResult() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
     public String getHtmlName() {
         // TODO Auto-generated method stub
         return null;

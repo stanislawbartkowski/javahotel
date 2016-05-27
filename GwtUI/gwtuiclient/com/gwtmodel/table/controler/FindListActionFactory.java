@@ -27,6 +27,7 @@ import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.common.TT;
+import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
 import com.gwtmodel.table.controlbuttonview.IControlButtonView;
 import com.gwtmodel.table.controler.DataListActionItemFactory.DrawForm;
 import com.gwtmodel.table.controler.DataListActionItemFactory.ResignAction;
@@ -44,6 +45,7 @@ import com.gwtmodel.table.listdataview.IsBooleanSignalNow;
 import com.gwtmodel.table.mm.LogT;
 import com.gwtmodel.table.mm.MM;
 import com.gwtmodel.table.panelview.IPanelView;
+import com.gwtmodel.table.panelview.PanelViewFactory;
 import com.gwtmodel.table.slotmediator.ISlotMediator;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
@@ -71,7 +73,6 @@ class FindListActionFactory {
 	private final TablesFactories tFactories;
 	private final IDataType ddType;
 	private final IDataType eType;
-	private final EditWidgetFactory eFactory;
 	private final DataViewModelFactory vFactory;
 	private final DataListParam listParam;
 	private List<FormField> liFilter = null;
@@ -81,7 +82,6 @@ class FindListActionFactory {
 		this.tFactories = tFactories;
 		this.ddType = dType;
 		eType = Empty.getDataType();
-		eFactory = GwtGiniInjector.getI().getEditWidgetFactory();
 		vFactory = tFactories.getdViewFactory();
 		this.listParam = listParam;
 	}
@@ -339,14 +339,14 @@ class FindListActionFactory {
 			IVField ignore = FField.constructIgnore(he);
 			IFormLineView icheck = null;
 			if (!fe.getType().isBoolean()) {
-				icheck = eFactory.getGwtE().constructCheckField(check, MM.getL().EqualSign(), null);
+				icheck = EditWidgetFactory.getGwtE().constructCheckField(check, MM.getL().EqualSign(), null);
 				icheck.setValObj(new Boolean(true));
 				liF.add(new FormField(null, icheck, check, from));
 			}
-			IFormLineView ifrom = eFactory.constructEditWidget(from, null, false);
+			IFormLineView ifrom = EditWidgetFactory.constructEditWidget(from, null, false);
 			// modify htmlId for 'to' field
 			String htmlToName = to.getId() + "-1";
-			IFormLineView ito = eFactory.constructEditWidget(to, htmlToName, false);
+			IFormLineView ito = EditWidgetFactory.constructEditWidget(to, htmlToName, false);
 			liF.add(new FormField(he.getHeaderString(), ifrom));
 			ITouchListener t = null;
 			if (icheck != null) {
@@ -358,7 +358,7 @@ class FindListActionFactory {
 			if (!fe.getType().isBoolean()) {
 				liF.add(new FormField(null, ito, to, from));
 			} else {
-				icheck = eFactory.getGwtE().constructCheckField(ignore, MM.getL().IngnoreDuringSearch(), null);
+				icheck = EditWidgetFactory.getGwtE().constructCheckField(ignore, MM.getL().IngnoreDuringSearch(), null);
 				liF.add(new FormField(null, icheck, ignore, from));
 				icheck.addChangeListener(new OnLogChange(ifrom));
 			}
@@ -412,11 +412,6 @@ class FindListActionFactory {
 			}
 			IGWidget wi = slContext.getGwtWidget();
 			WSize wSize = new WSize(wi.getGWidget());
-			if (isFilter() && TUtil.isTreeView(publishSlo, ddType)) {
-				OkDialog ok = new OkDialog(MM.getL().FiltrOnlyTable(), null, null);
-				ok.show(wSize);
-				return;
-			}
 			if (!isFilter() && TUtil.isBoolProp(publishSlo, IsBooleanSignalNow.constructSlotAsyncProvider(ddType))) {
 				OkDialog ok = new OkDialog(MM.getL().CannotRunFindInAsycnMode(), null, null);
 				ok.show(wSize);
@@ -452,9 +447,9 @@ class FindListActionFactory {
 				bControl = tFactories.getControlButtonFactory().constructFindButton();
 			}
 
-			IControlButtonView bView = tFactories.getbViewFactory().construct(eType, bControl);
+			IControlButtonView bView = ControlButtonViewFactory.construct(eType, bControl, false);
 			CellId panelId = new CellId(1);
-			IPanelView pView = tFactories.getpViewFactory().construct(eType, panelId);
+			IPanelView pView = PanelViewFactory.construct(eType, panelId);
 			CellId controlId = pView.addCellPanel(1, 0);
 			CellId cellTableId = pView.addCellPanel(0, 0);
 			pView.createView();

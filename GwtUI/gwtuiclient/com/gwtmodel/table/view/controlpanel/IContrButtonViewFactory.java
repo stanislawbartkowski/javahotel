@@ -16,6 +16,6 @@ import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 
 public interface IContrButtonViewFactory {
 
-	IContrButtonView getView(final ListOfControlDesc model, final IControlClick co, boolean hori);
+	IContrButtonView getView(final ListOfControlDesc model, final IControlClick co, boolean hori,boolean polymer);
 
 }

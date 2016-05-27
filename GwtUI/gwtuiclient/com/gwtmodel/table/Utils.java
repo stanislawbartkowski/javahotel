@@ -21,8 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.eclipse.jdt.internal.compiler.ast.MagicLiteral;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
@@ -466,7 +464,7 @@ public class Utils {
 		for (String s : args) {
 			if (s == null)
 				continue;
-			if (build.toString() != null)
+			if (!CUtil.EmptyS(build.toString()))
 				build.append(joinC);
 			build.append(s);
 		}

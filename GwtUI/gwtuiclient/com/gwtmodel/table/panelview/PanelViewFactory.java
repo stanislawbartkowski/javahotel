@@ -13,24 +13,20 @@
 package com.gwtmodel.table.panelview;
 
 import javax.inject.Inject;
+
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
-import com.gwtmodel.table.view.panel.GwtPanelViewFactory;
 
 public class PanelViewFactory {
 
-    private final GwtPanelViewFactory gPanelViewFactory;
-    private final SlotSignalContextFactory slFactory;
+	@Inject
+	private static SlotSignalContextFactory slFactory;
 
-    @Inject
-    public PanelViewFactory(GwtPanelViewFactory gPanelViewFactory,
-            SlotSignalContextFactory slFactory) {
-        this.gPanelViewFactory = gPanelViewFactory;
-        this.slFactory = slFactory;
-    }
+	private PanelViewFactory() {
+	}
 
-    public IPanelView construct(IDataType dType, CellId pId) {
-        return new PanelView(gPanelViewFactory, slFactory, dType, pId);
-    }
+	public static IPanelView construct(IDataType dType, CellId pId) {
+		return new PanelView(slFactory, dType, pId);
+	}
 }
