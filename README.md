@@ -10,6 +10,12 @@ Blog: http://hoteljavaopensource.blogspot.com/
 
 ---
 
+#2015/12/31 : new version deployed #
+Journal, daily activities
+More info: http://hoteljavaopensource.blogspot.com/2015/12/new-version-of-javahotel-application.html
+
+---
+
 # 2015/07/14 : new version deployed #
 
 Nothing specific to JavaHotel, some goodies related the latest version of MVP Jython framework
