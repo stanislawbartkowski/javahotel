@@ -12,6 +12,7 @@ Blog: http://hoteljavaopensource.blogspot.com/
 
 #2015/12/31 : new version deployed #
 Journal, daily activities
+
 More info: http://hoteljavaopensource.blogspot.com/2015/12/new-version-of-javahotel-application.html
 
 ---
