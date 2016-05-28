@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.factories.IWebPanelResources;
 import com.gwtmodel.table.mm.LogT;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
@@ -46,7 +47,7 @@ public class PanelPolymer extends AbstractWebPanel implements IWebPanel {
 		uW.titleIcon.setUrl(h);
 
 		String JVersion = pResources.getRes(IWebPanelResources.JUIVERSION);
-		String title = Utils.joinS('\n', pResources.getRes(IWebPanelResources.VERSION),
+		String title = CUtil.joinS('\n', pResources.getRes(IWebPanelResources.VERSION),
 				LogT.getT().GWTVersion(GWT.getVersion(), JVersion));
 		uW.titleIcon.setTitle(title);
 		Window.setTitle(pResources.getRes(IWebPanelResources.TITLE));

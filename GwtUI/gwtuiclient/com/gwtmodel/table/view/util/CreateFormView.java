@@ -94,22 +94,22 @@ public class CreateFormView {
 			}
 			Widget w = d.getELine().getGWidget();
 			// in case of label always visible
-			if (d.isLabel())
+			if (d.getFormProp().isLabel())
 				w.setVisible(true);
 
 			replaceId(pa, htmlId, w, addId);
-			if (d.isLabel())
+			if (d.getFormProp().isLabel())
 				continue;
 
 			String labelId = IConsts.LABELPREFIX + htmlId;
 			if (pa.getElementById(labelId) != null) {
-				IFormLineView v = eFactory.constructLabelField(d.getFie(), iMess.getMessage(d.getPLabel()));
+				IFormLineView v = eFactory.constructLabelField(d.getFie(), null, iMess.getMessage(d.getPLabel()));
 				replace(pa, labelId, v.getGWidget());
 			}
 
 			String labelFor = IConsts.LABELFORPREFIX + htmlId;
 			if (pa.getElementById(labelFor) != null) {
-				IFormLineView v = eFactory.constructLabelFor(d.getFie(), iMess.getMessage(d.getPLabel()));
+				IFormLineView v = eFactory.constructLabelFor(d.getFie(), null, iMess.getMessage(d.getPLabel()));
 				replace(pa, labelFor, v.getGWidget());
 			}
 
@@ -145,7 +145,7 @@ public class CreateFormView {
 		Grid g = new Grid(rows, 2);
 		rows = 0;
 		for (FormField d : fList) {
-			if (d.isLabel()) {
+			if (d.getFormProp().isLabel()) {
 				g.setWidget(rows, 0, d.getELine().getGWidget());
 				Element e = g.getCellFormatter().getElement(rows, 0);
 				e.setAttribute("colspan", "2");
@@ -166,7 +166,7 @@ public class CreateFormView {
 					fRange.add(fo);
 			}
 			Label la = new Label(mLabel);
-			if (d.getELine().isHidden())
+			if (d.getFormProp().isHidden())
 				la.setVisible(false);
 			Widget w1;
 			Widget w2;

@@ -25,7 +25,7 @@ import com.google.gwt.i18n.client.ConstantsWithLookup;
  * 
  * @author hotel
  */
-public interface TLabels extends Constants,ConstantsWithLookup {
+public interface TLabels extends Constants, ConstantsWithLookup {
 
 	String DateFormNotValid();
 
@@ -196,7 +196,17 @@ public interface TLabels extends Constants,ConstantsWithLookup {
 	String UncheckAll();
 
 	String ExportTable();
-	
+
 	String DefaStringName();
+
+	String DigitsOnly();
+
+	String AfterDot1();
+
+	String AfterDot2();
+
+	String AfterDot3();
+
+	String AfterDot4();
 
 }

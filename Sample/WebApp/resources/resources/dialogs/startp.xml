@@ -18,11 +18,15 @@
   <button id="setenable" displayname="Set enable"/>
   <button id="sethidden" displayname="Set hidden"/>
   <button id="setvisible" displayname="Set visible"/>
+  <button id="validate" displayname="Validate" validate=""/>
 </buttons>
 
  <form>
    <field id="glob1" />
    <field id="name1" displayname="Wprowadź napis" />
+   <field id="name2" displayname="Not empty" notempty=""/>
+   <field id="Liczba" displayname="Liczba" type="int" />
+   <field id="Decimal2" displayname="Kwota,2" type="decimal" />
  </form>  
  
 </dialog>

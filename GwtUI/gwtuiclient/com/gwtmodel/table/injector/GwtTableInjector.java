@@ -101,8 +101,6 @@ public interface GwtTableInjector extends Ginjector {
 
     IWebPanelResources getWebPanelResources();
 
-    TabPanelViewFactory getTabPanelViewFactory();
-
     IJsonConvert getJsonConvert();
 
     IDatePanelScroll getDatePanelScroll();

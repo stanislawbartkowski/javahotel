@@ -23,6 +23,7 @@ import com.gwtmodel.table.IGetDataList;
 import com.gwtmodel.table.IGetDataListCallBack;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.editw.IFormFieldProperties;
 import com.gwtmodel.table.factories.IGetCustomValues;
 
 class SuggestWidget extends AbstractField {
@@ -52,8 +53,8 @@ class SuggestWidget extends AbstractField {
 		}
 	}
 
-	SuggestWidget(IVField v, IGetDataList iGet, String htmlName) {
-		super(v, htmlName);
+	SuggestWidget(IVField v, IFormFieldProperties pr, IGetDataList iGet) {
+		super(v, pr);
 		box = new SuggestBox(oracle);
 		box.getValueBox().addChangeHandler(new CHandler());
 		if (iGet != null)

@@ -14,6 +14,7 @@ package com.gwtmodel.table.view.ewidget.gwt;
 
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.editw.IFormFieldProperties;
 
 /**
  * 
@@ -21,8 +22,8 @@ import com.gwtmodel.table.IVField;
  */
 class ComboListBoxField extends GetValueLB {
 
-	ComboListBoxField(IVField v, String htmlName) {
-		super(v, htmlName);
+	ComboListBoxField(IVField v, IFormFieldProperties pr) {
+		super(v, pr);
 		setList(listT.getListVal());
 	}
 

@@ -65,11 +65,6 @@ class VLabel implements IFormLineView {
 	}
 
 	@Override
-	public boolean isHidden() {
-		return !l.isVisible();
-	}
-
-	@Override
 	public void setInvalidMess(String errmess) {
 	}
 
@@ -107,6 +102,12 @@ class VLabel implements IFormLineView {
 	@Override
 	public void setFocus(boolean focus) {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public boolean isInvalid() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

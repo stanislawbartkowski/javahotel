@@ -21,6 +21,7 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGetDataList;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.editc.IRequestForGWidget;
+import com.gwtmodel.table.editw.IFormFieldProperties;
 import com.gwtmodel.table.editw.IFormLineView;
 import com.gwtmodel.table.editw.IGetListOfIcons;
 import com.gwtmodel.table.factories.IGetCustomValues;
@@ -29,46 +30,48 @@ import com.gwtmodel.table.view.ewidget.IEditWidget;
 public class GwtWidgetImpl implements IEditWidget {
 
 	@Override
-	public IFormLineView constructLabelField(IVField v, String displayName) {
+	public IFormLineView constructLabelField(IVField v, IFormFieldProperties pr, String displayName) {
 		return new VLabel(v, displayName);
 	}
 
 	@Override
-	public IFormLineView constructHTMLField(IVField v) {
+	public IFormLineView constructHTMLField(IVField v, IFormFieldProperties pr) {
 		return new VHtml(v);
 	}
 
 	@Override
-	public IFormLineView constructAnchorField(IVField v) {
+	public IFormLineView constructAnchorField(IVField v, IFormFieldProperties pr) {
 		return new AnchorField(v);
 	}
 
 	@Override
-	public RadioBoxString constructRadioBoxString(IVField v, IGetDataList iGet, final boolean enable, String htmlName) {
-		return new RadioBoxString(v, iGet, enable, htmlName);
+	public RadioBoxString constructRadioBoxString(IVField v, IFormFieldProperties pr, IGetDataList iGet,
+			final boolean enable) {
+		return new RadioBoxString(v, pr, iGet, enable);
 	}
 
 	@Override
-	public IFormLineView contructCalculatorNumber(IVField v, String htmlName) {
-		return new NumberCalculator( v,
-				new ExtendTextBox.EParam(false, false, false, false, false, false, null, null), htmlName);
+	public IFormLineView contructCalculatorNumber(IVField v, IFormFieldProperties pr) {
+		return new NumberCalculator(v, pr,
+				new ExtendTextBox.EParam(false, false, false, false, false, false, null, null));
 	}
 
 	@Override
-	public IFormLineView constructCheckField(IVField v, String text, String htmlName) {
-		return new FieldCheckField( v, text, htmlName);
+	public IFormLineView constructCheckField(IVField v, IFormFieldProperties pr, String text) {
+		return new FieldCheckField(v, pr, text);
 	}
 
 	@Override
-	public IFormLineView constructListValuesCombo(IVField v, IDataType dType, String htmlName) {
-		GetValueLB lB = new GetValueLB( v, htmlName);
+	public IFormLineView constructListValuesCombo(IVField v, IFormFieldProperties pr, IDataType dType) {
+		GetValueLB lB = new GetValueLB(v, pr);
 		AddBoxValues.addValues(dType, lB);
 		return lB;
 	}
 
 	@Override
-	public IFormLineView constructListValuesCombo(IVField v, IGetDataList iGet, boolean addEmpty, String htmlName) {
-		GetValueLB lB = new GetValueLB( v, addEmpty, htmlName);
+	public IFormLineView constructListValuesCombo(IVField v, IFormFieldProperties pr, IGetDataList iGet,
+			boolean addEmpty) {
+		GetValueLB lB = new GetValueLB(v, pr, addEmpty);
 		AddBoxValues.addValues(v, iGet, lB);
 		return lB;
 	}
@@ -84,73 +87,74 @@ public class GwtWidgetImpl implements IEditWidget {
 	}
 
 	@Override
-	public IFormLineView constructHelperList(IVField v, IDataType dType, boolean refreshAlways, String htmlName) {
+	public IFormLineView constructHelperList(IVField v, IFormFieldProperties pr, IDataType dType,
+			boolean refreshAlways) {
 		ExtendTextBox.EParam e = new ExtendTextBox.EParam(false, true, false, false, false, false, null, null);
-		return new ListFieldWithHelp( v, dType, e, refreshAlways, htmlName);
+		return new ListFieldWithHelp(v, pr, dType, e, refreshAlways);
 	}
 
 	@Override
-	public IFormLineView constructPasswordField(IVField v, String htmlName) {
-		return new ExtendTextBox( v, newE(true, false), htmlName);
+	public IFormLineView constructPasswordField(IVField v, IFormFieldProperties pr) {
+		return new ExtendTextBox(v, pr, newE(true, false));
 	}
 
 	@Override
-	public IFormLineView constructTextField(IVField v, String htmlName) {
-		return constructTextField(v, null, null, false, false, false, htmlName);
+	public IFormLineView constructTextField(IVField v, IFormFieldProperties pr) {
+		return constructTextField(v, pr, null, null, false, false, false);
 	}
 
 	@Override
-	public IFormLineView constructTextField(IVField v, IGetDataList iGet, IRequestForGWidget iHelper, boolean textarea,
-			boolean richtext, boolean refreshAlways, String htmlName) {
+	public IFormLineView constructTextField(IVField v, IFormFieldProperties pr, IGetDataList iGet,
+			IRequestForGWidget iHelper, boolean textarea, boolean richtext, boolean refreshAlways) {
 		ExtendTextBox.EParam e;
 		boolean panel = (iGet != null || iHelper != null);
 		e = new ExtendTextBox.EParam(false, panel, false, textarea, richtext, false, iGet, null);
 		if (iHelper == null)
-			return new ExtendTextBox( v, e, htmlName);
-		return new EditTextFieldWithHelper( v, e, iHelper, refreshAlways, htmlName);
+			return new ExtendTextBox(v, pr, e);
+		return new EditTextFieldWithHelper(v, pr, e, iHelper, refreshAlways);
 	}
 
 	@SuppressWarnings("unused")
-	private IFormLineView constructLabelTextEdit(IVField v, String la, String htmlName) {
-		return new LabelEdit( v, newE(false, false), la, htmlName);
+	private IFormLineView constructLabelTextEdit(IVField v, IFormFieldProperties pr, String la) {
+		return new LabelEdit(v, pr, newE(false, false), la);
 	}
 
 	@Override
-	public IFormLineView constructLabelFor(IVField v, String la) {
+	public IFormLineView constructLabelFor(IVField v, IFormFieldProperties pr, String la) {
 		return new LabelFor(v, la);
 	}
 
 	@Override
-	public IFormLineView construcDateBoxCalendar(IVField v, String htmlName) {
-		return new DateBoxCalendar( v, htmlName);
+	public IFormLineView construcDateBoxCalendar(IVField v, IFormFieldProperties pr) {
+		return new DateBoxCalendar(v, pr);
 	}
 
 	@Override
-	public IFormLineView constructDateBoxCalendarWithHelper(IVField v, IRequestForGWidget i, boolean refreshAlways,
-			String htmlName) {
-		return new DateBoxWithHelper( v, i, refreshAlways, htmlName);
+	public IFormLineView constructDateBoxCalendarWithHelper(IVField v, IFormFieldProperties pr, IRequestForGWidget i,
+			boolean refreshAlways) {
+		return new DateBoxWithHelper(v, pr, i, refreshAlways);
 	}
 
 	@SuppressWarnings("unused")
-	private IFormLineView constructBoxSelectField(IVField v, List<ComboVal> wy, String htmlName) {
-		return new ComboBoxField( v, wy, htmlName);
+	private IFormLineView constructBoxSelectField(IVField v, IFormFieldProperties pr, List<ComboVal> wy) {
+		return new ComboBoxField(v, pr, wy);
 	}
 
 	@Override
-	public IFormLineView constructRadioSelectField(IVField v, String htmlName) {
-		return new RadioBoxField( v, htmlName);
+	public IFormLineView constructRadioSelectField(IVField v, IFormFieldProperties pr) {
+		return new RadioBoxField(v, pr);
 	}
 
 	@Override
-	public IFormLineView constructListComboValuesHelp(IVField v, IDataType dType, String htmlName) {
-		GetValueLB lB = new ListBoxWithHelp( v, dType, htmlName);
+	public IFormLineView constructListComboValuesHelp(IVField v, IFormFieldProperties pr, IDataType dType) {
+		GetValueLB lB = new ListBoxWithHelp(v, pr, dType);
 		AddBoxValues.addValues(dType, lB);
 		return lB;
 	}
 
 	@Override
-	public IFormLineView constructEditFileName(IVField v, String htmlName) {
-		return new FileChooser( v, htmlName);
+	public IFormLineView constructEditFileName(IVField v, IFormFieldProperties pr) {
+		return new FileChooser(v, pr);
 	}
 
 	private List<ComboVal> createVals(List<String> ma) {
@@ -162,49 +166,49 @@ public class GwtWidgetImpl implements IEditWidget {
 	}
 
 	@Override
-	public IFormLineView constructListCombo(IVField v, List<String> ma, String htmlName) {
-		return new ComboBoxField( v, createVals(ma), htmlName);
+	public IFormLineView constructListCombo(IVField v, IFormFieldProperties pr, List<String> ma) {
+		return new ComboBoxField(v, pr, createVals(ma));
 	}
 
 	@Override
-	public IFormLineView constructListCombo(IVField v, List<String> ma, boolean addEmpty, String htmlName) {
-		return new ComboBoxField( v, createVals(ma), addEmpty, htmlName);
+	public IFormLineView constructListCombo(IVField v, IFormFieldProperties pr, List<String> ma, boolean addEmpty) {
+		return new ComboBoxField(v, pr, createVals(ma), addEmpty);
 	}
 
 	@Override
-	public IFormLineView constructListCombo(IVField v, String htmlName) {
-		return new ComboListBoxField( v, htmlName);
+	public IFormLineView constructListCombo(IVField v, IFormFieldProperties pr) {
+		return new ComboListBoxField(v, pr);
 	}
 
 	@Override
-	public IFormLineView constructListComboEnum(IVField v, String htmlName) {
+	public IFormLineView constructListComboEnum(IVField v, IFormFieldProperties pr) {
 		List<String> la = new ArrayList<String>();
 		la.addAll(v.getType().getE().getValues());
-		return constructListCombo(v, la, htmlName);
+		return constructListCombo(v, pr, la);
 	}
 
 	@Override
-	public IFormLineView constructSpinner(IVField v, String htmlName, int min, int max) {
-		return new TextWidgetBox( v, htmlName, new SpinnerInt(min, max));
+	public IFormLineView constructSpinner(IVField v, IFormFieldProperties pr, int min, int max) {
+		return new TextWidgetBox(v, pr, new SpinnerInt(min, max));
 	}
 
 	@Override
-	public IFormLineView constructSuggestBox(IVField v, IGetDataList iGet, String htmlName) {
-		return new SuggestWidget( v, iGet, htmlName);
+	public IFormLineView constructSuggestBox(IVField v, IFormFieldProperties pr, IGetDataList iGet) {
+		return new SuggestWidget(v, pr, iGet);
 	}
 
 	@Override
-	public IFormLineView constructEmail(IVField v, String htmlName) {
-		return new TextWidgetBox( v, htmlName, new EmailVal());
+	public IFormLineView constructEmail(IVField v, IFormFieldProperties pr) {
+		return new TextWidgetBox(v, pr, new EmailVal());
 	}
 
 	@Override
-	public IFormLineView constructImageButton(IVField v, String htmlName, int imageNo, IGetListOfIcons iList) {
-		return new ImageButton( v, htmlName, imageNo, iList);
+	public IFormLineView constructImageButton(IVField v, IFormFieldProperties pr, int imageNo, IGetListOfIcons iList) {
+		return new ImageButton(v, pr, imageNo, iList);
 	}
 
 	@Override
-	public IFormLineView constructDateTimePicker(IVField v, String htmlName) {
-		return new DateTimePicker( v, htmlName);
+	public IFormLineView constructDateTimePicker(IVField v, IFormFieldProperties pr) {
+		return new DateTimePicker(v, pr);
 	}
 }

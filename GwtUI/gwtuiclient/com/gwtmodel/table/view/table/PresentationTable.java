@@ -210,7 +210,7 @@ class PresentationTable implements IGwtTableView {
 			if (he == null)
 				continue;
 			// Joiner join = Joiner.on(" ").skipNulls();
-			String aClass = Utils.joinS(' ', model.getClassNameForColumn(he.getFie()), he.getColumnClass(),
+			String aClass = CUtil.joinS(' ', model.getClassNameForColumn(he.getFie()), he.getColumnClass(),
 					noWrap ? IConsts.nowrapStyle : null);
 			Column<MutableInteger, ?> co = table.getColumn(i);
 			co.setCellStyleNames(aClass);

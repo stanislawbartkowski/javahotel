@@ -28,6 +28,7 @@ import com.gwtmodel.table.IMapEntry;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.editw.IFormChangeListener;
+import com.gwtmodel.table.editw.IFormFieldProperties;
 import com.gwtmodel.table.editw.IFormLineView;
 import com.gwtmodel.table.editw.ITouchListener;
 import com.gwtmodel.table.factories.IGetCustomValues;
@@ -49,11 +50,12 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
 	protected final IGetCustomValues cValues;
 	protected final IVField v;
 	private final String htmlName;
+	private final IFormFieldProperties pr;
 	protected final AbstractListT listT;
 	protected String cellTitle = null;
 
-	AbstractField(IVField v, String htmlName) {
-		this(v, true, htmlName, new ArrayList<ITouchListener>());
+	AbstractField(IVField v, IFormFieldProperties pr) {
+		this(v, true, pr, new ArrayList<ITouchListener>());
 	}
 
 	@Override
@@ -61,7 +63,7 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
 		return v;
 	}
 
-	private AbstractField(final IVField v, boolean checkenable, String htmlName, List<ITouchListener> iTouch) {
+	private AbstractField(final IVField v, boolean checkenable, IFormFieldProperties pr, List<ITouchListener> iTouch) {
 		assert v != null : LogT.getT().cannotBeNull();
 		this.cValues = GwtGiniInjector.getI().getCustomValues();
 		if (iTouch != null)
@@ -71,7 +73,8 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
 		lC = null;
 		checkBoxVal = checkenable;
 		isCheckBox = true;
-		this.htmlName = htmlName;
+		this.pr = pr;
+		this.htmlName = pr.getHtmlId();
 		this.v = v;
 		if (v.getType().getLi() == null) {
 			listT = null;
@@ -86,8 +89,8 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
 		}
 	}
 
-	AbstractField(final IVField v, boolean checkenable, String htmlName) {
-		this(v, checkenable, htmlName, null);
+	AbstractField(final IVField v, IFormFieldProperties pr, boolean checkenable) {
+		this(v, checkenable, pr, null);
 		assert v != null : LogT.getT().cannotBeNull();
 	}
 
@@ -186,11 +189,6 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
 		this.getGWidget().setVisible(!hidden);
 	}
 
-	@Override
-	public boolean isHidden() {
-		return !this.getGWidget().isVisible();
-	}
-
 	protected void onTouch() {
 		// 2013/05/28 - make copy to avoid concurrent modifications
 		List<ITouchListener> copyI = new ArrayList<ITouchListener>();
@@ -222,7 +220,12 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
 
 	@Override
 	public void setSuggestList(List<String> list) {
-
 	}
+	
+	@Override
+	public boolean isInvalid() {
+		return false;
+	}
+
 
 }

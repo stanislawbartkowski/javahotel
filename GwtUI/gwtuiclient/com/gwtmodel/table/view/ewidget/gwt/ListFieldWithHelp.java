@@ -14,6 +14,7 @@ package com.gwtmodel.table.view.ewidget.gwt;
 
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.editw.IFormFieldProperties;
 import com.gwtmodel.table.factories.IGetCustomValues;
 
 class ListFieldWithHelp extends ExtendTextBox {
@@ -38,8 +39,9 @@ class ListFieldWithHelp extends ExtendTextBox {
 		}
 	}
 
-	ListFieldWithHelp(IVField v, IDataType dType, ExtendTextBox.EParam p, boolean refreshAlways, String htmlName) {
-		super(v, p, htmlName);
+	ListFieldWithHelp(IVField v, IFormFieldProperties pr, IDataType dType, ExtendTextBox.EParam p,
+			boolean refreshAlways) {
+		super(v, pr, p);
 		cHelper = new RHelp(dType);
 
 		wHelp = new WidgetWithPopUpTemplate(v, hPanel, cValues.getCustomValue(IGetCustomValues.IMAGEFORLISTHELP),

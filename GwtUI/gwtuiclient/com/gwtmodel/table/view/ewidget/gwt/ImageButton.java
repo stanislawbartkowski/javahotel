@@ -22,8 +22,8 @@ import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.editw.IFormFieldProperties;
 import com.gwtmodel.table.editw.IGetListOfIcons;
-import com.gwtmodel.table.factories.IGetCustomValues;
 
 class ImageButton extends AbstractField {
 
@@ -46,8 +46,8 @@ class ImageButton extends AbstractField {
 
 	}
 
-	ImageButton(IVField v, String htmlName, int noImages, IGetListOfIcons iList) {
-		super(v, false, htmlName);
+	ImageButton(IVField v, IFormFieldProperties pr, int noImages, IGetListOfIcons iList) {
+		super(v, pr, false);
 		this.iList = iList;
 		initWidget(hPanel);
 		for (int i = 0; i < noImages; i++) {

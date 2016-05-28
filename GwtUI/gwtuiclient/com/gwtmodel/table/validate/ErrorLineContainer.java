@@ -21,24 +21,26 @@ import com.gwtmodel.table.editw.IFormLineView;
 
 public class ErrorLineContainer {
 
-    private List<IFormLineView> el = new ArrayList<IFormLineView>();
+	private List<IFormLineView> el = new ArrayList<IFormLineView>();
 
-    private void initErr() {
-        el.clear();
-    }
+	private void initErr() {
+		el.clear();
+	}
 
-    public void setEMess(IFormLineView i, InvalidateMess m) {
-        i.setGStyleName(IConsts.EMPTYCLASSSTYLE, true);
-        String e = m.getErrmess();
-        i.setInvalidMess(e);
-        el.add(i);
-    }
+	public void setEMess(IFormLineView i, InvalidateMess m) {
+		if (m.isErrorsetalready())
+			return;
+		i.setGStyleName(IConsts.EMPTYCLASSSTYLE, true);
+		String e = m.getErrmess();
+		i.setInvalidMess(e);
+		el.add(i);
+	}
 
-    public void clearE() {
-        for (IFormLineView i : el) {
-            i.setGStyleName(IConsts.EMPTYCLASSSTYLE, false);
-            i.setInvalidMess(null);
-        }
-        initErr();
-    }
+	public void clearE() {
+		for (IFormLineView i : el) {
+			i.setGStyleName(IConsts.EMPTYCLASSSTYLE, false);
+			i.setInvalidMess(null);
+		}
+		initErr();
+	}
 }

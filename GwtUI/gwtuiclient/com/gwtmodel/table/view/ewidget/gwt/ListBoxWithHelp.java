@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.editw.IFormFieldProperties;
 import com.gwtmodel.table.factories.IGetCustomValues;
 
 class ListBoxWithHelp extends GetValueLB {
@@ -41,9 +42,8 @@ class ListBoxWithHelp extends GetValueLB {
         }
     }
 
-    ListBoxWithHelp(IVField v, IDataType dType,
-            String htmlName) {
-        super(v, htmlName);
+    ListBoxWithHelp(IVField v, IFormFieldProperties pr, IDataType dType) {
+        super(v, pr);
         cHelper = new RHelp(dType);
         hP.add(super.getGWidget());
         wHelp = new WidgetWithPopUpTemplate(v, hP,

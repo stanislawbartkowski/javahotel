@@ -18,66 +18,67 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGetDataList;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.editc.IRequestForGWidget;
+import com.gwtmodel.table.editw.IFormFieldProperties;
 import com.gwtmodel.table.editw.IFormLineView;
 import com.gwtmodel.table.editw.IGetListOfIcons;
 import com.gwtmodel.table.view.ewidget.gwt.RadioBoxString;
 
 public interface IEditWidget {
 
-	IFormLineView constructLabelField(IVField v, String displayName);
+	IFormLineView constructLabelField(IVField v, IFormFieldProperties pr, String displayName);
 
-	IFormLineView constructHTMLField(IVField v);
+	IFormLineView constructHTMLField(IVField v, IFormFieldProperties pr);
 
-	IFormLineView constructAnchorField(IVField v);
+	IFormLineView constructAnchorField(IVField v, IFormFieldProperties pr);
 
-	RadioBoxString constructRadioBoxString(IVField v, IGetDataList iGet, final boolean enable, String htmlName);
+	RadioBoxString constructRadioBoxString(IVField v, IFormFieldProperties pr, IGetDataList iGet, final boolean enable);
 
-	IFormLineView contructCalculatorNumber(IVField v, String htmlName);
+	IFormLineView contructCalculatorNumber(IVField v, IFormFieldProperties pr);
 
-	IFormLineView constructCheckField(IVField v, String text, String htmlName);
+	IFormLineView constructCheckField(IVField v, IFormFieldProperties pr, String text);
 
-	IFormLineView constructListValuesCombo(IVField v, IDataType dType, String htmlName);
+	IFormLineView constructListValuesCombo(IVField v, IFormFieldProperties pr, IDataType dType);
 
 	// used
-	IFormLineView constructListValuesCombo(IVField v, IGetDataList iGet, boolean addEmpty, String htmlName);
+	IFormLineView constructListValuesCombo(IVField v, IFormFieldProperties pr, IGetDataList iGet, boolean addEmpty);
 
-	IFormLineView constructHelperList(IVField v, IDataType dType, boolean refreshAlways, String htmlName);
+	IFormLineView constructHelperList(IVField v, IFormFieldProperties pr, IDataType dType, boolean refreshAlways);
 
-	IFormLineView constructPasswordField(IVField v, String htmlName);
+	IFormLineView constructPasswordField(IVField v, IFormFieldProperties pr);
 
-	IFormLineView constructTextField(IVField v, String htmlName);
+	IFormLineView constructTextField(IVField v, IFormFieldProperties pr);
 
-	IFormLineView constructTextField(IVField v, IGetDataList iGet, IRequestForGWidget iHelper, boolean textarea,
-			boolean richtext, boolean refreshAlways, String htmlName);
+	IFormLineView constructTextField(IVField v, IFormFieldProperties pr, IGetDataList iGet, IRequestForGWidget iHelper,
+			boolean textarea, boolean richtext, boolean refreshAlways);
 
-	IFormLineView constructLabelFor(IVField v, String la);
+	IFormLineView constructLabelFor(IVField v, IFormFieldProperties pr, String la);
 
-	IFormLineView construcDateBoxCalendar(IVField v, String htmlName);
+	IFormLineView construcDateBoxCalendar(IVField v, IFormFieldProperties pr);
 
-	IFormLineView constructDateBoxCalendarWithHelper(IVField v, IRequestForGWidget i, boolean refreshAlways,
-			String htmlName);
+	IFormLineView constructDateBoxCalendarWithHelper(IVField v, IFormFieldProperties pr, IRequestForGWidget i,
+			boolean refreshAlways);
 
-	IFormLineView constructRadioSelectField(IVField v, String htmlName);
+	IFormLineView constructRadioSelectField(IVField v, IFormFieldProperties pr);
 
-	IFormLineView constructListComboValuesHelp(IVField v, IDataType dType, String htmlName);
+	IFormLineView constructListComboValuesHelp(IVField v, IFormFieldProperties pr, IDataType dType);
 
-	IFormLineView constructEditFileName(IVField v, String htmlName);
+	IFormLineView constructEditFileName(IVField v, IFormFieldProperties pr);
 
-	IFormLineView constructListCombo(IVField v, List<String> ma, String htmlName);
+	IFormLineView constructListCombo(IVField v, IFormFieldProperties pr, List<String> ma);
 
-	IFormLineView constructListCombo(IVField v, List<String> ma, boolean addEmpty, String htmlName);
+	IFormLineView constructListCombo(IVField v, IFormFieldProperties pr, List<String> ma, boolean addEmpty);
 
-	IFormLineView constructListCombo(IVField v, String htmlName);
+	IFormLineView constructListCombo(IVField v, IFormFieldProperties pr);
 
-	IFormLineView constructSpinner(IVField v, String htmlName, int min, int max);
+	IFormLineView constructSpinner(IVField v, IFormFieldProperties pr, int min, int max);
 
-	IFormLineView constructSuggestBox(IVField v, IGetDataList iGet, String htmlName);
+	IFormLineView constructSuggestBox(IVField v, IFormFieldProperties pr, IGetDataList iGet);
 
-	IFormLineView constructEmail(IVField v, String htmlName);
+	IFormLineView constructEmail(IVField v, IFormFieldProperties pr);
 
-	IFormLineView constructImageButton(IVField v, String htmlName, int imageNo, IGetListOfIcons iList);
+	IFormLineView constructImageButton(IVField v, IFormFieldProperties pr, int imageNo, IGetListOfIcons iList);
 
-	IFormLineView constructDateTimePicker(IVField v, String htmlName);
-	
-	IFormLineView constructListComboEnum(IVField v, String htmlName);
+	IFormLineView constructDateTimePicker(IVField v, IFormFieldProperties pr);
+
+	IFormLineView constructListComboEnum(IVField v, IFormFieldProperties pr);
 }

@@ -13,7 +13,6 @@
 package com.gwtmodel.table.editw;
 
 import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.mm.LogT;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 
@@ -21,61 +20,37 @@ public class FormField {
 
 	private final String pLabel;
 	private final IFormLineView eLine;
-	private final boolean readOnlyIfModif;
-	private final boolean readOnlyIfAdd;
 	private final IVField fRange;
-	private final String tabId;
-	private final boolean modeSetAlready;
-	private final boolean label;
 
-	public FormField(final String p, final IFormLineView e, final IVField fie, IVField fRange, boolean readOnlyIfModif,
-			boolean readOnlyIfAdd, String tabId, boolean modeSetAlready, boolean label, boolean polymer) {
+	private final IFormFieldProperties formProp;
+
+	public FormField(final String p, final IFormLineView e, final IVField fie, IFormFieldProperties prop,
+			IVField fRange) {
 		this.pLabel = p;
+		formProp = prop == null ? new FormFieldProperties() : prop;
 		if (e == null) {
 			assert fie != null : LogT.getT().cannotBeNull();
-			this.eLine = EditWidgetFactory.constructEditWidget(fie, null, polymer);
+			this.eLine = EditWidgetFactory.constructEditWidget(fie, null);
 		} else {
 			this.eLine = e;
 		}
-		this.readOnlyIfModif = readOnlyIfModif;
-		this.readOnlyIfAdd = readOnlyIfAdd;
 		this.fRange = fRange;
-		this.tabId = tabId;
-		this.modeSetAlready = modeSetAlready;
-		this.label = label;
-	}
-
-	public FormField(final String p, final IFormLineView e, final IVField fie, IVField fRange, boolean readOnlyIfModif,
-			boolean readOnlyIfAdd, boolean modeSetAlready, boolean label, boolean polymer) {
-		this(p, e, fie, fRange, readOnlyIfModif, readOnlyIfAdd, null, modeSetAlready, label, polymer);
-
-	}
-
-	/**
-	 * @return the readOnlyIfAdd
-	 */
-	public boolean isReadOnlyIfAdd() {
-		return readOnlyIfAdd;
 	}
 
 	public FormField(final String p, final IVField fie) {
-		this(p, null, fie, null, false, false, null, false, false, false);
+		this(p, null, fie, null, null);
 	}
 
 	public FormField(final String p, final IFormLineView e) {
-		this(p, e, null, null, false, false, null, false, false, false);
+		this(p, e, null, null, null);
 	}
 
 	public FormField(final String p, final IFormLineView e, final IVField fie, IVField fRange) {
-		this(p, e, fie, fRange, false, false, null, false, false, false);
+		this(p, e, fie, null, fRange);
 	}
 
 	public FormField(final String p, final IFormLineView e, final IVField fie) {
-		this(p, e, fie, null, false, false, null, false, false, false);
-	}
-
-	public boolean isReadOnlyIfModif() {
-		return readOnlyIfModif;
+		this(p, e, fie, null, null);
 	}
 
 	/**
@@ -108,18 +83,8 @@ public class FormField {
 
 	}
 
-	/**
-	 * @return the tabId
-	 */
-	public String getTabId() {
-		return tabId;
+	public IFormFieldProperties getFormProp() {
+		return formProp;
 	}
 
-	public boolean isModeSetAlready() {
-		return modeSetAlready;
-	}
-
-	public boolean isLabel() {
-		return label;
-	}
 }

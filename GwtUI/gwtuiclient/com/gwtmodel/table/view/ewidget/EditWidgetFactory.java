@@ -17,6 +17,8 @@ import com.google.inject.name.Named;
 import com.gwtmodel.table.FieldDataType;
 import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.editw.FormFieldPropFactory;
+import com.gwtmodel.table.editw.IFormFieldProperties;
 import com.gwtmodel.table.editw.IFormLineView;
 
 public class EditWidgetFactory {
@@ -37,33 +39,35 @@ public class EditWidgetFactory {
 		return polymer ? polymerE : gwtE;
 	}
 
-	public static IFormLineView constructEditWidget(IVField v, String htmlName, boolean polymer) {
+	public static IFormLineView constructEditWidget(IVField v, IFormFieldProperties fieldProp) {
 		FieldDataType.IFormLineViewFactory fa = v.getType().getiFactory();
 		if (fa != null) {
 			return fa.construct(v);
 		}
-		IEditWidget i = getE(polymer);
+		if (fieldProp == null)
+			fieldProp = FormFieldPropFactory.construct();
+		IEditWidget i = getE(fieldProp.isPolymer());
 		switch (v.getType().getType()) {
 		case DATETIME:
-			return i.constructDateTimePicker(v, htmlName);
+			return i.constructDateTimePicker(v, fieldProp);
 		case DATE:
-			return i.construcDateBoxCalendar(v, htmlName);
+			return i.construcDateBoxCalendar(v, fieldProp);
 		case INT:
 		case LONG:
 		case BIGDECIMAL:
 			if (v.getType().getLi() != null) {
-				return i.constructListCombo(v, htmlName);
+				return i.constructListCombo(v, fieldProp);
 			}
-			return i.contructCalculatorNumber(v, htmlName);
+			return i.contructCalculatorNumber(v, fieldProp);
 		case ENUM:
-			return i.constructListComboEnum(v, htmlName);
+			return i.constructListComboEnum(v, fieldProp);
 		case BOOLEAN:
-			return i.constructCheckField(v, null, htmlName);
+			return i.constructCheckField(v, fieldProp, null);
 		default:
 			if (v.getType().getLi() != null) {
-				return i.constructListCombo(v, htmlName);
+				return i.constructListCombo(v, fieldProp);
 			}
-			return i.constructTextField(v, htmlName);
+			return i.constructTextField(v, fieldProp);
 		}
 
 	}

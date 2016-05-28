@@ -111,12 +111,11 @@ public class GwtTableInjectModule extends AbstractGinModule {
 		bind(IGetStandardMessage.class).to(GetStandardMessage.class).in(Singleton.class);
 		bind(IGetCustomValues.class).to(CustomValuesProvider.class).in(Singleton.class);
 		bind(IWebPanelResources.class).to(WebPanelResources.class).in(Singleton.class);
-		bind(TabPanelViewFactory.class).in(Singleton.class);
 		bind(IJsonConvert.class).to(CreateJSonForIVData.class).in(Singleton.class);
 		bind(IDatePanelScroll.class).to(WidgetScrollSeasonFactory.class).in(Singleton.class);
 		bind(IDisclosurePanelFactory.class).to(DisclosurePanelFactory.class).in(Singleton.class);
 		requestStaticInjection(ImgButtonFactory.class, ControlButtonViewFactory.class, EditWidgetFactory.class,
 				GridViewFactory.class, GwtPanelViewFactory.class, ChooseListFactory.class, PanelViewFactory.class,
-				LoginViewFactory.class);
+				LoginViewFactory.class,TabPanelViewFactory.class);
 	}
 }

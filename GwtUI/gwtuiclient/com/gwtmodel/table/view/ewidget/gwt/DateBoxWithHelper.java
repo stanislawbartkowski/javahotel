@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.editc.IRequestForGWidget;
+import com.gwtmodel.table.editw.IFormFieldProperties;
 import com.gwtmodel.table.factories.IGetCustomValues;
 
 class DateBoxWithHelper extends DateBoxCalendar {
@@ -23,8 +24,8 @@ class DateBoxWithHelper extends DateBoxCalendar {
 	private final WidgetWithPopUpTemplate wHelp;
 	private final HorizontalPanel hPanel = new HorizontalPanel();
 
-	DateBoxWithHelper(IVField v, IRequestForGWidget i, boolean refreshAlways, String htmlName) {
-		super(v, htmlName);
+	DateBoxWithHelper(IVField v, IFormFieldProperties pr, IRequestForGWidget i, boolean refreshAlways) {
+		super(v, pr);
 		hPanel.add(super.getGWidget());
 		wHelp = new WidgetWithPopUpTemplate(v, hPanel, cValues.getCustomValue(IGetCustomValues.IMAGEFORLISTHELP), i,
 				refreshAlways, getHtmlName());

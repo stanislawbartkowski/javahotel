@@ -14,6 +14,7 @@ package com.gwtmodel.table.view.ewidget.gwt;
 
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.editc.IRequestForGWidget;
+import com.gwtmodel.table.editw.IFormFieldProperties;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 
@@ -21,9 +22,9 @@ class EditTextFieldWithHelper extends ExtendTextBox {
 
 	private final WidgetWithPopUpTemplate wHelp;
 
-	EditTextFieldWithHelper(IVField v, ExtendTextBox.EParam p, IRequestForGWidget i, boolean refreshAlways,
-			String htmlName) {
-		super(v, p, htmlName);
+	EditTextFieldWithHelper(IVField v, IFormFieldProperties pr, ExtendTextBox.EParam p, IRequestForGWidget i,
+			boolean refreshAlways) {
+		super(v, pr, p);
 		IGetCustomValues c = GwtGiniInjector.getI().getCustomValues();
 
 		wHelp = new WidgetWithPopUpTemplate(v, hPanel, c.getCustomValue(IGetCustomValues.IMAGEFORLISTHELP), i,

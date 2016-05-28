@@ -20,6 +20,7 @@ import com.google.gwt.user.datepicker.client.DateBox;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.editw.IFormChangeListener;
+import com.gwtmodel.table.editw.IFormFieldProperties;
 import com.gwtmodel.table.factories.IGetCustomValues;
 
 /**
@@ -78,8 +79,8 @@ class DateBoxCalendar extends AbstractField {
 	}
 
 	@SuppressWarnings({ "unchecked" })
-	DateBoxCalendar(IVField v, String htmlName) {
-		super(v, htmlName);
+	DateBoxCalendar(IVField v, IFormFieldProperties pr) {
+		super(v, pr);
 		db = new DateBox();
 		db.setFormat(new DFormat());
 		db.getTextBox().setName(getHtmlName());

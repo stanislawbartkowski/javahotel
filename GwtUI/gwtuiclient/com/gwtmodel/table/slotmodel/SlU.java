@@ -344,11 +344,6 @@ public class SlU {
 		}
 
 		@Override
-		public boolean isHidden() {
-			return false;
-		}
-
-		@Override
 		public void setInvalidMess(String errmess) {
 		}
 
@@ -387,6 +382,12 @@ public class SlU {
 		public void setFocus(boolean focus) {
 			// TODO Auto-generated method stub
 
+		}
+
+		@Override
+		public boolean isInvalid() {
+			// TODO Auto-generated method stub
+			return false;
 		}
 	}
 

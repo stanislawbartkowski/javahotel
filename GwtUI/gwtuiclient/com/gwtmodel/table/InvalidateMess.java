@@ -18,47 +18,53 @@ import com.gwtmodel.table.smessage.IGetStandardMessage;
 
 public class InvalidateMess {
 
-    private final IVField fie;
-    private final boolean empty;
-    private final String errmess;
-    private IGetStandardMessage iMess = GwtGiniInjector.getI()
-            .getStandardMessage();
+	private final boolean errorsetalready;
+	private final IVField fie;
+	private final boolean empty;
+	private final String errmess;
+	private IGetStandardMessage iMess = GwtGiniInjector.getI().getStandardMessage();
 
-    public InvalidateMess(final IVField fie, final boolean e, final String err) {
-        this.fie = fie;
-        this.empty = e;
-        this.errmess = iMess.getMessage(err);
-    }
+	public InvalidateMess(final IVField fie, final boolean e, final String err, boolean errorsetalready) {
+		this.fie = fie;
+		this.empty = e;
+		this.errmess = iMess.getMessage(err);
+		this.errorsetalready = errorsetalready;
+	}
 
-    public InvalidateMess(final IVField fie, final String err) {
-        this(fie, false, err);
-    }
+	public InvalidateMess(final IVField fie, final String err) {
+		this(fie, false, err, false);
+	}
 
-    public InvalidateMess(final IVField fie) {
-        this(fie, true, null);
-    }
+	public InvalidateMess(final IVField fie) {
+		this(fie, true, null, false);
+	}
 
-    /**
-     * @return the fie
-     */
-    public IVField getFie() {
-        return fie;
-    }
+	/**
+	 * @return the fie
+	 */
+	public IVField getFie() {
+		return fie;
+	}
 
-    /**
-     * @return the empty
-     */
-    public boolean isEmpty() {
-        return empty;
-    }
+	/**
+	 * @return the empty
+	 */
+	public boolean isEmpty() {
+		return empty;
+	}
 
-    /**
-     * @return the errmess
-     */
-    public String getErrmess() {
-        if (empty) {
-            return MM.getL().EmptyFieldMessage();
-        }
-        return errmess;
-    }
+	/**
+	 * @return the errmess
+	 */
+	public String getErrmess() {
+		if (empty) {
+			return MM.getL().EmptyFieldMessage();
+		}
+		return errmess;
+	}
+
+	public boolean isErrorsetalready() {
+		return errorsetalready;
+	}
+	
 }

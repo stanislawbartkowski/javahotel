@@ -25,6 +25,20 @@ public class CUtil {
 	private CUtil() {
 	}
 
+	public static String joinS(char joinC, String... args) {
+		StringBuilder build = new StringBuilder();
+		boolean empty = true;
+		for (String s : args) {
+			if (s == null)
+				continue;
+			empty = false;
+			if (!EmptyS(build.toString()))
+				build.append(joinC);
+			build.append(s);
+		}
+		return empty ? null : build.toString();
+	}
+
 	public static boolean EmptyS(String s) {
 		if (s == null) {
 			return true;
@@ -33,23 +47,12 @@ public class CUtil {
 	}
 
 	public static String concatS(String s1, String s2, char ch) {
-		if (EmptyS(s1))
-			return s2;
-		if (EmptyS(s2))
-			return s1;
-		return s1 + ch + s2;
+		return joinS(ch, s1, s2);
 	}
 
 	public static String concatSP(String s1, String s2) {
 		return concatS(s1, s2, ' ');
 	}
-
-	// public static String emptyToS(String s) {
-	// if (s == null) {
-	// return null;
-	// }
-	// return "";
-	// }
 
 	public static boolean OkNumber(String s) {
 		try {

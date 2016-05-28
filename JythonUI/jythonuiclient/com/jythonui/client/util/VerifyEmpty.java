@@ -28,19 +28,18 @@ import com.jythonui.shared.FieldItem;
  */
 class VerifyEmpty {
 
-    private VerifyEmpty() {
+	private VerifyEmpty() {
 
-    }
+	}
 
-    static List<InvalidateMess> checkEmpty(IVModelData vData,
-            List<FieldItem> fList) {
-        List<IVField> eList = new ArrayList<IVField>();
-        for (FieldItem i : fList)
-            if (i.isNotEmpty()) {
-                IVField fie = VField.construct(i);
-                eList.add(fie);
-            }
-        List<InvalidateMess> err = ValidateUtil.checkEmpty(vData, eList);
-        return err;
-    }
+	static List<InvalidateMess> checkEmpty(IVModelData vData, List<FieldItem> fList) {
+		List<IVField> eList = new ArrayList<IVField>();
+		for (FieldItem i : fList)
+			if (i.isNotEmpty()) {
+				IVField fie = VField.construct(i);
+				eList.add(fie);
+			}
+		List<InvalidateMess> err = ValidateUtil.checkEmptyRow(vData, eList);
+		return err;
+	}
 }

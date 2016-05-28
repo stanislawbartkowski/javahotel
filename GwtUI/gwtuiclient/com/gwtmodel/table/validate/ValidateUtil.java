@@ -12,91 +12,52 @@
  */
 package com.gwtmodel.table.validate;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateMess;
-import com.gwtmodel.table.editw.FormLineContainer;
-import com.gwtmodel.table.mm.MM;
-import com.gwtmodel.table.view.util.CreateReadOnly;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import com.gwtmodel.table.editw.FormField;
 
 public class ValidateUtil {
 
 	private ValidateUtil() {
 	}
 
-	public static List<InvalidateMess> checkDate(IVModelData mData, IVField from, IVField to, boolean canBeEqual) {
-		int comp = FUtils.compareValue(mData, to, mData, from, true);
-		if (comp < 0) {
-			return null;
-		}
-		String errMessS;
-		if (comp == 0) {
-			if (canBeEqual) {
-				return null;
-			}
-			errMessS = MM.getL().DateEqualError();
-		} else {
-			errMessS = MM.getL().DateLaterError();
-
-		}
-		List<InvalidateMess> errMess = new ArrayList<InvalidateMess>();
-		errMess.add(new InvalidateMess(to, errMessS));
-		return errMess;
-	}
-
-	public static List<InvalidateMess> checkDate(FormLineContainer fo, IVField from, IVField to, boolean canBeEqual) {
-		IVModelData mData = CreateReadOnly.contructReadonlyVModel(fo);
-		return checkDate(mData, from, to, canBeEqual);
-	}
-
-	public static List<InvalidateMess> checkEmpty(IVModelData mData, List<IVField> listMFie, Set<IVField> ignoreV) {
+	public static List<InvalidateMess> checkEmptyRow(IVModelData mData, List<IVField> vList) {
 		List<InvalidateMess> errMess = new ArrayList<InvalidateMess>();
 		boolean ok = true;
-		for (IVField f : listMFie) {
-			if (!ignoreV.contains(f) && FUtils.isNullValue(mData, f)) {
+		for (IVField v : vList)
+			if (FUtils.isNullValue(mData, v)) {
 				ok = false;
-				errMess.add(new InvalidateMess(f, true, null));
+				errMess.add(new InvalidateMess(v, true, null, false));
 			}
-		}
-		if (ok) {
+
+		if (ok)
 			return null;
-		}
 		return errMess;
 	}
 
-	public static List<InvalidateMess> checkEmpty(IVModelData mData, List<IVField> listMFie) {
-		return checkEmpty(mData, listMFie, new HashSet<IVField>());
-	}
-
-	public static List<InvalidateMess> checkEmpty(IVModelData mData, IVField... fields) {
-		List<IVField> vList = new ArrayList<IVField>();
-		for (IVField f : fields) {
-			vList.add(f);
-		}
-		return checkEmpty(mData, vList);
-	}
-
-	public static List<InvalidateMess> checkEmpty(final FormLineContainer fo, List<IVField> listMFie) {
-		IVModelData mData = CreateReadOnly.contructReadonlyVModel(fo);
-		return checkEmpty(mData, listMFie, new HashSet<IVField>());
-	}
-
-	public static boolean isEmpty(IVModelData mData, List<IVField> listMFie, Set<IVField> ignoreV) {
-		for (IVField f : listMFie) {
-			if (!ignoreV.contains(f) && !FUtils.isNullValue(mData, f)) {
-				return false;
+	public static List<InvalidateMess> checkEmpty(IVModelData mData, List<FormField> vList) {
+		List<InvalidateMess> errMess = new ArrayList<InvalidateMess>();
+		boolean ok = true;
+		for (FormField f : vList) {
+			IVField v = f.getFie();
+			if (f.getELine().isInvalid()) {
+				ok = false;
+				errMess.add(new InvalidateMess(v, false, null, true));
+				continue;
+			}
+			if (f.getFormProp().isNotEmpty() && FUtils.isNullValue(mData, v)) {
+				ok = false;
+				errMess.add(new InvalidateMess(v, true, null, false));
 			}
 		}
-		return true;
-	}
-
-	public static boolean isEmpty(IVModelData mData, List<IVField> listMFie) {
-		return isEmpty(mData, listMFie, new HashSet<IVField>());
+		if (ok)
+			return null;
+		return errMess;
 	}
 
 }

@@ -459,18 +459,6 @@ public class Utils {
 		Window.open(url, "_blank", "");
 	}
 
-	public static String joinS(char joinC, String... args) {
-		StringBuilder build = new StringBuilder();
-		for (String s : args) {
-			if (s == null)
-				continue;
-			if (!CUtil.EmptyS(build.toString()))
-				build.append(joinC);
-			build.append(s);
-		}
-		return build.toString();
-	}
-
 	public static void PolymerNotImplemented(String mess1, String mess2) {
 		errAlert(mess1, LogT.getT().PolymerDialogNotImplemented(mess2));
 	}

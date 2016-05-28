@@ -14,179 +14,214 @@ package com.gwtmodel.table.view.ewidget.polymer;
 
 import java.util.List;
 
-import com.google.inject.Inject;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGetDataList;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.editc.IRequestForGWidget;
+import com.gwtmodel.table.editw.IFormFieldProperties;
 import com.gwtmodel.table.editw.IFormLineView;
 import com.gwtmodel.table.editw.IGetListOfIcons;
-import com.gwtmodel.table.factories.IGetCustomValues;
+import com.gwtmodel.table.mm.MM;
 import com.gwtmodel.table.view.ewidget.IEditWidget;
 import com.gwtmodel.table.view.ewidget.gwt.RadioBoxString;
 
 public class EditWidgetPolymer implements IEditWidget {
 
+	private String regNumberExpr(IVField v) {
+		switch (v.getType().getAfterdot()) {
+		case 0:
+			return "[-+]?[0-9]*";
+		case 1:
+			return "[-+]?[0-9]*(\\.[0-9])?";
+		case 2:
+			return "[-+]?[0-9]+(\\.[0-9][0-9]?)?";
+		case 3:
+			return "[-+]?[0-9]+(\\.[0-9][0-9]?[0-9]?)?";
+		case 4:
+			return "[-+]?[0-9]+(\\.[0-9][0-9]?[0-9]?[0-9]?)?";
+		}
+		return null;
+	}
+
+	private String numberErrMess(IVField v) {
+		switch (v.getType().getAfterdot()) {
+		case 0:
+			return MM.getL().DigitsOnly();
+		case 1:
+			return CUtil.concatS(MM.getL().DigitsOnly(), MM.getL().AfterDot1(), ',');
+		case 2:
+			return CUtil.concatS(MM.getL().DigitsOnly(), MM.getL().AfterDot2(), ',');
+		case 3:
+			return CUtil.concatS(MM.getL().DigitsOnly(), MM.getL().AfterDot3(), ',');
+		case 4:
+			return CUtil.concatS(MM.getL().DigitsOnly(), MM.getL().AfterDot4(), ',');
+		}
+		return null;
+	}
+
 	@Override
-	public IFormLineView constructLabelField(IVField v, String displayName) {
+	public IFormLineView constructLabelField(IVField v, IFormFieldProperties pr, String displayName) {
 		Utils.PolymerNotImplemented("EWidgetPolymer:constructLabel");
 		return null;
 	}
 
 	@Override
-	public IFormLineView constructHTMLField(IVField v) {
+	public IFormLineView constructHTMLField(IVField v, IFormFieldProperties pr) {
 		Utils.PolymerNotImplemented("EWidgetPolymer:constructHTMLField");
 		return null;
 	}
 
 	@Override
-	public IFormLineView constructAnchorField(IVField v) {
+	public IFormLineView constructAnchorField(IVField v, IFormFieldProperties pr) {
 		Utils.PolymerNotImplemented("EWidgetPolymer:constructAnchorField");
 		return null;
 	}
 
 	@Override
-	public RadioBoxString constructRadioBoxString(IVField v, IGetDataList iGet, boolean enable, String htmlName) {
+	public RadioBoxString constructRadioBoxString(IVField v, IFormFieldProperties pr, IGetDataList iGet,
+			boolean enable) {
 		Utils.PolymerNotImplemented("EWidgetPolymer:constructRadioBoxString");
 		return null;
 	}
 
 	@Override
-	public IFormLineView contructCalculatorNumber(IVField v, String htmlName) {
-		Utils.PolymerNotImplemented("EWidgetPolymer:constructCalculatorNumber");
-		return null;
+	public IFormLineView contructCalculatorNumber(IVField v, IFormFieldProperties pr) {
+		return new PolymerNumber(v, pr, regNumberExpr(v), numberErrMess(v));
 	}
 
 	@Override
-	public IFormLineView constructCheckField(IVField v, String text, String htmlName) {
+	public IFormLineView constructCheckField(IVField v, IFormFieldProperties pr, String text) {
 		Utils.PolymerNotImplemented("EWidgetPolymer:constructCheckField");
 		return null;
 	}
 
 	@Override
-	public IFormLineView constructListValuesCombo(IVField v, IDataType dType, String htmlName) {
+	public IFormLineView constructListValuesCombo(IVField v, IFormFieldProperties pr, IDataType dType) {
 		Utils.PolymerNotImplemented("EWidgetPolymer:constructListComboValues");
 		return null;
 	}
 
 	@Override
-	public IFormLineView constructListValuesCombo(IVField v, IGetDataList iGet, boolean addEmpty, String htmlName) {
+	public IFormLineView constructListValuesCombo(IVField v, IFormFieldProperties pr, IGetDataList iGet,
+			boolean addEmpty) {
 		Utils.PolymerNotImplemented("EWidgetPolymer:constructListValuesCombo");
 		return null;
 	}
 
 	@Override
-	public IFormLineView constructHelperList(IVField v, IDataType dType, boolean refreshAlways, String htmlName) {
+	public IFormLineView constructHelperList(IVField v, IFormFieldProperties pr, IDataType dType,
+			boolean refreshAlways) {
 		Utils.PolymerNotImplemented("EWidgetPolymer:constructHelperList");
 		return null;
 	}
 
 	@Override
-	public IFormLineView constructPasswordField(IVField v, String htmlName) {
+	public IFormLineView constructPasswordField(IVField v, IFormFieldProperties pr) {
 		Utils.PolymerNotImplemented("EWidgetPolymer:constructPasswordField");
 		return null;
 	}
 
 	@Override
-	public IFormLineView constructTextField(IVField v, String htmlName) {
-		return new PolymerTextField(v, htmlName);
+	public IFormLineView constructTextField(IVField v, IFormFieldProperties pr) {
+		return new PolymerTextField(v, pr, null, null);
 	}
 
 	@Override
-	public IFormLineView constructTextField(IVField v, IGetDataList iGet, IRequestForGWidget iHelper, boolean textarea,
-			boolean richtext, boolean refreshAlways, String htmlName) {
+	public IFormLineView constructTextField(IVField v, IFormFieldProperties pr, IGetDataList iGet,
+			IRequestForGWidget iHelper, boolean textarea, boolean richtext, boolean refreshAlways) {
 		Utils.PolymerNotImplemented("EWidgetPolymer:constructTextField");
 		return null;
 	}
 
 	@Override
-	public IFormLineView constructLabelFor(IVField v, String la) {
+	public IFormLineView constructLabelFor(IVField v, IFormFieldProperties pr, String la) {
 		Utils.PolymerNotImplemented("EWidgetPolymer:constructLabelFor");
 		return null;
 	}
 
 	@Override
-	public IFormLineView construcDateBoxCalendar(IVField v, String htmlName) {
+	public IFormLineView construcDateBoxCalendar(IVField v, IFormFieldProperties pr) {
 		Utils.PolymerNotImplemented("EWidgetPolymer:constructDateBoxCalendar");
 		return null;
 	}
 
 	@Override
-	public IFormLineView constructDateBoxCalendarWithHelper(IVField v, IRequestForGWidget i, boolean refreshAlways,
-			String htmlName) {
+	public IFormLineView constructDateBoxCalendarWithHelper(IVField v, IFormFieldProperties pr, IRequestForGWidget i,
+			boolean refreshAlways) {
 		Utils.PolymerNotImplemented("EWidgetPolymer:constructDateBoxCalendarWithHelper");
 		return null;
 	}
 
 	@Override
-	public IFormLineView constructRadioSelectField(IVField v, String htmlName) {
+	public IFormLineView constructRadioSelectField(IVField v, IFormFieldProperties pr) {
 		Utils.PolymerNotImplemented("EWidgetPolymer:constructRadioSelectField");
 		return null;
 	}
 
 	@Override
-	public IFormLineView constructListComboValuesHelp(IVField v, IDataType dType, String htmlName) {
+	public IFormLineView constructListComboValuesHelp(IVField v, IFormFieldProperties pr, IDataType dType) {
 		Utils.PolymerNotImplemented("EWidgetPolymer:constructListComboValuesHelp");
 		return null;
 	}
 
 	@Override
-	public IFormLineView constructEditFileName(IVField v, String htmlName) {
+	public IFormLineView constructEditFileName(IVField v, IFormFieldProperties pr) {
 		Utils.PolymerNotImplemented("EWidgetPolymer:constructEditFileName");
 		return null;
 	}
 
 	@Override
-	public IFormLineView constructListCombo(IVField v, List<String> ma, String htmlName) {
+	public IFormLineView constructListCombo(IVField v, IFormFieldProperties pr, List<String> ma) {
 		Utils.PolymerNotImplemented("EWidgetPolymer:constructListCombo");
 		return null;
 	}
 
 	@Override
-	public IFormLineView constructListCombo(IVField v, List<String> ma, boolean addEmpty, String htmlName) {
+	public IFormLineView constructListCombo(IVField v, IFormFieldProperties pr, List<String> ma, boolean addEmpty) {
 		Utils.PolymerNotImplemented("EWidgetPolymer:constructListCombo");
 		return null;
 	}
 
 	@Override
-	public IFormLineView constructListCombo(IVField v, String htmlName) {
+	public IFormLineView constructListCombo(IVField v, IFormFieldProperties pr) {
 		Utils.PolymerNotImplemented("EWidgetPolymer:constructListCombo");
 		return null;
 	}
 
 	@Override
-	public IFormLineView constructSpinner(IVField v, String htmlName, int min, int max) {
+	public IFormLineView constructSpinner(IVField v, IFormFieldProperties pr, int min, int max) {
 		Utils.PolymerNotImplemented("EWidgetPolymer:constructSpinner");
 		return null;
 	}
 
 	@Override
-	public IFormLineView constructSuggestBox(IVField v, IGetDataList iGet, String htmlName) {
+	public IFormLineView constructSuggestBox(IVField v, IFormFieldProperties pr, IGetDataList iGet) {
 		Utils.PolymerNotImplemented("EWidgetPolymer:constructSuggestBox");
 		return null;
 	}
 
 	@Override
-	public IFormLineView constructEmail(IVField v, String htmlName) {
+	public IFormLineView constructEmail(IVField v, IFormFieldProperties pr) {
 		Utils.PolymerNotImplemented("EWidgetPolymer:constructEmail");
 		return null;
 	}
 
 	@Override
-	public IFormLineView constructImageButton(IVField v, String htmlName, int imageNo, IGetListOfIcons iList) {
+	public IFormLineView constructImageButton(IVField v, IFormFieldProperties pr, int imageNo, IGetListOfIcons iList) {
 		Utils.PolymerNotImplemented("EWidgetPolymer:constructImageButton");
 		return null;
 	}
 
 	@Override
-	public IFormLineView constructDateTimePicker(IVField v, String htmlName) {
+	public IFormLineView constructDateTimePicker(IVField v, IFormFieldProperties pr) {
 		Utils.PolymerNotImplemented("EWidgetPolymer:constructDateTimePicker");
 		return null;
 	}
 
 	@Override
-	public IFormLineView constructListComboEnum(IVField v, String htmlName) {
+	public IFormLineView constructListComboEnum(IVField v, IFormFieldProperties pr) {
 		Utils.PolymerNotImplemented("EWidgetPolymer:constructListComboEnum");
 		return null;
 	}

@@ -25,7 +25,9 @@ import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.TT;
 import com.gwtmodel.table.editc.IRequestForGWidget;
 import com.gwtmodel.table.editw.FormField;
+import com.gwtmodel.table.editw.FormFieldPropFactory;
 import com.gwtmodel.table.editw.FormLineContainer;
+import com.gwtmodel.table.editw.IFormFieldProperties;
 import com.gwtmodel.table.editw.IFormLineView;
 import com.gwtmodel.table.editw.IGetListOfIcons;
 import com.gwtmodel.table.injector.GwtGiniInjector;
@@ -66,6 +68,32 @@ public class CreateForm {
 	private CreateForm() {
 	}
 
+	public static IFormFieldProperties createP(boolean polymer, FieldItem f) {
+		boolean readOnlyIfModif = false;
+		boolean readOnlyIfAdd = false;
+		boolean modeSetAlready = false;
+		boolean label = false;
+		boolean hidden = false;
+		boolean notEmpty = false;
+		String htmlId = f.getHtmlId();
+		if (f.isHidden()) {
+			hidden = true;
+			modeSetAlready = true;
+		}
+		if (f.isReadOnly())
+			modeSetAlready = true;
+		if (f.isReadOnlyChange())
+			readOnlyIfModif = true;
+		if (f.isReadOnlyAdd())
+			readOnlyIfAdd = true;
+		if (f.isLabel() || f.isHtmlType())
+			label = true;
+		if (f.isNotEmpty())
+			notEmpty = true;
+		return FormFieldPropFactory.construct(readOnlyIfModif, readOnlyIfAdd, modeSetAlready, label, polymer, hidden,
+				notEmpty, htmlId);
+	}
+
 	public static FormLineContainer construct(DialogInfo dInfo, IGetDataList iGet, IGetDataList iSuggest,
 			IEnumTypesList eList, IRequestForGWidget iHelper, IConstructCustomDataType fType, IGetListOfIcons imaList) {
 		DialogFormat d = dInfo.getDialog();
@@ -75,25 +103,29 @@ public class CreateForm {
 		List<FormField> fList = new ArrayList<FormField>();
 		IGetStandardMessage iMess = GwtGiniInjector.getI().getStandardMessage();
 		for (FieldItem f : iList) {
-			IVField vf = VField.construct(f);
+
+			// create FormFieldProperties
+			IFormFieldProperties fieldProp = createP(isPolymer, f);
+
 			IFormLineView v;
-			String htmlId = f.getHtmlId();
+			IVField vf = VField.construct(f);
+
 			if (f.isEmailType())
-				v = eFactory.constructEmail(vf, htmlId);
+				v = eFactory.constructEmail(vf, fieldProp);
 			else if (f.isSpinner())
-				v = eFactory.constructSpinner(vf, htmlId, f.getSpinnerMin(), f.getSpinnerMax());
+				v = eFactory.constructSpinner(vf, fieldProp, f.getSpinnerMin(), f.getSpinnerMax());
 			else if (f.isUploadType())
-				v = eFactory.constructEditFileName(vf, htmlId);
+				v = eFactory.constructEditFileName(vf, fieldProp);
 			else if (f.isSuggest())
-				v = eFactory.constructSuggestBox(vf, iSuggest, htmlId);
+				v = eFactory.constructSuggestBox(vf, fieldProp, iSuggest);
 			else if (f.isDownloadType())
-				v = eFactory.constructAnchorField(vf);
+				v = eFactory.constructAnchorField(vf, fieldProp);
 			else if (f.isHtmlType())
-				v = eFactory.constructHTMLField(vf);
+				v = eFactory.constructHTMLField(vf, fieldProp);
 			else if (f.isImageColumn())
-				v = eFactory.constructImageButton(vf, htmlId, f.getImageColumn(), imaList);
+				v = eFactory.constructImageButton(vf, fieldProp, f.getImageColumn(), imaList);
 			else if (f.isLabel())
-				v = eFactory.constructLabelField(vf, iMess.getMessage(f.getDisplayName()));
+				v = eFactory.constructLabelField(vf, fieldProp, iMess.getMessage(f.getDisplayName()));
 			else if (!CUtil.EmptyS(f.getCustom())) {
 				TypedefDescr te = d.findCustomType(f.getCustom());
 				if (te == null) {
@@ -101,48 +133,41 @@ public class CreateForm {
 				}
 				if (te.isComboType()) {
 					eList.add(vf, f.getCustom());
-					v = eFactory.constructListValuesCombo(vf, iGet, !f.isNotEmpty(), htmlId);
+					v = eFactory.constructListValuesCombo(vf, fieldProp, iGet, !f.isNotEmpty());
 				} else if (te.isSuggestType()) {
 					eList.add(vf, f.getCustom());
-					v = eFactory.constructSuggestBox(vf, iGet, htmlId);
+					v = eFactory.constructSuggestBox(vf, fieldProp, iGet);
 				} else {
 					IDataType dType = fType.construct(f.getTypeName());
-					v = eFactory.constructHelperList(vf, dType, f.isHelperRefresh(), htmlId);
+					v = eFactory.constructHelperList(vf, fieldProp, dType, f.isHelperRefresh());
 				}
 			} else {
 				if (f.isPassword()) {
-					v = eFactory.constructPasswordField(vf, htmlId);
+					v = eFactory.constructPasswordField(vf, fieldProp);
 				} else if (f.isHelper() || f.isTextArea() || f.isRichText()) {
 					if (f.isHelper() && (f.getFieldType() != TT.STRING) && f.getFieldType() != TT.DATE) {
 						String mess = M.M().HelperOnlyForStringType(f.getId());
 						Utils.errAlertB(mess);
 					}
 					if (f.getFieldType() == TT.STRING)
-						v = eFactory.constructTextField(vf, null, f.isHelper() ? iHelper : null, f.isTextArea(),
-								f.isRichText(), f.isHelperRefresh(), htmlId);
+						v = eFactory.constructTextField(vf, fieldProp, null, f.isHelper() ? iHelper : null,
+								f.isTextArea(), f.isRichText(), f.isHelperRefresh());
 					else
-						v = eFactory.constructDateBoxCalendarWithHelper(vf, iHelper, true, htmlId);
-				} else {
-					v = EditWidgetFactory.constructEditWidget(vf, htmlId, isPolymer);
-				}
+						v = eFactory.constructDateBoxCalendarWithHelper(vf, fieldProp, iHelper, true);
+				} else
+					v = EditWidgetFactory.constructEditWidget(vf, fieldProp);
 
 			}
-			boolean modeSetAlready = false;
-			if (f.isHidden()) {
+			if (f.isHidden())
 				v.setHidden(true);
-				modeSetAlready = true;
-			}
-			if (f.isReadOnly()) {
+			if (f.isReadOnly())
 				v.setReadOnly(true);
-				modeSetAlready = true;
-			}
 			// 2014/09/06
-			if (!CUtil.EmptyS(f.getWidth())) {
+			if (!CUtil.EmptyS(f.getWidth()))
 				v.getGWidget().setWidth(f.getWidth());
-			}
-			if (!CUtil.EmptyS(f.getVisLines())) {
+
+			if (!CUtil.EmptyS(f.getVisLines()))
 				v.setAttr("rows", f.getVisLines());
-			}
 
 			String name = null;
 			IVField fRange = null;
@@ -162,8 +187,7 @@ public class CreateForm {
 			if (!CUtil.EmptyS(f.getCellTitle()))
 				v.setCellTitle(f.getCellTitle());
 
-			FormField fie = new FormField(name, v, vf, fRange, f.isReadOnlyChange(), f.isReadOnlyAdd(), modeSetAlready,
-					f.isLabel() || f.isHtmlType(), JUtils.isPolymerD(dInfo.getDialog()));
+			FormField fie = new FormField(name, v, vf, fieldProp, fRange);
 			fList.add(fie);
 		}
 		return new FormLineContainer(fList, isPolymer);

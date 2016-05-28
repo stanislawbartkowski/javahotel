@@ -10,27 +10,28 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.ewidget.gwt;
+package com.gwtmodel.table.view.ewidget.polymer;
 
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.Label;
+import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.editw.IFormFieldProperties;
 
-/**
- * @author hotel
- * 
- */
-class LabelEdit extends ExtendTextBox {
+class PolymerNumber extends PolymerTextField {
 
-	final private Label pL;
-
-	public LabelEdit(IVField v, IFormFieldProperties pr, EParam param, final String lN) {
-		super(v, pr, param);
-		pL = new Label(lN);
-		hPanel.setSpacing(1);
-		hPanel.insert(pL, 0);
-		HasVerticalAlignment.VerticalAlignmentConstant al = HasVerticalAlignment.ALIGN_BOTTOM;
-		hPanel.setCellVerticalAlignment(getTextBox(), al);
+	PolymerNumber(IVField v, IFormFieldProperties pr, String pattern, String standErrMess) {
+		super(v, pr, pattern, standErrMess);
 	}
+
+	@Override
+	public void setValObj(Object o) {
+		String s = FUtils.getValueOS(o, v);
+		super.setValObj(s);
+	}
+
+	@Override
+	public Object getValObj() {
+		String s = (String) super.getValObj();
+		return FUtils.getValue(v, s);
+	}
+
 }

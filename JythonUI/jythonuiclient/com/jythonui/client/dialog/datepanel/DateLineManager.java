@@ -411,7 +411,7 @@ class DateLineManager implements IDateLineManager {
 						// IUIConsts.HEADER_TODAY : null,
 						// isWeekend(d) ? IUIConsts.HEADER_WEEKEND : null), day,
 						// m, w));
-						String s = Utils.joinS(' ', isToday(d) ? IUIConsts.HEADER_TODAY : null,
+						String s = CUtil.joinS(' ', isToday(d) ? IUIConsts.HEADER_TODAY : null,
 								isWeekend(d) ? IUIConsts.HEADER_WEEKEND : null);
 						sb.append(headerInput.input(s, day, m, w));
 					}
@@ -574,7 +574,7 @@ class DateLineManager implements IDateLineManager {
 				// return join.join(isToday(d) ? IUIConsts.CELL_COLUMN_TODAY :
 				// null,
 				// isWeekend(d) ? (IUIConsts.CELL_COLUMN_WEEKEND) : null);
-				return Utils.joinS(' ', isToday(d) ? IUIConsts.CELL_COLUMN_TODAY : null,
+				return CUtil.joinS(' ', isToday(d) ? IUIConsts.CELL_COLUMN_TODAY : null,
 						isWeekend(d) ? (IUIConsts.CELL_COLUMN_WEEKEND) : null);
 			}
 

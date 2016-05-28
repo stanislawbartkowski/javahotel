@@ -24,9 +24,11 @@ import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.VModelData;
 import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.editw.FormLineContainer;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotable;
+import com.gwtmodel.table.validate.ValidateUtil;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.VField;
 import com.jythonui.shared.DialogFormat;
@@ -53,8 +55,7 @@ public class ValidateForm {
 		return id;
 	}
 
-	private static FieldItem findId(ValidateRule va, String aid,
-			List<FieldItem> fList) {
+	private static FieldItem findId(ValidateRule va, String aid, List<FieldItem> fList) {
 		String id = getAttr(va, aid);
 		if (id == null) {
 			return null;
@@ -66,9 +67,14 @@ public class ValidateForm {
 		return f;
 	}
 
-	public static List<InvalidateMess> createErrList(IVModelData v,
-			List<FieldItem> fList, List<ValidateRule> rulList) {
-		List<InvalidateMess> err = VerifyEmpty.checkEmpty(v, fList);
+	public static List<InvalidateMess> createErrList(IVModelData v, List<FieldItem> fList, List<ValidateRule> rulList,
+			FormLineContainer lForm) {
+
+		List<InvalidateMess> err;
+		if (lForm == null)
+			err = VerifyEmpty.checkEmpty(v, fList);
+		else
+			err = ValidateUtil.checkEmpty(v, lForm.getfList());
 		if (err != null)
 			return err;
 		if (rulList == null)
@@ -84,8 +90,7 @@ public class ValidateForm {
 			if (displayN == null)
 				return null;
 			if (CUtil.EmptyS(op)) {
-				Utils.errAlert(M.M().ValidateAttributeNotDefined(
-						ICommonConsts.VALIDATEOP));
+				Utils.errAlert(M.M().ValidateAttributeNotDefined(ICommonConsts.VALIDATEOP));
 				return null;
 			}
 			Op o = Op.valueOf(op);
@@ -132,17 +137,14 @@ public class ValidateForm {
 		return err;
 	}
 
-	public static boolean validateV(IDataType dType, ISlotable iSlo,
-			DialogFormat d, DataActionEnum errSig) {
+	public static boolean validateV(IDataType dType, ISlotable iSlo, DialogFormat d, DataActionEnum errSig) {
 		IVModelData v = new VModelData();
-		v = iSlo.getSlContainer().getGetterIVModelData(dType,
-				GetActionEnum.GetViewModelEdited, v);
-		List<InvalidateMess> errMess = createErrList(v, d.getFieldList(),
-				d.getValList());
+		v = iSlo.getSlContainer().getGetterIVModelData(dType, GetActionEnum.GetViewModelEdited, v);
+		FormLineContainer lForm = iSlo.getSlContainer().getGetterContainer(dType);
+		List<InvalidateMess> errMess = createErrList(v, d.getFieldList(), d.getValList(), lForm);
 		if (errMess == null)
 			return true;
-		iSlo.getSlContainer().publish(dType, errSig,
-				new InvalidateFormContainer(errMess));
+		iSlo.getSlContainer().publish(dType, errSig, new InvalidateFormContainer(errMess));
 		return false;
 
 	}

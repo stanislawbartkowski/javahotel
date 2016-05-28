@@ -23,7 +23,9 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.InvalidateMess;
+import com.gwtmodel.table.editw.FormFieldPropFactory;
 import com.gwtmodel.table.editw.FormLineContainer;
+import com.gwtmodel.table.editw.IFormFieldProperties;
 import com.gwtmodel.table.factories.IDataValidateAction;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.login.ILoginDataView;
@@ -53,6 +55,7 @@ public class LoginPage implements ILoginPage {
 		private final ICommand ok;
 		private final String shiroRealm;
 		private final CustomSecurity iCustom;
+		private final FormLineContainer lForm;
 
 		private class LoginValid extends CommonCallBack<String> {
 
@@ -88,11 +91,12 @@ public class LoginPage implements ILoginPage {
 
 			@Override
 			public void signal(ISlotSignalContext slContext) {
+				IFormFieldProperties prop = FormFieldPropFactory.constructNotEmpty();
 				IVField login = new LoginField(LoginField.F.LOGINNAME);
 				IVField password = new LoginField(LoginField.F.PASSWORD);
 				IVModelData lData = logFactory.construct(dType);
 				lData = getGetterIVModelData(dType, GetActionEnum.GetViewModelEdited, lData);
-				List<InvalidateMess> eMess = ValidateUtil.checkEmpty(lData, login, password);
+				List<InvalidateMess> eMess = ValidateUtil.checkEmpty(lData, lForm.getfList());
 				if (eMess != null) {
 					publish(dType, DataActionEnum.ChangeViewFormToInvalidAction, new InvalidateFormContainer(eMess));
 					return;
@@ -104,11 +108,12 @@ public class LoginPage implements ILoginPage {
 
 		}
 
-		DataValidate(IDataType dType, String shiroRealm, CustomSecurity iCustom, ICommand ok) {
+		DataValidate(IDataType dType, String shiroRealm, CustomSecurity iCustom, ICommand ok, FormLineContainer lForm) {
 			this.dType = dType;
 			this.ok = ok;
 			this.iCustom = iCustom;
 			this.shiroRealm = shiroRealm;
+			this.lForm = lForm;
 			this.getSlContainer().registerSubscriber(dType, ClickButtonType.StandClickEnum.ACCEPT, new LoginButton());
 		}
 
@@ -131,7 +136,7 @@ public class LoginPage implements ILoginPage {
 		LoginDataModelFactory logFactory = new LoginDataModelFactory();
 		FormLineContainer lForm = LoginViewFactory.construct();
 		ILoginDataView lView = LoginViewFactory.contructView(ce, dType, lForm, logFactory,
-				new DataValidate(dType, shiroRealm, iCustom, ok));
+				new DataValidate(dType, shiroRealm, iCustom, ok, lForm));
 		SlU.registerWidgetListener0(dType, lView, new GetWidget());
 		lView.startPublish(null);
 

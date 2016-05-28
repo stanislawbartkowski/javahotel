@@ -17,17 +17,25 @@ import java.util.List;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.editw.IFormFieldProperties;
 import com.vaadin.polymer.paper.widget.PaperInput;
 
 class PolymerTextField extends AbstractWField {
 
 	private final PaperInput in = new PaperInput();
 
-	PolymerTextField(IVField v, String htmlName) {
-		super(v);
+	PolymerTextField(IVField v, IFormFieldProperties pr, String pattern, String standErrMess) {
+		super(v, pr, standErrMess);
 		in.setLabel(v.getLabel());
 		in.addChangeHandler(new ChangeHa());
 		in.getPolymerElement().addEventListener("keydown", new TouchEvent());
+		if (pr.isNotEmpty())
+			in.setRequired(true);
+		if (pattern != null) {
+			in.setPattern(pattern);
+			in.setAutoValidate(true);
+		}
+		in.setErrorMessage(getStandErrMess());
 	}
 
 	@Override
@@ -50,8 +58,8 @@ class PolymerTextField extends AbstractWField {
 	@Override
 	public void setReadOnly(boolean readOnly) {
 		in.setReadonly(readOnly);
-//		if (readOnly)
-//			setAttr("aria-disabled", "true");
+		// if (readOnly)
+		// setAttr("aria-disabled", "true");
 	}
 
 	@Override
@@ -60,15 +68,11 @@ class PolymerTextField extends AbstractWField {
 	}
 
 	@Override
-	public boolean isHidden() {
-		return in.isVisible();
-	}
-
-	@Override
 	public void setInvalidMess(String errmess) {
-		if (CUtil.EmptyS(errmess))
+		if (CUtil.EmptyS(errmess)) {
 			in.setInvalid(false);
-		else {
+			in.setErrorMessage(getStandErrMess());
+		} else {
 			in.setErrorMessage(errmess);
 			in.setInvalid(true);
 		}
@@ -100,6 +104,12 @@ class PolymerTextField extends AbstractWField {
 	@Override
 	public void setFocus(boolean focus) {
 		in.setFocused(focus);
+	}
+
+	@Override
+	public boolean isInvalid() {
+		in.validate();
+		return in.getInvalid();
 	}
 
 }

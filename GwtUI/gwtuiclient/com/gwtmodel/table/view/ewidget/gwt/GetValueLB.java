@@ -22,6 +22,7 @@ import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.TOptional;
 import com.gwtmodel.table.editw.IFormChangeListener;
+import com.gwtmodel.table.editw.IFormFieldProperties;
 import com.gwtmodel.table.factories.IGetCustomValues;
 
 /**
@@ -36,15 +37,15 @@ class GetValueLB extends AbstractField implements IValueLB {
 	private final boolean addEmpty;
 	private List<String> idList = null;
 
-	GetValueLB(IVField v, boolean addEmpty, String htmlName) {
-		super(v, htmlName);
+	GetValueLB(IVField v, IFormFieldProperties pr,boolean addEmpty) {
+		super(v, pr);
 		initWidget(lB);
 		lB.setName(getHtmlName());
 		this.addEmpty = addEmpty;
 	}
 
-	GetValueLB(IVField v, String htmlName) {
-		this(v, false /*cValues.addEmptyAsDefault()*/, htmlName);
+	GetValueLB(IVField v,IFormFieldProperties pr) {
+		this(v, pr, false /*cValues.addEmptyAsDefault()*/);
 	}
 
 	protected String getValS() {

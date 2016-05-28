@@ -569,9 +569,8 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 
 		PViewData(CellId cId) {
 			pView = PanelViewFactory.construct(dType, cId);
-			TabPanelViewFactory pFactory = GwtGiniInjector.getI().getTabPanelViewFactory();
 			for (int i = 0; i < d.getTabList().size(); i++)
-				pList.add(pFactory.construct(dType, cId, d.getTabList().get(i).getId()));
+				pList.add(TabPanelViewFactory.construct(dType, cId, d.getTabList().get(i).getId()));
 			// fill cList
 			for (TabPanel tab : d.getTabList())
 				for (TabPanelElem e : tab.gettList())
@@ -747,7 +746,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 		if (!d.getChartList().isEmpty())
 			err.add(ICommonConsts.CHARTLIST);
 		if (!err.isEmpty()) {
-			String errmess = Utils.joinS(',', JUtils.toA(err));
+			String errmess = CUtil.joinS(',', JUtils.toA(err));
 			Utils.PolymerNotImplemented(d.getId(), errmess);
 		}
 	}

@@ -596,7 +596,7 @@ class ListControler {
 				lastF = f;
 				ListFormat fo = rM.getFormat(dType);
 				IVModelData vData = getV();
-				List<InvalidateMess> err = ValidateForm.createErrList(vData, fo.getColumns(), fo.getValList());
+				List<InvalidateMess> err = ValidateForm.createErrList(vData, fo.getColumns(), fo.getValList(), null);
 				if (err != null) {
 					EditRowErrorSignal eSignal = new EditRowErrorSignal(f.getValue().getChoosedLine(),
 							new InvalidateFormContainer(err));

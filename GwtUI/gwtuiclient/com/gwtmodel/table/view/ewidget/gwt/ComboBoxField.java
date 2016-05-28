@@ -17,6 +17,7 @@ import java.util.List;
 
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.editw.IFormFieldProperties;
 
 /**
  * 
@@ -34,14 +35,14 @@ class ComboBoxField extends GetValueLB {
 		setList(val);
 	}
 
-	ComboBoxField(IVField v, List<ComboVal> wy, boolean addEmpty, String htmlName) {
-		super(v, addEmpty, htmlName);
+	ComboBoxField(IVField v, IFormFieldProperties pr, List<ComboVal> wy, boolean addEmpty) {
+		super(v, pr, addEmpty);
 		this.wy = wy;
 		init();
 	}
 
-	ComboBoxField(IVField v, List<ComboVal> wy, String htmlName) {
-		super(v, htmlName);
+	ComboBoxField(IVField v, IFormFieldProperties pr, List<ComboVal> wy) {
+		super(v, pr);
 		this.wy = wy;
 		init();
 	}

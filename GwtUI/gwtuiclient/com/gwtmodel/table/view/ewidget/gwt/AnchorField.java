@@ -74,12 +74,6 @@ class AnchorField implements IFormLineView {
     }
 
     @Override
-    public boolean isHidden() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
     public void setInvalidMess(String errmess) {
         // TODO Auto-generated method stub
 
@@ -125,6 +119,12 @@ class AnchorField implements IFormLineView {
 	public void setFocus(boolean focus) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public boolean isInvalid() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

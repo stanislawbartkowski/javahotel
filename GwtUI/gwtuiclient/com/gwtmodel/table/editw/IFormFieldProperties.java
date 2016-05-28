@@ -12,35 +12,22 @@
  */
 package com.gwtmodel.table.editw;
 
-import java.util.List;
+public interface IFormFieldProperties {
 
-import com.gwtmodel.table.IGWidget;
-import com.gwtmodel.table.IGetSetVField;
+	boolean isReadOnlyIfModif();
 
-public interface IFormLineView extends IGetSetVField, IGWidget {
+	boolean isReadOnlyIfAdd();
 
-	void addChangeListener(IFormChangeListener cListener);
+	boolean isModeSetAlready();
 
-	void setReadOnly(boolean readOnly);
+	boolean isLabel();
 
-	void setHidden(boolean hidden);
+	boolean isPolymer();
 
-	void setInvalidMess(String errmess);
+	boolean isHidden();
 
-	void setGStyleName(String styleMess, boolean set);
-
-	void setOnTouch(ITouchListener lTouch);
-
-	String getHtmlName();
-
-	void setAttr(String attrName, String attrValue);
-
-	void setCellTitle(String title);
-
-	void setSuggestList(List<String> list);
-
-	void setFocus(boolean focus);
-
-	boolean isInvalid();
+	String getHtmlId();
+	
+	boolean isNotEmpty();
 
 }

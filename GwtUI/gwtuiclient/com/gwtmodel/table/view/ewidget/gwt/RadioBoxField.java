@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.editw.IFormFieldProperties;
 
 /**
  * 
@@ -30,8 +31,8 @@ class RadioBoxField extends AbstractField {
 	private final VerticalPanel vP;
 	private final List<RadioButton> ra;
 
-	RadioBoxField(IVField v, String htmlName) {
-		super(v, htmlName);
+	RadioBoxField(IVField v, IFormFieldProperties pr) {
+		super(v, pr);
 		vP = new VerticalPanel();
 		ra = new ArrayList<RadioButton>();
 		for (String s : listT.getListVal()) {

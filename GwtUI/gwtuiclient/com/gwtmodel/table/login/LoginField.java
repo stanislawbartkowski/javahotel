@@ -25,7 +25,7 @@ public class LoginField extends AbstractVField {
 
 	public enum F {
 
-		LOGINNAME, PASSWORD, REPASSWORD, OTHER
+		LOGINNAME, PASSWORD, OTHER
 	};
 
 	public F getF() {
@@ -51,9 +51,5 @@ public class LoginField extends AbstractVField {
 
 	public boolean isPassword() {
 		return f == F.PASSWORD;
-	}
-
-	public boolean isRePassword() {
-		return f == F.REPASSWORD;
 	}
 }

@@ -15,6 +15,7 @@ package com.gwtmodel.table.view.ewidget.gwt;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.editw.IFormFieldProperties;
 
 /**
  * 
@@ -22,21 +23,20 @@ import com.gwtmodel.table.IVField;
  */
 class NumberCalculator extends ExtendTextBox {
 
-    NumberCalculator(IVField v,
-            ExtendTextBox.EParam p, String htmlName) {
-        super(v, p, htmlName);
-        wW.addStyleName(IConsts.numberStyle);
-    }
+	NumberCalculator(IVField v, IFormFieldProperties pr, ExtendTextBox.EParam p) {
+		super(v, pr, p);
+		wW.addStyleName(IConsts.numberStyle);
+	}
 
-    @Override
-    public void setValObj(Object o) {
-        String s = FUtils.getValueOS(o, v);
-        super.setValObj(s);
-    }
+	@Override
+	public void setValObj(Object o) {
+		String s = FUtils.getValueOS(o, v);
+		super.setValObj(s);
+	}
 
-    @Override
-    public Object getValObj() {
-        String s = (String) super.getValObj();
-        return FUtils.getValue(v, s);
-    }
+	@Override
+	public Object getValObj() {
+		String s = (String) super.getValObj();
+		return FUtils.getValue(v, s);
+	}
 }

@@ -19,64 +19,43 @@ import java.util.List;
 
 public class LoginData extends AVModelData {
 
-    public String getRepassword() {
-        return repassword;
-    }
+	private String loginName;
+	private String password;
 
-    public String getLoginName() {
-        return loginName;
-    }
+	@Override
+	public Object getF(IVField fie) {
+		LoginField f = (LoginField) fie;
+		if (f.isPassword()) {
+			return password;
+		}
+		if (f.isLogin()) {
+			return loginName;
+		}
+		return null;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	@Override
+	public void setF(IVField fie, Object val) {
+		String s = (String) val;
+		LoginField f = (LoginField) fie;
+		if (f.isLogin()) {
+			loginName = s;
+			return;
+		}
+		if (f.isPassword()) {
+			password = s;
+		}
+	}
 
-    private String loginName;
-    private String password;
-    private String repassword;
+	@Override
+	public List<IVField> getF() {
+		IVField[] e = { new LoginField(LoginField.F.LOGINNAME), new LoginField(LoginField.F.PASSWORD),
+				new LoginField(LoginField.F.OTHER) };
+		return Utils.toList(e);
+	}
 
-    @Override
-    public Object getF(IVField fie) {
-        LoginField f = (LoginField) fie;
-        if (f.isPassword()) {
-            return password;
-        }
-        if (f.isLogin()) {
-            return loginName;
-        }
-        if (f.isRePassword()) {
-            return repassword;
-        }
-        return null;
-    }
-
-    @Override
-    public void setF(IVField fie, Object val) {
-        String s = (String) val;
-        LoginField f = (LoginField) fie;
-        if (f.isLogin()) {
-            loginName = s;
-            return;
-        }
-        if (f.isPassword()) {
-            password = s;
-        }
-        if (f.isRePassword()) {
-            repassword = s;
-        }
-    }
-
-    @Override
-    public List<IVField> getF() {
-        IVField[] e = { new LoginField(LoginField.F.LOGINNAME),
-                new LoginField(LoginField.F.PASSWORD),
-                new LoginField(LoginField.F.REPASSWORD),
-                new LoginField(LoginField.F.OTHER) };
-        return Utils.toList(e);
-    }
-
-    @Override
-    public boolean isValid(IVField fie) {
-        return true;
-    }
+	@Override
+	public boolean isValid(IVField fie) {
+		return true;
+	}
 }

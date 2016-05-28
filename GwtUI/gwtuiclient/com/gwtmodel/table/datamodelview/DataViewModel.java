@@ -82,18 +82,18 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
 
 	private void changeMode(PersistTypeEnum persistTypeEnum, FormField fie) {
 		IFormLineView vie = fie.getELine();
-		if (fie.isModeSetAlready())
+		if (fie.getFormProp().isModeSetAlready())
 			return;
 		switch (persistTypeEnum) {
 		case ADD:
-			if (fie.isReadOnlyIfAdd()) {
+			if (fie.getFormProp().isReadOnlyIfAdd()) {
 				vie.setReadOnly(true);
 			} else {
 				vie.setReadOnly(false);
 			}
 			break;
 		case MODIF:
-			if (fie.isReadOnlyIfModif()) {
+			if (fie.getFormProp().isReadOnlyIfModif()) {
 				vie.setReadOnly(true);
 			} else {
 				vie.setReadOnly(false);

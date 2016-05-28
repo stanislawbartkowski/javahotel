@@ -17,6 +17,7 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.TextBoxBase;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.editw.IFormFieldProperties;
 
 class TextWidgetBox extends AbstractField {
 
@@ -30,8 +31,8 @@ class TextWidgetBox extends AbstractField {
 		}
 	}
 
-	TextWidgetBox(IVField v, String htmlName, TextBoxBase t) {
-		super(v, htmlName);
+	TextWidgetBox(IVField v, IFormFieldProperties pr, TextBoxBase t) {
+		super(v, pr);
 		this.t = t;
 		t.addChangeHandler(new CHandler());
 		initWidget(t);

@@ -34,6 +34,7 @@ import com.gwtmodel.table.controler.DataListActionItemFactory.ResignAction;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.datamodelview.IDataViewModel;
 import com.gwtmodel.table.editw.FormField;
+import com.gwtmodel.table.editw.FormFieldPropFactory;
 import com.gwtmodel.table.editw.FormLineContainer;
 import com.gwtmodel.table.editw.IFormChangeListener;
 import com.gwtmodel.table.editw.IFormLineView;
@@ -328,9 +329,8 @@ class FindListActionFactory {
 					break;
 				}
 			}
-			if (found) {
+			if (found)
 				continue;
-			}
 			IVField fe = he.getFie();
 			vLi.add(fe);
 			IVField from = FField.constructFrom(he);
@@ -339,14 +339,14 @@ class FindListActionFactory {
 			IVField ignore = FField.constructIgnore(he);
 			IFormLineView icheck = null;
 			if (!fe.getType().isBoolean()) {
-				icheck = EditWidgetFactory.getGwtE().constructCheckField(check, MM.getL().EqualSign(), null);
+				icheck = EditWidgetFactory.getGwtE().constructCheckField(check, null, MM.getL().EqualSign());
 				icheck.setValObj(new Boolean(true));
 				liF.add(new FormField(null, icheck, check, from));
 			}
-			IFormLineView ifrom = EditWidgetFactory.constructEditWidget(from, null, false);
+			IFormLineView ifrom = EditWidgetFactory.constructEditWidget(from, null);
 			// modify htmlId for 'to' field
 			String htmlToName = to.getId() + "-1";
-			IFormLineView ito = EditWidgetFactory.constructEditWidget(to, htmlToName, false);
+			IFormLineView ito = EditWidgetFactory.constructEditWidget(to, FormFieldPropFactory.construct(htmlToName));
 			liF.add(new FormField(he.getHeaderString(), ifrom));
 			ITouchListener t = null;
 			if (icheck != null) {
@@ -358,14 +358,13 @@ class FindListActionFactory {
 			if (!fe.getType().isBoolean()) {
 				liF.add(new FormField(null, ito, to, from));
 			} else {
-				icheck = EditWidgetFactory.getGwtE().constructCheckField(ignore, MM.getL().IngnoreDuringSearch(), null);
+				icheck = EditWidgetFactory.getGwtE().constructCheckField(ignore, null, MM.getL().IngnoreDuringSearch());
 				liF.add(new FormField(null, icheck, ignore, from));
 				icheck.addChangeListener(new OnLogChange(ifrom));
 			}
 			// important: after adding (not before)
-			if (t != null) {
+			if (t != null)
 				t.onTouch();
-			}
 
 		}
 		clearBoolean(liF);

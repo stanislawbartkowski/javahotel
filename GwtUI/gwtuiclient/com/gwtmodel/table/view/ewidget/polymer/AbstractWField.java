@@ -15,11 +15,13 @@ package com.gwtmodel.table.view.ewidget.polymer;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.dom.client.Element;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.editw.IFormChangeListener;
+import com.gwtmodel.table.editw.IFormFieldProperties;
 import com.gwtmodel.table.editw.IFormLineView;
 import com.gwtmodel.table.editw.ITouchListener;
+import com.gwtmodel.table.mm.MM;
 import com.vaadin.polymer.elemental.EventListener;
 import com.vaadin.polymer.iron.event.KeysPressedEvent;
 import com.vaadin.polymer.paper.widget.event.ChangeEvent;
@@ -30,9 +32,13 @@ abstract class AbstractWField implements IFormLineView {
 	protected final IVField v;
 	private final List<ITouchListener> lTouch = new ArrayList<ITouchListener>();
 	private final List<IFormChangeListener> cList = new ArrayList<IFormChangeListener>();
+	protected final IFormFieldProperties pr;
+	private final String standErrMess;
 
-	protected AbstractWField(IVField v) {
+	protected AbstractWField(IVField v, IFormFieldProperties pr, String standErrMess) {
 		this.v = v;
+		this.pr = pr;
+		this.standErrMess = standErrMess;
 	}
 
 	@Override
@@ -80,5 +86,12 @@ abstract class AbstractWField implements IFormLineView {
 	@Override
 	public void setAttr(String attrName, String attrValue) {
 		this.getGWidget().getElement().setAttribute(attrName, attrValue);
+	}
+	
+	protected String getStandErrMess() {
+		String emptyMess = null;
+		if (pr.isNotEmpty()) emptyMess = MM.getL().EmptyFieldMessage();
+		String errMess =  CUtil.joinS(',', emptyMess, standErrMess);
+		return errMess;
 	}
 }

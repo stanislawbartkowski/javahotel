@@ -34,6 +34,7 @@ import com.gwtmodel.table.IGetDataList;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.editw.IFormChangeListener;
+import com.gwtmodel.table.editw.IFormFieldProperties;
 import com.gwtmodel.table.editw.ITouchListener;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.view.ewidget.gwt.richtextoolbar.googlerichbar.RichTextToolbar;
@@ -284,8 +285,8 @@ class ExtendTextBox extends AbstractField {
 	// protected final CheckBox check;
 	protected final boolean isArea;
 
-	protected ExtendTextBox(IVField v, EParam param, String htmlName) {
-		super(v, htmlName);
+	protected ExtendTextBox(IVField v, IFormFieldProperties pr, EParam param) {
+		super(v, pr);
 		this.isArea = param.isArea();
 		eW = new EWidget(param);
 		eW.setName(getHtmlName());
