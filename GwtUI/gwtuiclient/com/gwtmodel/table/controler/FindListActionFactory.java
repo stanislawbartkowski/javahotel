@@ -339,7 +339,8 @@ class FindListActionFactory {
 			IVField ignore = FField.constructIgnore(he);
 			IFormLineView icheck = null;
 			if (!fe.getType().isBoolean()) {
-				icheck = EditWidgetFactory.getGwtE().constructCheckField(check, null, MM.getL().EqualSign());
+				icheck = EditWidgetFactory.getGwtE().constructCheckField(check,
+						FormFieldPropFactory.constructDisplayName(MM.getL().EqualSign()));
 				icheck.setValObj(new Boolean(true));
 				liF.add(new FormField(null, icheck, check, from));
 			}
@@ -358,7 +359,8 @@ class FindListActionFactory {
 			if (!fe.getType().isBoolean()) {
 				liF.add(new FormField(null, ito, to, from));
 			} else {
-				icheck = EditWidgetFactory.getGwtE().constructCheckField(ignore, null, MM.getL().IngnoreDuringSearch());
+				icheck = EditWidgetFactory.getGwtE().constructCheckField(ignore,
+						FormFieldPropFactory.constructDisplayName(MM.getL().IngnoreDuringSearch()));
 				liF.add(new FormField(null, icheck, ignore, from));
 				icheck.addChangeListener(new OnLogChange(ifrom));
 			}

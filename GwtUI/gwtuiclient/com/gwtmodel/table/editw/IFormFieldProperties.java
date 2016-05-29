@@ -27,7 +27,9 @@ public interface IFormFieldProperties {
 	boolean isHidden();
 
 	String getHtmlId();
-	
+
+	String getDisplayName();
+
 	boolean isNotEmpty();
 
 }

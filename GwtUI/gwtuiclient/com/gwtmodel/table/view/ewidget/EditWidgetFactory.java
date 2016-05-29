@@ -62,7 +62,7 @@ public class EditWidgetFactory {
 		case ENUM:
 			return i.constructListComboEnum(v, fieldProp);
 		case BOOLEAN:
-			return i.constructCheckField(v, fieldProp, null);
+			return i.constructCheckField(v, fieldProp);
 		default:
 			if (v.getType().getLi() != null) {
 				return i.constructListCombo(v, fieldProp);

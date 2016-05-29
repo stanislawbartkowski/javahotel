@@ -21,7 +21,6 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.editw.IFormChangeListener;
 import com.gwtmodel.table.editw.IFormFieldProperties;
-import com.gwtmodel.table.factories.IGetCustomValues;
 
 /**
  * DabeBox field, wrapper around DateBox

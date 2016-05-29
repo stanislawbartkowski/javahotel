@@ -35,7 +35,7 @@ public interface IEditWidget {
 
 	IFormLineView contructCalculatorNumber(IVField v, IFormFieldProperties pr);
 
-	IFormLineView constructCheckField(IVField v, IFormFieldProperties pr, String text);
+	IFormLineView constructCheckField(IVField v, IFormFieldProperties pr);
 
 	IFormLineView constructListValuesCombo(IVField v, IFormFieldProperties pr, IDataType dType);
 

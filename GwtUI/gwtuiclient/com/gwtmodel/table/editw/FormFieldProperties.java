@@ -22,13 +22,14 @@ class FormFieldProperties implements IFormFieldProperties {
 	private final boolean hidden;
 	private final String htmlId;
 	private final boolean notEmpty;
+	private final String displayName;
 
 	FormFieldProperties() {
-		this(false, false, false, false, false, false, false, null);
+		this(false, false, false, false, false, false, false, null,null);
 	}
 
 	FormFieldProperties(boolean readOnlyIfModif, boolean readOnlyIfAdd, boolean modeSetAlready, boolean label,
-			boolean polymer, boolean hidden, boolean notEmpty, String htmlId) {
+			boolean polymer, boolean hidden, boolean notEmpty, String htmlId, String displayName) {
 		this.readOnlyIfModif = readOnlyIfModif;
 		this.readOnlyIfAdd = readOnlyIfAdd;
 		this.modeSetAlready = modeSetAlready;
@@ -37,6 +38,7 @@ class FormFieldProperties implements IFormFieldProperties {
 		this.hidden = hidden;
 		this.htmlId = htmlId;
 		this.notEmpty = notEmpty;
+		this.displayName = displayName;
 	}
 
 	@Override
@@ -78,5 +80,11 @@ class FormFieldProperties implements IFormFieldProperties {
 	public boolean isNotEmpty() {
 		return notEmpty;
 	}
+
+	@Override
+	public String getDisplayName() {
+		return displayName;
+	}
+		
 
 }

@@ -12,6 +12,9 @@
  */
 package com.jythonui.client.start.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -263,7 +266,10 @@ public class JythonClientStart implements IJythonClientStart {
 				// end of emptydeclaration
 
 				final boolean fauth = auth;
-				Polymer.importHref("iron-icons/iron-icons.html", new Function() {
+				List<String> imp = new ArrayList<String>();
+				imp.add("iron-icons/iron-icons.html");
+				imp.add("vaadin-icons/vaadin-icons.html");				
+				Polymer.importHref(imp, new Function() {
 					public Object call(Object arg) {
 						// The app is executed when all imports succeed.
 						startBegin(fauth);

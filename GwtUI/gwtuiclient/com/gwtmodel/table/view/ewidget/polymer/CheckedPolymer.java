@@ -15,71 +15,40 @@ package com.gwtmodel.table.view.ewidget.polymer;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.Widget;
-import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.editw.IFormFieldProperties;
-import com.vaadin.polymer.paper.widget.PaperInput;
+import com.vaadin.polymer.paper.widget.PaperCheckbox;
 
-class PolymerTextField extends AbstractWField {
+class CheckedPolymer extends AbstractWField {
 
-	protected final PaperInput in = new PaperInput();
+	private final PaperCheckbox ch;
 
-	PolymerTextField(IVField v, IFormFieldProperties pr, String pattern, String standErrMess, boolean autovalidate) {
-		super(v, pr, standErrMess);
-		in.setLabel(v.getLabel());
-		in.addChangeHandler(new ChangeHa());
-		in.getPolymerElement().addEventListener("keydown", new TouchEvent());
-		if (pr.isNotEmpty())
-			in.setRequired(true);
-		if (pattern != null) {
-			in.setPattern(pattern);
-			if (autovalidate)
-				in.setAutoValidate(true);
-		}
-		in.setErrorMessage(getStandErrMess());
-	}
-
-	@Override
-	public Object getValObj() {
-		String s = in.getValue();
-		return FUtils.getValue(v, s);
-	}
-	
-	@Override
-	public void setValObj(Object o) {
-		runOnTouch();
-		String s = FUtils.getValueOS(o, v);
-		in.setValue(s);
-		onChangeEdit(false);
-	}
-
-	@Override
-	public Widget getGWidget() {
-		return in;
+	protected CheckedPolymer(IVField v, IFormFieldProperties pr) {
+		super(v, pr, null);
+		if (pr.getDisplayName() != null)
+			ch = new PaperCheckbox(pr.getDisplayName());
+		else
+			ch = new PaperCheckbox();
 	}
 
 	@Override
 	public void setReadOnly(boolean readOnly) {
-		in.setReadonly(readOnly);
-		// if (readOnly)
-		// setAttr("aria-disabled", "true");
+		ch.setDisabled(readOnly);
 	}
 
 	@Override
 	public void setHidden(boolean hidden) {
-		in.setVisible(!hidden);
+		ch.setVisible(!hidden);
 	}
 
 	@Override
 	public void setInvalidMess(String errmess) {
-		if (CUtil.EmptyS(errmess)) {
-			in.setInvalid(false);
-			in.setErrorMessage(getStandErrMess());
-		} else {
-			in.setErrorMessage(errmess);
-			in.setInvalid(true);
-		}
+		if (CUtil.EmptyS(errmess))
+			ch.setInvalid(false);
+		else
+			ch.setInvalid(true);
+
 	}
 
 	@Override
@@ -96,7 +65,7 @@ class PolymerTextField extends AbstractWField {
 
 	@Override
 	public void setCellTitle(String title) {
-		in.setTitle(title);
+		ch.setTitle(title);
 	}
 
 	@Override
@@ -107,13 +76,31 @@ class PolymerTextField extends AbstractWField {
 
 	@Override
 	public void setFocus(boolean focus) {
-		in.setFocused(focus);
+		ch.setFocused(focus);
+
 	}
 
 	@Override
 	public boolean isInvalid() {
-		in.validate();
-		return in.getInvalid();
+		return ch.getInvalid();
+	}
+
+	@Override
+	public Object getValObj() {
+		return new Boolean(ch.getChecked());
+	}
+
+	@Override
+	public void setValObj(Object o) {
+		Boolean b = (Boolean) o;
+		if (b == null)
+			return;
+		ch.setChecked(b.booleanValue());
+	}
+
+	@Override
+	public Widget getGWidget() {
+		return ch;
 	}
 
 }

@@ -12,26 +12,13 @@
  */
 package com.gwtmodel.table.view.ewidget.polymer;
 
-import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.editw.IFormFieldProperties;
 
 class PolymerNumber extends PolymerTextField {
 
 	PolymerNumber(IVField v, IFormFieldProperties pr, String pattern, String standErrMess) {
-		super(v, pr, pattern, standErrMess);
-	}
-
-	@Override
-	public void setValObj(Object o) {
-		String s = FUtils.getValueOS(o, v);
-		super.setValObj(s);
-	}
-
-	@Override
-	public Object getValObj() {
-		String s = (String) super.getValObj();
-		return FUtils.getValue(v, s);
+		super(v, pr, pattern, standErrMess, true);
 	}
 
 }

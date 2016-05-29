@@ -20,7 +20,6 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.editw.IFormChangeListener;
 import com.gwtmodel.table.editw.IFormFieldProperties;
 import com.gwtmodel.table.editw.ITouchListener;
-import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.view.ewidget.gwt.hourminutepicker.HourMinutePicker;
 import com.gwtmodel.table.view.ewidget.gwt.hourminutepicker.HourMinutePicker.PickerFormat;
 

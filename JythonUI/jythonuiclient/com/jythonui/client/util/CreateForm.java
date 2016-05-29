@@ -91,7 +91,7 @@ public class CreateForm {
 		if (f.isNotEmpty())
 			notEmpty = true;
 		return FormFieldPropFactory.construct(readOnlyIfModif, readOnlyIfAdd, modeSetAlready, label, polymer, hidden,
-				notEmpty, htmlId);
+				notEmpty, htmlId, f.getDisplayName());
 	}
 
 	public static FormLineContainer construct(DialogInfo dInfo, IGetDataList iGet, IGetDataList iSuggest,

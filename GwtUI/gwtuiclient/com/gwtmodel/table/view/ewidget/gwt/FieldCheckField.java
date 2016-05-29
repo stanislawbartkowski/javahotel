@@ -28,11 +28,11 @@ class FieldCheckField extends AbstractField {
 	private final CheckBox ch;
 
 	@SuppressWarnings("deprecation")
-	FieldCheckField(IVField v, IFormFieldProperties pr, String text) {
+	FieldCheckField(IVField v, IFormFieldProperties pr) {
 		super(v, pr);
 		ch = new CheckBox();
-		if (text != null) {
-			ch.setText(text);
+		if (pr.getDisplayName() != null) {
+			ch.setText(pr.getDisplayName());
 		}
 		ch.setChecked(true);
 		initWidget(ch);

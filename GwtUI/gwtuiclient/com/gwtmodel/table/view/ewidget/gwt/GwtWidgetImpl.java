@@ -57,8 +57,8 @@ public class GwtWidgetImpl implements IEditWidget {
 	}
 
 	@Override
-	public IFormLineView constructCheckField(IVField v, IFormFieldProperties pr, String text) {
-		return new FieldCheckField(v, pr, text);
+	public IFormLineView constructCheckField(IVField v, IFormFieldProperties pr) {
+		return new FieldCheckField(v, pr);
 	}
 
 	@Override

@@ -27,6 +27,8 @@
    <field id="name2" displayname="Not empty" notempty=""/>
    <field id="Liczba" displayname="Liczba" type="int" />
    <field id="Decimal2" displayname="Kwota,2" type="decimal" />
+   <field id="date1" displayname="Enter the date" type="date" />
+   <field id="logi" displayname="Logical" type="bool" />
  </form>  
  
 </dialog>

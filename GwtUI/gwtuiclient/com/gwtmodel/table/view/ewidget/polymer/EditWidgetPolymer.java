@@ -45,6 +45,8 @@ public class EditWidgetPolymer implements IEditWidget {
 		return null;
 	}
 
+	private final static String dateRegexp = "(19|20)\\d{2}\\/(0[1-9]|10|11|12)\\/(0[1-9]|1\\d|2\\d|30|31)";
+
 	private String numberErrMess(IVField v) {
 		switch (v.getType().getAfterdot()) {
 		case 0:
@@ -92,9 +94,8 @@ public class EditWidgetPolymer implements IEditWidget {
 	}
 
 	@Override
-	public IFormLineView constructCheckField(IVField v, IFormFieldProperties pr, String text) {
-		Utils.PolymerNotImplemented("EWidgetPolymer:constructCheckField");
-		return null;
+	public IFormLineView constructCheckField(IVField v, IFormFieldProperties pr) {
+		return new CheckedPolymer(v, pr);
 	}
 
 	@Override
@@ -125,7 +126,7 @@ public class EditWidgetPolymer implements IEditWidget {
 
 	@Override
 	public IFormLineView constructTextField(IVField v, IFormFieldProperties pr) {
-		return new PolymerTextField(v, pr, null, null);
+		return new PolymerTextField(v, pr, null, null, false);
 	}
 
 	@Override
@@ -143,8 +144,7 @@ public class EditWidgetPolymer implements IEditWidget {
 
 	@Override
 	public IFormLineView construcDateBoxCalendar(IVField v, IFormFieldProperties pr) {
-		Utils.PolymerNotImplemented("EWidgetPolymer:constructDateBoxCalendar");
-		return null;
+		return new DateCalendarPolymer(v, pr, dateRegexp, MM.getL().DateOnly());
 	}
 
 	@Override
