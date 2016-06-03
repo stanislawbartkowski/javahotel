@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.gwtmodel.table.view.util;
+package com.gwtmodel.table.view.helper.gwt;
 
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -25,12 +25,14 @@ import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.gwtmodel.table.view.controlpanel.IContrButtonView;
 import com.gwtmodel.table.view.controlpanel.IContrButtonViewFactory;
 import com.gwtmodel.table.view.controlpanel.IControlClick;
+import com.gwtmodel.table.view.helper.IOkDialog;
+import com.gwtmodel.table.view.util.ModalDialog;
 
 /**
  * 
  * @author perseus
  */
-public class OkDialog extends ModalDialog {
+public class OkDialogGwt extends ModalDialog implements IOkDialog {
 
 	private final String kom;
 	private IGetStandardMessage iMess = GwtGiniInjector.getI().getStandardMessage();
@@ -40,22 +42,11 @@ public class OkDialog extends ModalDialog {
 		vp.add(new Label(kom));
 	}
 
-	public OkDialog(String kom, String title) {
-		this(kom, title, null);
-	}
-
-	public OkDialog(String kom) {
-		this(kom, null, null);
-	}
-
-	private void close(ISignal ok) {
+	private void close() {
 		hide();
-		if (ok != null) {
-			ok.signal();
-		}
 	}
 
-	public OkDialog(String kom, String title, final ISignal ok) {
+	public OkDialogGwt(String kom, String title) {
 		super(new VerticalPanel(), null);
 		this.kom = iMess.getMessage(kom);
 		if (title == null) {
@@ -68,7 +59,7 @@ public class OkDialog extends ModalDialog {
 
 			@Override
 			public void signal() {
-				close(ok);
+				close();
 			}
 		};
 
@@ -81,7 +72,7 @@ public class OkDialog extends ModalDialog {
 
 			@Override
 			public void click(ControlButtonDesc co, Widget w) {
-				close(ok);
+				close();
 			}
 		};
 

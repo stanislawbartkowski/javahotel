@@ -26,10 +26,30 @@ import com.vaadin.polymer.paper.widget.PaperIconButton;
 
 class DateCalendarPolymer extends PolymerTextField {
 
+	interface IGetSetValue {
+		Date getVal();
+
+		void setVal(Date d);
+	}
+
+	private class GetSetValue implements IGetSetValue {
+
+		@Override
+		public Date getVal() {
+			return (Date) getValObj();
+		}
+
+		@Override
+		public void setVal(Date d) {
+			setValObj(d);
+		}
+	}
+
+	protected IGetSetValue iGet = new GetSetValue();
+
 	DateCalendarPolymer(IVField v, IFormFieldProperties pr, String pattern, String standErrMess) {
 		super(v, pr, pattern, standErrMess, false);
 		PaperIconButton bu = new PaperIconButton();
-//		bu.setIcon("arrow-drop-down");
 		bu.setIcon("vaadin-icons:calendar");
 		bu.setAttributes("suffix");
 		in.add(bu);
@@ -38,7 +58,8 @@ class DateCalendarPolymer extends PolymerTextField {
 			@Override
 			public void onClick(ClickEvent event) {
 				DatePicker dPicker = new DatePicker();
-				Date da = (Date) getValObj();
+				// Date da = (Date) getValObj();
+				Date da = iGet.getVal();
 				if (da != null) {
 					dPicker.setValue(da);
 					dPicker.setCurrentMonth(da);
@@ -48,7 +69,8 @@ class DateCalendarPolymer extends PolymerTextField {
 
 					@Override
 					public void onValueChange(ValueChangeEvent<Date> event) {
-						setValObj(dPicker.getValue());
+						// setValObj(dPicker.getValue());
+						iGet.setVal(dPicker.getValue());
 						pUp.setVisible(false);
 
 					}

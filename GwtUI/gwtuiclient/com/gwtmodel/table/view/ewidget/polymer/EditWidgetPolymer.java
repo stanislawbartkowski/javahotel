@@ -46,6 +46,7 @@ public class EditWidgetPolymer implements IEditWidget {
 	}
 
 	private final static String dateRegexp = "(19|20)\\d{2}\\/(0[1-9]|10|11|12)\\/(0[1-9]|1\\d|2\\d|30|31)";
+	private final static String datetimeRegexp = "(19|20)\\d{2}\\/(0[1-9]|10|11|12)\\/(0[1-9]|1\\d|2\\d|30|31)\\ ([0|1]\\d|20|21|22|23):([0|1|2|3|4]\\d|5[0-9]):([0|1|2|3|4]\\d|5[0-9])";
 
 	private String numberErrMess(IVField v) {
 		switch (v.getType().getAfterdot()) {
@@ -216,8 +217,7 @@ public class EditWidgetPolymer implements IEditWidget {
 
 	@Override
 	public IFormLineView constructDateTimePicker(IVField v, IFormFieldProperties pr) {
-		Utils.PolymerNotImplemented("EWidgetPolymer:constructDateTimePicker");
-		return null;
+		return new DateTimePolymer(v, pr, datetimeRegexp, MM.getL().DateTimeOnly());
 	}
 
 	@Override

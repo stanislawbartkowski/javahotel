@@ -40,7 +40,6 @@ import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.slotmodel.SlotType;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.view.controlpanel.IControlClick;
-import com.gwtmodel.table.view.util.OkDialog;
 import com.gwtmodel.table.view.util.PopUpTip;
 import com.gwtmodel.table.view.util.PopupCreateMenu;
 

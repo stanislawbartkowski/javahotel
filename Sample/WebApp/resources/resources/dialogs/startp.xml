@@ -10,6 +10,7 @@
 
 <leftmenu>
   <button id="main" displayname="Main form"/>
+  <button id="okmessage" displayname="Ok Message" actiontype="JOK_MESSAGE" actionparam="Hello" actionparam1="Title" />
 </leftmenu>  
 
 <buttons>
@@ -26,9 +27,11 @@
    <field id="name1" displayname="Wprowadź napis" />
    <field id="name2" displayname="Not empty" notempty=""/>
    <field id="Liczba" displayname="Liczba" type="int" />
+   <field id="LiczbaLong" displayname="Long integer" type="long" />
    <field id="Decimal2" displayname="Kwota,2" type="decimal" />
    <field id="date1" displayname="Enter the date" type="date" />
    <field id="logi" displayname="Logical" type="bool" />
+   <field id="datetime" displayname="Date and time" type="datetime" />
  </form>  
  
 </dialog>

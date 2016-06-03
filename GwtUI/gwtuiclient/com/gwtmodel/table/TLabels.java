@@ -210,5 +210,7 @@ public interface TLabels extends Constants, ConstantsWithLookup {
 	String AfterDot4();
 	
 	String DateOnly();
+	
+	String DateTimeOnly();
 
 }

@@ -23,8 +23,9 @@ import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.TT;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.view.helper.HelperDialogFactory;
+import com.gwtmodel.table.view.helper.IOkDialog;
 import com.gwtmodel.table.view.table.ChangeEditableRowsParam;
-import com.gwtmodel.table.view.util.OkDialog;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.jythonui.client.IUIConsts;
 import com.jythonui.client.M;
@@ -307,7 +308,7 @@ public class PerformVariableAction {
 		if (action.equals(ICommonConsts.JOKMESSAGE) || action.equals(ICommonConsts.JERRORMESSAGE)) {
 			if (!checkW(action, param, param1, param2, w))
 				return;
-			OkDialog ok = new OkDialog(param, param1);
+			IOkDialog ok = HelperDialogFactory.construct(param,param1);
 			ok.show(w);
 			return;
 		}

@@ -82,7 +82,7 @@ public class LeftMenu {
 						@Override
 						public void click(WSize ws) {
 							// very complicated to close menu if item hit
-							click.close = PolymerUtil.popupPolymer(ws, w);
+							click.close = PolymerUtil.popupPolymer(ws, w,null);
 						}
 					});
 				else

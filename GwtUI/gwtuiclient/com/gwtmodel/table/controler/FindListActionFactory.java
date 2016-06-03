@@ -58,9 +58,10 @@ import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
+import com.gwtmodel.table.view.helper.HelperDialogFactory;
+import com.gwtmodel.table.view.helper.IOkDialog;
 import com.gwtmodel.table.view.util.CreateReadOnly;
 import com.gwtmodel.table.view.util.FormUtil;
-import com.gwtmodel.table.view.util.OkDialog;
 import com.gwtmodel.table.view.util.YesNoDialog;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 
@@ -122,11 +123,11 @@ class FindListActionFactory {
 
 		@Override
 		public void signal(ISlotSignalContext slContext) {
-			OkDialog ok = new OkDialog(MM.getL().NotFound(), null, null);
+			IOkDialog ok = HelperDialogFactory.construct(MM.getL().NotFound());
 			if (w == null) {
 				Utils.errAlert("signal", LogT.getT().notFoundSignalNotNull());
 			}
-			ok.show(w.getGWidget());
+			ok.show(new WSize(w));
 		}
 
 		/**
@@ -180,8 +181,8 @@ class FindListActionFactory {
 		IGWidget w = slContext.getGwtWidget();
 		nF.setW(w);
 		if (fa.isEmpty()) {
-			OkDialog ok = new OkDialog(MM.getL().NothingEntered(), null, null);
-			ok.show(w.getGWidget());
+			IOkDialog ok = HelperDialogFactory.construct(MM.getL().NothingEntered());
+			ok.show(new WSize(w));
 			return null;
 		}
 		return fa;
@@ -414,8 +415,7 @@ class FindListActionFactory {
 			IGWidget wi = slContext.getGwtWidget();
 			WSize wSize = new WSize(wi.getGWidget());
 			if (!isFilter() && TUtil.isBoolProp(publishSlo, IsBooleanSignalNow.constructSlotAsyncProvider(ddType))) {
-				OkDialog ok = new OkDialog(MM.getL().CannotRunFindInAsycnMode(), null, null);
-				ok.show(wSize);
+				HelperDialogFactory.construct(MM.getL().CannotRunFindInAsycnMode()).show(wSize);
 				return;
 			}
 
