@@ -12,21 +12,29 @@
  */
 package com.gwtmodel.table.view.helper;
 
+import com.gwtmodel.table.IClickYesNo;
 import com.gwtmodel.table.mm.MM;
 import com.gwtmodel.table.view.helper.gwt.OkDialogGwt;
+import com.gwtmodel.table.view.helper.gwt.YesNoDialogGwt;
 import com.gwtmodel.table.view.util.polymer.OkDialogPolymer;
+import com.gwtmodel.table.view.util.polymer.YesNoDialogPolymer;
 
 public class HelperDialogFactory {
 
 	private HelperDialogFactory() {
 	}
 
-	public static IOkDialog construct(String kom, String title) {
+	public static IStandDialog construct(String kom, String title) {
 		return MM.isPolymer() ? new OkDialogPolymer(kom, title) : new OkDialogGwt(kom, title);
 	}
 
-	public static IOkDialog construct(String kom) {
+	public static IStandDialog construct(String kom) {
 		return construct(kom, null);
+	}
+
+	public static IStandDialog constructyes(String kom, String title, IClickYesNo yes) {
+		return MM.isPolymer() ? new YesNoDialogPolymer(kom, title, yes) : new YesNoDialogGwt(kom, title, yes);
+
 	}
 
 }

@@ -36,7 +36,7 @@ import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.gwtmodel.table.view.callback.ICommonCallBackFactory;
-import com.gwtmodel.table.view.util.YesNoDialog;
+import com.gwtmodel.table.view.helper.HelperDialogFactory;
 import com.jythonui.client.IUIConsts;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.IDialogContainer;
@@ -177,8 +177,9 @@ class GetViewController implements IGetViewControllerFactory {
 								exe.action(true, bFactory.construct());
 						}
 					};
-					YesNoDialog yesD = new YesNoDialog(content, title, i);
-					yesD.show(w);
+					// YesNoDialog yesD = new YesNoDialog(content, title, i);
+					// yesD.show(w);
+					HelperDialogFactory.constructyes(content, title, i).show(w);
 				}
 			}
 

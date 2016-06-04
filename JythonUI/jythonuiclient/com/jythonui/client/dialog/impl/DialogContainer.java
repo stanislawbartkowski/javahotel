@@ -74,7 +74,7 @@ import com.gwtmodel.table.tabpanelview.ITabPanelView;
 import com.gwtmodel.table.tabpanelview.TabPanelViewFactory;
 import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.gwtmodel.table.view.helper.HelperDialogFactory;
-import com.gwtmodel.table.view.helper.IOkDialog;
+import com.gwtmodel.table.view.helper.IStandDialog;
 import com.gwtmodel.table.view.util.AbstractDataModel;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.jythonui.client.IUIConsts;
@@ -1015,7 +1015,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 						String key = "@linenotselected";
 						if (!CUtil.EmptyS(fo.getListSelectedMess()))
 							key = fo.getListSelectedMess();
-						IOkDialog ok = HelperDialogFactory.construct(key);
+						IStandDialog ok = HelperDialogFactory.construct(key);
 						ok.show(w);
 						return false;
 					}

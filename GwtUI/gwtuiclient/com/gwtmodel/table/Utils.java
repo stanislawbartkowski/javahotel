@@ -467,4 +467,17 @@ public class Utils {
 		errAlert(LogT.getT().PolymerDialogNotImplemented(mess));
 	}
 
+	public static void setInnerText(Widget w, String text) {
+		w.getElement().setInnerText(text);
+	}
+
+	public static void setTopLeftProperty(Widget w, int top, int left) {
+		w.getElement().getStyle().setProperty("top", "" + top);
+		w.getElement().getStyle().setProperty("left", "" + left);
+	}
+
+	public static void setVisibleProperty(Widget w) {
+		w.getElement().getStyle().setProperty("visibility", "visible");
+	}
+
 }

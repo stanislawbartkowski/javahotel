@@ -15,7 +15,7 @@ package com.jythonui.client.dialog.impl;
 import com.gwtmodel.table.IClickYesNo;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.CUtil;
-import com.gwtmodel.table.view.util.YesNoDialog;
+import com.gwtmodel.table.view.helper.HelperDialogFactory;
 import com.jythonui.client.dialog.ICreateBackActionFactory;
 import com.jythonui.client.util.ExecuteAction;
 import com.jythonui.client.util.IYesNoAction;
@@ -65,7 +65,8 @@ class HandleYesNoDialog implements IYesNoAction {
 
 		};
 
-		YesNoDialog yes = new YesNoDialog(content, title, i);
-		yes.show(w);
+		// YesNoDialog yes = new YesNoDialog(content, title, i);
+		// yes.show(w);
+		HelperDialogFactory.constructyes(content, title, i).show(w);
 	}
 }

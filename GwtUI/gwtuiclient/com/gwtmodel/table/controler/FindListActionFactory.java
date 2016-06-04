@@ -59,10 +59,9 @@ import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.gwtmodel.table.view.helper.HelperDialogFactory;
-import com.gwtmodel.table.view.helper.IOkDialog;
+import com.gwtmodel.table.view.helper.IStandDialog;
 import com.gwtmodel.table.view.util.CreateReadOnly;
 import com.gwtmodel.table.view.util.FormUtil;
-import com.gwtmodel.table.view.util.YesNoDialog;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 
 /**
@@ -123,7 +122,7 @@ class FindListActionFactory {
 
 		@Override
 		public void signal(ISlotSignalContext slContext) {
-			IOkDialog ok = HelperDialogFactory.construct(MM.getL().NotFound());
+			IStandDialog ok = HelperDialogFactory.construct(MM.getL().NotFound());
 			if (w == null) {
 				Utils.errAlert("signal", LogT.getT().notFoundSignalNotNull());
 			}
@@ -169,8 +168,11 @@ class FindListActionFactory {
 					}
 				}
 			};
-			YesNoDialog yesDialog = new YesNoDialog(MM.getL().ClearParametersQuestion(), yes);
-			yesDialog.show(nF.w.getGWidget());
+			// YesNoDialog yesDialog = new
+			// YesNoDialog(MM.getL().ClearParametersQuestion(), yes);
+			// yesDialog.show(nF.w.getGWidget());
+			HelperDialogFactory.constructyes(MM.getL().ClearParametersQuestion(), null, yes)
+					.show(new WSize(nF.w.getGWidget()));
 		}
 	}
 
@@ -181,7 +183,7 @@ class FindListActionFactory {
 		IGWidget w = slContext.getGwtWidget();
 		nF.setW(w);
 		if (fa.isEmpty()) {
-			IOkDialog ok = HelperDialogFactory.construct(MM.getL().NothingEntered());
+			IStandDialog ok = HelperDialogFactory.construct(MM.getL().NothingEntered());
 			ok.show(new WSize(w));
 			return null;
 		}

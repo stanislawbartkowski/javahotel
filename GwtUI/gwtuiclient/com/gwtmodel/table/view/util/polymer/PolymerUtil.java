@@ -12,11 +12,16 @@
  */
 package com.gwtmodel.table.view.util.polymer;
 
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.ISignal;
+import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.vaadin.polymer.iron.widget.IronDropdown;
 import com.vaadin.polymer.iron.widget.IronIcon;
 import com.vaadin.polymer.iron.widget.event.IronOverlayClosedEvent;
@@ -30,13 +35,29 @@ public class PolymerUtil {
 
 	}
 
-	public static PaperButton construct(String butt, String icon) {
-		PaperButton b = new PaperButton(butt);
+	static void setTitleMess(Label ltitle, Label lmess, String title, String mess) {
+		IGetStandardMessage iMess = GwtGiniInjector.getI().getStandardMessage();
+		if (!CUtil.EmptyS(title))
+			ltitle.setText(iMess.getMessage(title));
+		lmess.setText(iMess.getMessage(mess));
+	}
+
+	static void setButtonT(PaperButton b, ControlButtonDesc bu, String icon) {
+		Utils.setInnerText(b, bu.getDisplayName());
+		PolymerUtil.addIcon(b, icon);
+	}
+
+	public static void addIcon(PaperButton b, String icon) {
 		if (!CUtil.EmptyS(icon)) {
 			IronIcon i = new IronIcon();
 			i.setIcon(icon);
 			b.add(i);
 		}
+	}
+
+	public static PaperButton construct(String butt, String icon) {
+		PaperButton b = new PaperButton(butt);
+		addIcon(b, icon);
 		return b;
 	}
 
@@ -51,11 +72,10 @@ public class PolymerUtil {
 		pa.show();
 		p.open();
 		if (pa != null) {
-			pap.getElement().getStyle().setProperty("top", "" + (ws.getTop() + 10));
-			pap.getElement().getStyle().setProperty("left", "" + (ws.getLeft() + 10));
+			Utils.setTopLeftProperty(pap, ws.getTop() + 10, ws.getLeft() + 10);
 			pap.open();
 		}
-		p.getElement().getStyle().setProperty("visibility", "visible");
+		Utils.setVisibleProperty(p);
 		p.addIronOverlayClosedHandler(new IronOverlayClosedEventHandler() {
 
 			@Override

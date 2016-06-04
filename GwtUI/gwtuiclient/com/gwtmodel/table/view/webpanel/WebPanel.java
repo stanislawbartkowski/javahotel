@@ -40,9 +40,8 @@ import com.gwtmodel.table.htmlview.IHtmlPanelCallBack;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.mm.LogT;
 import com.gwtmodel.table.mm.MM;
+import com.gwtmodel.table.view.helper.HelperDialogFactory;
 import com.gwtmodel.table.view.util.PopupTip;
-import com.gwtmodel.table.view.util.YesNoDialog;
-import com.gwtmodel.table.view.webpanel.IWebPanel.IStatusMenuIcon;
 import com.gwtmodel.table.view.webpanel.common.AbstractWebPanel;
 
 /**
@@ -178,8 +177,9 @@ class WebPanel extends AbstractWebPanel implements IWebPanel {
 			String q = pResources.getRes(IWebPanelResources.LOGOUTQUESTION);
 			if (q == null)
 				q = MM.getL().LogOutQuestion();
-			YesNoDialog yesD = new YesNoDialog(q, null, yes);
-			yesD.show(new WSize(event.getRelativeElement()));
+			// YesNoDialog yesD = new YesNoDialog(q, null, yes);
+			// yesD.show(new WSize(event.getRelativeElement()));
+			HelperDialogFactory.constructyes(q, null, yes).show(new WSize(event.getRelativeElement()));
 		}
 	}
 

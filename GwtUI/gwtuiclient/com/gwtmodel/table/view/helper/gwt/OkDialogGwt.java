@@ -25,14 +25,14 @@ import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.gwtmodel.table.view.controlpanel.IContrButtonView;
 import com.gwtmodel.table.view.controlpanel.IContrButtonViewFactory;
 import com.gwtmodel.table.view.controlpanel.IControlClick;
-import com.gwtmodel.table.view.helper.IOkDialog;
+import com.gwtmodel.table.view.helper.IStandDialog;
 import com.gwtmodel.table.view.util.ModalDialog;
 
 /**
  * 
  * @author perseus
  */
-public class OkDialogGwt extends ModalDialog implements IOkDialog {
+public class OkDialogGwt extends ModalDialog implements IStandDialog {
 
 	private final String kom;
 	private IGetStandardMessage iMess = GwtGiniInjector.getI().getStandardMessage();

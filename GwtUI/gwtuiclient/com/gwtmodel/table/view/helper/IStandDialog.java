@@ -14,7 +14,7 @@ package com.gwtmodel.table.view.helper;
 
 import com.gwtmodel.table.WSize;
 
-public interface IOkDialog {
+public interface IStandDialog {
 	
 	void show(WSize w);
 

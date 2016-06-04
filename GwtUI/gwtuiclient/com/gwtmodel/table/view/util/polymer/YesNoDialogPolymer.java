@@ -14,52 +14,67 @@ package com.gwtmodel.table.view.util.polymer;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.gwtmodel.table.IClickYesNo;
+import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonFactory;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.injector.GwtGiniInjector;
-import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.gwtmodel.table.view.helper.IStandDialog;
-import com.vaadin.polymer.paper.widget.PaperButton;
+import com.vaadin.polymer.iron.widget.IronIcon;
 import com.vaadin.polymer.paper.widget.PaperDialog;
 
-public class OkDialogPolymer implements IStandDialog {
+public class YesNoDialogPolymer implements IStandDialog {
 
-	private final String mess;
+	private final String ask;
 	private final String title;
+	private final IClickYesNo yes;
 	private ISignal i;
 
-	public OkDialogPolymer(String mess, String title) {
-		this.mess = mess;
+	public YesNoDialogPolymer(String ask, String title, final IClickYesNo yes) {
+		this.ask = ask;
 		this.title = title;
-	}
-
-	private PaperDialog construct(String mess, String title) {
-		OkDialog o = new OkDialog();
-		PolymerUtil.setTitleMess(o.title, o.mess, title, mess);
-		ControlButtonFactory fa = GwtGiniInjector.getI().getControlButtonFactory();
-		ListOfControlDesc de = fa.constructOkButton();
-		PolymerUtil.setButtonT(o.okbutton, de.getcList().get(0), "done");
-		o.okbutton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				i.signal();
-
-			}
-		});
-		// not modal or modal
-		// p.setModal(true);
-		return o.okdialog;
+		this.yes = yes;
 	}
 
 	@Override
 	public void show(WSize w) {
-		PaperDialog p = construct(mess, title);
-		// p.setAttributes("horizontalOffset:10px;");
-		// p.open();
+
+		YesNoDialog y = new YesNoDialog();
+		PaperDialog p = y.yesdialog;
+		PolymerUtil.setTitleMess(y.title, y.mess, title, ask);
+		ControlButtonFactory fa = GwtGiniInjector.getI().getControlButtonFactory();
+		ListOfControlDesc de = fa.constructAcceptResign();
+		for (ControlButtonDesc bu : de.getcList()) {
+			switch (bu.getActionId().getClickEnum()) {
+			case ACCEPT:
+				PolymerUtil.setButtonT(y.okbutton, bu, "done");
+				break;
+			case RESIGN:
+				PolymerUtil.setButtonT(y.cancelbutton, bu, "close");
+				break;
+			default:
+			}
+		}
+		y.okbutton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				i.signal();
+				yes.click(true);
+			}
+		});
+		y.cancelbutton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				i.signal();
+				yes.click(false);
+			}
+		});
 		i = PolymerUtil.popupPolymer(w, p, p);
 	}
 

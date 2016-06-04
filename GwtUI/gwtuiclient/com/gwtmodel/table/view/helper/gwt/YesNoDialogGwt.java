@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.gwtmodel.table.view.util;
+package com.gwtmodel.table.view.helper.gwt;
 
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -27,12 +27,14 @@ import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.gwtmodel.table.view.controlpanel.IContrButtonView;
 import com.gwtmodel.table.view.controlpanel.IContrButtonViewFactory;
 import com.gwtmodel.table.view.controlpanel.IControlClick;
+import com.gwtmodel.table.view.helper.IStandDialog;
+import com.gwtmodel.table.view.util.ModalDialog;
 
 /**
  * 
  * @author stanislaw.bartkowski@gmail.com
  */
-public class YesNoDialog extends ModalDialog {
+public class YesNoDialogGwt extends ModalDialog implements IStandDialog {
 
 	private final String ask;
 	private IGetStandardMessage iMess = GwtGiniInjector.getI().getStandardMessage();
@@ -42,11 +44,11 @@ public class YesNoDialog extends ModalDialog {
 		vp.add(new Label(ask));
 	}
 
-	public YesNoDialog(String ask, final IClickYesNo yes) {
+	public YesNoDialogGwt(String ask, final IClickYesNo yes) {
 		this(ask, null, yes);
 	}
 
-	public YesNoDialog(String ask, String title, final IClickYesNo yes) {
+	public YesNoDialogGwt(String ask, String title, final IClickYesNo yes) {
 		super(new VerticalPanel(), null);
 		this.ask = iMess.getMessage(ask);
 		if (title == null) {

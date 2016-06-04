@@ -11,6 +11,7 @@
 <leftmenu>
   <button id="main" displayname="Main form"/>
   <button id="okmessage" displayname="Ok Message" actiontype="JOK_MESSAGE" actionparam="Hello" actionparam1="Title" />
+  <button id="yesmessage" displayname="YesNo message" actiontype="JYESNO_MESSAGE" actionparam="Do you really want it ?" actionparam1="Question" />
 </leftmenu>  
 
 <buttons>
