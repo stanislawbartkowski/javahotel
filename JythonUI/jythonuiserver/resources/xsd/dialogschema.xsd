@@ -135,6 +135,7 @@
 	<xs:group name="dialogG">
 		<xs:sequence>
 			<xs:element minOccurs="0" name="htmlpanel" type="xs:string" />
+			<xs:element minOccurs="0" name="uibinder" type="xs:string" />
 			<xs:element minOccurs="0" name="htmlleftmenu" type="xs:string" />
 			<xs:element minOccurs="0" name="jscode" type="xs:string" />
 			<xs:element minOccurs="0" name="csscode" type="xs:string" />
@@ -159,6 +160,7 @@
 
 	<xs:attributeGroup name="dialogattrG">
 		<xs:attribute name="htmlpanel" type="xs:string" />
+		<xs:attribute name="uibinder" type="xs:string" />
 		<xs:attribute name="htmlleftmenu" type="xs:string" />
 		<xs:attribute name="jscode" type="xs:string" />
 		<xs:attribute name="csscode" type="xs:string" />

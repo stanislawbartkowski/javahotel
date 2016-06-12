@@ -1,0 +1,34 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.jythongwt.uibinderxsd.com" xmlns="http://www.jythongwt.uibinderxsd.com"
+	elementFormDefault="qualified">
+
+
+	<xs:element name="Label">
+	</xs:element>
+
+	<xs:element name="Button">
+	</xs:element>
+
+
+	<xs:group name="Widget">
+		<xs:all>
+			<xs:element ref="HTMLPanel" minOccurs="0"></xs:element>
+			<xs:element ref="Button" minOccurs="0"></xs:element>
+			<xs:element ref="Label" minOccurs="0"></xs:element>
+			<xs:element name="o" minOccurs="0"></xs:element>
+		</xs:all>
+	</xs:group>
+
+	<xs:element name="HTMLPanel">
+		<xs:complexType>
+			<xs:group ref="Widget"></xs:group>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="UiBinder">
+		<xs:complexType>
+			<xs:group ref="Widget"></xs:group>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

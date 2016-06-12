@@ -14,29 +14,25 @@ package com.jythonui.server.dialog;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 
 import javax.inject.Named;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.stream.StreamSource;
 
 import org.xml.sax.SAXException;
 
 import com.google.inject.Inject;
 import com.gwtmodel.table.common.CUtil;
-import com.gwtmodel.util.VerifyXML;
-import com.jythonui.server.BUtil;
+import com.jythonui.server.IBinderParser;
 import com.jythonui.server.IGetDialog;
 import com.jythonui.server.IGetResourceFile;
 import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.IUserCacheHandler;
+import com.jythonui.server.IVerifySchema;
 import com.jythonui.server.UtilHelper;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
-import com.jythonui.server.resource.IReadResource;
-import com.jythonui.server.resource.ReadResourceFactory;
 import com.jythonui.server.security.ISecurity;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.ICommonConsts;
@@ -54,21 +50,22 @@ public class GetDialog extends UtilHelper implements IGetDialog {
 	private final IGetLogMess logMess;
 	private final IUserCacheHandler iUserCache;
 	private final IGetResourceFile iGetResource;
+	private final IBinderParser iBinder;
+	private final IVerifySchema iVerify;
 
 	@Inject
 	public GetDialog(ISecurity iSec, @Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess logMess,
-			IUserCacheHandler iUserCache, IGetResourceFile iGetResource) {
+			IUserCacheHandler iUserCache, IGetResourceFile iGetResource, IBinderParser iBinder, IVerifySchema iVerify) {
 		this.iSec = iSec;
 		this.logMess = logMess;
 		this.iUserCache = iUserCache;
 		this.iGetResource = iGetResource;
+		this.iBinder = iBinder;
+		this.iVerify = iVerify;
 	}
 
-	private static final String XSDDIR = "xsd";
 	private static final String DIALOGXSD = "dialogschema.xsd";
 	private static final String TYPESXSD = "typedefschema.xsd";
-
-	private static IReadResource iRead = new ReadResourceFactory().constructLoader(GetDialog.class.getClassLoader());
 
 	private void parseError(String errCode, String param, Exception e) {
 		errorLog(logMess.getMess(errCode, ILogMess.DIALOGXMLPARSERROR, param), e);
@@ -76,15 +73,6 @@ public class GetDialog extends UtilHelper implements IGetDialog {
 
 	private void error(String errCode, String plogMess, String param) {
 		errorLog(logMess.getMess(errCode, plogMess, param));
-	}
-
-	private URL getURLSchema(String schemaname) {
-		logDebug("Search schema " + schemaname);
-		URL ur = iRead.getRes(BUtil.addNameToPath(XSDDIR, schemaname));
-		if (ur == null) {
-			errorLog(logMess.getMess(IErrorCode.ERRORCODE16, ILogMess.SCHEMANOTFOUND));
-		}
-		return ur;
 	}
 
 	private InputStream getXML(String name) {
@@ -121,26 +109,18 @@ public class GetDialog extends UtilHelper implements IGetDialog {
 	private DialogFormat getDialogDirectly(String token, String dialogName, boolean verify) {
 		DialogFormat d = null;
 		try {
-			URL u = getURLSchema(DIALOGXSD);
-			InputStream sou;
-			if (verify) {
-				logDebug("Verify using xsd schema " + DIALOGXSD);
-				sou = getXML(dialogName);
-				VerifyXML.verify(u, new StreamSource(sou));
-			}
-			sou = getXML(dialogName);
-			d = ReadDialog.parseDocument(dialogName, sou, iSec, iGetResource);
+			if (verify)
+				iVerify.verify(getXML(dialogName), DIALOGXSD);
+			InputStream sou = getXML(dialogName);
+			d = ReadDialog.parseDocument(dialogName, sou, iSec, iGetResource, iBinder);
 			if (d != null)
 				d.setId(dialogName);
 			String typesNames = d.getAttr(ICommonConsts.TYPES);
 			if (!CUtil.EmptyS(typesNames)) {
 				String[] tList = typesNames.split(",");
 				for (String typesName : tList) {
-					if (verify) {
-						u = getURLSchema(TYPESXSD);
-						sou = getXML(typesName);
-						VerifyXML.verify(u, new StreamSource(sou));
-					}
+					if (verify)
+						iVerify.verify(getXML(typesName), TYPESXSD);
 					sou = getXML(typesName);
 					TypesDescr types = ReadTypes.parseDocument(sou, iSec);
 					d.getTypeList().add(types);

@@ -15,6 +15,8 @@ package com.jythonui.shared;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.jythonui.shared.binder.BinderWidget;
+
 /**
  * @author hotel
  * 
@@ -48,6 +50,8 @@ public class DialogFormat extends ElemDescription {
 	private List<DisclosureElemPanel> discList = new ArrayList<DisclosureElemPanel>();
 
 	private List<ChartFormat> chartList = new ArrayList<ChartFormat>();
+
+	private BinderWidget binderW = null;
 
 	/**
 	 * @return the actionList
@@ -264,6 +268,14 @@ public class DialogFormat extends ElemDescription {
 
 	public boolean isPolymer() {
 		return isAttr(ICommonConsts.POLYMER);
+	}
+
+	public BinderWidget getBinderW() {
+		return binderW;
+	}
+
+	public void setBinderW(BinderWidget binderW) {
+		this.binderW = binderW;
 	}
 
 }

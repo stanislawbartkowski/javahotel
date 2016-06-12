@@ -33,6 +33,7 @@ public interface ICommonConsts {
 	String IMPORT = "import";
 	String METHOD = "method";
 	String HTMLPANEL = "htmlpanel";
+	String UIBINDER = "uibinder";
 	String HTMLLEFTMENU = "htmlleftmenu";
 	String HTMLTYPE = "html";
 	String JSCODE = "jscode";

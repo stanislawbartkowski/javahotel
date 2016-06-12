@@ -58,4 +58,12 @@ public interface IConsts {
 	String LOGINJOURNAL = "LOGIN";
 	String LOGOUTJOURNAL = "LOGOUT";
 
+	String BINDERXSDFILE = "uibinder.xsd";
+	String BINDERNAMESPACE = "http://www.jythongwt.uibinderxsd.com";
+	String UIBINDER = "UiBinder";
+	String HTMLPANELWIDGET = "HTMLPanel";
+	String LABELWIDGET = "Label";
+	String BUTTONWIDGET = "Button";
+	String OWIDGET = "o";
+
 }

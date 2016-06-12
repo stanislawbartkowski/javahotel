@@ -25,7 +25,9 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import com.gwtmodel.table.common.CUtil;
 import com.jythonui.server.BUtil;
+import com.jythonui.server.IBinderParser;
 import com.jythonui.server.IGetResourceFile;
 import com.jythonui.server.SaxUtil;
 import com.jythonui.server.Util;
@@ -49,6 +51,7 @@ import com.jythonui.shared.SUtil;
 import com.jythonui.shared.TabPanel;
 import com.jythonui.shared.TabPanelElem;
 import com.jythonui.shared.ValidateRule;
+import com.jythonui.shared.binder.BinderWidget;
 
 /**
  * @author hotel
@@ -74,12 +77,13 @@ class ReadDialog extends UtilHelper {
 		/*
 		 * It duplicated to some extend xsd schema which also forces XML format.
 		 */
-		private final String[] dialogTag = { ICommonConsts.HTMLPANEL, ICommonConsts.HTMLLEFTMENU, ICommonConsts.JSCODE,
-				ICommonConsts.BEFORE, ICommonConsts.DISPLAYNAME, ICommonConsts.IMPORT, ICommonConsts.METHOD,
-				ICommonConsts.PARENT, ICommonConsts.TYPES, ICommonConsts.ASXML, ICommonConsts.CLEARCENTRE,
-				ICommonConsts.CLEARLEFT, ICommonConsts.FORMPANEL, ICommonConsts.AUTOHIDE, ICommonConsts.MODELESS,
-				ICommonConsts.CSSCODE, ICommonConsts.TOP, ICommonConsts.LEFT, ICommonConsts.MAXLEFT,
-				ICommonConsts.MAXTOP, ICommonConsts.SIGNALCLOSE, ICommonConsts.POLYMER };
+		private final String[] dialogTag = { ICommonConsts.HTMLPANEL, ICommonConsts.UIBINDER,
+				ICommonConsts.HTMLLEFTMENU, ICommonConsts.JSCODE, ICommonConsts.BEFORE, ICommonConsts.DISPLAYNAME,
+				ICommonConsts.IMPORT, ICommonConsts.METHOD, ICommonConsts.PARENT, ICommonConsts.TYPES,
+				ICommonConsts.ASXML, ICommonConsts.CLEARCENTRE, ICommonConsts.CLEARLEFT, ICommonConsts.FORMPANEL,
+				ICommonConsts.AUTOHIDE, ICommonConsts.MODELESS, ICommonConsts.CSSCODE, ICommonConsts.TOP,
+				ICommonConsts.LEFT, ICommonConsts.MAXLEFT, ICommonConsts.MAXTOP, ICommonConsts.SIGNALCLOSE,
+				ICommonConsts.POLYMER };
 		private final String[] buttonTag = { ICommonConsts.ID, ICommonConsts.DISPLAYNAME, ICommonConsts.ACTIONTYPE,
 				ICommonConsts.ACTIONPARAM, ICommonConsts.ACTIONPARAM1, ICommonConsts.ACTIONPARAM2,
 				ICommonConsts.ACTIONPARAM3, ICommonConsts.IMPORT, ICommonConsts.HIDDEN, ICommonConsts.READONLY,
@@ -414,20 +418,42 @@ class ReadDialog extends UtilHelper {
 
 	}
 
-	private static void replaceFile(IGetResourceFile iGetResource, String parentName, ElemDescription fo, String attr) {
-		if (fo.isAttr(attr)) {
-			String fileName = fo.getAttr(attr);
-			// replace file name with content
-			String eName = SUtil.getFileName(parentName, fileName);
-			InputStream souI = iGetResource.getDialogFile(eName);
-			String te = BUtil.readFromFileInput(souI);
-			fo.setAttr(attr, te);
-		}
-
+	private static String getFileName(IGetResourceFile iGetResource, String parentName, ElemDescription fo,
+			String attr) {
+		if (!fo.isAttr(attr))
+			return null;
+		String fileName = fo.getAttr(attr);
+		return SUtil.getFileName(parentName, fileName);
 	}
 
-	static DialogFormat parseDocument(String parentName, InputStream sou, ISecurity iSec, IGetResourceFile iGetResource)
-			throws ParserConfigurationException, SAXException, IOException {
+	private static InputStream getInput(IGetResourceFile iGetResource, String parentName, ElemDescription fo,
+			String attr) {
+		String eName = getFileName(iGetResource, parentName, fo, attr);
+		if (CUtil.EmptyS(eName))
+			return null;
+		return iGetResource.getDialogFile(eName);
+	}
+
+	private static void replaceFile(IGetResourceFile iGetResource, String parentName, ElemDescription fo, String attr) {
+		InputStream souI = getInput(iGetResource, parentName, fo, attr);
+		if (souI == null)
+			return;
+		String te = BUtil.readFromFileInput(souI);
+		fo.setAttr(attr, te);
+	}
+
+	private static void readBinder(IGetResourceFile iGetResource, String parentName, DialogFormat d,
+			IBinderParser iBinder) throws SAXException, IOException {
+		String fileName = getFileName(iGetResource, parentName, d, ICommonConsts.UIBINDER);
+		if (CUtil.EmptyS(fileName))
+			return;
+		BinderWidget b = iBinder.parse(fileName);
+		if (b != null)
+			d.setBinderW(b);
+	}
+
+	static DialogFormat parseDocument(String parentName, InputStream sou, ISecurity iSec, IGetResourceFile iGetResource,
+			IBinderParser iBinder) throws ParserConfigurationException, SAXException, IOException {
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		SAXParser saxParser;
 		saxParser = factory.newSAXParser();
@@ -437,6 +463,7 @@ class ReadDialog extends UtilHelper {
 		replaceFile(iGetResource, parentName, ma.dFormat, ICommonConsts.HTMLPANEL);
 		replaceFile(iGetResource, parentName, ma.dFormat, ICommonConsts.JSCODE);
 		replaceFile(iGetResource, parentName, ma.dFormat, ICommonConsts.CSSCODE);
+		readBinder(iGetResource, parentName, ma.dFormat, iBinder);
 		for (DisclosureElemPanel d : ma.dFormat.getDiscList())
 			replaceFile(iGetResource, parentName, d, ICommonConsts.HTMLPANEL);
 		return ma.dFormat;
