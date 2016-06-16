@@ -622,6 +622,8 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 				}
 				if (d.isHtmlPanel())
 					pView.createView(d.getHtmlPanel());
+				else if (d.getBinderW() != null)
+					pView.createView(d.getBinderW());
 				else
 					pView.createView();
 				slMediator.registerSlotContainer(cId, pView);

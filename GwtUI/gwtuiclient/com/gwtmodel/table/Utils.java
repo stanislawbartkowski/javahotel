@@ -326,6 +326,10 @@ public class Utils {
 		errAlert(err, e.getMessage());
 	}
 
+	public static void errAlert(String err, String err1, Exception e) {
+		errAlert(err + " " + err1, e.getMessage());
+	}
+
 	public static native void callJs(String js) /*-{
 		$wnd.eval(js);
 	}-*/;

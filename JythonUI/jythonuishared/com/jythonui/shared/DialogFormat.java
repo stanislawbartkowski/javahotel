@@ -15,7 +15,7 @@ package com.jythonui.shared;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.jythonui.shared.binder.BinderWidget;
+import com.gwtmodel.table.binder.BinderWidget;
 
 /**
  * @author hotel

@@ -17,7 +17,7 @@ import java.io.InputStream;
 
 import org.xml.sax.SAXException;
 
-import com.jythonui.shared.binder.BinderWidget;
+import com.gwtmodel.table.binder.BinderWidget;
 
 public interface IBinderParser {
 	

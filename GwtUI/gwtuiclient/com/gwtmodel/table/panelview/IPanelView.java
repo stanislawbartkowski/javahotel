@@ -13,6 +13,7 @@
 package com.gwtmodel.table.panelview;
 
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.binder.BinderWidget;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ISlotable;
 
@@ -29,6 +30,8 @@ public interface IPanelView extends ISlotable {
     void createView();
 
     void createView(String html);
+    
+    void createView(BinderWidget b);    
 
     int CUSTOMID = 1000;
 }

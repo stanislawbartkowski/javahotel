@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<ui:UiBinder xmlns:ui='http://www.jythongwt.uibinderxsd.com'>
+	<ui:HTMLPanel>
+	<ui:o>
+	  <div>
+	  <H1>Title</H1>
+	  <ui:Label>Mój pierwszy dialog </ui:Label>
+	  <ui:Button>Akceptujesz</ui:Button>
+	  <ui:Button>Rezygnujesz</ui:Button>
+	</div>
+	  </ui:o>
+	</ui:HTMLPanel>
+</ui:UiBinder>

@@ -25,27 +25,30 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import com.gwtmodel.table.binder.BinderWidget;
+import com.gwtmodel.table.binder.WidgetTypes;
 import com.gwtmodel.table.common.CUtil;
 import com.jamesmurty.utils.XMLBuilder;
 import com.jythonui.server.IConsts;
-import com.jythonui.shared.binder.BinderWidget;
-import com.jythonui.shared.binder.WidgetTypes;
 
 class BinderHandler extends DefaultHandler {
 
+	private static final String root = "root";
+
 	private class Tag {
 		final BinderWidget b = new BinderWidget();
-		XMLBuilder builder = null;
+		XMLBuilder builder;
 		Stack<StringBuffer> buf = new Stack<StringBuffer>();
 
-		Tag(WidgetTypes w, Attributes attr) {
+		Tag(WidgetTypes w, Attributes attr) throws ParserConfigurationException, FactoryConfigurationError {
 			b.setType(w);
 			buf.push(new StringBuffer());
 			for (int i = 0; i < attr.getLength(); i++) {
 				String key = attr.getLocalName(i);
 				String val = attr.getValue(i);
-				b.getAttrs().put(key, val);
+				b.setAttr(key, val);
 			}
+			builder = XMLBuilder.create(root);
 		}
 	}
 
@@ -64,7 +67,7 @@ class BinderHandler extends DefaultHandler {
 		toW.put(IConsts.UIBINDER, WidgetTypes.UiBinder);
 	}
 
-	private static String genID() {
+	private static String genId() {
 		return "binder-" + ra.nextInt();
 
 	}
@@ -84,53 +87,68 @@ class BinderHandler extends DefaultHandler {
 		// namespace aware, get localName;
 		WidgetTypes w = toWi(uri, localName);
 		if (w != null) {
-			sta.push(new Tag(w, attributes));
+			try {
+				sta.push(new Tag(w, attributes));
+			} catch (ParserConfigurationException | FactoryConfigurationError e) {
+				throw new SAXException(e.getLocalizedMessage());
+			}
 			return;
 		}
-		if (isNameSpace(uri) && CUtil.EqNS(IConsts.OWIDGET,localName)) {
+		if (isNameSpace(uri) && CUtil.EqNS(IConsts.OWIDGET, localName)) {
 			return;
 		}
 		Tag ta = sta.peek();
 		ta.buf.push(new StringBuffer());
-		if (ta.builder == null)
-			try {
-				ta.builder = XMLBuilder.create(localName);
-			} catch (ParserConfigurationException | FactoryConfigurationError e) {
-				throw new SAXException(e.getLocalizedMessage());
-			}
-		else
-			ta.builder = ta.builder.e(localName);
+		ta.builder = ta.builder.e(localName);
 		for (int i = 0; i < attributes.getLength(); i++) {
 			String key = attributes.getLocalName(i);
 			String val = attributes.getValue(i);
 			ta.builder = ta.builder.a(key, val);
 		}
 	}
-	
+
+	private static String getS(XMLBuilder builder) throws TransformerException {
+		String s = builder.asString().replaceAll("<" + root + ">", "").replaceAll("</" + root + ">", "")
+				.replaceAll("<" + root + "/>", "");
+		// remove <root> and </root>
+		return s;
+	}
 
 	@Override
 	public void endElement(String uri, String localName, String qqName) throws SAXException {
 		WidgetTypes w = toWi(uri, localName);
 		try {
 			if (w != null) {
+				// System.out.println(localName);
 				Tag ta = sta.pop();
-				String c1 = ta.builder == null ? null : ta.builder.asString();
+				String c1 = getS(ta.builder);
 				StringBuffer b = ta.buf.pop();
 				String c2 = b.length() == 0 ? null : b.toString();
 				ta.b.setContentHtml(CUtil.concatSP(c1, c2));
+				// System.out.println(ta.b.getContentHtml());
 				if (sta.isEmpty())
 					parsed = ta.b;
-				else
+				else {
+					// add to list
 					sta.peek().b.getwList().add(ta.b);
+					// create div id
+					// System.out.println(sta.peek().builder.asString());
+					String id = genId();
+					sta.peek().builder = sta.peek().builder.e("div").a("id", id).t("to remove").up();
+					ta.b.setId(id);
+					// System.out.println(sta.peek().builder.asString());
+				}
 				return;
 			}
 			// ignore ui:o
-			if (isNameSpace(uri) && CUtil.EqNS(IConsts.OWIDGET,localName)) {
+			if (isNameSpace(uri) && CUtil.EqNS(IConsts.OWIDGET, localName)) {
 				return;
 			}
 			Tag ta = sta.peek();
 			StringBuffer bu = ta.buf.pop();
 			ta.builder = ta.builder.t(bu.toString()).up();
+			// System.out.println(localName);
+			// System.out.println(ta.builder.asString());
 		} catch (TransformerException e) {
 			new SAXException(e.getMessage());
 		}

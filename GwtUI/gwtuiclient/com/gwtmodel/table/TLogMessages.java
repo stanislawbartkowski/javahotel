@@ -143,5 +143,9 @@ public interface TLogMessages extends Messages {
     String CannotReadThisUrlCode(String url, int errocode);
     
     String PolymerDialogNotImplemented(String mess);
+    
+    String BinderWidgetNoPanels();
+    
+    String BinderCannotHaveWidgets(String id);
    
 }

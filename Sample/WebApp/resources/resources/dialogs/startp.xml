@@ -12,6 +12,8 @@
   <button id="main" displayname="Main form"/>
   <button id="okmessage" displayname="Ok Message" actiontype="JOK_MESSAGE" actionparam="Hello" actionparam1="Title" />
   <button id="yesmessage" displayname="YesNo message" actiontype="JYESNO_MESSAGE" actionparam="Do you really want it ?" actionparam1="Question" />
+  <button id="binder1" displayname="Binder dialog" actiontype="JMAIN_DIALOG" actionparam="binder1.xml" />
+
 </leftmenu>  
 
 <buttons>

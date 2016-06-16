@@ -25,6 +25,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import com.gwtmodel.table.binder.BinderWidget;
 import com.gwtmodel.table.common.CUtil;
 import com.jythonui.server.BUtil;
 import com.jythonui.server.IBinderParser;
@@ -51,7 +52,6 @@ import com.jythonui.shared.SUtil;
 import com.jythonui.shared.TabPanel;
 import com.jythonui.shared.TabPanelElem;
 import com.jythonui.shared.ValidateRule;
-import com.jythonui.shared.binder.BinderWidget;
 
 /**
  * @author hotel

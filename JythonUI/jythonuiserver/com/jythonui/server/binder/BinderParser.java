@@ -19,11 +19,11 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import com.google.inject.Inject;
+import com.gwtmodel.table.binder.BinderWidget;
 import com.jythonui.server.IBinderParser;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IGetResourceFile;
 import com.jythonui.server.IVerifySchema;
-import com.jythonui.shared.binder.BinderWidget;
 
 public class BinderParser implements IBinderParser {
 

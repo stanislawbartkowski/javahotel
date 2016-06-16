@@ -21,7 +21,7 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.SAXException;
 
-import com.jythonui.shared.binder.BinderWidget;
+import com.gwtmodel.table.binder.BinderWidget;
 
 class BinderReader {
 	

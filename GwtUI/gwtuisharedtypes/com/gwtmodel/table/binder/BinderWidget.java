@@ -10,19 +10,24 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.shared.binder;
+package com.gwtmodel.table.binder;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class BinderWidget {
+import com.gwtmodel.table.map.XMap;
+
+public class BinderWidget extends XMap {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private WidgetTypes type;
 
 	private String contentHtml;
-
-	private Map<String, String> attrs;
 
 	private String id;
 
@@ -43,14 +48,6 @@ public class BinderWidget {
 
 	public void setContentHtml(String contentHtml) {
 		this.contentHtml = contentHtml;
-	}
-
-	public Map<String, String> getAttrs() {
-		return attrs;
-	}
-
-	public void setAttrs(Map<String, String> attrs) {
-		this.attrs = attrs;
 	}
 
 	public String getId() {
