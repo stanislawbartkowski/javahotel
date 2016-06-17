@@ -34,11 +34,13 @@ abstract class AbstractWField implements IFormLineView {
 	private final List<IFormChangeListener> cList = new ArrayList<IFormChangeListener>();
 	protected final IFormFieldProperties pr;
 	private final String standErrMess;
+	private final String htmlName;
 
 	protected AbstractWField(IVField v, IFormFieldProperties pr, String standErrMess) {
 		this.v = v;
 		this.pr = pr;
 		this.standErrMess = standErrMess;
+		this.htmlName = pr.getHtmlId();
 	}
 
 	@Override
@@ -87,11 +89,21 @@ abstract class AbstractWField implements IFormLineView {
 	public void setAttr(String attrName, String attrValue) {
 		this.getGWidget().getElement().setAttribute(attrName, attrValue);
 	}
-	
+
 	protected String getStandErrMess() {
 		String emptyMess = null;
-		if (pr.isNotEmpty()) emptyMess = MM.getL().EmptyFieldMessage();
-		String errMess =  CUtil.joinS(',', emptyMess, standErrMess);
+		if (pr.isNotEmpty())
+			emptyMess = MM.getL().EmptyFieldMessage();
+		String errMess = CUtil.joinS(',', emptyMess, standErrMess);
 		return errMess;
 	}
+
+	@Override
+	public String getHtmlName() {
+		if (!CUtil.EmptyS(htmlName)) {
+			return htmlName;
+		}
+		return v.getId();
+	}
+
 }

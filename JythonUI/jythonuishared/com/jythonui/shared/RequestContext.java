@@ -12,11 +12,10 @@
  */
 package com.jythonui.shared;
 
+import java.io.Serializable;
 import java.util.Map;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
-public class RequestContext implements IsSerializable {
+public class RequestContext implements Serializable {
 
     private String token;
 

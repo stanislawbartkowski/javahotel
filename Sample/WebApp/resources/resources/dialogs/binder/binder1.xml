@@ -5,8 +5,10 @@
 	  <div>
 	  <H1>Title</H1>
 	  <ui:Label>Mój pierwszy dialog </ui:Label>
-	  <ui:Button>Akceptujesz</ui:Button>
+	  <ui:Button id="akce">Akceptujesz</ui:Button>
 	  <ui:Button>Rezygnujesz</ui:Button>
+	  <div id="next">Hello</div>
+	  <div id="name1">Hello</div>
 	</div>
 	  </ui:o>
 	</ui:HTMLPanel>

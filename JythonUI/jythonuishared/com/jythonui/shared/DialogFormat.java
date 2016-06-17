@@ -278,4 +278,8 @@ public class DialogFormat extends ElemDescription {
 		this.binderW = binderW;
 	}
 
+	public boolean isBinderW() {
+		return binderW != null;
+	}
+
 }

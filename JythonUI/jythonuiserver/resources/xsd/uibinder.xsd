@@ -2,11 +2,28 @@
 	targetNamespace="http://www.jythongwt.uibinderxsd.com" xmlns="http://www.jythongwt.uibinderxsd.com"
 	elementFormDefault="qualified">
 
+	<xs:attributeGroup name="objectG">
+		<xs:attribute name="size" type="xs:string" />
+		<xs:attribute name="pixelSize" type="xs:string" />
+		<xs:attribute name="height" type="xs:string" />
+		<xs:attribute name="styleName" type="xs:string" />
+		<xs:attribute name="stylePrimaryName" type="xs:string" />
+		<xs:attribute name="title" type="xs:string" />
+		<xs:attribute name="visible" type="xs:boolean" />
+		<xs:attribute name="width" type="xs:string" />
+	</xs:attributeGroup>
+
 
 	<xs:element name="Label">
+		<xs:complexType mixed="true">
+			<xs:attributeGroup ref="objectG" />
+		</xs:complexType>
 	</xs:element>
 
 	<xs:element name="Button">
+		<xs:complexType mixed="true">
+			<xs:attributeGroup ref="objectG" />
+		</xs:complexType>
 	</xs:element>
 
 
@@ -22,6 +39,7 @@
 	<xs:element name="HTMLPanel">
 		<xs:complexType>
 			<xs:group ref="Widget"></xs:group>
+			<xs:attributeGroup ref="objectG" />
 		</xs:complexType>
 	</xs:element>
 

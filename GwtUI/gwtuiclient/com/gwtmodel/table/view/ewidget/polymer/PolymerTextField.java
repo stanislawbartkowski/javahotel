@@ -89,12 +89,6 @@ class PolymerTextField extends AbstractWField {
 	}
 
 	@Override
-	public String getHtmlName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public void setCellTitle(String title) {
 		in.setTitle(title);
 	}

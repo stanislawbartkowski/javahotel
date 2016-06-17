@@ -28,124 +28,128 @@ import com.google.gwt.i18n.client.Messages;
  */
 public interface TLogMessages extends Messages {
 
-    String assertT(String exp, String given);
+	String assertT(String exp, String given);
 
-    String errorEnum(String val, String eClass);
+	String errorEnum(String val, String eClass);
 
-    String slStringLog(String lName);
+	String slStringLog(String lName);
 
-    String slStringLog1(String lName, String p1);
+	String slStringLog1(String lName, String p1);
 
-    String slStringLog2(String lName, String p1, String p2);
+	String slStringLog2(String lName, String p1, String p2);
 
-    String publishLogNull(String slName);
+	String publishLogNull(String slName);
 
-    String publishLog(String slname);
+	String publishLog(String slname);
 
-    String choosedEdit(String dName);
+	String choosedEdit(String dName);
 
-    String cannotBeNull();
+	String cannotBeNull();
 
-    String slCallerNull(String slName);
+	String slCallerNull(String slName);
 
-    String slCallerNotFound(String slName);
+	String slCallerNotFound(String slName);
 
-    String slCaller(String slName);
+	String slCaller(String slName);
 
-    String FilterCannotbeNull();
+	String FilterCannotbeNull();
 
-    String sendSignalLog(String slName);
+	String sendSignalLog(String slName);
 
-    String sendSignalNotFound(String slName);
+	String sendSignalNotFound(String slName);
 
-    String receivedSignalLog(String slName);
+	String receivedSignalLog(String slName);
 
-    String receivedSignalLogParam(String slName, String param);
+	String receivedSignalLogParam(String slName, String param);
 
-    String dTypeCannotBeNull();
+	String dTypeCannotBeNull();
 
-    String filterCannotBeNull();
+	String filterCannotBeNull();
 
-    String clickChangeNewLog(String change, String set);
+	String clickChangeNewLog(String change, String set);
 
-    String widgetCanotbeNull();
+	String widgetCanotbeNull();
 
-    String errorWhileReading(String zmNamw);
+	String errorWhileReading(String zmNamw);
 
-    String CellCannotBeNull();
+	String CellCannotBeNull();
 
-    String CellShouldBeRegistered();
+	String CellShouldBeRegistered();
 
-    String GetterModelDataViewModel();
+	String GetterModelDataViewModel();
 
-    String GetterContainerDataViewModel();
+	String GetterContainerDataViewModel();
 
-    String GetterWidgetDataViewModel();
+	String GetterWidgetDataViewModel();
 
-    String mustBeConnectedToString();
+	String mustBeConnectedToString();
 
-    String notFoundSignalNotNull();
+	String notFoundSignalNotNull();
 
-    String errrorUploadingFile();
+	String errrorUploadingFile();
 
-    String notExpected();
+	String notExpected();
 
-    String formRecordTitle(String title, String action);
+	String formRecordTitle(String title, String action);
 
-    String GWTVersion(String ver, String jVersion);
+	String GWTVersion(String ver, String jVersion);
 
-    String DataListCannotBeNull();
+	String DataListCannotBeNull();
 
-    String HeaderNull();
+	String HeaderNull();
 
-    String InternalError();
+	String InternalError();
 
-    String RowSelectedNotFound();
+	String RowSelectedNotFound();
 
-    String InproperWidthInColumn(String colName, String width);
+	String InproperWidthInColumn(String colName, String width);
 
-    String InproperColumnUnit(String colName, String unit);
+	String InproperColumnUnit(String colName, String unit);
 
-    String ValueNotExpectedHere();
+	String ValueNotExpectedHere();
 
-    String ColumnCellUndefined();
+	String ColumnCellUndefined();
 
-    String SelectListCannotBeEmpty();
+	String SelectListCannotBeEmpty();
 
-    String NotImplemented();
+	String NotImplemented();
 
-    String CannotFindChunkForIndex(int i);
+	String CannotFindChunkForIndex(int i);
 
-    String CannotRecgonizeSortColumn();
+	String CannotRecgonizeSortColumn();
 
-    String GrigHtmlName(int lno, int cno);
+	String GrigHtmlName(int lno, int cno);
 
-    String WChoosedInfo(int rowno, String s);
+	String WChoosedInfo(int rowno, String s);
 
-    String NewEditLineFocus(String wChoose);
+	String NewEditLineFocus(String wChoose);
 
-    String NextClickedAction(String place, String wChoose);
+	String NextClickedAction(String place, String wChoose);
 
-    String TablePresentationSetEditRow(int rowno);
+	String TablePresentationSetEditRow(int rowno);
 
-    String TablePresentationSelectionChange(int rowno);
+	String TablePresentationSelectionChange(int rowno);
 
-    String TablePresentationSelectionChangeNow(int rowno);
+	String TablePresentationSelectionChangeNow(int rowno);
 
-    String PresentationTableNullSetValObj(String id);
+	String PresentationTableNullSetValObj(String id);
 
-    String NoEditCheckBox();
+	String NoEditCheckBox();
 
-    String NullValueHeaderPos(int pos);
+	String NullValueHeaderPos(int pos);
 
-    String CannotReadThisUrl(String url);
+	String CannotReadThisUrl(String url);
 
-    String CannotReadThisUrlCode(String url, int errocode);
-    
-    String PolymerDialogNotImplemented(String mess);
-    
-    String BinderWidgetNoPanels();
-    
-    String BinderCannotHaveWidgets(String id);
-   
+	String CannotReadThisUrlCode(String url, int errocode);
+
+	String PolymerDialogNotImplemented(String mess);
+
+	String BinderWidgetNoPanels();
+
+	String BinderCannotHaveWidgets(String id);
+
+	String BinderCannotFindWidget(String id);
+	
+	String BinderNotHTMLPanel(String wId);
+
 }

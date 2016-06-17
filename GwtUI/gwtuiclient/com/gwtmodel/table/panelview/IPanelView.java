@@ -19,19 +19,17 @@ import com.gwtmodel.table.slotmodel.ISlotable;
 
 public interface IPanelView extends ISlotable {
 
-    CellId addCellPanel(int row, int col);
+	CellId addCellPanel(int row, int col);
 
-    CellId addCellPanel(int row, int col, String cellId);
+	CellId addCellPanel(int row, int col, String cellId);
 
-    CellId addCellPanel(IDataType publishType, int row, int col);
+	CellId addCellPanel(IDataType publishType, int row, int col);
 
-    CellId addCellPanel(IDataType publishType, int row, int col, String cellId);
+	CellId addCellPanel(IDataType publishType, int row, int col, String cellId);
 
-    void createView();
+	void createView();
 
-    void createView(String html);
-    
-    void createView(BinderWidget b);    
+	void createView(String html, BinderWidget b);
 
-    int CUSTOMID = 1000;
+	int CUSTOMID = 1000;
 }

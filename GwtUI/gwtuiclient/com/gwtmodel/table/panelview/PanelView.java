@@ -69,7 +69,6 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
 	private CellId panelId;
 	private IGwtPanelView pView;
 	private HTMLPanel htmlWidget;
-	private IGWidget gBinder;
 	private final SlotSignalContextFactory slFactory;
 
 	PanelView(SlotSignalContextFactory slFactory, IDataType dType, CellId panelId) {
@@ -147,13 +146,13 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
 
 	@Override
 	public void createView() {
-		createView((String) null);
+		createView(null, null);
 	}
 
 	@Override
-	public void createView(String html) {
+	public void createView(String html, BinderWidget b) {
 		ISlotCallerListener c = null;
-		if (html == null) {
+		if (html == null && b == null) {
 			int maxR = 0;
 			int maxC = 0;
 			for (CellId i : colM.keySet()) {
@@ -163,7 +162,7 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
 			}
 			pView = GwtPanelViewFactory.construct(maxR + 1, maxC + 1);
 		} else {
-			htmlWidget = new HTMLPanel(html);
+			htmlWidget = html != null ? new HTMLPanel(html) : CreateBinderWidget.create(b);
 			c = new GetMainHtml();
 			SlotType sl = slTypeFactory.constructMainH();
 			registerCaller(sl, c);
@@ -187,13 +186,6 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
 			publish(publishType, cellId, new GWidget(htmlWidget));
 		} else if (pView != null)
 			publish(publishType, cellId, pView);
-		else
-			publish(publishType, cellId, gBinder);
 	}
 
-	@Override
-	public void createView(BinderWidget b) {
-		Widget w = CreateBinderWidget.create(b);
-		gBinder = new GWidget(w);
-	}
 }

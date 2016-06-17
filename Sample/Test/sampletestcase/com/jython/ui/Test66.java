@@ -22,48 +22,69 @@ import com.gwtmodel.table.common.CUtil;
 import com.jythonui.shared.DialogFormat;
 
 public class Test66 extends TestHelper {
-	
+
 	@Test
 	public void test1() {
-        DialogFormat d = findDialog("test113.xml");
-        assertNotNull(d);
-        assertTrue(d.isPolymer());
-        BinderWidget ba = d.getBinderW();
-        assertNotNull(ba);
-        assertEquals(WidgetTypes.UiBinder,ba.getType());
-        assertEquals(1,ba.getwList().size());
-        System.out.println("--------------------");        
-        System.out.println(ba.getContentHtml());
-//        assertTrue(CUtil.EmptyS(ba.getContentHtml()));
-        BinderWidget h = ba.getwList().get(0);
-        assertEquals(WidgetTypes.HTMLPanel,h.getType());
-        String dt = h.getContentHtml().trim();
-        System.out.println(dt);
-        // without ui:o
-        assertEquals("<H1>Title</H1>",dt);
+		DialogFormat d = findDialog("test113.xml");
+		assertNotNull(d);
+		assertTrue(d.isPolymer());
+		BinderWidget ba = d.getBinderW();
+		assertNotNull(ba);
+		assertEquals(WidgetTypes.UiBinder, ba.getType());
+		assertEquals(1, ba.getwList().size());
+		System.out.println("--------------------");
+		System.out.println(ba.getContentHtml());
+		// assertTrue(CUtil.EmptyS(ba.getContentHtml()));
+		BinderWidget h = ba.getwList().get(0);
+		assertEquals(WidgetTypes.HTMLPanel, h.getType());
+		String dt = h.getContentHtml().trim();
+		System.out.println(dt);
+		// without ui:o
+		assertEquals("<H1>Title</H1>", dt);
 	}
-	
+
 	@Test
 	public void test2() {
-        DialogFormat d = findDialog("test114.xml");
-        assertNotNull(d);
-        assertTrue(d.isPolymer());
-        BinderWidget ba = d.getBinderW();
-        assertNotNull(ba);
-        assertEquals(WidgetTypes.UiBinder,ba.getType());
-        BinderWidget h = ba.getwList().get(0);
-        assertEquals(WidgetTypes.HTMLPanel,h.getType());
-        String dt = h.getContentHtml().trim();
-        System.out.println(dt);
-        assertEquals(1,h.getwList().size());
-        BinderWidget b = h.getwList().get(0);        
-        assertEquals(WidgetTypes.Button,b.getType());
-        System.out.println(b.getId());
-        assertTrue(h.getContentHtml().indexOf(b.getId()) != 0);
-        String k = h.getContentHtml().replaceAll(b.getId(),"").trim();
-        System.out.println(k);
-        System.out.println(b.getContentHtml());
-        assertEquals("Hello",b.getContentHtml().trim());
-	}	
+		DialogFormat d = findDialog("test114.xml");
+		assertNotNull(d);
+		assertTrue(d.isPolymer());
+		BinderWidget ba = d.getBinderW();
+		assertNotNull(ba);
+		assertEquals(WidgetTypes.UiBinder, ba.getType());
+		BinderWidget h = ba.getwList().get(0);
+		assertEquals(WidgetTypes.HTMLPanel, h.getType());
+		String dt = h.getContentHtml().trim();
+		System.out.println(dt);
+		assertEquals(1, h.getwList().size());
+		BinderWidget b = h.getwList().get(0);
+		assertEquals(WidgetTypes.Button, b.getType());
+		System.out.println(b.getId());
+		assertTrue(h.getContentHtml().indexOf(b.getId()) != 0);
+		String k = h.getContentHtml().replaceAll(b.getId(), "").trim();
+		System.out.println(k);
+		System.out.println(b.getContentHtml());
+		assertEquals("Hello", b.getContentHtml().trim());
+	}
+
+	@Test
+	public void test3() {
+		DialogFormat d = findDialog("test115.xml");
+		assertNotNull(d);
+		assertTrue(d.isPolymer());
+		BinderWidget ba = d.getBinderW();
+		assertNotNull(ba);
+		assertEquals(WidgetTypes.UiBinder, ba.getType());
+		BinderWidget h = ba.getwList().get(0);
+		assertEquals(WidgetTypes.HTMLPanel, h.getType());
+		String dt = h.getContentHtml().trim();
+		System.out.println(dt);
+		assertEquals(2, h.getwList().size());
+		BinderWidget b = h.getwList().get(0);
+		assertEquals(WidgetTypes.Button, b.getType());
+		System.out.println(b.getId());
+		String s = b.getAttr("height");
+		System.out.println(s);
+		assertEquals("10px", s);
+	}
 
 }

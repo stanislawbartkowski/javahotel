@@ -55,9 +55,12 @@ public class CreateBinderWidget {
 			hw = (HasWidgets) w;
 		for (BinderWidget c : bw.getwList()) {
 			Widget child = createWidget(c);
+			Element ee = h.getElementById(c.getId());
+			if (ee == null)
+				Utils.errAlert(LogT.getT().BinderCannotFindWidget(c.getId()));
+
 			if (h != null) {
-				Element ee = h.getElementById(c.getId());
-				String html = h.toString();
+				// String html = h.toString();
 				try {
 					h.addAndReplaceElement(child, ee);
 				} catch (NoSuchElementException e) {
@@ -65,16 +68,20 @@ public class CreateBinderWidget {
 				}
 			} else
 				hw.add(child);
-		}
+
+		} // for
 		return w;
 	}
 
-	public static Widget create(BinderWidget w) {
+	public static HTMLPanel create(BinderWidget w) {
 		if (w.getwList().isEmpty())
 			Utils.errAlertB(LogT.getT().BinderWidgetNoPanels());
 		BinderWidget p = w.getwList().get(0);
 		Widget ww = createWidget(p);
-		return ww;
+		if (ww instanceof HTMLPanel)
+			return (HTMLPanel) ww;
+		Utils.errAlert(LogT.getT().BinderNotHTMLPanel(p.getType().name()));
+		return null;
 	}
 
 }

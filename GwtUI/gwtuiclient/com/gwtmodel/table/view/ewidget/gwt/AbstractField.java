@@ -50,7 +50,7 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
 	protected final IGetCustomValues cValues;
 	protected final IVField v;
 	private final String htmlName;
-	private final IFormFieldProperties pr;
+	protected final IFormFieldProperties pr;
 	protected final AbstractListT listT;
 	protected String cellTitle = null;
 

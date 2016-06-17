@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<ui:UiBinder xmlns:ui='http://www.jythongwt.uibinderxsd.com'>
+	<ui:HTMLPanel>
+	<ui:o>
+	  <H1>Title</H1>
+	  <div height="10px">
+	    <p></p>
+	    <ui:Button height="10px">Hello</ui:Button>
+	    <ui:Label width="10px">I'm here</ui:Label>
+	  </div>
+	  </ui:o>
+	</ui:HTMLPanel>
+</ui:UiBinder>
