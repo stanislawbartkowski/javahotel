@@ -49,11 +49,6 @@ public class SlotTypeFactory {
                 null, cellId, dType, null, null, null);
     }
 
-    public SlotType constructMainH() {
-        return new SlotType(SlotEventEnum.GetterCaller, null, null, null, null,
-                null, null, GetActionEnum.GetHtmlMainForm, null, null);
-    }
-
     public SlotType constructH(CellId cellId) {
         assert cellId != null : LogT.getT().cannotBeNull();
         return new SlotType(SlotEventEnum.GetterCaller, null, null, null, null,

@@ -3,6 +3,7 @@
 	elementFormDefault="qualified">
 
 	<xs:attributeGroup name="objectG">
+		<xs:attribute name="fieldid" type="xs:string" />	
 		<xs:attribute name="size" type="xs:string" />
 		<xs:attribute name="pixelSize" type="xs:string" />
 		<xs:attribute name="height" type="xs:string" />
@@ -14,9 +15,14 @@
 	</xs:attributeGroup>
 
 
+	<xs:attributeGroup name="labelG">
+		<xs:attribute name="text" type="xs:string" />	
+	</xs:attributeGroup>
+
 	<xs:element name="Label">
 		<xs:complexType mixed="true">
 			<xs:attributeGroup ref="objectG" />
+			<xs:attributeGroup ref="labelG"/>
 		</xs:complexType>
 	</xs:element>
 

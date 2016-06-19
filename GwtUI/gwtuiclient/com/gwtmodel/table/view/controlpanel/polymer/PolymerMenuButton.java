@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.binder.BinderWidget;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.view.controlpanel.IContrButtonView;
@@ -53,7 +54,7 @@ public class PolymerMenuButton implements IContrButtonView {
 	}
 
 	@Override
-	public void fillHtml(HTMLPanel pa) {
+	public void fillHtml(HTMLPanel pa, BinderWidget bw) {
 		Utils.PolymerNotImplemented("Button:fillHtml");
 	}
 

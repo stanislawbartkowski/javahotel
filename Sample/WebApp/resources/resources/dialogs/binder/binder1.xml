@@ -4,8 +4,10 @@
 	<ui:o>
 	  <div>
 	  <H1>Title</H1>
-	  <ui:Label>Mój pierwszy dialog </ui:Label>
-	  <ui:Button id="akce">Akceptujesz</ui:Button>
+	  <ui:Label text="Text first" height="100px" title="bla bla bla">Mój pierwszy dialog </ui:Label>
+	  <div>
+	  <ui:Button fieldid="akce">Akceptujesz binder</ui:Button>
+	</div>
 	  <ui:Button>Rezygnujesz</ui:Button>
 	  <div id="next">Hello</div>
 	  <div id="name1">Hello</div>

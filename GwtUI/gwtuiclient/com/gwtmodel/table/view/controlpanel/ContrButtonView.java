@@ -27,6 +27,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IGFocusWidget;
 import com.gwtmodel.table.IGWidget;
+import com.gwtmodel.table.binder.BinderWidget;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
@@ -68,7 +69,7 @@ class ContrButtonView implements IContrButtonView {
 	public void setHtml(IGWidget gw) {
 		Widget w = gw.getGWidget();
 		pa = (HTMLPanel) w;
-		fillHtml(pa);
+		fillHtml(pa, null);
 	}
 
 	@Override
@@ -94,14 +95,14 @@ class ContrButtonView implements IContrButtonView {
 	}
 
 	@Override
-	public void fillHtml(HTMLPanel pa) {
+	public void fillHtml(HTMLPanel pa, BinderWidget bw) {
 		final List<ClickButtonType> cList = new ArrayList<ClickButtonType>();
 		final List<IGFocusWidget> bList = new ArrayList<IGFocusWidget>();
 		for (Entry<ClickButtonType, IGFocusWidget> e : iBut.entrySet()) {
 			cList.add(e.getKey());
 			bList.add(e.getValue());
 		}
-		CreateFormView.setHtml(pa, construct());
+		CreateFormView.setHtml(pa, construct(), bw);
 	}
 
 	private class Click implements ClickHandler {

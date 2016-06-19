@@ -51,5 +51,13 @@ public interface IConsts {
 
 	String GWT = "gwtwidget";
 	String POLYMER = "polymerwidget";
-
+	String ATTRSIZE = "size";
+	String ATTRPIXELSIZE = "pixelSize";
+	String ATTRHEIGHT = "height";
+	String ATTRSTYLENAME = "styleName";
+	String ATTRSTYLEPRIMARYNAME = "stylePrimaryName";
+	String ATTRTITLE = "title";
+	String ATTRVISIBLE = "visible";
+	String ATTRWIDTH = "width";
+	String ATTRTEXT = "text";
 }

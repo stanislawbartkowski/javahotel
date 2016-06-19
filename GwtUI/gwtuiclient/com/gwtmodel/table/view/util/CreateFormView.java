@@ -25,6 +25,8 @@ import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.IGFocusWidget;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.binder.BinderWidget;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.editw.FormField;
 import com.gwtmodel.table.editw.IFormLineView;
@@ -72,13 +74,52 @@ public class CreateFormView {
 		List<IGFocusWidget> getBList();
 	}
 
-	public static void setHtml(HTMLPanel pa, IGetButtons iG) {
+	private interface IReplace {
+		void replace(String id, Widget w);
+	}
+
+	private static void replaceBinder(HTMLPanel pa, IReplace iR) {
+		for (int i = 0; i < pa.getWidgetCount(); i++) {
+			Widget w = pa.getWidget(i);
+			String id = Utils.getWidgetAttribute(w, BinderWidget.FIELDID);
+			if (!CUtil.EmptyS(id))
+				iR.replace(id, w);
+		}
+	}
+
+//	private final BinderWidget findId(BinderWidget bw, String id) {
+//		for (BinderWidget b : bw.getwList()) {
+//			// recursive
+//			BinderWidget inB = findId(b, id);
+//			if (inB != null)
+//				return inB;
+//			String bid = b.getFieldId();
+//			if (!CUtil.EmptyS(bid) && id.equals(bid))
+//				return b;
+//		}
+//		return null;
+//	}
+
+	public static void setHtml(HTMLPanel pa, IGetButtons iG, BinderWidget bw) {
 		int i = 0;
 		for (ClickButtonType c : iG.getDList()) {
 			IGFocusWidget b = iG.getBList().get(i++);
 			String htmlId = c.getHtmlElementName();
 			replace(pa, htmlId, b.getGWidget());
 		}
+		// try to replace widgets
+		replaceBinder(pa, new IReplace() {
+
+			@Override
+			public void replace(String id, Widget w) {
+				int i = 0;
+				for (ClickButtonType c : iG.getDList()) {
+					IGFocusWidget b = iG.getBList().get(i++);
+					if (c.getHtmlElementName().equals(id))
+						b.replaceButtonWidget(w);
+				}
+			}
+		});
 	}
 
 	public static void setHtml(HTMLPanel pa, List<FormField> fList) {
@@ -114,12 +155,6 @@ public class CreateFormView {
 			}
 
 		}
-	}
-
-	public static HTMLPanel setHtml(String html, List<FormField> fList) {
-		HTMLPanel pa = new HTMLPanel(html);
-		setHtml(pa, fList);
-		return pa;
 	}
 
 	/**

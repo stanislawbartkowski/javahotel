@@ -304,16 +304,6 @@ public final class SlotListContainer {
         return slContext.getHtmlWidget();
     }
 
-    public IGWidget getMainHtmlWidget() {
-        SlotType slType = slTypeFactory.constructMainH();
-        ISlotSignalContext co = slContextFactory.construct(slType);
-        ISlotSignalContext slContext = call(co);
-        if (slContext == null) {
-            return null;
-        }
-        return slContext.getHtmlWidget();
-    }
-
     public IVField getGetterComboField(IDataType dType) {
         ISlotSignalContext slContext = getGetterContext(dType,
                 GetActionEnum.GetListComboField);

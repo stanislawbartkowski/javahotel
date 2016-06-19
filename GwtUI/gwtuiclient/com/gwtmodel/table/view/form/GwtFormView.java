@@ -105,9 +105,7 @@ class GwtFormView implements IGwtFormView {
 	}
 
 	@Override
-	public void fillHtml(IGWidget gw) {
-		Widget w = gw.getGWidget();
-		HTMLPanel pa = (HTMLPanel) w;
+	public void fillHtml(HTMLPanel pa) {
 		hp = pa;
 		CreateFormView.setHtml(pa, fContainer.getfList());
 	}

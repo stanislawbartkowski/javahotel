@@ -114,9 +114,6 @@ public class SlotType implements IEquatable<SlotType> {
             if (gEnum != slType.gEnum) {
                 return false;
             }
-            if (gEnum == GetActionEnum.GetHtmlMainForm) {
-                return true;
-            }
             if (gEnum == GetActionEnum.GetHtmlForm) {
                 return cellId.eq(slType.cellId);
             }

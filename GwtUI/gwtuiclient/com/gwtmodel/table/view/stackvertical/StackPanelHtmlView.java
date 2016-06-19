@@ -29,34 +29,33 @@ import com.gwtmodel.table.view.util.CreateFormView;
  */
 class StackPanelHtmlView extends AbstractPanelView {
 
-    private final HTMLPanel hPanel;
+	private final HTMLPanel hPanel;
 
-    StackPanelHtmlView(List<ControlButtonDesc> bList, IControlClick click,
-            String html) {
-        super(click);
-        hPanel = new HTMLPanel(html);
-        final List<ClickButtonType> cList = new ArrayList<ClickButtonType>();
-        final List<IGFocusWidget> buList = new ArrayList<IGFocusWidget>();
-        for (ControlButtonDesc bu : bList) {
-            IGFocusWidget bt = constructButton(bu);
-            buList.add(bt);
-            cList.add(new ClickButtonType(bu.getActionId().getCustomButt()));
-        }
-        CreateFormView.setHtml(hPanel, new CreateFormView.IGetButtons() {
+	StackPanelHtmlView(List<ControlButtonDesc> bList, IControlClick click, String html) {
+		super(click);
+		hPanel = new HTMLPanel(html);
+		final List<ClickButtonType> cList = new ArrayList<ClickButtonType>();
+		final List<IGFocusWidget> buList = new ArrayList<IGFocusWidget>();
+		for (ControlButtonDesc bu : bList) {
+			IGFocusWidget bt = constructButton(bu);
+			buList.add(bt);
+			cList.add(new ClickButtonType(bu.getActionId().getCustomButt()));
+		}
+		CreateFormView.setHtml(hPanel, new CreateFormView.IGetButtons() {
 
-            @Override
-            public List<ClickButtonType> getDList() {
-                return cList;
-            }
+			@Override
+			public List<ClickButtonType> getDList() {
+				return cList;
+			}
 
-            @Override
-            public List<IGFocusWidget> getBList() {
-                return buList;
-            }
-        });
-    }
+			@Override
+			public List<IGFocusWidget> getBList() {
+				return buList;
+			}
+		}, null);
+	}
 
-    public Widget getGWidget() {
-        return hPanel;
-    }
+	public Widget getGWidget() {
+		return hPanel;
+	}
 }

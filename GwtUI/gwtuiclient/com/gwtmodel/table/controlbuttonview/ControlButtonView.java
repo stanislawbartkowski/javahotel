@@ -24,6 +24,7 @@ import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.menudef.MenuPullContainer;
 import com.gwtmodel.table.mm.LogT;
+import com.gwtmodel.table.panelview.BinderWidgetSignal;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.ButtonAction;
 import com.gwtmodel.table.slotmodel.CellId;
@@ -32,6 +33,7 @@ import com.gwtmodel.table.slotmodel.CustomStringSlot;
 import com.gwtmodel.table.slotmodel.ISlotCallerListener;
 import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
+import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.stackpanelcontroller.IStackPanelController;
 import com.gwtmodel.table.view.controlpanel.IContrButtonView;
 import com.gwtmodel.table.view.controlpanel.IContrButtonViewFactory;
@@ -204,12 +206,12 @@ class ControlButtonView extends AbstractSlotContainer implements IControlButtonV
 
 	@Override
 	public void startPublish(CellId cellId) {
-		IGWidget w = this.getMainHtmlWidget();
-		if (w != null) {
-			vButton.setHtml(w);
+		BinderWidgetSignal bw = SlU.getBW(dType, this);
+		if (bw != null) {
+			vButton.fillHtml(bw.getValue(),bw.getBw());
 			return;
 		}
-		w = getHtmlWidget(cellId);
+		IGWidget w = getHtmlWidget(cellId);
 		if (w != null) {
 			vButton.setHtml(w);
 		}

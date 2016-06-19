@@ -86,7 +86,7 @@ class HTMLDisc extends AbstractSlotContainer implements ISlotable {
         if (i != null) {
             GetButtons g = (GetButtons) i.getCustom();
             CreateFormView.IGetButtons iG = g.getValue();
-            CreateFormView.setHtml(pa, iG);
+            CreateFormView.setHtml(pa, iG,null);
         }
         publish(publishType, cellId, new GWidget(di));
     }

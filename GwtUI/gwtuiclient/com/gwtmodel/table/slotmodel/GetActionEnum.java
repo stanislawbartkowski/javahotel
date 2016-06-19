@@ -30,8 +30,6 @@ public enum GetActionEnum {
 	GetEditContainer,
 	/** GetHtmlForm. */
 	GetHtmlForm,
-	/** GetHtmlMainForm. */
-	GetHtmlMainForm,
 	/** GetGWidget. */
 	GetGWidget,
 	/** GetFormFieldWidget */

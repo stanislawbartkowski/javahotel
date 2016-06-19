@@ -23,6 +23,9 @@ public class BinderWidget extends XMap {
 	/**
 	 * 
 	 */
+
+	public final static String FIELDID = "fieldid";
+
 	private static final long serialVersionUID = 1L;
 
 	private WidgetTypes type;
@@ -64,6 +67,14 @@ public class BinderWidget extends XMap {
 
 	public void setwList(List<BinderWidget> wList) {
 		this.wList = wList;
+	}
+
+	public String getFieldId() {
+		return getAttr(FIELDID);
+	}
+
+	public boolean isFieldId() {
+		return isAttr(FIELDID);
 	}
 
 }

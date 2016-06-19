@@ -16,6 +16,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.mm.LogT;
 import com.gwtmodel.table.view.util.PopupTip;
 
 /**
@@ -24,82 +25,133 @@ import com.gwtmodel.table.view.util.PopupTip;
  */
 public class GFocusWidgetFactory {
 
-    private GFocusWidgetFactory() {
-    }
+	private GFocusWidgetFactory() {
+	}
 
-    private static class F extends GWidget implements IGFocusWidget {
+	private static class BDecorator implements IGFocusWidget {
+		private final FocusWidget f;
+		private FocusWidget ff = null;
+		private ClickHandler h;
 
-        F(FocusWidget f) {
-            super(f);
-        }
+		BDecorator(FocusWidget f) {
+			this.f = f;
+		}
 
-        @Override
-        public void addClickHandler(ClickHandler h) {
-            FocusWidget f = (FocusWidget) getGWidget();
-            f.addClickHandler(h);
-        }
+		@Override
+		public Widget getGWidget() {
+			if (ff != null)
+				return ff;
+			return f;
+		}
 
-        @Override
-        public void setEnabled(boolean enabled) {
-            FocusWidget f = (FocusWidget) getGWidget();
-            f.setEnabled(enabled);
-        }
+		private FocusWidget getF() {
+			return (FocusWidget) getGWidget();
+		}
 
-        @Override
-        public boolean isEnabled() {
-            FocusWidget f = (FocusWidget) getGWidget();
-            return f.isEnabled();
-        }
+		@Override
+		public void replaceButtonWidget(Widget w) {
+			if (!(w instanceof FocusWidget))
+				Utils.errAlertB(LogT.getT().BinderButtonShouldBeFocusWidget());
+			ff = (FocusWidget) w;
+			if (h != null)
+				ff.addClickHandler(h);
+			ff.setEnabled(f.isEnabled());
+			ff.setVisible(f.isVisible());
 
-        @Override
-        public void setHidden(boolean hidden) {
-            FocusWidget f = (FocusWidget) getGWidget();
-            f.setVisible(!hidden);
+		}
 
-        }
-    }
+		@Override
+		public void addClickHandler(ClickHandler h) {
+			this.h = h;
+			getF().addClickHandler(h);
+		}
 
-    private static class FTip extends PopupTip implements IGFocusWidget {
+		@Override
+		public void setEnabled(boolean enabled) {
+			getF().setEnabled(enabled);
+		}
 
-        FTip(FocusWidget f, String mess) {
-            initWidget(f);
-            setMessage(mess);
-        }
+		@Override
+		public void setHidden(boolean hidden) {
+			getF().setVisible(!hidden);
+		}
+	}
 
-        @Override
-        public void addClickHandler(ClickHandler h) {
-            FocusWidget b = (FocusWidget) this.getWidget();
-            b.addClickHandler(h);
-        }
+	private static class F implements IGWidget, IGFocusWidget {
 
-        @Override
-        public Widget getGWidget() {
-            return this;
-        }
+		private final BDecorator b;
 
-        @Override
-        public void setEnabled(boolean enabled) {
-            FocusWidget b = (FocusWidget) this.getWidget();
-            b.setEnabled(enabled);
-        }
+		F(FocusWidget f) {
+			b = new BDecorator(f);
+		}
 
-        @Override
-        public boolean isEnabled() {
-            Button b = (Button) this.getWidget();
-            return b.isEnabled();
-        }
+		@Override
+		public void addClickHandler(ClickHandler h) {
+			b.addClickHandler(h);
+		}
 
-        @Override
-        public void setHidden(boolean hidden) {
+		@Override
+		public void setEnabled(boolean enabled) {
+			b.setEnabled(enabled);
+		}
 
-        }
-    }
+		@Override
+		public void setHidden(boolean hidden) {
+			b.setHidden(hidden);
+		}
 
-    public static IGFocusWidget construct(FocusWidget w, String mess) {
-        return new FTip(w, mess);
-    }
+		@Override
+		public void replaceButtonWidget(Widget w) {
+			b.replaceButtonWidget(w);
+		}
 
-    public static IGFocusWidget construct(FocusWidget w) {
-        return new F(w);
-    }
+		@Override
+		public Widget getGWidget() {
+			return b.getGWidget();
+		}
+	}
+
+	private static class FTip extends PopupTip implements IGFocusWidget {
+
+		private final BDecorator b;
+
+		FTip(FocusWidget f, String mess) {
+			initWidget(f);
+			setMessage(mess);
+			b = new BDecorator(f);
+		}
+
+		@Override
+		public void addClickHandler(ClickHandler h) {
+			b.addClickHandler(h);
+		}
+
+		@Override
+		public Widget getGWidget() {
+			return b.getGWidget();
+		}
+
+		@Override
+		public void setEnabled(boolean enabled) {
+			b.setEnabled(enabled);
+		}
+
+		@Override
+		public void setHidden(boolean hidden) {
+			b.setHidden(hidden);
+		}
+
+		@Override
+		public void replaceButtonWidget(Widget w) {
+			b.replaceButtonWidget(w);
+		}
+	}
+
+	public static IGFocusWidget construct(FocusWidget w, String mess) {
+		return new FTip(w, mess);
+	}
+
+	public static IGFocusWidget construct(FocusWidget w) {
+		return new F(w);
+	}
 }

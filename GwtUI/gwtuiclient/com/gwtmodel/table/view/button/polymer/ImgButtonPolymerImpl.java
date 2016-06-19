@@ -52,8 +52,9 @@ public class ImgButtonPolymerImpl implements IImgButton {
 		}
 
 		@Override
-		public boolean isEnabled() {
-			return !pa.getDisabled();
+		public void replaceButtonWidget(Widget w) {
+			// TODO Auto-generated method stub
+			
 		}
 
 	}

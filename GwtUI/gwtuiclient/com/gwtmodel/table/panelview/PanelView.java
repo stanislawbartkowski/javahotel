@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
@@ -27,10 +26,10 @@ import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.CustomStringSlot;
 import com.gwtmodel.table.slotmodel.ISlotCallerListener;
+import com.gwtmodel.table.slotmodel.ISlotCustom;
 import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
-import com.gwtmodel.table.slotmodel.SlotType;
 import com.gwtmodel.table.view.binder.CreateBinderWidget;
 import com.gwtmodel.table.view.panel.GwtPanelViewFactory;
 import com.gwtmodel.table.view.panel.IGwtPanelView;
@@ -137,10 +136,16 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
 
 	private class GetMainHtml implements ISlotCallerListener {
 
+		private final BinderWidget bw;
+
+		GetMainHtml(BinderWidget bw) {
+			this.bw = bw;
+		}
+
 		@Override
 		public ISlotSignalContext call(ISlotSignalContext slContext) {
-			ISlotSignalContext sl = slFactory.construct(slContext.getSlType(), new GWidget(htmlWidget));
-			return sl;
+			BinderWidgetSignal s = new BinderWidgetSignal(htmlWidget, bw);
+			return slFactory.construct(slContext.getSlType(), s);
 		}
 	}
 
@@ -163,9 +168,8 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
 			pView = GwtPanelViewFactory.construct(maxR + 1, maxC + 1);
 		} else {
 			htmlWidget = html != null ? new HTMLPanel(html) : CreateBinderWidget.create(b);
-			c = new GetMainHtml();
-			SlotType sl = slTypeFactory.constructMainH();
-			registerCaller(sl, c);
+			ISlotCustom sl = BinderWidgetSignal.constructSlotLineErrorSignal(dType);
+			registerCaller(sl, new GetMainHtml(b));
 		}
 
 		for (CellId ii : colM.keySet()) {

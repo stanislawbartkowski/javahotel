@@ -484,4 +484,12 @@ public class Utils {
 		w.getElement().getStyle().setProperty("visibility", "visible");
 	}
 
+	public static void setWidgetAttribute(Widget w, String attr, String value) {
+		w.getElement().setAttribute(attr, value);
+	}
+
+	public static String getWidgetAttribute(Widget w, String attr) {
+		return w.getElement().getAttribute(attr);
+	}
+
 }

@@ -12,6 +12,7 @@
  */
 package com.gwtmodel.table.view.form;
 
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.InvalidateFormContainer;
 
@@ -19,7 +20,7 @@ public interface IGwtFormView extends IGWidget {
 
     void showInvalidate(InvalidateFormContainer errContainer);
 
-    void fillHtml(IGWidget g);
+    void fillHtml(HTMLPanel g);
 
     void setHtmlId(String is, IGWidget g);
 

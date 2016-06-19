@@ -14,6 +14,7 @@ package com.gwtmodel.table.view.controlpanel;
 
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.gwtmodel.table.IGWidget;
+import com.gwtmodel.table.binder.BinderWidget;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.view.util.CreateFormView;
 
@@ -29,7 +30,7 @@ public interface IContrButtonView extends IGWidget {
 
     void setHtml(IGWidget g);
 
-    void fillHtml(HTMLPanel pa);
+    void fillHtml(HTMLPanel pa, BinderWidget bw);
 
     void emulateClick(ClickButtonType actionId);
 

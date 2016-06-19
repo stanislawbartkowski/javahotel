@@ -35,6 +35,7 @@ import com.gwtmodel.table.listdataview.DataIntegerSignal;
 import com.gwtmodel.table.listdataview.GetVListSignal;
 import com.gwtmodel.table.listdataview.NoPropertyColumn;
 import com.gwtmodel.table.mm.LogT;
+import com.gwtmodel.table.panelview.BinderWidgetSignal;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
 
 /**
@@ -445,6 +446,16 @@ public class SlU {
 	public static IOkModelData getOkModelData(IDataType dType, ISlotable iSlo) {
 		ISlotSignalContext slContext = iSlo.getSlContainer().getGetterContext(dType, GetActionEnum.GetFilterData);
 		return slContext.getIOkModelData();
+	}
 
+	public static BinderWidgetSignal getBW(IDataType dType, ISlotable iSlo) {
+		ISlotCustom sl = BinderWidgetSignal.constructSlotLineErrorSignal(dType);
+		ISlotSignalContext i = iSlo.getSlContainer().getGetterCustom(sl);
+		if (i == null) return null;
+		ICustomObject o = i.getCustom();
+		BinderWidgetSignal bw = (BinderWidgetSignal) o;
+		if (bw.getValue() == null)
+			return null;
+		return bw;
 	}
 }

@@ -12,11 +12,14 @@
  */
 package com.gwtmodel.table.view.pullmenu;
 
+import java.util.List;
+
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IGWidget;
+import com.gwtmodel.table.binder.BinderWidget;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.menudef.MenuPullContainer;
 import com.gwtmodel.table.menudef.MenuPullDesc;
@@ -24,8 +27,6 @@ import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.view.controlpanel.IContrButtonView;
 import com.gwtmodel.table.view.controlpanel.IControlClick;
 import com.gwtmodel.table.view.util.CreateFormView.IGetButtons;
-
-import java.util.List;
 
 /**
  *
@@ -51,7 +52,7 @@ class PullMenuView implements IContrButtonView {
     }
 
     @Override
-    public void fillHtml(HTMLPanel pa) {
+    public void fillHtml(HTMLPanel pa, BinderWidget bw) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

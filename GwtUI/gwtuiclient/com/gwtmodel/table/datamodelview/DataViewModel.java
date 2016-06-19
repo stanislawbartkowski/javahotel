@@ -32,6 +32,7 @@ import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.mm.LogT;
+import com.gwtmodel.table.panelview.BinderWidgetSignal;
 import com.gwtmodel.table.panelview.SendPanelElemSignal;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
@@ -62,12 +63,12 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
 
 		@Override
 		protected void doTask() {
-			IGWidget w = getMainHtmlWidget();
-			if (w == null) {
+			BinderWidgetSignal bw = SlU.getBW(dType, DataViewModel.this);
+			if (bw == null) {
 				publish(dType, cellId, gView);
 				return;
 			}
-			gView.fillHtml(w);
+			gView.fillHtml(bw.getValue());
 		}
 	}
 

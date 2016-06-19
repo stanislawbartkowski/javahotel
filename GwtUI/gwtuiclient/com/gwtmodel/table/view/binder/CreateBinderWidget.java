@@ -12,22 +12,66 @@
  */
 package com.gwtmodel.table.view.binder;
 
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import com.google.gwt.dev.jjs.ast.HasName.Util;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.binder.BinderWidget;
+import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.mm.LogT;
 
 public class CreateBinderWidget {
 
 	private CreateBinderWidget() {
 
+	}
+
+	private static void setWAttribute(Widget w, BinderWidget bw) {
+		if (bw.isFieldId())
+			Utils.setWidgetAttribute(w, BinderWidget.FIELDID, bw.getFieldId());
+		Iterator<String> i = bw.getKeys();
+		while (i.hasNext()) {
+			String k = i.next();
+			String v = bw.getAttr(k);
+			if (k.equals(IConsts.ATTRHEIGHT))
+				w.setHeight(v);
+			else if (k.equals(IConsts.ATTRSIZE)) {
+				String[] pp = v.split(" ");
+				if (pp.length == 2)
+					w.setSize(pp[0], pp[1]);
+			} else if (k.equals(IConsts.ATTRPIXELSIZE)) {
+				String[] pp = v.split(" ");
+				if (pp.length == 2)
+					w.setPixelSize(CUtil.toInteger(pp[0]), CUtil.toInteger(pp[1]));
+			} else if (k.equals(IConsts.ATTRSTYLENAME))
+				w.setStyleName(v);
+			else if (k.equals(IConsts.ATTRSTYLEPRIMARYNAME))
+				w.setStylePrimaryName(v);
+			else if (k.equals(IConsts.ATTRVISIBLE))
+				w.setVisible(Boolean.parseBoolean(v));
+			else if (k.equals(IConsts.ATTRTITLE))
+				w.setTitle(v);
+			else if (k.equals(IConsts.ATTRWIDTH))
+				w.setWidth(v);
+		}
+	}
+
+	private static void setLabelAttribute(Label l, BinderWidget bw) {
+		Iterator<String> i = bw.getKeys();
+		while (i.hasNext()) {
+			String k = i.next();
+			String v = bw.getAttr(k);
+			if (k.equals(IConsts.ATTRTEXT))
+				l.setText(v);
+		}
 	}
 
 	private static Widget createWidget(BinderWidget bw) {
@@ -40,9 +84,12 @@ public class CreateBinderWidget {
 			w = new Button(bw.getContentHtml());
 			break;
 		case Label:
-			w = new Label(bw.getContentHtml());
+			Label l = new Label(bw.getContentHtml());
+			setLabelAttribute(l, bw);
+			w = l;
 			break;
 		} // switch
+		setWAttribute(w, bw);
 		if (bw.getwList().isEmpty())
 			return w;
 		if (!(w instanceof HasWidgets))
