@@ -16,6 +16,8 @@
  */
 package com.gwtmodel.table;
 
+import com.gwtmodel.table.common.IMessConsts;
+
 /**
  * 
  * @author hotel
@@ -60,4 +62,9 @@ public interface IConsts {
 	String ATTRVISIBLE = "visible";
 	String ATTRWIDTH = "width";
 	String ATTRTEXT = "text";
+	String ATTRHTML = "html";
+	String ATTREENABLED = "enabled";
+
+	String RESBEG = "{" + IMessConsts.STANDCH;
+	String RESEND = "}";
 }

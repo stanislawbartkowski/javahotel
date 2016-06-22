@@ -10,27 +10,12 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.panelview;
+package com.gwtmodel.table.view.binder;
 
-import javax.inject.Inject;
+import com.google.gwt.user.client.ui.HTMLPanel;
+import com.gwtmodel.table.binder.BinderWidget;
 
-import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.slotmodel.CellId;
-import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
-import com.gwtmodel.table.view.binder.ICreateBinderWidget;
+public interface ICreateBinderWidget {
 
-public class PanelViewFactory {
-
-	@Inject
-	private static SlotSignalContextFactory slFactory;
-
-	@Inject
-	private static ICreateBinderWidget iBinder;
-
-	private PanelViewFactory() {
-	}
-
-	public static IPanelView construct(IDataType dType, CellId pId) {
-		return new PanelView(slFactory, iBinder, dType, pId);
-	}
+	HTMLPanel create(BinderWidget w);
 }

@@ -14,7 +14,6 @@ package com.gwtmodel.table.binder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.gwtmodel.table.map.XMap;
 

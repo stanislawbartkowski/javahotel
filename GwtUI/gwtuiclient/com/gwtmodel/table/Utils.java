@@ -225,6 +225,10 @@ public class Utils {
 		return (Date) val;
 	}
 
+	public static boolean toB(String s) {
+		return Boolean.parseBoolean(s);
+	}
+
 	// some 'log' utilities
 	public static boolean TrueL(String s) {
 		IGetCustomValues c = GwtGiniInjector.getI().getCustomValues();

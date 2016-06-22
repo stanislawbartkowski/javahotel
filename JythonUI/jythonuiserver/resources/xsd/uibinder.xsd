@@ -19,6 +19,15 @@
 		<xs:attribute name="text" type="xs:string" />	
 	</xs:attributeGroup>
 
+    <xs:attributeGroup name="focusWidgetG">
+		<xs:attribute name="enabled" type="xs:boolean" />	
+    </xs:attributeGroup>
+
+    <xs:attributeGroup name="buttonBaseG">
+		<xs:attribute name="text" type="xs:string" />	
+		<xs:attribute name="html" type="xs:string" />	       
+    </xs:attributeGroup>
+
 	<xs:element name="Label">
 		<xs:complexType mixed="true">
 			<xs:attributeGroup ref="objectG" />
@@ -29,6 +38,8 @@
 	<xs:element name="Button">
 		<xs:complexType mixed="true">
 			<xs:attributeGroup ref="objectG" />
+			<xs:attributeGroup ref="focusWidgetG" />
+			<xs:attributeGroup ref="buttonBaseG" />
 		</xs:complexType>
 	</xs:element>
 

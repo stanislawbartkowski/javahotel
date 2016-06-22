@@ -1,17 +1,17 @@
 <?xml version="1.0"?>
 <ui:UiBinder xmlns:ui='http://www.jythongwt.uibinderxsd.com'>
 	<ui:HTMLPanel>
-	<ui:o>
-	  <div>
-	  <H1>Title</H1>
-	  <ui:Label text="Text first" height="100px" title="bla bla bla">Mój pierwszy dialog </ui:Label>
-	  <div>
-	  <ui:Button fieldid="akce">Akceptujesz binder</ui:Button>
-	</div>
-	  <ui:Button>Rezygnujesz</ui:Button>
-	  <div id="next">Hello</div>
+	  <ui:o>
+	    <ui:Label>This dialog is binder created</ui:Label>
+	    <br/>
+          <div id="labelfor-name1">Hello</div>
 	  <div id="name1">Hello</div>
-	</div>
+	  <br/>
+          <div id="labelfor-name2">Hello</div>
+	  <div id="name2">Hello</div>
+	  <br/>
+	  <ui:Button fieldid="akce">Accept binder</ui:Button>
+	  <ui:Button fieldid="reze">{@resign}</ui:Button>
 	  </ui:o>
 	</ui:HTMLPanel>
 </ui:UiBinder>

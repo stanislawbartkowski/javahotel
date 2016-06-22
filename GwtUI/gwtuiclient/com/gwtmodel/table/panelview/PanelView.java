@@ -31,6 +31,7 @@ import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.view.binder.CreateBinderWidget;
+import com.gwtmodel.table.view.binder.ICreateBinderWidget;
 import com.gwtmodel.table.view.panel.GwtPanelViewFactory;
 import com.gwtmodel.table.view.panel.IGwtPanelView;
 import com.gwtmodel.table.view.util.CreateFormView;
@@ -69,11 +70,13 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
 	private IGwtPanelView pView;
 	private HTMLPanel htmlWidget;
 	private final SlotSignalContextFactory slFactory;
+	private final ICreateBinderWidget iBinder;
 
-	PanelView(SlotSignalContextFactory slFactory, IDataType dType, CellId panelId) {
+	PanelView(SlotSignalContextFactory slFactory, ICreateBinderWidget iBinder, IDataType dType, CellId panelId) {
 		assert dType != null : LogT.getT().dTypeCannotBeNull();
 		this.panelId = panelId;
 		this.slFactory = slFactory;
+		this.iBinder = iBinder;
 		this.dType = dType;
 		htmlWidget = null;
 		pView = null;
@@ -167,7 +170,7 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
 			}
 			pView = GwtPanelViewFactory.construct(maxR + 1, maxC + 1);
 		} else {
-			htmlWidget = html != null ? new HTMLPanel(html) : CreateBinderWidget.create(b);
+			htmlWidget = html != null ? new HTMLPanel(html) : iBinder.create(b);
 			ISlotCustom sl = BinderWidgetSignal.constructSlotLineErrorSignal(dType);
 			registerCaller(sl, new GetMainHtml(b));
 		}

@@ -12,35 +12,63 @@
  */
 package com.gwtmodel.table.view.binder;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
-import com.google.gwt.dev.jjs.ast.HasName.Util;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.ButtonBase;
+import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
 import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.binder.BinderWidget;
+import com.gwtmodel.table.binder.WidgetTypes;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.mm.LogT;
+import com.gwtmodel.table.smessage.IGetStandardMessage;
 
-public class CreateBinderWidget {
+@SuppressWarnings("unchecked")
+public class CreateBinderWidget implements ICreateBinderWidget {
 
-	private CreateBinderWidget() {
+	private final IGetStandardMessage cValues;
 
+	@Inject
+	public CreateBinderWidget(IGetStandardMessage cValues) {
+		this.cValues = cValues;
 	}
 
-	private static void setWAttribute(Widget w, BinderWidget bw) {
-		if (bw.isFieldId())
-			Utils.setWidgetAttribute(w, BinderWidget.FIELDID, bw.getFieldId());
-		Iterator<String> i = bw.getKeys();
-		while (i.hasNext()) {
-			String k = i.next();
-			String v = bw.getAttr(k);
+	private interface IVisitor<T extends Widget> {
+		void visit(T w, String k, String v);
+	}
+
+	private String convert(String s) {
+		StringBuffer b = new StringBuffer(s);
+		while (true) {
+			int i = b.indexOf(IConsts.RESBEG);
+			if (i == -1)
+				break;
+			int k = b.indexOf(IConsts.RESEND, i);
+			if (k == -1)
+				break;
+			String res = b.substring(i + 1, k);
+			// together with $
+			String v = cValues.getMessage(res);
+			b.replace(i, k+2, v);
+		}
+		return b.toString();
+	}
+
+	private final static IVisitor<Widget> argW = new IVisitor<Widget>() {
+
+		@Override
+		public void visit(Widget w, String k, String v) {
 			if (k.equals(IConsts.ATTRHEIGHT))
 				w.setHeight(v);
 			else if (k.equals(IConsts.ATTRSIZE)) {
@@ -56,37 +84,83 @@ public class CreateBinderWidget {
 			else if (k.equals(IConsts.ATTRSTYLEPRIMARYNAME))
 				w.setStylePrimaryName(v);
 			else if (k.equals(IConsts.ATTRVISIBLE))
-				w.setVisible(Boolean.parseBoolean(v));
+				w.setVisible(Utils.toB(v));
 			else if (k.equals(IConsts.ATTRTITLE))
 				w.setTitle(v);
 			else if (k.equals(IConsts.ATTRWIDTH))
 				w.setWidth(v);
 		}
-	}
+	};
 
-	private static void setLabelAttribute(Label l, BinderWidget bw) {
-		Iterator<String> i = bw.getKeys();
-		while (i.hasNext()) {
-			String k = i.next();
-			String v = bw.getAttr(k);
+	private static final IVisitor<Label> argL = new IVisitor<Label>() {
+
+		@Override
+		public void visit(Label l, String k, String v) {
 			if (k.equals(IConsts.ATTRTEXT))
 				l.setText(v);
 		}
+	};
+
+	private static final IVisitor<FocusWidget> argF = new IVisitor<FocusWidget>() {
+
+		@Override
+		public void visit(FocusWidget w, String k, String v) {
+			if (k.equals(IConsts.ATTREENABLED))
+				w.setEnabled(Utils.toB(v));
+		}
+	};
+
+	private static final IVisitor<ButtonBase> argbaseB = new IVisitor<ButtonBase>() {
+
+		@Override
+		public void visit(ButtonBase w, String k, String v) {
+			if (k.equals(IConsts.ATTRTEXT))
+				w.setText(v);
+			if (k.equals(IConsts.ATTRHTML))
+				w.setHTML(v);
+		}
+
+	};
+
+	private final static Map<WidgetTypes, IVisitor<Widget>[]> setAWidget = new HashMap<WidgetTypes, IVisitor<Widget>[]>();
+
+	static {
+		setAWidget.put(WidgetTypes.Button, new IVisitor[] { argF, argbaseB });
+		setAWidget.put(WidgetTypes.Label, new IVisitor[] { argL });
+		setAWidget.put(WidgetTypes.HTMLPanel, new IVisitor[] {});
 	}
 
-	private static Widget createWidget(BinderWidget bw) {
+	private <T extends Widget> void setAttr(T w, BinderWidget bw, IVisitor<T>... vil) {
+		Iterator<String> i = bw.getKeys();
+		while (i.hasNext()) {
+			String k = i.next();
+			String v = convert(bw.getAttr(k));
+			argW.visit(w, k, v);
+			for (IVisitor<T> vi : vil)
+				vi.visit(w, k, v);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private void setWAttribute(Widget w, BinderWidget bw) {
+		if (bw.isFieldId())
+			Utils.setWidgetAttribute(w, BinderWidget.FIELDID, bw.getFieldId());
+		setAttr(w, bw, setAWidget.get(bw.getType()));
+	}
+
+	private Widget createWidget(BinderWidget bw) {
 		Widget w = null;
+		String html = "";
+		if (!CUtil.EmptyS(bw.getContentHtml())) html = convert(bw.getContentHtml());
 		switch (bw.getType()) {
 		case HTMLPanel:
-			w = new HTMLPanel(bw.getContentHtml());
+			w = new HTMLPanel(html);
 			break;
 		case Button:
-			w = new Button(bw.getContentHtml());
+			w = new Button(html);
 			break;
 		case Label:
-			Label l = new Label(bw.getContentHtml());
-			setLabelAttribute(l, bw);
-			w = l;
+			w = new Label(html);
 			break;
 		} // switch
 		setWAttribute(w, bw);
@@ -120,7 +194,8 @@ public class CreateBinderWidget {
 		return w;
 	}
 
-	public static HTMLPanel create(BinderWidget w) {
+	@Override
+	public HTMLPanel create(BinderWidget w) {
 		if (w.getwList().isEmpty())
 			Utils.errAlertB(LogT.getT().BinderWidgetNoPanels());
 		BinderWidget p = w.getwList().get(0);

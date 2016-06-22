@@ -12,7 +12,7 @@
  <buttons>
    <button id="next" displayname="Click me" />
    <button id="akce" displayname="Akceptujesz" />
-   <button id="rezy" displayname="Rezygnujesz" />
+   <button id="reze" displayname="Rezygnujesz" />
  </buttons>  
  
  <form>

@@ -49,6 +49,8 @@ import com.gwtmodel.table.smessage.GetStandardMessage;
 import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.gwtmodel.table.stackpanelcontroller.StackPanelControllerFactory;
 import com.gwtmodel.table.tabpanelview.TabPanelViewFactory;
+import com.gwtmodel.table.view.binder.CreateBinderWidget;
+import com.gwtmodel.table.view.binder.ICreateBinderWidget;
 import com.gwtmodel.table.view.button.IImgButton;
 import com.gwtmodel.table.view.button.ImgButtonFactory;
 import com.gwtmodel.table.view.button.gwt.ImgButtonGwtImpl;
@@ -114,8 +116,9 @@ public class GwtTableInjectModule extends AbstractGinModule {
 		bind(IJsonConvert.class).to(CreateJSonForIVData.class).in(Singleton.class);
 		bind(IDatePanelScroll.class).to(WidgetScrollSeasonFactory.class).in(Singleton.class);
 		bind(IDisclosurePanelFactory.class).to(DisclosurePanelFactory.class).in(Singleton.class);
+		bind(ICreateBinderWidget.class).to(CreateBinderWidget.class).in(Singleton.class);
 		requestStaticInjection(ImgButtonFactory.class, ControlButtonViewFactory.class, EditWidgetFactory.class,
 				GridViewFactory.class, GwtPanelViewFactory.class, ChooseListFactory.class, PanelViewFactory.class,
-				LoginViewFactory.class,TabPanelViewFactory.class);
+				LoginViewFactory.class, TabPanelViewFactory.class);
 	}
 }

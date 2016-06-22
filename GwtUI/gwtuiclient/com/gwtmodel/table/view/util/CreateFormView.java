@@ -123,6 +123,7 @@ public class CreateFormView {
 	}
 
 	public static void setHtml(HTMLPanel pa, List<FormField> fList) {
+		String h = pa.toString();
 		IEditWidget eFactory = EditWidgetFactory.getGwtE();
 		IGetStandardMessage iMess = GwtGiniInjector.getI().getStandardMessage();
 		IGetCustomValues c = GwtGiniInjector.getI().getCustomValues();
