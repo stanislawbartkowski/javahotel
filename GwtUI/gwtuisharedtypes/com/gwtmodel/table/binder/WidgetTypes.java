@@ -14,6 +14,6 @@ package com.gwtmodel.table.binder;
 
 public enum WidgetTypes {
 
-	HTMLPanel, Button,Label,UiBinder
+	HTMLPanel, Button, Label, UiBinder, IronIcon, PaperIconItem, PaperButton
 
 }

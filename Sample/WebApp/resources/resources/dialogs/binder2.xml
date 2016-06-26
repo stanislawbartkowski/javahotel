@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" polymer="" >
+ 
+ <uibinder>binder/binder2.xml</uibinder>
+ 
+  <jython>
+   <import>from testpack import binder1</import>
+   <method>binder1.dialogaction({0},{1})</method>
+ </jython>  
+
+ 
+ <buttons>
+   <button id="clear" displayname="xxx" />
+   <button id="favor" displayname="xxx" />
+   <button id="hello" displayname="xxx" />
+ </buttons>  
+ 
+ <form>
+   <field id="name1" />
+   <field id="name2" displayname="Wprowadź napis" />
+ </form>
+
+</dialog>

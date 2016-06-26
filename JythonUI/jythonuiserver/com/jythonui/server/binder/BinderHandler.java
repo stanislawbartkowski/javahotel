@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.Stack;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
@@ -30,10 +31,17 @@ import com.gwtmodel.table.binder.WidgetTypes;
 import com.gwtmodel.table.common.CUtil;
 import com.jamesmurty.utils.XMLBuilder;
 import com.jythonui.server.IConsts;
+import com.jythonui.server.UtilHelper;
+import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.server.holder.SHolder;
+import com.jythonui.server.logmess.IErrorCode;
+import com.jythonui.server.logmess.ILogMess;
 
 class BinderHandler extends DefaultHandler {
 
 	private static final String root = "root";
+
+	static final private Logger log = Logger.getLogger(BinderHandler.class.getName());
 
 	private class Tag {
 		final BinderWidget b = new BinderWidget();
@@ -65,6 +73,9 @@ class BinderHandler extends DefaultHandler {
 		toW.put(IConsts.LABELWIDGET, WidgetTypes.Label);
 		toW.put(IConsts.BUTTONWIDGET, WidgetTypes.Button);
 		toW.put(IConsts.UIBINDER, WidgetTypes.UiBinder);
+		toW.put(IConsts.IRONICON, WidgetTypes.IronIcon);
+		toW.put(IConsts.PAPERICONITEM, WidgetTypes.PaperIconItem);
+		toW.put(IConsts.PAPERBUTTON, WidgetTypes.PaperButton);
 	}
 
 	private static String genId() {
@@ -76,10 +87,20 @@ class BinderHandler extends DefaultHandler {
 		return IConsts.BINDERNAMESPACE.equals(uri);
 	}
 
-	private static WidgetTypes toWi(String uri, String localName) {
+	private static IGetLogMess L() {
+		return SHolder.getM();
+	}
+
+	private static WidgetTypes toWi(String uri, String localName) throws SAXException {
+
 		if (!isNameSpace(uri))
 			return null;
-		return toW.get(localName);
+		WidgetTypes w = toW.get(localName);
+		if (w != null)
+			return w;
+		String mess = L().getMess(IErrorCode.ERRORCODE129, ILogMess.WIDGETYPESNOTRECOGNIZED, localName);
+		log.severe(mess);
+		throw new SAXException(mess);
 	}
 
 	@Override

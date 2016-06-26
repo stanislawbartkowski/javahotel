@@ -10,12 +10,13 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.util;
+package com.jythonui.server.validatexml;
 
 import java.io.IOException;
 import java.net.URL;
 
 import javax.xml.XMLConstants;
+import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
@@ -23,32 +24,32 @@ import javax.xml.validation.Validator;
 
 import org.xml.sax.SAXException;
 
-/**
- * @author hotel Utility class for XML validation. In case of error throws
- *         exception
- */
-public class VerifyXML {
+/*
+import org.apache.xerces.jaxp.validation.XMLSchema11Factory;
+*/
 
-    private VerifyXML() {
-    }
+import com.jythonui.server.IValidateXML;
 
-    /**
-     * 
-     * @param xsdFile
-     *            URL of xsd file (XML schema)
-     * @param sou
-     *            Source XML file (in shape of StreamSource)
-     * 
-     * @throws SAXException
-     * @throws IOException
-     */
-    public static void verify(URL xsdFile, StreamSource sou)
-            throws SAXException, IOException {
-        SchemaFactory fa = SchemaFactory
-                .newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        Schema se = fa.newSchema(xsdFile);
-        Validator validator = se.newValidator();
-        validator.validate(sou);
-    }
+public class ValidateXML implements IValidateXML {
+
+	private static SchemaFactory construct() {
+		return SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+	}
+
+	/*
+	 * private static SchemaFactory construct11() { return
+	 * XMLSchema11Factory.newInstance("http://www.w3.org/XML/XMLSchema/v1.1"); }
+	 */
+
+	@Override
+	public void validate(Source sou, URL... xsdFiles) throws SAXException, IOException {
+		SchemaFactory fa = construct();
+		Source[] xsda = new Source[xsdFiles.length];
+		for (int i = 0; i < xsdFiles.length; i++)
+			xsda[i] = new StreamSource(xsdFiles[i].openStream());
+		Schema se = fa.newSchema(xsda);
+		Validator validator = se.newValidator();
+		validator.validate(sou);
+	}
 
 }

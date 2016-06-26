@@ -15,18 +15,25 @@ package com.gwtmodel.table.view.button.polymer;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IGFocusWidget;
+import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.mm.LogT;
 import com.gwtmodel.table.view.button.IImgButton;
+import com.vaadin.polymer.PolymerWidget;
 import com.vaadin.polymer.paper.widget.PaperButton;
 
 public class ImgButtonPolymerImpl implements IImgButton {
 
-	private class PolymerWidget implements IGFocusWidget {
+	private class PolymerWidgetButton implements IGFocusWidget {
 
-		private final PaperButton pa;
+		private PolymerWidget pa;
+		private final String bId;
+		private ClickHandler cli;
 
-		PolymerWidget(String bId, String bName, String img) {
-			pa = new PaperButton(bName);
-			pa.setRaised(true);
+		PolymerWidgetButton(String bId, String bName, String img) {
+			PaperButton b = new PaperButton(bName);
+			pa = b;
+			b.setRaised(true);
+			this.bId = bId;
 		}
 
 		@Override
@@ -36,13 +43,13 @@ public class ImgButtonPolymerImpl implements IImgButton {
 
 		@Override
 		public void addClickHandler(ClickHandler h) {
+			this.cli = h;
 			pa.addClickHandler(h);
 		}
 
 		@Override
 		public void setEnabled(boolean enabled) {
 			pa.setDisabled(!enabled);
-
 		}
 
 		@Override
@@ -53,15 +60,18 @@ public class ImgButtonPolymerImpl implements IImgButton {
 
 		@Override
 		public void replaceButtonWidget(Widget w) {
-			// TODO Auto-generated method stub
-			
+			if (!(w instanceof PolymerWidget))
+				Utils.errAlert(bId, LogT.getT().PolymerButtonShouldBePolymerWidget(w.getClass().getName()));
+			// replace widget
+			pa = (PolymerWidget) w;
+			if  (cli != null) pa.addClickHandler(cli);
 		}
 
 	}
 
 	@Override
 	public IGFocusWidget getButton(String bId, String bName, String img) {
-		return new PolymerWidget(bId, bName, img);
+		return new PolymerWidgetButton(bId, bName, img);
 	}
 
 	@Override

@@ -13,12 +13,14 @@
 package com.jythonui.server;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.net.URL;
+
+import javax.xml.transform.Source;
 
 import org.xml.sax.SAXException;
 
-public interface IVerifySchema {
-
-	void verify(InputStream sou, String ... xsdFile) throws SAXException, IOException;
+public interface IValidateXML {
+	
+	void validate(Source sou,URL ... xsdFiles) throws SAXException, IOException;
 
 }

@@ -190,7 +190,6 @@ public class CreateFormView {
 			}
 			if (d.isRange())
 				continue;
-			IVField v = d.getFie();
 			String mLabel = iMess.getMessage(d.getPLabel());
 
 			// FormField fRange = null;

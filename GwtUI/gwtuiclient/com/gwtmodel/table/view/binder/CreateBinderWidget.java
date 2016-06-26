@@ -33,6 +33,10 @@ import com.gwtmodel.table.binder.WidgetTypes;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.mm.LogT;
 import com.gwtmodel.table.smessage.IGetStandardMessage;
+import com.vaadin.polymer.PolymerWidget;
+import com.vaadin.polymer.iron.widget.IronIcon;
+import com.vaadin.polymer.paper.widget.PaperButton;
+import com.vaadin.polymer.paper.widget.PaperIconItem;
 
 @SuppressWarnings("unchecked")
 public class CreateBinderWidget implements ICreateBinderWidget {
@@ -60,7 +64,7 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 			String res = b.substring(i + 1, k);
 			// together with $
 			String v = cValues.getMessage(res);
-			b.replace(i, k+2, v);
+			b.replace(i, k + 2, v);
 		}
 		return b.toString();
 	}
@@ -89,6 +93,12 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 				w.setTitle(v);
 			else if (k.equals(IConsts.ATTRWIDTH))
 				w.setWidth(v);
+			else if (k.equals(IConsts.ATTRADDSTYLENAMES)) {
+				String sa[] = v.split(" ");
+				for (String a : sa)
+					w.addStyleName(a);
+			}
+
 		}
 	};
 
@@ -116,8 +126,88 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 		public void visit(ButtonBase w, String k, String v) {
 			if (k.equals(IConsts.ATTRTEXT))
 				w.setText(v);
-			if (k.equals(IConsts.ATTRHTML))
+			else if (k.equals(IConsts.ATTRHTML))
 				w.setHTML(v);
+		}
+
+	};
+
+	private static final IVisitor<PolymerWidget> polymerWidgetG = new IVisitor<PolymerWidget>() {
+
+		@Override
+		public void visit(PolymerWidget w, String k, String v) {
+			if (k.equals(IConsts.ATTRATRIBUTES))
+				w.setAttributes(v);
+			else if (k.equals(IConsts.ATTRBOOLEANATTRIBUTE)) {
+				String va[] = v.split(" ");
+				for (String iv : va) {
+					String[] bv = iv.split(":");
+					w.setBooleanAttribute(bv[0], Utils.toB(bv[1]));
+				}
+			} else if (k.equals(IConsts.ATTRDISABLED))
+				w.setDisabled(Utils.toB(v));
+			else if (k.equals(IConsts.ATTRID))
+				w.setId(v);
+			else if (k.equals(IConsts.ATTRNAME))
+				w.setName(v);
+			else if (k.equals(IConsts.ATTRNOINK))
+				w.setNoink(Utils.toB(v));
+			else if (k.equals(IConsts.ATTRSTYLE))
+				w.setStyle(v);
+			else if (k.equals(IConsts.ATTRTABINDEX))
+				w.setTabindex(CUtil.getInteger(v));
+		}
+
+	};
+
+	private static final IVisitor<PaperIconItem> paperIconItemG = new IVisitor<PaperIconItem>() {
+
+		@Override
+		public void visit(PaperIconItem w, String k, String v) {
+			if (k.equals(IConsts.ATTRFOCUSED))
+				w.setFocused(Utils.toB(v));
+			else if (k.equals(IConsts.ATTRPOINTERDOWN))
+				w.setPointerDown(Utils.toB(v));
+			else if (k.equals(IConsts.ATTRPRESSED))
+				w.setPressed(Utils.toB(v));
+			else if (k.equals(IConsts.ATTRTOGGLES))
+				w.setToggles(Utils.toB(v));
+		}
+
+	};
+
+	private static final IVisitor<IronIcon> ironIconG = new IVisitor<IronIcon>() {
+
+		@Override
+		public void visit(IronIcon w, String k, String v) {
+			if (k.equals(IConsts.ATTRICON))
+				w.setIcon(v);
+			else if (k.equals(IConsts.ATTRSRC))
+				w.setSrc(v);
+			else if (k.equals(IConsts.ATTRTHEME))
+				w.setTheme(v);
+		}
+
+	};
+
+	private static final IVisitor<PaperButton> paperbuttonG = new IVisitor<PaperButton>() {
+
+		@Override
+		public void visit(PaperButton w, String k, String v) {
+			if (k.equals(IConsts.ATTRFOCUSED))
+				w.setFocused(Utils.toB(v));
+			else if (k.equals(IConsts.ATTRPOINTERDOWN))
+				w.setPointerDown(Utils.toB(v));
+			else if (k.equals(IConsts.ATTRPRESSED))
+				w.setPressed(Utils.toB(v));
+			else if (k.equals(IConsts.ATTRTOGGLES))
+				w.setToggles(Utils.toB(v));
+			else if (k.equals(IConsts.ATTRACTIVE))
+				w.setActive(Utils.toB(v));
+			else if (k.equals(IConsts.ATTRRAISED))
+				w.setRaised(Utils.toB(v));
+			else if (k.equals(IConsts.ATTRELEVATION))
+				w.setElevation(v);
 		}
 
 	};
@@ -128,6 +218,9 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 		setAWidget.put(WidgetTypes.Button, new IVisitor[] { argF, argbaseB });
 		setAWidget.put(WidgetTypes.Label, new IVisitor[] { argL });
 		setAWidget.put(WidgetTypes.HTMLPanel, new IVisitor[] {});
+		setAWidget.put(WidgetTypes.PaperIconItem, new IVisitor[] { polymerWidgetG, paperIconItemG });
+		setAWidget.put(WidgetTypes.IronIcon, new IVisitor[] { polymerWidgetG, ironIconG });
+		setAWidget.put(WidgetTypes.PaperButton, new IVisitor[] { polymerWidgetG, paperbuttonG });
 	}
 
 	private <T extends Widget> void setAttr(T w, BinderWidget bw, IVisitor<T>... vil) {
@@ -151,7 +244,8 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 	private Widget createWidget(BinderWidget bw) {
 		Widget w = null;
 		String html = "";
-		if (!CUtil.EmptyS(bw.getContentHtml())) html = convert(bw.getContentHtml());
+		if (!CUtil.EmptyS(bw.getContentHtml()))
+			html = convert(bw.getContentHtml());
 		switch (bw.getType()) {
 		case HTMLPanel:
 			w = new HTMLPanel(html);
@@ -161,6 +255,15 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 			break;
 		case Label:
 			w = new Label(html);
+			break;
+		case PaperIconItem:
+			w = new PaperIconItem(html);
+			break;
+		case IronIcon:
+			w = new IronIcon(html);
+			break;
+		case PaperButton:
+			w = new PaperButton(html);
 			break;
 		} // switch
 		setWAttribute(w, bw);

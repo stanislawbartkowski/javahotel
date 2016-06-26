@@ -318,8 +318,13 @@ public class Utils {
 	}
 
 	public static void errAlertB(String s) {
-		Window.alert(s);
+		errAlert(s);
 		assert false : s;
+	}
+
+	public static void errAlertB(String s1, String s2) {
+		errAlert(s1, s2);
+		assert false : s1 + " " + s2;
 	}
 
 	public static void errAlert(String s1, String s2) {

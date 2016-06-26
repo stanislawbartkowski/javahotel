@@ -59,11 +59,15 @@ public interface IConsts {
 	String LOGOUTJOURNAL = "LOGOUT";
 
 	String BINDERXSDFILE = "uibinder.xsd";
+	String HTMLXSDFILE = "htmlbinder.xsd";
 	String BINDERNAMESPACE = "http://www.jythongwt.uibinderxsd.com";
 	String UIBINDER = "UiBinder";
 	String HTMLPANELWIDGET = "HTMLPanel";
 	String LABELWIDGET = "Label";
 	String BUTTONWIDGET = "Button";
 	String OWIDGET = "o";
+	String PAPERICONITEM = "PaperIconItem";
+	String IRONICON = "IronIcon";
+	String PAPERBUTTON = "PaperButton";
 
 }

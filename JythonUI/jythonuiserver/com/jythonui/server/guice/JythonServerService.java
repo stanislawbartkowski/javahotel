@@ -50,6 +50,7 @@ import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.IStorageMemCache;
 import com.jythonui.server.IStorageMemContainerFactory;
 import com.jythonui.server.IUserCacheHandler;
+import com.jythonui.server.IValidateXML;
 import com.jythonui.server.IVerifySchema;
 import com.jythonui.server.IVerifyXML;
 import com.jythonui.server.IXMLToMap;
@@ -114,6 +115,7 @@ import com.jythonui.server.storage.suggest.ISuggestionStorage;
 import com.jythonui.server.storage.suggest.impl.RememberValue;
 import com.jythonui.server.storage.suggest.impl.SuggestionStorage;
 import com.jythonui.server.usercacheimpl.UserCacheHandler;
+import com.jythonui.server.validatexml.ValidateXML;
 import com.jythonui.server.verifyschema.VerifySchema;
 import com.jythonui.server.verifyxml.VeryfyXML;
 import com.jythonui.server.xml.IXMLHelper;
@@ -150,6 +152,7 @@ public class JythonServerService {
 			bind(IUserCacheHandler.class).to(UserCacheHandler.class).in(Singleton.class);
 
 			bind(ISymGeneratorFactory.class).to(SymGeneratorFactory.class).in(Singleton.class);
+			bind(IValidateXML.class).to(ValidateXML.class).in(Singleton.class);
 			bind(IXMLTransformer.class).to(XMLTransformer.class).in(Singleton.class);
 			bind(IXMLToMap.class).to(XMLMap.class).in(Singleton.class);
 			bind(IXMLHelper.class).to(XMLHelper.class).in(Singleton.class);

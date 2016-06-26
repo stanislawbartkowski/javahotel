@@ -16,7 +16,6 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import com.gwtmodel.table.Utils;
 import com.jython.dateutil.DateFormatUtil;
 
 public class ConvertTT {
@@ -48,7 +47,7 @@ public class ConvertTT {
 			o = CUtil.toInteger(s);
 			break;
 		case BOOLEAN:
-			o = Utils.toB(s);
+			o = Boolean.parseBoolean(s);
 			break;
 		default:
 			o = s;

@@ -149,9 +149,11 @@ public interface TLogMessages extends Messages {
 	String BinderCannotHaveWidgets(String id);
 
 	String BinderCannotFindWidget(String id);
-	
+
 	String BinderNotHTMLPanel(String wId);
-	
+
 	String BinderButtonShouldBeFocusWidget();
+
+	String PolymerButtonShouldBePolymerWidget(String atype);
 
 }

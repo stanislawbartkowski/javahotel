@@ -22,9 +22,9 @@ import javax.xml.transform.stream.StreamSource;
 import org.xml.sax.SAXException;
 
 import com.google.inject.Inject;
-import com.gwtmodel.util.VerifyXML;
 import com.jythonui.server.BUtil;
 import com.jythonui.server.ISharedConsts;
+import com.jythonui.server.IValidateXML;
 import com.jythonui.server.IVerifySchema;
 import com.jythonui.server.UtilHelper;
 import com.jythonui.server.getmess.IGetLogMess;
@@ -37,12 +37,14 @@ public class VerifySchema extends UtilHelper implements IVerifySchema {
 
 	private static final String XSDDIR = "xsd";
 	private final IGetLogMess logMess;
+	private final IValidateXML iValidate;
 
 	private static IReadResource iRead = new ReadResourceFactory().constructLoader(VerifySchema.class.getClassLoader());
 
 	@Inject
-	public VerifySchema(@Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess logMess) {
+	public VerifySchema(@Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess logMess, IValidateXML iValidate) {
 		this.logMess = logMess;
+		this.iValidate = iValidate;
 	}
 
 	private URL getURLSchema(String schemaname) {
@@ -55,10 +57,12 @@ public class VerifySchema extends UtilHelper implements IVerifySchema {
 	}
 
 	@Override
-	public void verify(InputStream sou, String xsdFile) throws SAXException, IOException {
-		URL u = getURLSchema(xsdFile);
+	public void verify(InputStream sou, String... xsdFile) throws SAXException, IOException {
+		URL[] ulist = new URL[xsdFile.length];
+		for (int i = 0; i < xsdFile.length; i++)
+			ulist[i] = getURLSchema(xsdFile[i]);
 		logDebug("Verify using xsd schema " + xsdFile);
-		VerifyXML.verify(u, new StreamSource(sou));
+		iValidate.validate(new StreamSource(sou), ulist);
 	}
 
 }

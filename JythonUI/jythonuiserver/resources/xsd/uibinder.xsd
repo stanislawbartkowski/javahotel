@@ -2,8 +2,10 @@
 	targetNamespace="http://www.jythongwt.uibinderxsd.com" xmlns="http://www.jythongwt.uibinderxsd.com"
 	elementFormDefault="qualified">
 
+	<!-- Attributes -->
 	<xs:attributeGroup name="objectG">
-		<xs:attribute name="fieldid" type="xs:string" />	
+		<xs:attribute name="addStyleNames" type="xs:string" />
+		<xs:attribute name="fieldid" type="xs:string" />
 		<xs:attribute name="size" type="xs:string" />
 		<xs:attribute name="pixelSize" type="xs:string" />
 		<xs:attribute name="height" type="xs:string" />
@@ -14,55 +16,116 @@
 		<xs:attribute name="width" type="xs:string" />
 	</xs:attributeGroup>
 
-
 	<xs:attributeGroup name="labelG">
-		<xs:attribute name="text" type="xs:string" />	
+		<xs:attributeGroup ref="objectG"></xs:attributeGroup>
+		<xs:attribute name="text" type="xs:string" />
 	</xs:attributeGroup>
 
-    <xs:attributeGroup name="focusWidgetG">
-		<xs:attribute name="enabled" type="xs:boolean" />	
-    </xs:attributeGroup>
+	<xs:attributeGroup name="focusWidgetG">
+		<xs:attributeGroup ref="objectG"></xs:attributeGroup>
+		<xs:attribute name="enabled" type="xs:boolean" />
+	</xs:attributeGroup>
 
-    <xs:attributeGroup name="buttonBaseG">
-		<xs:attribute name="text" type="xs:string" />	
-		<xs:attribute name="html" type="xs:string" />	       
-    </xs:attributeGroup>
+	<xs:attributeGroup name="buttonBaseG">
+		<xs:attributeGroup ref="focusWidgetG"></xs:attributeGroup>
+		<xs:attribute name="text" type="xs:string" />
+		<xs:attribute name="html" type="xs:string" />
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="polymerWidgetG">
+		<xs:attributeGroup ref="objectG"></xs:attributeGroup>
+		<xs:attribute name="attributes" type="xs:string" />
+		<xs:attribute name="booleanAttribute" type="xs:string" />
+		<xs:attribute name="disabled" type="xs:boolean" />
+		<xs:attribute name="id" type="xs:string" />
+		<xs:attribute name="name" type="xs:string" />
+		<xs:attribute name="noink" type="xs:boolean" />
+		<xs:attribute name="style" type="xs:string" />
+		<xs:attribute name="tabindex" type="xs:nonNegativeInteger"></xs:attribute>
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="baseButtonItemG">
+		<xs:attributeGroup ref="polymerWidgetG"></xs:attributeGroup>
+		<xs:attribute name="focused" type="xs:boolean" />
+		<xs:attribute name="pointerDown" type="xs:boolean" />
+		<xs:attribute name="pressed" type="xs:boolean" />
+		<xs:attribute name="toggles" type="xs:boolean" />
+	</xs:attributeGroup>
+
+
+	<xs:attributeGroup name="paperIconItemG">
+		<xs:attributeGroup ref="baseButtonItemG"></xs:attributeGroup>
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="ironIconG">
+		<xs:attributeGroup ref="polymerWidgetG"></xs:attributeGroup>
+		<xs:attribute name="icon" type="xs:string" />
+		<xs:attribute name="src" type="xs:string" />
+		<xs:attribute name="theme" type="xs:string" />
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="paperButtonG">
+		<xs:attributeGroup ref="baseButtonItemG"></xs:attributeGroup>
+		<xs:attribute name="elevation" type="xs:string" />
+		<xs:attribute name="raised" type="xs:boolean" />
+		<xs:attribute name="active" type="xs:boolean"/>
+	</xs:attributeGroup>
+
+
+
+	<!-- Elements -->
+
+	<xs:element name="PaperButton">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperButtonG" />
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="IronIcon">
+		<xs:complexType mixed="true">
+			<xs:attributeGroup ref="ironIconG" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="PaperIconItem">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperIconItemG" />
+		</xs:complexType>
+	</xs:element>
 
 	<xs:element name="Label">
 		<xs:complexType mixed="true">
-			<xs:attributeGroup ref="objectG" />
-			<xs:attributeGroup ref="labelG"/>
+			<xs:attributeGroup ref="labelG" />
 		</xs:complexType>
 	</xs:element>
 
 	<xs:element name="Button">
 		<xs:complexType mixed="true">
-			<xs:attributeGroup ref="objectG" />
-			<xs:attributeGroup ref="focusWidgetG" />
 			<xs:attributeGroup ref="buttonBaseG" />
 		</xs:complexType>
 	</xs:element>
 
-
-	<xs:group name="Widget">
-		<xs:all>
-			<xs:element ref="HTMLPanel" minOccurs="0"></xs:element>
-			<xs:element ref="Button" minOccurs="0"></xs:element>
-			<xs:element ref="Label" minOccurs="0"></xs:element>
-			<xs:element name="o" minOccurs="0"></xs:element>
-		</xs:all>
-	</xs:group>
-
 	<xs:element name="HTMLPanel">
-		<xs:complexType>
-			<xs:group ref="Widget"></xs:group>
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="1" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
 			<xs:attributeGroup ref="objectG" />
 		</xs:complexType>
 	</xs:element>
 
 	<xs:element name="UiBinder">
-		<xs:complexType>
-			<xs:group ref="Widget"></xs:group>
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="1" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
 		</xs:complexType>
 	</xs:element>
 

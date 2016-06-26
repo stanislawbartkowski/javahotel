@@ -38,7 +38,7 @@ public class BinderParser implements IBinderParser {
 
 	@Override
 	public BinderWidget parse(String fileName) throws SAXException, IOException {
-		iVerify.verify(iGetResource.getDialogFile(fileName), IConsts.BINDERXSDFILE);
+		iVerify.verify(iGetResource.getDialogFile(fileName), IConsts.BINDERXSDFILE, IConsts.HTMLXSDFILE);
 		try {
 			return BinderReader.parseBinder(iGetResource.getDialogFile(fileName));
 		} catch (ParserConfigurationException e) {

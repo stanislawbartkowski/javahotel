@@ -21,9 +21,9 @@ import javax.xml.transform.stream.StreamSource;
 import org.xml.sax.SAXException;
 
 import com.google.inject.Inject;
-import com.gwtmodel.util.VerifyXML;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IJythonUIServerProperties;
+import com.jythonui.server.IValidateXML;
 import com.jythonui.server.IVerifyXML;
 import com.jythonui.server.Util;
 import com.jythonui.server.UtilHelper;
@@ -32,36 +32,29 @@ import com.jythonui.server.logmess.ILogMess;
 
 public class VeryfyXML extends UtilHelper implements IVerifyXML {
 
-    private final IJythonUIServerProperties p;
+	private final IJythonUIServerProperties p;
+	private final IValidateXML iValidate;
 
-    @Inject
-    public VeryfyXML(IJythonUIServerProperties p) {
-        this.p = p;
-    }
+	@Inject
+	public VeryfyXML(IJythonUIServerProperties p,IValidateXML iValidate) {
+		this.p = p;
+		this.iValidate = iValidate;
+	}
 
-    @Override
-    public boolean verify(String xsdDir, String xsdFile, String xml) {
-        // String fileName = BUtil.addNameToPath(IConsts.DIALOGDIR, xsdDir,
-        // xsdFile);
-        URL u = Util.getFirstURL(p, true, IConsts.DIALOGDIR, xsdDir, xsdFile);
-        if (u == null)
-            return false;
-        // URL u = i.getFirstUrl(fileName);
-        // if (u == null) {
-        // errorMess(L(), IErrorCode.ERRORCODE121,
-        // ILogMess.ERRORWHILEREADINGXSDFILE, fileName);
-        // return false;
-        // }
-        // u =
-        StreamSource is = new StreamSource(new StringReader(xml));
-        try {
-            VerifyXML.verify(u, is);
-        } catch (SAXException | IOException e) {
-            errorMess(L(), IErrorCode.ERRORCODE122,
-                    ILogMess.ERRORWHILEPARSINGXMLFILEWITHSCHEMA, e,
-                    Util.getFileName(p, IConsts.DIALOGDIR, xsdDir, xsdFile));
-            return false;
-        }
-        return true;
-    }
+	@Override
+	public boolean verify(String xsdDir, String xsdFile, String xml) {
+		URL u = Util.getFirstURL(p, true, IConsts.DIALOGDIR, xsdDir, xsdFile);
+		if (u == null)
+			return false;
+		StreamSource is = new StreamSource(new StringReader(xml));
+		try {
+//			VerifyXML.verify(u, is);
+			iValidate.validate(is, u);
+		} catch (SAXException | IOException e) {
+			errorMess(L(), IErrorCode.ERRORCODE122, ILogMess.ERRORWHILEPARSINGXMLFILEWITHSCHEMA, e,
+					Util.getFileName(p, IConsts.DIALOGDIR, xsdDir, xsdFile));
+			return false;
+		}
+		return true;
+	}
 }

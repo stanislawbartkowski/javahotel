@@ -64,7 +64,26 @@ public interface IConsts {
 	String ATTRTEXT = "text";
 	String ATTRHTML = "html";
 	String ATTREENABLED = "enabled";
+	String ATTRATRIBUTES = "attributes";
+	String ATTRBOOLEANATTRIBUTE = "booleanAttribute";
+	String ATTRDISABLED = "disabled";
+	String ATTRID = "id";
+	String ATTRNAME = "name";
+	String ATTRNOINK = "noink";
+	String ATTRSTYLE = "style";
+	String ATTRFOCUSED = "focused";
+	String ATTRPOINTERDOWN = "pointerDown";
+	String ATTRPRESSED = "pressed";
+	String ATTRTOGGLES = "toggles";
+	String ATTRICON = "icon";
+	String ATTRSRC = "src";
+	String ATTRTHEME = "theme";
+	String ATTRADDSTYLENAMES = "addStyleNames";
+	String ATTRTABINDEX = "tabindex";
+	String ATTRACTIVE = "active";
+	String ATTRRAISED = "raised";
+	String ATTRELEVATION = "elevation";
 
 	String RESBEG = "{" + IMessConsts.STANDCH;
 	String RESEND = "}";
-}
+};

@@ -13,7 +13,8 @@
   <button id="okmessage" displayname="Ok Message" actiontype="JOK_MESSAGE" actionparam="Hello" actionparam1="Title" />
   <button id="yesmessage" displayname="YesNo message" actiontype="JYESNO_MESSAGE" actionparam="Do you really want it ?" actionparam1="Question" />
   <button id="binder1" displayname="Binder dialog" actiontype="JMAIN_DIALOG" actionparam="binder1.xml" />
-
+  <button id="binder2" displayname="Binder polymer" actiontype="JMAIN_DIALOG" actionparam="binder2.xml" />
+  <button id="binder3" displayname="Polymer buttons" actiontype="JMAIN_DIALOG" actionparam="binder3.xml" />
 </leftmenu>  
 
 <buttons>
