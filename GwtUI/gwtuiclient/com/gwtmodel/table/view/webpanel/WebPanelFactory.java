@@ -16,6 +16,7 @@ import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.factories.IWebPanelResources;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.view.webpanel.polymer.PanelPolymer;
+import com.gwtmodel.table.view.webpanel.polymerui.UIPanelWidgetConstruct;
 
 /**
  *
@@ -25,6 +26,7 @@ public class WebPanelFactory {
 
 	public IWebPanel construct(ICommand logOut, boolean isPolymer) {
 		IWebPanelResources pResources = GwtGiniInjector.getI().getWebPanelResources();
-		return isPolymer ? new PanelPolymer(pResources, logOut) : new WebPanel(pResources, logOut);
+		return isPolymer ? new PanelPolymer(pResources, logOut, UIPanelWidgetConstruct.construct())
+				: new WebPanel(pResources, logOut);
 	}
 }

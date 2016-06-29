@@ -23,6 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.xml.sax.SAXException;
+
+import com.gwtmodel.table.binder.BinderWidget;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.holder.SHolder;
@@ -147,5 +150,15 @@ public class Util extends UtilHelper {
 		List<String> keys = iReg.getKeys();
 		for (String k : keys)
 			iReg.removeEntry(k);
+	}
+
+	public static BinderWidget readBinderWidget(String fileName) {
+		IBinderParser iParser = Holder.getiBinder();
+		try {
+			return iParser.parse(fileName);
+		} catch (SAXException | IOException e) {
+			errorLog(L().getMess(IErrorCode.ERRORCODE130, ILogMess.CANNOTREADBINDERFILE, fileName), e);
+			return null;
+		}
 	}
 }

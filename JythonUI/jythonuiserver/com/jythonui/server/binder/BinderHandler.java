@@ -31,7 +31,6 @@ import com.gwtmodel.table.binder.WidgetTypes;
 import com.gwtmodel.table.common.CUtil;
 import com.jamesmurty.utils.XMLBuilder;
 import com.jythonui.server.IConsts;
-import com.jythonui.server.UtilHelper;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.holder.SHolder;
 import com.jythonui.server.logmess.IErrorCode;
@@ -76,6 +75,11 @@ class BinderHandler extends DefaultHandler {
 		toW.put(IConsts.IRONICON, WidgetTypes.IronIcon);
 		toW.put(IConsts.PAPERICONITEM, WidgetTypes.PaperIconItem);
 		toW.put(IConsts.PAPERBUTTON, WidgetTypes.PaperButton);
+		toW.put(IConsts.PAPERHEADERPANEL, WidgetTypes.PaperHeaderPanel);
+		toW.put(IConsts.PAPERTOOLBAR, WidgetTypes.PaperToolBar);
+		toW.put(IConsts.IMAGE, WidgetTypes.Image);
+		toW.put(IConsts.PAPERICONBUTTON, WidgetTypes.PaperIconButton);
+		toW.put(IConsts.PAPERDRAWERPANEL, WidgetTypes.PaperDrawerPanel);
 	}
 
 	private static String genId() {

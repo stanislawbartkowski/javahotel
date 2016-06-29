@@ -52,7 +52,7 @@ abstract class ChooseListHelper {
 
 		@Override
 		public void setWidget(WSize ws, IGWidget w) {
-			iSet.setW(w);
+			iSet.set(w);
 		}
 
 		@Override

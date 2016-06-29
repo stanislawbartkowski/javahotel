@@ -35,7 +35,7 @@ import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.slotmodel.SlotTypeFactory;
 import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.gwtmodel.table.stackpanelcontroller.StackPanelControllerFactory;
-import com.gwtmodel.table.tabpanelview.TabPanelViewFactory;
+import com.gwtmodel.table.view.binder.ICreateBinderWidget;
 import com.gwtmodel.table.view.controlpanel.IContrButtonViewFactory;
 import com.gwtmodel.table.view.daytimetable.IDatePanelScroll;
 import com.gwtmodel.table.view.stackpanel.ViewStackPanelFactory;
@@ -106,4 +106,6 @@ public interface GwtTableInjector extends Ginjector {
     IDatePanelScroll getDatePanelScroll();
 
     IDisclosurePanelFactory getDisclosurePanelFactory();
+    
+    ICreateBinderWidget getCreateBinderWidget();
 }

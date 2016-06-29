@@ -343,7 +343,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 		@Override
 		public void signal(ISlotSignalContext slContext) {
 			IGWidget w = slContext.getGwtWidget();
-			setW.setW(w);
+			setW.set(w);
 		}
 
 	}

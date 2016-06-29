@@ -37,7 +37,7 @@ class WidgetWithPopUpTemplate {
     final private ISetGWidget is = new ISetGWidget() {
 
         @Override
-        public void setW(IGWidget w) {
+        public void set(IGWidget w) {
             pUp = new PopupPanel(true);
             PopupUtil.setPos(pUp, hPanel);
             pUp.add(w.getGWidget());

@@ -69,5 +69,10 @@ public interface IConsts {
 	String PAPERICONITEM = "PaperIconItem";
 	String IRONICON = "IronIcon";
 	String PAPERBUTTON = "PaperButton";
+	String PAPERHEADERPANEL = "PaperHeaderPanel";
+	String PAPERTOOLBAR = "PaperToolbar";
+	String IMAGE = "Image";
+	String PAPERICONBUTTON = "PaperIconButton";
+	String PAPERDRAWERPANEL = "PaperDrawerPanel";
 
 }

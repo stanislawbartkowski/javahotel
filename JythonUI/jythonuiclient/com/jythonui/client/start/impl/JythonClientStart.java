@@ -40,6 +40,7 @@ import com.jythonui.client.interfaces.ILoginPage;
 import com.jythonui.client.interfaces.IRegisterCustom;
 import com.jythonui.client.interfaces.IWebPanelResourcesFactory;
 import com.jythonui.client.start.IJythonClientStart;
+import com.jythonui.client.webpanel.BinderPanelFactory;
 import com.jythonui.shared.ClientProp;
 import com.jythonui.shared.CustomSecurity;
 import com.jythonui.shared.ICommonConsts;
@@ -195,6 +196,12 @@ public class JythonClientStart implements IJythonClientStart {
 				loginPage.login(shiroRealm, iCustom, co);
 			} else
 				M.JR().withoutlogin(iCustom, new WithoutLogin(co));
+		}
+
+		private void setWebPanel(IWebPanel wPan, ClientProp result) {
+			wPan.setLogOutMode(result.addLogOut());
+			WebPanelHolder.setWebPanel(wPan);
+			RootPanel.get().add(wPan.getWidget());
 
 		}
 
@@ -252,10 +259,6 @@ public class JythonClientStart implements IJythonClientStart {
 			recognizePolymer(result);
 
 			// construct WebPanel handler
-			IWebPanel wPan = wFactory.construct(new LogOut(auth), MM.isPolymer());
-			wPan.setLogOutMode(result.addLogOut());
-			WebPanelHolder.setWebPanel(wPan);
-			RootPanel.get().add(wPan.getWidget());
 			// start running
 			if (MM.isPolymer()) {
 				// for some reason this empty declarations are necessary here
@@ -263,21 +266,34 @@ public class JythonClientStart implements IJythonClientStart {
 				// otherwise a message "open is not a function"
 				PaperDialog p = new PaperDialog();
 				IronDropdown pi = new IronDropdown();
-				// end of emptydeclaration
+				// end of empty declaration
 
 				final boolean fauth = auth;
 				List<String> imp = new ArrayList<String>();
 				imp.add("iron-icons/iron-icons.html");
-				imp.add("vaadin-icons/vaadin-icons.html");				
+				imp.add("vaadin-icons/vaadin-icons.html");
+				final boolean pauth = auth;
 				Polymer.importHref(imp, new Function() {
 					public Object call(Object arg) {
 						// The app is executed when all imports succeed.
+						BinderPanelFactory.construct(new BinderPanelFactory.ISetWebPanel() {
+
+							@Override
+							public void set(IWebPanel t) {
+								setWebPanel(wFactory.construct(new LogOut(pauth), MM.isPolymer()), result);
+							}
+
+						}, "mainpanel.xml", new LogOut(pauth));
+						// setWebPanel(wFactory.construct(new LogOut(pauth),
+						// MM.isPolymer()), result);
 						startBegin(fauth);
 						return null;
 					}
 				});
-			} else
+			} else {
+				setWebPanel(wFactory.construct(new LogOut(auth), MM.isPolymer()), result);
 				startBegin(auth);
+			}
 		}
 
 	}

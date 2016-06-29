@@ -2,6 +2,17 @@
 	targetNamespace="http://www.jythongwt.uibinderxsd.com" xmlns="http://www.jythongwt.uibinderxsd.com"
 	elementFormDefault="qualified">
 
+	<!-- Types -->
+	<xs:simpleType name="justifyType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="start" />
+			<xs:enumeration value="center" />
+			<xs:enumeration value="end" />
+			<xs:enumeration value="justified" />
+			<xs:enumeration value="around" />
+		</xs:restriction>
+	</xs:simpleType>
+
 	<!-- Attributes -->
 	<xs:attributeGroup name="objectG">
 		<xs:attribute name="addStyleNames" type="xs:string" />
@@ -32,6 +43,13 @@
 		<xs:attribute name="html" type="xs:string" />
 	</xs:attributeGroup>
 
+	<xs:attributeGroup name="imageG">
+		<xs:attributeGroup ref="objectG"></xs:attributeGroup>
+		<xs:attribute name="url" type="xs:string" />
+		<xs:attribute name="altText" type="xs:string" />
+	</xs:attributeGroup>
+
+
 	<xs:attributeGroup name="polymerWidgetG">
 		<xs:attributeGroup ref="objectG"></xs:attributeGroup>
 		<xs:attribute name="attributes" type="xs:string" />
@@ -42,6 +60,7 @@
 		<xs:attribute name="noink" type="xs:boolean" />
 		<xs:attribute name="style" type="xs:string" />
 		<xs:attribute name="tabindex" type="xs:nonNegativeInteger"></xs:attribute>
+		<xs:attribute name="class" type="xs:string"></xs:attribute>
 	</xs:attributeGroup>
 
 	<xs:attributeGroup name="baseButtonItemG">
@@ -68,12 +87,92 @@
 		<xs:attributeGroup ref="baseButtonItemG"></xs:attributeGroup>
 		<xs:attribute name="elevation" type="xs:string" />
 		<xs:attribute name="raised" type="xs:boolean" />
-		<xs:attribute name="active" type="xs:boolean"/>
+		<xs:attribute name="active" type="xs:boolean" />
 	</xs:attributeGroup>
 
 
+	<xs:attributeGroup name="paperHeaderPanelG">
+		<xs:attributeGroup ref="polymerWidgetG"></xs:attributeGroup>
+		<xs:attribute name="atTop" type="xs:boolean" />
+		<xs:attribute name="mode" type="xs:string" />
+		<xs:attribute name="shadow" type="xs:string" />
+		<xs:attribute name="tallClass" type="xs:string" />
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="paperToolbarG">
+		<xs:attributeGroup ref="polymerWidgetG"></xs:attributeGroup>
+		<xs:attribute name="bottomJustify" type="justifyType" />
+		<xs:attribute name="justify" type="justifyType" />
+		<xs:attribute name="middleJustify" type="justifyType" />
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="paperIconButtonG">
+		<xs:attributeGroup ref="baseButtonItemG"></xs:attributeGroup>
+		<xs:attribute name="icon" type="xs:string" />
+		<xs:attribute name="src" type="xs:string" />
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="paperDrawePaneG">
+		<xs:attributeGroup ref="polymerWidgetG"></xs:attributeGroup>
+		<xs:attribute name="defaultSelected" type="xs:string" />
+		<xs:attribute name="disableEdgeSwipe" type="xs:boolean" />
+		<xs:attribute name="dragging" type="xs:string" />
+		<xs:attribute name="drawerToggleAttribute" type="xs:string" />
+		<xs:attribute name="drawerWidth" type="xs:string" />
+		<xs:attribute name="edgeSwipeSensitivity" type="xs:float" />
+		<xs:attribute name="edgeSwipeSensitivityPixels" type="xs:string" />
+		<xs:attribute name="forceNarrow" type="xs:string" />
+		<xs:attribute name="hasTransform" type="xs:boolean" />
+		<xs:attribute name="hasWillChange" type="xs:boolean" />
+		<xs:attribute name="narrow" type="xs:boolean" />
+		<xs:attribute name="peeking" type="xs:boolean" />
+		<xs:attribute name="responsiveWidth" type="xs:string" />
+		<xs:attribute name="rightDrawer" type="xs:boolean" />
+		<xs:attribute name="selected" type="xs:string" />
+	</xs:attributeGroup>
 
 	<!-- Elements -->
+
+	<xs:element name="PaperDrawerPanel">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperDrawePaneG" />
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="PaperIconButton">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperIconButtonG" />
+		</xs:complexType>
+	</xs:element>
+
+
+
+	<xs:element name="PaperToolbar">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperToolbarG" />
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="PaperHeaderPanel">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperHeaderPanelG" />
+		</xs:complexType>
+	</xs:element>
+
 
 	<xs:element name="PaperButton">
 		<xs:complexType mixed="true">
@@ -105,6 +204,13 @@
 			<xs:attributeGroup ref="labelG" />
 		</xs:complexType>
 	</xs:element>
+
+	<xs:element name="Image">
+		<xs:complexType mixed="true">
+			<xs:attributeGroup ref="imageG" />
+		</xs:complexType>
+	</xs:element>
+
 
 	<xs:element name="Button">
 		<xs:complexType mixed="true">

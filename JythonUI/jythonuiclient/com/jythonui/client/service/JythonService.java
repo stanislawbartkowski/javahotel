@@ -14,10 +14,11 @@ package com.jythonui.client.service;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import com.gwtmodel.table.binder.BinderWidget;
 import com.jythonui.shared.ClientProp;
+import com.jythonui.shared.CustomSecurity;
 import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
-import com.jythonui.shared.CustomSecurity;
 import com.jythonui.shared.RequestContext;
 
 /**
@@ -39,5 +40,7 @@ public interface JythonService extends RemoteService {
     String withoutlogin(CustomSecurity iCustom);
 
 	void logout(RequestContext context);
+	
+	BinderWidget readBinderWidget(String fileName);
 
 }

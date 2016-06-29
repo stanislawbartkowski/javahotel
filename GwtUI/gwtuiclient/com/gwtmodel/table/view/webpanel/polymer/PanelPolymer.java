@@ -30,15 +30,16 @@ import com.gwtmodel.table.view.webpanel.common.AbstractWebPanel;
 
 public class PanelPolymer extends AbstractWebPanel implements IWebPanel {
 
-	private final UIPanelWidget uW = new UIPanelWidget();
+	private final PanelElemWidgets uW;
 
 	private Element menuWidget;
 	private Element mainWidget;
 	private Element menuiconWidget;
 	private IStatusMenuIcon i = null;
 
-	public PanelPolymer(IWebPanelResources pResources, ICommand logOut) {
+	public PanelPolymer(IWebPanelResources pResources, ICommand logOut, PanelElemWidgets uW) {
 		super(pResources, logOut);
+		this.uW = uW;
 		setLabels(uW.productLabel, uW.ownerLabel, uW.personLabel, uW.hotelLabel, uW.infoLabel);
 		String ima = pResources.getRes(IWebPanelResources.PROGRESSICON);
 		String url = Utils.getImageAdr(ima);
@@ -124,7 +125,7 @@ public class PanelPolymer extends AbstractWebPanel implements IWebPanel {
 
 	@Override
 	public Widget getWidget() {
-		return uW;
+		return uW.panelWidget;
 	}
 
 	private void setMenuIcon(Widget w) {

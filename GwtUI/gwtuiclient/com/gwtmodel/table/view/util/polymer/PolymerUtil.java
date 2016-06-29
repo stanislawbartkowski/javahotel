@@ -71,7 +71,7 @@ public class PolymerUtil {
 		pa.setVisible(false);
 		pa.show();
 		p.open();
-		if (pa != null) {
+		if (pap != null) {
 			Utils.setTopLeftProperty(pap, ws.getTop() + 10, ws.getLeft() + 10);
 			pap.open();
 		}

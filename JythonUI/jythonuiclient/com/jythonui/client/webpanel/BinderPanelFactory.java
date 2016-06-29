@@ -10,10 +10,21 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.binder;
+package com.jythonui.client.webpanel;
 
-public enum WidgetTypes {
+import com.google.inject.Inject;
+import com.gwtmodel.table.ICommand;
+import com.gwtmodel.table.ISetSynchData;
+import com.gwtmodel.table.view.binder.ICreateBinderWidget;
+import com.gwtmodel.table.view.webpanel.IWebPanel;
 
-	HTMLPanel, Button, Label, UiBinder, IronIcon, PaperIconItem, PaperButton, PaperHeaderPanel, PaperToolBar, Image, PaperIconButton, PaperDrawerPanel
+public class BinderPanelFactory {
+
+	public interface ISetWebPanel extends ISetSynchData<IWebPanel> {
+	}
+
+	public static void construct(ISetWebPanel f, String panelName, ICommand logOut) {
+		BinderPanel.construct(f, panelName, logOut);
+	}
 
 }

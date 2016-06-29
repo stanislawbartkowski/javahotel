@@ -16,8 +16,6 @@ package com.gwtmodel.table;
  * @author hotel
  * 
  */
-public interface ISetGWidget {
-
-    void setW(IGWidget w);
+public interface ISetGWidget extends ISetSynchData<IGWidget> {
 
 }

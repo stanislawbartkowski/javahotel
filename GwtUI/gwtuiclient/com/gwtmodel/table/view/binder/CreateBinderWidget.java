@@ -23,6 +23,7 @@ import com.google.gwt.user.client.ui.ButtonBase;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
@@ -36,7 +37,11 @@ import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.vaadin.polymer.PolymerWidget;
 import com.vaadin.polymer.iron.widget.IronIcon;
 import com.vaadin.polymer.paper.widget.PaperButton;
+import com.vaadin.polymer.paper.widget.PaperDrawerPanel;
+import com.vaadin.polymer.paper.widget.PaperHeaderPanel;
+import com.vaadin.polymer.paper.widget.PaperIconButton;
 import com.vaadin.polymer.paper.widget.PaperIconItem;
+import com.vaadin.polymer.paper.widget.PaperToolbar;
 
 @SuppressWarnings("unchecked")
 public class CreateBinderWidget implements ICreateBinderWidget {
@@ -156,6 +161,8 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 				w.setStyle(v);
 			else if (k.equals(IConsts.ATTRTABINDEX))
 				w.setTabindex(CUtil.getInteger(v));
+			else if (k.equals(IConsts.ATTRCLASS))
+				w.setClass(v);
 		}
 
 	};
@@ -212,6 +219,104 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 
 	};
 
+	private static final IVisitor<PaperHeaderPanel> paperHeaderG = new IVisitor<PaperHeaderPanel>() {
+
+		@Override
+		public void visit(PaperHeaderPanel w, String k, String v) {
+			if (k.equals(IConsts.ATTRATTOP))
+				w.setAtTop(Utils.toB(v));
+			else if (k.equals(IConsts.ATTRMODE))
+				w.setMode(v);
+			else if (k.equals(IConsts.ATTRSHADOW))
+				w.setMode(v);
+			else if (k.equals(IConsts.ATTRTALLCLASS))
+				w.setTallClass(v);
+		}
+	};
+
+	private static final IVisitor<PaperToolbar> paperToolbarG = new IVisitor<PaperToolbar>() {
+
+		@Override
+		public void visit(PaperToolbar w, String k, String v) {
+			if (k.equals(IConsts.ATTRBOTTOMJUSTIFY))
+				w.setBottomJustify(v);
+			else if (k.equals(IConsts.ATTRJUSTIFY))
+				w.setJustify(v);
+			else if (k.equals(IConsts.ATTRMIDDLEJUSTIFY))
+				w.setMiddleJustify(v);
+		}
+	};
+
+	private static final IVisitor<Image> imageG = new IVisitor<Image>() {
+
+		@Override
+		public void visit(Image w, String k, String v) {
+			if (k.equals(IConsts.ATTRURL))
+				w.setUrl(v);
+			else if (k.equals(IConsts.ATTRALTTEXT))
+				w.setAltText(v);
+		}
+
+	};
+
+	private static final IVisitor<PaperIconButton> papericonG = new IVisitor<PaperIconButton>() {
+
+		@Override
+		public void visit(PaperIconButton w, String k, String v) {
+			if (k.equals(IConsts.ATTRFOCUSED))
+				w.setFocused(Utils.toB(v));
+			else if (k.equals(IConsts.ATTRPOINTERDOWN))
+				w.setPointerDown(Utils.toB(v));
+			else if (k.equals(IConsts.ATTRPRESSED))
+				w.setPressed(Utils.toB(v));
+			else if (k.equals(IConsts.ATTRTOGGLES))
+				w.setToggles(Utils.toB(v));
+			else if (k.equals(IConsts.ATTRICON))
+				w.setIcon(v);
+			else if (k.equals(IConsts.ATTRSRC))
+				w.setSrc(v);
+
+		}
+	};
+
+	private static final IVisitor<PaperDrawerPanel> paperdrawerpanelG = new IVisitor<PaperDrawerPanel>() {
+
+		@Override
+		public void visit(PaperDrawerPanel w, String k, String v) {
+			if (k.equals(IConsts.ATTRDEFAULTSELECTED))
+				w.setDefaultSelected(v);
+			else if (k.equals(IConsts.ATTRDISABLEEDGESWIPE))
+				w.setDisableEdgeSwipe(Utils.toB(v));
+			else if (k.equals(IConsts.ATTRDRAGGING))
+				w.setDragging(Utils.toB(v));
+			else if (k.equals(IConsts.ATTRDRAWERTOGGLEATTRIBUTE))
+				w.setDrawerToggleAttribute(v);
+			else if (k.equals(IConsts.ATTRDRAWEWIDTH))
+				w.setDrawerWidth(v);
+			else if (k.equals(IConsts.ATTREDGESWUPESENSITIVITY))
+				w.setEdgeSwipeSensitivity(Double.parseDouble(v));
+			else if (k.equals(IConsts.ATTREDGESWUPESENSITIVITYPIXELS))
+				w.setEdgeSwipeSensitivity(v);
+			else if (k.equals(IConsts.ATTRFORCENARROW))
+				w.setForceNarrow(Utils.toB(v));
+			else if (k.equals(IConsts.ATTRHASTRANSFORM))
+				w.setHasTransform(Utils.toB(v));
+			else if (k.equals(IConsts.ATTRHADWILLCHANGE))
+				w.setHasWillChange(Utils.toB(v));
+			else if (k.equals(IConsts.ATTRNARROW))
+				w.setNarrow(Utils.toB(v));
+			else if (k.equals(IConsts.ATTRPEEKING))
+				w.setPeeking(Utils.toB(v));
+			else if (k.equals(IConsts.ATTRRESPONSICEWIDTH))
+				w.setResponsiveWidth(v);
+			else if (k.equals(IConsts.ATTRRIGHTDRAWER))
+				w.setRightDrawer(Utils.toB(v));
+			else if (k.equals(IConsts.ATTRSELECTED))
+				w.setSelected(v);
+
+		}
+	};
+
 	private final static Map<WidgetTypes, IVisitor<Widget>[]> setAWidget = new HashMap<WidgetTypes, IVisitor<Widget>[]>();
 
 	static {
@@ -221,6 +326,11 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 		setAWidget.put(WidgetTypes.PaperIconItem, new IVisitor[] { polymerWidgetG, paperIconItemG });
 		setAWidget.put(WidgetTypes.IronIcon, new IVisitor[] { polymerWidgetG, ironIconG });
 		setAWidget.put(WidgetTypes.PaperButton, new IVisitor[] { polymerWidgetG, paperbuttonG });
+		setAWidget.put(WidgetTypes.PaperHeaderPanel, new IVisitor[] { polymerWidgetG, paperHeaderG });
+		setAWidget.put(WidgetTypes.PaperToolBar, new IVisitor[] { polymerWidgetG, paperToolbarG });
+		setAWidget.put(WidgetTypes.Image, new IVisitor[] { imageG });
+		setAWidget.put(WidgetTypes.PaperIconButton, new IVisitor[] { polymerWidgetG, papericonG });
+		setAWidget.put(WidgetTypes.PaperDrawerPanel, new IVisitor[] { polymerWidgetG, paperdrawerpanelG });
 	}
 
 	private <T extends Widget> void setAttr(T w, BinderWidget bw, IVisitor<T>... vil) {
@@ -234,7 +344,6 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private void setWAttribute(Widget w, BinderWidget bw) {
 		if (bw.isFieldId())
 			Utils.setWidgetAttribute(w, BinderWidget.FIELDID, bw.getFieldId());
@@ -265,6 +374,22 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 		case PaperButton:
 			w = new PaperButton(html);
 			break;
+		case PaperHeaderPanel:
+			w = new PaperHeaderPanel(html);
+			break;
+		case PaperToolBar:
+			w = new PaperToolbar(html);
+			break;
+		case Image:
+			w = new Image(html);
+			break;
+		case PaperIconButton:
+			w = new PaperIconButton(html);
+			break;
+		case PaperDrawerPanel:
+			w = new PaperDrawerPanel();
+			break;
+
 		} // switch
 		setWAttribute(w, bw);
 		if (bw.getwList().isEmpty())

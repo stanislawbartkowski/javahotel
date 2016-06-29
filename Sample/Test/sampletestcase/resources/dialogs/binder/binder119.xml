@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<ui:UiBinder xmlns:ui='http://www.jythongwt.uibinderxsd.com'
+	xmlns:g='http://www.jythongwt.uibinderxsd.com' xmlns:p='http://www.jythongwt.uibinderxsd.com'
+	xmlns:i='http://www.jythongwt.uibinderxsd.com' xmlns='http://www.jythongwt.uihtml.com'>
+
+	<style>
+	body {
+		margin: 0px;
+	}
+	
+	paper-icon-item {
+		position: relative;
+		overflow: hidden;
+	}
+	</style>
+
+	<g:HTMLPanel fieldid="htmlPanel">
+		<p:PaperHeaderPanel class="flex" mode="seamed">
+			<div class="paper-header">
+				<p:PaperToolbar addStyleNames="mainmenubar">
+					<g:Image fieldid="titleIcon" addStyleNames="titleimage"></g:Image>
+					<g:HTMLPanel width="5%" fieldid="progressHtml">
+						<g:Image fieldid="progressIcon" visible="false"></g:Image>
+						<g:Label fieldid="labelError" visible="true"></g:Label>
+					</g:HTMLPanel>
+					<p:PaperIconButton icon="menu" fieldid="menuIcon" visible="false"/>					
+					<div id="menuicon"></div>
+					<g:Label fieldid="personLabel" addStyleNames="personlabel"></g:Label>
+					<g:Label fieldid="productLabel" addStyleNames="productlabel"></g:Label>
+					<g:Label fieldid="ownerLabel" addStyleNames="ownerlabel"></g:Label>
+					<g:Label fieldid="hotelLabel" addStyleNames="hotellabel"></g:Label>
+					<span class="title">
+						<g:Label fieldid="infoLabel" addStyleNames="infolabel"></g:Label>
+					</span>
+					<p:PaperIconButton fieldid="exitIcon" icon="exit-to-app" visible="false"></p:PaperIconButton>
+				</p:PaperToolbar>
+			</div>
+			<div class="fit">
+				<p:PaperDrawerPanel fieldid="drawerPanel"
+					drawerWidth="10%">
+					<div drawer="">
+						<div id="leftmenu">.</div>
+					</div>
+					<div main="">
+						<div id="mainpanel">.</div>
+					</div>
+				</p:PaperDrawerPanel>
+			</div>
+		</p:PaperHeaderPanel>
+	</g:HTMLPanel>
+
+</ui:UiBinder>	

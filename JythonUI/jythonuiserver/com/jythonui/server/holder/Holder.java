@@ -21,6 +21,7 @@ import com.google.inject.Provider;
 import com.jython.serversecurity.IOObjectAdmin;
 import com.jython.serversecurity.cache.IGetInstanceOObjectIdCache;
 import com.jython.serversecurity.cache.OObjectId;
+import com.jythonui.server.IBinderParser;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IDefaultData;
 import com.jythonui.server.IGetConnection;
@@ -76,6 +77,9 @@ public class Holder {
 
 	@Inject
 	private static IJythonRPCNotifier iRPC;
+	
+	@Inject
+	private static IBinderParser iBinder;
 
 	private static boolean auth = false;
 
@@ -345,5 +349,9 @@ public class Holder {
 	public static IJournal getiJournal() {
 		return iJournal;
 	}
+
+	public static IBinderParser getiBinder() {
+		return iBinder;
+	}	
 
 }

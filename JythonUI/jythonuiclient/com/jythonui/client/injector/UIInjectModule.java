@@ -60,6 +60,7 @@ import com.jythonui.client.start.IJythonClientStart;
 import com.jythonui.client.start.impl.JythonClientStart;
 import com.jythonui.client.storechanges.StoreChanges;
 import com.jythonui.client.variables.VariableContainerFactory;
+import com.jythonui.client.webpanel.BinderPanelFactory;
 import com.jythonui.shared.RequestContext;
 
 public class UIInjectModule extends AbstractGinModule {

@@ -13,6 +13,7 @@
 package com.jythonui.client.service;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.gwtmodel.table.binder.BinderWidget;
 import com.jythonui.shared.ClientProp;
 import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
@@ -36,4 +37,6 @@ public interface JythonServiceAsync {
 	void withoutlogin(CustomSecurity iCustom, AsyncCallback<String> callback);
 
 	void logout(RequestContext context, AsyncCallback<Void> callback);
+
+	void readBinderWidget(String fileName, AsyncCallback<BinderWidget> callback);
 }

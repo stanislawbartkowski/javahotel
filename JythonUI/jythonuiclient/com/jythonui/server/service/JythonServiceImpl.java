@@ -13,12 +13,14 @@
 package com.jythonui.server.service;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.gwtmodel.table.binder.BinderWidget;
 import com.jythonui.client.service.JythonService;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonRPCNotifier;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.ISharedConsts;
+import com.jythonui.server.Util;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.security.ISecurity;
 import com.jythonui.server.security.token.ICustomSecurity;
@@ -32,55 +34,58 @@ import com.jythonui.shared.RequestContext;
  * The server side implementation of the RPC service.
  */
 @SuppressWarnings("serial")
-public class JythonServiceImpl extends RemoteServiceServlet implements
-        JythonService {
+public class JythonServiceImpl extends RemoteServiceServlet implements JythonService {
 
-    @Override
-    public DialogInfo getDialogFormat(RequestContext context, String name) {
-        IJythonUIServer iServer = Holder.getiServer();
-        return iServer.findDialog(context, name);
-    }
+	@Override
+	public DialogInfo getDialogFormat(RequestContext context, String name) {
+		IJythonUIServer iServer = Holder.getiServer();
+		return iServer.findDialog(context, name);
+	}
 
-    @Override
-    public DialogVariables runAction(RequestContext context, DialogVariables v,
-            String name, String actionId) {
-        IJythonUIServer iServer = Holder.getiServer();
-        return iServer.runAction(context, v, name, actionId);
-    }
+	@Override
+	public DialogVariables runAction(RequestContext context, DialogVariables v, String name, String actionId) {
+		IJythonUIServer iServer = Holder.getiServer();
+		return iServer.runAction(context, v, name, actionId);
+	}
 
-    @Override
-    public ClientProp getClientRes(RequestContext context) {
-        IJythonClientRes iClient = Holder.getiClient();
-        return iClient.getClientRes(context);
+	@Override
+	public ClientProp getClientRes(RequestContext context) {
+		IJythonClientRes iClient = Holder.getiClient();
+		return iClient.getClientRes(context);
 
-    }
+	}
 
-    @Override
-    public String login(String shiroRealm, String user, String password,
-            CustomSecurity iCustom) {
-        IJythonRPCNotifier iRPC = Holder.getRPC();
-        iRPC.hello(IJythonRPCNotifier.BEFORELOGIN);
-        ISecurity iSec = Holder.getiSec();
-        ICustomSecurity iCust = Holder.getSecurityConvert().construct(iCustom);
-        return iSec.authenticateToken(shiroRealm, user, password, iCust);
-    }
+	@Override
+	public String login(String shiroRealm, String user, String password, CustomSecurity iCustom) {
+		IJythonRPCNotifier iRPC = Holder.getRPC();
+		iRPC.hello(IJythonRPCNotifier.BEFORELOGIN);
+		ISecurity iSec = Holder.getiSec();
+		ICustomSecurity iCust = Holder.getSecurityConvert().construct(iCustom);
+		return iSec.authenticateToken(shiroRealm, user, password, iCust);
+	}
 
-    @Override
-    public void logout(RequestContext context) {
-        ISecurity iSec = Holder.getiSec();
-        iSec.logout(context.getToken());
-    }
+	@Override
+	public void logout(RequestContext context) {
+		ISecurity iSec = Holder.getiSec();
+		iSec.logout(context.getToken());
+	}
 
-    @Override
-    public String withoutlogin(CustomSecurity custom) {
-        ICustomSecurity cu;
-        if (custom == null) {
-            CustomSecurity cust = new CustomSecurity();
-            cust.setAttr(IConsts.INSTANCEID, ISharedConsts.INSTANCEDEFAULT);
-            cu = Holder.getPersonSecurityConvert().construct(cust);
-        } else
-            cu = Holder.getSecurityConvert().construct(custom);
-        return Holder.getiSec().withoutlogin(cu);
-    }
+	@Override
+	public String withoutlogin(CustomSecurity custom) {
+		ICustomSecurity cu;
+		if (custom == null) {
+			CustomSecurity cust = new CustomSecurity();
+			cust.setAttr(IConsts.INSTANCEID, ISharedConsts.INSTANCEDEFAULT);
+			cu = Holder.getPersonSecurityConvert().construct(cust);
+		} else
+			cu = Holder.getSecurityConvert().construct(custom);
+		return Holder.getiSec().withoutlogin(cu);
+	}
+
+	@Override
+	public BinderWidget readBinderWidget(String fileName) {
+		return Util.readBinderWidget(fileName);
+
+	}
 
 }

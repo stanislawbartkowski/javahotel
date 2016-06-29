@@ -63,7 +63,7 @@ class GwtFormView implements IGwtFormView {
 		} else {
 			ISetGWidget iSet = new ISetGWidget() {
 				@Override
-				public void setW(IGWidget w) {
+				public void set(IGWidget w) {
 					gg = w.getGWidget();
 					iSignal.signal();
 				}

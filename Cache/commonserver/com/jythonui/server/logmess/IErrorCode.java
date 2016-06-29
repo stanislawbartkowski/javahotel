@@ -142,4 +142,5 @@ public interface IErrorCode {
     String ERRORCODE127 = "E0127";
     String ERRORCODE128 = "E0128";
     String ERRORCODE129 = "E0129";
+    String ERRORCODE130 = "E0130";
 }

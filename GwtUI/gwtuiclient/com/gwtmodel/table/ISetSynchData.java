@@ -10,10 +10,10 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.binder;
+package com.gwtmodel.table;
 
-public enum WidgetTypes {
+public interface ISetSynchData<T> {
 
-	HTMLPanel, Button, Label, UiBinder, IronIcon, PaperIconItem, PaperButton, PaperHeaderPanel, PaperToolBar, Image, PaperIconButton, PaperDrawerPanel
+	void set(T value);
 
 }

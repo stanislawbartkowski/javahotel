@@ -613,7 +613,7 @@ class DateLineManager implements IDateLineManager {
 		class DrawPart implements IDrawPartSeason {
 
 			@Override
-			public void setW(IGWidget w) {
+			public void set(IGWidget w) {
 				sy.w = w;
 				sy.signalDone();
 			}

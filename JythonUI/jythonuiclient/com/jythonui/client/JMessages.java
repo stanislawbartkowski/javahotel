@@ -108,6 +108,12 @@ public interface JMessages extends Messages {
 
 	String ListOfImagesCannotBeEmpty(String field, String paramImages);
 
-	String ListOfImagesDoNotComply(String field, String paramImages, String list, int no);	
+	String ListOfImagesDoNotComply(String field, String paramImages, String list, int no);
+
+	String CannotReadBinderFile(String fileName);
+	
+	String PanelBinderCannotFindWidget(String filename,String id);
+	
+	String PanelBinderBadWidgetType(String filename,String id,String giventype, String expectedtype);
 
 }

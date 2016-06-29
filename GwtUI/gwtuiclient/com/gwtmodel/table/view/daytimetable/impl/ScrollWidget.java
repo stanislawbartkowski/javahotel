@@ -238,7 +238,7 @@ public class ScrollWidget implements IScrollSeason {
 		panelDay = DatePanelUtil.createLDays(firstData, lastDate, todayC, panelW, curPos);
 		setYear();
 
-		dPart.setW(new GWidget(vPanel));
+		dPart.set(new GWidget(vPanel));
 		setCurrentDate();
 		dPart.refresh(new DrawContext());
 	}

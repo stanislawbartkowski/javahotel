@@ -98,7 +98,7 @@ public interface IUIConsts {
 	int PANELMENUDEFAH = 10;
 	String PANELMENUNAME = "Down";
 
-	String UIVersion = "UI : 2016/05/27 (r:21)";
+	String UIVersion = "UI : 2016/06/29 (r:21)";
 
 	String JBUTTONDIALOGSTART = "JUPDIALOG_START";
 	String JBUTTONDIALOGSTART1 = "JUPDIALOG_STARTPAR";
@@ -123,4 +123,17 @@ public interface IUIConsts {
 	String PROPVISIBLE = "visible";
 	String PROPCOLUMNNAME = "columnname";
 	String JCRUD_DIALOG = "JCRUD_DIALOG";
+	
+	String PANELTITLEICON = "titleIcon";
+	String PANELPROGRESSICON =  "progressIcon";
+	String PANELLABELERROR = "labelError"; // not active
+	String PANELMENUICON = "menuIcon";
+	
+	String PANELPERSONLABEL= "personLabel"; 
+	String PANELPRODUCTLABEL = "productLabel";
+	String PANELOWNERLABEL = "ownerLabel";
+	String PANELHOTELLABEL = "hotelLabel";
+	String PANELINFOLABEL = "infoLabel";
+	String PANELEXITICON = "exitIcon";
+	String PANELDRAWERPANEL = "drawerPanel";
 }

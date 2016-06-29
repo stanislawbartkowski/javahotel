@@ -13,12 +13,16 @@
 package com.gwtmodel.table.view.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -78,27 +82,43 @@ public class CreateFormView {
 		void replace(String id, Widget w);
 	}
 
-	private static void replaceBinder(HTMLPanel pa, IReplace iR) {
-		for (int i = 0; i < pa.getWidgetCount(); i++) {
-			Widget w = pa.getWidget(i);
+	private static void replaceBinder(HasWidgets pa, IReplace iR) {
+		Iterator<Widget> i = pa.iterator();
+		while (i.hasNext()) {
+			Widget w = i.next();
 			String id = Utils.getWidgetAttribute(w, BinderWidget.FIELDID);
 			if (!CUtil.EmptyS(id))
 				iR.replace(id, w);
+			if (w instanceof HasWidgets)
+				replaceBinder((HasWidgets) w, iR);
 		}
 	}
 
-//	private final BinderWidget findId(BinderWidget bw, String id) {
-//		for (BinderWidget b : bw.getwList()) {
-//			// recursive
-//			BinderWidget inB = findId(b, id);
-//			if (inB != null)
-//				return inB;
-//			String bid = b.getFieldId();
-//			if (!CUtil.EmptyS(bid) && id.equals(bid))
-//				return b;
-//		}
-//		return null;
-//	}
+	public static Map<String, Widget> createListOfFieldsId(HTMLPanel pa) {
+
+		Map<String, Widget> ma = new HashMap<String, Widget>();
+		replaceBinder(pa, new IReplace() {
+
+			@Override
+			public void replace(String id, Widget w) {
+				ma.put(id, w);
+			}
+		});
+		return ma;
+	}
+
+	// private final BinderWidget findId(BinderWidget bw, String id) {
+	// for (BinderWidget b : bw.getwList()) {
+	// // recursive
+	// BinderWidget inB = findId(b, id);
+	// if (inB != null)
+	// return inB;
+	// String bid = b.getFieldId();
+	// if (!CUtil.EmptyS(bid) && id.equals(bid))
+	// return b;
+	// }
+	// return null;
+	// }
 
 	public static void setHtml(HTMLPanel pa, IGetButtons iG, BinderWidget bw) {
 		int i = 0;
