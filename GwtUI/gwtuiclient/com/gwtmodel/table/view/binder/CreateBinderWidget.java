@@ -387,7 +387,7 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 			w = new PaperIconButton(html);
 			break;
 		case PaperDrawerPanel:
-			w = new PaperDrawerPanel();
+			w = new PaperDrawerPanel(html);
 			break;
 
 		} // switch

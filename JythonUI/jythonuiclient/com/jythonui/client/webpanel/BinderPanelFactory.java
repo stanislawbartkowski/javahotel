@@ -12,10 +12,8 @@
  */
 package com.jythonui.client.webpanel;
 
-import com.google.inject.Inject;
 import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.ISetSynchData;
-import com.gwtmodel.table.view.binder.ICreateBinderWidget;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 
 public class BinderPanelFactory {

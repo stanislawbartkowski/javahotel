@@ -55,6 +55,7 @@ class BinderPanel {
 		toW.put(IUIConsts.PANELINFOLABEL, Label.class);
 		toW.put(IUIConsts.PANELEXITICON, PaperIconButton.class);
 		toW.put(IUIConsts.PANELDRAWERPANEL, PaperDrawerPanel.class);
+		toW.put(IUIConsts.PANELPROGRESSHTML, HTMLPanel.class);
 	}
 
 	private static <T extends Widget> T get(Map<String, Widget> maW, String id, String fileName) {
@@ -86,6 +87,7 @@ class BinderPanel {
 		pW.infoLabel = get(maW, IUIConsts.PANELINFOLABEL, fileName);
 		pW.exitIcon = get(maW, IUIConsts.PANELEXITICON, fileName);
 		pW.drawerPanel = get(maW, IUIConsts.PANELDRAWERPANEL, fileName);
+		pW.progressHtml = get(maW, IUIConsts.PANELPROGRESSHTML, fileName);
 
 		return pW;
 	}

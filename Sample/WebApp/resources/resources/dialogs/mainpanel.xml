@@ -24,7 +24,7 @@
 						<g:Label fieldid="labelError" visible="true"></g:Label>
 					</g:HTMLPanel>
 					<p:PaperIconButton icon="menu" fieldid="menuIcon" visible="false"/>					
-					<div id="menuicon"></div>
+					<div id="menuicon"> </div> <!-- musi byc spacja -->
 					<g:Label fieldid="personLabel" addStyleNames="personlabel"></g:Label>
 					<g:Label fieldid="productLabel" addStyleNames="productlabel"></g:Label>
 					<g:Label fieldid="ownerLabel" addStyleNames="ownerlabel"></g:Label>

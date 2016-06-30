@@ -37,6 +37,17 @@ public class PanelPolymer extends AbstractWebPanel implements IWebPanel {
 	private Element menuiconWidget;
 	private IStatusMenuIcon i = null;
 
+	private Element getId(String id) {
+		// debug
+		String html = uW.htmlPanel.toString();
+		Element e = uW.htmlPanel.getElementById(id);
+		if (e != null)
+			return e;
+		String errmess = LogT.getT().PanelCannotFindWidget(id);
+		Utils.errAlertB(errmess);
+		return null;
+	}
+
 	public PanelPolymer(IWebPanelResources pResources, ICommand logOut, PanelElemWidgets uW) {
 		super(pResources, logOut);
 		this.uW = uW;
@@ -52,9 +63,9 @@ public class PanelPolymer extends AbstractWebPanel implements IWebPanel {
 				LogT.getT().GWTVersion(GWT.getVersion(), JVersion));
 		uW.titleIcon.setTitle(title);
 		Window.setTitle(pResources.getRes(IWebPanelResources.TITLE));
-		menuWidget = uW.htmlPanel.getElementById("leftmenu");
-		mainWidget = uW.htmlPanel.getElementById("mainpanel");
-		menuiconWidget = uW.htmlPanel.getElementById("menuicon");
+		menuWidget = getId("leftmenu");
+		mainWidget = getId("mainpanel");
+		menuiconWidget = getId("menuicon");
 		uW.menuIcon.addClickHandler(new ClickHandler() {
 
 			@Override

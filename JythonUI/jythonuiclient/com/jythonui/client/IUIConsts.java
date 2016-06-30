@@ -123,17 +123,18 @@ public interface IUIConsts {
 	String PROPVISIBLE = "visible";
 	String PROPCOLUMNNAME = "columnname";
 	String JCRUD_DIALOG = "JCRUD_DIALOG";
-	
+
 	String PANELTITLEICON = "titleIcon";
-	String PANELPROGRESSICON =  "progressIcon";
+	String PANELPROGRESSICON = "progressIcon";
 	String PANELLABELERROR = "labelError"; // not active
 	String PANELMENUICON = "menuIcon";
-	
-	String PANELPERSONLABEL= "personLabel"; 
+
+	String PANELPERSONLABEL = "personLabel";
 	String PANELPRODUCTLABEL = "productLabel";
 	String PANELOWNERLABEL = "ownerLabel";
 	String PANELHOTELLABEL = "hotelLabel";
 	String PANELINFOLABEL = "infoLabel";
 	String PANELEXITICON = "exitIcon";
 	String PANELDRAWERPANEL = "drawerPanel";
+	String PANELPROGRESSHTML = "progressHtml";
 }
