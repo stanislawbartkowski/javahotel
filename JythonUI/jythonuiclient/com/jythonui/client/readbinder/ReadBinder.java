@@ -23,7 +23,7 @@ public class ReadBinder {
 	private ReadBinder() {
 	}
 
-	public static void readBinder(ISetSynchData<BinderWidget> i, String fileName) {
+	public static void readBinder(final ISetSynchData<BinderWidget> i, final String fileName) {
 		M.JR().readBinderWidget(fileName, new AsyncCallback<BinderWidget>() {
 
 			@Override

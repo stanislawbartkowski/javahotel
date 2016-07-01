@@ -115,4 +115,11 @@ public class Test66 extends TestHelper {
 		assertTrue(d.isPolymer());
 	}
 
+	@Test
+	public void test8() {
+		DialogFormat d = findDialog("test120.xml");
+		assertNotNull(d);
+		assertTrue(d.isPolymer());
+	}
+
 }

@@ -62,7 +62,7 @@ public class PolymerUtil {
 	}
 
 	public static ISignal popupPolymer(WSize ws, Widget w, PaperDialog pap) {
-		PopupPanel pa = new PopupPanel();
+		final PopupPanel pa = new PopupPanel();
 		IronDropdown p = new IronDropdown("<div class=\"dropdown-content\" id=\"content\"></div>");
 		p.setHorizontalOffset(ws.getLeft());
 		p.setVerticalOffset(ws.getTop());

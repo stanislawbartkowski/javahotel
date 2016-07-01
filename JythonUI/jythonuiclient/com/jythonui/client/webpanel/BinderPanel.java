@@ -92,8 +92,8 @@ class BinderPanel {
 		return pW;
 	}
 
-	static void construct(ISetWebPanel f, String fileName, ICommand logOut) {
-		IWebPanelResources pResources = GwtGiniInjector.getI().getWebPanelResources();
+	static void construct(final ISetWebPanel f, final String fileName, final ICommand logOut) {
+		final IWebPanelResources pResources = GwtGiniInjector.getI().getWebPanelResources();
 		ReadBinder.readBinder(new ISetSynchData<BinderWidget>() {
 
 			@Override

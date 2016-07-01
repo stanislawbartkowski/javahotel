@@ -73,7 +73,7 @@ public class LeftMenu {
 
 		@Override
 		public void signal(ISlotSignalContext slContext) {
-			Widget w = slContext.getGwtWidget().getGWidget();
+			final Widget w = slContext.getGwtWidget().getGWidget();
 			IWebPanel i = GwtGiniInjector.getI().getWebPanel();
 			if (mType == MenuType.UPPANELMENU)
 				if (MM.isPolymer())
@@ -82,7 +82,7 @@ public class LeftMenu {
 						@Override
 						public void click(WSize ws) {
 							// very complicated to close menu if item hit
-							click.close = PolymerUtil.popupPolymer(ws, w,null);
+							click.close = PolymerUtil.popupPolymer(ws, w, null);
 						}
 					});
 				else

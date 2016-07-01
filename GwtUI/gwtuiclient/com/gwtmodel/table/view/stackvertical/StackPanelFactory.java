@@ -29,7 +29,7 @@ public class StackPanelFactory {
 
 	public IStackPanelView construct(List<ControlButtonDesc> bList, IControlClick click, String html) {
 		if (MM.isPolymer()) {
-			PaperMenu menu = CreatePolymerMenu.constructStackMenu(bList, click);
+			final PaperMenu menu = CreatePolymerMenu.constructStackMenu(bList, click);
 			return new IStackPanelView() {
 
 				@Override

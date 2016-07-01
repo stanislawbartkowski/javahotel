@@ -49,7 +49,7 @@ class DateCalendarPolymer extends PolymerTextField {
 
 	DateCalendarPolymer(IVField v, IFormFieldProperties pr, String pattern, String standErrMess) {
 		super(v, pr, pattern, standErrMess, false);
-		PaperIconButton bu = new PaperIconButton();
+		final PaperIconButton bu = new PaperIconButton();
 		bu.setIcon("vaadin-icons:calendar");
 		bu.setAttributes("suffix");
 		in.add(bu);
@@ -57,14 +57,14 @@ class DateCalendarPolymer extends PolymerTextField {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				DatePicker dPicker = new DatePicker();
+				final DatePicker dPicker = new DatePicker();
 				// Date da = (Date) getValObj();
 				Date da = iGet.getVal();
 				if (da != null) {
 					dPicker.setValue(da);
 					dPicker.setCurrentMonth(da);
 				}
-				ClickPopUp pUp = new ClickPopUp(bu, dPicker);
+				final ClickPopUp pUp = new ClickPopUp(bu, dPicker);
 				dPicker.addValueChangeHandler(new ValueChangeHandler<Date>() {
 
 					@Override

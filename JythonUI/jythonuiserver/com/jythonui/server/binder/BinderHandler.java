@@ -80,6 +80,7 @@ class BinderHandler extends DefaultHandler {
 		toW.put(IConsts.IMAGE, WidgetTypes.Image);
 		toW.put(IConsts.PAPERICONBUTTON, WidgetTypes.PaperIconButton);
 		toW.put(IConsts.PAPERDRAWERPANEL, WidgetTypes.PaperDrawerPanel);
+		toW.put(IConsts.PAPERCHECKBOX, WidgetTypes.PaperCheckbox);
 	}
 
 	private static String genId() {

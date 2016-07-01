@@ -37,6 +37,7 @@ import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.vaadin.polymer.PolymerWidget;
 import com.vaadin.polymer.iron.widget.IronIcon;
 import com.vaadin.polymer.paper.widget.PaperButton;
+import com.vaadin.polymer.paper.widget.PaperCheckbox;
 import com.vaadin.polymer.paper.widget.PaperDrawerPanel;
 import com.vaadin.polymer.paper.widget.PaperHeaderPanel;
 import com.vaadin.polymer.paper.widget.PaperIconButton;
@@ -279,6 +280,34 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 		}
 	};
 
+	private static final IVisitor<PaperCheckbox> papercheckboxG = new IVisitor<PaperCheckbox>() {
+
+		@Override
+		public void visit(PaperCheckbox w, String k, String v) {
+			if (k.equals(IConsts.ATTRFOCUSED))
+				w.setFocused(Utils.toB(v));
+			else if (k.equals(IConsts.ATTRPOINTERDOWN))
+				w.setPointerDown(Utils.toB(v));
+			else if (k.equals(IConsts.ATTRPRESSED))
+				w.setPressed(Utils.toB(v));
+			else if (k.equals(IConsts.ATTRTOGGLES))
+				w.setToggles(Utils.toB(v));
+			else if (k.equals(IConsts.ATTRACTIVE))
+				w.setActive(Utils.toB(v));
+			else if (k.equals(IConsts.ATTRCHECKED))
+				w.setChecked(Utils.toB(v));
+			else if (k.equals(IConsts.ATTRINVALID))
+				w.setInvalid(Utils.toB(v));
+			else if (k.equals(IConsts.ATTRVALIDATOR))
+				w.setValidator(v);
+			else if (k.equals(IConsts.ATTRVALIDATORTYPE))
+				w.setValidatorType(v);
+			else if (k.equals(IConsts.ATTRVALUE))
+				w.setValue(v);
+		}
+
+	};
+
 	private static final IVisitor<PaperDrawerPanel> paperdrawerpanelG = new IVisitor<PaperDrawerPanel>() {
 
 		@Override
@@ -331,6 +360,7 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 		setAWidget.put(WidgetTypes.Image, new IVisitor[] { imageG });
 		setAWidget.put(WidgetTypes.PaperIconButton, new IVisitor[] { polymerWidgetG, papericonG });
 		setAWidget.put(WidgetTypes.PaperDrawerPanel, new IVisitor[] { polymerWidgetG, paperdrawerpanelG });
+		setAWidget.put(WidgetTypes.PaperCheckbox, new IVisitor[] { polymerWidgetG, papercheckboxG });
 	}
 
 	private <T extends Widget> void setAttr(T w, BinderWidget bw, IVisitor<T>... vil) {
@@ -389,7 +419,9 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 		case PaperDrawerPanel:
 			w = new PaperDrawerPanel(html);
 			break;
-
+		case PaperCheckbox:
+			w = new PaperCheckbox(html);
+			break;
 		} // switch
 		setWAttribute(w, bw);
 		if (bw.getwList().isEmpty())

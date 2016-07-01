@@ -70,6 +70,15 @@
 		<xs:attribute name="pressed" type="xs:boolean" />
 		<xs:attribute name="toggles" type="xs:boolean" />
 	</xs:attributeGroup>
+	
+	<xs:attributeGroup name="paperCheckboxG">
+		<xs:attributeGroup ref="baseButtonItemG"></xs:attributeGroup>
+		<xs:attribute name="checked" type="xs:boolean" />		
+		<xs:attribute name="invalid" type="xs:boolean" />
+		<xs:attribute name="validator" type="xs:string"/>	
+		<xs:attribute name="validatorType" type="xs:string"/>	
+		<xs:attribute name="value" type="xs:string"/>	
+	</xs:attributeGroup>
 
 
 	<xs:attributeGroup name="paperIconItemG">
@@ -189,6 +198,13 @@
 			<xs:attributeGroup ref="ironIconG" />
 		</xs:complexType>
 	</xs:element>
+	
+	<xs:element name="PaperCheckbox">
+		<xs:complexType mixed="true">
+			<xs:attributeGroup ref="paperCheckboxG" />
+		</xs:complexType>
+	</xs:element>
+	
 
 	<xs:element name="PaperIconItem">
 		<xs:complexType mixed="true">

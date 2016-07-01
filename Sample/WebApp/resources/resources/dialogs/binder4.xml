@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
-<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="Button">
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="CheckBox">
  
- <uibinder>binder/binder3.xml</uibinder>
+ <uibinder>binder/binder4.xml</uibinder>
  
   <jython>
    <import>from testpack import binder1</import>

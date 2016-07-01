@@ -54,6 +54,7 @@ public interface IUIConsts {
 	String NOCHARTSQUERY = "nocharts";
 	String ANSWERYES = "Y";
 	String LOGINDELIMITER = ",";
+	String POLYMERPANEL = "polymer.panel";
 
 	String CRUD_REMOVE = "crud_remove";
 	String CRUD_SHOW = "crud_show";

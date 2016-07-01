@@ -74,5 +74,6 @@ public interface IConsts {
 	String IMAGE = "Image";
 	String PAPERICONBUTTON = "PaperIconButton";
 	String PAPERDRAWERPANEL = "PaperDrawerPanel";
+	String PAPERCHECKBOX = "PaperCheckbox";
 
 }

@@ -37,9 +37,9 @@ public class CreatePolymerMenu {
 	private static void constructM(PaperMenu menu, List<ControlButtonDesc> bList, final IControlClick cli) {
 		IGetStandardMessage iMess = GwtGiniInjector.getI().getStandardMessage();
 		menu.addStyleName("menupaper-custom");
-		for (ControlButtonDesc bu : bList) {
+		for (final ControlButtonDesc bu : bList) {
 			String m = iMess.getMessage(bu.getDisplayName());
-			PaperItem i = new PaperItem(m);
+			final PaperItem i = new PaperItem(m);
 			i.addClickHandler(new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event) {

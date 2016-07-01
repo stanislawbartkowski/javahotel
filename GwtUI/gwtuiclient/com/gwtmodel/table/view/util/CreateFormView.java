@@ -96,7 +96,7 @@ public class CreateFormView {
 
 	public static Map<String, Widget> createListOfFieldsId(HTMLPanel pa) {
 
-		Map<String, Widget> ma = new HashMap<String, Widget>();
+		final Map<String, Widget> ma = new HashMap<String, Widget>();
 		replaceBinder(pa, new IReplace() {
 
 			@Override
@@ -107,20 +107,7 @@ public class CreateFormView {
 		return ma;
 	}
 
-	// private final BinderWidget findId(BinderWidget bw, String id) {
-	// for (BinderWidget b : bw.getwList()) {
-	// // recursive
-	// BinderWidget inB = findId(b, id);
-	// if (inB != null)
-	// return inB;
-	// String bid = b.getFieldId();
-	// if (!CUtil.EmptyS(bid) && id.equals(bid))
-	// return b;
-	// }
-	// return null;
-	// }
-
-	public static void setHtml(HTMLPanel pa, IGetButtons iG, BinderWidget bw) {
+	public static void setHtml(HTMLPanel pa, final IGetButtons iG, BinderWidget bw) {
 		int i = 0;
 		for (ClickButtonType c : iG.getDList()) {
 			IGFocusWidget b = iG.getBList().get(i++);

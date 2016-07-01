@@ -13,31 +13,39 @@
 package com.table.testenhancer.gae;
 
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalMemcacheServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.apphosting.api.ApiProxy;
+import com.googlecode.objectify.ObjectifyService;
+import com.googlecode.objectify.util.Closeable;
 
 abstract class LocalServiceTestEnvironment {
 
-    private final LocalServiceTestHelper helper = new LocalServiceTestHelper(
-            new LocalDatastoreServiceTestConfig());
-    private final LocalServiceTestHelper helper1 = new LocalServiceTestHelper(
-            new LocalMemcacheServiceTestConfig());
+	// private final LocalServiceTestHelper helper = new LocalServiceTestHelper(
+	// new LocalDatastoreServiceTestConfig());
+	// private final LocalServiceTestHelper helper1 = new
+	// LocalServiceTestHelper(
+	// new LocalMemcacheServiceTestConfig());
+	//
+	// private final LocalServiceTestHelper helper = new
+	// LocalServiceTestHelper(new
+	// LocalDatastoreServiceTestConfig().setDefaultHighRepJobPolicyUnappliedJobPercentage(100));
 
-    protected void beforeTest() {
-        helper.setUp();
-        // helper1.setUp();
-        ApiProxy.setEnvironmentForCurrentThread(new TestEnvironment());
-        // ApiProxy.setDelegate(new ApiProxyLocalImpl(new File(".")) {
-        // });
-    }
+	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(
+			new LocalDatastoreServiceTestConfig().setApplyAllHighRepJobPolicy());
 
-    protected void afterTest() {
-        // not strictly necessary to null these out but there's no harm either
-        // helper.tearDown();
-        ApiProxy.setDelegate(null);
-        ApiProxy.setEnvironmentForCurrentThread(null);
-        // helper.tearDown();
-        // helper1.tearDown();
-    }
+	private Closeable closeable;
+
+	protected void beforeTest() {
+		helper.setUp();
+		ApiProxy.setEnvironmentForCurrentThread(new TestEnvironment());
+		// ObjectifyRegistra.registerDataModel();
+		closeable = ObjectifyService.begin();
+	}
+
+	protected void afterTest() {
+		// not strictly necessary to null these out but there's no harm either
+		closeable.close();
+		ApiProxy.setDelegate(null);
+		ApiProxy.setEnvironmentForCurrentThread(null);
+	}
 }

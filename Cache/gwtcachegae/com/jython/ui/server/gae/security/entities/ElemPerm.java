@@ -12,9 +12,6 @@
  */
 package com.jython.ui.server.gae.security.entities;
 
-import com.googlecode.objectify.annotation.Embed;
-
-@Embed
 public class ElemPerm {
 
     private String perm;

@@ -15,8 +15,6 @@ package com.jythonui.client.start.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.collections.list.SynchronizedList;
-
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -282,7 +280,7 @@ public class JythonClientStart implements IJythonClientStart {
 
 			// construct WebPanel handler
 			// start running
-			StartW sw = new StartW(auth, result);
+			final StartW sw = new StartW(auth, result);
 			if (MM.isPolymer()) {
 				// for some reason this empty declarations are necessary here
 				// for Polymer to work properly
@@ -291,36 +289,32 @@ public class JythonClientStart implements IJythonClientStart {
 				IronDropdown pi = new IronDropdown();
 				// end of empty declaration
 
-				// final boolean fauth = auth;
+				final String polymerPanel = result.getAttr(IUIConsts.POLYMERPANEL);
 				List<String> imp = new ArrayList<String>();
 				imp.add("iron-icons/iron-icons.html");
 				imp.add("vaadin-icons/vaadin-icons.html");
-				// final boolean pauth = auth;
 				Polymer.importHref(imp, new Function() {
 					public Object call(Object arg) {
 						// The app is executed when all imports succeed.
-						BinderPanelFactory.construct(new BinderPanelFactory.ISetWebPanel() {
+						if (CUtil.EmptyS(polymerPanel)) {
+							sw.iWeb = wFactory.construct(new LogOut(sw.fauth), MM.isPolymer());
+							sw.signalDone();
+						} else
+							BinderPanelFactory.construct(new BinderPanelFactory.ISetWebPanel() {
 
-							@Override
-							public void set(IWebPanel t) {
-//								sw.iWeb = wFactory.construct(new LogOut(sw.fauth), MM.isPolymer());
-								sw.iWeb = t;
-								sw.signalDone();
-								// setWebPanel(wFactory.construct(new
-								// LogOut(pauth), MM.isPolymer()), result);
-							}
+								@Override
+								public void set(IWebPanel t) {
+									sw.iWeb = t;
+									sw.signalDone();
+								}
 
-						}, "mainpanel.xml", new LogOut(sw.fauth));
-						// setWebPanel(wFactory.construct(new LogOut(pauth),
-						// MM.isPolymer()), result);
-						// startBegin(fauth);
+							}, "mainpanel.xml", new LogOut(sw.fauth));
 						return null;
 					}
 				});
 			} else {
 				sw.iWeb = wFactory.construct(new LogOut(auth), MM.isPolymer());
 				sw.signalDone();
-				// startBegin(auth);
 			}
 		}
 

@@ -108,6 +108,11 @@ public interface IConsts {
 	String ATTRRESPONSICEWIDTH = "responsiveWidth";
 	String ATTRRIGHTDRAWER = "rightDrawer";
 	String ATTRSELECTED = "selected";
+	String ATTRCHECKED = "checked";
+	String ATTRINVALID = "invalid";
+	String ATTRVALIDATOR = "validator";
+	String ATTRVALIDATORTYPE = "validatorType";
+	String ATTRVALUE = "value";
 
 	String RESBEG = "{" + IMessConsts.STANDCH;
 	String RESEND = "}";
