@@ -128,7 +128,8 @@ public class GFocusWidgetFactory {
 
 		@Override
 		public Widget getGWidget() {
-			return b.getGWidget();
+			// replaced: 2016/07/03
+			return this;
 		}
 
 		@Override

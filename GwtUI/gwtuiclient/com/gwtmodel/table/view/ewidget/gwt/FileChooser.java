@@ -15,7 +15,6 @@ package com.gwtmodel.table.view.ewidget.gwt;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.editw.IFormFieldProperties;
-import com.gwtmodel.table.factories.IGetCustomValues;
 
 /**
  * 

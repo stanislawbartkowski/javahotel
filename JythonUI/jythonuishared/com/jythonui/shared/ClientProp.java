@@ -59,9 +59,5 @@ public class ClientProp extends ElemDescription {
 	public void setCached(boolean isCached) {
 		this.isCached = isCached;
 	}
-
-	public boolean isPolymer() {
-		return isAttr(ICommonConsts.POLYMER);
-	}
 	
 }

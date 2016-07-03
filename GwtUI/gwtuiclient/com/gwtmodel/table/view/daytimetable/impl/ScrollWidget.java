@@ -29,6 +29,7 @@ import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.IGFocusWidget;
 import com.gwtmodel.table.common.DateFormat;
+import com.gwtmodel.table.editw.FormFieldPropFactory;
 import com.gwtmodel.table.editw.IFormChangeListener;
 import com.gwtmodel.table.editw.IFormLineView;
 import com.gwtmodel.table.factories.IWebPanelResources;
@@ -74,7 +75,7 @@ public class ScrollWidget implements IScrollSeason {
 		leftP = iIma.getButton(C_BUTTON_LEFT, titles[1], pResources.getRes(IWebPanelResources.SCROLLLEFT));
 		rightP = iIma.getButton(C_BUTTON_RIGHT, titles[2], pResources.getRes(IWebPanelResources.SCROLLRIGHT));
 		IEditWidget eFactory = EditWidgetFactory.getGwtE();
-		dDate = eFactory.construcDateBoxCalendar(Empty.getFieldType(), null);
+		dDate = eFactory.construcDateBoxCalendar(Empty.getFieldType(), FormFieldPropFactory.construct());
 		dPanel.add(leftP.getGWidget());
 		dPanel.add(dDate.getGWidget());
 		dPanel.add(rightP.getGWidget());

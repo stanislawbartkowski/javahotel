@@ -65,6 +65,7 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
 
 	private AbstractField(final IVField v, boolean checkenable, IFormFieldProperties pr, List<ITouchListener> iTouch) {
 		assert v != null : LogT.getT().cannotBeNull();
+		assert pr != null : LogT.getT().cannotBeNull();
 		this.cValues = GwtGiniInjector.getI().getCustomValues();
 		if (iTouch != null)
 			this.iTouch = iTouch;

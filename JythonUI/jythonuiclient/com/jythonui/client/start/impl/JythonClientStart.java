@@ -328,10 +328,11 @@ public class JythonClientStart implements IJythonClientStart {
 	}
 
 	private void recognizePolymer(ClientProp result) {
-		MM.setPolymer(result.isPolymer());
+		String polymerP = result.getAttr(ICommonConsts.POLYMER);
 		String polymerS = Utils.getURLParam(ICommonConsts.POLYMER);
+		// URL value takes precedence over property
 		if (CUtil.EmptyS(polymerS))
-			return;
+			polymerS = polymerP;
 		MM.setPolymer(CUtil.EqNS(polymerS, IUIConsts.ANSWERYES));
 	}
 
