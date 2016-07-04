@@ -10,10 +10,17 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.binder;
+package com.gwtmodel.table.view.mdialog;
 
-public enum WidgetTypes {
+import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.view.util.SolidPos;
 
-	HTMLPanel, Button, Label, UiBinder, IronIcon, PaperIconItem, PaperButton, PaperHeaderPanel, PaperToolBar, Image, PaperIconButton, PaperDrawerPanel, PaperCheckbox, PaperDialog, PaperDialogScrollable
+public interface IMDialog {
 
+	void show(WSize w, SolidPos sPos);
+
+	void hide();
+
+	void setTitle(String title);
+	
 }

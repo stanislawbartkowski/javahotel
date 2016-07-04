@@ -113,6 +113,20 @@ public interface IConsts {
 	String ATTRVALIDATOR = "validator";
 	String ATTRVALIDATORTYPE = "validatorType";
 	String ATTRVALUE = "value";
+	String ATTRANIMATIONCONFIG = "animationConfig";
+	String ATTRAUTOFITONATTACH = "autoFitOnAttach";
+	String ATTRCANCELED = "canceled";
+	String ATTRETRYANIMATION = "entryAnimation";
+	String ATTREXITANIMATION = "exitAnimation";
+	String ATTRFITINFO = "fitInto";
+	String ATTRMODAL = "modal";
+	String ATTRNOAUTOFOCUS = "noAutoFocus";
+	String ATTRNOCANCELONESCKEY = "noCancelOnEscKey";
+	String ATTRNOCANCELONOUTSIDECLICK = "noCancelOnOutsideClick";
+	String ATTROPENED = "opened";
+	String ATTRSIZINGTARGET = "sizingTarget";
+	String ATTRWITHBACKDROP="withBackdrop";
+	String ATTRDIALOGELEMENT="dialogElement";
 
 	String RESBEG = "{" + IMessConsts.STANDCH;
 	String RESEND = "}";

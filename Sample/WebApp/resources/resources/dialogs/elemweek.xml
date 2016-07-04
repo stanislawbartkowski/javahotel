@@ -17,10 +17,10 @@
 	
 	<list id="listpay" displayname="Payments">
 		<standbutt>FIND,FILTER</standbutt>
-	   	<buttons-addlist>ADD,MODIF</buttons-addlist>
+	   	<buttons-addlist>crud_add,crud_change</buttons-addlist>
 		<columns>
 		    <column id="date" displayname="Day of the week" type="date"  />
-			<column id="pay" displayname="Payment" type="decimal" footer=""
+  		<column id="pay" displayname="Payment" type="decimal" footer=""
 				editable="" signalchange=""/>
 		</columns>
 

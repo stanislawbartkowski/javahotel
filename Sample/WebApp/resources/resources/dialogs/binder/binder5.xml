@@ -1,0 +1,68 @@
+<ui:UiBinder xmlns:ui='http://www.jythongwt.uibinderxsd.com'
+	xmlns:g='http://www.jythongwt.uibinderxsd.com' xmlns:p='http://www.jythongwt.uibinderxsd.com'
+	xmlns:i='http://www.jythongwt.uibinderxsd.com' xmlns='http://www.jythongwt.uihtml.com'>
+
+
+    <style>
+        @external .dialog-sample, .size-position;
+
+        .dialog-sample section {
+            padding: 20px 0;
+        }
+
+        .dialog-sample paper-dialog.size-position {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+        }
+
+        .dialog-sample paper-dialog.size-position {
+            width: 300px;
+            height: 300px;
+        }
+    </style>
+
+    <g:HTMLPanel addStyleNames="dialog-sample">
+        <style is="custom-style">
+            .dialog-sample paper-button {
+               margin-top: 12px;
+            }
+
+            .dialog-sample paper-button.emphasised {
+                background-color: var(--google-grey-300);
+                padding: 5px;
+            }
+
+            .dialog-sample paper-button.emphasised:hover {
+                background-color: var(--paper-light-blue-200);
+                padding: 5px;
+            }
+
+            .dialog-sample paper-dialog.colored {
+                border: 2px solid;
+                border-color: var(--paper-green-500);
+                background-color: var(--paper-light-green-50);
+                color: var(--paper-green-500);
+            }
+        </style>
+        <section>
+            <h4>Dialog layouts</h4>
+
+            <p:PaperButton fieldid="dialogBtn" addStyleNames="emphasised">plain dialog</p:PaperButton>
+            <p:PaperButton fieldid="scrollingBtn" addStyleNames="emphasised">scrolling dialog</p:PaperButton>
+            <p:PaperButton fieldid="actionsBtn" addStyleNames="emphasised">dialog with actions</p:PaperButton>
+            <p:PaperButton fieldid="modalBtn" addStyleNames="emphasised">modal dialog</p:PaperButton>
+	  </section>
+
+        <section>
+            <h4>Custom styling</h4>
+            <p:PaperButton fieldid="colorsBtn" addStyleNames="emphasised">colors</p:PaperButton>
+            <p:PaperButton fieldid="positionBtn" addStyleNames="emphasised">size &amp; position</p:PaperButton>
+        </section>
+
+        <section>
+            <h4>Transitions</h4>
+            <p:PaperButton fieldid="animatedBtn" addStyleNames="emphasised">transitions</p:PaperButton>
+        </section>
+    </g:HTMLPanel>
+</ui:UiBinder>

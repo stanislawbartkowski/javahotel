@@ -75,5 +75,7 @@ public interface IConsts {
 	String PAPERICONBUTTON = "PaperIconButton";
 	String PAPERDRAWERPANEL = "PaperDrawerPanel";
 	String PAPERCHECKBOX = "PaperCheckbox";
+	String PAPERDIALOG = "PaperDialog";
+	String PAPERDIALOGSCROLLABLE = "PaperDialogScrollable";
 
 }

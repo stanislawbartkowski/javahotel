@@ -81,6 +81,8 @@ class BinderHandler extends DefaultHandler {
 		toW.put(IConsts.PAPERICONBUTTON, WidgetTypes.PaperIconButton);
 		toW.put(IConsts.PAPERDRAWERPANEL, WidgetTypes.PaperDrawerPanel);
 		toW.put(IConsts.PAPERCHECKBOX, WidgetTypes.PaperCheckbox);
+		toW.put(IConsts.PAPERDIALOG, WidgetTypes.PaperDialog);
+		toW.put(IConsts.PAPERDIALOGSCROLLABLE, WidgetTypes.PaperDialogScrollable);
 	}
 
 	private static String genId() {

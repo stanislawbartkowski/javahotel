@@ -17,7 +17,6 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataType;
@@ -33,7 +32,8 @@ import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.view.callback.CommonCallBack;
-import com.gwtmodel.table.view.util.ModalDialog;
+import com.gwtmodel.table.view.mdialog.IMDialog;
+import com.gwtmodel.table.view.mdialog.MDialogFactory;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.gwtmodel.table.view.webpanel.IWebPanel.InfoType;
 import com.jythonui.client.IJythonUIClient;
@@ -138,24 +138,24 @@ public class RunAction implements IJythonUIClient {
 
 	}
 
-	private class UpDialog extends ModalDialog {
-
-		private final Widget w;
-
-		// private ModalDialog md;
-
-		UpDialog(Widget w, IDataType dType, boolean autohide, boolean modal) {
-			super(new VerticalPanel(), "", autohide, modal);
-			this.w = w;
-			create();
-			this.setOnClose(new CloseI(dType));
-		}
-
-		@Override
-		protected void addVP(VerticalPanel vp) {
-			vp.add(w);
-		}
-	}
+	// private class UpDialog extends ModalDialog {
+	//
+	// private final Widget w;
+	//
+	// // private ModalDialog md;
+	//
+	// UpDialog(Widget w, IDataType dType, boolean autohide, boolean modal) {
+	// super(new VerticalPanel(), "", autohide, modal);
+	// this.w = w;
+	// create();
+	// this.setOnClose(new CloseI(dType));
+	// }
+	//
+	// @Override
+	// protected void addVP(VerticalPanel vp) {
+	// vp.add(w);
+	// }
+	// }
 
 	private class SCompleted implements SubmitCompleteHandler {
 
@@ -196,7 +196,7 @@ public class RunAction implements IJythonUIClient {
 	private class MDialog {
 
 		private final Widget w;
-		private UpDialog md;
+		private IMDialog md;
 		private final IDataType dType;
 		private DialogFormat d;
 		private WSize wS;
@@ -220,9 +220,15 @@ public class RunAction implements IJythonUIClient {
 				formP.setEncoding(FormPanel.ENCODING_MULTIPART);
 				formP.setMethod(FormPanel.METHOD_POST);
 				formP.addSubmitCompleteHandler(sC);
-				md = new UpDialog(formP, dType, d.isAutoHideDialog(), !d.isModelessDialog());
+				// md = new UpDialog(formP, dType, d.isAutoHideDialog(),
+				// !d.isModelessDialog());
+				md = MDialogFactory.construct(d.isPolymer(), formP, dType, d.isAutoHideDialog(), !d.isModelessDialog(),
+						new CloseI(dType));
 			} else
-				md = new UpDialog(w, dType, d.isAutoHideDialog(), !d.isModelessDialog());
+				// md = new UpDialog(w, dType, d.isAutoHideDialog(),
+				// !d.isModelessDialog());
+				md = MDialogFactory.construct(d.isPolymer(), w, dType, d.isAutoHideDialog(), !d.isModelessDialog(),
+						new CloseI(dType));
 			if (!CUtil.EmptyS(d.getDisplayName())) {
 				md.setTitle(d.getDisplayName());
 			}

@@ -10,10 +10,22 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.binder;
+package com.gwtmodel.table.view.mdialog;
 
-public enum WidgetTypes {
+import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.common.ISignal;
 
-	HTMLPanel, Button, Label, UiBinder, IronIcon, PaperIconItem, PaperButton, PaperHeaderPanel, PaperToolBar, Image, PaperIconButton, PaperDrawerPanel, PaperCheckbox, PaperDialog, PaperDialogScrollable
+public class MDialogFactory {
 
+	private MDialogFactory() {
+
+	}
+
+	public static IMDialog construct(boolean polymer, Widget w, IDataType dType, boolean autohide, boolean modal,
+			ISignal iClose) {
+		GwtModalDialog md = new GwtModalDialog(w,dType,autohide,modal);
+		md.setOnClose(iClose);
+		return md;
+	}
 }

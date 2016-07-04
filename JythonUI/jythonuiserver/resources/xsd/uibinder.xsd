@@ -70,14 +70,14 @@
 		<xs:attribute name="pressed" type="xs:boolean" />
 		<xs:attribute name="toggles" type="xs:boolean" />
 	</xs:attributeGroup>
-	
+
 	<xs:attributeGroup name="paperCheckboxG">
 		<xs:attributeGroup ref="baseButtonItemG"></xs:attributeGroup>
-		<xs:attribute name="checked" type="xs:boolean" />		
+		<xs:attribute name="checked" type="xs:boolean" />
 		<xs:attribute name="invalid" type="xs:boolean" />
-		<xs:attribute name="validator" type="xs:string"/>	
-		<xs:attribute name="validatorType" type="xs:string"/>	
-		<xs:attribute name="value" type="xs:string"/>	
+		<xs:attribute name="validator" type="xs:string" />
+		<xs:attribute name="validatorType" type="xs:string" />
+		<xs:attribute name="value" type="xs:string" />
 	</xs:attributeGroup>
 
 
@@ -140,7 +140,48 @@
 		<xs:attribute name="selected" type="xs:string" />
 	</xs:attributeGroup>
 
+	<xs:attributeGroup name="paperDialogG">
+		<xs:attributeGroup ref="polymerWidgetG"></xs:attributeGroup>
+		<xs:attribute name="animationConfig" type="xs:string" />
+		<xs:attribute name="autoFitOnAttach" type="xs:boolean" />
+		<xs:attribute name="canceled" type="xs:boolean" />
+		<xs:attribute name="entryAnimation" type="xs:string" />
+		<xs:attribute name="exitAnimation" type="xs:string" />
+		<xs:attribute name="fitInto" type="xs:string" />
+		<xs:attribute name="modal" type="xs:boolean" />
+		<xs:attribute name="noAutoFocus" type="xs:boolean" />
+		<xs:attribute name="noCancelOnEscKey" type="xs:boolean" />
+		<xs:attribute name="noCancelOnOutsideClick" type="xs:boolean" />
+		<xs:attribute name="opened" type="xs:boolean" />
+		<xs:attribute name="sizingTarget" type="xs:string" />
+		<xs:attribute name="withBackdrop" type="xs:boolean" />
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="paperDialogScrollableG">
+		<xs:attributeGroup ref="polymerWidgetG"></xs:attributeGroup>
+		<xs:attribute name="dialogElement" type="xs:string" />
+	</xs:attributeGroup>
+
 	<!-- Elements -->
+
+	<xs:element name="PaperDialogScrollable">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperDialogScrollableG" />
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="PaperDialog">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperDialogG" />
+		</xs:complexType>
+	</xs:element>
 
 	<xs:element name="PaperDrawerPanel">
 		<xs:complexType mixed="true">
@@ -198,13 +239,13 @@
 			<xs:attributeGroup ref="ironIconG" />
 		</xs:complexType>
 	</xs:element>
-	
+
 	<xs:element name="PaperCheckbox">
 		<xs:complexType mixed="true">
 			<xs:attributeGroup ref="paperCheckboxG" />
 		</xs:complexType>
 	</xs:element>
-	
+
 
 	<xs:element name="PaperIconItem">
 		<xs:complexType mixed="true">

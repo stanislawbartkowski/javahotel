@@ -10,10 +10,28 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.binder;
+package com.gwtmodel.table.view.mdialog;
 
-public enum WidgetTypes {
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.view.util.ModalDialog;
 
-	HTMLPanel, Button, Label, UiBinder, IronIcon, PaperIconItem, PaperButton, PaperHeaderPanel, PaperToolBar, Image, PaperIconButton, PaperDrawerPanel, PaperCheckbox, PaperDialog, PaperDialogScrollable
+class GwtModalDialog extends ModalDialog implements IMDialog {
 
+	private final Widget w;
+
+	// private ModalDialog md;
+
+	GwtModalDialog(Widget w, IDataType dType, boolean autohide, boolean modal) {
+		super(new VerticalPanel(), "", autohide, modal);
+		this.w = w;
+		create();
+		// this.setOnClose(new CloseI(dType));
+	}
+
+	@Override
+	protected void addVP(VerticalPanel vp) {
+		vp.add(w);
+	}
 }

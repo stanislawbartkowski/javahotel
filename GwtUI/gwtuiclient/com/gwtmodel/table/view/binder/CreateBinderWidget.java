@@ -38,6 +38,8 @@ import com.vaadin.polymer.PolymerWidget;
 import com.vaadin.polymer.iron.widget.IronIcon;
 import com.vaadin.polymer.paper.widget.PaperButton;
 import com.vaadin.polymer.paper.widget.PaperCheckbox;
+import com.vaadin.polymer.paper.widget.PaperDialog;
+import com.vaadin.polymer.paper.widget.PaperDialogScrollable;
 import com.vaadin.polymer.paper.widget.PaperDrawerPanel;
 import com.vaadin.polymer.paper.widget.PaperHeaderPanel;
 import com.vaadin.polymer.paper.widget.PaperIconButton;
@@ -346,6 +348,49 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 		}
 	};
 
+	private static final IVisitor<PaperDialog> paperdialogG = new IVisitor<PaperDialog>() {
+
+		@Override
+		public void visit(PaperDialog w, String k, String v) {
+			if (k.equals(IConsts.ATTRANIMATIONCONFIG))
+				w.setAnimationConfig(v);
+			else if (k.equals(IConsts.ATTRAUTOFITONATTACH))
+				w.setAutoFitOnAttach(Utils.toB(v));
+			else if (k.equals(IConsts.ATTRCANCELED))
+				w.setCanceled(Utils.toB(v));
+			else if (k.equals(IConsts.ATTRETRYANIMATION))
+				w.setEntryAnimation(v);
+			else if (k.equals(IConsts.ATTREXITANIMATION))
+				w.setExitAnimation(v);
+			else if (k.equals(IConsts.ATTRFITINFO))
+				w.setFitInto(v);
+			else if (k.equals(IConsts.ATTRMODAL))
+				w.setModal(Utils.toB(v));
+			else if (k.equals(IConsts.ATTRNOAUTOFOCUS))
+				w.setNoAutoFocus(Utils.toB(v));
+			else if (k.equals(IConsts.ATTRNOCANCELONESCKEY))
+				w.setNoCancelOnEscKey(Utils.toB(v));
+			else if (k.equals(IConsts.ATTRNOCANCELONESCKEY))
+				w.setNoCancelOnOutsideClick(Utils.toB(v));
+			else if (k.equals(IConsts.ATTROPENED))
+				w.setOpened(Utils.toB(v));
+			else if (k.equals(IConsts.ATTRSIZINGTARGET))
+				w.setSizingTarget(v);
+			else if (k.equals(IConsts.ATTRWITHBACKDROP))
+				w.setWithBackdrop(Utils.toB(v));
+
+		}
+	};
+
+	private static final IVisitor<PaperDialogScrollable> paperdialogscrollableG = new IVisitor<PaperDialogScrollable>() {
+
+		@Override
+		public void visit(PaperDialogScrollable w, String k, String v) {
+			if (k.equals(IConsts.ATTRDIALOGELEMENT))
+				w.setDialogElement(v);
+		}
+	};
+
 	private final static Map<WidgetTypes, IVisitor<Widget>[]> setAWidget = new HashMap<WidgetTypes, IVisitor<Widget>[]>();
 
 	static {
@@ -361,6 +406,8 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 		setAWidget.put(WidgetTypes.PaperIconButton, new IVisitor[] { polymerWidgetG, papericonG });
 		setAWidget.put(WidgetTypes.PaperDrawerPanel, new IVisitor[] { polymerWidgetG, paperdrawerpanelG });
 		setAWidget.put(WidgetTypes.PaperCheckbox, new IVisitor[] { polymerWidgetG, papercheckboxG });
+		setAWidget.put(WidgetTypes.PaperDialog, new IVisitor[] { polymerWidgetG, paperdialogG });
+		setAWidget.put(WidgetTypes.PaperDialogScrollable, new IVisitor[] { polymerWidgetG, paperdialogscrollableG });
 	}
 
 	private <T extends Widget> void setAttr(T w, BinderWidget bw, IVisitor<T>... vil) {
@@ -421,6 +468,12 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 			break;
 		case PaperCheckbox:
 			w = new PaperCheckbox(html);
+			break;
+		case PaperDialog:
+			w = new PaperDialog(html);
+			break;
+		case PaperDialogScrollable:
+			w = new PaperDialogScrollable(html);
 			break;
 		} // switch
 		setWAttribute(w, bw);
