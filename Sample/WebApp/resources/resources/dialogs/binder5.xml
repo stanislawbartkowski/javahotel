@@ -10,6 +10,7 @@
 
  <buttons>
    <button id="dialogBtn" displayname="" actiontype="JUP_DIALOG" actionparam="binder5dialog1.xml" />
+   <button id="scrollingBtn" displayname="" actiontype="JUP_DIALOG" actionparam="binder5dialog2.xml" />
  </buttons>
   
 

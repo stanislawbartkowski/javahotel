@@ -48,6 +48,7 @@ import com.vaadin.polymer.Polymer;
 import com.vaadin.polymer.elemental.Function;
 import com.vaadin.polymer.iron.widget.IronDropdown;
 import com.vaadin.polymer.paper.widget.PaperDialog;
+import com.vaadin.polymer.paper.widget.PaperDialogScrollable;
 
 public class JythonClientStart implements IJythonClientStart {
 	private static final String START = "start.xml";
@@ -287,6 +288,7 @@ public class JythonClientStart implements IJythonClientStart {
 				// otherwise a message "open is not a function"
 				PaperDialog p = new PaperDialog();
 				IronDropdown pi = new IronDropdown();
+				PaperDialogScrollable ps = new PaperDialogScrollable();
 				// end of empty declaration
 
 				final String polymerPanel = result.getAttr(IUIConsts.POLYMERPANEL);

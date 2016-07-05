@@ -222,13 +222,13 @@ public class RunAction implements IJythonUIClient {
 				formP.addSubmitCompleteHandler(sC);
 				// md = new UpDialog(formP, dType, d.isAutoHideDialog(),
 				// !d.isModelessDialog());
-				md = MDialogFactory.construct(d.isPolymer(), formP, dType, d.isAutoHideDialog(), !d.isModelessDialog(),
-						new CloseI(dType));
+				md = MDialogFactory.construct(JUtils.isPolymerD(d), formP, dType, d.isAutoHideDialog(),
+						!d.isModelessDialog(), new CloseI(dType));
 			} else
 				// md = new UpDialog(w, dType, d.isAutoHideDialog(),
 				// !d.isModelessDialog());
-				md = MDialogFactory.construct(d.isPolymer(), w, dType, d.isAutoHideDialog(), !d.isModelessDialog(),
-						new CloseI(dType));
+				md = MDialogFactory.construct(JUtils.isPolymerD(d), w, dType, d.isAutoHideDialog(),
+						!d.isModelessDialog(), new CloseI(dType));
 			if (!CUtil.EmptyS(d.getDisplayName())) {
 				md.setTitle(d.getDisplayName());
 			}

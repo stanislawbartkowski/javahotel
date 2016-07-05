@@ -93,7 +93,7 @@ public class Test66 extends TestHelper {
 		assertNotNull(d);
 		assertTrue(d.isPolymer());
 	}
-	
+
 	@Test
 	public void test5() {
 		DialogFormat d = findDialog("test117.xml");
@@ -107,7 +107,7 @@ public class Test66 extends TestHelper {
 		assertNotNull(d);
 		assertTrue(d.isPolymer());
 	}
-	
+
 	@Test
 	public void test7() {
 		DialogFormat d = findDialog("test119.xml");
@@ -121,12 +121,28 @@ public class Test66 extends TestHelper {
 		assertNotNull(d);
 		assertTrue(d.isPolymer());
 	}
-	
+
 	@Test
 	public void test9() {
 		DialogFormat d = findDialog("test121.xml");
 		assertNotNull(d);
 		assertTrue(d.isPolymer());
+		BinderWidget b = d.getBinderW();
+		assertNotNull(b);
+		System.out.println(b.getCssStyle());
+	}
+
+	@Test
+	public void test10() {
+		DialogFormat d = findDialog("test122.xml");
+		assertNotNull(d);
+		assertTrue(d.isPolymer());
+		BinderWidget b = d.getBinderW();
+		assertNotNull(b);
+		System.out.println(b.getCssStyle());
+		assertFalse(CUtil.EmptyS(b.getCssStyle()));
+		int i = b.getCssStyle().indexOf("abcdef");
+		assertTrue(i >= 0);
 	}
 
 }

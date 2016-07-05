@@ -155,7 +155,9 @@ public interface TLogMessages extends Messages {
 	String BinderButtonShouldBeFocusWidget();
 
 	String PolymerButtonShouldBePolymerWidget(String atype);
-	
+
 	String PanelCannotFindWidget(String id);
+
+	String PupupPolymerDialogShouldBePaperDialog(String expected, String received);
 
 }

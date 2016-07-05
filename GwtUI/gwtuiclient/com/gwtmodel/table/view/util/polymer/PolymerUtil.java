@@ -61,12 +61,15 @@ public class PolymerUtil {
 		return b;
 	}
 
-	public static ISignal popupPolymer(WSize ws, Widget w, PaperDialog pap) {
+	public static ISignal popupPolymer(WSize ws, Widget w, PaperDialog pap, final ISignal sClose) {
 		final PopupPanel pa = new PopupPanel();
 		IronDropdown p = new IronDropdown("<div class=\"dropdown-content\" id=\"content\"></div>");
 		p.setHorizontalOffset(ws.getLeft());
 		p.setVerticalOffset(ws.getTop());
-		p.add(w, "content");
+		if (w != null)
+			p.add(w, "content");
+		else
+			p.add(pap, "content");
 		pa.setWidget(p);
 		pa.setVisible(false);
 		pa.show();
@@ -81,6 +84,8 @@ public class PolymerUtil {
 			@Override
 			public void onIronOverlayClosed(IronOverlayClosedEvent event) {
 				pa.hide();
+				if (sClose != null)
+					sClose.signal();
 			}
 		});
 		return new ISignal() {

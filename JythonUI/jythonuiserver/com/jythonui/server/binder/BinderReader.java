@@ -22,13 +22,23 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.SAXException;
 
 import com.gwtmodel.table.binder.BinderWidget;
+import com.gwtmodel.table.common.CUtil;
 
 class BinderReader {
-	
+
 	private BinderReader() {
-		
+
 	}
-	
+
+	static void extractStyle(BinderWidget w) throws ParserConfigurationException, SAXException, IOException {
+		String css = ExtractStyle.getStyle(w.getContentHtml());
+		if (!CUtil.EmptyS(css))
+			w.setCssStyle(css);
+		// recursive
+		for (BinderWidget b : w.getwList())
+			extractStyle(b);
+	}
+
 	static BinderWidget parseBinder(InputStream sou) throws ParserConfigurationException, SAXException, IOException {
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		// important, namespace
@@ -36,6 +46,7 @@ class BinderReader {
 		SAXParser saxParser = factory.newSAXParser();
 		BinderHandler ma = new BinderHandler();
 		saxParser.parse(sou, ma);
+		extractStyle(ma.parsed);
 		return ma.parsed;
 	}
 

@@ -60,7 +60,7 @@ public class OkDialogPolymer implements IStandDialog {
 		PaperDialog p = construct(mess, title);
 		// p.setAttributes("horizontalOffset:10px;");
 		// p.open();
-		i = PolymerUtil.popupPolymer(w, p, p);
+		i = PolymerUtil.popupPolymer(w, null, p, null);
 	}
 
 }

@@ -19,10 +19,6 @@ import com.gwtmodel.table.map.XMap;
 
 public class BinderWidget extends XMap {
 
-	/**
-	 * 
-	 */
-
 	public final static String FIELDID = "fieldid";
 
 	private static final long serialVersionUID = 1L;
@@ -30,6 +26,8 @@ public class BinderWidget extends XMap {
 	private WidgetTypes type;
 
 	private String contentHtml;
+	
+	private String cssStyle;
 
 	private String id;
 
@@ -74,6 +72,14 @@ public class BinderWidget extends XMap {
 
 	public boolean isFieldId() {
 		return isAttr(FIELDID);
+	}
+
+	public String getCssStyle() {
+		return cssStyle;
+	}
+
+	public void setCssStyle(String cssStyle) {
+		this.cssStyle = cssStyle;
 	}
 
 }

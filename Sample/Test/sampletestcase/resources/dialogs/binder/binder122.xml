@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<ui:UiBinder xmlns:ui='http://www.jythongwt.uibinderxsd.com' xmlns='http://www.jythongwt.uihtml.com'>
+   <style>
+     abcdef
+   </style>
+	<ui:HTMLPanel>
+		<ui:Button>Hello</ui:Button>
+		<ui:PaperIconItem>
+			<ui:IronIcon icon="delete" />
+			<div>Clear All</div>
+		</ui:PaperIconItem>
+	</ui:HTMLPanel>
+</ui:UiBinder>

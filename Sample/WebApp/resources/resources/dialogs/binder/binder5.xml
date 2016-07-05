@@ -4,7 +4,6 @@
 
 
     <style>
-        @external .dialog-sample, .size-position;
 
         .dialog-sample section {
             padding: 20px 0;
