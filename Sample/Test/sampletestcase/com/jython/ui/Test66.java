@@ -145,4 +145,17 @@ public class Test66 extends TestHelper {
 		assertTrue(i >= 0);
 	}
 
+	@Test
+	public void test11() {
+		DialogFormat d = findDialog("test123.xml");
+		assertNotNull(d);
+		assertTrue(d.isPolymer());
+		BinderWidget b = d.getBinderW();
+		assertNotNull(b);
+		System.out.println(b.getCssStyle());
+		assertFalse(CUtil.EmptyS(b.getCssStyle()));
+		int i = b.getCssStyle().indexOf("abcdef");
+		assertTrue(i >= 0);
+	}
+
 }

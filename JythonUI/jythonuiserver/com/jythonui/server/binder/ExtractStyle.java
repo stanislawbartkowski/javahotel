@@ -13,6 +13,8 @@
 package com.jythonui.server.binder;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -26,18 +28,23 @@ class ExtractStyle {
 
 	}
 
+	// TODO: !!!!!!!
 	static String getStyle(String html) throws ParserConfigurationException, SAXException, IOException {
 		if (CUtil.EmptyS(html))
 			return null;
 		StringBuffer css = new StringBuffer();
 		int start = 0;
+        Pattern patt = Pattern.compile("(<style.*>)");
 		while (true) {
-			start = html.indexOf("<style>",start);
-			if (start == -1) break;
-			start += "<style>".length();
-			int end = html.indexOf("</style>",start);
+			String nextH = html.substring(start);
+	        Matcher ma = patt.matcher(html);
+	        if (!ma.find()) break;
+	        int i1 = ma.start();
+	        int i2 = ma.end();
+	        String sty = html.substring(i1,i2);
+			int end = nextH.indexOf("</style>",start);
 			if (end == -1) break;
-			css.append(html.substring(start+6, end));
+			css.append(html.substring(i2, end));
 		}
 		return css.toString();
 	

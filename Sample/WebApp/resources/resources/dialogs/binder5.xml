@@ -11,6 +11,9 @@
  <buttons>
    <button id="dialogBtn" displayname="" actiontype="JUP_DIALOG" actionparam="binder5dialog1.xml" />
    <button id="scrollingBtn" displayname="" actiontype="JUP_DIALOG" actionparam="binder5dialog2.xml" />
+   <button id="actionsBtn" displayname="" actiontype="JUP_DIALOG" actionparam="binder5dialog3.xml" />
+   <button id="modalBtn" displayname="" actiontype="JUP_DIALOG" actionparam="binder5dialog4.xml" />
+   <button id="colorsBtn" displayname="" actiontype="JUP_DIALOG" actionparam="binder5dialog5.xml" />
  </buttons>
   
 

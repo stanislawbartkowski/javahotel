@@ -12,6 +12,12 @@
  */
 package com.gwtmodel.table.view.util.polymer;
 
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.logical.shared.AttachEvent;
+import com.google.gwt.event.logical.shared.InitializeEvent;
+import com.google.gwt.event.logical.shared.InitializeHandler;
+import com.google.gwt.event.logical.shared.OpenEvent;
+import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -26,6 +32,8 @@ import com.vaadin.polymer.iron.widget.IronDropdown;
 import com.vaadin.polymer.iron.widget.IronIcon;
 import com.vaadin.polymer.iron.widget.event.IronOverlayClosedEvent;
 import com.vaadin.polymer.iron.widget.event.IronOverlayClosedEventHandler;
+import com.vaadin.polymer.iron.widget.event.IronOverlayOpenedEvent;
+import com.vaadin.polymer.iron.widget.event.IronOverlayOpenedEventHandler;
 import com.vaadin.polymer.paper.widget.PaperButton;
 import com.vaadin.polymer.paper.widget.PaperDialog;
 
