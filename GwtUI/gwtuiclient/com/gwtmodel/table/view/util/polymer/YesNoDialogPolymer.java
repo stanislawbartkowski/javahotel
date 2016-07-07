@@ -75,7 +75,7 @@ public class YesNoDialogPolymer implements IStandDialog {
 				yes.click(false);
 			}
 		});
-		i = PolymerUtil.popupPolymer(w, null, p, null);
+		i = PolymerUtil.popupPolymer(w, null, p, null,null);
 	}
 
 }

@@ -69,9 +69,13 @@ public class PolymerUtil {
 		return b;
 	}
 
-	public static ISignal popupPolymer(WSize ws, Widget w, PaperDialog pap, final ISignal sClose) {
+	public static ISignal popupPolymer(WSize ws, Widget w, PaperDialog pap, final ISignal sClose,
+			String addStyleNames) {
 		final PopupPanel pa = new PopupPanel();
-		IronDropdown p = new IronDropdown("<div class=\"dropdown-content\" id=\"content\"></div>");
+		if (addStyleNames == null)
+			addStyleNames = "";
+		IronDropdown p = new IronDropdown(
+				"<div class=\"dropdown-content " + addStyleNames + "\" id=\"content\"></div>");
 		p.setHorizontalOffset(ws.getLeft());
 		p.setVerticalOffset(ws.getTop());
 		if (w != null)

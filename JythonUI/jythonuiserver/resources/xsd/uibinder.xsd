@@ -289,6 +289,7 @@
 			<xs:choice minOccurs="1" maxOccurs="unbounded">
 				<xs:any></xs:any>
 			</xs:choice>
+			<xs:attributeGroup ref="polymerWidgetG"></xs:attributeGroup>
 		</xs:complexType>
 	</xs:element>
 

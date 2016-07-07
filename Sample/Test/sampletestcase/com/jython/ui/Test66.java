@@ -99,6 +99,8 @@ public class Test66 extends TestHelper {
 		DialogFormat d = findDialog("test117.xml");
 		assertNotNull(d);
 		assertTrue(d.isPolymer());
+		BinderWidget b = d.getBinderW();
+		assertTrue(b.getStyleList().isEmpty());
 	}
 
 	@Test
@@ -113,6 +115,8 @@ public class Test66 extends TestHelper {
 		DialogFormat d = findDialog("test119.xml");
 		assertNotNull(d);
 		assertTrue(d.isPolymer());
+		BinderWidget b = d.getBinderW();
+		assertEquals(1, b.getStyleList().size());
 	}
 
 	@Test
@@ -129,7 +133,7 @@ public class Test66 extends TestHelper {
 		assertTrue(d.isPolymer());
 		BinderWidget b = d.getBinderW();
 		assertNotNull(b);
-		System.out.println(b.getCssStyle());
+		assertEquals(1, b.getStyleList().size());
 	}
 
 	@Test
@@ -139,10 +143,12 @@ public class Test66 extends TestHelper {
 		assertTrue(d.isPolymer());
 		BinderWidget b = d.getBinderW();
 		assertNotNull(b);
-		System.out.println(b.getCssStyle());
-		assertFalse(CUtil.EmptyS(b.getCssStyle()));
-		int i = b.getCssStyle().indexOf("abcdef");
+		String css = b.getStyleList().get(0).getContent();
+		System.out.println(css);
+		assertFalse(CUtil.EmptyS(css));
+		int i = css.indexOf("abcdef");
 		assertTrue(i >= 0);
+		assertTrue(b.getStyleList().get(0).getMap().isEmpty());
 	}
 
 	@Test
@@ -152,10 +158,28 @@ public class Test66 extends TestHelper {
 		assertTrue(d.isPolymer());
 		BinderWidget b = d.getBinderW();
 		assertNotNull(b);
-		System.out.println(b.getCssStyle());
-		assertFalse(CUtil.EmptyS(b.getCssStyle()));
-		int i = b.getCssStyle().indexOf("abcdef");
+		String css = b.getStyleList().get(0).getContent();
+		System.out.println(css);
+		assertFalse(CUtil.EmptyS(css));
+		int i = css.indexOf("abcdef");
 		assertTrue(i >= 0);
+		String val = b.getStyleList().get(0).getAttr("is");
+		System.out.println(val);
+		assertEquals("custom-style", val);
+	}
+
+	@Test
+	public void test12() {
+		DialogFormat d = findDialog("test124.xml");
+		assertNotNull(d);
+		assertTrue(d.isPolymer());
+		BinderWidget b = d.getBinderW();
+		assertNotNull(b);
+		assertTrue(b.getStyleList().isEmpty());
+		b = b.getwList().get(0);
+		assertNotNull(b);
+		assertEquals(WidgetTypes.HTMLPanel,b.getType());	
+		assertEquals(2,b.getStyleList().size());
 	}
 
 }

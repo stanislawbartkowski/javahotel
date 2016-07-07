@@ -36,6 +36,7 @@ import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.VModelData;
 import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.binder.BinderWidget;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.common.CUtil;
@@ -767,11 +768,9 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 		if (!CUtil.EmptyS(d.getCssCode())) {
 			Utils.addStyle(d.getCssCode());
 		}
-		if (d.isBinderW()) {
-			String css = d.getBinderW().getCssStyle();
-			if (!CUtil.EmptyS(css))
-				Utils.addStyle(css);
-		}
+		if (d.isBinderW())
+			for (BinderWidget.StyleClass w : d.getBinderW().getStyleList())
+				Utils.addStyle(w.getContent(), w.getMap());
 
 		if (d.isJsCode())
 			Utils.callJs(d.getJsCode());

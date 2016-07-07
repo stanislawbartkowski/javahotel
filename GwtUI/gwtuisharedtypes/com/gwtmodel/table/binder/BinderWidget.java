@@ -26,8 +26,22 @@ public class BinderWidget extends XMap {
 	private WidgetTypes type;
 
 	private String contentHtml;
-	
-	private String cssStyle;
+
+	public static class StyleClass extends XMap {
+		private static final long serialVersionUID = 1L;
+		private String content;
+
+		public void setContent(String content) {
+			this.content = content;
+		}
+
+		public String getContent() {
+			return content;
+		}
+
+	}
+
+	private List<StyleClass> styleList = new ArrayList<StyleClass>();
 
 	private String id;
 
@@ -74,12 +88,12 @@ public class BinderWidget extends XMap {
 		return isAttr(FIELDID);
 	}
 
-	public String getCssStyle() {
-		return cssStyle;
+	public List<StyleClass> getStyleList() {
+		return styleList;
 	}
 
-	public void setCssStyle(String cssStyle) {
-		this.cssStyle = cssStyle;
+	public void setStyleList(List<StyleClass> styleList) {
+		this.styleList = styleList;
 	}
 
 }

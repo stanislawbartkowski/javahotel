@@ -14,8 +14,9 @@ package com.gwtmodel.table.view.binder;
 
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.gwtmodel.table.binder.BinderWidget;
+import com.vaadin.polymer.PolymerWidget;
 
 public interface ICreateBinderWidget {
 
-	HTMLPanel create(BinderWidget w);
+	HTMLPanel create(BinderWidget w);	
 }

@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.SynchronizeList;
@@ -223,12 +224,14 @@ public class RunAction implements IJythonUIClient {
 				// md = new UpDialog(formP, dType, d.isAutoHideDialog(),
 				// !d.isModelessDialog());
 				md = MDialogFactory.construct(JUtils.isPolymerD(d), formP, dType, d.isAutoHideDialog(),
-						!d.isModelessDialog(), new CloseI(dType));
-			} else
-				// md = new UpDialog(w, dType, d.isAutoHideDialog(),
-				// !d.isModelessDialog());
+						!d.isModelessDialog(), new CloseI(dType), null);
+			} else {
+				String addStyleNames = null;
+				if (d.isBinderW())
+					addStyleNames = d.getBinderW().getAttr(IConsts.ATTRADDSTYLENAMES);
 				md = MDialogFactory.construct(JUtils.isPolymerD(d), w, dType, d.isAutoHideDialog(),
-						!d.isModelessDialog(), new CloseI(dType));
+						!d.isModelessDialog(), new CloseI(dType), addStyleNames);
+			}
 			if (!CUtil.EmptyS(d.getDisplayName())) {
 				md.setTitle(d.getDisplayName());
 			}

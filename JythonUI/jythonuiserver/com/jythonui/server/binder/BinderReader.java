@@ -22,7 +22,6 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.SAXException;
 
 import com.gwtmodel.table.binder.BinderWidget;
-import com.gwtmodel.table.common.CUtil;
 
 class BinderReader {
 
@@ -31,9 +30,7 @@ class BinderReader {
 	}
 
 	static void extractStyle(BinderWidget w) throws ParserConfigurationException, SAXException, IOException {
-		String css = ExtractStyle.getStyle(w.getContentHtml());
-		if (!CUtil.EmptyS(css))
-			w.setCssStyle(css);
+		ExtractStyle.getStyle(w);
 		// recursive
 		for (BinderWidget b : w.getwList())
 			extractStyle(b);

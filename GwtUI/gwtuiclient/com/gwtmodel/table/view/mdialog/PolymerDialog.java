@@ -27,10 +27,12 @@ class PolymerDialog implements IMDialog {
 	private final Widget w;
 	private ISignal iSig;
 	private final ISignal iClose;
+	private final String addStyleNames;
 
-	PolymerDialog(Widget w, IDataType dType, boolean autohide, boolean modal, ISignal iClose) {
+	PolymerDialog(Widget w, IDataType dType, boolean autohide, boolean modal, ISignal iClose, String addStyleNames) {
 		this.w = w;
 		this.iClose = iClose;
+		this.addStyleNames = addStyleNames;
 	}
 
 	@Override
@@ -43,7 +45,7 @@ class PolymerDialog implements IMDialog {
 					w.getClass().getName());
 			Utils.errAlertB(errmess);
 		}
-		iSig = PolymerUtil.popupPolymer(ws, null, p, iClose);
+		iSig = PolymerUtil.popupPolymer(ws, null, p, iClose, addStyleNames);
 	}
 
 	@Override

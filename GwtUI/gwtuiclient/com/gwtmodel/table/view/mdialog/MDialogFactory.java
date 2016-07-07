@@ -23,9 +23,10 @@ public class MDialogFactory {
 	}
 
 	public static IMDialog construct(boolean polymer, Widget w, IDataType dType, boolean autohide, boolean modal,
-			ISignal iClose) {
-	    if (polymer) return new PolymerDialog(w,dType,autohide,modal,iClose);
-		GwtModalDialog md = new GwtModalDialog(w,dType,autohide,modal);
+			ISignal iClose, String addStyleNames) {
+		if (polymer)
+			return new PolymerDialog(w, dType, autohide, modal, iClose, addStyleNames);
+		GwtModalDialog md = new GwtModalDialog(w, dType, autohide, modal);
 		md.setOnClose(iClose);
 		return md;
 	}

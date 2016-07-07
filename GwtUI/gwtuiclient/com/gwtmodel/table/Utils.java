@@ -373,9 +373,15 @@ public class Utils {
 		$wnd.addScript(s);
 	}-*/;
 
-	public static native void addStyle(String s) /*-{
-		$wnd.addStyle(s);
+	public static native Element addStyle(String s) /*-{
+		return $wnd.addStyle(s);
 	}-*/;
+
+	public static void addStyle(String s, Map<String, String> prop) {
+		Element e = addStyle(s);
+		for (Map.Entry<String, String> p : prop.entrySet())
+			e.setAttribute(p.getKey(), p.getValue());
+	}
 
 	/*
 	 * Takes in a trusted JSON String and evals it.
