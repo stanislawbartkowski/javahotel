@@ -77,5 +77,8 @@ public interface IConsts {
 	String PAPERCHECKBOX = "PaperCheckbox";
 	String PAPERDIALOG = "PaperDialog";
 	String PAPERDIALOGSCROLLABLE = "PaperDialogScrollable";
+	String PAPERDROPDOWNMENU = "PaperDropdownMenu";
+	String PAPERMENU = "PaperMenu";
+	String PAPERTABS = "PaperTabs";
 
 }

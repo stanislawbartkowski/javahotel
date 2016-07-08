@@ -162,7 +162,85 @@
 		<xs:attribute name="dialogElement" type="xs:string" />
 	</xs:attributeGroup>
 
+	<xs:attributeGroup name="paperDropdownMenuG">
+		<xs:attributeGroup ref="baseButtonItemG"></xs:attributeGroup>
+		<xs:attribute name="active" type="xs:boolean" />
+		<xs:attribute name="alwaysFloatLabel" type="xs:boolean" />
+		<xs:attribute name="ariaActiveAttribute" type="xs:string" />
+		<xs:attribute name="horizontalAlign" type="xs:string" />
+		<xs:attribute name="invalid" type="xs:string" />
+		<xs:attribute name="keyBindgings" type="xs:string" />
+		<xs:attribute name="keyEventTarget" type="xs:string" />
+		<xs:attribute name="label" type="xs:string" />
+		<xs:attribute name="noAnimations" type="xs:boolean" />
+		<xs:attribute name="noLabelFloat" type="xs:boolean" />
+		<xs:attribute name="opened" type="xs:boolean" />
+		<xs:attribute name="placeholder" type="xs:string" />
+		<xs:attribute name="receivedFocusFromKeyboard" type="xs:boolean" />
+		<xs:attribute name="required" type="xs:boolean" />
+		<xs:attribute name="selectedItem" type="xs:string" />
+		<xs:attribute name="selectedItemLabel" type="xs:string" />
+		<xs:attribute name="stopKeyboardEventPropagation" type="xs:boolean" />
+		<xs:attribute name="validator" type="xs:string" />
+		<xs:attribute name="validatorType" type="xs:string" />
+		<xs:attribute name="value" type="xs:string" />
+		<xs:attribute name="verticalAlign" type="xs:string" />
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="paperMenuG">
+		<xs:attributeGroup ref="polymerWidgetG"></xs:attributeGroup>
+		<xs:attribute name="activateEvent" type="xs:string" />
+		<xs:attribute name="attrForItemTitle" type="xs:string" />
+		<xs:attribute name="attrForSelected" type="xs:string" />
+		<xs:attribute name="focusedItem" type="xs:string" />
+		<xs:attribute name="items" type="xs:string" />
+		<xs:attribute name="keyBindings" type="xs:string" />
+		<xs:attribute name="multi" type="xs:boolean" />
+		<xs:attribute name="selected" type="xs:string" />
+		<xs:attribute name="selectedAttribute" type="xs:string" />
+		<xs:attribute name="selectedItem" type="xs:string" />
+		<xs:attribute name="selectedItems" type="xs:string" />
+		<xs:attribute name="selectedValues" type="xs:string" />
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="paperTabsG">
+		<xs:attributeGroup ref="paperMenuG"></xs:attributeGroup>
+		<xs:attribute name="alignBottom" type="xs:boolean" />
+		<xs:attribute name="disableDrag" type="xs:boolean" />
+		<xs:attribute name="hideScrollButtons" type="xs:boolean" />
+		<xs:attribute name="noBar" type="xs:boolean" />
+		<xs:attribute name="noSlide" type="xs:boolean" />
+		<xs:attribute name="noInk" type="xs:boolean" />
+	</xs:attributeGroup>
+
 	<!-- Elements -->
+
+	<xs:element name="PaperTabs">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperTabsG" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="PaperMenu">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperMenuG" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="PaperDropdownMenu">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperDropdownMenuG" />
+		</xs:complexType>
+	</xs:element>
 
 	<xs:element name="PaperDialogScrollable">
 		<xs:complexType mixed="true">
