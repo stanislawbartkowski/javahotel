@@ -406,6 +406,11 @@ public class Utils {
 		return $wnd.eval(jsonFun + '(\'' + paramS + '\')');
 	}-*/;
 
+	public static native void addE(Element p, Element c) /*-{
+		$wnd.addE(p,c);
+	}-*/;
+
+
 	public static String getJS(String s) {
 		if (CUtil.EmptyS(s)) {
 			return null;

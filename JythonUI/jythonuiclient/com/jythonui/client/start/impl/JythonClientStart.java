@@ -49,6 +49,8 @@ import com.vaadin.polymer.elemental.Function;
 import com.vaadin.polymer.iron.widget.IronDropdown;
 import com.vaadin.polymer.paper.widget.PaperDialog;
 import com.vaadin.polymer.paper.widget.PaperDialogScrollable;
+import com.vaadin.polymer.paper.widget.PaperDropdownMenu;
+import com.vaadin.polymer.paper.widget.PaperMenu;
 
 public class JythonClientStart implements IJythonClientStart {
 	private static final String START = "start.xml";
@@ -288,13 +290,21 @@ public class JythonClientStart implements IJythonClientStart {
 				// otherwise a message "open is not a function"
 				PaperDialog p = new PaperDialog();
 				IronDropdown pi = new IronDropdown();
-				PaperDialogScrollable ps = new PaperDialogScrollable();
+//				PaperDialogScrollable ps = new PaperDialogScrollable();
+//				PaperMenu pm = new PaperMenu();
+//				PaperDropdownMenu pd = new PaperDropdownMenu();
+				
 				// end of empty declaration
 
 				final String polymerPanel = result.getAttr(IUIConsts.POLYMERPANEL);
 				List<String> imp = new ArrayList<String>();
 				imp.add("iron-icons/iron-icons.html");
 				imp.add("vaadin-icons/vaadin-icons.html");
+				imp.add("paper-dropdown-menu/paper-dropdown-menu.html");
+				imp.add("paper-listbox/paper-listbox.html");
+				imp.add("paper-menu/paper-menu.html");
+				imp.add("paper-menu/paper-submenu.html");
+				imp.add("paper-dialog-scrollable/paper-dialog-scrollable.html");
 				Polymer.importHref(imp, new Function() {
 					public Object call(Object arg) {
 						// The app is executed when all imports succeed.
@@ -327,6 +337,8 @@ public class JythonClientStart implements IJythonClientStart {
 		if (CUtil.EqNS(noCharts, IUIConsts.ANSWERYES)) {
 			M.setNocharts(true);
 		}
+		// TODO: remove
+		M.setNocharts(true);
 	}
 
 	private void recognizePolymer(ClientProp result) {

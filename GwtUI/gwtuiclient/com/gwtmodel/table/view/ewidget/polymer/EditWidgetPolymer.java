@@ -108,8 +108,7 @@ public class EditWidgetPolymer implements IEditWidget {
 	@Override
 	public IFormLineView constructListValuesCombo(IVField v, IFormFieldProperties pr, IGetDataList iGet,
 			boolean addEmpty) {
-		Utils.PolymerNotImplemented("EWidgetPolymer:constructListValuesCombo");
-		return null;
+		return new PolymerCombo(v, pr, iGet, addEmpty);
 	}
 
 	@Override

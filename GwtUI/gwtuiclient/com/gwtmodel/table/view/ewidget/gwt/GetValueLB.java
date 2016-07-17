@@ -14,7 +14,6 @@ package com.gwtmodel.table.view.ewidget.gwt;
 
 import java.util.List;
 
-import com.google.common.base.Optional;
 import com.google.gwt.user.client.ui.ChangeListener;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -23,7 +22,7 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.TOptional;
 import com.gwtmodel.table.editw.IFormChangeListener;
 import com.gwtmodel.table.editw.IFormFieldProperties;
-import com.gwtmodel.table.factories.IGetCustomValues;
+import com.gwtmodel.table.view.ewidget.comboutil.IValueLB;
 
 /**
  * 

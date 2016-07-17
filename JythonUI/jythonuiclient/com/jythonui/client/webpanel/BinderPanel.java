@@ -23,6 +23,7 @@ import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.ISetSynchData;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.binder.BinderWidget;
+import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.factories.IWebPanelResources;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.view.binder.ICreateBinderWidget;
@@ -86,7 +87,10 @@ class BinderPanel {
 		pW.hotelLabel = get(maW, IUIConsts.PANELHOTELLABEL, fileName);
 		pW.infoLabel = get(maW, IUIConsts.PANELINFOLABEL, fileName);
 		pW.exitIcon = get(maW, IUIConsts.PANELEXITICON, fileName);
-		pW.drawerPanel = get(maW, IUIConsts.PANELDRAWERPANEL, fileName);
+		if (pa instanceof PaperDrawerPanel)
+			pW.drawerPanel = (PaperDrawerPanel) pa;
+		else
+			pW.drawerPanel = get(maW, IUIConsts.PANELDRAWERPANEL, fileName);
 		pW.progressHtml = get(maW, IUIConsts.PANELPROGRESSHTML, fileName);
 
 		return pW;

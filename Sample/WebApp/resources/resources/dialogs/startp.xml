@@ -17,6 +17,10 @@
   <button id="binder3" displayname="Polymer buttons" actiontype="JMAIN_DIALOG" actionparam="binder3.xml" />
   <button id="binder4" displayname="CheckBox" actiontype="JMAIN_DIALOG" actionparam="binder4.xml" />
   <button id="binder5" displayname="DialogSample" actiontype="JMAIN_DIALOG" actionparam="binder5.xml" />
+<!--  
+  <button id="binder6" displayname="DropdownMenu" actiontype="JMAIN_DIALOG" actionparam="binder6.xml" />
+-->  
+  <button id="combo" displayname="Combo field" actiontype="JMAIN_DIALOG" actionparam="polymercombo.xml" />
 </leftmenu>  
 
 <buttons>

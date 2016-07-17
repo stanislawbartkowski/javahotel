@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.ewidget.gwt;
+package com.gwtmodel.table.view.ewidget.comboutil;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ import com.gwtmodel.table.editw.IFormLineView;
  *
  * @author stanislawbartkowski@gmail.com
  */
-interface IValueLB extends IFormLineView {
+public interface IValueLB extends IFormLineView {
 
     void setList(List<String> li);
 

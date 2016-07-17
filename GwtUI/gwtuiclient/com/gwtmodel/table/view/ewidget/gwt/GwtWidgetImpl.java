@@ -26,6 +26,7 @@ import com.gwtmodel.table.editw.IFormLineView;
 import com.gwtmodel.table.editw.IGetListOfIcons;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.view.ewidget.IEditWidget;
+import com.gwtmodel.table.view.ewidget.comboutil.AddBoxValues;
 
 public class GwtWidgetImpl implements IEditWidget {
 

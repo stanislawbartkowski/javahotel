@@ -157,6 +157,7 @@ public interface IConsts {
 	String ATTRNOBAR = "noBar";
 	String ATTRNOSLIDE = "noSlide";
 	String ATTRNOCINK = "noInk";
+	String DROPMENUID = "dropmenuid";
 
 
 	String RESBEG = "{" + IMessConsts.STANDCH;
