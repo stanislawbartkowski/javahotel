@@ -10,7 +10,7 @@
                 <h4>Basic Menu</h4>
                 <div class="horizontal-section">
                     <p:PaperDropdownMenu label="Dinosaurs">
-                        <p:PaperMenu fieldid="menu1" addStyleNames="dropdown-content"/>
+                        <paper-menu id="dropmenuid" class="dropdown-content"/>
                     </p:PaperDropdownMenu>
                 </div>
             </div>
@@ -21,7 +21,7 @@
                 <h4>Pre-selected Value</h4>
                 <div class="horizontal-section">
                     <p:PaperDropdownMenu label="Dinosaurs">
-                        <p:PaperMenu fieldid="menu2" addStyleNames="dropdown-content" selected="1"/>
+                        <paper-menu id="dropmenuid" class="dropdown-content" selected="1"/>
                     </p:PaperDropdownMenu>
                 </div>
             </div>
@@ -32,7 +32,7 @@
                 <h4>Disabled</h4>
                 <div class="horizontal-section">
                     <p:PaperDropdownMenu disabled="true" label="Disabled">
-                        <p:PaperMenu fieldid="menu3" addStyleNames="dropdown-content"/>
+                        <paper-menu id="dropmenuid" class="dropdown-content"/>
                     </p:PaperDropdownMenu>
                 </div>
             </div>
@@ -43,7 +43,7 @@
                 <h4>Alternative Content</h4>
                 <div class="horizontal-section">
                     <p:PaperDropdownMenu label="Menu tabs!?">
-                        <p:PaperTabs fieldid="tabs1" addStyleNames="dropdown-content"/>
+                        <paper-tabs id="dropmenuid" class="dropdown-content"/>
                     </p:PaperDropdownMenu>
                 </div>
             </div>
@@ -54,7 +54,7 @@
                 <h4>No Label Float</h4>
                 <div class="horizontal-section">
                     <p:PaperDropdownMenu addStyleNames="letters" label="Letters" noLabelFloat="true">
-                        <p:PaperMenu fieldid="menu4" addStyleNames="dropdown-content"/>
+                        <paper-menu id="dropmenuid" class="dropdown-content"/>
                     </p:PaperDropdownMenu>
                 </div>
             </div>
@@ -65,7 +65,7 @@
                 <h4>No Ripple, No Animations</h4>
                 <div class="horizontal-section">
                     <p:PaperDropdownMenu label="Dinosaurs" noink="true" noAnimations="true">
-                        <p:PaperMenu fieldid="menu5" addStyleNames="dropdown-content"/>
+                        <paper-menu id="dropmenuid" class="dropdown-content"/>
                     </p:PaperDropdownMenu>
                 </div>
             </div>

@@ -18,6 +18,7 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.editw.IFormFieldProperties;
 import com.gwtmodel.table.factories.IGetCustomValues;
+import com.gwtmodel.table.view.ewidget.comboutil.ChooseListHelper;
 
 class ListBoxWithHelp extends GetValueLB {
 
@@ -32,12 +33,12 @@ class ListBoxWithHelp extends GetValueLB {
         }
 
         @Override
-        void asetValue(String sy) {
+        protected void asetValue(String sy) {
             setValObj(sy);
         }
 
         @Override
-        void hide() {
+        protected void hide() {
             wHelp.hide();
         }
     }

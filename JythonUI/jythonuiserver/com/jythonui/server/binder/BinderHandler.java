@@ -35,6 +35,7 @@ import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.holder.SHolder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
+import com.jythonui.shared.ICommonConsts;
 
 class BinderHandler extends DefaultHandler {
 
@@ -135,6 +136,10 @@ class BinderHandler extends DefaultHandler {
 			String key = attributes.getLocalName(i);
 			String val = attributes.getValue(i);
 			ta.builder = ta.builder.a(key, val);
+			if (key.equals(ICommonConsts.ID) && val.equals(ICommonConsts.DROPMENUID))
+				ta.b.setIdDropId(true);
+			if (key.equals(IConsts.HTMLCLASS) && val.contains(ICommonConsts.DROPDOWNCONTENT))
+				ta.b.setClassDropDownContent(true);
 		}
 	}
 

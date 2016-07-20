@@ -18,13 +18,13 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.datepicker.client.DatePicker;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.editw.IFormFieldProperties;
 import com.gwtmodel.table.view.util.ClickPopUp;
-import com.vaadin.polymer.paper.widget.PaperIconButton;
 
-class DateCalendarPolymer extends PolymerTextField {
+class DateCalendarPolymer extends TextHelperImage {
 
 	interface IGetSetValue {
 		Date getVal();
@@ -44,15 +44,13 @@ class DateCalendarPolymer extends PolymerTextField {
 			setValObj(d);
 		}
 	}
+	
+	private final HorizontalPanel vp = new HorizontalPanel();
 
 	protected IGetSetValue iGet = new GetSetValue();
 
 	DateCalendarPolymer(IVField v, IFormFieldProperties pr, String pattern, String standErrMess) {
-		super(v, pr, pattern, standErrMess, false);
-		final PaperIconButton bu = new PaperIconButton();
-		bu.setIcon("vaadin-icons:calendar");
-		bu.setAttributes("suffix");
-		in.add(bu);
+		super(v, pr, pattern, standErrMess, "vaadin-icons:calendar");
 		bu.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -79,4 +77,5 @@ class DateCalendarPolymer extends PolymerTextField {
 			}
 		});
 	}
+
 }

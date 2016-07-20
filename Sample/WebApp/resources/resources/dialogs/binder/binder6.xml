@@ -10,12 +10,16 @@ xmlns:i='http://www.jythongwt.uibinderxsd.com' xmlns='http://www.jythongwt.uihtm
                 <h4>Basic Menu</h4>
                 <div class="horizontal-section">
                     <p:PaperDropdownMenu label="Dinosaurs">
+<!--		      
                         <p:PaperMenu fieldid="menu1" addStyleNames="dropdown-content"/>
+-->		      
+		      <paper-menu class="dropdown-content"/>
                     </p:PaperDropdownMenu>
                 </div>
             </div>
         </div>
 
+<!--	
         <div class="horizontal-section-container">
             <div>
                 <h4>Pre-selected Value</h4>
@@ -70,5 +74,6 @@ xmlns:i='http://www.jythongwt.uibinderxsd.com' xmlns='http://www.jythongwt.uihtm
                 </div>
             </div>
         </div>
+-->	
     </g:HTMLPanel>
 </ui:UiBinder>

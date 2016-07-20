@@ -17,11 +17,20 @@
 	
 	<xs:element name="section" type="ElementContentType">
 	</xs:element>
-
+		
 	<xs:element name="H1" type="ElementContentType">
 	</xs:element>
 	
 	<xs:element name="h1" type="ElementContentType">
+	</xs:element>
+	
+	<xs:element name="paper-menu" type="ElementContentType">
+	</xs:element>
+	
+	<xs:element name="paper-tabs" type="ElementContentType">
+	</xs:element>
+
+	<xs:element name="paper-listbox" type="ElementContentType">
 	</xs:element>
 
 	<xs:element name="H2" type="ElementContentType">

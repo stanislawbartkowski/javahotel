@@ -45,6 +45,9 @@ public class BinderWidget extends XMap {
 
 	private String id;
 
+	private boolean idDropId = false;
+	private boolean classDropDownContent = false;
+
 	// recursive
 	private List<BinderWidget> wList = new ArrayList<BinderWidget>();
 
@@ -94,6 +97,22 @@ public class BinderWidget extends XMap {
 
 	public void setStyleList(List<StyleClass> styleList) {
 		this.styleList = styleList;
+	}
+
+	public boolean isIdDropId() {
+		return idDropId;
+	}
+
+	public void setIdDropId(boolean idDropId) {
+		this.idDropId = idDropId;
+	}
+
+	public boolean isClassDropDownContent() {
+		return classDropDownContent;
+	}
+
+	public void setClassDropDownContent(boolean classDropDownContent) {
+		this.classDropDownContent = classDropDownContent;
 	}
 
 }

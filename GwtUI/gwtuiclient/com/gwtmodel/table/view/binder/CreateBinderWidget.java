@@ -639,6 +639,8 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 			h = (HTMLPanel) w;
 		else
 			hw = (HasWidgets) w;
+		// TODO: debug only
+		String elemS = w.toString();
 		for (BinderWidget c : bw.getwList()) {
 			Widget child = createWidget(c);
 			Element ee = h.getElementById(c.getId());

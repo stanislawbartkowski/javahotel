@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.gwtmodel.table.view.ewidget.gwt;
+package com.gwtmodel.table.view.ewidget.comboutil;
 
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.ICommand;
@@ -24,23 +24,22 @@ import com.gwtmodel.table.chooselist.ChooseListFactory;
 import com.gwtmodel.table.chooselist.ICallBackWidget;
 import com.gwtmodel.table.chooselist.IChooseList;
 import com.gwtmodel.table.editc.IRequestForGWidget;
-import com.gwtmodel.table.injector.GwtGiniInjector;
 
 /**
  * 
  * @author perseus
  */
-abstract class ChooseListHelper {
+public abstract class ChooseListHelper {
 
 	private final IDataType dType;
 
-	ChooseListHelper(IDataType dType) {
+	protected ChooseListHelper(IDataType dType) {
 		this.dType = dType;
 	}
 
-	abstract void asetValue(String sy);
+	abstract protected void asetValue(String sy);
 
-	abstract void hide();
+	abstract protected void hide();
 
 	private class ChooseD implements ICallBackWidget<IVModelData> {
 
@@ -76,11 +75,8 @@ abstract class ChooseListHelper {
 		}
 	}
 
-	IRequestForGWidget getI() {
+	public IRequestForGWidget getI() {
 		return new PopU();
 	}
 
-	ICallBackWidget<IVModelData> getC(ISetGWidget iSet) {
-		return new ChooseD(iSet);
-	}
 }

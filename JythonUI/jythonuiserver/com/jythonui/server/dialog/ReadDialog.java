@@ -26,9 +26,11 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import com.gwtmodel.table.binder.BinderWidget;
+import com.gwtmodel.table.binder.WidgetTypes;
 import com.gwtmodel.table.common.CUtil;
 import com.jythonui.server.BUtil;
 import com.jythonui.server.IBinderParser;
+import com.jythonui.server.IConsts;
 import com.jythonui.server.IGetResourceFile;
 import com.jythonui.server.SaxUtil;
 import com.jythonui.server.Util;
@@ -442,14 +444,34 @@ class ReadDialog extends UtilHelper {
 		fo.setAttr(attr, te);
 	}
 
+	private static void logB(String errCode, String attr, String val) {
+		String mess = L().getMess(errCode, ILogMess.BINDERWIDGETSHOULDCONTAINCHILD,
+				WidgetTypes.PaperDropDownMenu.name(), attr, val);
+		errorLog(mess);
+	}
+
+	private static void verifyBinder(BinderWidget b) {
+		if (b.getType() == WidgetTypes.PaperDropDownMenu) {
+			if (!b.isIdDropId())
+				logB(IErrorCode.ERRORCODE128, ICommonConsts.ID, ICommonConsts.DROPMENUID);
+			if (!b.isClassDropDownContent())
+				logB(IErrorCode.ERRORCODE129, IConsts.HTMLCLASS, ICommonConsts.DROPDOWNCONTENT);
+		}
+		for (BinderWidget bb : b.getwList())
+			verifyBinder(bb);
+	}
+
 	private static void readBinder(IGetResourceFile iGetResource, String parentName, DialogFormat d,
 			IBinderParser iBinder) throws SAXException, IOException {
 		String fileName = getFileName(iGetResource, parentName, d, ICommonConsts.UIBINDER);
 		if (CUtil.EmptyS(fileName))
 			return;
 		BinderWidget b = iBinder.parse(fileName);
-		if (b != null)
+		if (b != null) {
 			d.setBinderW(b);
+			verifyBinder(b);
+		}
+
 	}
 
 	static DialogFormat parseDocument(String parentName, InputStream sou, ISecurity iSec, IGetResourceFile iGetResource,

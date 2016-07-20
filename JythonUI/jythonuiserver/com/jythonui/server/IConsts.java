@@ -80,5 +80,7 @@ public interface IConsts {
 	String PAPERDROPDOWNMENU = "PaperDropdownMenu";
 	String PAPERMENU = "PaperMenu";
 	String PAPERTABS = "PaperTabs";
+	
+	String HTMLCLASS = "class";
 
 }

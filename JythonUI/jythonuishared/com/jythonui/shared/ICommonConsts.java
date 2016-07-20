@@ -225,7 +225,7 @@ public interface ICommonConsts {
 	String CHECKERRORCOL = "col";
 	String CHECKERRORMESS = "errmess";
 	String XMLROOT = "data";
-	String POLYMER="polymer";
+	String POLYMER = "polymer";
 
 	String APP_FILENAME = "app.properties";
 
@@ -272,5 +272,8 @@ public interface ICommonConsts {
 	String CRUD_CHANGE = "crud_change";
 
 	char RELCHAR = '?';
+
+	String DROPMENUID = "dropmenuid";
+	String DROPDOWNCONTENT = "dropdown-content";
 
 }

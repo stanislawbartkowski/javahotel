@@ -114,8 +114,7 @@ public class EditWidgetPolymer implements IEditWidget {
 	@Override
 	public IFormLineView constructHelperList(IVField v, IFormFieldProperties pr, IDataType dType,
 			boolean refreshAlways) {
-		Utils.PolymerNotImplemented("EWidgetPolymer:constructHelperList");
-		return null;
+		return new TextHelperPolymer(v, pr, dType, refreshAlways);
 	}
 
 	@Override

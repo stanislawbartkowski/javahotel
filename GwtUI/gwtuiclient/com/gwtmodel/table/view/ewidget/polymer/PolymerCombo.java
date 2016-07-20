@@ -26,6 +26,7 @@ import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.editw.IFormFieldProperties;
 import com.gwtmodel.table.view.ewidget.comboutil.AddBoxValues;
 import com.gwtmodel.table.view.ewidget.comboutil.IValueLB;
+import com.jythonui.shared.ICommonConsts;
 import com.vaadin.polymer.Polymer;
 import com.vaadin.polymer.elemental.Function;
 import com.vaadin.polymer.iron.widget.event.IronSelectEvent;
@@ -33,8 +34,6 @@ import com.vaadin.polymer.iron.widget.event.IronSelectEventHandler;
 import com.vaadin.polymer.paper.PaperMenuElement;
 import com.vaadin.polymer.paper.widget.PaperDropdownMenu;
 import com.vaadin.polymer.paper.widget.PaperItem;
-import com.vaadin.polymer.paper.widget.event.PaperDropdownCloseEvent;
-import com.vaadin.polymer.paper.widget.event.PaperDropdownCloseEventHandler;
 import com.vaadin.polymer.paper.widget.event.PaperDropdownOpenEvent;
 import com.vaadin.polymer.paper.widget.event.PaperDropdownOpenEventHandler;
 
@@ -51,7 +50,8 @@ class PolymerCombo extends AbstractWField implements IValueLB {
 
 	private String openid;
 
-	private String html = "<paper-menu id=\"" + IConsts.DROPMENUID + "\" class=\"dropdown-content\"></paper-menu>";
+	private String html = "<paper-menu id=\"" + ICommonConsts.DROPMENUID + "\" class=\"" + ICommonConsts.DROPDOWNCONTENT
+			+ "\"></paper-menu>";
 
 	private final SynchronizeList iS = new SynchronizeList(2) {
 
@@ -84,7 +84,7 @@ class PolymerCombo extends AbstractWField implements IValueLB {
 
 			@Override
 			public Object call(Object arg) {
-				pMenuElem = pDown.getElementById(IConsts.DROPMENUID);
+				pMenuElem = pDown.getElementById(ICommonConsts.DROPMENUID);
 				pMenu = (PaperMenuElement) pMenuElem;
 				pDown.addPaperDropdownOpenHandler(new PaperDropdownOpenEventHandler() {
 
