@@ -407,9 +407,8 @@ public class Utils {
 	}-*/;
 
 	public static native void addE(Element p, Element c) /*-{
-		$wnd.addE(p,c);
+		$wnd.addE(p, c);
 	}-*/;
-
 
 	public static String getJS(String s) {
 		if (CUtil.EmptyS(s)) {
@@ -489,6 +488,14 @@ public class Utils {
 
 	public static void PolymerNotImplemented(String mess) {
 		errAlert(LogT.getT().PolymerDialogNotImplemented(mess));
+	}
+
+	public static void ReplaceWidgetNotImplements(String id, String mess) {
+		errAlert(LogT.getT().ReplaceWidgetNotImplemented(id), mess);
+	}
+
+	public static void ReplaceWidgetNotImplements(String id) {
+		ReplaceWidgetNotImplements(id, null);
 	}
 
 	public static void setInnerText(Widget w, String text) {

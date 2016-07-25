@@ -160,4 +160,8 @@ public interface TLogMessages extends Messages {
 
 	String PupupPolymerDialogShouldBePaperDialog(String expected, String received);
 
+	String ReplaceWidgetNotImplemented(String id);
+
+	String ReplaceTypeNotCorrect(String desc, String expectedType, String givenType);
+
 }

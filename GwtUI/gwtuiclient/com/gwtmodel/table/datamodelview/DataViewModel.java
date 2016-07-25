@@ -16,7 +16,6 @@ import java.util.List;
 
 import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateFormContainer;
@@ -68,7 +67,7 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
 				publish(dType, cellId, gView);
 				return;
 			}
-			gView.fillHtml(bw.getValue());
+			gView.fillHtml(bw.getValue(),bw.getBw());
 		}
 	}
 

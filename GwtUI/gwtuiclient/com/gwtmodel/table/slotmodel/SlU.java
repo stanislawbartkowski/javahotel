@@ -390,6 +390,12 @@ public class SlU {
 			// TODO Auto-generated method stub
 			return false;
 		}
+
+		@Override
+		public void replaceWidget(Widget w) {
+			// TODO Auto-generated method stub
+			
+		}
 	}
 
 	public static IFormLineView contructObjectValue(Object val) {

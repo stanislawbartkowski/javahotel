@@ -30,7 +30,6 @@ import com.gwtmodel.table.slotmodel.ISlotCustom;
 import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
-import com.gwtmodel.table.view.binder.CreateBinderWidget;
 import com.gwtmodel.table.view.binder.ICreateBinderWidget;
 import com.gwtmodel.table.view.panel.GwtPanelViewFactory;
 import com.gwtmodel.table.view.panel.IGwtPanelView;
@@ -159,7 +158,6 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
 
 	@Override
 	public void createView(String html, BinderWidget b) {
-		ISlotCallerListener c = null;
 		if (html == null && b == null) {
 			int maxR = 0;
 			int maxC = 0;

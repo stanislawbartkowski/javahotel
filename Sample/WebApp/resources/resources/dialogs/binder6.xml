@@ -3,14 +3,21 @@
  
  <uibinder>binder/binder6.xml</uibinder>
  
+ 	<before />
+
+ 
+  <types>typesanim.xml</types>
+
+ 
   <jython>
    <import>from testpack import binder1</import>
    <method>binder1.dialogaction({0},{1})</method>
  </jython>  
 
   <form>
-   <field id="glob1" />
+     <field id="menu1" type="custom:teanim" notempty="" />
+     <field id="menu2" type="custom:teanim" notempty="" />
+     <!--     <field id="menu3" type="custom:teanim" notempty="" /> -->
  </form>
- 
 
 </dialog>

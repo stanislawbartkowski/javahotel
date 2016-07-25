@@ -15,7 +15,9 @@ package com.gwtmodel.table.view.ewidget.polymer;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.editw.IFormChangeListener;
 import com.gwtmodel.table.editw.IFormFieldProperties;
@@ -104,6 +106,11 @@ abstract class AbstractWField implements IFormLineView {
 			return htmlName;
 		}
 		return v.getId();
+	}
+
+	@Override
+	public void replaceWidget(Widget w) {
+		Utils.ReplaceWidgetNotImplements(v.getId());
 	}
 
 }

@@ -17,6 +17,7 @@ import java.util.List;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.editw.IFormChangeListener;
 import com.gwtmodel.table.editw.IFormLineView;
 import com.gwtmodel.table.editw.ITouchListener;
@@ -109,5 +110,11 @@ class VHtml implements IFormLineView {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	@Override
+	public void replaceWidget(Widget w) {
+		Utils.ReplaceWidgetNotImplements(v.getId(),l.getClass().getName());		
+	}
+
 
 }

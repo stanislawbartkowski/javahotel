@@ -16,14 +16,15 @@ import java.util.List;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.Widget;
-import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.IGetDataList;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.SynchronizeList;
 import com.gwtmodel.table.TOptional;
 import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.binder.WidgetTypes;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.editw.IFormFieldProperties;
+import com.gwtmodel.table.mm.LogT;
 import com.gwtmodel.table.view.ewidget.comboutil.AddBoxValues;
 import com.gwtmodel.table.view.ewidget.comboutil.IValueLB;
 import com.jythonui.shared.ICommonConsts;
@@ -39,10 +40,32 @@ import com.vaadin.polymer.paper.widget.event.PaperDropdownOpenEventHandler;
 
 class PolymerCombo extends AbstractWField implements IValueLB {
 
+	private class MenuP {
+		private final Element w;
+		private final PaperMenuElement e;
+
+		MenuP(PaperDropdownMenu pDown) {
+			w = pDown.getElementById(ICommonConsts.DROPMENUID);
+			e = (PaperMenuElement) w;
+		}
+
+		Element getE() {
+			return w;
+		}
+
+		void setSelected(int inde) {
+			e.setSelected(CUtil.NumbToS(inde));
+		}
+
+		String getSelected() {
+			return e.getSelected();
+		}
+
+	}
+
 	private final boolean addEmpty;
 
-	private PaperMenuElement pMenu;
-	private Element pMenuElem;
+	private MenuP pMenu;
 	private PaperDropdownMenu pDown;
 	private List<String> ids;
 	private List<String> vals;
@@ -57,20 +80,16 @@ class PolymerCombo extends AbstractWField implements IValueLB {
 
 		@Override
 		protected void doTask() {
+			if (vals == null) return;
 			if (addEmpty)
-				Utils.addE(pMenuElem, new PaperItem("&nbsp;").getElement());
+				Utils.addE(pMenu.getE(), new PaperItem("&nbsp;").getElement());
 			for (String s : vals)
-				Utils.addE(pMenuElem, new PaperItem(s).getElement());
+				Utils.addE(pMenu.getE(), new PaperItem(s).getElement());
 		}
 
 	};
 
-	protected PolymerCombo(IVField v, IFormFieldProperties pr, IGetDataList iGet, boolean addEmpty) {
-		super(v, pr, null);
-		this.addEmpty = addEmpty;
-		pDown = new PaperDropdownMenu(html);
-		pDown.setLabel(v.getLabel());
-		AddBoxValues.addValues(v, iGet, this);
+	private void setEvent() {
 		pDown.addDomHandler(new IronSelectEventHandler() {
 
 			@Override
@@ -84,8 +103,7 @@ class PolymerCombo extends AbstractWField implements IValueLB {
 
 			@Override
 			public Object call(Object arg) {
-				pMenuElem = pDown.getElementById(ICommonConsts.DROPMENUID);
-				pMenu = (PaperMenuElement) pMenuElem;
+				pMenu = new MenuP(pDown);
 				pDown.addPaperDropdownOpenHandler(new PaperDropdownOpenEventHandler() {
 
 					@Override
@@ -98,6 +116,15 @@ class PolymerCombo extends AbstractWField implements IValueLB {
 			}
 		});
 
+	}
+
+	protected PolymerCombo(IVField v, IFormFieldProperties pr, IGetDataList iGet, boolean addEmpty) {
+		super(v, pr, null);
+		this.addEmpty = addEmpty;
+		pDown = new PaperDropdownMenu(html);
+		pDown.setLabel(v.getLabel());
+		AddBoxValues.addValues(v, iGet, this);
+		setEvent();
 	}
 
 	@Override
@@ -117,7 +144,7 @@ class PolymerCombo extends AbstractWField implements IValueLB {
 
 	@Override
 	public Object getValObj() {
-		if (pMenu == null)
+		if (pMenu == null || ids == null)
 			return null;
 		String id = pMenu.getSelected();
 		if (id == null)
@@ -188,8 +215,16 @@ class PolymerCombo extends AbstractWField implements IValueLB {
 			int inde = ids.indexOf(s);
 			if (inde == -1)
 				return;
-			pMenu.setSelected(CUtil.NumbToS(inde));
+			pMenu.setSelected(inde);
 		}
 	}
 
+	@Override
+	public void replaceWidget(Widget w) {
+		if (!(w instanceof PaperDropdownMenu))
+			Utils.errAlertB(LogT.getT().ReplaceTypeNotCorrect(WidgetTypes.PaperDropDownMenu.name(),
+					PaperDropdownMenu.class.getName(), Widget.class.getName()));
+		pDown = (PaperDropdownMenu) w;
+		setEvent();
+	}
 }

@@ -129,7 +129,8 @@ public class CreateFormView {
 		});
 	}
 
-	public static void setHtml(HTMLPanel pa, List<FormField> fList) {
+	public static void setHtml(HTMLPanel pa, List<FormField> fList, BinderWidget bw) {
+		// TODO: debug only
 		String h = pa.toString();
 		IEditWidget eFactory = EditWidgetFactory.getGwtE();
 		IGetStandardMessage iMess = GwtGiniInjector.getI().getStandardMessage();
@@ -163,6 +164,20 @@ public class CreateFormView {
 			}
 
 		}
+
+		// try to replace widgets
+		replaceBinder(pa, new IReplace() {
+
+			@Override
+			public void replace(String id, Widget w) {
+				for (FormField f : fList) {
+					IFormLineView i = f.getELine();
+					if (i.getV().getId().equals(id))
+						i.replaceWidget(w);
+				}
+			}
+		});
+
 	}
 
 	/**

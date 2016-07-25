@@ -21,6 +21,7 @@ import com.gwtmodel.table.ISetGWidget;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.InvalidateMess;
+import com.gwtmodel.table.binder.BinderWidget;
 import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.editw.FormField;
 import com.gwtmodel.table.editw.FormLineContainer;
@@ -105,9 +106,9 @@ class GwtFormView implements IGwtFormView {
 	}
 
 	@Override
-	public void fillHtml(HTMLPanel pa) {
+	public void fillHtml(HTMLPanel pa, BinderWidget bw) {
 		hp = pa;
-		CreateFormView.setHtml(pa, fContainer.getfList());
+		CreateFormView.setHtml(pa, fContainer.getfList(), bw);
 	}
 
 	@Override

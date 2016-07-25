@@ -14,6 +14,7 @@ package com.gwtmodel.table.editw;
 
 import java.util.List;
 
+import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IGetSetVField;
 
@@ -42,5 +43,7 @@ public interface IFormLineView extends IGetSetVField, IGWidget {
 	void setFocus(boolean focus);
 
 	boolean isInvalid();
+	
+	void replaceWidget(Widget w);
 
 }

@@ -26,6 +26,7 @@ import com.gwtmodel.table.AbstractListT;
 import com.gwtmodel.table.AbstractListT.IGetList;
 import com.gwtmodel.table.IMapEntry;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.editw.IFormChangeListener;
 import com.gwtmodel.table.editw.IFormFieldProperties;
@@ -227,6 +228,12 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
 	public boolean isInvalid() {
 		return false;
 	}
+	
+	@Override
+	public void replaceWidget(Widget w) {
+		Utils.ReplaceWidgetNotImplements(v.getId());		
+	}
+
 
 
 }

@@ -17,6 +17,7 @@ import java.util.List;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.editw.IFormChangeListener;
 import com.gwtmodel.table.editw.IFormLineView;
 import com.gwtmodel.table.editw.ITouchListener;
@@ -125,6 +126,11 @@ class AnchorField implements IFormLineView {
 	public boolean isInvalid() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void replaceWidget(Widget w) {
+		Utils.ReplaceWidgetNotImplements(v.getId(),a.getClass().getName());		
 	}
 
 }

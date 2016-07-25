@@ -9,39 +9,39 @@ xmlns:i='http://www.jythongwt.uibinderxsd.com' xmlns='http://www.jythongwt.uihtm
             <div>
                 <h4>Basic Menu</h4>
                 <div class="horizontal-section">
-                    <p:PaperDropdownMenu label="Dinosaurs">
-<!--		      
-                        <p:PaperMenu fieldid="menu1" addStyleNames="dropdown-content"/>
--->		      
-		      <paper-menu class="dropdown-content"/>
+                    <p:PaperDropdownMenu fieldid="menu1" label="Dinosaurs">
+		      <paper-menu id="dropmenuid" class="dropdown-content"/>
                     </p:PaperDropdownMenu>
                 </div>
             </div>
         </div>
 
-<!--	
         <div class="horizontal-section-container">
             <div>
                 <h4>Pre-selected Value</h4>
                 <div class="horizontal-section">
-                    <p:PaperDropdownMenu label="Dinosaurs">
-                        <p:PaperMenu fieldid="menu2" addStyleNames="dropdown-content" selected="1"/>
+                    <p:PaperDropdownMenu label="Dinosaurs" fieldid="menu2" >
+                        <paper-menu id="dropmenuid" class="dropdown-content" selected="1"/>
                     </p:PaperDropdownMenu>
                 </div>
             </div>
         </div>
+
 
         <div class="horizontal-section-container">
             <div>
                 <h4>Disabled</h4>
                 <div class="horizontal-section">
-                    <p:PaperDropdownMenu disabled="true" label="Disabled">
-                        <p:PaperMenu fieldid="menu3" addStyleNames="dropdown-content"/>
+		  <!--                    <p:PaperDropdownMenu disabled="true" label="Disabled"  fieldid="menu3"> -->
+                    <p:PaperDropdownMenu label="Disabled"  fieldid="menu3">
+                        <paper-menu id="dropmenuid" class="dropdown-content"/>
                     </p:PaperDropdownMenu>
                 </div>
             </div>
         </div>
-
+	
+<!--
+	
         <div class="horizontal-section-container">
             <div>
                 <h4>Alternative Content</h4>
