@@ -30,6 +30,9 @@
 	<xs:element name="paper-tabs" type="ElementContentType">
 	</xs:element>
 
+	<xs:element name="paper-tab" type="ElementContentType">
+	</xs:element>
+
 	<xs:element name="paper-listbox" type="ElementContentType">
 	</xs:element>
 

@@ -65,7 +65,7 @@ class TextHelperPolymer extends TextHelperImage {
 
 	private final IRequestForGWidget iReq;
 
-	TextHelperPolymer(IVField v, IFormFieldProperties pr, IDataType dType, boolean refreshAlways) {
+	TextHelperPolymer(final IVField v, IFormFieldProperties pr, IDataType dType, final boolean refreshAlways) {
 		super(v, pr, null, null, "vaadin-icons:arrow-down");
 		this.dType = dType;
 		this.refreshAlways = refreshAlways;

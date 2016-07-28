@@ -13,5 +13,13 @@
  
    </typedef>
 
+<typedef id="tetabs" type="combo" comboid="id" displayname = "name">
+  
+     <jython>
+        <method>animenum.dialogtab({0},{1})</method>
+      </jython>    
+ 
+   </typedef>
+
 
 </typedefs>

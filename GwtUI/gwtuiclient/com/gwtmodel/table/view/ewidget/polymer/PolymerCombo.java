@@ -27,6 +27,7 @@ import com.gwtmodel.table.editw.IFormFieldProperties;
 import com.gwtmodel.table.mm.LogT;
 import com.gwtmodel.table.view.ewidget.comboutil.AddBoxValues;
 import com.gwtmodel.table.view.ewidget.comboutil.IValueLB;
+import com.jythonui.client.IUIConsts;
 import com.jythonui.shared.ICommonConsts;
 import com.vaadin.polymer.Polymer;
 import com.vaadin.polymer.elemental.Function;
@@ -35,6 +36,7 @@ import com.vaadin.polymer.iron.widget.event.IronSelectEventHandler;
 import com.vaadin.polymer.paper.PaperMenuElement;
 import com.vaadin.polymer.paper.widget.PaperDropdownMenu;
 import com.vaadin.polymer.paper.widget.PaperItem;
+import com.vaadin.polymer.paper.widget.PaperTab;
 import com.vaadin.polymer.paper.widget.event.PaperDropdownOpenEvent;
 import com.vaadin.polymer.paper.widget.event.PaperDropdownOpenEventHandler;
 
@@ -43,10 +45,13 @@ class PolymerCombo extends AbstractWField implements IValueLB {
 	private class MenuP {
 		private final Element w;
 		private final PaperMenuElement e;
+		private final boolean tabitem;
 
 		MenuP(PaperDropdownMenu pDown) {
 			w = pDown.getElementById(ICommonConsts.DROPMENUID);
 			e = (PaperMenuElement) w;
+			String ww = e.getAttribute(IUIConsts.TABITEM);
+			tabitem = (ww != null);
 		}
 
 		Element getE() {
@@ -59,6 +64,13 @@ class PolymerCombo extends AbstractWField implements IValueLB {
 
 		String getSelected() {
 			return e.getSelected();
+		}
+
+		void addMenu(String s) {
+			if (tabitem)
+				Utils.addE(w, new PaperTab(s).getElement());
+			else
+				Utils.addE(w, new PaperItem(s).getElement());
 		}
 
 	}
@@ -80,11 +92,12 @@ class PolymerCombo extends AbstractWField implements IValueLB {
 
 		@Override
 		protected void doTask() {
-			if (vals == null) return;
+			if (vals == null)
+				return;
 			if (addEmpty)
-				Utils.addE(pMenu.getE(), new PaperItem("&nbsp;").getElement());
+				pMenu.addMenu("&nbsp;");
 			for (String s : vals)
-				Utils.addE(pMenu.getE(), new PaperItem(s).getElement());
+				pMenu.addMenu(s);
 		}
 
 	};

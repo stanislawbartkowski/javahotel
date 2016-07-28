@@ -28,37 +28,40 @@ xmlns:i='http://www.jythongwt.uibinderxsd.com' xmlns='http://www.jythongwt.uihtm
         </div>
 
 
+
+	
         <div class="horizontal-section-container">
             <div>
                 <h4>Disabled</h4>
                 <div class="horizontal-section">
-		  <!--                    <p:PaperDropdownMenu disabled="true" label="Disabled"  fieldid="menu3"> -->
-                    <p:PaperDropdownMenu label="Disabled"  fieldid="menu3">
+                    <p:PaperDropdownMenu label="Disabled"  fieldid="menu3" disabled="true" >
                         <paper-menu id="dropmenuid" class="dropdown-content"/>
                     </p:PaperDropdownMenu>
                 </div>
             </div>
         </div>
-	
-<!--
-	
+
+		
         <div class="horizontal-section-container">
             <div>
                 <h4>Alternative Content</h4>
                 <div class="horizontal-section">
-                    <p:PaperDropdownMenu label="Menu tabs!?">
-                        <p:PaperTabs fieldid="tabs1" addStyleNames="dropdown-content"/>
+                    <p:PaperDropdownMenu label="Menu tabs!?"  fieldid="menu4">
+                        <paper-tabs id="dropmenuid" class="dropdown-content" tabitem="">
+			</paper-tabs>
                     </p:PaperDropdownMenu>
                 </div>
             </div>
         </div>
 
-        <div class="horizontal-section-container">
+
+
+	<div class="horizontal-section-container">
             <div>
                 <h4>No Label Float</h4>
                 <div class="horizontal-section">
-                    <p:PaperDropdownMenu addStyleNames="letters" label="Letters" noLabelFloat="true">
-                        <p:PaperMenu fieldid="menu4" addStyleNames="dropdown-content"/>
+                    <p:PaperDropdownMenu addStyleNames="letters" label="Letters" noLabelFloat="true" fieldid="menu5">
+                        <paper-menu id="dropmenuid" class="dropdown-content"/>
                     </p:PaperDropdownMenu>
                 </div>
             </div>
@@ -68,12 +71,12 @@ xmlns:i='http://www.jythongwt.uibinderxsd.com' xmlns='http://www.jythongwt.uihtm
             <div>
                 <h4>No Ripple, No Animations</h4>
                 <div class="horizontal-section">
-                    <p:PaperDropdownMenu label="Dinosaurs" noink="true" noAnimations="true">
-                        <p:PaperMenu fieldid="menu5" addStyleNames="dropdown-content"/>
+                    <p:PaperDropdownMenu label="Dinosaurs" noink="true" noAnimations="true" fieldid="menu6">
+                        <paper-menu id="dropmenuid" class="dropdown-content"/>
                     </p:PaperDropdownMenu>
                 </div>
             </div>
         </div>
--->	
+
     </g:HTMLPanel>
 </ui:UiBinder>

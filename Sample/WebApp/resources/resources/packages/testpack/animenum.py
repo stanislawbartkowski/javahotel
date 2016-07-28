@@ -10,14 +10,23 @@ DINOSAURS = [ "allosaurus", "brontosaurus",
             "vulcanodon", "wannanosaurus", "xenoceratops", "yandusaurus",
             "zephyrosaurus"]
 
-def dialogaction(action,var) :
-  printVar("animenum",action,var)
-        
+TABS =  [ "alpha", "beta", "gamma", "delta", "epsilon" ]
+
+def setT(action,var,li) :
   seq = []
-  for i in DINOSAURS :
+  for i in li :
         rec = {}
         rec['id'] = i
         rec['name'] = i
         seq.append(rec)
         
   cutil.setJMapList(var,action,seq)        
+
+
+def dialogaction(action,var) :
+  printVar("animenum",action,var)
+  setT(action,var,DINOSAURS)
+
+def dialogtab(action,var) :
+  printVar("animenum",action,var)
+  setT(action,var,TABS)

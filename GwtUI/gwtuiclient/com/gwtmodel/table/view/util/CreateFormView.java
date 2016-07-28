@@ -129,7 +129,7 @@ public class CreateFormView {
 		});
 	}
 
-	public static void setHtml(HTMLPanel pa, List<FormField> fList, BinderWidget bw) {
+	public static void setHtml(HTMLPanel pa, final List<FormField> fList, BinderWidget bw) {
 		// TODO: debug only
 		String h = pa.toString();
 		IEditWidget eFactory = EditWidgetFactory.getGwtE();

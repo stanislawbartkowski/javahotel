@@ -15,6 +15,7 @@ package com.jythonui.client.enumtypes;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IGetDataListCallBack;
@@ -35,77 +36,78 @@ import com.jythonui.shared.TypedefDescr;
 
 class EnumTypesList implements IEnumTypesList {
 
-    private final DialogFormat d;
-    private final IRowListDataManager r;
+	private final DialogFormat d;
+	private final IRowListDataManager r;
 
-    public EnumTypesList(DialogFormat d, IRowListDataManager r) {
-        this.d = d;
-        this.r = r;
-    }
+	public EnumTypesList(DialogFormat d, IRowListDataManager r) {
+		this.d = d;
+		this.r = r;
+	}
 
-    private Map<IVField, String> vMap = new HashMap<IVField, String>();
-    private Map<String, EnumSynch> syMap = new HashMap<String, EnumSynch>();
+	private Map<IVField, EnumSynch> vMap = new HashMap<IVField, EnumSynch>();
 
-    @Override
-    public void add(IVField v, String customType) {
-        vMap.put(v, customType);
-        TypedefDescr t = d.findCustomType(customType);
-        if (t == null)
-            Utils.errAlert(customType, M.M().CustomTypeNotDefine());
-        EnumSynch sy = new EnumSynch();
-        sy.customT = customType;
-        syMap.put(customType, sy);
-    }
+	private TypedefDescr verifyT(String customType) {
+		TypedefDescr t = d.findCustomType(customType);
+		if (t == null)
+			Utils.errAlert(customType, M.M().CustomTypeNotDefine());
+		return t;
+	}
 
-    private IDataListType constructI(String customT, ListOfRows r) {
-        TypedefDescr type = d.findCustomType(customT);
-        if (type == null)
-            Utils.errAlert(customT, M.M().CustomTypeNotDefine());
-        List<FieldItem> fList = type.getListOfColumns();
-        RowIndex rI = new RowIndex(fList);
-        String comboField = type.getAttr(ICommonConsts.COMBOID);
-        IVField v = VField.construct(comboField);
-        IVField displayV = null;
-        if (type.getDisplayName() != null) {
-            displayV = VField.construct(type.getDisplayName());
-        }
-        IDataListType dList = JUtils.constructList(rI, r, v, displayV);
-        return dList;
+	@Override
+	public void add(IVField v, String customType) {
+		verifyT(customType);
+		EnumSynch sy = new EnumSynch();
+		sy.customT = customType;
+		vMap.put(v, sy);
+	}
 
-    }
+	private IDataListType constructI(String customT, ListOfRows r) {
+		TypedefDescr type = verifyT(customT);
+		List<FieldItem> fList = type.getListOfColumns();
+		RowIndex rI = new RowIndex(fList);
+		String comboField = type.getAttr(ICommonConsts.COMBOID);
+		IVField v = VField.construct(comboField);
+		IVField displayV = null;
+		if (type.getDisplayName() != null) {
+			displayV = VField.construct(type.getDisplayName());
+		}
+		IDataListType dList = JUtils.constructList(rI, r, v, displayV);
+		return dList;
 
-    private class EnumSynch extends SynchronizeList {
+	}
 
-        IGetDataListCallBack iCallBack;
-        ListOfRows lRows;
-        String customT;
+	private class EnumSynch extends SynchronizeList {
 
-        EnumSynch() {
-            super(2);
-        }
+		IGetDataListCallBack iCallBack;
+		ListOfRows lRows;
+		String customT;
 
-        @Override
-        protected void doTask() {
-            iCallBack.set(constructI(customT, lRows));
-        }
-    }
+		EnumSynch() {
+			super(2);
+		}
 
-    @Override
-    public void add(IVField v, IGetDataListCallBack iCallBack) {
-        String customType = vMap.get(v);
-        EnumSynch sy = syMap.get(customType);
-        sy.iCallBack = iCallBack;
-        sy.signalDone();
-    }
+		@Override
+		protected void doTask() {
+			iCallBack.set(constructI(customT, lRows));
+		}
+	}
 
-    @Override
-    public void add(String customType, ListOfRows lRows) {
-        EnumSynch sy = syMap.get(customType);
-        // added 2013/08/05
-        r.sendEnum(customType, constructI(customType, lRows));
-        if (sy == null)
-            return;
-        sy.lRows = lRows;
-        sy.signalDone();
-    }
+	@Override
+	public void add(IVField v, IGetDataListCallBack iCallBack) {
+		EnumSynch sy = vMap.get(v);
+		sy.iCallBack = iCallBack;
+		sy.signalDone();
+	}
+
+	@Override
+	public void add(String customType, ListOfRows lRows) {
+		for (Entry<IVField, EnumSynch> e : vMap.entrySet()) {
+			EnumSynch sy = e.getValue();
+			if (sy.customT.equals(customType)) {
+				r.sendEnum(customType, constructI(customType, lRows));
+				sy.lRows = lRows;
+				sy.signalDone();
+			}
+		}
+	}
 }

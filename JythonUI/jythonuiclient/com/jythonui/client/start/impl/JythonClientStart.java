@@ -302,6 +302,7 @@ public class JythonClientStart implements IJythonClientStart {
 				imp.add("vaadin-icons/vaadin-icons.html");
 				imp.add("paper-dropdown-menu/paper-dropdown-menu.html");
 				imp.add("paper-listbox/paper-listbox.html");
+				imp.add("paper-tabs/paper-tabs.html");
 				imp.add("paper-menu/paper-menu.html");
 				imp.add("paper-menu/paper-submenu.html");
 				imp.add("paper-dialog-scrollable/paper-dialog-scrollable.html");
