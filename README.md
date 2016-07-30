@@ -9,7 +9,9 @@ User : http://testjavahotel.appspot.com/?hotel=hotel (U/P user/user)
 Blog: http://hoteljavaopensource.blogspot.com/
 
 ---
-#2016/07/30 : new version of Jython MVP framework, Polymer widgets.
+#2016/07/30 : new version of Jython MVP framework
+
+Polymer widgets.
 
 More info: http://hoteljavaopensource.blogspot.com/2016/07/new-features-in-jython-mvp-framework.html
 
