@@ -288,8 +288,8 @@ public class JythonClientStart implements IJythonClientStart {
 				// for some reason this empty declarations are necessary here
 				// for Polymer to work properly
 				// otherwise a message "open is not a function"
-				PaperDialog p = new PaperDialog();
-				IronDropdown pi = new IronDropdown();
+//				PaperDialog p = new PaperDialog();
+     			IronDropdown pi = new IronDropdown();
 //				PaperDialogScrollable ps = new PaperDialogScrollable();
 //				PaperMenu pm = new PaperMenu();
 //				PaperDropdownMenu pd = new PaperDropdownMenu();
@@ -303,9 +303,15 @@ public class JythonClientStart implements IJythonClientStart {
 				imp.add("paper-dropdown-menu/paper-dropdown-menu.html");
 				imp.add("paper-listbox/paper-listbox.html");
 				imp.add("paper-tabs/paper-tabs.html");
+				imp.add("paper-tabs/paper-tab.html");
+//				imp.add("paper-tabs/paper-tab-icons.html");
 				imp.add("paper-menu/paper-menu.html");
 				imp.add("paper-menu/paper-submenu.html");
+				imp.add("paper-fab/paper-fab.html");
 				imp.add("paper-dialog-scrollable/paper-dialog-scrollable.html");
+//				imp.add("iron-drop-down/iron-drop-down.html");
+//				imp.add("iron-drop-down/iron-dropdown-scroll-manager.html");		
+				imp.add("paper-dialog/paper-dialog.html");		
 				Polymer.importHref(imp, new Function() {
 					public Object call(Object arg) {
 						// The app is executed when all imports succeed.

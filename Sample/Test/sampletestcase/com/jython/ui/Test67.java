@@ -10,10 +10,21 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.binder;
+package com.jython.ui;
 
-public enum WidgetTypes {
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
-	HTMLPanel, Button, Label, UiBinder, IronIcon, PaperIconItem, PaperButton, PaperHeaderPanel, PaperToolBar, Image, PaperIconButton, PaperDrawerPanel, PaperCheckbox, PaperDialog, PaperDialogScrollable, PaperDropDownMenu, PaperMenu, PaperTabs, PaperFab
+import org.junit.Test;
 
+import com.jythonui.shared.DialogFormat;
+
+public class Test67 extends TestHelper {
+
+	@Test
+	public void test1() {
+		DialogFormat d = findDialog("test126.xml");
+		assertNotNull(d);
+		assertTrue(d.isPolymer());
+	} 
 }

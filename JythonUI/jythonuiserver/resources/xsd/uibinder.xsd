@@ -97,6 +97,9 @@
 		<xs:attribute name="elevation" type="xs:string" />
 		<xs:attribute name="raised" type="xs:boolean" />
 		<xs:attribute name="active" type="xs:boolean" />
+		<xs:attribute name="elevationFloat" type="xs:float" />
+		<xs:attribute name="ariaActiveAttribute" type="xs:string" />
+		<xs:attribute name="stopKeyboardEventPropagation" type="xs:boolean" />
 	</xs:attributeGroup>
 
 
@@ -213,7 +216,25 @@
 		<xs:attribute name="noInk" type="xs:boolean" />
 	</xs:attributeGroup>
 
+	<xs:attributeGroup name="paperFabG">
+		<xs:attributeGroup ref="paperButtonG"></xs:attributeGroup>
+		<xs:attribute name="icon" type="xs:string" />
+		<xs:attribute name="src" type="xs:string" />
+		<xs:attribute name="keyBindings" type="xs:string" />
+		<xs:attribute name="mini" type="xs:boolean" />
+	</xs:attributeGroup>
+
 	<!-- Elements -->
+
+	<xs:element name="PaperFab">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperFabG" />
+		</xs:complexType>
+	</xs:element>
+
 
 	<xs:element name="PaperTabs">
 		<xs:complexType mixed="true">

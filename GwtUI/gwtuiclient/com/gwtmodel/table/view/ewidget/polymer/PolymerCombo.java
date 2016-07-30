@@ -157,12 +157,13 @@ class PolymerCombo extends AbstractWField implements IValueLB {
 
 	@Override
 	public Object getValObj() {
-		if (pMenu == null || ids == null)
-			return null;
+		if (pMenu == null) return null;
 		String id = pMenu.getSelected();
 		if (id == null)
 			return null;
 		int inde = CUtil.toInteger(id);
+		// can be moved up
+		if (ids == null) return null;
 		String o = ids.get(inde);
 		return o;
 	}

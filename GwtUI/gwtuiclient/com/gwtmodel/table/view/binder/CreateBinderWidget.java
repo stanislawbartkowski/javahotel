@@ -32,6 +32,7 @@ import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.binder.BinderWidget;
 import com.gwtmodel.table.binder.WidgetTypes;
 import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.common.DecimalUtils;
 import com.gwtmodel.table.mm.LogT;
 import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.vaadin.polymer.PolymerWidget;
@@ -42,6 +43,7 @@ import com.vaadin.polymer.paper.widget.PaperDialog;
 import com.vaadin.polymer.paper.widget.PaperDialogScrollable;
 import com.vaadin.polymer.paper.widget.PaperDrawerPanel;
 import com.vaadin.polymer.paper.widget.PaperDropdownMenu;
+import com.vaadin.polymer.paper.widget.PaperFab;
 import com.vaadin.polymer.paper.widget.PaperHeaderPanel;
 import com.vaadin.polymer.paper.widget.PaperIconButton;
 import com.vaadin.polymer.paper.widget.PaperIconItem;
@@ -223,6 +225,12 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 				w.setRaised(bv);
 			else if (k.equals(IConsts.ATTRELEVATION))
 				w.setElevation(v);
+			else if (k.equals(IConsts.ATTRARIAACTIVEATTRIBUTE))
+				w.setAriaActiveAttribute(v);
+			else if (k.equals(IConsts.ATTRELEVATIONFLOAT))
+				w.setElevation(DecimalUtils.toDouble(v));
+			else if (k.equals(IConsts.ATTRSTOPKEYBORADFROMPROPAGATION))
+				w.setStopKeyboardEventPropagation(bv);
 		}
 
 	};
@@ -330,7 +338,7 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 			else if (k.equals(IConsts.ATTRDRAWEWIDTH))
 				w.setDrawerWidth(v);
 			else if (k.equals(IConsts.ATTREDGESWUPESENSITIVITY))
-				w.setEdgeSwipeSensitivity(Double.parseDouble(v));
+				w.setEdgeSwipeSensitivity(DecimalUtils.toDouble(v));
 			else if (k.equals(IConsts.ATTREDGESWUPESENSITIVITYPIXELS))
 				w.setEdgeSwipeSensitivity(v);
 			else if (k.equals(IConsts.ATTRFORCENARROW))
@@ -527,6 +535,39 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 		}
 	};
 
+	private static final IVisitor<PaperFab> paperfabG = new IVisitor<PaperFab>() {
+
+		@Override
+		public void visit(PaperFab w, String k, String v, boolean bv) {
+			if (k.equals(IConsts.ATTRFOCUSED))
+				w.setFocused(bv);
+			else if (k.equals(IConsts.ATTRPOINTERDOWN))
+				w.setPointerDown(bv);
+			else if (k.equals(IConsts.ATTRPRESSED))
+				w.setPressed(bv);
+			else if (k.equals(IConsts.ATTRTOGGLES))
+				w.setToggles(bv);
+			else if (k.equals(IConsts.ATTRACTIVE))
+				w.setActive(bv);
+			else if (k.equals(IConsts.ATTRELEVATION))
+				w.setElevation(v);
+			else if (k.equals(IConsts.ATTRARIAACTIVEATTRIBUTE))
+				w.setAriaActiveAttribute(v);
+			else if (k.equals(IConsts.ATTRELEVATIONFLOAT))
+				w.setElevation(DecimalUtils.toDouble(v));
+			else if (k.equals(IConsts.ATTRSTOPKEYBORADFROMPROPAGATION))
+				w.setStopKeyboardEventPropagation(bv);
+			else if (k.equals(IConsts.ATTRICON))
+				w.setIcon(v);
+			else if (k.equals(IConsts.ATTRSRC))
+				w.setSrc(v);
+			else if (k.equals(IConsts.ATTRMINI))
+				w.setMini(bv);
+			else if (k.equals(IConsts.ATTRKEYBINDINGS))
+				w.setKeyBindings(v);
+		}
+	};
+
 	private final static Map<WidgetTypes, IVisitor<Widget>[]> setAWidget = new HashMap<WidgetTypes, IVisitor<Widget>[]>();
 
 	static {
@@ -547,6 +588,7 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 		setAWidget.put(WidgetTypes.PaperDropDownMenu, new IVisitor[] { polymerWidgetG, paperdropdownmenuG });
 		setAWidget.put(WidgetTypes.PaperMenu, new IVisitor[] { polymerWidgetG, papermenuG });
 		setAWidget.put(WidgetTypes.PaperTabs, new IVisitor[] { polymerWidgetG, papertabsG });
+		setAWidget.put(WidgetTypes.PaperFab, new IVisitor[] { polymerWidgetG, paperfabG });
 	}
 
 	private <T extends Widget> void setAttr(T w, BinderWidget bw, IVisitor<T>... vil) {
@@ -626,6 +668,12 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 			break;
 		case PaperTabs:
 			w = new PaperTabs(html);
+			break;
+		case PaperFab:
+			w = new PaperFab(html);
+			break;
+		default:
+			Utils.errAlertB(LogT.getT().PolymerWidgetNotImplemented(bw.getType().name()));
 			break;
 		} // switch
 		setWAttribute(w, bw);

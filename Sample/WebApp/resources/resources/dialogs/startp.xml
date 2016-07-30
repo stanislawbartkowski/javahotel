@@ -19,6 +19,7 @@
   <button id="binder5" displayname="DialogSample" actiontype="JMAIN_DIALOG" actionparam="binder5.xml" />
   <button id="binder6" displayname="DropdownMenu" actiontype="JMAIN_DIALOG" actionparam="binder6.xml" />
   <button id="combo" displayname="Combo field" actiontype="JMAIN_DIALOG" actionparam="polymercombo.xml" />
+  <button id="binder7" displayname="Floating Button" actiontype="JMAIN_DIALOG" actionparam="binder7.xml" />
 </leftmenu>  
 
 <buttons>

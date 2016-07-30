@@ -87,6 +87,7 @@ class BinderHandler extends DefaultHandler {
 		toW.put(IConsts.PAPERDROPDOWNMENU, WidgetTypes.PaperDropDownMenu);
 		toW.put(IConsts.PAPERMENU, WidgetTypes.PaperMenu);
 		toW.put(IConsts.PAPERTABS, WidgetTypes.PaperTabs);
+		toW.put(IConsts.PAPERFAB, WidgetTypes.PaperFab);
 	}
 
 	private static String genId() {

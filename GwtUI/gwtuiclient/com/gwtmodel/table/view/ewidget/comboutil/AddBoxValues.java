@@ -62,8 +62,6 @@ public class AddBoxValues {
 		}
 
 		TOptional<String> be = e.getBeforeVal();
-		Object o = e.getValObj();
-		String av = FUtils.getValueOS(o, e.getV());
 		if (displayLi != null) {
 			e.setList(displayLi);
 			e.setIdList(li);
@@ -72,6 +70,9 @@ public class AddBoxValues {
 		if (be != null) {
 			e.setValObj(be.orNull());
 		} else {
+			// 2016/07/30 firstly set list and next get value 
+			Object o = e.getValObj();
+			String av = FUtils.getValueOS(o, e.getV());
 			if ((av == null) && (firstS != null)) {
 				e.setValObj(firstS);
 			}

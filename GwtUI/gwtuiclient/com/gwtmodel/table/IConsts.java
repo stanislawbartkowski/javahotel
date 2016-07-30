@@ -83,6 +83,7 @@ public interface IConsts {
 	String ATTRACTIVE = "active";
 	String ATTRRAISED = "raised";
 	String ATTRELEVATION = "elevation";
+	String ATTRELEVATIONFLOAT = "elevationFloat";
 	String ATTRCLASS = "class";
 	String ATTRATTOP = "atTop";
 	String ATTRMODE = "mode";
@@ -157,6 +158,7 @@ public interface IConsts {
 	String ATTRNOBAR = "noBar";
 	String ATTRNOSLIDE = "noSlide";
 	String ATTRNOCINK = "noInk";
+	String ATTRMINI = "mini";
 
 	String RESBEG = "{" + IMessConsts.STANDCH;
 	String RESEND = "}";

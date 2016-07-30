@@ -15,7 +15,7 @@
  </jython>  
 
   <form>
-     <field id="menu1" type="custom:teanim" notempty="" />
+     <field id="menu1" type="custom:teanim" notempty="" />       
      <field id="menu2" type="custom:teanim" notempty="" />
      <field id="menu3" type="custom:tetabs" notempty="" /> 
      <field id="menu4" type="custom:tetabs" notempty="" /> 
