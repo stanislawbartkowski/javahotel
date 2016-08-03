@@ -81,6 +81,8 @@ public interface IConsts {
 	String PAPERMENU = "PaperMenu";
 	String PAPERTABS = "PaperTabs";
 	String PAPERFAB = "PaperFab";
+	String PAPERITEM = "PaperItem";
+	String PAPERITEMBODY = "PaperItemBody";
 	
 	String HTMLCLASS = "class";
 

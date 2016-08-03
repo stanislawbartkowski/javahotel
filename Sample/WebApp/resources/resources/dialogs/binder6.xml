@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="DialogSample" polymer="">
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="Dropdown Menu" polymer="">
  
  <uibinder>binder/binder6.xml</uibinder>
  

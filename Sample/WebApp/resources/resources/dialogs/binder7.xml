@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="DialogSample" polymer="">
+<dialog xmlns="http://www.jythongwt.dialogxsd.com"  displayname="Floating Button"  polymer="">
  
  <uibinder>binder/binder7.xml</uibinder>
  

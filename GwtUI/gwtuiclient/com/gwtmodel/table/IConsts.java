@@ -159,6 +159,7 @@ public interface IConsts {
 	String ATTRNOSLIDE = "noSlide";
 	String ATTRNOCINK = "noInk";
 	String ATTRMINI = "mini";
+	String ATTRARIALABEL = "ariaLabel";
 
 	String RESBEG = "{" + IMessConsts.STANDCH;
 	String RESEND = "}";

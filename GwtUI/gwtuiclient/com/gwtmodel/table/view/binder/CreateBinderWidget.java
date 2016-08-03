@@ -47,6 +47,8 @@ import com.vaadin.polymer.paper.widget.PaperFab;
 import com.vaadin.polymer.paper.widget.PaperHeaderPanel;
 import com.vaadin.polymer.paper.widget.PaperIconButton;
 import com.vaadin.polymer.paper.widget.PaperIconItem;
+import com.vaadin.polymer.paper.widget.PaperItem;
+import com.vaadin.polymer.paper.widget.PaperItemBody;
 import com.vaadin.polymer.paper.widget.PaperMenu;
 import com.vaadin.polymer.paper.widget.PaperTabs;
 import com.vaadin.polymer.paper.widget.PaperToolbar;
@@ -173,6 +175,8 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 				w.setClass(v);
 			else if (k.equals(IConsts.ATTRNOCINK))
 				w.setNoink(bv);
+			else if (k.equals(IConsts.ATTRARIALABEL))
+				w.setAriaLabel(v);
 		}
 
 	};
@@ -231,6 +235,35 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 				w.setElevation(DecimalUtils.toDouble(v));
 			else if (k.equals(IConsts.ATTRSTOPKEYBORADFROMPROPAGATION))
 				w.setStopKeyboardEventPropagation(bv);
+			else if (k.equals(IConsts.ATTRRECEIVEDFOCUSFROMKEYBOARD))
+				w.setReceivedFocusFromKeyboard(bv);
+			else if (k.equals(IConsts.ATTRKEYEVENTTARGET))
+				w.setKeyEventTarget(v);
+		}
+	};
+
+	private static final IVisitor<PaperItem> paperItemG = new IVisitor<PaperItem>() {
+
+		@Override
+		public void visit(PaperItem w, String k, String v, boolean bv) {
+			if (k.equals(IConsts.ATTRFOCUSED))
+				w.setFocused(bv);
+			else if (k.equals(IConsts.ATTRPOINTERDOWN))
+				w.setPointerDown(bv);
+			else if (k.equals(IConsts.ATTRPRESSED))
+				w.setPressed(bv);
+			else if (k.equals(IConsts.ATTRTOGGLES))
+				w.setToggles(bv);
+			else if (k.equals(IConsts.ATTRACTIVE))
+				w.setActive(bv);
+			else if (k.equals(IConsts.ATTRARIAACTIVEATTRIBUTE))
+				w.setAriaActiveAttribute(v);
+			else if (k.equals(IConsts.ATTRSTOPKEYBORADFROMPROPAGATION))
+				w.setStopKeyboardEventPropagation(bv);
+			else if (k.equals(IConsts.ATTRRECEIVEDFOCUSFROMKEYBOARD))
+				w.setReceivedFocusFromKeyboard(bv);
+			else if (k.equals(IConsts.ATTRKEYEVENTTARGET))
+				w.setKeyEventTarget(v);
 		}
 
 	};
@@ -589,6 +622,8 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 		setAWidget.put(WidgetTypes.PaperMenu, new IVisitor[] { polymerWidgetG, papermenuG });
 		setAWidget.put(WidgetTypes.PaperTabs, new IVisitor[] { polymerWidgetG, papertabsG });
 		setAWidget.put(WidgetTypes.PaperFab, new IVisitor[] { polymerWidgetG, paperfabG });
+		setAWidget.put(WidgetTypes.PaperItem, new IVisitor[] { polymerWidgetG, paperItemG });
+		setAWidget.put(WidgetTypes.PaperItemBody, new IVisitor[] { polymerWidgetG });
 	}
 
 	private <T extends Widget> void setAttr(T w, BinderWidget bw, IVisitor<T>... vil) {
@@ -671,6 +706,12 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 			break;
 		case PaperFab:
 			w = new PaperFab(html);
+			break;
+		case PaperItem:
+			w = new PaperItem(html);
+			break;
+		case PaperItemBody:
+			w = new PaperItemBody(html);
 			break;
 		default:
 			Utils.errAlertB(LogT.getT().PolymerWidgetNotImplemented(bw.getType().name()));

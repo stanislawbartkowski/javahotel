@@ -49,7 +49,7 @@
 	<extend-property name="locale" values="pl" />
 	<set-property-fallback name="locale" value="en" />
 
-	<!-- Super dev mode
+	<!-- Super dev mode 
 	<add-linker name="xsiframe" />
 	<set-configuration-property name="devModeRedirectEnabled"
 		value="true" />

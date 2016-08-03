@@ -61,6 +61,7 @@
 		<xs:attribute name="style" type="xs:string" />
 		<xs:attribute name="tabindex" type="xs:nonNegativeInteger"></xs:attribute>
 		<xs:attribute name="class" type="xs:string"></xs:attribute>
+		<xs:attribute name="ariaLabel" type="xs:string"></xs:attribute>
 	</xs:attributeGroup>
 
 	<xs:attributeGroup name="baseButtonItemG">
@@ -92,14 +93,21 @@
 		<xs:attribute name="theme" type="xs:string" />
 	</xs:attributeGroup>
 
-	<xs:attributeGroup name="paperButtonG">
+	<xs:attributeGroup name="paperItemG">
 		<xs:attributeGroup ref="baseButtonItemG"></xs:attributeGroup>
+		<xs:attribute name="active" type="xs:boolean" />
+		<xs:attribute name="ariaActiveAttribute" type="xs:string" />
+		<xs:attribute name="keyBindings" type="xs:string" />
+		<xs:attribute name="stopKeyboardEventPropagation" type="xs:boolean" />
+		<xs:attribute name="keyEventTarget" type="xs:string" />
+		<xs:attribute name="receivedFocusFromKeyboard" type="xs:boolean" />
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="paperButtonG">
+		<xs:attributeGroup ref="paperItemG"></xs:attributeGroup>
 		<xs:attribute name="elevation" type="xs:string" />
 		<xs:attribute name="raised" type="xs:boolean" />
-		<xs:attribute name="active" type="xs:boolean" />
 		<xs:attribute name="elevationFloat" type="xs:float" />
-		<xs:attribute name="ariaActiveAttribute" type="xs:string" />
-		<xs:attribute name="stopKeyboardEventPropagation" type="xs:boolean" />
 	</xs:attributeGroup>
 
 
@@ -220,11 +228,22 @@
 		<xs:attributeGroup ref="paperButtonG"></xs:attributeGroup>
 		<xs:attribute name="icon" type="xs:string" />
 		<xs:attribute name="src" type="xs:string" />
-		<xs:attribute name="keyBindings" type="xs:string" />
 		<xs:attribute name="mini" type="xs:boolean" />
 	</xs:attributeGroup>
+		
 
 	<!-- Elements -->
+	<xs:element name="PaperItem">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperItemG" />
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="PaperItemBody">
+	</xs:element>
 
 	<xs:element name="PaperFab">
 		<xs:complexType mixed="true">

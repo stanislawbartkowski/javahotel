@@ -299,6 +299,13 @@ public class JythonClientStart implements IJythonClientStart {
 				final String polymerPanel = result.getAttr(IUIConsts.POLYMERPANEL);
 				List<String> imp = new ArrayList<String>();
 				imp.add("iron-icons/iron-icons.html");
+				imp.add("iron-icons/communication-icons.html");
+				imp.add("iron-icons/device-icons.html");
+				imp.add("iron-icons/hardware-icons.html");
+				imp.add("iron-icons/image-icons.html");
+				imp.add("iron-icons/maps-icons.html");
+				imp.add("iron-icons/notification-icons.html");
+				imp.add("iron-icons/social-icons.html");
 				imp.add("vaadin-icons/vaadin-icons.html");
 				imp.add("paper-dropdown-menu/paper-dropdown-menu.html");
 				imp.add("paper-listbox/paper-listbox.html");
@@ -312,6 +319,9 @@ public class JythonClientStart implements IJythonClientStart {
 //				imp.add("iron-drop-down/iron-drop-down.html");
 //				imp.add("iron-drop-down/iron-dropdown-scroll-manager.html");		
 				imp.add("paper-dialog/paper-dialog.html");		
+				imp.add("paper-item/paper-item.html");		
+				imp.add("paper-item/paper-item-body.html");		
+				imp.add("iron-icon/iron-icon.html");		
 				Polymer.importHref(imp, new Function() {
 					public Object call(Object arg) {
 						// The app is executed when all imports succeed.
