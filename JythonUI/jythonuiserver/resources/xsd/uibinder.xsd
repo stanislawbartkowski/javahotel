@@ -230,9 +230,74 @@
 		<xs:attribute name="src" type="xs:string" />
 		<xs:attribute name="mini" type="xs:boolean" />
 	</xs:attributeGroup>
+
+	<xs:attributeGroup name="paperInputG">
+		<xs:attributeGroup ref="polymerWidgetG"></xs:attributeGroup>
+		<xs:attribute name="accept" type="xs:string" />
+		<xs:attribute name="allowedPattern" type="xs:string" />
+		<xs:attribute name="alwaysFloatLabel" type="xs:boolean" />
+		<xs:attribute name="autocapitalize" type="xs:string" />		
+		<xs:attribute name="autocomplete" type="xs:string" />		
+		<xs:attribute name="autocorrect" type="xs:string" />		
+		<xs:attribute name="autofocus" type="xs:boolean" />
+		<xs:attribute name="autosave" type="xs:boolean" />
+		<xs:attribute name="autoValidate" type="xs:boolean" />
+		<xs:attribute name="charCounter" type="xs:boolean" />
+		<xs:attribute name="errorMessage" type="xs:string" />		
+		<xs:attribute name="focused" type="xs:boolean" />		
+		<xs:attribute name="inputMode" type="xs:boolean" />		
+		<xs:attribute name="invalid" type="xs:boolean" />		
+		<xs:attribute name="label" type="xs:string" />		
+		<xs:attribute name="list" type="xs:string" />		
+		<xs:attribute name="max" type="xs:string" />		
+		<xs:attribute name="maxlength" type="xs:float" />		
+		<xs:attribute name="maxlengthS" type="xs:string" />		
+		<xs:attribute name="min" type="xs:string" />		
+		<xs:attribute name="minlength" type="xs:float" />		
+		<xs:attribute name="minlengthS" type="xs:string" />		
+		<xs:attribute name="noLabelFloat" type="xs:boolean" />		
+		<xs:attribute name="pattern" type="xs:string" />		
+		<xs:attribute name="placeholder" type="xs:string" />		
+		<xs:attribute name="preventInvalidInput" type="xs:boolean" />		
+		<xs:attribute name="readOnly" type="xs:boolean" />		
+		<xs:attribute name="required" type="xs:boolean" />		
+		<xs:attribute name="results" type="xs:boolean" />		
+		<xs:attribute name="resultsS" type="xs:string" />		
+		<xs:attribute name="sizeS" type="xs:string" />		
+		<xs:attribute name="type" type="xs:string" />		
+		<xs:attribute name="validator" type="xs:string" />		
+		<xs:attribute name="value" type="xs:string" />		
+	</xs:attributeGroup>
 		
+	<xs:attributeGroup name="paperTextareaG">
+		<xs:attributeGroup ref="paperInputG"></xs:attributeGroup>
+		<xs:attribute name="maxRows" type="xs:float" />		
+		<xs:attribute name="maxRowsS" type="xs:string" />		
+		<xs:attribute name="multiple" type="xs:boolean" />		
+		<xs:attribute name="rows" type="xs:float" />		
+		<xs:attribute name="rowsS" type="xs:string" />		
+     </xs:attributeGroup>
 
 	<!-- Elements -->
+
+	<xs:element name="PaperTextarea">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperInputG" />
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="PaperInput">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperInputG" />
+		</xs:complexType>
+	</xs:element>
+	
 	<xs:element name="PaperItem">
 		<xs:complexType mixed="true">
 			<xs:choice minOccurs="0" maxOccurs="unbounded">

@@ -47,10 +47,12 @@ import com.vaadin.polymer.paper.widget.PaperFab;
 import com.vaadin.polymer.paper.widget.PaperHeaderPanel;
 import com.vaadin.polymer.paper.widget.PaperIconButton;
 import com.vaadin.polymer.paper.widget.PaperIconItem;
+import com.vaadin.polymer.paper.widget.PaperInput;
 import com.vaadin.polymer.paper.widget.PaperItem;
 import com.vaadin.polymer.paper.widget.PaperItemBody;
 import com.vaadin.polymer.paper.widget.PaperMenu;
 import com.vaadin.polymer.paper.widget.PaperTabs;
+import com.vaadin.polymer.paper.widget.PaperTextarea;
 import com.vaadin.polymer.paper.widget.PaperToolbar;
 
 @SuppressWarnings("unchecked")
@@ -64,7 +66,7 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 	}
 
 	private interface IVisitor<T extends Widget> {
-		void visit(T w, String k, String v, boolean bv);
+		void visit(T w, String k, String v, boolean bv, double dv);
 	}
 
 	private String convert(String s) {
@@ -87,7 +89,7 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 	private final static IVisitor<Widget> argW = new IVisitor<Widget>() {
 
 		@Override
-		public void visit(Widget w, String k, String v, boolean bv) {
+		public void visit(Widget w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRHEIGHT))
 				w.setHeight(v);
 			else if (k.equals(IConsts.ATTRSIZE)) {
@@ -120,7 +122,7 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 	private static final IVisitor<Label> argL = new IVisitor<Label>() {
 
 		@Override
-		public void visit(Label l, String k, String v, boolean bv) {
+		public void visit(Label l, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRTEXT))
 				l.setText(v);
 		}
@@ -129,7 +131,7 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 	private static final IVisitor<FocusWidget> argF = new IVisitor<FocusWidget>() {
 
 		@Override
-		public void visit(FocusWidget w, String k, String v, boolean bv) {
+		public void visit(FocusWidget w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTREENABLED))
 				w.setEnabled(bv);
 		}
@@ -138,7 +140,7 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 	private static final IVisitor<ButtonBase> argbaseB = new IVisitor<ButtonBase>() {
 
 		@Override
-		public void visit(ButtonBase w, String k, String v, boolean bv) {
+		public void visit(ButtonBase w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRTEXT))
 				w.setText(v);
 			else if (k.equals(IConsts.ATTRHTML))
@@ -150,7 +152,7 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 	private static final IVisitor<PolymerWidget> polymerWidgetG = new IVisitor<PolymerWidget>() {
 
 		@Override
-		public void visit(PolymerWidget w, String k, String v, boolean bv) {
+		public void visit(PolymerWidget w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRATRIBUTES))
 				w.setAttributes(v);
 			else if (k.equals(IConsts.ATTRBOOLEANATTRIBUTE)) {
@@ -184,7 +186,7 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 	private static final IVisitor<PaperIconItem> paperIconItemG = new IVisitor<PaperIconItem>() {
 
 		@Override
-		public void visit(PaperIconItem w, String k, String v, boolean bv) {
+		public void visit(PaperIconItem w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRFOCUSED))
 				w.setFocused(bv);
 			else if (k.equals(IConsts.ATTRPOINTERDOWN))
@@ -200,7 +202,7 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 	private static final IVisitor<IronIcon> ironIconG = new IVisitor<IronIcon>() {
 
 		@Override
-		public void visit(IronIcon w, String k, String v, boolean bv) {
+		public void visit(IronIcon w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRICON))
 				w.setIcon(v);
 			else if (k.equals(IConsts.ATTRSRC))
@@ -214,7 +216,7 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 	private static final IVisitor<PaperButton> paperbuttonG = new IVisitor<PaperButton>() {
 
 		@Override
-		public void visit(PaperButton w, String k, String v, boolean bv) {
+		public void visit(PaperButton w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRFOCUSED))
 				w.setFocused(bv);
 			else if (k.equals(IConsts.ATTRPOINTERDOWN))
@@ -232,7 +234,7 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 			else if (k.equals(IConsts.ATTRARIAACTIVEATTRIBUTE))
 				w.setAriaActiveAttribute(v);
 			else if (k.equals(IConsts.ATTRELEVATIONFLOAT))
-				w.setElevation(DecimalUtils.toDouble(v));
+				w.setElevation(dv);
 			else if (k.equals(IConsts.ATTRSTOPKEYBORADFROMPROPAGATION))
 				w.setStopKeyboardEventPropagation(bv);
 			else if (k.equals(IConsts.ATTRRECEIVEDFOCUSFROMKEYBOARD))
@@ -245,7 +247,7 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 	private static final IVisitor<PaperItem> paperItemG = new IVisitor<PaperItem>() {
 
 		@Override
-		public void visit(PaperItem w, String k, String v, boolean bv) {
+		public void visit(PaperItem w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRFOCUSED))
 				w.setFocused(bv);
 			else if (k.equals(IConsts.ATTRPOINTERDOWN))
@@ -271,7 +273,7 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 	private static final IVisitor<PaperHeaderPanel> paperHeaderG = new IVisitor<PaperHeaderPanel>() {
 
 		@Override
-		public void visit(PaperHeaderPanel w, String k, String v, boolean bv) {
+		public void visit(PaperHeaderPanel w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRATTOP))
 				w.setAtTop(bv);
 			else if (k.equals(IConsts.ATTRMODE))
@@ -286,7 +288,7 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 	private static final IVisitor<PaperToolbar> paperToolbarG = new IVisitor<PaperToolbar>() {
 
 		@Override
-		public void visit(PaperToolbar w, String k, String v, boolean bv) {
+		public void visit(PaperToolbar w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRBOTTOMJUSTIFY))
 				w.setBottomJustify(v);
 			else if (k.equals(IConsts.ATTRJUSTIFY))
@@ -299,7 +301,7 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 	private static final IVisitor<Image> imageG = new IVisitor<Image>() {
 
 		@Override
-		public void visit(Image w, String k, String v, boolean bv) {
+		public void visit(Image w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRURL))
 				w.setUrl(v);
 			else if (k.equals(IConsts.ATTRALTTEXT))
@@ -311,7 +313,7 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 	private static final IVisitor<PaperIconButton> papericonG = new IVisitor<PaperIconButton>() {
 
 		@Override
-		public void visit(PaperIconButton w, String k, String v, boolean bv) {
+		public void visit(PaperIconButton w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRFOCUSED))
 				w.setFocused(bv);
 			else if (k.equals(IConsts.ATTRPOINTERDOWN))
@@ -331,7 +333,7 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 	private static final IVisitor<PaperCheckbox> papercheckboxG = new IVisitor<PaperCheckbox>() {
 
 		@Override
-		public void visit(PaperCheckbox w, String k, String v, boolean bv) {
+		public void visit(PaperCheckbox w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRFOCUSED))
 				w.setFocused(bv);
 			else if (k.equals(IConsts.ATTRPOINTERDOWN))
@@ -359,7 +361,7 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 	private static final IVisitor<PaperDrawerPanel> paperdrawerpanelG = new IVisitor<PaperDrawerPanel>() {
 
 		@Override
-		public void visit(PaperDrawerPanel w, String k, String v, boolean bv) {
+		public void visit(PaperDrawerPanel w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRDEFAULTSELECTED))
 				w.setDefaultSelected(v);
 			else if (k.equals(IConsts.ATTRDISABLEEDGESWIPE))
@@ -371,7 +373,7 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 			else if (k.equals(IConsts.ATTRDRAWEWIDTH))
 				w.setDrawerWidth(v);
 			else if (k.equals(IConsts.ATTREDGESWUPESENSITIVITY))
-				w.setEdgeSwipeSensitivity(DecimalUtils.toDouble(v));
+				w.setEdgeSwipeSensitivity(dv);
 			else if (k.equals(IConsts.ATTREDGESWUPESENSITIVITYPIXELS))
 				w.setEdgeSwipeSensitivity(v);
 			else if (k.equals(IConsts.ATTRFORCENARROW))
@@ -397,7 +399,7 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 	private static final IVisitor<PaperDialog> paperdialogG = new IVisitor<PaperDialog>() {
 
 		@Override
-		public void visit(PaperDialog w, String k, String v, boolean bv) {
+		public void visit(PaperDialog w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRANIMATIONCONFIG))
 				w.setAnimationConfig(v);
 			else if (k.equals(IConsts.ATTRAUTOFITONATTACH))
@@ -431,7 +433,7 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 	private static final IVisitor<PaperDialogScrollable> paperdialogscrollableG = new IVisitor<PaperDialogScrollable>() {
 
 		@Override
-		public void visit(PaperDialogScrollable w, String k, String v, boolean bv) {
+		public void visit(PaperDialogScrollable w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRDIALOGELEMENT))
 				w.setDialogElement(v);
 		}
@@ -440,7 +442,7 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 	private static final IVisitor<PaperDropdownMenu> paperdropdownmenuG = new IVisitor<PaperDropdownMenu>() {
 
 		@Override
-		public void visit(PaperDropdownMenu w, String k, String v, boolean bv) {
+		public void visit(PaperDropdownMenu w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRACTIVE))
 				w.setActive(bv);
 			else if (k.equals(IConsts.ATTRALWAYSFLOATLABEL))
@@ -498,7 +500,7 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 	private static final IVisitor<PaperMenu> papermenuG = new IVisitor<PaperMenu>() {
 
 		@Override
-		public void visit(PaperMenu w, String k, String v, boolean bv) {
+		public void visit(PaperMenu w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRACTIVATEEVENT))
 				w.setActivateEvent(v);
 			else if (k.equals(IConsts.ATTRFORITEMTITLE))
@@ -529,7 +531,7 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 	private static final IVisitor<PaperTabs> papertabsG = new IVisitor<PaperTabs>() {
 
 		@Override
-		public void visit(PaperTabs w, String k, String v, boolean bv) {
+		public void visit(PaperTabs w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRACTIVATEEVENT))
 				w.setActivateEvent(v);
 			else if (k.equals(IConsts.ATTRFORITEMTITLE))
@@ -571,7 +573,7 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 	private static final IVisitor<PaperFab> paperfabG = new IVisitor<PaperFab>() {
 
 		@Override
-		public void visit(PaperFab w, String k, String v, boolean bv) {
+		public void visit(PaperFab w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRFOCUSED))
 				w.setFocused(bv);
 			else if (k.equals(IConsts.ATTRPOINTERDOWN))
@@ -587,7 +589,7 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 			else if (k.equals(IConsts.ATTRARIAACTIVEATTRIBUTE))
 				w.setAriaActiveAttribute(v);
 			else if (k.equals(IConsts.ATTRELEVATIONFLOAT))
-				w.setElevation(DecimalUtils.toDouble(v));
+				w.setElevation(dv);
 			else if (k.equals(IConsts.ATTRSTOPKEYBORADFROMPROPAGATION))
 				w.setStopKeyboardEventPropagation(bv);
 			else if (k.equals(IConsts.ATTRICON))
@@ -598,6 +600,166 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 				w.setMini(bv);
 			else if (k.equals(IConsts.ATTRKEYBINDINGS))
 				w.setKeyBindings(v);
+		}
+	};
+
+	private static final IVisitor<PaperInput> paperinputG = new IVisitor<PaperInput>() {
+
+		@Override
+		public void visit(PaperInput w, String k, String v, boolean bv, double dv) {
+			if (k.equals(IConsts.ATTRACCEPT))
+				w.setAccept(v);
+			else if (k.equals(IConsts.ATTRALLOWEDPATTERN))
+				w.setAllowedPattern(v);
+			else if (k.equals(IConsts.ATTRALWAYSFLOATLABEL))
+				w.setAlwaysFloatLabel(bv);
+			else if (k.equals(IConsts.ATTRAUTOCAPITALIZE))
+				w.setAutocapitalize(v);
+			else if (k.equals(IConsts.ATTRAUTOCOMPLETE))
+				w.setAutocomplete(v);
+			else if (k.equals(IConsts.ATTRAUTOCORRECT))
+				w.setAutocorrect(v);
+			else if (k.equals(IConsts.ATTRAUTOFOCUS))
+				w.setAutofocus(bv);
+			else if (k.equals(IConsts.ATTRAUTOSAVE))
+				w.setAutosave(v);
+			else if (k.equals(IConsts.ATTRAUTOVALIDATE))
+				w.setAutoValidate(bv);
+			else if (k.equals(IConsts.ATTRCHARCOUNTER))
+				w.setCharCounter(bv);
+			else if (k.equals(IConsts.ATTRERRORMESSAGE))
+				w.setErrorMessage(v);
+			else if (k.equals(IConsts.ATTRFOCUSED))
+				w.setFocused(bv);
+			else if (k.equals(IConsts.ATTRINPUTMODE))
+				w.setInputmode(v);
+			else if (k.equals(IConsts.ATTRINVALID))
+				w.setInvalid(bv);
+			else if (k.equals(IConsts.ATTRLABEL))
+				w.setLabel(v);
+			else if (k.equals(IConsts.ATTRLIST))
+				w.setList(v);
+			else if (k.equals(IConsts.ATTRMAX))
+				w.setMax(v);
+			else if (k.equals(IConsts.ATTRMAXLENGTH))
+				w.setMaxlength(dv);
+			else if (k.equals(IConsts.ATTRMAXLENGTHS))
+				w.setMaxlength(v);
+			else if (k.equals(IConsts.ATTRMIN))
+				w.setMin(v);
+			else if (k.equals(IConsts.ATTRMINLENGTH))
+				w.setMinlength(dv);
+			else if (k.equals(IConsts.ATTRMINLENGTHS))
+				w.setMinlength(v);
+			else if (k.equals(IConsts.ATTRNOLABELFLOAT))
+				w.setNoLabelFloat(bv);
+			else if (k.equals(IConsts.ATTRPATTERN))
+				w.setPattern(v);
+			else if (k.equals(IConsts.ATTRPLACEHOLDER))
+				w.setPlaceholder(v);
+			else if (k.equals(IConsts.ATTRPREVENTINVALIDINPUT))
+				w.setPreventInvalidInput(bv);
+			else if (k.equals(IConsts.ATTRREADONLY))
+				w.setReadonly(bv);
+			else if (k.equals(IConsts.ATTRREQUIRED))
+				w.setRequired(bv);
+			else if (k.equals(IConsts.ATTRRESULS))
+				w.setResults(dv);
+			else if (k.equals(IConsts.ATTRRESULSS))
+				w.setResults(v);
+			else if (k.equals(IConsts.ATTRSIZES))
+				w.setSize(v);
+			else if (k.equals(IConsts.ATTRTYPE))
+				w.setType(v);
+			else if (k.equals(IConsts.ATTRVALIDATOR))
+				w.setValidator(v);
+			else if (k.equals(IConsts.ATTRVALUE))
+				w.setValue(v);
+		}
+	};
+
+	private static final IVisitor<PaperTextarea> papertextareaG = new IVisitor<PaperTextarea>() {
+
+		@Override
+		public void visit(PaperTextarea w, String k, String v, boolean bv, double dv) {
+			if (k.equals(IConsts.ATTRACCEPT))
+				w.setAccept(v);
+			else if (k.equals(IConsts.ATTRALLOWEDPATTERN))
+				w.setAllowedPattern(v);
+			else if (k.equals(IConsts.ATTRALWAYSFLOATLABEL))
+				w.setAlwaysFloatLabel(bv);
+			else if (k.equals(IConsts.ATTRAUTOCAPITALIZE))
+				w.setAutocapitalize(v);
+			else if (k.equals(IConsts.ATTRAUTOCOMPLETE))
+				w.setAutocomplete(v);
+			else if (k.equals(IConsts.ATTRAUTOCORRECT))
+				w.setAutocorrect(v);
+			else if (k.equals(IConsts.ATTRAUTOFOCUS))
+				w.setAutofocus(bv);
+			else if (k.equals(IConsts.ATTRAUTOSAVE))
+				w.setAutosave(v);
+			else if (k.equals(IConsts.ATTRAUTOVALIDATE))
+				w.setAutoValidate(bv);
+			else if (k.equals(IConsts.ATTRCHARCOUNTER))
+				w.setCharCounter(bv);
+			else if (k.equals(IConsts.ATTRERRORMESSAGE))
+				w.setErrorMessage(v);
+			else if (k.equals(IConsts.ATTRFOCUSED))
+				w.setFocused(bv);
+			else if (k.equals(IConsts.ATTRINPUTMODE))
+				w.setInputmode(v);
+			else if (k.equals(IConsts.ATTRINVALID))
+				w.setInvalid(bv);
+			else if (k.equals(IConsts.ATTRLABEL))
+				w.setLabel(v);
+			else if (k.equals(IConsts.ATTRLIST))
+				w.setList(v);
+			else if (k.equals(IConsts.ATTRMAX))
+				w.setMax(v);
+			else if (k.equals(IConsts.ATTRMAXLENGTH))
+				w.setMaxlength(dv);
+			else if (k.equals(IConsts.ATTRMAXLENGTHS))
+				w.setMaxlength(v);
+			else if (k.equals(IConsts.ATTRMIN))
+				w.setMin(v);
+			else if (k.equals(IConsts.ATTRMINLENGTH))
+				w.setMinlength(dv);
+			else if (k.equals(IConsts.ATTRMINLENGTHS))
+				w.setMinlength(v);
+			else if (k.equals(IConsts.ATTRNOLABELFLOAT))
+				w.setNoLabelFloat(bv);
+			else if (k.equals(IConsts.ATTRPATTERN))
+				w.setPattern(v);
+			else if (k.equals(IConsts.ATTRPLACEHOLDER))
+				w.setPlaceholder(v);
+			else if (k.equals(IConsts.ATTRPREVENTINVALIDINPUT))
+				w.setPreventInvalidInput(bv);
+			else if (k.equals(IConsts.ATTRREADONLY))
+				w.setReadonly(bv);
+			else if (k.equals(IConsts.ATTRREQUIRED))
+				w.setRequired(bv);
+			else if (k.equals(IConsts.ATTRRESULS))
+				w.setResults(dv);
+			else if (k.equals(IConsts.ATTRRESULSS))
+				w.setResults(v);
+			else if (k.equals(IConsts.ATTRSIZES))
+				w.setSize(v);
+			else if (k.equals(IConsts.ATTRTYPE))
+				w.setType(v);
+			else if (k.equals(IConsts.ATTRVALIDATOR))
+				w.setValidator(v);
+			else if (k.equals(IConsts.ATTRVALUE))
+				w.setValue(v);
+			else if (k.equals(IConsts.ATTRMAXROWS))
+				w.setMaxRows(dv);
+			else if (k.equals(IConsts.ATTRMAXROWSS))
+				w.setMaxRows(v);
+			else if (k.equals(IConsts.ATTRMULTIPLE))
+				w.setMultiple(bv);
+			else if (k.equals(IConsts.ATTRROWS))
+				w.setRows(dv);
+			else if (k.equals(IConsts.ATTRROWSS))
+				w.setRows(v);
 		}
 	};
 
@@ -624,6 +786,8 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 		setAWidget.put(WidgetTypes.PaperFab, new IVisitor[] { polymerWidgetG, paperfabG });
 		setAWidget.put(WidgetTypes.PaperItem, new IVisitor[] { polymerWidgetG, paperItemG });
 		setAWidget.put(WidgetTypes.PaperItemBody, new IVisitor[] { polymerWidgetG });
+		setAWidget.put(WidgetTypes.PaperInput, new IVisitor[] { polymerWidgetG, paperinputG });
+		setAWidget.put(WidgetTypes.PaperTextArea, new IVisitor[] { polymerWidgetG, papertextareaG });
 	}
 
 	private <T extends Widget> void setAttr(T w, BinderWidget bw, IVisitor<T>... vil) {
@@ -632,11 +796,15 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 			String k = i.next();
 			String v = convert(bw.getAttr(k));
 			boolean bval = false;
-			if (!CUtil.EmptyS(v))
+			double dval = -1;
+			if (!CUtil.EmptyS(v)) {
 				bval = Utils.toB(v);
-			argW.visit(w, k, v, bval);
+				// exception expected
+				dval = DecimalUtils.toDoubleE(v,-1);
+			}
+			argW.visit(w, k, v, bval, dval);
 			for (IVisitor<T> vi : vil)
-				vi.visit(w, k, v, bval);
+				vi.visit(w, k, v, bval, dval);
 
 		}
 	}
@@ -712,6 +880,12 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 			break;
 		case PaperItemBody:
 			w = new PaperItemBody(html);
+			break;
+		case PaperInput:
+			w = new PaperInput(html);
+			break;
+		case PaperTextArea:
+			w = new PaperTextarea(html);
 			break;
 		default:
 			Utils.errAlertB(LogT.getT().PolymerWidgetNotImplemented(bw.getType().name()));

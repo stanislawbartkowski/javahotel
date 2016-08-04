@@ -25,6 +25,7 @@
   <button id="binder8" displayname="Header Panel" actiontype="JMAIN_DIALOG" actionparam="binder8.xml" />
   <button id="binder9" displayname="Icon Button" actiontype="JMAIN_DIALOG" actionparam="binder9.xml" />
   <button id="binder10" displayname="Item" actiontype="JMAIN_DIALOG" actionparam="binder10.xml" />
+  <button id="binder11" displayname="Input" actiontype="JMAIN_DIALOG" actionparam="binder11.xml" />
 </leftstack>  
 
 <buttons>

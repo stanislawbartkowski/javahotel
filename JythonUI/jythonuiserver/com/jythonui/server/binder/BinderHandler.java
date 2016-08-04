@@ -90,6 +90,8 @@ class BinderHandler extends DefaultHandler {
 		toW.put(IConsts.PAPERFAB, WidgetTypes.PaperFab);
 		toW.put(IConsts.PAPERITEM, WidgetTypes.PaperItem);
 		toW.put(IConsts.PAPERITEMBODY, WidgetTypes.PaperItemBody);
+		toW.put(IConsts.PAPERINPUT, WidgetTypes.PaperInput);
+		toW.put(IConsts.PAPERTEXTAREA, WidgetTypes.PaperTextArea);
 	}
 
 	private static String genId() {

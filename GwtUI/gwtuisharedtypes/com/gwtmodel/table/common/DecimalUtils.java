@@ -16,82 +16,89 @@ import java.math.BigDecimal;
 
 public class DecimalUtils {
 
-    private DecimalUtils() {
+	private DecimalUtils() {
 
-    }
+	}
 
-    public static double toDouble(String s) {
-        double d = Double.valueOf(s);
-        return d;
-    }
+	public static double toDouble(String s) {
+		double d = Double.valueOf(s);
+		return d;
+	}
 
-    // BigDecimal
-    public static BigDecimal toBig(final String s) {
-        return toBig(s, -1);
-    }
+	public static double toDoubleE(String s, double badF) {
+		try {
+			return toDouble(s);
+		} catch (NumberFormatException e) {
+			return badF;
+		}
+	}
 
-    public static BigDecimal toBig(final String s, int afterdot) {
-        if (CUtil.EmptyS(s)) {
-            return null;
-        }
-        try {
-            BigDecimal c = new BigDecimal(s);
-            if (afterdot != -1) {
-                c = c.setScale(afterdot, BigDecimal.ROUND_HALF_UP);
-            }
-            return c;
-        } catch (NumberFormatException e) {
-            return null;
-        }
-    }
+	// BigDecimal
+	public static BigDecimal toBig(final String s) {
+		return toBig(s, -1);
+	}
 
-    public static BigDecimal toBig(final Double d) {
-        if (d == null) {
-            return null;
-        }
-        String s = Double.toString(d);
-        return new BigDecimal(s);
-    }
+	public static BigDecimal toBig(final String s, int afterdot) {
+		if (CUtil.EmptyS(s)) {
+			return null;
+		}
+		try {
+			BigDecimal c = new BigDecimal(s);
+			if (afterdot != -1) {
+				c = c.setScale(afterdot, BigDecimal.ROUND_HALF_UP);
+			}
+			return c;
+		} catch (NumberFormatException e) {
+			return null;
+		}
+	}
 
-    public static Double toDouble(final BigDecimal b) {
-        if (b == null) {
-            return null;
-        }
-        String s = DecimalToS(b);
-        return new Double(s);
-    }
+	public static BigDecimal toBig(final Double d) {
+		if (d == null) {
+			return null;
+		}
+		String s = Double.toString(d);
+		return new BigDecimal(s);
+	}
 
-    public static String DecimalToS(final BigDecimal c, int afterdot) {
-        BigDecimal cx = c.setScale(afterdot, BigDecimal.ROUND_HALF_UP);
-        String ss = cx.toPlainString();
-        int pos = ss.indexOf('.');
-        String aDot = "";
-        if (pos >= 0) {
-            aDot = ss.substring(pos + 1);
-            ss = ss.substring(0, pos);
-        }
-        if (afterdot <= 0) {
-            return ss;
-        }
-        if (aDot.length() > afterdot) {
-            aDot = aDot.substring(0, afterdot);
-        }
-        while (aDot.length() < afterdot) {
-            aDot += "0";
-        }
-        return ss + "." + aDot;
-    }
+	public static Double toDouble(final BigDecimal b) {
+		if (b == null) {
+			return null;
+		}
+		String s = DecimalToS(b);
+		return new Double(s);
+	}
 
-    public static String DecimalToS(final BigDecimal c) {
-        return DecimalToS(c, 2);
-    }
+	public static String DecimalToS(final BigDecimal c, int afterdot) {
+		BigDecimal cx = c.setScale(afterdot, BigDecimal.ROUND_HALF_UP);
+		String ss = cx.toPlainString();
+		int pos = ss.indexOf('.');
+		String aDot = "";
+		if (pos >= 0) {
+			aDot = ss.substring(pos + 1);
+			ss = ss.substring(0, pos);
+		}
+		if (afterdot <= 0) {
+			return ss;
+		}
+		if (aDot.length() > afterdot) {
+			aDot = aDot.substring(0, afterdot);
+		}
+		while (aDot.length() < afterdot) {
+			aDot += "0";
+		}
+		return ss + "." + aDot;
+	}
 
-    public static BigDecimal percent0(final BigDecimal c,
-            final BigDecimal percent) {
-        BigDecimal res = c.multiply(percent);
-        BigDecimal l100 = new BigDecimal("100");
-        BigDecimal res1 = res.divide(l100, 2, 0);
-        return res1;
-    }
+	public static String DecimalToS(final BigDecimal c) {
+		return DecimalToS(c, 2);
+	}
+
+	public static BigDecimal percent0(final BigDecimal c, final BigDecimal percent) {
+		BigDecimal res = c.multiply(percent);
+		BigDecimal l100 = new BigDecimal("100");
+		BigDecimal res1 = res.divide(l100, 2, 0);
+		return res1;
+	}
 
 }
