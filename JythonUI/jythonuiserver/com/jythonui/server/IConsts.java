@@ -62,30 +62,8 @@ public interface IConsts {
 	String HTMLXSDFILE = "htmlbinder.xsd";
 	String BINDERNAMESPACE = "http://www.jythongwt.uibinderxsd.com";
 	String UIBINDER = "UiBinder";
-	String HTMLPANELWIDGET = "HTMLPanel";
-	String LABELWIDGET = "Label";
-	String BUTTONWIDGET = "Button";
 	String OWIDGET = "o";
-	String PAPERICONITEM = "PaperIconItem";
-	String IRONICON = "IronIcon";
-	String PAPERBUTTON = "PaperButton";
-	String PAPERHEADERPANEL = "PaperHeaderPanel";
-	String PAPERTOOLBAR = "PaperToolbar";
-	String IMAGE = "Image";
-	String PAPERICONBUTTON = "PaperIconButton";
-	String PAPERDRAWERPANEL = "PaperDrawerPanel";
-	String PAPERCHECKBOX = "PaperCheckbox";
-	String PAPERDIALOG = "PaperDialog";
-	String PAPERDIALOGSCROLLABLE = "PaperDialogScrollable";
-	String PAPERDROPDOWNMENU = "PaperDropdownMenu";
-	String PAPERMENU = "PaperMenu";
-	String PAPERTABS = "PaperTabs";
-	String PAPERFAB = "PaperFab";
-	String PAPERITEM = "PaperItem";
-	String PAPERITEMBODY = "PaperItemBody";
-	String PAPERINPUT = "PaperInput";
-	String PAPERTEXTAREA = "PaperTextarea";
-	
+
 	String HTMLCLASS = "class";
 
 }

@@ -22,19 +22,18 @@ abstract class TextHelperImage extends PolymerTextField {
 
 	protected final HorizontalPanel vp = new HorizontalPanel();
 	protected final PaperIconButton bu = new PaperIconButton();
-		
-	protected TextHelperImage(IVField v, IFormFieldProperties pr, String pattern, String standErrMess,String image) {
-		super(v, pr, standErrMess, pattern, false);
+
+	protected TextHelperImage(IVField v, IFormFieldProperties pr, String pattern, String standErrMess, String image) {
+		super(v, pr, standErrMess, pattern, false, false, false);
 		bu.setIcon(image);
 		bu.setAttributes("suffix");
-		vp.add(in);
+		vp.add(in.getGWidget());
 		vp.add(bu);
 	}
-	
+
 	@Override
 	public Widget getGWidget() {
 		return vp;
 	}
-
 
 }

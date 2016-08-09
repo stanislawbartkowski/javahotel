@@ -8,8 +8,8 @@
         <div class="vertical center-justified layout">
             <h4>Text input</h4>
             <div class="vertical-section">
-                <p:PaperInput label="label"/>
-                <p:PaperInput label="password" type="password"/>
+                <p:PaperInput label="label" fieldid="name1"/>
+                <p:PaperInput label="password" type="password" fieldid="passwd" />
                 <p:PaperInput noLabelFloat="true" label="label (no-label-float)"/>
                 <p:PaperInput label="disabled" disabled="true"/>
             </div>

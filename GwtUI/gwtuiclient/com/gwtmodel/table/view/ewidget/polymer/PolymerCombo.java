@@ -236,7 +236,7 @@ class PolymerCombo extends AbstractWField implements IValueLB {
 	@Override
 	public void replaceWidget(Widget w) {
 		if (!(w instanceof PaperDropdownMenu))
-			Utils.errAlertB(LogT.getT().ReplaceTypeNotCorrect(WidgetTypes.PaperDropDownMenu.name(),
+			Utils.errAlertB(LogT.getT().ReplaceTypeNotCorrect(WidgetTypes.PaperDropdownMenu.name(),
 					PaperDropdownMenu.class.getName(), Widget.class.getName()));
 		pDown = (PaperDropdownMenu) w;
 		setEvent();

@@ -12,8 +12,6 @@
  */
 package com.jythonui.server.binder;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 import java.util.Stack;
 import java.util.logging.Logger;
@@ -62,37 +60,9 @@ class BinderHandler extends DefaultHandler {
 
 	private Stack<Tag> sta = new Stack<Tag>();
 
-	private static final Map<String, WidgetTypes> toW = new HashMap<String, WidgetTypes>();
-
 	private static Random ra = new Random();
 
 	BinderWidget parsed;
-
-	static {
-		toW.put(IConsts.HTMLPANELWIDGET, WidgetTypes.HTMLPanel);
-		toW.put(IConsts.LABELWIDGET, WidgetTypes.Label);
-		toW.put(IConsts.BUTTONWIDGET, WidgetTypes.Button);
-		toW.put(IConsts.UIBINDER, WidgetTypes.UiBinder);
-		toW.put(IConsts.IRONICON, WidgetTypes.IronIcon);
-		toW.put(IConsts.PAPERICONITEM, WidgetTypes.PaperIconItem);
-		toW.put(IConsts.PAPERBUTTON, WidgetTypes.PaperButton);
-		toW.put(IConsts.PAPERHEADERPANEL, WidgetTypes.PaperHeaderPanel);
-		toW.put(IConsts.PAPERTOOLBAR, WidgetTypes.PaperToolBar);
-		toW.put(IConsts.IMAGE, WidgetTypes.Image);
-		toW.put(IConsts.PAPERICONBUTTON, WidgetTypes.PaperIconButton);
-		toW.put(IConsts.PAPERDRAWERPANEL, WidgetTypes.PaperDrawerPanel);
-		toW.put(IConsts.PAPERCHECKBOX, WidgetTypes.PaperCheckbox);
-		toW.put(IConsts.PAPERDIALOG, WidgetTypes.PaperDialog);
-		toW.put(IConsts.PAPERDIALOGSCROLLABLE, WidgetTypes.PaperDialogScrollable);
-		toW.put(IConsts.PAPERDROPDOWNMENU, WidgetTypes.PaperDropDownMenu);
-		toW.put(IConsts.PAPERMENU, WidgetTypes.PaperMenu);
-		toW.put(IConsts.PAPERTABS, WidgetTypes.PaperTabs);
-		toW.put(IConsts.PAPERFAB, WidgetTypes.PaperFab);
-		toW.put(IConsts.PAPERITEM, WidgetTypes.PaperItem);
-		toW.put(IConsts.PAPERITEMBODY, WidgetTypes.PaperItemBody);
-		toW.put(IConsts.PAPERINPUT, WidgetTypes.PaperInput);
-		toW.put(IConsts.PAPERTEXTAREA, WidgetTypes.PaperTextArea);
-	}
 
 	private static String genId() {
 		return "binder-" + ra.nextInt();
@@ -111,12 +81,13 @@ class BinderHandler extends DefaultHandler {
 
 		if (!isNameSpace(uri))
 			return null;
-		WidgetTypes w = toW.get(localName);
-		if (w != null)
-			return w;
-		String mess = L().getMess(IErrorCode.ERRORCODE129, ILogMess.WIDGETYPESNOTRECOGNIZED, localName);
-		log.severe(mess);
-		throw new SAXException(mess);
+		try {
+			return WidgetTypes.valueOf(localName);
+		} catch (IllegalArgumentException e) {
+			String mess = L().getMess(IErrorCode.ERRORCODE129, ILogMess.WIDGETYPESNOTRECOGNIZED, localName);
+			log.severe(mess);
+			throw new SAXException(mess);
+		}
 	}
 
 	@Override

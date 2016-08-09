@@ -277,8 +277,27 @@
 		<xs:attribute name="rows" type="xs:float" />		
 		<xs:attribute name="rowsS" type="xs:string" />		
      </xs:attributeGroup>
+     
+	<xs:attributeGroup name="paperMaterialG">
+		<xs:attributeGroup ref="polymerWidgetG"></xs:attributeGroup>
+		<xs:attribute name="elevation" type="xs:string" />
+		<xs:attribute name="animated" type="xs:boolean" />
+		<xs:attribute name="elevationFloat" type="xs:float" />
+	</xs:attributeGroup>
+     
 
 	<!-- Elements -->
+	
+	<xs:element name="PaperMaterial">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperMaterialG" />
+		</xs:complexType>
+	</xs:element>
+	
+	
 
 	<xs:element name="PaperTextarea">
 		<xs:complexType mixed="true">

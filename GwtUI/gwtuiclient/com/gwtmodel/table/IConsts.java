@@ -190,6 +190,7 @@ public interface IConsts {
 	String ATTRMULTIPLE="multiple";
 	String ATTRROWS="rows";
 	String ATTRROWSS="rowsS";
+	String ATTRANIMATED="animated";
 
 	String RESBEG = "{" + IMessConsts.STANDCH;
 	String RESEND = "}";

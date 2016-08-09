@@ -446,12 +446,12 @@ class ReadDialog extends UtilHelper {
 
 	private static void logB(String errCode, String attr, String val) {
 		String mess = L().getMess(errCode, ILogMess.BINDERWIDGETSHOULDCONTAINCHILD,
-				WidgetTypes.PaperDropDownMenu.name(), attr, val);
+				WidgetTypes.PaperDropdownMenu.name(), attr, val);
 		errorLog(mess);
 	}
 
 	private static void verifyBinder(BinderWidget b) {
-		if (b.getType() == WidgetTypes.PaperDropDownMenu) {
+		if (b.getType() == WidgetTypes.PaperDropdownMenu) {
 			if (!b.isIdDropId())
 				logB(IErrorCode.ERRORCODE128, ICommonConsts.ID, ICommonConsts.DROPMENUID);
 			if (!b.isClassDropDownContent())

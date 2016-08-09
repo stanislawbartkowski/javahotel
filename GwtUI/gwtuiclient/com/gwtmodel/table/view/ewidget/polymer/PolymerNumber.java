@@ -18,7 +18,7 @@ import com.gwtmodel.table.editw.IFormFieldProperties;
 class PolymerNumber extends PolymerTextField {
 
 	PolymerNumber(IVField v, IFormFieldProperties pr, String pattern, String standErrMess) {
-		super(v, pr, pattern, standErrMess, true);
+		super(v, pr, pattern, standErrMess, true, false,false);
 	}
 
 }

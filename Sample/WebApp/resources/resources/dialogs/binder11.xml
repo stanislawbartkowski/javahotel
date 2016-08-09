@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="Icon Button" polymer="">
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="Input" polymer="">
  
  <uibinder>binder/binder11.xml</uibinder>
  
@@ -13,6 +13,13 @@
   <buttons>
    <button id="papericon1" displayname=""/>
   </buttons>  
+  
+
+  <form>
+   <field id="name1" />
+   <field id="passwd" type="password" />
+   <field id="texta" type="textarea" />
+ </form>
 
 
 </dialog>

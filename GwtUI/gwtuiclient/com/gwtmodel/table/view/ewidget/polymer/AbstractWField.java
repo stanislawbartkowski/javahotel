@@ -110,7 +110,7 @@ abstract class AbstractWField implements IFormLineView {
 
 	@Override
 	public void replaceWidget(Widget w) {
-		Utils.ReplaceWidgetNotImplements(v.getId());
+		Utils.ReplaceWidgetNotImplements(v.getId(),w.getClass().getName());
 	}
 
 }

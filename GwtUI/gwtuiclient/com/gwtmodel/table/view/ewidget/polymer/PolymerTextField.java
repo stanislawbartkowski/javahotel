@@ -17,19 +17,28 @@ import java.util.List;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.binder.WidgetTypes;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.editw.IFormFieldProperties;
+import com.gwtmodel.table.mm.LogT;
 import com.vaadin.polymer.paper.widget.PaperInput;
+import com.vaadin.polymer.paper.widget.PaperTextarea;
 
 class PolymerTextField extends AbstractWField {
 
-	protected final PaperInput in = new PaperInput();
+	// not final
+	// protected PaperInput in = new PaperInput();
+	protected final TextAWidget in = new TextAWidget();
+	private final String pattern;
+	private final boolean autovalidate;
+	private final boolean password;
 
-	PolymerTextField(IVField v, IFormFieldProperties pr, String pattern, String standErrMess, boolean autovalidate) {
-		super(v, pr, standErrMess);
-		in.setLabel(v.getLabel());
+	private void setP() {
+		if (CUtil.EmptyS(in.getLabel()))
+			in.setLabel(v.getLabel());
 		in.addChangeHandler(new ChangeHa());
-		in.getPolymerElement().addEventListener("keydown", new TouchEvent());
+		in.addEventListener("keydown", new TouchEvent());
 		if (pr.isNotEmpty())
 			in.setRequired(true);
 		if (pattern != null) {
@@ -38,6 +47,21 @@ class PolymerTextField extends AbstractWField {
 				in.setAutoValidate(true);
 		}
 		in.setErrorMessage(getStandErrMess());
+		if (password)
+			in.setType("password");
+	}
+
+	PolymerTextField(IVField v, IFormFieldProperties pr, String pattern, String standErrMess, boolean autovalidate,
+			boolean password, boolean textarea) {
+		super(v, pr, standErrMess);
+		if (textarea)
+			in.setP(new PaperTextarea());
+		else
+			in.setP(new PaperInput());
+		this.password = password;
+		this.pattern = pattern;
+		this.autovalidate = autovalidate;
+		setP();
 	}
 
 	@Override
@@ -45,7 +69,7 @@ class PolymerTextField extends AbstractWField {
 		String s = in.getValue();
 		return FUtils.getValue(v, s);
 	}
-	
+
 	@Override
 	public void setValObj(Object o) {
 		runOnTouch();
@@ -56,7 +80,7 @@ class PolymerTextField extends AbstractWField {
 
 	@Override
 	public Widget getGWidget() {
-		return in;
+		return in.getGWidget();
 	}
 
 	@Override
@@ -108,6 +132,22 @@ class PolymerTextField extends AbstractWField {
 	public boolean isInvalid() {
 		in.validate();
 		return in.getInvalid();
+	}
+
+	@Override
+	public void replaceWidget(Widget w) {
+		if (in.isPaperInput()) {
+			if (!(w instanceof PaperInput))
+				Utils.errAlertB(LogT.getT().ReplaceTypeNotCorrect(WidgetTypes.PaperInput.name(),
+						PaperInput.class.getName(), Widget.class.getName()));
+			in.setP((PaperInput) w);
+		} else {
+			if (!(w instanceof PaperTextarea))
+				Utils.errAlertB(LogT.getT().ReplaceTypeNotCorrect(WidgetTypes.PaperTextarea.name(),
+						PaperTextarea.class.getName(), Widget.class.getName()));
+			in.setP((PaperTextarea) w);
+		}
+		setP();
 	}
 
 }

@@ -119,20 +119,18 @@ public class EditWidgetPolymer implements IEditWidget {
 
 	@Override
 	public IFormLineView constructPasswordField(IVField v, IFormFieldProperties pr) {
-		Utils.PolymerNotImplemented("EWidgetPolymer:constructPasswordField");
-		return null;
+		return new PolymerTextField(v, pr, null, null, false, true, false);
 	}
 
 	@Override
 	public IFormLineView constructTextField(IVField v, IFormFieldProperties pr) {
-		return new PolymerTextField(v, pr, null, null, false);
+		return new PolymerTextField(v, pr, null, null, false, false, false);
 	}
 
 	@Override
 	public IFormLineView constructTextField(IVField v, IFormFieldProperties pr, IGetDataList iGet,
 			IRequestForGWidget iHelper, boolean textarea, boolean richtext, boolean refreshAlways) {
-		Utils.PolymerNotImplemented("EWidgetPolymer:constructTextField");
-		return null;
+		return new PolymerTextField(v, pr, null, null, false, false, textarea);
 	}
 
 	@Override

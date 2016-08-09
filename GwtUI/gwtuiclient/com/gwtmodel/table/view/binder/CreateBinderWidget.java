@@ -50,6 +50,7 @@ import com.vaadin.polymer.paper.widget.PaperIconItem;
 import com.vaadin.polymer.paper.widget.PaperInput;
 import com.vaadin.polymer.paper.widget.PaperItem;
 import com.vaadin.polymer.paper.widget.PaperItemBody;
+import com.vaadin.polymer.paper.widget.PaperMaterial;
 import com.vaadin.polymer.paper.widget.PaperMenu;
 import com.vaadin.polymer.paper.widget.PaperTabs;
 import com.vaadin.polymer.paper.widget.PaperTextarea;
@@ -763,6 +764,19 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 		}
 	};
 
+	private static final IVisitor<PaperMaterial> papermaterialG = new IVisitor<PaperMaterial>() {
+
+		@Override
+		public void visit(PaperMaterial w, String k, String v, boolean bv, double dv) {
+			if (k.equals(IConsts.ATTRELEVATION))
+				w.setElevation(v);
+			else if (k.equals(IConsts.ATTRELEVATIONFLOAT))
+				w.setElevation(dv);
+			else if (k.equals(IConsts.ATTRANIMATED))
+				w.setAnimated(bv);
+		}
+	};
+
 	private final static Map<WidgetTypes, IVisitor<Widget>[]> setAWidget = new HashMap<WidgetTypes, IVisitor<Widget>[]>();
 
 	static {
@@ -773,21 +787,22 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 		setAWidget.put(WidgetTypes.IronIcon, new IVisitor[] { polymerWidgetG, ironIconG });
 		setAWidget.put(WidgetTypes.PaperButton, new IVisitor[] { polymerWidgetG, paperbuttonG });
 		setAWidget.put(WidgetTypes.PaperHeaderPanel, new IVisitor[] { polymerWidgetG, paperHeaderG });
-		setAWidget.put(WidgetTypes.PaperToolBar, new IVisitor[] { polymerWidgetG, paperToolbarG });
+		setAWidget.put(WidgetTypes.PaperToolbar, new IVisitor[] { polymerWidgetG, paperToolbarG });
 		setAWidget.put(WidgetTypes.Image, new IVisitor[] { imageG });
 		setAWidget.put(WidgetTypes.PaperIconButton, new IVisitor[] { polymerWidgetG, papericonG });
 		setAWidget.put(WidgetTypes.PaperDrawerPanel, new IVisitor[] { polymerWidgetG, paperdrawerpanelG });
 		setAWidget.put(WidgetTypes.PaperCheckbox, new IVisitor[] { polymerWidgetG, papercheckboxG });
 		setAWidget.put(WidgetTypes.PaperDialog, new IVisitor[] { polymerWidgetG, paperdialogG });
 		setAWidget.put(WidgetTypes.PaperDialogScrollable, new IVisitor[] { polymerWidgetG, paperdialogscrollableG });
-		setAWidget.put(WidgetTypes.PaperDropDownMenu, new IVisitor[] { polymerWidgetG, paperdropdownmenuG });
+		setAWidget.put(WidgetTypes.PaperDropdownMenu, new IVisitor[] { polymerWidgetG, paperdropdownmenuG });
 		setAWidget.put(WidgetTypes.PaperMenu, new IVisitor[] { polymerWidgetG, papermenuG });
 		setAWidget.put(WidgetTypes.PaperTabs, new IVisitor[] { polymerWidgetG, papertabsG });
 		setAWidget.put(WidgetTypes.PaperFab, new IVisitor[] { polymerWidgetG, paperfabG });
 		setAWidget.put(WidgetTypes.PaperItem, new IVisitor[] { polymerWidgetG, paperItemG });
 		setAWidget.put(WidgetTypes.PaperItemBody, new IVisitor[] { polymerWidgetG });
 		setAWidget.put(WidgetTypes.PaperInput, new IVisitor[] { polymerWidgetG, paperinputG });
-		setAWidget.put(WidgetTypes.PaperTextArea, new IVisitor[] { polymerWidgetG, papertextareaG });
+		setAWidget.put(WidgetTypes.PaperTextarea, new IVisitor[] { polymerWidgetG, papertextareaG });
+		setAWidget.put(WidgetTypes.PaperMaterial, new IVisitor[] { polymerWidgetG, papermaterialG });
 	}
 
 	private <T extends Widget> void setAttr(T w, BinderWidget bw, IVisitor<T>... vil) {
@@ -800,7 +815,7 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 			if (!CUtil.EmptyS(v)) {
 				bval = Utils.toB(v);
 				// exception expected
-				dval = DecimalUtils.toDoubleE(v,-1);
+				dval = DecimalUtils.toDoubleE(v, -1);
 			}
 			argW.visit(w, k, v, bval, dval);
 			for (IVisitor<T> vi : vil)
@@ -842,7 +857,7 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 		case PaperHeaderPanel:
 			w = new PaperHeaderPanel(html);
 			break;
-		case PaperToolBar:
+		case PaperToolbar:
 			w = new PaperToolbar(html);
 			break;
 		case Image:
@@ -866,7 +881,7 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 		case PaperMenu:
 			w = new PaperMenu(html);
 			break;
-		case PaperDropDownMenu:
+		case PaperDropdownMenu:
 			w = new PaperDropdownMenu(html);
 			break;
 		case PaperTabs:
@@ -884,8 +899,11 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 		case PaperInput:
 			w = new PaperInput(html);
 			break;
-		case PaperTextArea:
+		case PaperTextarea:
 			w = new PaperTextarea(html);
+			break;
+		case PaperMaterial:
+			w = new PaperMaterial(html);
 			break;
 		default:
 			Utils.errAlertB(LogT.getT().PolymerWidgetNotImplemented(bw.getType().name()));

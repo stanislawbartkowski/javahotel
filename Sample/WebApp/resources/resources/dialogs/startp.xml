@@ -16,6 +16,7 @@
   <button id="binder1" displayname="Binder dialog" actiontype="JMAIN_DIALOG" actionparam="binder1.xml" />
   <button id="binder2" displayname="Binder polymer" actiontype="JMAIN_DIALOG" actionparam="binder2.xml" />
   <button id="combo" displayname="Combo field" actiontype="JMAIN_DIALOG" actionparam="polymercombo.xml" />
+  <button id="edit1" displayname="Password Text" actiontype="JMAIN_DIALOG" actionparam="passwordtext.xml" />
   <button id="paperelements" displayname="Paper"  header=""/>
   <button id="binder3" displayname="Buttons" actiontype="JMAIN_DIALOG" actionparam="binder3.xml" />
   <button id="binder4" displayname="CheckBox" actiontype="JMAIN_DIALOG" actionparam="binder4.xml" />
@@ -26,6 +27,7 @@
   <button id="binder9" displayname="Icon Button" actiontype="JMAIN_DIALOG" actionparam="binder9.xml" />
   <button id="binder10" displayname="Item" actiontype="JMAIN_DIALOG" actionparam="binder10.xml" />
   <button id="binder11" displayname="Input" actiontype="JMAIN_DIALOG" actionparam="binder11.xml" />
+  <button id="binder12" displayname="Material" actiontype="JMAIN_DIALOG" actionparam="binder12.xml" />
 </leftstack>  
 
 <buttons>
