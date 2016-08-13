@@ -79,6 +79,7 @@ public interface IUIConsts {
 	String JVALATTRCHECK = "JVALATTR_CHECKLIST_";
 	String JSETATTRBUTTON = "JSETATTR_BUTTON_";
 	String JSETATTRFIELD = "JSETATTR_FIELD_";
+	String JSETBINDERFIELD = "JSETATTR_BINDER_";
 
 	String DATELINE_STARTYEAR = "dateline_startyear";
 	String DATELINE_ENDYEAR = "dateline_endyear";
@@ -99,7 +100,7 @@ public interface IUIConsts {
 	int PANELMENUDEFAH = 10;
 	String PANELMENUNAME = "Down";
 
-	String UIVersion = "UI : 2016/08/04 (r 2.00)";
+	String UIVersion = "UI : 2016/08/13 (r 2.00)";
 
 	String JBUTTONDIALOGSTART = "JUPDIALOG_START";
 	String JBUTTONDIALOGSTART1 = "JUPDIALOG_STARTPAR";

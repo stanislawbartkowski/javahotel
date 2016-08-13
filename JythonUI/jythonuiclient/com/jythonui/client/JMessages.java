@@ -111,9 +111,13 @@ public interface JMessages extends Messages {
 	String ListOfImagesDoNotComply(String field, String paramImages, String list, int no);
 
 	String CannotReadBinderFile(String fileName);
-	
-	String PanelBinderCannotFindWidget(String filename,String id);
-	
-	String PanelBinderBadWidgetType(String filename,String id,String giventype, String expectedtype);
+
+	String PanelBinderCannotFindWidget(String filename, String id);
+
+	String PanelBinderBadWidgetType(String filename, String id, String giventype, String expectedtype);
+
+	String SetBinderAttributeNoId(String id);
+
+	String InternalSetBinderAttributeNoId(String id);
 
 }

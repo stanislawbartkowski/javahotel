@@ -15,6 +15,7 @@ package com.gwtmodel.table.slotmodel;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
 import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
@@ -25,18 +26,18 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.common.PersistTypeEnum;
-import com.gwtmodel.table.controler.BoxActionMenuOptions;
+import com.gwtmodel.table.controlbuttonview.GetButtons;
 import com.gwtmodel.table.editw.FormLineContainer;
 import com.gwtmodel.table.editw.IFormChangeListener;
 import com.gwtmodel.table.editw.IFormLineView;
 import com.gwtmodel.table.editw.ITouchListener;
-import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.listdataview.DataIntegerSignal;
 import com.gwtmodel.table.listdataview.GetVListSignal;
 import com.gwtmodel.table.listdataview.NoPropertyColumn;
 import com.gwtmodel.table.mm.LogT;
 import com.gwtmodel.table.panelview.BinderWidgetSignal;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
+import com.gwtmodel.table.view.util.CreateFormView;
 
 /**
  * @author hotel Static utility for making bringing object more easy
@@ -45,6 +46,12 @@ public class SlU {
 
 	private SlU() {
 	}
+	
+	@Inject
+	private static SlotSignalContextFactory slContextFactory;
+	
+	@Inject
+	private static SlotTypeFactory slTypeFactory;
 
 	/**
 	 * Get IVModelData identified by index (integer)
@@ -262,8 +269,6 @@ public class SlU {
 	 *            String to be asked
 	 */
 	public static void publishValidWithAsk(IDataType dType, ISlotable iSlo, ISlotSignalContext slContext, String ask) {
-		SlotTypeFactory slTypeFactory = GwtGiniInjector.getI().getSlotTypeFactory();
-		SlotSignalContextFactory slContextFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
 
 		SlotType sl = slTypeFactory.construct(dType, DataActionEnum.ValidSignal);
 		CustomObjectValue<String> c = new CustomObjectValue<String>(ask);
@@ -287,8 +292,6 @@ public class SlU {
 	 */
 	public static void publishActionPersist(IDataType dType, ISlotable iSlo, ISlotSignalContext slContext,
 			DataActionEnum action, PersistTypeEnum persistTypeEnum) {
-		SlotTypeFactory slTypeFactory = GwtGiniInjector.getI().getSlotTypeFactory();
-		SlotSignalContextFactory slContextFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
 
 		SlotType sl = slTypeFactory.construct(dType, action);
 		ISlotSignalContext slC = slContextFactory.construct(sl, slContext, persistTypeEnum);
@@ -297,8 +300,6 @@ public class SlU {
 
 	public static void publishDataAction(IDataType dType, ISlotable iSlo, ISlotSignalContext slContext,
 			DataActionEnum action) {
-		SlotTypeFactory slTypeFactory = GwtGiniInjector.getI().getSlotTypeFactory();
-		SlotSignalContextFactory slContextFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
 
 		SlotType sl = slTypeFactory.construct(dType, action);
 		ISlotSignalContext slC = slContextFactory.construct(sl, slContext);
@@ -394,21 +395,12 @@ public class SlU {
 		@Override
 		public void replaceWidget(Widget w) {
 			// TODO Auto-generated method stub
-			
+
 		}
 	}
 
 	public static IFormLineView contructObjectValue(Object val) {
 		return new GetValueContainer(val);
-	}
-
-	public static void publishActionResignWithWarning(IDataType dType, ISlotable iSlo, ISlotSignalContext slContext) {
-		SlotSignalContextFactory slContextFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
-		SlotType sl = BoxActionMenuOptions.constructSRemoveFormDialogSlotType(dType);
-		CustomObjectValue<String> c = new CustomObjectValue<String>(
-				"Na pewno rezygnujesz ? (Wszystkie zmiany przepadną)");
-		ISlotSignalContext slC = slContextFactory.construct(sl, slContext, c);
-		iSlo.getSlContainer().publish(slC);
 	}
 
 	public static void changeEnable(IDataType dType, ISlotable iSlo, IVField v, boolean enable) {
@@ -457,11 +449,24 @@ public class SlU {
 	public static BinderWidgetSignal getBW(IDataType dType, ISlotable iSlo) {
 		ISlotCustom sl = BinderWidgetSignal.constructSlotLineErrorSignal(dType);
 		ISlotSignalContext i = iSlo.getSlContainer().getGetterCustom(sl);
-		if (i == null) return null;
+		if (i == null)
+			return null;
 		ICustomObject o = i.getCustom();
 		BinderWidgetSignal bw = (BinderWidgetSignal) o;
 		if (bw.getValue() == null)
 			return null;
 		return bw;
 	}
+
+	public static CreateFormView.IGetButtons getButtons(IDataType dType, ISlotable iSlo) {
+		ISlotCustom sl = GetButtons.constructSlot(dType);
+		ISlotSignalContext i = iSlo.getSlContainer().getGetterCustom(sl);
+		if (i != null) {
+			GetButtons g = (GetButtons) i.getCustom();
+			if (g != null)
+				return g.getValue();
+		}
+		return null;
+	}
+
 }

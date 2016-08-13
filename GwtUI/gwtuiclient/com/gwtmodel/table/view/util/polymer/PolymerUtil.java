@@ -12,15 +12,11 @@
  */
 package com.gwtmodel.table.view.util.polymer;
 
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.logical.shared.AttachEvent;
-import com.google.gwt.event.logical.shared.InitializeEvent;
-import com.google.gwt.event.logical.shared.InitializeHandler;
-import com.google.gwt.event.logical.shared.OpenEvent;
-import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
+import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
@@ -32,8 +28,6 @@ import com.vaadin.polymer.iron.widget.IronDropdown;
 import com.vaadin.polymer.iron.widget.IronIcon;
 import com.vaadin.polymer.iron.widget.event.IronOverlayClosedEvent;
 import com.vaadin.polymer.iron.widget.event.IronOverlayClosedEventHandler;
-import com.vaadin.polymer.iron.widget.event.IronOverlayOpenedEvent;
-import com.vaadin.polymer.iron.widget.event.IronOverlayOpenedEventHandler;
 import com.vaadin.polymer.paper.widget.PaperButton;
 import com.vaadin.polymer.paper.widget.PaperDialog;
 
@@ -42,9 +36,28 @@ public class PolymerUtil {
 	private PolymerUtil() {
 
 	}
+	
+	@Inject
+	private static IGetStandardMessage iMess;
+  
+	public static String convert(String s) {
+		StringBuffer b = new StringBuffer(s);
+		while (true) {
+			int i = b.indexOf(IConsts.RESBEG);
+			if (i == -1)
+				break;
+			int k = b.indexOf(IConsts.RESEND, i);
+			if (k == -1)
+				break;
+			String res = b.substring(i + 1, k);
+			// together with $
+			String v = iMess.getMessage(res);
+			b.replace(i, k + 2, v);
+		}
+		return b.toString();
+	}
 
 	static void setTitleMess(Label ltitle, Label lmess, String title, String mess) {
-		IGetStandardMessage iMess = GwtGiniInjector.getI().getStandardMessage();
 		if (!CUtil.EmptyS(title))
 			ltitle.setText(iMess.getMessage(title));
 		lmess.setText(iMess.getMessage(mess));

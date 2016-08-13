@@ -12,31 +12,38 @@
  */
 package com.gwtmodel.table.buttoncontrolmodel;
 
+import com.google.inject.Inject;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 
-class ControlButtonImages {
+public class ControlButtonImages {
 
-    static String getImageName(IGetCustomValues cValues,
-            ClickButtonType.StandClickEnum actionId) {
-        switch (actionId) {
-        case FIND:
-            return cValues.getCustomValue(IGetCustomValues.FINDIMAGE);
-        case FILTRLIST:
-            return cValues.getCustomValue(IGetCustomValues.FILTRIMAGE);
-        case ADDITEM:
-            return cValues.getCustomValue(IGetCustomValues.ADDITEMIMAGE);
-        case MODIFITEM:
-            return cValues.getCustomValue(IGetCustomValues.MODIFITEMIMAGE);
-        case REMOVEITEM:
-            return cValues.getCustomValue(IGetCustomValues.REMOVEITEMIMAGE);
-        case SHOWITEM:
-            return cValues.getCustomValue(IGetCustomValues.SHOWITEMIMAGE);
-        case TABLEDEFAULTMENU:
-            return cValues.getCustomValue(IGetCustomValues.PROPIMAGE);
-        default:
-            break;
-        }
-        return null;
-    }
+	private ControlButtonImages() {
+
+	}
+
+	@Inject
+	private static IGetCustomValues cValues;
+
+	static String getImageName(ClickButtonType.StandClickEnum actionId) {
+		switch (actionId) {
+		case FIND:
+			return cValues.getCustomValue(IGetCustomValues.FINDIMAGE);
+		case FILTRLIST:
+			return cValues.getCustomValue(IGetCustomValues.FILTRIMAGE);
+		case ADDITEM:
+			return cValues.getCustomValue(IGetCustomValues.ADDITEMIMAGE);
+		case MODIFITEM:
+			return cValues.getCustomValue(IGetCustomValues.MODIFITEMIMAGE);
+		case REMOVEITEM:
+			return cValues.getCustomValue(IGetCustomValues.REMOVEITEMIMAGE);
+		case SHOWITEM:
+			return cValues.getCustomValue(IGetCustomValues.SHOWITEMIMAGE);
+		case TABLEDEFAULTMENU:
+			return cValues.getCustomValue(IGetCustomValues.PROPIMAGE);
+		default:
+			break;
+		}
+		return null;
+	}
 }

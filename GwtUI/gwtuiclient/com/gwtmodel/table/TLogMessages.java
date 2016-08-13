@@ -165,5 +165,7 @@ public interface TLogMessages extends Messages {
 	String ReplaceTypeNotCorrect(String desc, String expectedType, String givenType);
 
 	String PolymerWidgetNotImplemented(String wType);
+	
+	String WidgetToSetAttrNotImplemented();
 
 }

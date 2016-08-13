@@ -10,31 +10,26 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.binder;
+package com.gwtmodel.table.view.binder.impl;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ButtonBase;
 import com.google.gwt.user.client.ui.FocusWidget;
-import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.Utils;
-import com.gwtmodel.table.binder.BinderWidget;
 import com.gwtmodel.table.binder.WidgetTypes;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.DecimalUtils;
 import com.gwtmodel.table.mm.LogT;
 import com.gwtmodel.table.smessage.IGetStandardMessage;
+import com.gwtmodel.table.view.binder.ISetWidgetAttribute;
+import com.gwtmodel.table.view.util.polymer.PolymerUtil;
 import com.vaadin.polymer.PolymerWidget;
 import com.vaadin.polymer.iron.widget.IronIcon;
 import com.vaadin.polymer.paper.widget.PaperButton;
@@ -49,7 +44,6 @@ import com.vaadin.polymer.paper.widget.PaperIconButton;
 import com.vaadin.polymer.paper.widget.PaperIconItem;
 import com.vaadin.polymer.paper.widget.PaperInput;
 import com.vaadin.polymer.paper.widget.PaperItem;
-import com.vaadin.polymer.paper.widget.PaperItemBody;
 import com.vaadin.polymer.paper.widget.PaperMaterial;
 import com.vaadin.polymer.paper.widget.PaperMenu;
 import com.vaadin.polymer.paper.widget.PaperTabs;
@@ -57,34 +51,10 @@ import com.vaadin.polymer.paper.widget.PaperTextarea;
 import com.vaadin.polymer.paper.widget.PaperToolbar;
 
 @SuppressWarnings("unchecked")
-public class CreateBinderWidget implements ICreateBinderWidget {
-
-	private final IGetStandardMessage cValues;
-
-	@Inject
-	public CreateBinderWidget(IGetStandardMessage cValues) {
-		this.cValues = cValues;
-	}
+public class SetWidgetAttribute implements ISetWidgetAttribute {
 
 	private interface IVisitor<T extends Widget> {
 		void visit(T w, String k, String v, boolean bv, double dv);
-	}
-
-	private String convert(String s) {
-		StringBuffer b = new StringBuffer(s);
-		while (true) {
-			int i = b.indexOf(IConsts.RESBEG);
-			if (i == -1)
-				break;
-			int k = b.indexOf(IConsts.RESEND, i);
-			if (k == -1)
-				break;
-			String res = b.substring(i + 1, k);
-			// together with $
-			String v = cValues.getMessage(res);
-			b.replace(i, k + 2, v);
-		}
-		return b.toString();
 	}
 
 	private final static IVisitor<Widget> argW = new IVisitor<Widget>() {
@@ -805,153 +775,48 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 		setAWidget.put(WidgetTypes.PaperMaterial, new IVisitor[] { polymerWidgetG, papermaterialG });
 	}
 
-	private <T extends Widget> void setAttr(T w, BinderWidget bw, IVisitor<T>... vil) {
-		Iterator<String> i = bw.getKeys();
-		while (i.hasNext()) {
-			String k = i.next();
-			String v = convert(bw.getAttr(k));
-			boolean bval = false;
-			double dval = -1;
-			if (!CUtil.EmptyS(v)) {
-				bval = Utils.toB(v);
-				// exception expected
-				dval = DecimalUtils.toDoubleE(v, -1);
-			}
-			argW.visit(w, k, v, bval, dval);
-			for (IVisitor<T> vi : vil)
-				vi.visit(w, k, v, bval, dval);
-
+	private WidgetTypes widgetToType(Widget w) {
+		String typeName = w.getClass().getSimpleName();
+		try {
+			return WidgetTypes.valueOf(typeName);
+		} catch (IllegalArgumentException e) {
+			Utils.errAlertB(typeName, LogT.getT().WidgetToSetAttrNotImplemented());
+			return null;
 		}
 	}
 
-	private void setWAttribute(Widget w, BinderWidget bw) {
-		if (bw.isFieldId())
-			Utils.setWidgetAttribute(w, BinderWidget.FIELDID, bw.getFieldId());
-		setAttr(w, bw, setAWidget.get(bw.getType()));
-	}
-
-	private Widget createWidget(BinderWidget bw) {
-		Widget w = null;
-		String html = "";
-		if (!CUtil.EmptyS(bw.getContentHtml()))
-			html = convert(bw.getContentHtml());
-		switch (bw.getType()) {
-		case HTMLPanel:
-			w = new HTMLPanel(html);
-			break;
-		case Button:
-			w = new Button(html);
-			break;
-		case Label:
-			w = new Label(html);
-			break;
-		case PaperIconItem:
-			w = new PaperIconItem(html);
-			break;
-		case IronIcon:
-			w = new IronIcon(html);
-			break;
-		case PaperButton:
-			w = new PaperButton(html);
-			break;
-		case PaperHeaderPanel:
-			w = new PaperHeaderPanel(html);
-			break;
-		case PaperToolbar:
-			w = new PaperToolbar(html);
-			break;
-		case Image:
-			w = new Image(html);
-			break;
-		case PaperIconButton:
-			w = new PaperIconButton(html);
-			break;
-		case PaperDrawerPanel:
-			w = new PaperDrawerPanel(html);
-			break;
-		case PaperCheckbox:
-			w = new PaperCheckbox(html);
-			break;
-		case PaperDialog:
-			w = new PaperDialog(html);
-			break;
-		case PaperDialogScrollable:
-			w = new PaperDialogScrollable(html);
-			break;
-		case PaperMenu:
-			w = new PaperMenu(html);
-			break;
-		case PaperDropdownMenu:
-			w = new PaperDropdownMenu(html);
-			break;
-		case PaperTabs:
-			w = new PaperTabs(html);
-			break;
-		case PaperFab:
-			w = new PaperFab(html);
-			break;
-		case PaperItem:
-			w = new PaperItem(html);
-			break;
-		case PaperItemBody:
-			w = new PaperItemBody(html);
-			break;
-		case PaperInput:
-			w = new PaperInput(html);
-			break;
-		case PaperTextarea:
-			w = new PaperTextarea(html);
-			break;
-		case PaperMaterial:
-			w = new PaperMaterial(html);
-			break;
-		default:
-			Utils.errAlertB(LogT.getT().PolymerWidgetNotImplemented(bw.getType().name()));
-			break;
-		} // switch
-		setWAttribute(w, bw);
-		if (bw.getwList().isEmpty())
-			return w;
-		if (!(w instanceof HasWidgets))
-			Utils.errAlertB(LogT.getT().BinderCannotHaveWidgets(bw.getType().name()));
-		HTMLPanel h = null;
-		HasWidgets hw = null;
-		if (w instanceof HTMLPanel)
-			h = (HTMLPanel) w;
-		else
-			hw = (HasWidgets) w;
-		// TODO: debug only
-		String elemS = w.toString();
-		for (BinderWidget c : bw.getwList()) {
-			Widget child = createWidget(c);
-			Element ee = h.getElementById(c.getId());
-			if (ee == null)
-				Utils.errAlert(LogT.getT().BinderCannotFindWidget(c.getId()));
-
-			if (h != null) {
-				// String html = h.toString();
-				try {
-					h.addAndReplaceElement(child, ee);
-				} catch (NoSuchElementException e) {
-					Utils.errAlert(c.getId(), bw.getContentHtml(), e);
-				}
-			} else
-				hw.add(child);
-
-		} // for
-		return w;
-	}
-
+	/*
+	 * private WidgetTypes widgetToType(Widget w) {
+	 * 
+	 * if (w instanceof PaperMaterial) return WidgetTypes.PaperMaterial; if (w
+	 * instanceof PaperTextarea) return WidgetTypes.PaperTextarea; if (w
+	 * instanceof PaperInput) return WidgetTypes.PaperInput; if (w instanceof
+	 * PaperItemBody) return WidgetTypes.PaperItemBody; if (w instanceof
+	 * PaperItem) return WidgetTypes.PaperItem; if (w instanceof PaperFab)
+	 * return WidgetTypes.PaperFab; if (w instanceof PaperTabs) return
+	 * WidgetTypes.PaperTabs; if (w instanceof PaperDropdownMenu) return
+	 * WidgetTypes.PaperDropdownMenu; if (w instanceof PaperMenu) return
+	 * WidgetTypes.PaperMenu; if (w instanceof PaperDialogScrollable) return
+	 * WidgetTypes.PaperDialogScrollable; if (w instanceof PaperDialog) return
+	 * WidgetTypes.PaperDialog; if (w instanceof PaperDialog) return
+	 * WidgetTypes.PaperDialog; if (w instanceof PaperDialog) return
+	 * WidgetTypes.PaperDialog; if (w instanceof PaperDialog) return
+	 * WidgetTypes.PaperDialog; }
+	 */
+	@SuppressWarnings("rawtypes")
 	@Override
-	public HTMLPanel create(BinderWidget w) {
-		if (w.getwList().isEmpty())
-			Utils.errAlertB(LogT.getT().BinderWidgetNoPanels());
-		BinderWidget p = w.getwList().get(0);
-		Widget ww = createWidget(p);
-		if (ww instanceof HTMLPanel)
-			return (HTMLPanel) ww;
-		Utils.errAlert(LogT.getT().BinderNotHTMLPanel(p.getType().name()));
-		return null;
+	public void setAttr(Widget w, String attr, String val) {
+		String v = PolymerUtil.convert(val);
+		boolean bval = false;
+		double dval = -1;
+		if (!CUtil.EmptyS(v)) {
+			bval = Utils.toB(v);
+			// exception expected
+			dval = DecimalUtils.toDoubleE(v, -1);
+		}
+		argW.visit(w, attr, v, bval, dval);
+		for (IVisitor vi : setAWidget.get(widgetToType(w)))
+			vi.visit(w, attr, v, bval, dval);
 	}
 
 }

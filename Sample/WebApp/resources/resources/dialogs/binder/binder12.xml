@@ -64,7 +64,7 @@
                 tap
             </p:PaperMaterial>
 
-            <p:PaperMaterial fieldid="fabMaterial" addStyleNames="fab layout center-center" elevation="0" animated="true">
+            <p:PaperMaterial fieldid="fabMaterial" addStyleNames="fab layout center-center" elevation="0" animated="true" >
                 tap
             </p:PaperMaterial>
         </section>

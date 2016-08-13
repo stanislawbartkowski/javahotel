@@ -25,6 +25,7 @@ import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IGFocusWidget;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IGetDataList;
 import com.gwtmodel.table.IGetDataListCallBack;
@@ -73,10 +74,12 @@ import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.tabpanelview.BeforeTabChange;
 import com.gwtmodel.table.tabpanelview.ITabPanelView;
 import com.gwtmodel.table.tabpanelview.TabPanelViewFactory;
+import com.gwtmodel.table.view.binder.ISetWidgetAttribute;
 import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.gwtmodel.table.view.helper.HelperDialogFactory;
 import com.gwtmodel.table.view.helper.IStandDialog;
 import com.gwtmodel.table.view.util.AbstractDataModel;
+import com.gwtmodel.table.view.util.CreateFormView;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.jythonui.client.IUIConsts;
 import com.jythonui.client.M;
@@ -153,6 +156,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 	private final IFormGridManager gManager;
 	private final IDateLineManager dManager;
 	private final IChartManager chManager;
+	private final ISetWidgetAttribute iAttr;
 
 	private final IExecuteAfterModalDialog iEx;
 
@@ -171,8 +175,6 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 	private final List<IDialogContainer> modelessList = new ArrayList<IDialogContainer>();
 
 	private final GetSuggestList iSuggest = new GetSuggestList();
-
-	private final boolean mainD;
 
 	DialogContainer(IDataType dType, DialogInfo info, IVariablesContainer pCon, ISendCloseAction iClose,
 			DialogVariables addV, IExecuteAfterModalDialog iEx, String[] startVal, ICustomClickAction iCustomClick,
@@ -208,7 +210,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 		// executeJS = UIGiniInjector.getI().getExecuteJS();
 		executeBack = UIGiniInjector.getI().getExecuteBackAction();
 		this.iCustomClick = iCustomClick;
-		this.mainD = mainD;
+		iAttr = GwtGiniInjector.getI().getSetWidgetAttribute();
 	}
 
 	private class CButton implements ISlotListener {
@@ -1360,6 +1362,38 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 				}
 			};
 			JUtils.visitListOfFields(arg, IUIConsts.JDATELINE_GOTODATE, gotoDL);
+
+			JUtils.IVisitor binderAttr = new JUtils.IVisitor() {
+
+				@Override
+				public void action(String fie, String field) {
+					SplitIntoTwo t = new SplitIntoTwo();
+					t.extract(fie, field, IUIConsts.JSETATTRFIELD);
+					FieldValue val = arg.getValue(field);
+					String valS = FUtils.getValueS(val.getValue(), val.getType(), val.getAfterdot());
+					FieldItem fI = d.findFieldItem(t.id);
+					if (fI != null) {
+						IVField v = VField.construct(fI);
+						IFormLineView vi = SlU.getVWidget(dType, DialogContainer.this, v);
+						iAttr.setAttr(vi.getGWidget(), t.action, valS);
+						return;
+					}
+					ButtonItem b = DialogFormat.findE(d.getButtonList(), t.id);
+					CreateFormView.IGetButtons iG = SlU.getButtons(dType, DialogContainer.this);
+					if (b != null && iG != null) {
+						IGFocusWidget g = null;
+						for (int i = 0; i < iG.getDList().size(); i++)
+							if (CUtil.EqNS(iG.getDList().get(i).getCustomButt(), t.id))
+								g = iG.getBList().get(i);
+						if (g == null)
+							Utils.errAlertB(d.getId(), M.M().InternalSetBinderAttributeNoId(t.id));
+						iAttr.setAttr(g.getGWidget(), t.action, valS);
+						return;
+					}
+					Utils.errAlertB(d.getId(), M.M().SetBinderAttributeNoId(t.id));
+				}
+			};
+			JUtils.visitListOfFields(arg, IUIConsts.JSETBINDERFIELD, binderAttr);
 
 			// suggestion values
 			iSuggest.setSuggestionList(arg);

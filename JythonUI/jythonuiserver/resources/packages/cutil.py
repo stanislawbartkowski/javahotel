@@ -66,7 +66,13 @@ def setSpinnerMax(var,fie,val) :
 def hideButton(var,li,hide=True) :
     if type(li) != list : li = [li]
     for buttid in li :
-      var["JSETATTR_BUTTON_"+buttid+"_hidden"] = hide  
+      var["JSETATTR_BUTTON_"+buttid+"_hidden"] = hide
+      
+def setBinderAttr(var,id,attr,val) :
+    var["JSETATTR_BINDER_" + id + "_" + attr] = val
+    
+def setElevationAttr(var,id,val) :
+    setBinderAttr(var,id,"elevation",val)
 
 def setEditListActionOk(var,li,ok=True) :
    var["JLIST_EDIT_ACTIONOK_" + li] = ok
@@ -226,6 +232,11 @@ def setCopy(var,li, listt=None,prefix=None) :
     if prefix : k = prefix + l
     else : k = l
     var[c+k] = True
+
+def setCopyL(var,*arg) :
+    l = []
+    for e in arg : l.append(e)
+    cutil.setCopy(var,l)
 
 def setGlobCopy(var,li) :
   if type(li) != list :

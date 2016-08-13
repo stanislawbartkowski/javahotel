@@ -16,7 +16,9 @@ import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.Singleton;
 import com.google.inject.name.Names;
 import com.gwtmodel.table.IConsts;
+import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonFactory;
+import com.gwtmodel.table.buttoncontrolmodel.ControlButtonImages;
 import com.gwtmodel.table.chooselist.ChooseListFactory;
 import com.gwtmodel.table.composecontroller.ComposeControllerFactory;
 import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
@@ -42,6 +44,7 @@ import com.gwtmodel.table.panelview.PanelViewFactory;
 import com.gwtmodel.table.readres.ReadResFactory;
 import com.gwtmodel.table.slotmediator.ISlotMediator;
 import com.gwtmodel.table.slotmediator.SlotMediatorFactory;
+import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.slotmodel.SlotTypeFactory;
@@ -49,8 +52,10 @@ import com.gwtmodel.table.smessage.GetStandardMessage;
 import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.gwtmodel.table.stackpanelcontroller.StackPanelControllerFactory;
 import com.gwtmodel.table.tabpanelview.TabPanelViewFactory;
-import com.gwtmodel.table.view.binder.CreateBinderWidget;
 import com.gwtmodel.table.view.binder.ICreateBinderWidget;
+import com.gwtmodel.table.view.binder.ISetWidgetAttribute;
+import com.gwtmodel.table.view.binder.impl.CreateBinderWidget;
+import com.gwtmodel.table.view.binder.impl.SetWidgetAttribute;
 import com.gwtmodel.table.view.button.IImgButton;
 import com.gwtmodel.table.view.button.ImgButtonFactory;
 import com.gwtmodel.table.view.button.gwt.ImgButtonGwtImpl;
@@ -69,6 +74,7 @@ import com.gwtmodel.table.view.panel.GwtPanelViewFactory;
 import com.gwtmodel.table.view.pullmenu.PullMenuFactory;
 import com.gwtmodel.table.view.stackpanel.ViewStackPanelFactory;
 import com.gwtmodel.table.view.stackvertical.StackPanelFactory;
+import com.gwtmodel.table.view.util.polymer.PolymerUtil;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.gwtmodel.table.view.webpanel.WebPanelFactory;
 
@@ -117,8 +123,10 @@ public class GwtTableInjectModule extends AbstractGinModule {
 		bind(IDatePanelScroll.class).to(WidgetScrollSeasonFactory.class).in(Singleton.class);
 		bind(IDisclosurePanelFactory.class).to(DisclosurePanelFactory.class).in(Singleton.class);
 		bind(ICreateBinderWidget.class).to(CreateBinderWidget.class).in(Singleton.class);
+		bind(ISetWidgetAttribute.class).to(SetWidgetAttribute.class).in(Singleton.class);
 		requestStaticInjection(ImgButtonFactory.class, ControlButtonViewFactory.class, EditWidgetFactory.class,
 				GridViewFactory.class, GwtPanelViewFactory.class, ChooseListFactory.class, PanelViewFactory.class,
-				LoginViewFactory.class, TabPanelViewFactory.class);
+				LoginViewFactory.class, TabPanelViewFactory.class, PolymerUtil.class, ControlButtonImages.class,
+				SlU.class, Utils.class);
 	}
 }

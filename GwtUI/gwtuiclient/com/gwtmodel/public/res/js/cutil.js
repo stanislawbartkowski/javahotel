@@ -33,6 +33,36 @@ var CUTIL = (function() {
 	my.download = function(param) {
 		return my.launchdialog(param, "mail/attachdownload.xml");
 	}
+	
+	  my.setBinderAttr = function(v,id,attr,val) {
+//	      alert(id + attr + val);
+	      v["JSETATTR_BINDER_" + id + "_" + attr] = val
+	  };
+	  
+	  my.setElevationAttr = function(v,id,val) {
+	      my.setBinderAttr(v,id,"elevation",val)
+	  };
+	  
+	  my.setCopyL = function() {
+	    v = arguments[0];
+	    for (var i=1; i < arguments.length; i++) {
+	      var va = arguments[i];
+	      v["JCOPY_" + va] = true;
+	    }
+	  };
+	  
+	  my.setVarI = function(v,id,val) {
+	    v[id] = val;
+	    v[id + "_T"] = "int";
+	    my.setCopyL(v,id);
+	  };
+
+	  my.setVarB = function(v,id,val) {
+	    v[id] = val;
+	    v[id + "_T"] = "bool";
+	    my.setCopyL(v,id);
+	  };
+
 
 	return my;
 }());

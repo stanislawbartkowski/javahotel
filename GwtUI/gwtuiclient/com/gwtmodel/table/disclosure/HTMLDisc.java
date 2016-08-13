@@ -20,12 +20,9 @@ import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.controlbuttonview.GetButtons;
 import com.gwtmodel.table.editw.FormLineContainer;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
-import com.gwtmodel.table.slotmodel.ISlotCustom;
-import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.smessage.IGetStandardMessage;
@@ -80,13 +77,14 @@ class HTMLDisc extends AbstractSlotContainer implements ISlotable {
 		FormLineContainer fC = SlU.getFormLineContainer(publishType, this);
 		if (fC != null)
 			CreateFormView.setHtml(pa, fC.getfList(), null);
-		ISlotCustom sl = GetButtons.constructSlot(publishType);
-		ISlotSignalContext i = getSlContainer().getGetterCustom(sl);
-		if (i != null) {
-			GetButtons g = (GetButtons) i.getCustom();
-			CreateFormView.IGetButtons iG = g.getValue();
+		// ISlotCustom sl = GetButtons.constructSlot(publishType);
+		// ISlotSignalContext i = getSlContainer().getGetterCustom(sl);
+		// if (i != null) {
+		// GetButtons g = (GetButtons) i.getCustom();
+		// CreateFormView.IGetButtons iG = g.getValue();
+		CreateFormView.IGetButtons iG = SlU.getButtons(publishType, this);
+		if (iG != null)
 			CreateFormView.setHtml(pa, iG, null);
-		}
 		publish(publishType, cellId, new GWidget(di));
 	}
 

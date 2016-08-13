@@ -12,10 +12,10 @@
  */
 package com.gwtmodel.table.view.binder;
 
-import com.google.gwt.user.client.ui.HTMLPanel;
-import com.gwtmodel.table.binder.BinderWidget;
+import com.google.gwt.user.client.ui.Widget;
 
-public interface ICreateBinderWidget {
+public interface ISetWidgetAttribute {
+	
+	void setAttr(Widget w,String attr,String val);
 
-	HTMLPanel create(BinderWidget w);	
 }

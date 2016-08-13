@@ -31,15 +31,21 @@ import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.factories.IGetCustomValues;
-import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.mm.LogT;
 
 public class Utils {
+
+	private Utils() {
+
+	}
+
+	@Inject
+	private static IGetCustomValues c;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static <T> boolean eqI(IEquatable e1, IEquatable e2) {
@@ -66,11 +72,6 @@ public class Utils {
 		return t1 == t2;
 	}
 
-	public static HTML createHTML(final String s) {
-		HTML ha = new HTML("<a href='javascript:;'>" + s + "</a>");
-		return ha;
-	}
-
 	private static String addPath(String path, String file) {
 		int len = path.length();
 		if ((len != 0) && path.charAt(len - 1) == '/') {
@@ -92,7 +93,6 @@ public class Utils {
 
 	public static String getResAdr(final String res) {
 		String path;
-		IGetCustomValues c = GwtGiniInjector.getI().getCustomValues();
 		String resF = c.getCustomValue(IGetCustomValues.RESOURCEFOLDER);
 		path = GWT.getModuleBaseURL();
 		if (CUtil.EmptyS(resF)) {
@@ -102,7 +102,6 @@ public class Utils {
 	}
 
 	public static String getImageAdr(final String image) {
-		IGetCustomValues c = GwtGiniInjector.getI().getCustomValues();
 		String folder = c.getCustomValue(IGetCustomValues.IMAGEFOLDER);
 		String img;
 		if (CUtil.EmptyS(folder)) {
@@ -166,7 +165,6 @@ public class Utils {
 	}
 
 	public static String getCValue(String key) {
-		IGetCustomValues c = GwtGiniInjector.getI().getCustomValues();
 		assert c != null : LogT.getT().cannotBeNull();
 		String f = c.getCustomValue(key);
 		return f;
@@ -231,13 +229,11 @@ public class Utils {
 
 	// some 'log' utilities
 	public static boolean TrueL(String s) {
-		IGetCustomValues c = GwtGiniInjector.getI().getCustomValues();
 		String yesv = c.getCustomValue(IGetCustomValues.YESVALUE);
 		return CUtil.EqNS(s, yesv);
 	}
 
 	public static String LToS(boolean l) {
-		IGetCustomValues c = GwtGiniInjector.getI().getCustomValues();
 		if (l)
 			return c.getCustomValue(IGetCustomValues.YESVALUE);
 
@@ -261,18 +257,6 @@ public class Utils {
 			return true;
 		}
 		return false;
-	}
-
-	// -------------
-	public static int CalculateNOfRows(WSize w) {
-		int up = 0;
-		if (w != null) {
-			up = w.getTop();
-		}
-		int he = Window.getClientHeight();
-
-		int size = (he - up - 10) / 30;
-		return size;
 	}
 
 	public static String getURLParam(String key) {
@@ -430,7 +414,6 @@ public class Utils {
 	}
 
 	private static String jPrefix() {
-		IGetCustomValues c = GwtGiniInjector.getI().getCustomValues();
 		String j = c.getCustomValue(IGetCustomValues.JCOOKIEPREFIX);
 		if (j != null)
 			return j;
