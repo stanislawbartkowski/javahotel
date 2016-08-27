@@ -23,10 +23,11 @@ public class Transform {
 	public static void main(String[] args) throws TransformerFactoryConfigurationError, Exception {
 
 		if (args.length != 2) {
-			P("Utworzenie plikow do wysylki (2016/08/21 r:0)");
+			P("Utworzenie plików do wysyłki (2016/08/21 r:0)");
+			P("Plik InitUpload.xml powinien być następnie podpisany cyfrowo");
 			P("");
-			P("Wywolanie:");
-			P("JPK <configuration file> <vatfile>");
+			P("Wywołanie:");
+			P("Transform <configuration file> <vatfile>");
 			System.exit(4);
 		}
 		JPK.Prepare(args[0], args[1]);

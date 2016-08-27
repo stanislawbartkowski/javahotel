@@ -40,10 +40,18 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-public class UPLOAD {
+/**
+ * 
+ * @author sbartkowski
+ * 
+ * Class to conduct data uploading and receiving the final status
+ *
+ */
 
+public class UPLOAD {
+	
 	private static boolean post_blob(INIT i) throws IOException {
-		LOG.log("Teraz wysylam zakodowany plik");
+		LOG.log("Teraz wysyłam zakodowany plik");
 		URL url = new URL(i.getFileURL());
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setDoOutput(true);
@@ -151,7 +159,7 @@ public class UPLOAD {
 
 	private static INIT post_init() throws CertificateException, NoSuchAlgorithmException, IOException,
 			KeyStoreException, UnrecoverableKeyException, KeyManagementException {
-		LOG.log("Rozpoczynam wysylanie naglowka");
+		LOG.log("Rozpoczynam wysyłanie nagłówka");
 
 		StringBuffer buf = new StringBuffer();
 		if (!post(new URL(PROP.getURL()), UTIL.getFileData(PROP.getInitOutputFile().getPath()), buf, "application/xml"))
@@ -164,21 +172,37 @@ public class UPLOAD {
 		return i;
 	}
 
+	/**
+	 * Data uploading
+	 * @param conffile Configuration file
+	 * @throws Exception
+	 * 
+	 * Steps implemented
+	 * 1. Upload InitUpload.xml file, keep the result, particularly ReferenceNumber
+	 * 2. Upload encoded data file
+	 * 3. FinishUpload 
+	 */
 	public static void upload(String conffile) throws Exception {
 		PROP.readConf(conffile);
 		try {
+			/** 1. Upload Initupload.xml file */
 			INIT i = post_init();
+			// keep the result in INIT structure
 			if (i == null)
 				System.exit(4);
 			LOG.log("URL  " + i.getFileURL());
 			LOG.log("Reference Number " + i.getReference());
+			// store reference number for later reuse
 			PROP.saveReferenceNumber(i.getReference());
+			/** 2. Upload encoded data file */
 			if (!post_blob(i))
 				System.exit(4);
-			LOG.log("Wyslanie konczacych danych");
+			LOG.log("Wysłanie kończących danych");
+			/** 3. Finish */
 			if (!finish(i))
 				System.exit(4);
-			LOG.log("Wysylanie calej paczki zakonczone sukcesem");
+			LOG.log("Wysyłanie całej paczki zakończone sukcesem");
+			// get the result
 			getUPO(conffile);
 		} catch (Exception e) {
 			LOG.ex(e);
@@ -191,10 +215,10 @@ public class UPLOAD {
 		int code = conn.getResponseCode();
 		InputStream is;
 		if (code >= 400) {
-			LOG.log("Polaczenie zakonczone bledem. Kod bledu " + code);
+			LOG.log("Połączenie zakończone błędem. Kod błędu " + code);
 			is = conn.getErrorStream();
 		} else {
-			LOG.log("Polaczenia zakonczone sukcesem, Kod " + code);
+			LOG.log("Połączenie zakończone sukcesem, Kod " + code);
 			is = conn.getInputStream();
 		}
 		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
@@ -218,11 +242,20 @@ public class UPLOAD {
 		return getResult(conn, buf);
 	}
 
+	/**
+	 * Assuming that uploading is successful, retrieve the status code using ReferenceNumber
+	 * 
+	 * @param conffile Configuration file
+	 * @throws Exception
+	 */
 	public static void getUPO(String conffile) throws Exception {
+		// Read conf data
 		PROP.readConf(conffile);
 		try {
+			// get ReferenceNumber
 			String referenceNumber = PROP.readReferenceNumber();
 			LOG.log("Reference Number " + referenceNumber);
+			// read UPO, status
 			readUPO(referenceNumber);
 		} catch (Exception e) {
 			LOG.ex(e);

@@ -41,8 +41,12 @@ import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-public class JPK {
+/**
+ * Main class for creating and transforming JPK files
+ */
 
+public class JPK {
+	
 	private static final String publicKeyPlaceHolder = "{EncryptionKey}";
 	private static final String hashdocPlaceHolder = "{hashDoc}";
 	private static final String ivfilePlaceHolder = "{ivFile}";
@@ -140,37 +144,65 @@ public class JPK {
 		return toHash(x);
 	}
 
+	/**
+	 * Prepares InitUpload.xml file ready for singing and encodes VAT file containing financial data
+	 * @param conffile Configuration file
+	 * @param vatFile VAT file ready to be uploaded
+	 * @throws Exception
+	 * 
+	 * Steps implemented:
+	 * 1. Generate random symmetric key
+	 * 2. Read public certificate
+	 * 3. Encode symmetric key using public key extracted from certificate
+	 * 4. Generate hash for input file 
+	 * 5. Insert generated value into xml pattern
+	 * 6. Encode compressed VAT input file
+	 * 7. Save encoded file
+	 * 8. Generate MD5 hash for encoded data
+	 * 9. Prepare InitUpload.xml from xml pattern by inserting generated data
+	 * 10. Save the result
+	 */
 	public static void Prepare(String conffile, String vatFile) throws Exception {
 
 		PROP.readConf(conffile, vatFile);
 		try {
-			LOG.log("Kompresuje plik " + vatFile + " na " + PROP.getZipFile().getPath());
+			LOG.log("Kompresuję plik " + vatFile + " na " + PROP.getZipFile().getPath());
+			/** Compress input file */
 			UTIL.zipFile(vatFile, PROP.getZipFile());
-			LOG.log("Generuje klucz symetryczny");
+			LOG.log("Generuję klucz symetryczny");
+			/** 1. Generate symmetric key */
 			Key key = genkey();
-			LOG.log("Odczytuje publiczny certyfikat " + PROP.getPublicKey().getPath());
+			/** 2. Read public certificate */
+			LOG.log("Odczytuję publiczny certyfikat " + PROP.getPublicKey().getPath());
 			X509Certificate cert = readCert(PROP.getPublicKey().getPath());
-			LOG.log("Koduje klucz symetryczny za pomoca klucza publicznego");
+			LOG.log("Koduję klucz symetryczny za pomocą klucza publicznego");
+			/** 3. Encode symmetric key */
 			EncryptedData eKey = encryptKey(cert, key);
-			LOG.log("Obliczam skrot SHA dla pliku " + vatFile);
+			LOG.log("Obliczam skrót SHA dla pliku " + vatFile);
+			/** 4. Generate SHA-256 hash value for input file */
 			String hashDoc = getHashXML(vatFile);
 			assert HASHSIZE == hashDoc.length();
 			String xml = PROP.getPattern();
+			/** 5. Insert generated hash into xml pattern */
 			String xml1 = xml.replace(publicKeyPlaceHolder, eKey.encodedS()).replace(hashdocPlaceHolder, hashDoc);
 
-			LOG.log("Koduje plik " + PROP.getZipFile().getPath() + " za pomoca klucza symetrycznego");
+			LOG.log("Koduję plik " + PROP.getZipFile().getPath() + " za pomocą klucza symetrycznego");
+			/** 6. Encode compressed VAT input file */
 			EncryptedData f = encryptFile(key, UTIL.getZipData());
 
 			// save encoded date
-			LOG.log("Zapamietuje plik w postaci zakodowanej " + PROP.getZipAesFile().getPath());
+			LOG.log("Zapamiętuję plik w postaci zakodowanej " + PROP.getZipAesFile().getPath());
+			/** 7. Save encoded file */
 			FileOutputStream fileOuputStream = new FileOutputStream(PROP.getZipAesFile());
 			fileOuputStream.write(f.encoded());
 			fileOuputStream.close();
 
-			LOG.log("Obliczam skrot MD5 dla zakodowanej czesci");
+			LOG.log("Obliczam skrót MD5 dla zakodowanej części");
+			/** 8. Generate MD5 hash for encoded data */
             String hashEes = toHashMD5(UTIL.getZipAesData());    			
 			assert CONTENTFILEHASHSIZE == hashEes.length();
 
+			/** 9. Prepare InitUpload.xml from xml pattern by inserting generated data */
 			String xml2 = xml1.replace(ivfilePlaceHolder, f.ivS());
 			String xml3 = xml2.replace(xmlfilenamePlaceHolder, PROP.getXMLFile());
 			xml3 = xml3.replace(xmlfilelenPlaceHolder, "" + new File(vatFile).length());
@@ -178,7 +210,8 @@ public class JPK {
 			xml3 = xml3.replace(zipfileaesPlaceHolder, PROP.getZipAesFile().getName());
 			xml3 = xml3.replace(hashFilePlaceHolder, hashEes);
 			Document doc = toE(xml3);
-			LOG.log("Generuje plik naglowkowy " + PROP.getInitOutputFile());
+			LOG.log("Generuję plik nagłówkowy " + PROP.getInitOutputFile());
+			/** 10. Save the result, InitUpload.xml is ready for signing */
 			UTIL.writeXMLToFile(doc, PROP.getInitOutputFile());
 		} catch (Exception e) {
 			LOG.ex(e);

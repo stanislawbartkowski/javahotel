@@ -1,0 +1,40 @@
+<project name="JPK" default="build" xmlns:ivy="antlib:org.apache.ivy.ant">
+   <property name="lib.dir" value="lib" />
+   <property name="src.dir" location="src" />
+   <property name="build.dir" location="bin" />
+   <property name="dist.dir" location="dist" />
+   
+   <target name="resolve" description="retrieve dependencies with ivy">
+	<ivy:retrieve />
+   </target>
+   
+   <path id="classpath">
+    <fileset dir="${basedir}/">
+      <include name="${lib.dir}/*.jar" />
+      </fileset>
+   </path>
+   
+   <target name="compile" depends="resolve" description="Compile the source ">
+     <mkdir dir="${build.dir}" />
+	<javac includeantruntime="false" srcdir="${src.dir}" destdir="${build.dir}" classpathref="classpath" />
+    </target>
+    
+    <target name="jar" depends="compile" description="package, output to JAR">
+
+		<mkdir dir="${dist.dir}" />
+
+		<jar jarfile="${dist.dir}/JPK.jar" basedir="${build.dir}">
+		  <zipgroupfileset dir="lib" includes="*.jar" />
+		</jar>
+	</target>
+	
+   <target name="clean" description="clean up">
+	<delete dir="${dist.dir}" />
+	<delete dir="${build.dir}" />
+	<delete dir="${lib.dir}" />
+   </target>
+   
+  <target name="build" description="Build JPK jar" depends="clean,jar">
+  </target>
+  
+</project>

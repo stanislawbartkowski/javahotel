@@ -21,10 +21,10 @@ public class Upload {
 	public static void main(String[] args) throws Exception {
 
 		if (args.length != 1) {
-			P("Wyslanie przygotowanych plikow (2016/08/21 r:0)");
-			P("");
-			P("Wywolanie:");
-			P("UPLOAD <configuration file>");
+			P("Wysłanie przygotowanych i podpisanych plików (2016/08/21 r:0)");
+			P("Plik InitUpload.xml powinien być prawidłowo podpisany.");
+			P("Wywołanie:");
+			P("Upload <configuration file>");
 			System.exit(4);
 		}
 		UPLOAD.upload(args[0]);

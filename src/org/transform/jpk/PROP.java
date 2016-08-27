@@ -19,7 +19,12 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Properties;
 
+/**
+ * Helper class to keep and save properties
+ */
+
 class PROP {
+	
 
 	private static final Properties prop = new Properties();
 
@@ -46,6 +51,10 @@ class PROP {
 	private static File referenceFile() {
 		return new File(prop.getProperty(WORK), REFERENCENUMBER);
 	}
+	
+	static private File logFile() {
+		return new File(prop.getProperty(WORK),"JPK.log");
+	}
 
 	static private void checkProp(String confFile, boolean clear) throws Exception {
 		String[] props = { CONF, WORK, PUBLICKEY, CERT, URL, FINISH, GET };
@@ -55,21 +64,18 @@ class PROP {
 		File dir = new File(prop.getProperty(CONF));
 		if (!dir.isDirectory())
 			throw new Exception(prop.getProperty(CONF) + " brak takiego katalogu");
-		LOG.setConfig(prop.getProperty(CONF));
 		File w = new File(prop.getProperty(WORK));
 		if (!w.isDirectory())
 			w.mkdir();
 		if (!w.isDirectory())
-			throw new Exception(prop.getProperty(WORK) + " brak takiego katalogu i nie mozna zalozyc");
+			throw new Exception(prop.getProperty(WORK) + " brak takiego katalogu i nie można założyć");
+		LOG.setConfig(prop.getProperty(CONF), logFile().getPath());
 		if (clear) {
-			LOG.log("Czyszczenie katalogu " + prop.getProperty(WORK));
-			for (File f : w.listFiles()) {
-				LOG.log("Usuwam plik " + f.getPath());
-				f.delete();
-			}
+			for (File f : w.listFiles()) f.delete();
 			UTIL.writeFile(fileName(), VATZIP);
 		} else
 			VATZIP = UTIL.getFile(fileName());
+		LOG.setConfig(prop.getProperty(CONF), logFile().getPath());
 		if (!getPublicKey().exists())
 			throw new Exception(getPublicKey().getPath() + " brak pliku z kluczem publicznym do szyfrowania");
 		if (!getCert().exists())
@@ -94,7 +100,7 @@ class PROP {
 		if (!f.exists())
 			throw new IOException(f.getPath() + " plik nie istnieje.");
 		if (f.isDirectory())
-			throw new IOException(prop.getProperty(f.getPath()) + " powinien byc plikiem, nie katalogiem.");
+			throw new IOException(prop.getProperty(f.getPath()) + " powinien być plikiem, nie katalogiem.");
 		return new String(Files.readAllBytes(Paths.get(f.toURI())));
 	}
 

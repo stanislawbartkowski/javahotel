@@ -34,6 +34,13 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 
+/**
+ * Some useful methods
+ * 
+ * @author sbartkowski
+ *
+ */
+
 class UTIL {
 
 	private UTIL() {

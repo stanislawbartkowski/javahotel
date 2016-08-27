@@ -20,10 +20,11 @@ public class GetUPO {
 
 	public static void main(String[] args) throws Exception {
 		if (args.length != 1) {
-			P("Odczytanie UPO (2016/08/21 r:0)");
+			P("Odczytanie UPO (2016/08/24 r:0)");
+			P("Może być wywołany dopiero po pomyślnej transmisji, REFERENCENUMBER powinien zawierać numer wysyłki");
 			P("");
 			P("Wywolanie:");
-			P("GETUPO <configuration file>");
+			P("GetUPO <configuration file>");
 			System.exit(4);
 		}
 		UPLOAD.getUPO(args[0]);
