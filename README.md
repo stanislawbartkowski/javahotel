@@ -19,9 +19,11 @@ Prerequisities.
 
 ---------
 Build
-* Download 
-* ant
-* dist/JPK.jar
+1. Download 
+2. Run ant
+3. Result:  dist/JPK.jar
+-------
+Sample
 * sample/sh : sample script files for every step: 
   * InitUploadSigned : runtransform.sh
   * PutBlob and FinishUpload : runupload.sh
