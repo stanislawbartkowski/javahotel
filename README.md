@@ -12,6 +12,7 @@ This JPK Open Source project is a ready to use implementation of the problem in 
 * FinishUpload method.
 * GetStatus method. Obtain UPO, Urzędowe Potwierdzenie Odbioru, Official Receipt Confirmation
 
+----------
 Build.
 
 Prerequisities. 
