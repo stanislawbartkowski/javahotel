@@ -19,9 +19,9 @@ Prerequisities.
 
 ---------
 Build
-1. Download 
-2. Run ant
-3. Result:  dist/JPK.jar
+* Download 
+* Run ant
+* Result:  dist/JPK.jar
 -------
 Sample
 * sample/sh : sample script files for every step: 
