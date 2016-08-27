@@ -22,9 +22,9 @@ Prerequisities.
 * ant
 * dist/JPK.jar
 * sample/sh : sample script files for every step: 
-    InitUploadSigned : runtransform.sh
-    PutBlob and FinishUpload : runupload.sh
-    GetStatus : rungetupo.sh
+  * InitUploadSigned : runtransform.sh
+  * PutBlob and FinishUpload : runupload.sh
+  * GetStatus : rungetupo.sh
 * sample/conf : sample configuration files
 
 
