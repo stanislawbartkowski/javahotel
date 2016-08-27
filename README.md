@@ -13,12 +13,11 @@ This JPK Open Source project is a ready to use implementation of the problem in 
 * GetStatus method. Obtain UPO, Urzędowe Potwierdzenie Odbioru, Official Receipt Confirmation
 
 ----------
-Build.
-
 Prerequisities. 
 * JDK 8.0
 * Ant and Ivy plugin
-
+------------
+Build
 * Download 
 * ant
 * dist/JPK.jar
