@@ -3,6 +3,7 @@
    <property name="src.dir" location="src" />
    <property name="build.dir" location="bin" />
    <property name="dist.dir" location="dist" />
+   <property name="doc.dir" location="doc" />
    
    <target name="resolve" description="retrieve dependencies with ivy">
 	<ivy:retrieve />
@@ -26,7 +27,11 @@
 		<jar jarfile="${dist.dir}/JPK.jar" basedir="${build.dir}">
 		  <zipgroupfileset dir="lib" includes="*.jar" />
 		</jar>
-	</target>
+   </target>
+   
+  <target name="doc" depends="clean" description="generate documentation">
+    <javadoc sourcepath="${src.dir}" destdir="${doc.dir}"/>
+  </target>
 	
    <target name="clean" description="clean up">
 	<delete dir="${dist.dir}" />

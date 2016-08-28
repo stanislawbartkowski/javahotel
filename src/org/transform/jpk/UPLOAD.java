@@ -176,11 +176,14 @@ public class UPLOAD {
 	 * Data uploading
 	 * @param conffile Configuration file
 	 * @throws Exception
-	 * 
-	 * Steps implemented
-	 * 1. Upload InitUpload.xml file, keep the result, particularly ReferenceNumber
-	 * 2. Upload encoded data file
-	 * 3. FinishUpload 
+	 * <br>
+	 * <br>
+	 * Steps implemented:<br>
+	 * <ul>
+	 * <li>1. Upload InitUpload.xml file, keep the result, particularly ReferenceNumber</li>
+	 * <li>2. Upload encoded data file</li>
+	 * <li>3. FinishUpload</li>
+	 * </ul> 
 	 */
 	public static void upload(String conffile) throws Exception {
 		PROP.readConf(conffile);
@@ -243,7 +246,8 @@ public class UPLOAD {
 	}
 
 	/**
-	 * Assuming that uploading is successful, retrieve the status code using ReferenceNumber
+	 * Assuming that uploading is successful, retrieve the status code using ReferenceNumber.<br>
+	 * ReferenceNumber is stored in the file kept in work directory.<br>
 	 * 
 	 * @param conffile Configuration file
 	 * @throws Exception

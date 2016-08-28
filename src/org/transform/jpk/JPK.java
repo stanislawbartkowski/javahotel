@@ -145,22 +145,29 @@ public class JPK {
 	}
 
 	/**
-	 * Prepares InitUpload.xml file ready for singing and encodes VAT file containing financial data
+	 * Prepares InitUpload.xml file ready for singing.<br> 
+	 * Encodes VAT file containing financial data
+	 * 
+	 * <br>
+	 * Steps implemented:
+	 * <br>
+	 * <ul>
+	 * <li>1. Generate random symmetric key</li>
+	 * <li>2. Read public certificate</li>
+	 * <li>3. Encode symmetric key using public key extracted from certificate</li>
+	 * <li>4. Generate hash for input file </li>
+	 * <li>5. Insert generated value into xml pattern</li>
+	 * <li>6. Encode compressed VAT input file</li>
+	 * <li>7. Save encoded file</li>
+	 * <li>8. Generate MD5 hash for encoded data</li>
+	 * <li>9. Prepare InitUpload.xml from xml pattern by inserting generated data</li>
+	 * <li>10. Save the result</li>
+	 * </ul>
+	 * 
 	 * @param conffile Configuration file
 	 * @param vatFile VAT file ready to be uploaded
 	 * @throws Exception
 	 * 
-	 * Steps implemented:
-	 * 1. Generate random symmetric key
-	 * 2. Read public certificate
-	 * 3. Encode symmetric key using public key extracted from certificate
-	 * 4. Generate hash for input file 
-	 * 5. Insert generated value into xml pattern
-	 * 6. Encode compressed VAT input file
-	 * 7. Save encoded file
-	 * 8. Generate MD5 hash for encoded data
-	 * 9. Prepare InitUpload.xml from xml pattern by inserting generated data
-	 * 10. Save the result
 	 */
 	public static void Prepare(String conffile, String vatFile) throws Exception {
 
