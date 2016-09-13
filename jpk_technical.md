@@ -1,6 +1,8 @@
 # Configuration file
 
-- conf Directory containing a set of artifacts necessary to run the solution. Sample directory is available here.
+Sample configuration file is available [here](https://github.com/stanislawbartkowski/javahotel/blob/jpk/sample/conf/jpk.properties). Following properties should be defined.
+
+- conf Directory containing a set of artifacts necessary to run the solution. Sample directory is available [here](https://github.com/stanislawbartkowski/javahotel/tree/jpk/sample/conf).
   * JPKMFTest-klucz publiczny do szyfrowania.pem :  Public key to encode the symmetric key
   * imitupload-enveloped-pattern.xml : Pattern for creating InitUpload XML file used to initiate the data transmition. The file contains a number of position markers to be replaced by current values. I found this solution more applicable then creating XML file on the fly.
   * log.conf : JUL logging configuration. FileHandler is added automatically, only ConsoleLogger should be defined here.
