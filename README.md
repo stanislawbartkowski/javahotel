@@ -31,5 +31,5 @@ Sample
   * GetStatus : rungetupo.sh
 * sample/conf : sample configuration files
 
-
+[More info]
 
