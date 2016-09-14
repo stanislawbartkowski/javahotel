@@ -13,3 +13,10 @@ Sample configuration file is available [here](https://github.com/stanislawbartko
 - url : The URL to send InitUpload.xml file, transfer initialization.
 - finish : The URL to signal the transmission completion.
 - get : The URL to receive UPO (Urzędowe Potwierdzenie Odbioru), Official Receipt Confirmation.
+
+#Preparing initial data
+
+During this step InitUpload.xml file is created and input financial data are zipped and encrypted. Preparing UnitUpload.xml requires several steps like generating the symmetric key, making MD5 and HASH-256 hash for symmetric key and input data. The procedure is described in comments embedded in [source code](https://github.com/stanislawbartkowski/javahotel/blob/jpk/src/org/transform/jpk/JPK.java).
+
+API method : [JPK.Prepare]((https://github.com/stanislawbartkowski/javahotel/blob/jpk/src/org/transform/jpk/JPK.java) method.
+Command line: [Transform.main](https://github.com/stanislawbartkowski/javahotel/blob/jpk/sample/sh/runtransform.sh) method.
