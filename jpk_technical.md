@@ -21,3 +21,8 @@ During this step InitUpload.xml file is created and input financial data are zip
 API method : [JPK.Prepare](https://github.com/stanislawbartkowski/javahotel/blob/jpk/src/org/transform/jpk/JPK.java) method.
 
 Command line: [Transform.main](https://github.com/stanislawbartkowski/javahotel/blob/jpk/sample/sh/runtransform.sh) method.
+
+#Uploading data to gateway
+This step uses InitUploadSigned, PutBlob and FinishUpload REST API methods.
+API method: [UPLOAD.upload](https://github.com/stanislawbartkowski/javahotel/blob/jpk/src/org/transform/jpk/UPLOAD.java) method.
+Command line: [Upload.main](https://github.com/stanislawbartkowski/javahotel/blob/jpk/sample/sh/runupload.sh) method.
