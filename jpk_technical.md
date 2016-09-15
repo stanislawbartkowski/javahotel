@@ -23,8 +23,7 @@ API method : [JPK.Prepare](https://github.com/stanislawbartkowski/javahotel/blob
 Command line: [Transform.main](https://github.com/stanislawbartkowski/javahotel/blob/jpk/sample/sh/runtransform.sh) method.
 
 #Uploading data to gateway
-InitUpload.xml file prepared in the previous step should be signed digitally.
-
+InitUpload.xml file prepared in the previous step should be signed digitally already.
 This step uses InitUploadSigned, PutBlob and FinishUpload REST API methods.
 API method: [UPLOAD.upload](https://github.com/stanislawbartkowski/javahotel/blob/jpk/src/org/transform/jpk/UPLOAD.java) method.
 Command line: [Upload.main](https://github.com/stanislawbartkowski/javahotel/blob/jpk/sample/sh/runupload.sh) method.
