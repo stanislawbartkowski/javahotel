@@ -29,3 +29,10 @@ This step uses InitUploadSigned, PutBlob and FinishUpload REST API methods.
 API method: [UPLOAD.upload](https://github.com/stanislawbartkowski/javahotel/blob/jpk/src/org/transform/jpk/UPLOAD.java) method.
 
 Command line: [Upload.main](https://github.com/stanislawbartkowski/javahotel/blob/jpk/sample/sh/runupload.sh) method.
+
+# Receiving UPO, Official Receipt Confirmation
+This step uses Status REST API method. UPO is available for download after some time, so the method should be launched in some time intervals until UPO is received.
+
+API method : [UPLAOD.getUpo](https://github.com/stanislawbartkowski/javahotel/blob/jpk/src/org/transform/jpk/UPLOAD.java) method.
+
+Command line: [GetUPO.main](https://github.com/stanislawbartkowski/javahotel/blob/jpk/sample/sh/rungetupo.sh) method.
