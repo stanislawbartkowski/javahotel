@@ -44,7 +44,7 @@ class LOG {
 		logM.readConfiguration(i);
 		log = Logger.getLogger("");
 		// add file formatter, should be stored in work directory
-		FileHandler fh = new FileHandler(logFile);
+		FileHandler fh = new FileHandler(logFile, true); // append
 		log.addHandler(fh);
 		// find and set Formatter from ConsoleHandler defined in log.conf
 		Enumeration<String> e = logM.getLoggerNames();

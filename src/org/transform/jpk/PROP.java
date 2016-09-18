@@ -24,12 +24,11 @@ import java.util.Properties;
  */
 
 class PROP {
-	
 
 	private static final Properties prop = new Properties();
 
 	private static final String CONF = "conf";
-	private static final String WORK = "workdir";
+	private static final String WORKD = "workdir";
 	private static final String PUBLICKEY = "publickey";
 	private static final String CERT = "cert";
 	private static final String URL = "url";
@@ -37,6 +36,7 @@ class PROP {
 	private static final String PATTFILE = "initupload-enveloped-pattern.xml";
 	private static final String GET = "get";
 	private static String VATZIP; // set from input vatFile
+	private static String WORKDIR; // working directory
 	private static final String INITUPLOAD = "InitUpload.xml";
 	private static final String FILENAME = "FILENAME";
 	private static final String REFERENCENUMBER = "REFERENCENUMBER";
@@ -44,34 +44,43 @@ class PROP {
 	private PROP() {
 	}
 
+	private static String getWork() {
+		return WORKDIR;
+	}
+
 	private static File fileName() {
-		return new File(prop.getProperty(WORK), FILENAME);
+		return new File(getWork(), FILENAME);
 	}
 
 	private static File referenceFile() {
-		return new File(prop.getProperty(WORK), REFERENCENUMBER);
-	}
-	
-	static private File logFile() {
-		return new File(prop.getProperty(WORK),"JPK.log");
+		return new File(getWork(), REFERENCENUMBER);
 	}
 
-	static private void checkProp(String confFile, boolean clear) throws Exception {
-		String[] props = { CONF, WORK, PUBLICKEY, CERT, URL, FINISH, GET };
+	static private File logFile() {
+		return new File(getWork(), "JPK.log");
+	}
+
+	static private void checkProp(String confFile, boolean clear, String workdir) throws Exception {
+		String[] props = { CONF, WORKD, PUBLICKEY, CERT, URL, FINISH, GET };
 		for (String s : props)
 			if (!prop.containsKey(s))
 				throw new Exception(confFile + ", brak parameteru " + s);
 		File dir = new File(prop.getProperty(CONF));
 		if (!dir.isDirectory())
 			throw new Exception(prop.getProperty(CONF) + " brak takiego katalogu");
-		File w = new File(prop.getProperty(WORK));
+		if (workdir != null)
+			WORKDIR = workdir;
+		else
+			WORKDIR = prop.getProperty(WORKD);
+		File w = new File(getWork());
 		if (!w.isDirectory())
 			w.mkdir();
 		if (!w.isDirectory())
-			throw new Exception(prop.getProperty(WORK) + " brak takiego katalogu i nie można założyć");
+			throw new Exception(getWork() + " brak takiego katalogu i nie można założyć");
 		LOG.setConfig(prop.getProperty(CONF), logFile().getPath());
 		if (clear) {
-			for (File f : w.listFiles()) f.delete();
+			for (File f : w.listFiles())
+				f.delete();
 			UTIL.writeFile(fileName(), VATZIP);
 		} else
 			VATZIP = UTIL.getFile(fileName());
@@ -85,13 +94,13 @@ class PROP {
 	static void readConf(String confFile, String vatFile) throws Exception {
 		VATZIP = new File(vatFile).getName();
 		prop.load(new FileInputStream(new File(confFile)));
-		checkProp(confFile, true);
+		checkProp(confFile, true, null);
 		LOG.log("Odczytane parametery z katalogu " + prop.getProperty(CONF));
 	}
 
-	static void readConf(String confFile) throws Exception {
+	static void readConfW(String confFile, String workdir) throws Exception {
 		prop.load(new FileInputStream(new File(confFile)));
-		checkProp(confFile, false);
+		checkProp(confFile, false, workdir);
 		LOG.log("Odczytane parametery z katalogu " + prop.getProperty(CONF));
 	}
 
@@ -105,7 +114,7 @@ class PROP {
 	}
 
 	static File getZipFile() {
-		return new File(prop.getProperty(WORK), VATZIP + ".zip");
+		return new File(getWork(), VATZIP + ".zip");
 	}
 
 	static String getXMLFile() {
@@ -113,7 +122,7 @@ class PROP {
 	}
 
 	static File getZipAesFile() {
-		return new File(prop.getProperty(WORK), VATZIP + ".zip.aes");
+		return new File(getWork(), VATZIP + ".zip.aes");
 	}
 
 	static File getPublicKey() {
@@ -121,7 +130,7 @@ class PROP {
 	}
 
 	static File getInitOutputFile() {
-		return new File(prop.getProperty(WORK), INITUPLOAD);
+		return new File(getWork(), INITUPLOAD);
 	}
 
 	static File getCert() {
@@ -138,6 +147,10 @@ class PROP {
 
 	static String getGetURL() {
 		return prop.getProperty(GET);
+	}
+
+	static File getUPOFile() {
+		return new File(getWork(), "UPO");
 	}
 
 	static void saveReferenceNumber(String referenceNumber) throws IOException {

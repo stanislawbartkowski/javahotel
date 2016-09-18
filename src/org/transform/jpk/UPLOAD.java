@@ -13,6 +13,7 @@
 package org.transform.jpk;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -44,12 +45,12 @@ import com.google.gson.JsonParser;
  * 
  * @author sbartkowski
  * 
- * Class to conduct data uploading and receiving the final status
+ *         Class to conduct data uploading and receiving the final status
  *
  */
 
 public class UPLOAD {
-	
+
 	private static boolean post_blob(INIT i) throws IOException {
 		LOG.log("Teraz wysyłam zakodowany plik");
 		URL url = new URL(i.getFileURL());
@@ -174,19 +175,22 @@ public class UPLOAD {
 
 	/**
 	 * Data uploading
-	 * @param conffile Configuration file
+	 * 
+	 * @param conffile
+	 *            Configuration file
 	 * @throws Exception
-	 * <br>
-	 * <br>
-	 * Steps implemented:<br>
-	 * <ul>
-	 * <li>1. Upload InitUpload.xml file, keep the result, particularly ReferenceNumber</li>
-	 * <li>2. Upload encoded data file</li>
-	 * <li>3. FinishUpload</li>
-	 * </ul> 
+	 *             <br>
+	 *             <br>
+	 *             Steps implemented:<br>
+	 *             <ul>
+	 *             <li>1. Upload InitUpload.xml file, keep the result,
+	 *             particularly ReferenceNumber</li>
+	 *             <li>2. Upload encoded data file</li>
+	 *             <li>3. FinishUpload</li>
+	 *             </ul>
 	 */
 	public static void upload(String conffile) throws Exception {
-		PROP.readConf(conffile);
+		PROP.readConfW(conffile, null);
 		try {
 			/** 1. Upload Initupload.xml file */
 			INIT i = post_init();
@@ -206,7 +210,7 @@ public class UPLOAD {
 				System.exit(4);
 			LOG.log("Wysyłanie całej paczki zakończone sukcesem");
 			// get the result
-			getUPO(conffile);
+			getUPO(conffile, null);
 		} catch (Exception e) {
 			LOG.ex(e);
 			System.exit(4);
@@ -234,33 +238,55 @@ public class UPLOAD {
 		return code < 400;
 	}
 
-	private static boolean readUPO(String referenceNumber) throws IOException, UnrecoverableKeyException,
-			KeyManagementException, CertificateException, KeyStoreException, NoSuchAlgorithmException {
+	private static boolean readUPO(String referenceNumber, StringBuffer buf)
+			throws IOException, UnrecoverableKeyException, KeyManagementException, CertificateException,
+			KeyStoreException, NoSuchAlgorithmException {
 		URL url = new URL(PROP.getGetURL() + referenceNumber);
 		SSLContext sslContext = getSSL();
 		HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
 		conn.setSSLSocketFactory(sslContext.getSocketFactory());
 		conn.setRequestMethod("GET");
-		StringBuffer buf = new StringBuffer();
 		return getResult(conn, buf);
 	}
 
+	private static void extractUPO(StringBuffer buf) throws IOException {
+		JsonParser parser = new JsonParser();
+		JsonElement jsonTree = parser.parse(buf.toString());
+		JsonObject j  = jsonTree.getAsJsonObject();
+		String upo = j.get("Upo").getAsString();
+		if ("".equals(upo)) {
+			LOG.log("Dokument UPO nie pojawił się w otrzymanych danych");
+			return;
+		}
+		File f = PROP.getUPOFile();
+		LOG.log("Zapisanie dokumentu UPO do pliku " + f.getAbsolutePath());
+		UTIL.writeFile(f, upo);
+	}
+
 	/**
-	 * Assuming that uploading is successful, retrieve the status code using ReferenceNumber.<br>
+	 * Assuming that uploading is successful, retrieve the status code using
+	 * ReferenceNumber.<br>
 	 * ReferenceNumber is stored in the file kept in work directory.<br>
 	 * 
-	 * @param conffile Configuration file
+	 * @param conffile
+	 *            Configuration file
+	 * @param workdir
+	 *            If not null working directory, takes precedence over workdir
+	 *            in configuration file
 	 * @throws Exception
 	 */
-	public static void getUPO(String conffile) throws Exception {
+	public static void getUPO(String conffile, String workdir) throws Exception {
 		// Read conf data
-		PROP.readConf(conffile);
+		PROP.readConfW(conffile, workdir);
 		try {
 			// get ReferenceNumber
 			String referenceNumber = PROP.readReferenceNumber();
 			LOG.log("Reference Number " + referenceNumber);
 			// read UPO, status
-			readUPO(referenceNumber);
+			StringBuffer buf = new StringBuffer();
+			if (readUPO(referenceNumber, buf))
+				extractUPO(buf);
+
 		} catch (Exception e) {
 			LOG.ex(e);
 			System.exit(4);

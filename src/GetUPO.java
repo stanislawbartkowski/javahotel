@@ -1,3 +1,4 @@
+
 /*
  * Copyright 2016 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
@@ -19,15 +20,15 @@ public class GetUPO {
 	}
 
 	public static void main(String[] args) throws Exception {
-		if (args.length != 1) {
-			P("Odczytanie UPO (2016/08/24 r:0)");
+		if (args.length != 1 && args.length != 2) {
+			P("Odczytanie UPO (2016/09/17 r:1)");
 			P("Może być wywołany dopiero po pomyślnej transmisji, REFERENCENUMBER powinien zawierać numer wysyłki");
 			P("");
 			P("Wywolanie:");
-			P("GetUPO <configuration file>");
+			P("GetUPO <configuration file> <workdirectory>");
 			System.exit(4);
 		}
-		UPLOAD.getUPO(args[0]);
+		UPLOAD.getUPO(args[0], args.length == 1 ? null : args[1]);
 	}
 
 }
