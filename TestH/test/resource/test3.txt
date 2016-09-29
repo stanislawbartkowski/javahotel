@@ -1,0 +1,7 @@
+TESTINT
+INT
+CREATE HBASE TABLE TESTINT ( K VARCHAR(100), V INT ) COLUMN MAPPING ( key  mapped by (k), cf_data: cq_x mapped by (v));
+key1,10123
+key2,-98544
+key3,0
+key3,-2349876

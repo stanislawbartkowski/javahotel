@@ -1,0 +1,8 @@
+TESTINTNULL
+INT
+CREATE HBASE TABLE TESTINTNULL ( K VARCHAR(100), V INT ) COLUMN MAPPING ( key  mapped by (k), cf_data: cq_x mapped by (v));
+key1,null
+key2,-98544
+key3,null
+key3,-2349876
+

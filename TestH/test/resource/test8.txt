@@ -1,0 +1,6 @@
+TESTDATE
+DATE
+CREATE HBASE TABLE TESTDATE ( K VARCHAR(100), V DATE ) COLUMN MAPPING ( key  mapped by (k), cf_data: cq_x mapped by (v));
+key1,2016-03-03
+key2,1982-12-01
+

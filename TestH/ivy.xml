@@ -1,0 +1,12 @@
+<ivy-module version="2.0">
+    <info organisation="org.apache" module="hello-ivy"/>
+<!-- https://mvnrepository.com/artifact/org.apache.hbase/hbase-client -->
+    <dependencies>
+<dependency org="org.apache.hbase" name="hbase-client" rev="1.2.2"/>
+<!-- https://mvnrepository.com/artifact/org.apache.hbase/hbase-common -->
+<dependency org="org.apache.hbase" name="hbase-common" rev="1.2.2"/>
+<!-- https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-client -->
+<dependency org="org.apache.hadoop" name="hadoop-client" rev="2.7.3"/>
+
+    </dependencies>
+</ivy-module>
