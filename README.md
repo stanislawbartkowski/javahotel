@@ -33,3 +33,5 @@ Sample
 
 [More information](jpk_technical.md)
 
+Javadoc : https://stanislawbartkowski.github.io/javadoc/jpk/
+
