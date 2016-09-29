@@ -92,7 +92,7 @@ public class TestHelper {
 
 	private static final String urlS = "jdbc:db2://big64:32051/BIGSQL";
 	private static final String user = "sb";
-	private static final String password = "leszek123";
+	private static final String password = "secret";
 
 	public static java.sql.Connection getC() throws ClassNotFoundException, SQLException {
 		Class.forName("com.ibm.db2.jcc.DB2Driver");
