@@ -12,62 +12,44 @@
  */
 package com.jython.ui;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import com.gwtmodel.table.common.TT;
 import com.jythonui.shared.DialogFormat;
+import com.jythonui.shared.FieldItem;
 
-public class Test67 extends TestHelper {
+public class Test68 extends TestHelper {
 
 	@Test
 	public void test1() {
-		DialogFormat d = findDialog("test126.xml");
+		DialogFormat d = findDialog("test133.xml");
 		assertNotNull(d);
-		assertTrue(d.isPolymer());
+		assertFalse(d.isPolymer());
+		FieldItem f = d.findFieldItem("menu");
+		assertNotNull(f);
+		assertFalse(f.isMulti());
+		assertTrue(f.isMenu());
+		assertEquals(TT.STRING,f.getFieldType());
+		assertTrue(f.isMenu());
+		FieldItem f1 = d.findFieldItem("menu1");
+		assertTrue(f1.isMenu());
+		assertTrue(f1.isMulti());
+		FieldItem f2 = d.findFieldItem("menu2");
+		assertEquals("5",f2.getVisLines());
 	}
 	
 	@Test
 	public void test2() {
-		DialogFormat d = findDialog("test127.xml");
+		DialogFormat d = findDialog("test134.xml");
 		assertNotNull(d);
 		assertTrue(d.isPolymer());
 	}
+
 	
-	@Test
-	public void test3() {
-		DialogFormat d = findDialog("test128.xml");
-		assertNotNull(d);
-		assertTrue(d.isPolymer());
-	} 
-	
-	@Test
-	public void test4() {
-		DialogFormat d = findDialog("test129.xml");
-		assertNotNull(d);
-		assertTrue(d.isPolymer());
-	} 
-
-	@Test
-	public void test5() {
-		DialogFormat d = findDialog("test130.xml");
-		assertNotNull(d);
-		assertTrue(d.isPolymer());
-	} 
-
-	@Test
-	public void test6() {
-		DialogFormat d = findDialog("test131.xml");
-		assertNotNull(d);
-		assertTrue(d.isPolymer());
-	} 
-
-	@Test
-	public void test7() {
-		DialogFormat d = findDialog("test132.xml");
-		assertNotNull(d);
-		assertTrue(d.isPolymer());
-	} 
 
 }

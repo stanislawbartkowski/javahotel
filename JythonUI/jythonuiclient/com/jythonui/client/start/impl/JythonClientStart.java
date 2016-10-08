@@ -47,9 +47,7 @@ import com.jythonui.shared.ICommonConsts;
 import com.vaadin.polymer.Polymer;
 import com.vaadin.polymer.elemental.Function;
 import com.vaadin.polymer.iron.widget.IronDropdown;
-import com.vaadin.polymer.paper.widget.PaperDialog;
-import com.vaadin.polymer.paper.widget.PaperDialogScrollable;
-import com.vaadin.polymer.paper.widget.PaperDropdownMenu;
+import com.vaadin.polymer.paper.widget.PaperItem;
 import com.vaadin.polymer.paper.widget.PaperMenu;
 
 public class JythonClientStart implements IJythonClientStart {
@@ -292,6 +290,7 @@ public class JythonClientStart implements IJythonClientStart {
      			IronDropdown pi = new IronDropdown();
 //				PaperDialogScrollable ps = new PaperDialogScrollable();
 //				PaperMenu pm = new PaperMenu();
+//				PaperItem pii = new PaperItem();
 //				PaperDropdownMenu pd = new PaperDropdownMenu();
 				
 				// end of empty declaration

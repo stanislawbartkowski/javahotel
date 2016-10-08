@@ -36,15 +36,19 @@ class GetValueLB extends AbstractField implements IValueLB {
 	private final boolean addEmpty;
 	private List<String> idList = null;
 
-	GetValueLB(IVField v, IFormFieldProperties pr,boolean addEmpty) {
+	GetValueLB(IVField v, IFormFieldProperties pr, boolean addEmpty) {
 		super(v, pr);
 		initWidget(lB);
 		lB.setName(getHtmlName());
 		this.addEmpty = addEmpty;
+		if (pr.isMenu())
+			lB.setVisibleItemCount(pr.getVisLines());
+		if (pr.isMulti())
+			lB.setMultipleSelect(true);
 	}
 
-	GetValueLB(IVField v,IFormFieldProperties pr) {
-		this(v, pr, false /*cValues.addEmptyAsDefault()*/);
+	GetValueLB(IVField v, IFormFieldProperties pr) {
+		this(v, pr, false /* cValues.addEmptyAsDefault() */);
 	}
 
 	protected String getValS() {

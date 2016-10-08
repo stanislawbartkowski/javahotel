@@ -23,13 +23,21 @@ class FormFieldProperties implements IFormFieldProperties {
 	private final String htmlId;
 	private final boolean notEmpty;
 	private final String displayName;
+	private final boolean menu;
+	private final int visLines;
+	private final boolean multi;
+
+	public boolean isMulti() {
+		return multi;
+	}
 
 	FormFieldProperties() {
-		this(false, false, false, false, false, false, false, null,null);
+		this(false, false, false, false, false, false, false, null, null, false, -1, false);
 	}
 
 	FormFieldProperties(boolean readOnlyIfModif, boolean readOnlyIfAdd, boolean modeSetAlready, boolean label,
-			boolean polymer, boolean hidden, boolean notEmpty, String htmlId, String displayName) {
+			boolean polymer, boolean hidden, boolean notEmpty, String htmlId, String displayName, boolean menu,
+			int visLines, boolean multi) {
 		this.readOnlyIfModif = readOnlyIfModif;
 		this.readOnlyIfAdd = readOnlyIfAdd;
 		this.modeSetAlready = modeSetAlready;
@@ -39,6 +47,9 @@ class FormFieldProperties implements IFormFieldProperties {
 		this.htmlId = htmlId;
 		this.notEmpty = notEmpty;
 		this.displayName = displayName;
+		this.menu = menu;
+		this.visLines = visLines;
+		this.multi = multi;
 	}
 
 	@Override
@@ -85,6 +96,15 @@ class FormFieldProperties implements IFormFieldProperties {
 	public String getDisplayName() {
 		return displayName;
 	}
-		
+
+	@Override
+	public boolean isMenu() {
+		return menu;
+	}
+
+	@Override
+	public int getVisLines() {
+		return visLines;
+	}
 
 }

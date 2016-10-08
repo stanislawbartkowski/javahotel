@@ -64,9 +64,11 @@ public interface ICommonConsts {
 	String LONGTYPE = "long";
 	String SPINNERTYPE = "spinner";
 	String SPINNERMIN = "spinnermin";
+	String MENU="menu";
 	int DEFAULTSPINNERMIN = 1;
 	String SPINNERMAX = "spinnermax";
 	int DEFAULTSPINNERMAX = 5;
+	String MULTI="multi";
 	String EMAILTYPE = "email";
 	String AFTERDOT = "afterdot";
 	String DEFVALUE = "defvalue";
@@ -97,6 +99,7 @@ public interface ICommonConsts {
 	int DEFAULTCOLNO = 14;
 	int DEFAULTROWNO = 20;
 	int DEFPAGESIZE = 20;
+	int DEFMENUVISLINES = 5;
 	String TABPANEL = "tabpanel";
 	String TABPANELELEM = "tabelem";
 	String DISCLOSUREPANEL = "disclosurepanel";

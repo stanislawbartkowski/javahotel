@@ -78,7 +78,7 @@ public class FieldItem extends ElemDescription {
 
 		if (isImageColumn())
 			return TT.STRING;
-		
+
 		if (CUtil.EqNS(t, ICommonConsts.BOOLTYPE))
 			return TT.BOOLEAN;
 
@@ -293,6 +293,14 @@ public class FieldItem extends ElemDescription {
 
 	public String getRememberKey() {
 		return getAttr(ICommonConsts.REMEMBERKEY);
+	}
+
+	public boolean isMulti() {
+		return isAttr(ICommonConsts.MULTI);
+	}
+
+	public boolean isMenu() {
+		return isAttr(ICommonConsts.MENU);
 	}
 
 }

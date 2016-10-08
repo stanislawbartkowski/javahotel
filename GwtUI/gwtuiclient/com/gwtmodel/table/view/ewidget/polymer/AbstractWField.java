@@ -74,7 +74,7 @@ abstract class AbstractWField implements IFormLineView {
 		}
 	}
 
-	protected class TouchEvent implements EventListener<KeysPressedEvent> {
+	protected final class TouchEvent implements EventListener<KeysPressedEvent> {
 
 		@Override
 		public void handleEvent(KeysPressedEvent event) {

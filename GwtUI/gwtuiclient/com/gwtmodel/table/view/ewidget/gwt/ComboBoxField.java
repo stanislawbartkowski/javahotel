@@ -37,6 +37,7 @@ class ComboBoxField extends GetValueLB {
 
 	ComboBoxField(IVField v, IFormFieldProperties pr, List<ComboVal> wy, boolean addEmpty) {
 		super(v, pr, addEmpty);
+		
 		this.wy = wy;
 		init();
 	}

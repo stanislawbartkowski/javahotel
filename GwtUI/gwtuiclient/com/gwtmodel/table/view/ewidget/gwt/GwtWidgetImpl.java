@@ -15,16 +15,14 @@ package com.gwtmodel.table.view.ewidget.gwt;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.inject.Inject;
-import com.gwtmodel.table.FieldDataType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGetDataList;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.editc.IRequestForGWidget;
 import com.gwtmodel.table.editw.IFormFieldProperties;
 import com.gwtmodel.table.editw.IFormLineView;
 import com.gwtmodel.table.editw.IGetListOfIcons;
-import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.view.ewidget.IEditWidget;
 import com.gwtmodel.table.view.ewidget.comboutil.AddBoxValues;
 
@@ -77,12 +75,6 @@ public class GwtWidgetImpl implements IEditWidget {
 		return lB;
 	}
 
-	@SuppressWarnings("unused")
-	private void setComboList(IFormLineView i, IGetDataList iGet) {
-		GetValueLB lB = (GetValueLB) i;
-		AddBoxValues.addValues(i.getV(), iGet, lB);
-	}
-
 	private ExtendTextBox.EParam newE(boolean password, boolean area) {
 		return new ExtendTextBox.EParam(password, false, false, area, false, false, null, null);
 	}
@@ -115,11 +107,6 @@ public class GwtWidgetImpl implements IEditWidget {
 		return new EditTextFieldWithHelper(v, pr, e, iHelper, refreshAlways);
 	}
 
-	@SuppressWarnings("unused")
-	private IFormLineView constructLabelTextEdit(IVField v, IFormFieldProperties pr, String la) {
-		return new LabelEdit(v, pr, newE(false, false), la);
-	}
-
 	@Override
 	public IFormLineView constructLabelFor(IVField v, IFormFieldProperties pr, String la) {
 		return new LabelFor(v, la);
@@ -135,12 +122,7 @@ public class GwtWidgetImpl implements IEditWidget {
 			boolean refreshAlways) {
 		return new DateBoxWithHelper(v, pr, i, refreshAlways);
 	}
-
-	@SuppressWarnings("unused")
-	private IFormLineView constructBoxSelectField(IVField v, IFormFieldProperties pr, List<ComboVal> wy) {
-		return new ComboBoxField(v, pr, wy);
-	}
-
+	
 	@Override
 	public IFormLineView constructRadioSelectField(IVField v, IFormFieldProperties pr) {
 		return new RadioBoxField(v, pr);
@@ -212,4 +194,5 @@ public class GwtWidgetImpl implements IEditWidget {
 	public IFormLineView constructDateTimePicker(IVField v, IFormFieldProperties pr) {
 		return new DateTimePicker(v, pr);
 	}
+
 }

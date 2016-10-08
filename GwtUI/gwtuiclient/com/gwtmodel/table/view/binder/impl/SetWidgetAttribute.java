@@ -20,14 +20,12 @@ import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.inject.Inject;
 import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.binder.WidgetTypes;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.DecimalUtils;
 import com.gwtmodel.table.mm.LogT;
-import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.gwtmodel.table.view.binder.ISetWidgetAttribute;
 import com.gwtmodel.table.view.util.polymer.PolymerUtil;
 import com.vaadin.polymer.PolymerWidget;
@@ -46,6 +44,7 @@ import com.vaadin.polymer.paper.widget.PaperInput;
 import com.vaadin.polymer.paper.widget.PaperItem;
 import com.vaadin.polymer.paper.widget.PaperMaterial;
 import com.vaadin.polymer.paper.widget.PaperMenu;
+import com.vaadin.polymer.paper.widget.PaperProgress;
 import com.vaadin.polymer.paper.widget.PaperTabs;
 import com.vaadin.polymer.paper.widget.PaperTextarea;
 import com.vaadin.polymer.paper.widget.PaperToolbar;
@@ -747,6 +746,44 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 		}
 	};
 
+	private static final IVisitor<PaperProgress> paperprogressG = new IVisitor<PaperProgress>() {
+
+		@Override
+		public void visit(PaperProgress w, String k, String v, boolean bv, double dv) {
+			if (k.equals(IConsts.ATTRMAX))
+				w.setMax(dv);
+			else if (k.equals(IConsts.ATTRMAXS))
+				w.setMax(v);
+			else if (k.equals(IConsts.ATTRMIN))
+				w.setMin(dv);
+			else if (k.equals(IConsts.ATTRMINS))
+				w.setMin(v);
+			else if (k.equals(IConsts.ATTRRATIO))
+				w.setRatio(dv);
+			else if (k.equals(IConsts.ATTRRATIOS))
+				w.setRatio(v);
+			else if (k.equals(IConsts.ATTRSECONDARYPROGESS))
+				w.setSecondaryProgress(dv);
+			else if (k.equals(IConsts.ATTRSECONDARYPROGESSS))
+				w.setSecondaryProgress(v);
+			else if (k.equals(IConsts.ATTRSECONDARYRATIO))
+				w.setSecondaryRatio(dv);
+			else if (k.equals(IConsts.ATTRSECONDARYRATIOS))
+				w.setSecondaryRatio(v);
+			else if (k.equals(IConsts.ATTRSTEP))
+				w.setStep(dv);
+			else if (k.equals(IConsts.ATTRSTEPS))
+				w.setStep(v);
+			else if (k.equals(IConsts.ATTRVALUE))
+				w.setValue(dv);
+			else if (k.equals(IConsts.ATTRVALUES))
+				w.setValue(v);
+			else if (k.equals(IConsts.ATTRINDETERMINATE))
+				w.setIndeterminate(bv);
+		}
+
+	};
+
 	private final static Map<WidgetTypes, IVisitor<Widget>[]> setAWidget = new HashMap<WidgetTypes, IVisitor<Widget>[]>();
 
 	static {
@@ -773,6 +810,7 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 		setAWidget.put(WidgetTypes.PaperInput, new IVisitor[] { polymerWidgetG, paperinputG });
 		setAWidget.put(WidgetTypes.PaperTextarea, new IVisitor[] { polymerWidgetG, papertextareaG });
 		setAWidget.put(WidgetTypes.PaperMaterial, new IVisitor[] { polymerWidgetG, papermaterialG });
+		setAWidget.put(WidgetTypes.PaperProgress, new IVisitor[] { polymerWidgetG, paperprogressG });
 	}
 
 	private WidgetTypes widgetToType(Widget w) {
@@ -785,24 +823,6 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 		}
 	}
 
-	/*
-	 * private WidgetTypes widgetToType(Widget w) {
-	 * 
-	 * if (w instanceof PaperMaterial) return WidgetTypes.PaperMaterial; if (w
-	 * instanceof PaperTextarea) return WidgetTypes.PaperTextarea; if (w
-	 * instanceof PaperInput) return WidgetTypes.PaperInput; if (w instanceof
-	 * PaperItemBody) return WidgetTypes.PaperItemBody; if (w instanceof
-	 * PaperItem) return WidgetTypes.PaperItem; if (w instanceof PaperFab)
-	 * return WidgetTypes.PaperFab; if (w instanceof PaperTabs) return
-	 * WidgetTypes.PaperTabs; if (w instanceof PaperDropdownMenu) return
-	 * WidgetTypes.PaperDropdownMenu; if (w instanceof PaperMenu) return
-	 * WidgetTypes.PaperMenu; if (w instanceof PaperDialogScrollable) return
-	 * WidgetTypes.PaperDialogScrollable; if (w instanceof PaperDialog) return
-	 * WidgetTypes.PaperDialog; if (w instanceof PaperDialog) return
-	 * WidgetTypes.PaperDialog; if (w instanceof PaperDialog) return
-	 * WidgetTypes.PaperDialog; if (w instanceof PaperDialog) return
-	 * WidgetTypes.PaperDialog; }
-	 */
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void setAttr(Widget w, String attr, String val) {

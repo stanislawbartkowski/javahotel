@@ -285,8 +285,36 @@
 		<xs:attribute name="elevationFloat" type="xs:float" />
 	</xs:attributeGroup>
      
+	<xs:attributeGroup name="paperProgressG">
+		<xs:attributeGroup ref="polymerWidgetG"></xs:attributeGroup>
+		<xs:attribute name="max" type="xs:float" />		
+		<xs:attribute name="maxS" type="xs:string" />		
+		<xs:attribute name="min" type="xs:float" />		
+		<xs:attribute name="minS" type="xs:string" />		
+		<xs:attribute name="ratio" type="xs:float" />		
+		<xs:attribute name="ratioS" type="xs:string" />		
+		<xs:attribute name="secondaryProgress" type="xs:float" />		
+		<xs:attribute name="secondaryProgressS" type="xs:string" />		
+		<xs:attribute name="secondaryRatio" type="xs:float" />		
+		<xs:attribute name="secondaryRatioS" type="xs:string" />		
+		<xs:attribute name="step" type="xs:float" />		
+		<xs:attribute name="stepS" type="xs:string" />		
+		<xs:attribute name="value" type="xs:float" />		
+		<xs:attribute name="valueS" type="xs:string" />	
+		<xs:attribute name="indeterminate" type="xs:boolean" />	
+	</xs:attributeGroup>
+
 
 	<!-- Elements -->
+	
+	<xs:element name="PaperProgress">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperProgressG" />
+		</xs:complexType>
+	</xs:element>
 	
 	<xs:element name="PaperMaterial">
 		<xs:complexType mixed="true">

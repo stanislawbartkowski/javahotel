@@ -27,6 +27,9 @@
 	<xs:element name="paper-menu" type="ElementContentType">
 	</xs:element>
 	
+	<xs:element name="paper-item" type="ElementContentType">
+	</xs:element>
+	
 	<xs:element name="paper-tabs" type="ElementContentType">
 	</xs:element>
 

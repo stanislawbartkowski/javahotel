@@ -3,6 +3,11 @@ from cutil import getTypeUpList
 from cutil import setJMapList
 from cutil import createEnum
 from cutil import enumDictAction
+import cutil
+
+def setCopyF(var,f,val) :
+  cutil.setCopy(var,f)
+  var[f] = val
 
 def dialogaction(action,var) :
   printVar("packenum",action,var)
@@ -15,10 +20,14 @@ def dialogaction(action,var) :
   if action == "testcombo" :
     return   
     
-  if action == "signalchange" :
+  if action == "signalchange" and var["changefield"] == "combof" :
     s = var["combof"]
-    var['outcombof'] = s;
-    var['JCOPY_outcombof'] = True
+    setCopyF(var,"outcombof",s)
+    return  
+
+  if action == "signalchange" and var["changefield"] == "combome" :
+    s = var["combome"]
+    setCopyF(var,"outcombom",s)
     return  
     
   seq = []

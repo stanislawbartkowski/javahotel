@@ -46,6 +46,7 @@ import com.vaadin.polymer.paper.widget.PaperItem;
 import com.vaadin.polymer.paper.widget.PaperItemBody;
 import com.vaadin.polymer.paper.widget.PaperMaterial;
 import com.vaadin.polymer.paper.widget.PaperMenu;
+import com.vaadin.polymer.paper.widget.PaperProgress;
 import com.vaadin.polymer.paper.widget.PaperTabs;
 import com.vaadin.polymer.paper.widget.PaperTextarea;
 import com.vaadin.polymer.paper.widget.PaperToolbar;
@@ -144,6 +145,9 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 			break;
 		case PaperMaterial:
 			w = new PaperMaterial(html);
+			break;
+		case PaperProgress:
+			w = new PaperProgress(html);
 			break;
 		default:
 			Utils.errAlertB(LogT.getT().PolymerWidgetNotImplemented(bw.getType().name()));

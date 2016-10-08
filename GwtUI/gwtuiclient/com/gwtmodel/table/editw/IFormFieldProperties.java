@@ -32,4 +32,10 @@ public interface IFormFieldProperties {
 
 	boolean isNotEmpty();
 
+	boolean isMenu();
+
+	int getVisLines();
+	
+	boolean isMulti();
+
 }

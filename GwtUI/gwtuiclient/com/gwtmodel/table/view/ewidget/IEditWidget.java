@@ -44,6 +44,7 @@ public interface IEditWidget {
 
 	IFormLineView constructHelperList(IVField v, IFormFieldProperties pr, IDataType dType, boolean refreshAlways);
 
+
 	IFormLineView constructPasswordField(IVField v, IFormFieldProperties pr);
 
 	IFormLineView constructTextField(IVField v, IFormFieldProperties pr);

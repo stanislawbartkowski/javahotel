@@ -22,21 +22,23 @@ public class FormFieldPropFactory {
 	}
 
 	static public IFormFieldProperties construct(boolean readOnlyIfModif, boolean readOnlyIfAdd, boolean modeSetAlready,
-			boolean label, boolean polymer, boolean hidden, boolean notEmpty, String htmlId, String displayName) {
+			boolean label, boolean polymer, boolean hidden, boolean notEmpty, String htmlId, String displayName,
+			boolean menu, int visLines, boolean multi) {
 		return new FormFieldProperties(readOnlyIfModif, readOnlyIfAdd, modeSetAlready, label, polymer, hidden, notEmpty,
-				htmlId, displayName);
+				htmlId, displayName, menu, visLines, multi);
 	}
 
 	static public IFormFieldProperties construct(String htmlId) {
-		return new FormFieldProperties(false, false, false, false, false, false, false, htmlId, null);
+		return new FormFieldProperties(false, false, false, false, false, false, false, htmlId, null, false, -1, false);
 	}
 
 	static public IFormFieldProperties constructNotEmpty() {
-		return new FormFieldProperties(false, false, false, false, false, false, true, null, null);
+		return new FormFieldProperties(false, false, false, false, false, false, true, null, null, false, -1, false);
 	}
 
 	static public IFormFieldProperties constructDisplayName(String displayName) {
-		return new FormFieldProperties(false, false, false, false, false, false, true, null, displayName);
+		return new FormFieldProperties(false, false, false, false, false, false, true, null, displayName, false, -1,
+				false);
 	}
 
 }

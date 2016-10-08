@@ -90,8 +90,11 @@ public class CreateForm {
 			label = true;
 		if (f.isNotEmpty())
 			notEmpty = true;
+		int visLines = ICommonConsts.DEFMENUVISLINES;
+		if (f.getVisLines() != null)
+			visLines = CUtil.getNumb(f.getVisLines());
 		return FormFieldPropFactory.construct(readOnlyIfModif, readOnlyIfAdd, modeSetAlready, label, polymer, hidden,
-				notEmpty, htmlId, f.getDisplayName());
+				notEmpty, htmlId, f.getDisplayName(), f.isMenu(), visLines,f.isMulti());
 	}
 
 	public static FormLineContainer construct(DialogInfo dInfo, IGetDataList iGet, IGetDataList iSuggest,
@@ -131,7 +134,7 @@ public class CreateForm {
 				if (te == null) {
 					Utils.errAlert(f.getCustom(), M.M().CannotFindCustomType(f.getTypeName()));
 				}
-				if (te.isComboType()) {
+				if (te.isComboType() || f.isMenu()) {
 					eList.add(vf, f.getCustom());
 					v = eFactory.constructListValuesCombo(vf, fieldProp, iGet, !f.isNotEmpty());
 				} else if (te.isSuggestType()) {

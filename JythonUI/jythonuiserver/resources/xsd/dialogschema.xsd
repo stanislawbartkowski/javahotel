@@ -299,6 +299,8 @@
 			<xs:element minOccurs="0" name="suggestsize" type="xs:nonNegativeInteger" />
 			<xs:element minOccurs="0" name="remember" type="emptyT" />
 			<xs:element minOccurs="0" name="rememberkey" type="xs:string" />
+			<xs:element minOccurs="0" name="multi" type="emptyT" />
+			<xs:element minOccurs="0" name="menu" type="emptyT" />
 		</xs:sequence>
 	</xs:group>
 
@@ -343,6 +345,8 @@
 		<xs:attribute name="suggestsize" type="xs:nonNegativeInteger" />
 		<xs:attribute name="remember" type="emptyT" />
 		<xs:attribute name="rememberkey" type="xs:string" />
+		<xs:attribute name="multi" type="emptyT" />
+		<xs:attribute name="menu" type="emptyT" />
 	</xs:attributeGroup>
 
 	<xs:group name="checklistG">
