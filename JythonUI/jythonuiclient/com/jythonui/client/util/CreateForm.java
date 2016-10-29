@@ -94,7 +94,7 @@ public class CreateForm {
 		if (f.getVisLines() != null)
 			visLines = CUtil.getNumb(f.getVisLines());
 		return FormFieldPropFactory.construct(readOnlyIfModif, readOnlyIfAdd, modeSetAlready, label, polymer, hidden,
-				notEmpty, htmlId, f.getDisplayName(), f.isMenu(), visLines,f.isMulti());
+				notEmpty, htmlId, f.getDisplayName(), f.isMenu(), visLines, f.isMulti());
 	}
 
 	public static FormLineContainer construct(DialogInfo dInfo, IGetDataList iGet, IGetDataList iSuggest,
@@ -113,7 +113,9 @@ public class CreateForm {
 			IFormLineView v;
 			IVField vf = VField.construct(f);
 
-			if (f.isEmailType())
+			if (f.isBinderField())
+				v = eFactory.constructBinderField(vf, fieldProp);
+			else if (f.isEmailType())
 				v = eFactory.constructEmail(vf, fieldProp);
 			else if (f.isSpinner())
 				v = eFactory.constructSpinner(vf, fieldProp, f.getSpinnerMin(), f.getSpinnerMax());

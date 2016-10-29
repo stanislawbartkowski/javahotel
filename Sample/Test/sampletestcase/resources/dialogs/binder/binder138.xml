@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<ui:UiBinder xmlns:ui='http://www.jythongwt.uibinderxsd.com'
+	xmlns:g='http://www.jythongwt.uibinderxsd.com' xmlns:p='http://www.jythongwt.uibinderxsd.com'
+	xmlns:i='http://www.jythongwt.uibinderxsd.com' xmlns='http://www.jythongwt.uihtml.com'>
+
+    <ui:style>
+        @external .slider-sample;
+        
+        .slider-sample {
+            padding: 40px;
+        }
+        .slider-sample paper-slider {
+            width: 100%;
+        }
+        .ratings-label {
+            padding-left: 12px;
+            color: #a0a0a0;
+        }
+    </ui:style>
+
+    <g:HTMLPanel addStyleNames="slider-sample">
+        <style is="custom-style">
+            .slider-sample paper-slider.blue {
+                --paper-slider-knob-color: var(--paper-light-blue-500);
+                --paper-slider-active-color: var(--paper-light-blue-500);
+            }
+
+            .slider-sample paper-slider.red {
+                --paper-slider-knob-color: var(--paper-red-500);
+                --paper-slider-active-color: var(--paper-red-500);
+            }
+
+            .slider-sample paper-slider.green {
+                --paper-slider-knob-color: var(--paper-green-500);
+                --paper-slider-active-color: var(--paper-green-500);
+            }
+
+            .slider-sample paper-slider.orange {
+                --paper-slider-knob-color: var(--paper-orange-500);
+                --paper-slider-active-color: var(--paper-orange-500);
+                --paper-slider-pin-color: var(--paper-orange-500);
+            }
+        </style>
+
+        <div class="vertical center-justified layout">
+            <h4>Default</h4>
+            <div class="vertical-section">
+                <div>Oxygen</div>
+                <p:PaperSlider value="21"/><br/><br/>
+                <div>Argon</div>
+                <p:PaperSlider value="1"/><br/><br/>
+                <div>Hydrogen</div>
+                <p:PaperSlider value="0"/><br/><br/>
+                <div>Nitrogen</div>
+                <p:PaperSlider value="78"/><br/><br/>
+                <div>Sprinkles</div>
+                <p:PaperSlider disabled="true" value="33"/>
+            </div>
+
+            <h4>Editable</h4>
+            <div class="vertical-section">
+                <div class="center horizontal layout">
+                    <div>R</div>
+                    <p:PaperSlider addStyleNames="red" value="23" max="255" editable="true"/>
+                </div>
+                <div class="center horizontal layout">
+                    <div>G</div>
+                    <p:PaperSlider addStyleNames="green" value="183" max="255" editable="true"/>
+                </div>
+                <div class="center horizontal layout">
+                    <div>B</div>
+                    <p:PaperSlider addStyleNames="blue" value="211" max="255" editable="true"/>
+                </div>
+            </div>
+
+            <h4>Labelled pins</h4>
+            <div class="vertical-section">
+                <div>Brightness</div><br/>
+                <p:PaperSlider pin="true" value="20" addStyleNames="orange"/>
+                <div>Ratings: <span fieldid="ratingsLabel" class="{style.ratings-label}"></span></div><br/>
+                <p:PaperSlider fieldid="ratings" pin="true" snaps="true" max="10" step="1" value="5" addStyleNames="orange"/>
+            </div>
+        </div>
+    </g:HTMLPanel>
+    
+</ui:UiBinder>

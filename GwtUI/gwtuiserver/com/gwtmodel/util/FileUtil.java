@@ -19,22 +19,22 @@ import java.util.Properties;
 
 public class FileUtil {
 
-    public static Map<String, String> PropertyToMap(Properties pro) {
-        Map<String, String> map = new HashMap<String, String>();
-        for (Entry<Object, Object> e : pro.entrySet()) {
-            String key = (String) e.getKey();
-            String val = (String) e.getValue();
-            map.put(key, val);
-        }
-        return map;
-    }
+	public static Map<String, String> PropertyToMap(Properties pro) {
+		Map<String, String> map = new HashMap<String, String>();
+		for (Entry<Object, Object> e : pro.entrySet()) {
+			String key = (String) e.getKey();
+			String val = (String) e.getValue();
+			map.put(key, val);
+		}
+		return map;
+	}
 
-    public static Properties MapToProperty(Map<String, String> ma) {
-        Properties prop = new Properties();
-        for (Entry<String, String> e : ma.entrySet()) {
-            prop.put(e.getKey(), e.getValue());
-        }
-        return prop;
-    }
+	public static Properties MapToProperty(Map<String, String> ma) {
+		Properties prop = new Properties();
+		for (Entry<String, String> e : ma.entrySet()) {
+			prop.put(e.getKey(), e.getValue());
+		}
+		return prop;
+	}
 
 }

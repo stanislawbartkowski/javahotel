@@ -54,10 +54,6 @@ class PolymerCombo extends AbstractWField implements IValueLB {
 			tabitem = (ww != null);
 		}
 
-		Element getE() {
-			return w;
-		}
-
 		void setSelected(int inde) {
 			e.setSelected(CUtil.NumbToS(inde));
 		}

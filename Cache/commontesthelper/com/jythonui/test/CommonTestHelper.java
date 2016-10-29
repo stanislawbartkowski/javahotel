@@ -30,7 +30,6 @@ import javax.inject.Named;
 import com.gwtmodel.commoncache.ICommonCache;
 import com.gwtmodel.table.common.DateFormat;
 import com.gwtmodel.testenhancer.ITestEnhancer;
-import com.jython.dateutil.DateFormatUtil;
 import com.jython.dateutil.ISetTestToday;
 import com.jython.serversecurity.AppInstanceId;
 import com.jython.serversecurity.IOObjectAdmin;
@@ -38,12 +37,15 @@ import com.jython.serversecurity.OObject;
 import com.jython.serversecurity.OObjectRoles;
 import com.jython.serversecurity.cache.IGetInstanceOObjectIdCache;
 import com.jython.serversecurity.cache.OObjectId;
+import com.jythonui.server.IBinderUIStyleFactory;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IDefaultData;
 import com.jythonui.server.IGetMailFrom;
 import com.jythonui.server.IGetResourceMap;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.IJythonUIServerProperties;
+import com.jythonui.server.IObfuscateName;
+import com.jythonui.server.IParseRegString;
 import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.IXMLToMap;
 import com.jythonui.server.crud.ICrudObjectGenSym;
@@ -137,6 +139,12 @@ abstract public class CommonTestHelper {
 	protected static IRememberValue iRem;
 	@Inject
 	protected static IJournal iJournal;
+	@Inject
+	protected static IParseRegString iParse;
+	@Inject
+	protected static IObfuscateName iObf;
+	@Inject
+	protected static IBinderUIStyleFactory ibFactory;
 
 	protected CommonTestHelper() {
 		iListC = Holder.getListOfCountries();

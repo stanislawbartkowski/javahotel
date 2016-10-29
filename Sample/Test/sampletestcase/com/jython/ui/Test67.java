@@ -16,58 +16,30 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
 
 import com.jythonui.shared.DialogFormat;
 
+@RunWith(Parameterized.class)
 public class Test67 extends TestHelper {
 
+	@Parameters(name = "{index}: {0}")
+	public static Object[] data() {
+		return new Object[] { "test126.xml", "test127.xml", "test128.xml", "test129.xml", "test128.xml", "test129.xml",
+				"test130.xml", "test131.xml", "test132.xml" };
+	}
+
+	@Parameter
+	public String dialogName;
+
 	@Test
-	public void test1() {
-		DialogFormat d = findDialog("test126.xml");
+	public void test() {
+		DialogFormat d = findDialog(dialogName);
 		assertNotNull(d);
 		assertTrue(d.isPolymer());
 	}
-	
-	@Test
-	public void test2() {
-		DialogFormat d = findDialog("test127.xml");
-		assertNotNull(d);
-		assertTrue(d.isPolymer());
-	}
-	
-	@Test
-	public void test3() {
-		DialogFormat d = findDialog("test128.xml");
-		assertNotNull(d);
-		assertTrue(d.isPolymer());
-	} 
-	
-	@Test
-	public void test4() {
-		DialogFormat d = findDialog("test129.xml");
-		assertNotNull(d);
-		assertTrue(d.isPolymer());
-	} 
-
-	@Test
-	public void test5() {
-		DialogFormat d = findDialog("test130.xml");
-		assertNotNull(d);
-		assertTrue(d.isPolymer());
-	} 
-
-	@Test
-	public void test6() {
-		DialogFormat d = findDialog("test131.xml");
-		assertNotNull(d);
-		assertTrue(d.isPolymer());
-	} 
-
-	@Test
-	public void test7() {
-		DialogFormat d = findDialog("test132.xml");
-		assertNotNull(d);
-		assertTrue(d.isPolymer());
-	} 
 
 }

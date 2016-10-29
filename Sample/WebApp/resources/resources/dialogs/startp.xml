@@ -32,6 +32,12 @@
   <button id="binder12" displayname="Material" actiontype="JMAIN_DIALOG" actionparam="binder12.xml" />
   <button id="binder13" displayname="Menu" actiontype="JMAIN_DIALOG" actionparam="binder13.xml" />
   <button id="binder14" displayname="Progress" actiontype="JMAIN_DIALOG" actionparam="binder14.xml" />
+  <button id="binder15" displayname="Radio Button" actiontype="JMAIN_DIALOG" actionparam="binder15.xml" />
+  <button id="binder16" displayname="Radio Group" actiontype="JMAIN_DIALOG" actionparam="binder16.xml" />
+  <button id="binder17" displayname="Ripple" actiontype="JMAIN_DIALOG" actionparam="binder17.xml" />
+  <button id="binder18" displayname="Spinner" actiontype="JMAIN_DIALOG" actionparam="binder18.xml" />
+  <button id="binder19" displayname="Slider" actiontype="JMAIN_DIALOG" actionparam="binder19.xml" />
+  <button id="binder20" displayname="Tabs" actiontype="JMAIN_DIALOG" actionparam="binder20.xml" />
 </leftstack>  
 
 <buttons>

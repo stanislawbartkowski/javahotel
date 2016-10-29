@@ -46,10 +46,10 @@ public class SlU {
 
 	private SlU() {
 	}
-	
+
 	@Inject
 	private static SlotSignalContextFactory slContextFactory;
-	
+
 	@Inject
 	private static SlotTypeFactory slTypeFactory;
 

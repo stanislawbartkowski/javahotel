@@ -29,6 +29,7 @@ import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.CustomStringSlot;
+import com.gwtmodel.table.slotmodel.ISlotCallerListener;
 import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.SlU;
@@ -65,8 +66,19 @@ public class RunAction implements IJythonUIClient {
 
 	private final Synch sy = new Synch();
 	private final SynchM syM = new SynchM();
+	
+	private class GetWidget implements ISlotCallerListener {
 
+		@Override
+		public ISlotSignalContext call(ISlotSignalContext slContext) {
+			return sy.slW;
+		}
+		
+	}
+
+	
 	private class Synch extends SynchronizeList {
+		
 
 		DialogFormat d;
 		IDialogContainer dI = null;
@@ -138,25 +150,6 @@ public class RunAction implements IJythonUIClient {
 		}
 
 	}
-
-	// private class UpDialog extends ModalDialog {
-	//
-	// private final Widget w;
-	//
-	// // private ModalDialog md;
-	//
-	// UpDialog(Widget w, IDataType dType, boolean autohide, boolean modal) {
-	// super(new VerticalPanel(), "", autohide, modal);
-	// this.w = w;
-	// create();
-	// this.setOnClose(new CloseI(dType));
-	// }
-	//
-	// @Override
-	// protected void addVP(VerticalPanel vp) {
-	// vp.add(w);
-	// }
-	// }
 
 	private class SCompleted implements SubmitCompleteHandler {
 
@@ -288,7 +281,7 @@ public class RunAction implements IJythonUIClient {
 	}
 
 	private class GetCenterWidget implements ISlotListener {
-
+		
 		@Override
 		public void signal(ISlotSignalContext slContext) {
 			Widget w = slContext.getGwtWidget().getGWidget();
@@ -386,6 +379,7 @@ public class RunAction implements IJythonUIClient {
 			d.getSlContainer().registerSubscriber(SendCloseSignal.constructSignal(dType), new CloseDialog());
 			d.getSlContainer().registerSubscriber(SendSubmitSignal.constructSignal(dType), new SubmitDialog());
 			d.getSlContainer().registerSubscriber(SignalAfterBefore.constructSignal(dType), new BeforeFinished());
+			d.getSlContainer().registerCaller(GetWidgetSignal.constructSignal(dType), new GetWidget());
 			CellId cId = new CellId(0);
 			sy.dI = d;
 			sy.sl = getW;

@@ -17,14 +17,21 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.RandomAccessFile;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import javax.inject.Named;
+
 import org.xml.sax.SAXException;
 
+import com.google.inject.Inject;
 import com.gwtmodel.table.binder.BinderWidget;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.holder.Holder;
@@ -39,6 +46,10 @@ public class Util extends UtilHelper {
 
 	private Util() {
 	}
+
+	@Inject
+	@Named(ISharedConsts.JYTHONMESSSERVER)
+	private static IGetLogMess gMess;
 
 	public static void setContext(RequestContext context) {
 		if (context == null)
@@ -61,7 +72,6 @@ public class Util extends UtilHelper {
 	}
 
 	public static Properties getPropertiesFromFile(String propName) {
-		IGetLogMess gMess = SHolder.getM();
 		FileInputStream f = null;
 		try {
 			f = new FileInputStream(propName);
@@ -80,7 +90,6 @@ public class Util extends UtilHelper {
 	}
 
 	public static Properties getProperties(String propName) {
-		IGetLogMess gMess = SHolder.getM();
 		InputStream i = Util.class.getClassLoader().getResourceAsStream(propName);
 		if (i == null) {
 			errorLog(gMess.getMess(IErrorCode.ERRORCODE1, ILogMess.CANNOTFINDRESOURCEFILE, propName), null);
@@ -161,4 +170,35 @@ public class Util extends UtilHelper {
 			return null;
 		}
 	}
+
+	/*
+	 * Files is not supported in Google App Engine public static String
+	 * getStringFromFile(Class cl, String resName) { URL in =
+	 * cl.getClassLoader().getResource(resName); if (in == null)
+	 * errorLog(gMess.getMess(IErrorCode.ERRORCODE133,
+	 * ILogMess.CANNOTFINDRESOURCEFILE, resName)); try { return new
+	 * String(Files.readAllBytes(Paths.get(in.toURI()))); } catch (IOException |
+	 * URISyntaxException e) { errorLog(gMess.getMess(IErrorCode.ERRORCODE134,
+	 * ILogMess.ERRORWHILEREADINGRESOURCEFILE, resName), e); return null; } }
+	 */
+
+	/*
+	 * public static String getStringFromFile(Class cl, String resName) { URL in
+	 * = cl.getClassLoader().getResource(resName); if (in == null)
+	 * errorLog(gMess.getMess(IErrorCode.ERRORCODE133,
+	 * ILogMess.CANNOTFINDRESOURCEFILE, resName)); try { File fName = new
+	 * File(in.toURI()); byte[] buf = new byte[(int)fName.length()];
+	 * RandomAccessFile f = new RandomAccessFile(fName, "r"); f.readFully(buf);
+	 * return new String(buf); } catch (IOException | URISyntaxException e) {
+	 * errorLog(gMess.getMess(IErrorCode.ERRORCODE134,
+	 * ILogMess.ERRORWHILEREADINGRESOURCEFILE, resName), e); return null; } }
+	 */
+
+	public static String getStringFromFile(Class cl, String resName) {
+		InputStream in = cl.getClassLoader().getSystemResourceAsStream(resName);
+		if (in == null)
+			errorLog(gMess.getMess(IErrorCode.ERRORCODE133, ILogMess.CANNOTFINDRESOURCEFILE, resName));
+		return BUtil.readFromFileInput(in);
+	}
+
 }

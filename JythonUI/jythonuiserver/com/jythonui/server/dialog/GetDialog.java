@@ -126,9 +126,9 @@ public class GetDialog extends UtilHelper implements IGetDialog {
 					d.getTypeList().add(types);
 				}
 			}
-			if (verify) {
+			if (verify)
 				ValidateDialogFormat.validate(d);
-			}
+
 			// now check elemformat for lists
 			if (d.getListList() != null) {
 				for (ListFormat l : d.getListList()) {

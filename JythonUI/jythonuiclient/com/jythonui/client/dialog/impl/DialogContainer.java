@@ -20,6 +20,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.ICustomObject;
@@ -100,9 +102,11 @@ import com.jythonui.client.dialog.datepanel.RefreshData;
 import com.jythonui.client.dialog.jsearch.JSearchFactory;
 import com.jythonui.client.dialog.run.AfterUploadSubmitSignal;
 import com.jythonui.client.dialog.run.CloseDialogByImage;
+import com.jythonui.client.dialog.run.GetWidgetSignal;
 import com.jythonui.client.dialog.run.RunAction;
 import com.jythonui.client.injector.UIGiniInjector;
 import com.jythonui.client.interfaces.IExecuteBackAction;
+import com.jythonui.client.interfaces.IExecuteJS;
 import com.jythonui.client.interfaces.IGenCookieName;
 import com.jythonui.client.interfaces.IVariableContainerFactory;
 import com.jythonui.client.listmodel.GetRowSelected;
@@ -157,6 +161,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 	private final IDateLineManager dManager;
 	private final IChartManager chManager;
 	private final ISetWidgetAttribute iAttr;
+	private final IExecuteJS executeJS;
 
 	private final IExecuteAfterModalDialog iEx;
 
@@ -211,6 +216,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 		executeBack = UIGiniInjector.getI().getExecuteBackAction();
 		this.iCustomClick = iCustomClick;
 		iAttr = GwtGiniInjector.getI().getSetWidgetAttribute();
+		this.executeJS = UIGiniInjector.getI().getExecuteJS();
 	}
 
 	private class CButton implements ISlotListener {
@@ -309,12 +315,12 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 			CustomObjectValue<Boolean> coB = (CustomObjectValue<Boolean>) cu;
 			String fieldid = fie.getId();
 			FieldItem fItem = d.findFieldItem(fieldid);
-			if (fItem == null) {
+			if (fItem == null)
 				return;
-			}
-			if (!fItem.isSignalChange()) {
+
+			if (!fItem.isSignalChange())
 				return;
-			}
+
 			ButtonItem bItem = DialogFormat.findE(d.getActionList(), ICommonConsts.SIGNALCHANGE);
 			// bItem can be null
 			DialogVariables v = iCon.getVariables(ICommonConsts.SIGNALCHANGE);
@@ -330,6 +336,16 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 					return new BackClass(null, false, new WSize(i.getGWidget()), null);
 				}
 			};
+
+			String jsA = Utils.getJS(fItem.getJsSignalChange());
+			if (!CUtil.EmptyS(jsA)) {
+				IExecuteJS.IJSResult res = executeJS.execute(ICommonConsts.SIGNALCHANGE, jsA, v);
+				if (!res.isContinue()) {
+					backFactory.construct().onSuccess(res.getV());
+					return;
+				}
+			}
+
 			executeBack.execute(backFactory, v, bItem, d.getId(), ICommonConsts.SIGNALCHANGE);
 		}
 
@@ -755,6 +771,17 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 		}
 	}
 
+	private class GetW implements ISlotListener {
+
+		@Override
+		public void signal(ISlotSignalContext slContext) {
+			// TODO Auto-generated method stub
+			int i = 0;
+
+		}
+
+	}
+
 	@Override
 	public void startPublish(CellId cId) {
 
@@ -871,6 +898,9 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 
 		pView.createView(cId);
 		slMediator.startPublish(cId);
+		// TODO
+		slMediator.getSlContainer().registerSubscriber(dType, cId, new GetW());
+
 		if (d.isBefore()) {
 			executeAction(ICommonConsts.BEFORE, new BackClass(null, true, null, eList));
 		} else {
@@ -1389,6 +1419,23 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 							Utils.errAlertB(d.getId(), M.M().InternalSetBinderAttributeNoId(t.id));
 						iAttr.setAttr(g.getGWidget(), t.action, valS);
 						return;
+					}
+					// now try to reach out widget directly
+					// probably it covers code above
+					ISlotCustom sl = GetWidgetSignal.constructSignal(dType);
+					ISlotSignalContext co = iSlot.getSlContainer().getGetterCustom(sl);
+					// get panel
+					if (co != null && co.getGwtWidget() != null) {
+						Widget w = co.getGwtWidget().getGWidget();
+						if (w instanceof HasWidgets) {
+							HasWidgets ha = (HasWidgets) w;
+							Widget ww = JUtils.findWidgetByFieldId(ha, t.id);
+							if (ww != null) {
+								// found, bingo
+								iAttr.setAttr(ww, t.action, valS);
+								return;
+							}
+						}
 					}
 					Utils.errAlertB(d.getId(), M.M().SetBinderAttributeNoId(t.id));
 				}

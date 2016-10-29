@@ -95,10 +95,6 @@ public class BinderWidget extends XMap {
 		return styleList;
 	}
 
-	public void setStyleList(List<StyleClass> styleList) {
-		this.styleList = styleList;
-	}
-
 	public boolean isIdDropId() {
 		return idDropId;
 	}

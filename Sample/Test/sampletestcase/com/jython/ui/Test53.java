@@ -17,7 +17,6 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import com.jythonui.server.UObjects;
@@ -26,11 +25,6 @@ import com.jythonui.server.mail.NoteAttach;
 
 public class Test53 extends TestHelper {
 
-	// @Before
-	// public void setUp() {
-	// super.setUp();
-	// createObjects();
-	// }
 
 	@Test
 	public void test1() {

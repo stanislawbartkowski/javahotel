@@ -25,6 +25,8 @@ import com.gwtmodel.table.view.ewidget.gwt.RadioBoxString;
 
 public interface IEditWidget {
 
+	IFormLineView constructBinderField(IVField v, IFormFieldProperties pr);
+
 	IFormLineView constructLabelField(IVField v, IFormFieldProperties pr, String displayName);
 
 	IFormLineView constructHTMLField(IVField v, IFormFieldProperties pr);
@@ -43,7 +45,6 @@ public interface IEditWidget {
 	IFormLineView constructListValuesCombo(IVField v, IFormFieldProperties pr, IGetDataList iGet, boolean addEmpty);
 
 	IFormLineView constructHelperList(IVField v, IFormFieldProperties pr, IDataType dType, boolean refreshAlways);
-
 
 	IFormLineView constructPasswordField(IVField v, IFormFieldProperties pr);
 

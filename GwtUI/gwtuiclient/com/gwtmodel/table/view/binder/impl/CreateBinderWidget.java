@@ -17,9 +17,12 @@ import java.util.NoSuchElementException;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
@@ -47,6 +50,12 @@ import com.vaadin.polymer.paper.widget.PaperItemBody;
 import com.vaadin.polymer.paper.widget.PaperMaterial;
 import com.vaadin.polymer.paper.widget.PaperMenu;
 import com.vaadin.polymer.paper.widget.PaperProgress;
+import com.vaadin.polymer.paper.widget.PaperRadioButton;
+import com.vaadin.polymer.paper.widget.PaperRadioGroup;
+import com.vaadin.polymer.paper.widget.PaperRipple;
+import com.vaadin.polymer.paper.widget.PaperSlider;
+import com.vaadin.polymer.paper.widget.PaperSpinner;
+import com.vaadin.polymer.paper.widget.PaperTab;
 import com.vaadin.polymer.paper.widget.PaperTabs;
 import com.vaadin.polymer.paper.widget.PaperTextarea;
 import com.vaadin.polymer.paper.widget.PaperToolbar;
@@ -66,6 +75,8 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 		Iterator<String> i = bw.getKeys();
 		while (i.hasNext()) {
 			String k = i.next();
+			if (k.equals(BinderWidget.FIELDID))
+				continue;
 			String v = bw.getAttr(k);
 			iAttr.setAttr(w, k, v);
 		}
@@ -86,6 +97,8 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 		case Label:
 			w = new Label(html);
 			break;
+		case HTML:
+			w = new HTML(html);
 		case PaperIconItem:
 			w = new PaperIconItem(html);
 			break;
@@ -128,6 +141,9 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 		case PaperTabs:
 			w = new PaperTabs(html);
 			break;
+		case PaperTab:
+			w = new PaperTab(html);
+			break;
 		case PaperFab:
 			w = new PaperFab(html);
 			break;
@@ -148,6 +164,30 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 			break;
 		case PaperProgress:
 			w = new PaperProgress(html);
+			break;
+		case PaperRadioButton:
+			w = new PaperRadioButton(html);
+			break;
+		case PaperRadioGroup:
+			w = new PaperRadioGroup(html);
+			break;
+		case PaperRipple:
+			w = new PaperRipple(html);
+			break;
+		case PaperSpinner:
+			w = new PaperSpinner(html);
+			break;
+		case PaperSlider:
+			w = new PaperSlider(html);
+			break;
+		case InlineLabel:
+			w = new InlineLabel(html);
+			break;
+		case FlowPanel:
+			if (CUtil.EmptyS(html))
+				w = new FlowPanel();
+			else
+				w = new FlowPanel(html);
 			break;
 		default:
 			Utils.errAlertB(LogT.getT().PolymerWidgetNotImplemented(bw.getType().name()));

@@ -67,7 +67,7 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
 				publish(dType, cellId, gView);
 				return;
 			}
-			gView.fillHtml(bw.getValue(),bw.getBw());
+			gView.fillHtml(bw.getValue(), bw.getBw());
 		}
 	}
 

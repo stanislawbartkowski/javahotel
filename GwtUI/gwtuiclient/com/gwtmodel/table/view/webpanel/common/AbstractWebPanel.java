@@ -20,7 +20,6 @@ import com.gwtmodel.table.factories.IWebPanelResources;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
-import com.gwtmodel.table.view.webpanel.IWebPanel.InfoType;
 
 abstract public class AbstractWebPanel implements IWebPanel {
 

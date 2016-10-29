@@ -28,6 +28,8 @@ import com.jython.serversecurity.cache.IGetInstanceOObjectIdCache;
 import com.jython.serversecurity.impl.GetInstanceObjectId;
 import com.jython.serversecurity.persons.SecurityForPersons;
 import com.jythonui.server.IBinderParser;
+import com.jythonui.server.IBinderUIStyle;
+import com.jythonui.server.IBinderUIStyleFactory;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IDefaultData;
 import com.jythonui.server.IExecuteJython;
@@ -44,6 +46,8 @@ import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.IMailGet;
 import com.jythonui.server.IMailSend;
 import com.jythonui.server.IMailSendSave;
+import com.jythonui.server.IObfuscateName;
+import com.jythonui.server.IParseRegString;
 import com.jythonui.server.IResolveName;
 import com.jythonui.server.IResolveNameFromToken;
 import com.jythonui.server.ISharedConsts;
@@ -56,6 +60,7 @@ import com.jythonui.server.IVerifyXML;
 import com.jythonui.server.IXMLToMap;
 import com.jythonui.server.Util;
 import com.jythonui.server.binder.BinderParser;
+import com.jythonui.server.binderstyle.BinderStyle;
 import com.jythonui.server.defa.GetClientProperties;
 import com.jythonui.server.defa.GetMailFromApp;
 import com.jythonui.server.defa.ResolveName;
@@ -86,8 +91,10 @@ import com.jythonui.server.mailsave.impl.MailSaveImpl;
 import com.jythonui.server.memstorage.MemStorageCacheFactory;
 import com.jythonui.server.newblob.IAddNewBlob;
 import com.jythonui.server.newblob.impl.AddNewBlob;
+import com.jythonui.server.obf.impl.Obfuscate;
 import com.jythonui.server.objectauth.PersonSecurityConverter;
 import com.jythonui.server.objectauth.SecurityConverter;
+import com.jythonui.server.parsereg.impl.ParseRegString;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.registry.object.ObjectRegistryFactory;
 import com.jythonui.server.resbundle.IAppMess;
@@ -192,6 +199,8 @@ public class JythonServerService {
 			bind(ISuggestionStorage.class).to(SuggestionStorage.class).in(Singleton.class);
 			bind(IRememberValue.class).to(RememberValue.class).in(Singleton.class);
 			bind(IJournalLogin.class).to(JournalLog.class).in(Singleton.class);
+			bind(IParseRegString.class).to(ParseRegString.class).in(Singleton.class);
+			bind(IObfuscateName.class).to(Obfuscate.class).in(Singleton.class);
 		}
 
 		@Provides
@@ -205,6 +214,19 @@ public class JythonServerService {
 		@Singleton
 		ISymGenerator getSymGenerator(ISymGeneratorFactory sFactory, ISequenceRealmGen iSeq) {
 			return sFactory.construct(iSeq);
+		}
+
+		@Provides
+		@Singleton
+		IBinderUIStyleFactory getBinderUIStyleFactory(final IParseRegString gPa, final IObfuscateName iObf) {
+			return new IBinderUIStyleFactory() {
+
+				@Override
+				public IBinderUIStyle construct() {
+					return new BinderStyle(gPa, iObf);
+				}
+
+			};
 		}
 
 		@Provides
@@ -238,6 +260,7 @@ public class JythonServerService {
 		protected void requestStatic() {
 			requestStaticInjection(Holder.class);
 			requestStaticInjection(SHolder.class);
+			requestStaticInjection(Util.class);
 		}
 
 		@Provides

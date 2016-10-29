@@ -222,4 +222,9 @@ public class EditWidgetPolymer implements IEditWidget {
 		return null;
 	}
 
+	@Override
+	public IFormLineView constructBinderField(IVField v, IFormFieldProperties pr) {
+		return new BinderWidget(v, pr);
+	}
+
 }

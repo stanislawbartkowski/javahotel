@@ -144,4 +144,11 @@ public interface IErrorCode {
     String ERRORCODE129 = "E0129";
     String ERRORCODE130 = "E0130";
     String ERRORCODE131 = "E0131";
+    String ERRORCODE132 = "E0132";
+    String ERRORCODE133 = "E0133";
+    String ERRORCODE134 = "E0134";
+    String ERRORCODE135 = "E0135";
+    String ERRORCODE136 = "E0136";
+    String ERRORCODE137 = "E0137";
+    String ERRORCODE138 = "E0138";
 }

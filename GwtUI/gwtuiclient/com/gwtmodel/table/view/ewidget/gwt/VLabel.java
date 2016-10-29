@@ -12,108 +12,14 @@
  */
 package com.gwtmodel.table.view.ewidget.gwt;
 
-import java.util.List;
-
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.Utils;
-import com.gwtmodel.table.editw.IFormChangeListener;
-import com.gwtmodel.table.editw.IFormLineView;
-import com.gwtmodel.table.editw.ITouchListener;
+import com.gwtmodel.table.view.ewidget.widgets.LabelBinderWidget;
 
-class VLabel implements IFormLineView {
-
-	private final IVField v;
-	private final Label l = new Label();
+class VLabel extends AbstractBinderWidget {
 
 	VLabel(IVField v, String displayName) {
-		this.v = v;
-		l.setText(displayName);
-	}
-
-	@Override
-	public IVField getV() {
-		return v;
-	}
-
-	@Override
-	public Object getValObj() {
-		return l.getText();
-	}
-
-	@Override
-	public void setValObj(Object o) {
-		l.setText((String) o);
-	}
-
-	@Override
-	public Widget getGWidget() {
-		return l;
-	}
-
-	@Override
-	public void addChangeListener(IFormChangeListener cListener) {
-	}
-
-	@Override
-	public void setReadOnly(boolean readOnly) {
-	}
-
-	@Override
-	public void setHidden(boolean hidden) {
-		l.setVisible(!hidden);
-	}
-
-	@Override
-	public void setInvalidMess(String errmess) {
-	}
-
-	@Override
-	public void setGStyleName(String styleMess, boolean set) {
-	}
-
-	@Override
-	public void setOnTouch(ITouchListener lTouch) {
-	}
-
-	@Override
-	public String getHtmlName() {
-		return v.getId();
-	}
-
-	@Override
-	public void setAttr(String attrName, String attrValue) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setCellTitle(String title) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setSuggestList(List<String> list) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setFocus(boolean focus) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public boolean isInvalid() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void replaceWidget(Widget w) {
-		Utils.ReplaceWidgetNotImplements(v.getId(), l.getClass().getName());
+		super(v, new LabelBinderWidget(new Label(displayName)));
 	}
 
 }

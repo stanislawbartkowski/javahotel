@@ -15,6 +15,9 @@ package com.jythonui.server.holder;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.jythonui.server.IBinderUIStyleFactory;
+import com.jythonui.server.IObfuscateName;
+import com.jythonui.server.IParseRegString;
 import com.jythonui.server.ISharedConsts;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.newblob.IAddNewBlob;
@@ -27,64 +30,85 @@ import com.jythonui.server.xml.IXMLToXMap;
 
 public class SHolder {
 
-    private SHolder() {
-    }
+	private SHolder() {
+	}
 
-    @Inject
-    private static ISequenceRealmGen iSeq;
+	@Inject
+	private static ISequenceRealmGen iSeq;
 
-    @Inject
-    private static IStorageRealmRegistry iRegistry;
+	@Inject
+	private static IStorageRealmRegistry iRegistry;
 
-    @Inject
-    private static ISymGenerator iGenerator;
+	@Inject
+	private static ISymGenerator iGenerator;
 
-    @Inject
-    @Named(ISharedConsts.JYTHONMESSSERVER)
-    private static IGetLogMess logMess;
+	@Inject
+	@Named(ISharedConsts.JYTHONMESSSERVER)
+	private static IGetLogMess logMess;
 
-    @Inject
-    private static ISemaphore iSem;
+	@Inject
+	private static ISemaphore iSem;
 
-    @Inject
-    private static IBlobHandler iBlob;
+	@Inject
+	private static IBlobHandler iBlob;
 
-    @Inject
-    private static IAddNewBlob iAddBlob;
+	@Inject
+	private static IAddNewBlob iAddBlob;
 
-    @Inject
-    private static IXMLToXMap xToMap;
+	@Inject
+	private static IXMLToXMap xToMap;
 
-    public static IGetLogMess getM() {
-        return logMess;
-    }
+	@Inject
+	private static IParseRegString iParse;
 
-    public static ISequenceRealmGen getSequenceRealmGen() {
-        return iSeq;
-    }
+	@Inject
+	private static IObfuscateName iObf;
 
-    public static IStorageRealmRegistry getStorageRegistry() {
-        return iRegistry;
-    }
+	@Inject
+	private static IBinderUIStyleFactory iStyleBinderFactory;
 
-    public static ISymGenerator getSymGenerator() {
-        return iGenerator;
-    }
+	public static IGetLogMess getM() {
+		return logMess;
+	}
 
-    public static ISemaphore getSem() {
-        return iSem;
-    }
+	public static ISequenceRealmGen getSequenceRealmGen() {
+		return iSeq;
+	}
 
-    public static IBlobHandler getBlobHandler() {
-        return iBlob;
-    }
+	public static IStorageRealmRegistry getStorageRegistry() {
+		return iRegistry;
+	}
 
-    public static IAddNewBlob getAddBlob() {
-        return iAddBlob;
-    }
+	public static ISymGenerator getSymGenerator() {
+		return iGenerator;
+	}
 
-    public static IXMLToXMap getToXMap() {
-        return xToMap;
-    }
+	public static ISemaphore getSem() {
+		return iSem;
+	}
+
+	public static IBlobHandler getBlobHandler() {
+		return iBlob;
+	}
+
+	public static IAddNewBlob getAddBlob() {
+		return iAddBlob;
+	}
+
+	public static IXMLToXMap getToXMap() {
+		return xToMap;
+	}
+
+	public static IParseRegString getiParse() {
+		return iParse;
+	}
+
+	public static IObfuscateName getiObf() {
+		return iObf;
+	}
+
+	public static IBinderUIStyleFactory getiStyleBinderFactory() {
+		return iStyleBinderFactory;
+	}
 
 }

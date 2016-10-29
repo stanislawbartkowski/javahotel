@@ -195,4 +195,10 @@ public class GwtWidgetImpl implements IEditWidget {
 		return new DateTimePicker(v, pr);
 	}
 
+	@Override
+	public IFormLineView constructBinderField(IVField v, IFormFieldProperties pr) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

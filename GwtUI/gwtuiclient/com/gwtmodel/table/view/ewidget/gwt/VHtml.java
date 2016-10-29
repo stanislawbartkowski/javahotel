@@ -12,109 +12,14 @@
  */
 package com.gwtmodel.table.view.ewidget.gwt;
 
-import java.util.List;
-
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.Utils;
-import com.gwtmodel.table.editw.IFormChangeListener;
-import com.gwtmodel.table.editw.IFormLineView;
-import com.gwtmodel.table.editw.ITouchListener;
+import com.gwtmodel.table.view.ewidget.widgets.HTMLBinderWidget;
 
-class VHtml implements IFormLineView {
+class VHtml extends AbstractBinderWidget {
 
-    private final IVField v;
-    private final HTML l = new HTML();
-
-    VHtml(IVField v) {
-        this.v = v;
-    }
-
-    @Override
-    public IVField getV() {
-        return v;
-    }
-
-    @Override
-    public Object getValObj() {
-        return l.getText();
-    }
-
-    @Override
-    public void setValObj(Object o) {
-        l.setHTML((String) o);
-    }
-
-    @Override
-    public Widget getGWidget() {
-        return l;
-    }
-
-    @Override
-    public void addChangeListener(IFormChangeListener cListener) {
-    }
-
-    @Override
-    public void setReadOnly(boolean readOnly) {
-    }
-
-    @Override
-    public void setHidden(boolean hidden) {
-        l.setVisible(!hidden);
-    }
-
-    @Override
-    public void setInvalidMess(String errmess) {
-    }
-
-    @Override
-    public void setGStyleName(String styleMess, boolean set) {
-    }
-
-    @Override
-    public void setOnTouch(ITouchListener lTouch) {
-    }
-
-    @Override
-    public String getHtmlName() {
-        return v.getId();
-    }
-
-    @Override
-    public void setAttr(String attrName, String attrValue) {
-        // TODO Auto-generated method stub
-
-    }
-
-	@Override
-	public void setCellTitle(String title) {
-		// TODO Auto-generated method stub
-		
+	VHtml(IVField v) {
+		super(v, new HTMLBinderWidget(new HTML()));
 	}
-
-	@Override
-	public void setSuggestList(List<String> list) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setFocus(boolean focus) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean isInvalid() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
-	@Override
-	public void replaceWidget(Widget w) {
-		Utils.ReplaceWidgetNotImplements(v.getId(),l.getClass().getName());		
-	}
-
 
 }

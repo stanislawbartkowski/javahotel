@@ -1,0 +1,24 @@
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="Spinner" polymer="">
+ 
+ <uibinder>binder/binder18.xml</uibinder>
+  
+ <jscode>js/binder18.js</jscode>
+
+  <before />
+  
+  <jython>
+   <import>from testpack import binder1</import>
+   <method>binder1.spinneraction({0},{1})</method>
+ </jython>  
+
+  <buttons>
+   <button id="toggleBtn1" displayname="" jsaction="JS.SPINNER18.click" />
+   <button id="toggleBtn2" displayname="" jsaction="JS.SPINNER18.click" />
+  </buttons>  
+  
+  <form>
+   <field id="toggle1" type="bool" hidden=""/>
+   <field id="toggle2" type="bool" hidden=""/>
+ </form> 
+ 
+</dialog>

@@ -13,13 +13,18 @@
 package com.jythonui.client.util;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.binder.BinderWidget;
+import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.TT;
 import com.gwtmodel.table.datalisttype.DataListTypeFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
@@ -236,4 +241,17 @@ public class JUtils {
 		return name;
 	}
 
+	public static Widget findWidgetByFieldId(HasWidgets ha, String fieldid) {
+		Iterator<Widget> iW = ha.iterator();
+		// iterate through widget
+		while (iW.hasNext()) {
+			Widget ww = iW.next();
+			String id = Utils.getWidgetAttribute(ww, BinderWidget.FIELDID);
+			// look for fieldid attribute
+			if (CUtil.EqNS(id, fieldid))
+				return ww;
+		}
+		// not found
+		return null;
+	}
 }

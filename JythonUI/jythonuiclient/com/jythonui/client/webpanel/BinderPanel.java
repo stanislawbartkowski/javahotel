@@ -23,7 +23,6 @@ import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.ISetSynchData;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.binder.BinderWidget;
-import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.factories.IWebPanelResources;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.view.binder.ICreateBinderWidget;
@@ -105,6 +104,10 @@ class BinderPanel {
 				ICreateBinderWidget iBinder = GwtGiniInjector.getI().getCreateBinderWidget();
 				HTMLPanel pa = iBinder.create(value);
 				f.set(new PanelPolymer(pResources, logOut, construct(pa, fileName)));
+				// set styles
+				for (BinderWidget.StyleClass w : value.getStyleList())
+					Utils.addStyle(w.getContent(), w.getMap());
+
 			}
 		}, fileName);
 	}

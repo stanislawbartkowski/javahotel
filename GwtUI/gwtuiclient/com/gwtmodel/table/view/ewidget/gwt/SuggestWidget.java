@@ -24,7 +24,6 @@ import com.gwtmodel.table.IGetDataListCallBack;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.editw.IFormFieldProperties;
-import com.gwtmodel.table.factories.IGetCustomValues;
 
 class SuggestWidget extends AbstractField {
 

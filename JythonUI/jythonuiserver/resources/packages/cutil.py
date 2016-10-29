@@ -74,6 +74,12 @@ def setBinderAttr(var,id,attr,val) :
 def setElevationAttr(var,id,val) :
     setBinderAttr(var,id,"elevation",val)
 
+def setSpinnerActive(var,id,val=True) :
+    setBinderAttr(var,id,"active",val)
+    
+def setLabelText(var,id,val=True) :
+    setBinderAttr(var,id,"text",val)    
+
 def setEditListActionOk(var,li,ok=True) :
    var["JLIST_EDIT_ACTIONOK_" + li] = ok
 

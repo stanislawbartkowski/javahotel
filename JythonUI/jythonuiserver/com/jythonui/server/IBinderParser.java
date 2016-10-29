@@ -13,14 +13,13 @@
 package com.jythonui.server;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 import org.xml.sax.SAXException;
 
 import com.gwtmodel.table.binder.BinderWidget;
 
 public interface IBinderParser {
-	
+			
 	BinderWidget parse(String fileName) throws SAXException, IOException;
 
 }

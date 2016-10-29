@@ -148,7 +148,11 @@ public class FieldItem extends ElemDescription {
 	}
 
 	public boolean isSignalChange() {
-		return isAttr(ICommonConsts.SIGNALCHANGE);
+		return isAttr(ICommonConsts.SIGNALCHANGE) || isAttr(ICommonConsts.JSSIGNALCHANGE);
+	}
+
+	public String getJsSignalChange() {
+		return getAttr(ICommonConsts.JSSIGNALCHANGE);
 	}
 
 	public boolean isHelper() {
@@ -301,6 +305,10 @@ public class FieldItem extends ElemDescription {
 
 	public boolean isMenu() {
 		return isAttr(ICommonConsts.MENU);
+	}
+
+	public boolean isBinderField() {
+		return isAttr(ICommonConsts.BINDER);
 	}
 
 }

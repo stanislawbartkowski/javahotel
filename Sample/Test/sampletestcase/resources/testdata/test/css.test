@@ -1,0 +1,18 @@
+    .toolbar {
+		background: #00796B !important;
+		}
+		
+	.toolbar > div {
+		justify-content: center;
+	}
+
+	.hello > div {
+		mystyle: center;
+	}
+	
+        .source-buttons {
+           background-color: #CDE5E3;
+           height: 45px;
+           padding: 0px 0px 0px 30px;
+           color: #009688;
+        }

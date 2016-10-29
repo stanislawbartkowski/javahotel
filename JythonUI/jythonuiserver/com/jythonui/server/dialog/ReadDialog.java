@@ -102,7 +102,7 @@ class ReadDialog extends UtilHelper {
 				ICommonConsts.COLUMNCLASS, ICommonConsts.SPINNERMIN, ICommonConsts.HEADERCLASS,
 				ICommonConsts.SPINNERMAX, ICommonConsts.VISLINES, ICommonConsts.CELLTITLE, ICommonConsts.SUGGEST,
 				ICommonConsts.REMEMBER, ICommonConsts.REMEMBERKEY, ICommonConsts.SUGGESTKEY, ICommonConsts.SUGGESTSIZE,
-				ICommonConsts.MULTI, ICommonConsts.MENU };
+				ICommonConsts.MULTI, ICommonConsts.MENU, ICommonConsts.BINDER, ICommonConsts.JSSIGNALCHANGE };
 		private final String[] listTag = { ICommonConsts.ID, ICommonConsts.DISPLAYNAME, ICommonConsts.ELEMFORMAT,
 				ICommonConsts.STANDBUTT, ICommonConsts.PAGESIZE, ICommonConsts.WIDTH, ICommonConsts.CHUNKED,
 				ICommonConsts.SIGNALAFTERROW, ICommonConsts.SIGNALBEFOREROW, ICommonConsts.LISTBUTTONSLIST,

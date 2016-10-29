@@ -167,5 +167,9 @@ public interface TLogMessages extends Messages {
 	String PolymerWidgetNotImplemented(String wType);
 	
 	String WidgetToSetAttrNotImplemented();
+	
+	String AttributeNotRecognized(String attr, String val);
+	
+	String BinderReplaceWidget(String id, String className);
 
 }

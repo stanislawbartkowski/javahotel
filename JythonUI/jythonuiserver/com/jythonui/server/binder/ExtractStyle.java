@@ -26,16 +26,22 @@ import org.xml.sax.SAXException;
 
 import com.gwtmodel.table.binder.BinderWidget;
 import com.gwtmodel.table.common.CUtil;
+import com.jythonui.server.IParseRegString;
+import com.jythonui.server.UtilHelper;
+import com.jythonui.server.holder.SHolder;
+import com.jythonui.server.logmess.IErrorCode;
+import com.jythonui.server.logmess.ILogMess;
 
-class ExtractStyle {
+class ExtractStyle extends UtilHelper {
 
 	private ExtractStyle() {
 
 	}
 
 	private final static String ENDSTYLE = "</style>";
+	private final static String PASTYLE = "(<style.*>)";
 
-	static void getStyle(BinderWidget w) throws ParserConfigurationException, SAXException, IOException {
+	static private void old_getStyle(BinderWidget w) throws ParserConfigurationException, SAXException, IOException {
 		String html = w.getContentHtml();
 		if (CUtil.EmptyS(html))
 			return;
@@ -63,6 +69,33 @@ class ExtractStyle {
 			w.getStyleList().add(ha.sTyle);
 			start = end;
 		}
+
+	}
+
+	static void getStyle(final BinderWidget w) throws ParserConfigurationException, SAXException, IOException {
+		String html = w.getContentHtml();
+		if (CUtil.EmptyS(html))
+			return;
+		IParseRegString gPa = SHolder.getiParse();
+		gPa.run(html, PASTYLE, ENDSTYLE, new IParseRegString.IVisitor() {
+
+			@Override
+			public void visit(String foundS, String matchedS, String content) {
+				SAXParserFactory factory = SAXParserFactory.newInstance();
+				// important, namespace
+				factory.setNamespaceAware(true);
+				SAXParser saxParser;
+				try {
+					saxParser = factory.newSAXParser();
+					CssExtractorHandler ha = new CssExtractorHandler();
+					saxParser.parse(new InputSource(new StringReader(content)), ha);
+					w.getStyleList().add(ha.sTyle);
+				} catch (ParserConfigurationException | SAXException | IOException e) {
+					errorLog(L().getMess(IErrorCode.ERRORCODE135, ILogMess.ERRORWHILEPARSINGCSSELEMENT, content));
+				}
+			}
+
+		}, null);
 
 	}
 

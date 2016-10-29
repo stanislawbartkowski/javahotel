@@ -63,6 +63,7 @@ public interface IConsts {
 	String BINDERNAMESPACE = "http://www.jythongwt.uibinderxsd.com";
 	String UIBINDER = "UiBinder";
 	String OWIDGET = "o";
+	String STYLEW = "style";
 
 	String HTMLCLASS = "class";
 

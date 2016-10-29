@@ -277,6 +277,7 @@
 			<xs:element minOccurs="0" name="readonlyadd" type="emptyT" />
 			<xs:element minOccurs="0" name="readonlychange" type="emptyT" />
 			<xs:element minOccurs="0" name="signalchange" type="emptyT" />
+			<xs:element minOccurs="0" name="jssignalchange" type="xs:string" />
 			<xs:element minOccurs="0" name="footer" type="emptyT" />
 			<xs:element minOccurs="0" name="footertype" type="typeName" />
 			<xs:element minOccurs="0" name="footeralign" type="typeAlign" />
@@ -301,6 +302,7 @@
 			<xs:element minOccurs="0" name="rememberkey" type="xs:string" />
 			<xs:element minOccurs="0" name="multi" type="emptyT" />
 			<xs:element minOccurs="0" name="menu" type="emptyT" />
+			<xs:element minOccurs="0" name="binder" type="emptyT" />
 		</xs:sequence>
 	</xs:group>
 
@@ -323,6 +325,7 @@
 		<xs:attribute name="readonlyadd" type="emptyT" />
 		<xs:attribute name="readonlychange" type="emptyT" />
 		<xs:attribute name="signalchange" type="emptyT" />
+		<xs:attribute name="jssignalchange" type="xs:string" />
 		<xs:attribute name="footer" type="emptyT" />
 		<xs:attribute name="footertype" type="typeName" />
 		<xs:attribute name="footeralign" type="typeAlign" />
@@ -347,6 +350,7 @@
 		<xs:attribute name="rememberkey" type="xs:string" />
 		<xs:attribute name="multi" type="emptyT" />
 		<xs:attribute name="menu" type="emptyT" />
+		<xs:attribute name="binder" type="emptyT" />
 	</xs:attributeGroup>
 
 	<xs:group name="checklistG">

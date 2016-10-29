@@ -65,6 +65,7 @@ public interface ICommonConsts {
 	String SPINNERTYPE = "spinner";
 	String SPINNERMIN = "spinnermin";
 	String MENU="menu";
+	String BINDER="binder";
 	int DEFAULTSPINNERMIN = 1;
 	String SPINNERMAX = "spinnermax";
 	int DEFAULTSPINNERMAX = 5;
@@ -173,6 +174,7 @@ public interface ICommonConsts {
 	String TYPEDEF = "typedef";
 	String CUSTOMTYPE = "custom:";
 	String SIGNALCHANGE = "signalchange";
+	String JSSIGNALCHANGE = "jssignalchange";
 	String AFTERSUBMIT = "aftersubmit";
 	String DISCLOSURECHANGE = "disclosurechange";
 	String DISCLOSUREID = "disclosureid";

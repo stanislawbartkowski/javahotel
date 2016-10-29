@@ -17,6 +17,7 @@ import java.util.Map;
 
 import com.google.gwt.user.client.ui.ButtonBase;
 import com.google.gwt.user.client.ui.FocusWidget;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -45,6 +46,12 @@ import com.vaadin.polymer.paper.widget.PaperItem;
 import com.vaadin.polymer.paper.widget.PaperMaterial;
 import com.vaadin.polymer.paper.widget.PaperMenu;
 import com.vaadin.polymer.paper.widget.PaperProgress;
+import com.vaadin.polymer.paper.widget.PaperRadioButton;
+import com.vaadin.polymer.paper.widget.PaperRadioGroup;
+import com.vaadin.polymer.paper.widget.PaperRipple;
+import com.vaadin.polymer.paper.widget.PaperSlider;
+import com.vaadin.polymer.paper.widget.PaperSpinner;
+import com.vaadin.polymer.paper.widget.PaperTab;
 import com.vaadin.polymer.paper.widget.PaperTabs;
 import com.vaadin.polymer.paper.widget.PaperTextarea;
 import com.vaadin.polymer.paper.widget.PaperToolbar;
@@ -53,13 +60,13 @@ import com.vaadin.polymer.paper.widget.PaperToolbar;
 public class SetWidgetAttribute implements ISetWidgetAttribute {
 
 	private interface IVisitor<T extends Widget> {
-		void visit(T w, String k, String v, boolean bv, double dv);
+		boolean visit(T w, String k, String v, boolean bv, double dv);
 	}
 
 	private final static IVisitor<Widget> argW = new IVisitor<Widget>() {
 
 		@Override
-		public void visit(Widget w, String k, String v, boolean bv, double dv) {
+		public boolean visit(Widget w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRHEIGHT))
 				w.setHeight(v);
 			else if (k.equals(IConsts.ATTRSIZE)) {
@@ -84,37 +91,58 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 				String sa[] = v.split(" ");
 				for (String a : sa)
 					w.addStyleName(a);
-			}
-
+			} else
+				return false;
+			return true;
 		}
 	};
 
 	private static final IVisitor<Label> argL = new IVisitor<Label>() {
 
 		@Override
-		public void visit(Label l, String k, String v, boolean bv, double dv) {
+		public boolean visit(Label l, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRTEXT))
 				l.setText(v);
+			else
+				return false;
+			return true;
+
 		}
+	};
+
+	private static final IVisitor<HTML> argHTML = new IVisitor<HTML>() {
+
+		@Override
+		public boolean visit(HTML w, String k, String v, boolean bv, double dv) {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
 	};
 
 	private static final IVisitor<FocusWidget> argF = new IVisitor<FocusWidget>() {
 
 		@Override
-		public void visit(FocusWidget w, String k, String v, boolean bv, double dv) {
+		public boolean visit(FocusWidget w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTREENABLED))
 				w.setEnabled(bv);
+			else
+				return false;
+			return true;
 		}
 	};
 
 	private static final IVisitor<ButtonBase> argbaseB = new IVisitor<ButtonBase>() {
 
 		@Override
-		public void visit(ButtonBase w, String k, String v, boolean bv, double dv) {
+		public boolean visit(ButtonBase w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRTEXT))
 				w.setText(v);
 			else if (k.equals(IConsts.ATTRHTML))
 				w.setHTML(v);
+			else
+				return false;
+			return true;
 		}
 
 	};
@@ -122,7 +150,7 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 	private static final IVisitor<PolymerWidget> polymerWidgetG = new IVisitor<PolymerWidget>() {
 
 		@Override
-		public void visit(PolymerWidget w, String k, String v, boolean bv, double dv) {
+		public boolean visit(PolymerWidget w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRATRIBUTES))
 				w.setAttributes(v);
 			else if (k.equals(IConsts.ATTRBOOLEANATTRIBUTE)) {
@@ -149,6 +177,9 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 				w.setNoink(bv);
 			else if (k.equals(IConsts.ATTRARIALABEL))
 				w.setAriaLabel(v);
+			else
+				return false;
+			return true;
 		}
 
 	};
@@ -156,7 +187,7 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 	private static final IVisitor<PaperIconItem> paperIconItemG = new IVisitor<PaperIconItem>() {
 
 		@Override
-		public void visit(PaperIconItem w, String k, String v, boolean bv, double dv) {
+		public boolean visit(PaperIconItem w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRFOCUSED))
 				w.setFocused(bv);
 			else if (k.equals(IConsts.ATTRPOINTERDOWN))
@@ -165,6 +196,9 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 				w.setPressed(bv);
 			else if (k.equals(IConsts.ATTRTOGGLES))
 				w.setToggles(bv);
+			else
+				return false;
+			return true;
 		}
 
 	};
@@ -172,13 +206,16 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 	private static final IVisitor<IronIcon> ironIconG = new IVisitor<IronIcon>() {
 
 		@Override
-		public void visit(IronIcon w, String k, String v, boolean bv, double dv) {
+		public boolean visit(IronIcon w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRICON))
 				w.setIcon(v);
 			else if (k.equals(IConsts.ATTRSRC))
 				w.setSrc(v);
 			else if (k.equals(IConsts.ATTRTHEME))
 				w.setTheme(v);
+			else
+				return false;
+			return true;
 		}
 
 	};
@@ -186,7 +223,7 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 	private static final IVisitor<PaperButton> paperbuttonG = new IVisitor<PaperButton>() {
 
 		@Override
-		public void visit(PaperButton w, String k, String v, boolean bv, double dv) {
+		public boolean visit(PaperButton w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRFOCUSED))
 				w.setFocused(bv);
 			else if (k.equals(IConsts.ATTRPOINTERDOWN))
@@ -211,13 +248,16 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 				w.setReceivedFocusFromKeyboard(bv);
 			else if (k.equals(IConsts.ATTRKEYEVENTTARGET))
 				w.setKeyEventTarget(v);
+			else
+				return false;
+			return true;
 		}
 	};
 
 	private static final IVisitor<PaperItem> paperItemG = new IVisitor<PaperItem>() {
 
 		@Override
-		public void visit(PaperItem w, String k, String v, boolean bv, double dv) {
+		public boolean visit(PaperItem w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRFOCUSED))
 				w.setFocused(bv);
 			else if (k.equals(IConsts.ATTRPOINTERDOWN))
@@ -236,6 +276,9 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 				w.setReceivedFocusFromKeyboard(bv);
 			else if (k.equals(IConsts.ATTRKEYEVENTTARGET))
 				w.setKeyEventTarget(v);
+			else
+				return false;
+			return true;
 		}
 
 	};
@@ -243,7 +286,7 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 	private static final IVisitor<PaperHeaderPanel> paperHeaderG = new IVisitor<PaperHeaderPanel>() {
 
 		@Override
-		public void visit(PaperHeaderPanel w, String k, String v, boolean bv, double dv) {
+		public boolean visit(PaperHeaderPanel w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRATTOP))
 				w.setAtTop(bv);
 			else if (k.equals(IConsts.ATTRMODE))
@@ -252,30 +295,39 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 				w.setMode(v);
 			else if (k.equals(IConsts.ATTRTALLCLASS))
 				w.setTallClass(v);
+			else
+				return false;
+			return true;
 		}
 	};
 
 	private static final IVisitor<PaperToolbar> paperToolbarG = new IVisitor<PaperToolbar>() {
 
 		@Override
-		public void visit(PaperToolbar w, String k, String v, boolean bv, double dv) {
+		public boolean visit(PaperToolbar w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRBOTTOMJUSTIFY))
 				w.setBottomJustify(v);
 			else if (k.equals(IConsts.ATTRJUSTIFY))
 				w.setJustify(v);
 			else if (k.equals(IConsts.ATTRMIDDLEJUSTIFY))
 				w.setMiddleJustify(v);
+			else
+				return false;
+			return true;
 		}
 	};
 
 	private static final IVisitor<Image> imageG = new IVisitor<Image>() {
 
 		@Override
-		public void visit(Image w, String k, String v, boolean bv, double dv) {
+		public boolean visit(Image w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRURL))
 				w.setUrl(v);
 			else if (k.equals(IConsts.ATTRALTTEXT))
 				w.setAltText(v);
+			else
+				return false;
+			return true;
 		}
 
 	};
@@ -283,7 +335,7 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 	private static final IVisitor<PaperIconButton> papericonG = new IVisitor<PaperIconButton>() {
 
 		@Override
-		public void visit(PaperIconButton w, String k, String v, boolean bv, double dv) {
+		public boolean visit(PaperIconButton w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRFOCUSED))
 				w.setFocused(bv);
 			else if (k.equals(IConsts.ATTRPOINTERDOWN))
@@ -297,13 +349,16 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 			else if (k.equals(IConsts.ATTRSRC))
 				w.setSrc(v);
 
+			else
+				return false;
+			return true;
 		}
 	};
 
 	private static final IVisitor<PaperCheckbox> papercheckboxG = new IVisitor<PaperCheckbox>() {
 
 		@Override
-		public void visit(PaperCheckbox w, String k, String v, boolean bv, double dv) {
+		public boolean visit(PaperCheckbox w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRFOCUSED))
 				w.setFocused(bv);
 			else if (k.equals(IConsts.ATTRPOINTERDOWN))
@@ -324,6 +379,9 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 				w.setValidatorType(v);
 			else if (k.equals(IConsts.ATTRVALUE))
 				w.setValue(v);
+			else
+				return false;
+			return true;
 		}
 
 	};
@@ -331,7 +389,7 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 	private static final IVisitor<PaperDrawerPanel> paperdrawerpanelG = new IVisitor<PaperDrawerPanel>() {
 
 		@Override
-		public void visit(PaperDrawerPanel w, String k, String v, boolean bv, double dv) {
+		public boolean visit(PaperDrawerPanel w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRDEFAULTSELECTED))
 				w.setDefaultSelected(v);
 			else if (k.equals(IConsts.ATTRDISABLEEDGESWIPE))
@@ -363,13 +421,16 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 			else if (k.equals(IConsts.ATTRSELECTED))
 				w.setSelected(v);
 
+			else
+				return false;
+			return true;
 		}
 	};
 
 	private static final IVisitor<PaperDialog> paperdialogG = new IVisitor<PaperDialog>() {
 
 		@Override
-		public void visit(PaperDialog w, String k, String v, boolean bv, double dv) {
+		public boolean visit(PaperDialog w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRANIMATIONCONFIG))
 				w.setAnimationConfig(v);
 			else if (k.equals(IConsts.ATTRAUTOFITONATTACH))
@@ -397,22 +458,28 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 			else if (k.equals(IConsts.ATTRWITHBACKDROP))
 				w.setWithBackdrop(bv);
 
+			else
+				return false;
+			return true;
 		}
 	};
 
 	private static final IVisitor<PaperDialogScrollable> paperdialogscrollableG = new IVisitor<PaperDialogScrollable>() {
 
 		@Override
-		public void visit(PaperDialogScrollable w, String k, String v, boolean bv, double dv) {
+		public boolean visit(PaperDialogScrollable w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRDIALOGELEMENT))
 				w.setDialogElement(v);
+			else
+				return false;
+			return true;
 		}
 	};
 
 	private static final IVisitor<PaperDropdownMenu> paperdropdownmenuG = new IVisitor<PaperDropdownMenu>() {
 
 		@Override
-		public void visit(PaperDropdownMenu w, String k, String v, boolean bv, double dv) {
+		public boolean visit(PaperDropdownMenu w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRACTIVE))
 				w.setActive(bv);
 			else if (k.equals(IConsts.ATTRALWAYSFLOATLABEL))
@@ -435,7 +502,7 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 				w.setNoLabelFloat(bv);
 			else if (k.equals(IConsts.ATTROPENED))
 				w.setOpened(bv);
-			if (k.equals(IConsts.ATTRFOCUSED))
+			else if (k.equals(IConsts.ATTRFOCUSED))
 				w.setFocused(bv);
 			else if (k.equals(IConsts.ATTRPOINTERDOWN))
 				w.setPointerDown(bv);
@@ -463,14 +530,16 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 				w.setValue(v);
 			else if (k.equals(IConsts.ATTRVERTICALALIGN))
 				w.setVerticalAlign(v);
-
+			else
+				return false;
+			return true;
 		}
 	};
 
 	private static final IVisitor<PaperMenu> papermenuG = new IVisitor<PaperMenu>() {
 
 		@Override
-		public void visit(PaperMenu w, String k, String v, boolean bv, double dv) {
+		public boolean visit(PaperMenu w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRACTIVATEEVENT))
 				w.setActivateEvent(v);
 			else if (k.equals(IConsts.ATTRFORITEMTITLE))
@@ -495,13 +564,16 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 				w.setSelectedItems(v);
 			else if (k.equals(IConsts.ATTRSELECTEDVALUES))
 				w.setSelectedValues(v);
+			else
+				return false;
+			return true;
 		}
 	};
 
 	private static final IVisitor<PaperTabs> papertabsG = new IVisitor<PaperTabs>() {
 
 		@Override
-		public void visit(PaperTabs w, String k, String v, boolean bv, double dv) {
+		public boolean visit(PaperTabs w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRACTIVATEEVENT))
 				w.setActivateEvent(v);
 			else if (k.equals(IConsts.ATTRFORITEMTITLE))
@@ -536,14 +608,55 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 				w.setNoBar(bv);
 			else if (k.equals(IConsts.ATTRNOSLIDE))
 				w.setNoSlide(bv);
+			else if (k.equals(IConsts.ATTRSCROLLABLE))
+				w.setScrollable(bv);
+/*	error: no autoselect method, is defined in javadoc		
+			else if (k.equals(IConsts.ATTRSELECTED))			 
+*/				
+			else
+				return false;
+			return true;
+		}
+	};
+	
+	private static final IVisitor<PaperTab> papertabG = new IVisitor<PaperTab>() {
 
+		@Override
+		public boolean visit(PaperTab w, String k, String v, boolean bv, double dv) {
+			if (k.equals(IConsts.ATTRFOCUSED))
+				w.setFocused(bv);
+			else if (k.equals(IConsts.ATTRPOINTERDOWN))
+				w.setPointerDown(bv);
+			else if (k.equals(IConsts.ATTRPRESSED))
+				w.setPressed(bv);
+			else if (k.equals(IConsts.ATTRTOGGLES))
+				w.setToggles(bv);
+			else if (k.equals(IConsts.ATTRACTIVE))
+				w.setActive(bv);
+			else if (k.equals(IConsts.ATTRARIAACTIVEATTRIBUTE))
+				w.setAriaActiveAttribute(v);
+			else if (k.equals(IConsts.ATTRSTOPKEYBORADFROMPROPAGATION))
+				w.setStopKeyboardEventPropagation(bv);
+			else if (k.equals(IConsts.ATTRRECEIVEDFOCUSFROMKEYBOARD))
+				w.setReceivedFocusFromKeyboard(bv);
+			else if (k.equals(IConsts.ATTRKEYEVENTTARGET))
+				w.setKeyEventTarget(v);
+/* no setLink method, visible in Javadoc			
+			else if (k.equals(IConsts.ATTRLINK))
+				w.setL
+*/
+			else if (k.equals(IConsts.ATTRNOINK))
+				w.setNoink(bv);
+			else
+				return false;
+			return true;
 		}
 	};
 
 	private static final IVisitor<PaperFab> paperfabG = new IVisitor<PaperFab>() {
 
 		@Override
-		public void visit(PaperFab w, String k, String v, boolean bv, double dv) {
+		public boolean visit(PaperFab w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRFOCUSED))
 				w.setFocused(bv);
 			else if (k.equals(IConsts.ATTRPOINTERDOWN))
@@ -570,13 +683,16 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 				w.setMini(bv);
 			else if (k.equals(IConsts.ATTRKEYBINDINGS))
 				w.setKeyBindings(v);
+			else
+				return false;
+			return true;
 		}
 	};
 
 	private static final IVisitor<PaperInput> paperinputG = new IVisitor<PaperInput>() {
 
 		@Override
-		public void visit(PaperInput w, String k, String v, boolean bv, double dv) {
+		public boolean visit(PaperInput w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRACCEPT))
 				w.setAccept(v);
 			else if (k.equals(IConsts.ATTRALLOWEDPATTERN))
@@ -645,13 +761,16 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 				w.setValidator(v);
 			else if (k.equals(IConsts.ATTRVALUE))
 				w.setValue(v);
+			else
+				return false;
+			return true;
 		}
 	};
 
 	private static final IVisitor<PaperTextarea> papertextareaG = new IVisitor<PaperTextarea>() {
 
 		@Override
-		public void visit(PaperTextarea w, String k, String v, boolean bv, double dv) {
+		public boolean visit(PaperTextarea w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRACCEPT))
 				w.setAccept(v);
 			else if (k.equals(IConsts.ATTRALLOWEDPATTERN))
@@ -730,26 +849,32 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 				w.setRows(dv);
 			else if (k.equals(IConsts.ATTRROWSS))
 				w.setRows(v);
+			else
+				return false;
+			return true;
 		}
 	};
 
 	private static final IVisitor<PaperMaterial> papermaterialG = new IVisitor<PaperMaterial>() {
 
 		@Override
-		public void visit(PaperMaterial w, String k, String v, boolean bv, double dv) {
+		public boolean visit(PaperMaterial w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRELEVATION))
 				w.setElevation(v);
 			else if (k.equals(IConsts.ATTRELEVATIONFLOAT))
 				w.setElevation(dv);
 			else if (k.equals(IConsts.ATTRANIMATED))
 				w.setAnimated(bv);
+			else
+				return false;
+			return true;
 		}
 	};
 
 	private static final IVisitor<PaperProgress> paperprogressG = new IVisitor<PaperProgress>() {
 
 		@Override
-		public void visit(PaperProgress w, String k, String v, boolean bv, double dv) {
+		public boolean visit(PaperProgress w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRMAX))
 				w.setMax(dv);
 			else if (k.equals(IConsts.ATTRMAXS))
@@ -780,8 +905,198 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 				w.setValue(v);
 			else if (k.equals(IConsts.ATTRINDETERMINATE))
 				w.setIndeterminate(bv);
+			else
+				return false;
+			return true;
 		}
 
+	};
+
+	private static final IVisitor<PaperRadioButton> paperradiobuttonG = new IVisitor<PaperRadioButton>() {
+
+		@Override
+		public boolean visit(PaperRadioButton w, String k, String v, boolean bv, double dv) {
+			if (k.equals(IConsts.ATTRFOCUSED))
+				w.setFocused(bv);
+			else if (k.equals(IConsts.ATTRPOINTERDOWN))
+				w.setPointerDown(bv);
+			else if (k.equals(IConsts.ATTRPRESSED))
+				w.setPressed(bv);
+			else if (k.equals(IConsts.ATTRTOGGLES))
+				w.setToggles(bv);
+			else if (k.equals(IConsts.ATTRACTIVE))
+				w.setActive(bv);
+			else if (k.equals(IConsts.ATTRCHECKED))
+				w.setChecked(bv);
+			else if (k.equals(IConsts.ATTRINVALID))
+				w.setInvalid(bv);
+			else if (k.equals(IConsts.ATTRVALIDATOR))
+				w.setValidator(v);
+			else if (k.equals(IConsts.ATTRVALIDATORTYPE))
+				w.setValidatorType(v);
+			else if (k.equals(IConsts.ATTRVALUE))
+				w.setValue(v);
+			else
+				return false;
+			return true;
+		}
+
+	};
+
+	private static final IVisitor<PaperRadioGroup> paperradiogroupG = new IVisitor<PaperRadioGroup>() {
+
+		@Override
+		public boolean visit(PaperRadioGroup w, String k, String v, boolean bv, double dv) {
+			if (k.equals(IConsts.ATTRACTIVATEEVENT))
+				w.setActivateEvent(v);
+			else if (k.equals(IConsts.ATTRALLOWEMPTYSELECTION))
+				w.setAllowEmptySelection(bv);
+			else if (k.equals(IConsts.ATTRATTRFORSELECTED))
+				w.setAttrForSelected(v);
+			else if (k.equals(IConsts.ATTRITEMS))
+				w.setItems(v);
+			else if (k.equals(IConsts.ATTRKEYBINDINGS))
+				w.setKeyBindings(v);
+			else if (k.equals(IConsts.ATTRSELECTED))
+				w.setSelected(v);
+			else if (k.equals(IConsts.ATTRSELECTEDATTRIBUTE))
+				w.setSelectedAttribute(v);
+			else if (k.equals(IConsts.ATTRKEYEVENTTARGET))
+				w.setKeyEventTarget(v);
+			else if (k.equals(IConsts.ATTRSELECTABLE))
+				w.setSelectable(v);
+			else if (k.equals(IConsts.ATTRSELECTEDCLASS))
+				w.setSelectable(v);
+			else if (k.equals(IConsts.ATTRSELECTEDITEM))
+				w.setSelectedItem(v);
+			else if (k.equals(IConsts.ATTRSTOPKEYBORADFROMPROPAGATION))
+				w.setStopKeyboardEventPropagation(bv);
+			else
+				return false;
+			return true;
+		}
+	};
+
+	private static final IVisitor<PaperRipple> paperrippleG = new IVisitor<PaperRipple>() {
+
+		@Override
+		public boolean visit(PaperRipple w, String k, String v, boolean bv, double dv) {
+			if (k.equals(IConsts.ATTRANIMATING))
+				w.setAnimating(bv);
+			else if (k.equals(IConsts.ATTRCENTER))
+				w.setCenter(bv);
+			else if (k.equals(IConsts.ATTRHOLDDOWN))
+				w.setHoldDown(bv);
+			else if (k.equals(IConsts.ATTRINITIALOPACITY))
+				w.setInitialOpacity(dv);
+			else if (k.equals(IConsts.ATTRINITIALOPACITYS))
+				w.setInitialOpacity(v);
+			else if (k.equals(IConsts.ATTRKEYBINDINGS))
+				w.setKeyBindings(v);
+			else if (k.equals(IConsts.ATTRKEYEVENTTARGET))
+				w.setKeyEventTarget(v);
+			else if (k.equals(IConsts.ATTROPACITYDECAYVELOCITY))
+				w.setOpacityDecayVelocity(dv);
+			else if (k.equals(IConsts.ATTROPACITYDECAYVELOCITYS))
+				w.setOpacityDecayVelocity(v);
+			else if (k.equals(IConsts.ATTRRECENTERS))
+				w.setRecenters(bv);
+			else if (k.equals(IConsts.ATTRRIPPLES))
+				w.setRipples(v);
+			else if (k.equals(IConsts.ATTRSTOPKEYBORADFROMPROPAGATION))
+				w.setStopKeyboardEventPropagation(bv);
+			else
+				return false;
+			return true;
+		}
+	};
+
+	private static final IVisitor<PaperSpinner> paperspinnerG = new IVisitor<PaperSpinner>() {
+
+		@Override
+		public boolean visit(PaperSpinner w, String k, String v, boolean bv, double dv) {
+			if (k.equals(IConsts.ATTRACTIVE))
+				w.setActive(bv);
+			else if (k.equals(IConsts.ATTRALT))
+				w.setAlt(v);
+			else
+				return false;
+			return true;
+		}
+	};
+
+	private static final IVisitor<PaperSlider> papersliderG = new IVisitor<PaperSlider>() {
+
+		@Override
+		public boolean visit(PaperSlider w, String k, String v, boolean bv, double dv) {
+			if (k.equals(IConsts.ATTRFOCUSED))
+				w.setFocused(bv);
+			else if (k.equals(IConsts.ATTRPOINTERDOWN))
+				w.setPointerDown(bv);
+			else if (k.equals(IConsts.ATTRPRESSED))
+				w.setPressed(bv);
+			else if (k.equals(IConsts.ATTRTOGGLES))
+				w.setToggles(bv);
+			else if (k.equals(IConsts.ATTRACTIVE))
+				w.setActive(bv);
+			else if (k.equals(IConsts.ATTRARIAACTIVEATTRIBUTE))
+				w.setAriaActiveAttribute(v);
+			else if (k.equals(IConsts.ATTRSTOPKEYBORADFROMPROPAGATION))
+				w.setStopKeyboardEventPropagation(bv);
+			else if (k.equals(IConsts.ATTRRECEIVEDFOCUSFROMKEYBOARD))
+				w.setReceivedFocusFromKeyboard(bv);
+			else if (k.equals(IConsts.ATTRKEYEVENTTARGET))
+				w.setKeyEventTarget(v);
+			else if (k.equals(IConsts.ATTRDRAGGING))
+				w.setDragging(bv);
+			else if (k.equals(IConsts.ATTREDITABLE))
+				w.setEditable(bv);
+			else if (k.equals(IConsts.ATTREXPAND))
+				w.setExpand(bv);
+			else if (k.equals(IConsts.ATTRIMMEDIATEVALUE))
+				w.setImmediateValue(dv);
+			else if (k.equals(IConsts.ATTRIMMEDIATEVALUES))
+				w.setImmediateValue(v);
+			else if (k.equals(IConsts.ATTRMARKERS))
+				w.setMarkers(v);
+			else if (k.equals(IConsts.ATTRMAX))
+				w.setMax(dv);
+			else if (k.equals(IConsts.ATTRMAXS))
+				w.setMax(v);
+			else if (k.equals(IConsts.ATTRMAXMARKERS))
+				w.setMaxMarkers(dv);
+			else if (k.equals(IConsts.ATTRMAXMARKERSS))
+				w.setMaxMarkers(v);
+			else if (k.equals(IConsts.ATTRMIN))
+				w.setMin(dv);
+			else if (k.equals(IConsts.ATTRMINS))
+				w.setMin(v);
+			else if (k.equals(IConsts.ATTRPIN))
+				w.setPin(bv);
+			else if (k.equals(IConsts.ATTRRATIO))
+				w.setRatio(dv);
+			else if (k.equals(IConsts.ATTRRATIOS))
+				w.setRatio(v);
+			else if (k.equals(IConsts.ATTRSECONDARYPROGESS))
+				w.setSecondaryProgress(dv);
+			else if (k.equals(IConsts.ATTRSECONDARYPROGESSS))
+				w.setSecondaryProgress(v);
+			else if (k.equals(IConsts.ATTRSNAPS))
+				w.setSnaps(bv);
+			else if (k.equals(IConsts.ATTRSTEP))
+				w.setStep(dv);
+			else if (k.equals(IConsts.ATTRSTEPS))
+				w.setStep(v);
+			else if (k.equals(IConsts.ATTRTRANSITING))
+				w.setTransiting(bv);
+			else if (k.equals(IConsts.ATTRVALUE))
+				w.setValue(dv);
+			else if (k.equals(IConsts.ATTRVALUES))
+				w.setValue(v);
+			else
+				return false;
+			return true;
+		}
 	};
 
 	private final static Map<WidgetTypes, IVisitor<Widget>[]> setAWidget = new HashMap<WidgetTypes, IVisitor<Widget>[]>();
@@ -789,7 +1104,13 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 	static {
 		setAWidget.put(WidgetTypes.Button, new IVisitor[] { argF, argbaseB });
 		setAWidget.put(WidgetTypes.Label, new IVisitor[] { argL });
+		setAWidget.put(WidgetTypes.InlineLabel, new IVisitor[] { argL }); // the
+																			// same
+																			// as
+																			// Label
+		setAWidget.put(WidgetTypes.HTML, new IVisitor[] { argL, argHTML });
 		setAWidget.put(WidgetTypes.HTMLPanel, new IVisitor[] {});
+		setAWidget.put(WidgetTypes.FlowPanel, new IVisitor[] {});
 		setAWidget.put(WidgetTypes.PaperIconItem, new IVisitor[] { polymerWidgetG, paperIconItemG });
 		setAWidget.put(WidgetTypes.IronIcon, new IVisitor[] { polymerWidgetG, ironIconG });
 		setAWidget.put(WidgetTypes.PaperButton, new IVisitor[] { polymerWidgetG, paperbuttonG });
@@ -811,6 +1132,12 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 		setAWidget.put(WidgetTypes.PaperTextarea, new IVisitor[] { polymerWidgetG, papertextareaG });
 		setAWidget.put(WidgetTypes.PaperMaterial, new IVisitor[] { polymerWidgetG, papermaterialG });
 		setAWidget.put(WidgetTypes.PaperProgress, new IVisitor[] { polymerWidgetG, paperprogressG });
+		setAWidget.put(WidgetTypes.PaperRadioButton, new IVisitor[] { polymerWidgetG, paperradiobuttonG });
+		setAWidget.put(WidgetTypes.PaperRadioGroup, new IVisitor[] { polymerWidgetG, paperradiogroupG });
+		setAWidget.put(WidgetTypes.PaperRipple, new IVisitor[] { polymerWidgetG, paperrippleG });
+		setAWidget.put(WidgetTypes.PaperSpinner, new IVisitor[] { polymerWidgetG, paperspinnerG });
+		setAWidget.put(WidgetTypes.PaperSlider, new IVisitor[] { polymerWidgetG, papersliderG });
+		setAWidget.put(WidgetTypes.PaperTab, new IVisitor[] { polymerWidgetG, papertabG });
 	}
 
 	private WidgetTypes widgetToType(Widget w) {
@@ -834,9 +1161,12 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 			// exception expected
 			dval = DecimalUtils.toDoubleE(v, -1);
 		}
-		argW.visit(w, attr, v, bval, dval);
+		boolean found = argW.visit(w, attr, v, bval, dval);
 		for (IVisitor vi : setAWidget.get(widgetToType(w)))
-			vi.visit(w, attr, v, bval, dval);
+			found |= vi.visit(w, attr, v, bval, dval);
+		if (!found) {
+			Utils.errAlertB(widgetToType(w).toString(), LogT.getT().AttributeNotRecognized(attr, val));
+		}
 	}
 
 }

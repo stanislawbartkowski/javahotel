@@ -23,6 +23,7 @@ import com.gwtmodel.table.editw.IFormChangeListener;
 import com.gwtmodel.table.editw.IFormFieldProperties;
 import com.gwtmodel.table.editw.IFormLineView;
 import com.gwtmodel.table.editw.ITouchListener;
+import com.gwtmodel.table.mm.LogT;
 import com.gwtmodel.table.mm.MM;
 import com.vaadin.polymer.elemental.EventListener;
 import com.vaadin.polymer.iron.event.KeysPressedEvent;

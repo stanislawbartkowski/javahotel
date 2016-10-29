@@ -28,12 +28,14 @@ import com.gwtmodel.table.binder.BinderWidget;
 import com.gwtmodel.table.binder.WidgetTypes;
 import com.gwtmodel.table.common.CUtil;
 import com.jamesmurty.utils.XMLBuilder;
+import com.jythonui.server.IBinderUIStyle;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.holder.SHolder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.shared.ICommonConsts;
+import com.jythonui.shared.JythonUIFatal;
 
 class BinderHandler extends DefaultHandler {
 
@@ -46,12 +48,19 @@ class BinderHandler extends DefaultHandler {
 		XMLBuilder builder;
 		Stack<StringBuffer> buf = new Stack<StringBuffer>();
 
-		Tag(WidgetTypes w, Attributes attr) throws ParserConfigurationException, FactoryConfigurationError {
+		Tag(WidgetTypes w, Attributes attr)
+				throws ParserConfigurationException, FactoryConfigurationError, SAXException {
 			b.setType(w);
 			buf.push(new StringBuffer());
 			for (int i = 0; i < attr.getLength(); i++) {
 				String key = attr.getLocalName(i);
-				String val = attr.getValue(i);
+				String val = null;
+				try {
+					val = resC.fixAttrValue(attr.getValue(i));
+				} catch (JythonUIFatal e) {
+					// not happy, exception in constructor
+					throw new SAXException(e.getMessage());
+				}
 				b.setAttr(key, val);
 			}
 			builder = XMLBuilder.create(root);
@@ -59,14 +68,23 @@ class BinderHandler extends DefaultHandler {
 	}
 
 	private Stack<Tag> sta = new Stack<Tag>();
+	private StringBuffer charb = null;
 
 	private static Random ra = new Random();
 
 	BinderWidget parsed;
+	
+	private final IBinderUIStyle resC = SHolder.getiStyleBinderFactory().construct();
 
 	private static String genId() {
 		return "binder-" + ra.nextInt();
 
+	}
+
+	private static void throwE(String errC, String errM, String... pars) throws SAXException {
+		String mess = L().getMess(errC, errM, pars);
+		log.severe(mess);
+		throw new SAXException(mess);
 	}
 
 	private static boolean isNameSpace(String uri) {
@@ -81,18 +99,32 @@ class BinderHandler extends DefaultHandler {
 
 		if (!isNameSpace(uri))
 			return null;
+		if (isSpec(uri, localName))
+			return null;
 		try {
 			return WidgetTypes.valueOf(localName);
 		} catch (IllegalArgumentException e) {
-			String mess = L().getMess(IErrorCode.ERRORCODE129, ILogMess.WIDGETYPESNOTRECOGNIZED, localName);
-			log.severe(mess);
-			throw new SAXException(mess);
+			throwE(IErrorCode.ERRORCODE129, ILogMess.WIDGETYPESNOTRECOGNIZED, localName);
+			return null;
 		}
+	}
+
+	private static boolean isSpecO(String uri, String localName) {
+		return isNameSpace(uri) && CUtil.EqNS(IConsts.OWIDGET, localName);
+	}
+
+	private static boolean isSpecStyle(String uri, String localName) {
+		return isNameSpace(uri) && CUtil.EqNS(IConsts.STYLEW, localName);
+	}
+
+	private static boolean isSpec(String uri, String localName) {
+		return isSpecO(uri, localName) || isSpecStyle(uri, localName);
 	}
 
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
 		// namespace aware, get localName;
+		charb = new StringBuffer();
 		WidgetTypes w = toWi(uri, localName);
 		if (w != null) {
 			try {
@@ -102,15 +134,24 @@ class BinderHandler extends DefaultHandler {
 			}
 			return;
 		}
-		if (isNameSpace(uri) && CUtil.EqNS(IConsts.OWIDGET, localName)) {
-			return;
+		if (isSpecStyle(uri, localName)) {
+			if (sta.isEmpty() || sta.peek().b.getType() != WidgetTypes.UiBinder)
+				throwE(IErrorCode.ERRORCODE132, ILogMess.UISTYLEUIBINDER, qName, WidgetTypes.UiBinder.name());
 		}
+		if (isSpec(uri, localName))
+			return;
 		Tag ta = sta.peek();
 		ta.buf.push(new StringBuffer());
 		ta.builder = ta.builder.e(localName);
 		for (int i = 0; i < attributes.getLength(); i++) {
 			String key = attributes.getLocalName(i);
-			String val = attributes.getValue(i);
+			// replace resource
+			String val = null;
+			try {
+				val = resC.fixAttrValue(attributes.getValue(i));
+			} catch (JythonUIFatal e) {
+				throw new SAXException(e.getMessage());
+			}
 			ta.builder = ta.builder.a(key, val);
 			if (key.equals(ICommonConsts.ID) && val.equals(ICommonConsts.DROPMENUID))
 				ta.b.setIdDropId(true);
@@ -152,23 +193,35 @@ class BinderHandler extends DefaultHandler {
 				}
 				return;
 			}
-			// ignore ui:o
-			if (isNameSpace(uri) && CUtil.EqNS(IConsts.OWIDGET, localName)) {
+			if (isSpecStyle(uri, localName)) {
+				String style = resC.parseStyle(charb.toString());
+				BinderWidget.StyleClass sTyle = new BinderWidget.StyleClass();
+				sTyle.setContent(style);
+				// clear
+				sta.peek().b.getStyleList().add(sTyle);
 				return;
 			}
+			// add to contenthtlm if not ui:style
+			if (sta.peek().b.getType() == WidgetTypes.UiBinder)
+				sta.peek().buf.peek().append(charb);
+			// ignore ui:o
+			if (isSpec(uri, localName))
+				return;
 			Tag ta = sta.peek();
 			StringBuffer bu = ta.buf.pop();
 			ta.builder = ta.builder.t(bu.toString()).up();
 			// System.out.println(localName);
 			// System.out.println(ta.builder.asString());
 		} catch (TransformerException e) {
-			new SAXException(e.getMessage());
+			throw new SAXException(e.getMessage());
 		}
 	}
 
 	@Override
 	public void characters(char ch[], int start, int length) throws SAXException {
-		sta.peek().buf.peek().append(ch, start, length);
+		if (sta.peek().b.getType() != WidgetTypes.UiBinder)
+			sta.peek().buf.peek().append(ch, start, length);
+		charb.append(ch, start, length);
 	}
 
 }

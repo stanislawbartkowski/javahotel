@@ -34,22 +34,35 @@ public class Test68 extends TestHelper {
 		assertNotNull(f);
 		assertFalse(f.isMulti());
 		assertTrue(f.isMenu());
-		assertEquals(TT.STRING,f.getFieldType());
+		assertEquals(TT.STRING, f.getFieldType());
 		assertTrue(f.isMenu());
 		FieldItem f1 = d.findFieldItem("menu1");
 		assertTrue(f1.isMenu());
 		assertTrue(f1.isMulti());
 		FieldItem f2 = d.findFieldItem("menu2");
-		assertEquals("5",f2.getVisLines());
+		assertEquals("5", f2.getVisLines());
 	}
 	
 	@Test
 	public void test2() {
-		DialogFormat d = findDialog("test134.xml");
+		DialogFormat d = findDialog("test140.xml");
 		assertNotNull(d);
 		assertTrue(d.isPolymer());
+		FieldItem f = d.findFieldItem("glob1");
+		assertFalse(f.isBinderField());
+		f = d.findFieldItem("globbool");
+		assertTrue(f.isBinderField());		
+	}
+	
+	@Test
+	public void test3() {
+		DialogFormat d = findDialog("test141.xml");
+		assertNotNull(d);
+		assertTrue(d.isPolymer());
+		FieldItem f = d.findFieldItem("ratings");
+		assertNotNull(f);
+		assertEquals("XX",f.getJsSignalChange());
 	}
 
-	
 
 }
