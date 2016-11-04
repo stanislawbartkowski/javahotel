@@ -11,7 +11,6 @@ Blog: http://hoteljavaopensource.blogspot.com/
 ---
 #2016/10/31 : new version of Jython MVP framewotk
 More Polymer widgets
-
 More info: http://hoteljavaopensource.blogspot.com/2016/10/new-features-in-jython-mvp-framework.html
 ---
 #2016/07/30 : new version of Jython MVP framework
