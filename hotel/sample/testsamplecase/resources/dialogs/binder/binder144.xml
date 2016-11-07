@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<ui:UiBinder xmlns:ui='http://www.jythongwt.uibinderxsd.com'
+	xmlns:g='http://www.jythongwt.uibinderxsd.com' xmlns:p='http://www.jythongwt.uibinderxsd.com'
+	xmlns:i='http://www.jythongwt.uibinderxsd.com' xmlns='http://www.jythongwt.uihtml.com'>
+
+	<ui:style type="com.vaadin.polymer.demo.client.sampler.Sampler.Style">
+
+		.toolbar {
+		background: #00796B !important;
+		}
+		.toolbar > div {
+		justify-content: center;
+		}
+		 .list {
+            background-color: #F5F4F4;
+        }
+	</ui:style>
+	
+
+	<g:HTMLPanel>
+		<style is='custom-style'>
+			.iconpolymer {
+			--paper-fab-background:
+			var(--paper-purple-500);
+			}
+			.icongwt {
+			--paper-fab-background:
+			var(--paper-red-500);
+			}
+			.iconvaadin {
+			--paper-fab-background:
+			var(--paper-light-blue-500);
+			}
+			/* Fix for
+			https://github.com/PolymerElements/paper-menu/issues/31 */
+			paper-item
+			iron-icon,
+			paper-item span {
+			pointer-events: none;
+			}
+		</style>
+
+
+		<p:PaperDrawerPanel fieldid="drawerPanel">
+			<div drawer="">
+				<p:PaperHeaderPanel mode="seamed">
+					<p:PaperToolbar addStyleNames="{style.toolbar} ">
+					</p:PaperToolbar>
+					<g:FlowPanel fieldid="listPanel" addStyleNames="{style.list}" />
+				</p:PaperHeaderPanel>
+			</div>
+		</p:PaperDrawerPanel>
+
+	</g:HTMLPanel>
+
+</ui:UiBinder>
+

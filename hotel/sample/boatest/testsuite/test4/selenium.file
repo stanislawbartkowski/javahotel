@@ -1,0 +1,85 @@
+[alias]
+TABLEROW://tbody/tr[3]/td/div/strong
+LISTBUTTON:id=list
+CLEAR:id=clearPersons
+PNUMBER:pnumber
+NOTFOUND://td//div[text()='Not found !']
+AREYOUREADY://div[text()='Are you ready to add new elem ?']
+ERRORFIELD://input[contains(@class,'dialog-empty-field')]
+[start]
+call:waitforwindow
+-- click list
+click:#LISTBUTTON
+-- wait for lines to expand
+waitFor:#TABLEROW|10
+-- click CLEAR and RESIGN
+click:#CLEAR
+waitFor:#RESIGN
+click:#RESIGN
+-- click CLEAR again and click ACCEPT
+waitForNot:#RESIGN
+click:#CLEAR
+waitFor:#ACCEPT
+click:#ACCEPT
+sleep:5
+--- now FIND
+click:#FIND
+waitFor:#PNUMBER
+click:#PNUMBER
+type:#PNUMBER|1
+type:pnumber-1|1
+click:#FINDFROMBEGINNING
+click:#RESIGN
+waitForNot:#RESIGN
+sleep:1
+--- now remove
+waitFor:#REMOVEITEM
+click:#REMOVEITEM
+waitFor:#ACCEPT
+click:#ACCEPT
+waitForNot:#ACCEPT
+sleep:5
+--- again search
+click:#FIND
+waitFor:#PNUMBER
+type:#PNUMBER|1
+-- insert into 'to' field
+type:pnumber-1|1
+click:#FINDFROMBEGINNING
+waitFor:#NOTFOUND
+waitFor:#ACCEPT
+click:#ACCEPT
+click:#RESIGN
+--- now add new element
+waitFor:#ADDITEM
+click:#ADDITEM
+waitFor:#PNUMBER
+type:#PNUMBER|8
+type:pname|new name
+click:#ACCEPT
+waitFor:#ERRORFIELD
+type:#PNUMBER|201
+click:#ACCEPT
+sleep:1
+waitFor:#AREYOUREADY
+-- confirmation
+sleep:1
+click:#YESBUTTON
+sleep:5
+-- test if 201 exists
+click:#FIND
+waitFor:#PNUMBER
+type:#PNUMBER|201
+-- insert into 'to' field
+type:pnumber-1|201
+click:#FINDFROMBEGINNING
+sleep:1
+click:#RESIGN
+sleep:1
+-- now click modif
+click:#MODIFITEM
+sleep:1
+verEqual:#PNUMBER|201
+verEqual:pname|new name
+click:#RESIGN
+

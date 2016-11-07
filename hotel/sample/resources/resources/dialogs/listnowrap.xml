@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+        <before />
+
+        <jython>
+                <import>from testpack import listnowrap</import>
+                <method>listnowrap.dialogaction({0},{1})</method>
+        </jython>
+
+
+        <list id="list" width="10em" nowrap="" >
+                <columns>
+                  <column id="text" displayname="Long text" width="70%" />
+                  <column id="numb" displayname="No" type="int" width="30%" />
+                </columns>
+        </list>
+
+
+</dialog>

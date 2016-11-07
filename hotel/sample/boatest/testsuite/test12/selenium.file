@@ -1,0 +1,26 @@
+[alias]
+LIST:showlist
+FIRSTNAME:firstname
+LASTNAME:lastname
+SECRET:secret
+COPY:copy
+COPYFIRST:copyfirstname
+COPYLAST:copylastname
+COPYSECRET:copysecret
+COPYUP:copyup
+HIDDEN://input[@name='secret' and @aria-hidden='true']
+[start]
+call:waitforlogin
+sleep:1
+isPresent:#LOGON
+type:#LOGINNAME|guest
+type:#PASSWORD|guest
+click:#LOGON
+---------
+sleep:1
+waitFor:#LIST
+sleep:3
+-- check if 'secret' is hidden
+waitFor:#HIDDEN
+waitForNot:#COPYUP
+

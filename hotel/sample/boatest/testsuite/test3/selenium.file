@@ -1,0 +1,34 @@
+[alias]
+TABLEROW://tbody/tr[3]/td/div/strong
+LISTBUTTON:id=list
+CLEAR:clearPersons
+[start]
+call:waitforwindow
+-- click list
+click:#LISTBUTTON
+waitFor:#CLEAR
+sleep:2
+click:#CLEAR
+waitFor:ACCEPT
+click:#ACCEPT
+-- wait for lines to exand
+waitFor:#TABLEROW|10
+waitFor:#LASTLISTBUTTON
+click:#LASTLISTBUTTON
+-- now last should be disabled
+waitFor:#LASTLISTBUTTONDISABLED
+-- now try to add something
+click:#ADDITEM
+waitFor:#ACCEPT
+click:#ACCEPT
+sleep:1
+mouseOver:pnumber
+click:RESIGN
+---
+--- make sure the list again is exposed
+waitFor:#FIRSTLISTBUTTON
+click:#FIRSTLISTBUTTON
+waitFor:#TABLEROW
+
+
+

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+	<before />
+
+	<jython>
+		<import>from testpack import numbergrid</import>
+		<method>numbergrid.dialogaction({0},{1})</method>
+	</jython>
+
+	<buttons>
+		<button id="check" displayname="Check" />
+	</buttons>
+
+	<checklist id="prices" displayname="Prices" type="decimal"
+		afterdot="2">
+	</checklist>
+
+</dialog>

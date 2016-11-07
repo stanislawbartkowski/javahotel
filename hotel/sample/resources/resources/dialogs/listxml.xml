@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+<displayname>Record</displayname>
+<before/>
+<parent>dialogtabxml.xml</parent>
+
+<asxml>crud_add,crud_change</asxml>
+
+ <jython>
+   <import>from testpack import listxml</import>
+   <method>listxml.elemaction({0},{1})</method>
+ </jython>
+
+ <form>
+   <field id="id" displayname="Key" type="long" readonly="" />
+   <field id="name1" displayname="First name" />
+   <field id="name2" displayname="Family name" />
+ </form> 
+   
+</dialog>

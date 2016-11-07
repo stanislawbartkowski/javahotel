@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+        <before />
+
+        <jython>
+                <import>from testpack import listwithspinner</import>
+                <method>listwithspinner.dialogaction({0},{1})</method>
+        </jython>
+
+        <list id="list" displayname="Edit list of keys" aftereditrow="" width="40%" toolbartype="listshowonly" >
+          <!--                <standbutt>TOOLS,SHOW,FIND,FILTER</standbutt> -->
+                <columns>
+                        <column id="id" displayname="storeKey" type="long" width="20%" />
+                        <column id="pnumber" displayname="Number" type="spinner" editable="" notempty="" width="40%" editcss="width:3em;"/>
+                        <column id="pname" displayname="Name" editable="" width="30%" editcss="width:5em;" />
+                </columns>
+        </list>
+ </dialog>

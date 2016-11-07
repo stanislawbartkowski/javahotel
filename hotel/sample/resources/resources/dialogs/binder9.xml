@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="Icon Button" polymer="">
+ 
+ <uibinder>binder/binder9.xml</uibinder>
+ 
+  <before />
+ 
+  <jython>
+   <import>from testpack import binder1</import>
+   <method>binder1.dialogaction({0},{1})</method>
+ </jython>  
+
+  <buttons>
+   <button id="papericon1" displayname="" actiontype="JOK_MESSAGE" actionparam="I'm Icon Menu, am I not ? Thanks for clicking me !" actionparam1="PaperFab"/>
+   <button id="papericon2" displayname="" actiontype="JOK_MESSAGE" actionparam="I'm Heart Menu, am I not ? Thanks for clicking me !" actionparam1="PaperFab"/>
+  </buttons>  
+
+
+</dialog>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+	<before />
+
+	<jython>
+		<import>from testpack import testdateline</import>
+		<method>testdateline.dialogaction({0},{1})</method>
+	</jython>
+
+	<dateline id="dateline" colno="10" lineid="id" dateid="datecol" defafile="name1" file="file">
+		<columns>
+			<column id="id" type="long" hidden="" />
+			<column id="displayname" />
+		</columns>
+		<files>
+		  <filedef id="name1" file="x.html" />
+		</files>
+	</dateline>
+
+
+</dialog>

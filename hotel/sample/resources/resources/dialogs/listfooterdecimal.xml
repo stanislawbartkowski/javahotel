@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+	<before />
+
+	<jython>
+		<import>from testpack import listfooterdecimal</import>
+		<method>listfooterdecimal.dialogaction({0},{1})</method>
+	</jython>
+
+
+	<list id="list" toolbartype="listonly">
+		<columns>
+			<column id="id" displayname="Number" type="long"/>
+			<column id="number" displayname="Amount" type="decimal" afterdot="3" footer="" />
+		</columns>
+	</list>
+
+
+</dialog>

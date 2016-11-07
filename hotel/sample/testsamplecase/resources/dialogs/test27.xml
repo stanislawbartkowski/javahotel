@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+
+	<jython>
+		<import>from testpack import testempty</import>
+		<method>testempty.dialogaction({0},{1})</method>
+	</jython>
+
+
+
+	<list id="list">
+		<elemformat>elem27.xml</elemformat>
+		<standbutt>FILTER,SHOW</standbutt>
+		<columns>
+			<column id="id" type="long" />
+			<column id="pnumber" />
+			<column id="pname" />
+		</columns>
+	</list>
+
+	<list id="list1">
+		<elemformat>elem27.xml</elemformat>
+		<standbutt></standbutt>
+		<columns>
+			<column id="id" type="long" />
+		</columns>
+	</list>
+
+
+
+</dialog>

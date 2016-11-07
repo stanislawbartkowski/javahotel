@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+	<list id="lista" displayname="List of entries" aftereditrow=""
+		beforerow="">
+		<columns>
+			<column id="id" type="int" />
+			<column id="name" footer="" />
+		</columns>
+
+		<validaterules>
+
+			<validate>
+				<id>glob1</id>
+				<op>lt</op>
+				<id1>globbool</id1>
+				<displayname>Hi hi ...</displayname>
+			</validate>
+
+			<validate id="globint" op="eq" id1="glob1" displayname="wow !" />
+		</validaterules>
+
+	</list>
+
+</dialog>

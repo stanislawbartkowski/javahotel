@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+<before/>
+ 
+ <jython>
+   <import>from testpack import main</import>
+   <method>main.dialogaction({0},{1})</method>
+ </jython>  
+
+<leftmenu>
+  <button id="main" displayname="Main form"/>
+  
+  <button id="okmessage" displayname="Ok Message" actiontype="JOK_MESSAGE" actionparam="Hello" actionparam1="Title" />
+  <button id="errmessage" displayname="Err Message" actiontype="JERROR_MESSAGE" actionparam="Terrible error" actionparam1="Fatal" />
+
+  <button id="list" displayname="List" actiontype="JMAIN_DIALOG" actionparam="list.xml"/>
+  <button id="updialog" displayname="Dialog" actiontype="JUP_DIALOG" actionparam="updialog.xml"/>
+  <button id="dcombo" displayname="Combo dialog" actiontype="JMAIN_DIALOG" actionparam="dialcombo.xml" />
+  <button id="dhelper" displayname="Helper dialog" actiontype="JMAIN_DIALOG" actionparam="helperdialog.xml" />
+  <button id="dtext" displayname="Text area" actiontype="JMAIN_DIALOG" actionparam="textdialog.xml" />
+  <button id="dlist" displayname="Time list" actiontype="JMAIN_DIALOG" actionparam="timelist.xml" />
+  <button id="dialog1" displayname="Next dialog" actiontype="JMAIN_DIALOG" actionparam="dialog1.xml" />
+  <button id="listw" displayname="List" actiontype="JMAIN_DIALOG" actionparam="listw.xml" />
+  <button id="list_chunk" displayname="List chunk" actiontype="JMAIN_DIALOG" actionparam="listchunk.xml" />
+  <button id="check_list" displayname="Check list" actiontype="JMAIN_DIALOG" actionparam="checklist.xml" />
+  <!--  <button id="actionlist" displayname="Action list" actiontype="JMAIN_DIALOG" actionparam="actionlist.xml" /> -->
+  <button id="actionlist" displayname="Action list" actiontype="JUP_DIALOG" actionparam="actionlist.xml" />
+  <button id="numbergrid" displayname="Number grid" actiontype="JMAIN_DIALOG" actionparam="numbergrid.xml" />
+  <button id="panedate" displayname="Panel date" actiontype="JMAIN_DIALOG" actionparam="paneldate.xml" />
+  <button id="listfooter" displayname="List with footer" actiontype="JMAIN_DIALOG" actionparam="listfooter.xml" />
+  <button id="editlist" displayname="Edit list" actiontype="JMAIN_DIALOG" actionparam="editlist.xml" />
+  <button id="paymentforweek" displayname="Payment for week" actiontype="JMAIN_DIALOG" actionparam="paymentweek.xml" />
+  <button id="editlisthelper" displayname="Edit list with helper" actiontype="JMAIN_DIALOG" actionparam="editlisthelper.xml" />
+  <button id="dialogres" displayname="Dialog with res" actiontype="JMAIN_DIALOG" actionparam="dialogwithres.xml" />
+  <button id="dialogpanel" displayname="Dialog html panel" actiontype="JMAIN_DIALOG" actionparam="dialogpanel.xml" />
+  <button id="dialogtabpanel" displayname="Dialog tab panel" actiontype="JMAIN_DIALOG" actionparam="dialogtabpanel.xml" />
+  <button id="dialogxml" displayname="Dialog base xml" actiontype="JMAIN_DIALOG" actionparam="dialogtabxml.xml" />
+</leftmenu>
+
+<buttons>
+  <button id="tomain" displayname="Popup dialog"/>
+</buttons>
+
+ <upmenu>
+  <button id="dialogxml" displayname="Dialog base xml" actiontype="JMAIN_DIALOG" actionparam="dialogtabxml.xml" />
+  <button id="dialogicon" displayname="List with icon" actiontype="JMAIN_DIALOG" actionparam="dialogicon.xml" />
+  <button id="dialoglabel" displayname="Label dialog" actiontype="JMAIN_DIALOG" actionparam="dialoglabel.xml" />
+  <button id="dialogdict" displayname="Dialog with dict" actiontype="JMAIN_DIALOG" actionparam="dialogdict.xml" />
+</upmenu>
+
+ <form>
+   <field id="glob1" />
+   <field id="globbool" type="bool" notempty="" />
+   <field id="globint" type="int" displayname="Integer value" />
+   <field id="globlong" type="int" displayname="Long value" />
+   <field id="globdecimal" type="decimal" afterdot="2" displayname="Decimal" />
+   <field id="globdate" type="date" displayname="Date" />
+   <field id="globdatetime" type="datetime" displayname="Date and time" />   
+ </form>  
+ 
+</dialog>
+

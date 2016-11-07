@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.jythongwt.typedefxsd.com" xmlns="http://www.jythongwt.typedefxsd.com"
+	elementFormDefault="qualified">
+	
+	<xs:simpleType name="typeName">
+     	<xs:restriction base="xs:string">
+			<xs:enumeration value="combo" />
+			<xs:enumeration value="helper" />
+			<xs:enumeration value="suggest" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:group name="jythonG">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="import" type="xs:string" />
+			<xs:element minOccurs="0" name="method" type="xs:string" />
+		</xs:sequence>
+	</xs:group>
+
+	<xs:attributeGroup name="jythonattrG">
+		<xs:attribute name="import" type="xs:string" />
+		<xs:attribute name="method" type="xs:string" />
+	</xs:attributeGroup>
+	
+	
+	<xs:group name="typedefG">
+		<xs:sequence>
+		  <xs:element name="id" minOccurs="0" />
+		  <xs:element name="type" type="typeName" minOccurs="0" />
+		  
+   		  <xs:element minOccurs="0" name="jython">
+		 	<xs:complexType>
+				<xs:group ref="jythonG" />
+				<xs:attributeGroup ref="jythonattrG" />
+			</xs:complexType>
+		  </xs:element>
+		  
+     	  <xs:group ref="jythonG" minOccurs="0" />
+	      <xs:element minOccurs="0" name="comboid" type="xs:string" />
+	      <xs:element minOccurs="0" name="displayname" type="xs:string" />
+	    </xs:sequence>
+	</xs:group>     
+	
+	<xs:attributeGroup name="typedefattrG">
+		<xs:attribute name="id" type="xs:string" />
+		<xs:attribute name="type" type="typeName" />
+		<xs:attributeGroup ref="jythonattrG" />
+		<xs:attribute name="comboid" type="xs:string" />
+		<xs:attribute name="displayname" type="xs:string" />
+	</xs:attributeGroup>
+	
+	<xs:group name="columnG">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="id" type="xs:string" />
+			<xs:element minOccurs="0" name="displayname" type="xs:string" />
+	    </xs:sequence>
+	</xs:group>
+	
+	<xs:attributeGroup name="columnattrG">
+		<xs:attribute name="id" type="xs:string" />
+		<xs:attribute name="displayname" type="xs:string" />
+    </xs:attributeGroup>	    
+
+	<xs:element name="typedefs">
+		<xs:complexType>
+			<xs:sequence>
+			    <xs:group ref="typedefG" minOccurs="0" />
+				<xs:sequence minOccurs="1" maxOccurs="unbounded">
+				  <xs:element name="typedef">
+					<xs:complexType>
+					
+					  <xs:sequence>
+					  
+ 						<xs:group ref="typedefG" /> 
+                        					
+				    	<xs:element minOccurs="0" name="columns">
+     					  <xs:complexType>
+						     <xs:sequence minOccurs="1" maxOccurs="unbounded">
+							 <xs:element name="column">
+								<xs:complexType>
+									<xs:group ref="columnG" />
+									<xs:attributeGroup ref="columnattrG" />
+								</xs:complexType>
+							</xs:element>
+						    </xs:sequence>
+					      </xs:complexType>
+				        </xs:element>
+
+				     </xs:sequence> 
+						
+				      <xs:attributeGroup ref="typedefattrG" />
+	  		        </xs:complexType>
+  			      </xs:element>
+			    </xs:sequence>  
+			    
+           </xs:sequence>
+        </xs:complexType>
+    </xs:element>      
+	
+</xs:schema>

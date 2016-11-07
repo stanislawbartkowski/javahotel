@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<ui:UiBinder xmlns:ui='http://www.jythongwt.uibinderxsd.com'
+	xmlns:g='http://www.jythongwt.uibinderxsd.com' xmlns:p='http://www.jythongwt.uibinderxsd.com'
+	xmlns:i='http://www.jythongwt.uibinderxsd.com' xmlns='http://www.jythongwt.uihtml.com'>
+
+   <g:HTMLPanel addStyleNames="radio-button-sample">
+        <style is="custom-style">
+            .radio-button-sample paper-radio-button {
+                display: block;
+                margin-bottom: 40px;
+            }
+
+            .radio-button-sample paper-radio-button.blue {
+                --paper-radio-button-checked-color: var(--paper-light-blue-500);
+                --paper-radio-button-checked-ink-color: var(--paper-light-blue-500);
+                --paper-radio-button-unchecked-color: var(--paper-light-blue-900);
+                --paper-radio-button-unchecked-ink-color: var(--paper-light-blue-900);
+            }
+
+            .radio-button-sample paper-radio-button.red {
+                --paper-radio-button-checked-color: var(--paper-red-500);
+                --paper-radio-button-checked-ink-color: var(--paper-red-500);
+                --paper-radio-button-unchecked-color: var(--paper-red-900);
+                --paper-radio-button-unchecked-ink-color: var(--paper-red-900);
+            }
+
+            .radio-button-sample paper-radio-button.green {
+                --paper-radio-button-checked-color: var(--paper-green-500);
+                --paper-radio-button-checked-ink-color: var(--paper-green-500);
+                --paper-radio-button-unchecked-color: var(--paper-green-900);
+                --paper-radio-button-unchecked-ink-color: var(--paper-green-900);
+            }
+
+            .radio-button-sample paper-radio-button.orange {
+                --paper-radio-button-checked-color: var(--paper-orange-500);
+                --paper-radio-button-checked-ink-color: var(--paper-orange-500);
+                --paper-radio-button-unchecked-color: var(--paper-orange-900);
+                --paper-radio-button-unchecked-ink-color: var(--paper-orange-900);
+            }
+        </style>
+
+        <div class="horizontal-section-container center-justified layout">
+            <div>
+                <h4>Enabled</h4>
+                <div class="horizontal-section">
+                    <p:PaperRadioButton>Oxygen</p:PaperRadioButton>
+                    <p:PaperRadioButton>Carbon</p:PaperRadioButton>
+                    <p:PaperRadioButton checked="true">Hydrogen</p:PaperRadioButton>
+                    <p:PaperRadioButton checked="true">Nitrogen</p:PaperRadioButton>
+                    <p:PaperRadioButton checked="true">Calcium</p:PaperRadioButton>
+                </div>
+            </div>
+
+            <div>
+                <h4>Disabled</h4>
+                <div class="horizontal-section">
+                    <p:PaperRadioButton disabled="true">Oxygen</p:PaperRadioButton>
+                    <p:PaperRadioButton disabled="true">Carbon</p:PaperRadioButton>
+                    <p:PaperRadioButton checked="true" disabled="true">Hydrogen</p:PaperRadioButton>
+                    <p:PaperRadioButton checked="true" disabled="true">Nitrogen</p:PaperRadioButton>
+                    <p:PaperRadioButton checked="true" disabled="true">Calcium</p:PaperRadioButton>
+                </div>
+            </div>
+
+            <div>
+                <h4>Color</h4>
+                <div class="horizontal-section">
+                    <p:PaperRadioButton addStyleNames="blue" checked="true">Oxygen</p:PaperRadioButton>
+                    <p:PaperRadioButton addStyleNames="red" checked="true">Carbon</p:PaperRadioButton>
+                    <p:PaperRadioButton addStyleNames="orange" checked="true">Hydrogen</p:PaperRadioButton>
+                    <p:PaperRadioButton addStyleNames="green" checked="true">Nitrogen</p:PaperRadioButton>
+                    <p:PaperRadioButton addStyleNames="blue" checked="true">Calcium</p:PaperRadioButton>
+                </div>
+            </div>
+        </div>
+    </g:HTMLPanel>
+    
+ </ui:UiBinder>

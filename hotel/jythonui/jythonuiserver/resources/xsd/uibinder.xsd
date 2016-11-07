@@ -1,0 +1,698 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.jythongwt.uibinderxsd.com" xmlns="http://www.jythongwt.uibinderxsd.com"
+	elementFormDefault="qualified">
+
+	<!-- Types -->
+	<xs:simpleType name="justifyType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="start" />
+			<xs:enumeration value="center" />
+			<xs:enumeration value="end" />
+			<xs:enumeration value="justified" />
+			<xs:enumeration value="around" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<!-- Attributes -->
+	<xs:attributeGroup name="objectG">
+		<xs:attribute name="addStyleNames" type="xs:string" />
+		<xs:attribute name="fieldid" type="xs:string" />
+		<xs:attribute name="size" type="xs:string" />
+		<xs:attribute name="pixelSize" type="xs:string" />
+		<xs:attribute name="height" type="xs:string" />
+		<xs:attribute name="styleName" type="xs:string" />
+		<xs:attribute name="stylePrimaryName" type="xs:string" />
+		<xs:attribute name="title" type="xs:string" />
+		<xs:attribute name="visible" type="xs:boolean" />
+		<xs:attribute name="width" type="xs:string" />
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="labelG">
+		<xs:attributeGroup ref="objectG"></xs:attributeGroup>
+		<xs:attribute name="text" type="xs:string" />
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="htmlG">
+		<xs:attributeGroup ref="labelG"></xs:attributeGroup>
+		<xs:attribute name="HTML" type="xs:string" />
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="inlineLabelG">
+		<xs:attributeGroup ref="labelG"></xs:attributeGroup>
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="focusWidgetG">
+		<xs:attributeGroup ref="objectG"></xs:attributeGroup>
+		<xs:attribute name="enabled" type="xs:boolean" />
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="buttonBaseG">
+		<xs:attributeGroup ref="focusWidgetG"></xs:attributeGroup>
+		<xs:attribute name="text" type="xs:string" />
+		<xs:attribute name="html" type="xs:string" />
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="imageG">
+		<xs:attributeGroup ref="objectG"></xs:attributeGroup>
+		<xs:attribute name="url" type="xs:string" />
+		<xs:attribute name="altText" type="xs:string" />
+	</xs:attributeGroup>
+
+
+	<xs:attributeGroup name="polymerWidgetG">
+		<xs:attributeGroup ref="objectG"></xs:attributeGroup>
+		<xs:attribute name="attributes" type="xs:string" />
+		<xs:attribute name="booleanAttribute" type="xs:string" />
+		<xs:attribute name="disabled" type="xs:boolean" />
+		<xs:attribute name="id" type="xs:string" />
+		<xs:attribute name="name" type="xs:string" />
+		<xs:attribute name="noink" type="xs:boolean" />
+		<xs:attribute name="style" type="xs:string" />
+		<xs:attribute name="tabindex" type="xs:nonNegativeInteger"></xs:attribute>
+		<xs:attribute name="class" type="xs:string"></xs:attribute>
+		<xs:attribute name="ariaLabel" type="xs:string"></xs:attribute>
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="baseButtonItemG">
+		<xs:attributeGroup ref="polymerWidgetG"></xs:attributeGroup>
+		<xs:attribute name="focused" type="xs:boolean" />
+		<xs:attribute name="pointerDown" type="xs:boolean" />
+		<xs:attribute name="pressed" type="xs:boolean" />
+		<xs:attribute name="toggles" type="xs:boolean" />
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="paperCheckboxG">
+		<xs:attributeGroup ref="baseButtonItemG"></xs:attributeGroup>
+		<xs:attribute name="checked" type="xs:boolean" />
+		<xs:attribute name="invalid" type="xs:boolean" />
+		<xs:attribute name="validator" type="xs:string" />
+		<xs:attribute name="validatorType" type="xs:string" />
+		<xs:attribute name="value" type="xs:string" />
+	</xs:attributeGroup>
+
+
+	<xs:attributeGroup name="paperIconItemG">
+		<xs:attributeGroup ref="baseButtonItemG"></xs:attributeGroup>
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="ironIconG">
+		<xs:attributeGroup ref="polymerWidgetG"></xs:attributeGroup>
+		<xs:attribute name="icon" type="xs:string" />
+		<xs:attribute name="src" type="xs:string" />
+		<xs:attribute name="theme" type="xs:string" />
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="paperItemG">
+		<xs:attributeGroup ref="baseButtonItemG"></xs:attributeGroup>
+		<xs:attribute name="active" type="xs:boolean" />
+		<xs:attribute name="ariaActiveAttribute" type="xs:string" />
+		<xs:attribute name="keyBindings" type="xs:string" />
+		<xs:attribute name="stopKeyboardEventPropagation" type="xs:boolean" />
+		<xs:attribute name="keyEventTarget" type="xs:string" />
+		<xs:attribute name="receivedFocusFromKeyboard" type="xs:boolean" />
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="paperButtonG">
+		<xs:attributeGroup ref="paperItemG"></xs:attributeGroup>
+		<xs:attribute name="elevation" type="xs:string" />
+		<xs:attribute name="raised" type="xs:boolean" />
+		<xs:attribute name="elevationFloat" type="xs:float" />
+	</xs:attributeGroup>
+
+
+	<xs:attributeGroup name="paperHeaderPanelG">
+		<xs:attributeGroup ref="polymerWidgetG"></xs:attributeGroup>
+		<xs:attribute name="atTop" type="xs:boolean" />
+		<xs:attribute name="mode" type="xs:string" />
+		<xs:attribute name="shadow" type="xs:string" />
+		<xs:attribute name="tallClass" type="xs:string" />
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="paperToolbarG">
+		<xs:attributeGroup ref="polymerWidgetG"></xs:attributeGroup>
+		<xs:attribute name="bottomJustify" type="justifyType" />
+		<xs:attribute name="justify" type="justifyType" />
+		<xs:attribute name="middleJustify" type="justifyType" />
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="paperIconButtonG">
+		<xs:attributeGroup ref="baseButtonItemG"></xs:attributeGroup>
+		<xs:attribute name="icon" type="xs:string" />
+		<xs:attribute name="src" type="xs:string" />
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="paperDrawePaneG">
+		<xs:attributeGroup ref="polymerWidgetG"></xs:attributeGroup>
+		<xs:attribute name="defaultSelected" type="xs:string" />
+		<xs:attribute name="disableEdgeSwipe" type="xs:boolean" />
+		<xs:attribute name="dragging" type="xs:string" />
+		<xs:attribute name="drawerToggleAttribute" type="xs:string" />
+		<xs:attribute name="drawerWidth" type="xs:string" />
+		<xs:attribute name="edgeSwipeSensitivity" type="xs:float" />
+		<xs:attribute name="edgeSwipeSensitivityPixels" type="xs:string" />
+		<xs:attribute name="forceNarrow" type="xs:string" />
+		<xs:attribute name="hasTransform" type="xs:boolean" />
+		<xs:attribute name="hasWillChange" type="xs:boolean" />
+		<xs:attribute name="narrow" type="xs:boolean" />
+		<xs:attribute name="peeking" type="xs:boolean" />
+		<xs:attribute name="responsiveWidth" type="xs:string" />
+		<xs:attribute name="rightDrawer" type="xs:boolean" />
+		<xs:attribute name="selected" type="xs:string" />
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="paperDialogG">
+		<xs:attributeGroup ref="polymerWidgetG"></xs:attributeGroup>
+		<xs:attribute name="animationConfig" type="xs:string" />
+		<xs:attribute name="autoFitOnAttach" type="xs:boolean" />
+		<xs:attribute name="canceled" type="xs:boolean" />
+		<xs:attribute name="entryAnimation" type="xs:string" />
+		<xs:attribute name="exitAnimation" type="xs:string" />
+		<xs:attribute name="fitInto" type="xs:string" />
+		<xs:attribute name="modal" type="xs:boolean" />
+		<xs:attribute name="noAutoFocus" type="xs:boolean" />
+		<xs:attribute name="noCancelOnEscKey" type="xs:boolean" />
+		<xs:attribute name="noCancelOnOutsideClick" type="xs:boolean" />
+		<xs:attribute name="opened" type="xs:boolean" />
+		<xs:attribute name="sizingTarget" type="xs:string" />
+		<xs:attribute name="withBackdrop" type="xs:boolean" />
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="paperDialogScrollableG">
+		<xs:attributeGroup ref="polymerWidgetG"></xs:attributeGroup>
+		<xs:attribute name="dialogElement" type="xs:string" />
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="paperDropdownMenuG">
+		<xs:attributeGroup ref="baseButtonItemG"></xs:attributeGroup>
+		<xs:attribute name="active" type="xs:boolean" />
+		<xs:attribute name="alwaysFloatLabel" type="xs:boolean" />
+		<xs:attribute name="ariaActiveAttribute" type="xs:string" />
+		<xs:attribute name="horizontalAlign" type="xs:string" />
+		<xs:attribute name="invalid" type="xs:string" />
+		<xs:attribute name="keyBindgings" type="xs:string" />
+		<xs:attribute name="keyEventTarget" type="xs:string" />
+		<xs:attribute name="label" type="xs:string" />
+		<xs:attribute name="noAnimations" type="xs:boolean" />
+		<xs:attribute name="noLabelFloat" type="xs:boolean" />
+		<xs:attribute name="opened" type="xs:boolean" />
+		<xs:attribute name="placeholder" type="xs:string" />
+		<xs:attribute name="receivedFocusFromKeyboard" type="xs:boolean" />
+		<xs:attribute name="required" type="xs:boolean" />
+		<xs:attribute name="selectedItem" type="xs:string" />
+		<xs:attribute name="selectedItemLabel" type="xs:string" />
+		<xs:attribute name="stopKeyboardEventPropagation" type="xs:boolean" />
+		<xs:attribute name="validator" type="xs:string" />
+		<xs:attribute name="validatorType" type="xs:string" />
+		<xs:attribute name="value" type="xs:string" />
+		<xs:attribute name="verticalAlign" type="xs:string" />
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="paperMenuG">
+		<xs:attributeGroup ref="polymerWidgetG"></xs:attributeGroup>
+		<xs:attribute name="activateEvent" type="xs:string" />
+		<xs:attribute name="attrForItemTitle" type="xs:string" />
+		<xs:attribute name="attrForSelected" type="xs:string" />
+		<xs:attribute name="focusedItem" type="xs:string" />
+		<xs:attribute name="items" type="xs:string" />
+		<xs:attribute name="keyBindings" type="xs:string" />
+		<xs:attribute name="multi" type="xs:boolean" />
+		<xs:attribute name="selected" type="xs:string" />
+		<xs:attribute name="selectedAttribute" type="xs:string" />
+		<xs:attribute name="selectedItem" type="xs:string" />
+		<xs:attribute name="selectedItems" type="xs:string" />
+		<xs:attribute name="selectedValues" type="xs:string" />
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="paperTabsG">
+		<xs:attributeGroup ref="paperMenuG"></xs:attributeGroup>
+		<xs:attribute name="alignBottom" type="xs:boolean" />
+		<xs:attribute name="disableDrag" type="xs:boolean" />
+		<xs:attribute name="hideScrollButtons" type="xs:boolean" />
+		<xs:attribute name="noBar" type="xs:boolean" />
+		<xs:attribute name="noSlide" type="xs:boolean" />
+		<xs:attribute name="noInk" type="xs:boolean" />
+		<xs:attribute name="scrollable" type="xs:boolean" />
+		<xs:attribute name="autoselect" type="xs:boolean" />
+		<xs:attribute name="autoselectDelay" type="xs:float" />
+		<xs:attribute name="autoselectDelayS" type="xs:string" />
+		<xs:attribute name="fallbackSelection" type="xs:string" />
+		<xs:attribute name="fitContainer" type="xs:boolean" />
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="paperTabG">
+		<xs:attributeGroup ref="baseButtonItemG"></xs:attributeGroup>
+		<xs:attribute name="link" type="xs:boolean" />
+		<xs:attribute name="noInk" type="xs:boolean" />
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="paperFabG">
+		<xs:attributeGroup ref="paperButtonG"></xs:attributeGroup>
+		<xs:attribute name="icon" type="xs:string" />
+		<xs:attribute name="src" type="xs:string" />
+		<xs:attribute name="mini" type="xs:boolean" />
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="paperInputG">
+		<xs:attributeGroup ref="polymerWidgetG"></xs:attributeGroup>
+		<xs:attribute name="accept" type="xs:string" />
+		<xs:attribute name="allowedPattern" type="xs:string" />
+		<xs:attribute name="alwaysFloatLabel" type="xs:boolean" />
+		<xs:attribute name="autocapitalize" type="xs:string" />
+		<xs:attribute name="autocomplete" type="xs:string" />
+		<xs:attribute name="autocorrect" type="xs:string" />
+		<xs:attribute name="autofocus" type="xs:boolean" />
+		<xs:attribute name="autosave" type="xs:boolean" />
+		<xs:attribute name="autoValidate" type="xs:boolean" />
+		<xs:attribute name="charCounter" type="xs:boolean" />
+		<xs:attribute name="errorMessage" type="xs:string" />
+		<xs:attribute name="focused" type="xs:boolean" />
+		<xs:attribute name="inputMode" type="xs:boolean" />
+		<xs:attribute name="invalid" type="xs:boolean" />
+		<xs:attribute name="label" type="xs:string" />
+		<xs:attribute name="list" type="xs:string" />
+		<xs:attribute name="max" type="xs:string" />
+		<xs:attribute name="maxlength" type="xs:float" />
+		<xs:attribute name="maxlengthS" type="xs:string" />
+		<xs:attribute name="min" type="xs:string" />
+		<xs:attribute name="minlength" type="xs:float" />
+		<xs:attribute name="minlengthS" type="xs:string" />
+		<xs:attribute name="noLabelFloat" type="xs:boolean" />
+		<xs:attribute name="pattern" type="xs:string" />
+		<xs:attribute name="placeholder" type="xs:string" />
+		<xs:attribute name="preventInvalidInput" type="xs:boolean" />
+		<xs:attribute name="readOnly" type="xs:boolean" />
+		<xs:attribute name="required" type="xs:boolean" />
+		<xs:attribute name="results" type="xs:boolean" />
+		<xs:attribute name="resultsS" type="xs:string" />
+		<xs:attribute name="sizeS" type="xs:string" />
+		<xs:attribute name="type" type="xs:string" />
+		<xs:attribute name="validator" type="xs:string" />
+		<xs:attribute name="value" type="xs:string" />
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="paperTextareaG">
+		<xs:attributeGroup ref="paperInputG"></xs:attributeGroup>
+		<xs:attribute name="maxRows" type="xs:float" />
+		<xs:attribute name="maxRowsS" type="xs:string" />
+		<xs:attribute name="multiple" type="xs:boolean" />
+		<xs:attribute name="rows" type="xs:float" />
+		<xs:attribute name="rowsS" type="xs:string" />
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="paperMaterialG">
+		<xs:attributeGroup ref="polymerWidgetG"></xs:attributeGroup>
+		<xs:attribute name="elevation" type="xs:string" />
+		<xs:attribute name="animated" type="xs:boolean" />
+		<xs:attribute name="elevationFloat" type="xs:float" />
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="paperProgressG">
+		<xs:attributeGroup ref="polymerWidgetG"></xs:attributeGroup>
+		<xs:attribute name="max" type="xs:float" />
+		<xs:attribute name="maxS" type="xs:string" />
+		<xs:attribute name="min" type="xs:float" />
+		<xs:attribute name="minS" type="xs:string" />
+		<xs:attribute name="ratio" type="xs:float" />
+		<xs:attribute name="ratioS" type="xs:string" />
+		<xs:attribute name="secondaryProgress" type="xs:float" />
+		<xs:attribute name="secondaryProgressS" type="xs:string" />
+		<xs:attribute name="secondaryRatio" type="xs:float" />
+		<xs:attribute name="secondaryRatioS" type="xs:string" />
+		<xs:attribute name="step" type="xs:float" />
+		<xs:attribute name="stepS" type="xs:string" />
+		<xs:attribute name="value" type="xs:float" />
+		<xs:attribute name="valueS" type="xs:string" />
+		<xs:attribute name="indeterminate" type="xs:boolean" />
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="paperRadioButtonG">
+		<xs:attributeGroup ref="paperCheckboxG"></xs:attributeGroup>
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="paperRadioBoxG">
+		<xs:attributeGroup ref="polymerWidgetG"></xs:attributeGroup>
+		<xs:attribute name="activateEvent" type="xs:string" />
+		<xs:attribute name="allowEmptySelection" type="xs:boolean" />
+		<xs:attribute name="attrForSelected" type="xs:string" />
+		<xs:attribute name="items" type="xs:string" />
+		<xs:attribute name="keyBindings" type="xs:string" />
+		<xs:attribute name="keyEventTarget" type="xs:string" />
+		<xs:attribute name="selectable" type="xs:string" />
+		<xs:attribute name="selected" type="xs:string" />
+		<xs:attribute name="selectedAttribute" type="xs:string" />
+		<xs:attribute name="selectedClass" type="xs:string" />
+		<xs:attribute name="selectedItem" type="xs:string" />
+		<xs:attribute name="stopKeyboardEventPropagation" type="xs:boolean" />
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="paperRippleG">
+		<xs:attributeGroup ref="polymerWidgetG"></xs:attributeGroup>
+		<xs:attribute name="animating" type="xs:boolean" />
+		<xs:attribute name="center" type="xs:boolean" />
+		<xs:attribute name="holdDown" type="xs:boolean" />
+		<xs:attribute name="initialOpacity" type="xs:float" />
+		<xs:attribute name="initialOpacityS" type="xs:string" />
+		<xs:attribute name="keyBindings" type="xs:string" />
+		<xs:attribute name="keyEventTarget" type="xs:string" />
+		<xs:attribute name="opacityDecayVelocity" type="xs:float" />
+		<xs:attribute name="opacityDecayVelocityS" type="xs:string" />
+		<xs:attribute name="recenters" type="xs:boolean" />
+		<xs:attribute name="ripples" type="xs:string" />
+		<xs:attribute name="stopKeyboardEventPropagation" type="xs:boolean" />
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="paperSpinnerG">
+		<xs:attributeGroup ref="polymerWidgetG"></xs:attributeGroup>
+		<xs:attribute name="active" type="xs:boolean" />
+		<xs:attribute name="alt" type="xs:string" />
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="paperSliderG">
+		<xs:attributeGroup ref="paperItemG"></xs:attributeGroup>
+		<xs:attribute name="dragging" type="xs:boolean" />
+		<xs:attribute name="editable" type="xs:boolean" />
+		<xs:attribute name="expand" type="xs:boolean" />
+		<xs:attribute name="immediateValue" type="xs:float" />
+		<xs:attribute name="immediateValueS" type="xs:string" />
+		<xs:attribute name="markers" type="xs:string" />
+		<xs:attribute name="max" type="xs:float" />
+		<xs:attribute name="maxS" type="xs:string" />
+		<xs:attribute name="maxMarkers" type="xs:float" />
+		<xs:attribute name="maxMarkersS" type="xs:string" />
+		<xs:attribute name="min" type="xs:float" />
+		<xs:attribute name="minS" type="xs:string" />
+		<xs:attribute name="pin" type="xs:boolean" />
+		<xs:attribute name="ratio" type="xs:boolean" />
+		<xs:attribute name="ratioS" type="xs:boolean" />
+		<xs:attribute name="secondaryProgress" type="xs:float" />
+		<xs:attribute name="secondaryProgressS" type="xs:string" />
+		<xs:attribute name="snaps" type="xs:boolean" />
+		<xs:attribute name="step" type="xs:float" />
+		<xs:attribute name="stepS" type="xs:string" />
+		<xs:attribute name="transiting" type="xs:boolean" />
+		<xs:attribute name="value" type="xs:float" />
+		<xs:attribute name="valueS" type="xs:string" />
+	</xs:attributeGroup>
+
+
+	<!-- Elements -->
+
+	<xs:element name="PaperSlider">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperSliderG" />
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="PaperSpinner">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperSpinnerG" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="PaperRipple">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperRippleG" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="PaperRadioGroup">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperRadioBoxG" />
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="PaperRadioButton">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperRadioButtonG" />
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="PaperProgress">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperProgressG" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="PaperMaterial">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperMaterialG" />
+		</xs:complexType>
+	</xs:element>
+
+
+
+	<xs:element name="PaperTextarea">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperInputG" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="PaperInput">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperInputG" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="PaperItem">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperItemG" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="PaperItemBody">
+	</xs:element>
+
+	<xs:element name="PaperFab">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperFabG" />
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="PaperTabs">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperTabsG" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="PaperTab">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperTabG" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="PaperMenu">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperMenuG" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="PaperDropdownMenu">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperDropdownMenuG" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="PaperDialogScrollable">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperDialogScrollableG" />
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="PaperDialog">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperDialogG" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="PaperDrawerPanel">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperDrawePaneG" />
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="PaperIconButton">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperIconButtonG" />
+		</xs:complexType>
+	</xs:element>
+
+
+
+	<xs:element name="PaperToolbar">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperToolbarG" />
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="PaperHeaderPanel">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperHeaderPanelG" />
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="PaperButton">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperButtonG" />
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="IronIcon">
+		<xs:complexType mixed="true">
+			<xs:attributeGroup ref="ironIconG" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="PaperCheckbox">
+		<xs:complexType mixed="true">
+			<xs:attributeGroup ref="paperCheckboxG" />
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="PaperIconItem">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="paperIconItemG" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="Label">
+		<xs:complexType mixed="true">
+			<xs:attributeGroup ref="labelG" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="InlineLabel">
+		<xs:complexType mixed="true">
+			<xs:attributeGroup ref="inlineLabelG" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="HTML">
+		<xs:complexType mixed="true">
+			<xs:attributeGroup ref="htmlG" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="Image">
+		<xs:complexType mixed="true">
+			<xs:attributeGroup ref="imageG" />
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="Button">
+		<xs:complexType mixed="true">
+			<xs:attributeGroup ref="buttonBaseG" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="HTMLPanel">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="objectG" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="FlowPanel">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="objectG" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="UiBinder">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="1" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="polymerWidgetG"></xs:attributeGroup>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="style">
+	</xs:element>
+	
+
+</xs:schema>

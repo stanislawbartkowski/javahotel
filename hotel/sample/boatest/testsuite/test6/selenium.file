@@ -1,0 +1,24 @@
+[alias]
+DCOMBO:id=dcombo
+LINEHELPER://div[text()='helper 2']
+[start]
+call:waitforwindow
+---
+click:#DCOMBO
+waitFor:combof
+-- wait a moment for combo to be created
+sleep:2
+select:combof|name3
+sleep:2
+-- select combo and verify that values is rewritten
+verEqual:outcombof|3
+click:comboenum-helper
+-- click helper
+waitFor:#LINEHELPER
+-- wait to be developed
+click:#LINEHELPER
+-- click
+click:#CHOOSELIST
+sleep:1
+-- verify that value is copied
+verEqual:comboenum|2

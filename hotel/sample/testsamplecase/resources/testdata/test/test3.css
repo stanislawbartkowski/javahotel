@@ -1,0 +1,13 @@
+        .toolbar paper-fab {
+           margin: 5px;
+        }
+
+        [drawer] {
+            background-color: #ffffff !important;
+        }
+
+        .category {
+            background: #009688;
+            font-size: large;
+            color: #f1f1f1;
+        }

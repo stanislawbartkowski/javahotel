@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+	<before />
+
+	<jython>
+		<import>from testpack import testclass</import>
+		<method>testclass.dialogaction({0},{1})</method>
+	</jython>
+
+	<leftmenu>
+		<button id="ID" displayname="Call script" />
+	</leftmenu>
+
+	<form>
+		<field id="glob1" />
+		<field id="globbool" type="bool" />
+		<field id="globint" type="int" displayname="Integer value" />
+	</form>
+
+
+</dialog>
+

@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+	<before />
+
+	<types>typesenum.xml</types>
+
+	<jython>
+		<import>from testpack import listedithelper</import>
+		<method>listedithelper.doaction({0},{1})</method>
+	</jython>
+	
+	<buttons>
+	  <button id="clearbutton" displayname="Clear all data" actiontype="JYESNO_MESSAGE"
+			actionparam="Do you really want to clear all data ?" actionparam1="Warning before removing"
+			actionparam2="clearaction" />
+	</buttons>
+
+	<list id="listda" displayname="List with helpers" aftereditrow="">
+		<standbutt>TOOLS,SHOW,FIND,FILTER</standbutt>
+		<columns>
+			<column id="id" displayname="id" type="long" />
+			<column id="date1" displayname="Start date" type="date"
+				editable="" notempty="" />
+			<column id="nameid" displayname="Name" helper="" editable=""
+				/>
+			<column id="comboid" displayname="Combo" type="custom:tenum"
+				editable="" />
+			<column id="helperid" displayname="Helper" type="custom:tehelper"
+				editable="" notempty="" />
+                        <column id="coladd" displayname="Info" />                                                       
+		</columns>
+	</list>
+
+
+</dialog>

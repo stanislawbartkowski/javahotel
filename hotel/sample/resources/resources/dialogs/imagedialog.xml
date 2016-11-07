@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+   <jscode>js/imagedial.js</jscode>
+
+<displayname>Focus dialog</displayname>
+
+
+ <before />
+
+
+ <jython>
+   <import>from testpack import imagedialog</import>
+   <method>imagedialog.dialogaction({0},{1})</method>
+ </jython>  
+
+ 	<buttons>
+		<button id="copy" displayname="Display image" />
+	</buttons>
+
+
+<form>
+   <field id="focus" displayname="Text 1" />
+   <field id="imfield" displayname="Image button" imagecolumn="1" imagelist="arrow_right.png"  />
+   <field id="imvalue" displayname="Letter A,B or C" />
+   <field id="imfieldd" displayname="Image button dynamic" imagecolumn="3" imagelist="JS.IMAGEDIAL.toimage"  />   
+</form>
+ 
+ 
+</dialog>

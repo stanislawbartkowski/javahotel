@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" polymer="">
+
+  <before/>  
+  
+<jython>
+   <import>from testpack import main</import>
+   <method>main.dialogactionpoly({0},{1})</method>
+ </jython>  
+
+<leftstack>
+  <button id="standard" displayname="Standard" header=""/>
+  <button id="main" displayname="Main form"/>
+  <button id="okmessage" displayname="Ok Message" actiontype="JOK_MESSAGE" actionparam="Hello" actionparam1="Title" />
+  <button id="yesmessage" displayname="YesNo message" actiontype="JYESNO_MESSAGE" actionparam="Do you really want it ?" actionparam1="Question" />
+  <button id="binder1" displayname="Binder dialog" actiontype="JMAIN_DIALOG" actionparam="binder1.xml" />
+  <button id="binder2" displayname="Binder polymer" actiontype="JMAIN_DIALOG" actionparam="binder2.xml" />
+  <button id="combo" displayname="Combo field" actiontype="JMAIN_DIALOG" actionparam="polymercombo.xml" />
+  <button id="edit1" displayname="Password Text" actiontype="JMAIN_DIALOG" actionparam="passwordtext.xml" />
+  <button id="edit2" displayname="Polymer combo" actiontype="JMAIN_DIALOG" actionparam="polymermenu.xml" />
+  <button id="edit3" displayname="Menu" actiontype="JMAIN_DIALOG" actionparam="polymermenu.xml" />
+  <button id="paperelements" displayname="Paper"  header=""/>
+  <button id="binder3" displayname="Buttons" actiontype="JMAIN_DIALOG" actionparam="binder3.xml" />
+  <button id="binder4" displayname="CheckBox" actiontype="JMAIN_DIALOG" actionparam="binder4.xml" />
+  <button id="binder5" displayname="Dialog" actiontype="JMAIN_DIALOG" actionparam="binder5.xml" />
+  <button id="binder6" displayname="DropdownMenu" actiontype="JMAIN_DIALOG" actionparam="binder6.xml" />
+  <button id="binder7" displayname="Floating Button" actiontype="JMAIN_DIALOG" actionparam="binder7.xml" />
+  <button id="binder8" displayname="Header Panel" actiontype="JMAIN_DIALOG" actionparam="binder8.xml" />
+  <button id="binder9" displayname="Icon Button" actiontype="JMAIN_DIALOG" actionparam="binder9.xml" />
+  <button id="binder10" displayname="Item" actiontype="JMAIN_DIALOG" actionparam="binder10.xml" />
+  <button id="binder11" displayname="Input" actiontype="JMAIN_DIALOG" actionparam="binder11.xml" />
+  <button id="binder12" displayname="Material" actiontype="JMAIN_DIALOG" actionparam="binder12.xml" />
+  <button id="binder13" displayname="Menu" actiontype="JMAIN_DIALOG" actionparam="binder13.xml" />
+  <button id="binder14" displayname="Progress" actiontype="JMAIN_DIALOG" actionparam="binder14.xml" />
+  <button id="binder15" displayname="Radio Button" actiontype="JMAIN_DIALOG" actionparam="binder15.xml" />
+  <button id="binder16" displayname="Radio Group" actiontype="JMAIN_DIALOG" actionparam="binder16.xml" />
+  <button id="binder17" displayname="Ripple" actiontype="JMAIN_DIALOG" actionparam="binder17.xml" />
+  <button id="binder18" displayname="Spinner" actiontype="JMAIN_DIALOG" actionparam="binder18.xml" />
+  <button id="binder19" displayname="Slider" actiontype="JMAIN_DIALOG" actionparam="binder19.xml" />
+  <button id="binder20" displayname="Tabs" actiontype="JMAIN_DIALOG" actionparam="binder20.xml" />
+</leftstack>  
+
+<buttons>
+  <button id="seterror" displayname="Set error"/>
+  <button id="setdisable" displayname="Set read only"/>
+  <button id="setenable" displayname="Set enable"/>
+  <button id="sethidden" displayname="Set hidden"/>
+  <button id="setvisible" displayname="Set visible"/>
+  <button id="validate" displayname="Validate" validate=""/>
+</buttons>
+
+ <form>
+   <field id="glob1" />
+   <field id="name1" displayname="Wprowadź napis" />
+   <field id="name2" displayname="Not empty" notempty=""/>
+   <field id="Liczba" displayname="Liczba" type="int" />
+   <field id="LiczbaLong" displayname="Long integer" type="long" />
+   <field id="Decimal2" displayname="Kwota,2" type="decimal" />
+   <field id="date1" displayname="Enter the date" type="date" />
+   <field id="logi" displayname="Logical" type="bool" />
+   <field id="datetime" displayname="Date and time" type="datetime" />
+ </form>  
+ 
+</dialog>
+

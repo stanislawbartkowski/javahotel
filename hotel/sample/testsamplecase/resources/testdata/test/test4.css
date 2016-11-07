@@ -1,0 +1,8 @@
+  @external .tall;
+        .toolbar.tall {
+           height: 108px !important;
+           padding: 0 !important;
+        }
+        .toolbar.tall #bottomBar {
+           height: 50px !important;
+        }

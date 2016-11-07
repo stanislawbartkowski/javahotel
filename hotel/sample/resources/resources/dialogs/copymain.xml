@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+	<form>
+		<field id="glob1" htmlid="glob1-id" />
+		<field id="globbool" htmlid="globbool-id" type="bool" notempty="" />
+		<field id="globint" htmlid="globint-id" type="int" displayname="Integer value" />
+		<field id="globlong" type="int" displayname="Long value" />
+		<field id="globdecimal" type="decimal" afterdot="2" displayname="Decimal" />
+		<field id="globdate" type="date" displayname="Date" />
+		<field id="globdatetime" type="datetime" displayname="Date and time" />
+	</form>
+
+</dialog>

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="Material" polymer="">
+ 
+ <uibinder>binder/binder12.xml</uibinder>
+ 
+  <jscode>js/binder12.js</jscode>
+ 
+  <before />
+  
+  <jython>
+   <import>from testpack import binder1</import>
+   <method>binder1.dialogaction12({0},{1})</method>
+ </jython>  
+
+  <buttons>
+   <button id="fabMaterial" displayname="" jsaction="JS.TAP.tap" />
+   <button id="material" displayname="" jsaction="JS.TAP.tap"/>
+  </buttons>  
+  
+  <form>
+   <field id="elevation" type="int" hidden="" />
+   <field id="up" type="bool" hidden="" />
+   <field id="elevation1" type="int" hidden="" />
+   <field id="up1" type="bool" hidden="" />
+ </form>
+
+  
+
+</dialog>

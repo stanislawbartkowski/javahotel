@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<ui:UiBinder xmlns:ui='http://www.jythongwt.uibinderxsd.com' xmlns='http://www.jythongwt.uihtml.com'>
+	<ui:HTMLPanel>
+		<ui:Button>Hello</ui:Button>
+		<ui:PaperIconItem fieldid="delete">
+			<ui:IronIcon icon="delete" />
+				<div>Clear All</div>
+		</ui:PaperIconItem>
+
+		<ui:PaperIconItem>
+			<ui:IronIcon icon="favorite">
+			</ui:IronIcon>
+				Favorite
+		</ui:PaperIconItem>
+
+		<ui:PaperIconItem>
+				<div class="avatar" item-icon=""></div>
+				Avatar
+			</ui:PaperIconItem>
+
+	</ui:HTMLPanel>
+</ui:UiBinder>

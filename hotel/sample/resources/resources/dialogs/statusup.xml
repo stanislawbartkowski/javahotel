@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+        <displayname>Change status</displayname>
+        
+        <before />
+
+        <types>typesenum.xml</types>
+
+
+        <jython>
+                <import>from testpack import changestatus</import>
+                <method>changestatus.dialogaction({0},{1})</method>
+        </jython>
+
+        <buttons>
+                <button id="change1" displayname="Change 1" />
+        </buttons>
+
+
+        <form>
+                <field id="textf" displayname="Text to change" />
+                <field id="combof" displayname="Text type" type="custom:uptext" notempty="" />
+
+        </form>
+
+
+</dialog>

@@ -1,0 +1,86 @@
+[alias]
+LIST:showlist
+FIRSTNAME:firstname
+LASTNAME:lastname
+SECRET:secret
+COPY:copy
+COPYFIRST:copyfirstname
+COPYLAST:copylastname
+COPYSECRET:copysecret
+COPYUP:copyup
+[start]
+call:waitforlogin
+sleep:1
+-- empty
+click:#LOGON
+mouseOver:#LOGINNAME
+mouseOver:#PASSWORD
+sleep:1
+-- still login
+isPresent:#LOGON
+type:#LOGINNAME|user
+click:#LOGON
+-- password empty
+sleep:1
+isPresent:#LOGON
+type:#PASSWORD|xxx
+click:#LOGON
+-- wrong password
+sleep:1
+isPresent:#LOGON
+type:#PASSWORD|user
+-- valid password
+click:#LOGINNAME
+click:#PASSWORD
+click:#LOGON
+sleep:5
+waitFor:#LIST
+waitFor:#LOGOUT
+-- next panel
+waitFor:#FIRSTNAME
+type:#FIRSTNAME|aaa
+type:#LASTNAME|bbb
+type:#SECRET|ccc
+click:#COPY
+---
+sleep:5
+-- check
+verEqual:#COPYFIRST|aaa
+verEqual:#COPYLAST|bbb
+verEqual:#COPYSECRET|ccc
+sleep:1
+-- click next
+click:#COPYUP
+waitFor:#ACCEPT
+sleep:1
+click:#ACCEPT
+sleep:1
+-- logout
+mouseOver:#LOGOUT
+click:#LOGOUT
+sleep:1
+waitFor:#ACCEPT
+click:#ACCEPT
+-- logo again
+call:waitforlogin
+type:#LOGINNAME|viewer
+type:#PASSWORD|viewer
+click:#LOGON
+sleep:5
+waitFor:#FIRSTNAME
+type:#FIRSTNAME|aaa
+type:#LASTNAME|bbb
+type:#SECRET|ccc
+sleep:1
+click:#COPY
+---
+sleep:2
+-- only first should be changed
+verEqual:#COPYFIRST|aaa
+verEqual:#COPYLAST|bbb
+verEqual:#COPYSECRET|ccc
+click:#COPYUP
+sleep:5
+-- no popup windows secret
+waitForNot:#ACCEPT
+

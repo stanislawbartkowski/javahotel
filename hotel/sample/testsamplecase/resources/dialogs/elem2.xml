@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+	<before />
+
+	<jython>
+		<import>XXX</import>
+		<method>YYY</method>
+	</jython>
+
+	<leftmenu>
+		<button id="ID" displayname="Call script" />
+	</leftmenu>
+
+	<form>
+		<field id="glob1" />
+	</form>
+
+
+</dialog>

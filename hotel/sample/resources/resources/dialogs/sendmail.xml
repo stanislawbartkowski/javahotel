@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" >
+
+ <jython>
+   <import>from testpack import sendmail</import>
+   <method>sendmail.dialogaction({0},{1})</method>
+ </jython>  
+
+ <buttons>
+   <button id="send" displayname="Send" actiontype="JYESNO_MESSAGE" 
+                   actionparam="Send mail ?" validate="" />
+   <button id="attach" displayname="Attach" actiontype="JUP_DIALOG" actionparam="attachmail.xml" />                   
+ </buttons>  
+ 
+ <form>
+   <field id="subject" displayname="Subject" />
+   <field id="to" type="email" displayname="Recipient" notempty="" />
+   <field id="from" displayname="From" />
+   <field id="content" type="textarea" displayname="Content" />
+   <field id="attach" displayname="Attachment" readonly="" />
+   <field id="realm" displayname="Realm" readonly="" />
+   <field id="blobkey" displayname="Key" readonly="" />
+ </form>  
+
+ 
+</dialog>

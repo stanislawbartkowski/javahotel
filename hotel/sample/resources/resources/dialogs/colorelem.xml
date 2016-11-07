@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+        <before />
+        <parent>listwithcustom.xml</parent>
+        
+        <types>typecolor.xml</types>
+        
+        <asxml>crud_add,crud_change</asxml>
+
+        <jython>
+                <import>from testpack import listwithcustom</import>
+                <method>listwithcustom.elemaction({0},{1})</method>
+        </jython>
+
+
+</dialog>

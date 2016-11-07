@@ -1,0 +1,26 @@
+[alias]
+OKWINDOW:id=okmessage
+ERRORWINDOW:id=errmessage
+ACCEPT:id=ACCEPT
+
+[start]
+call:waitforwindow
+
+-- now click OkWindow button
+click:#OKWINDOW
+-- wait for button OK
+waitFor:#ACCEPT
+click:#ACCEPT
+
+-- wait for ERRORWINDOW button to be available
+waitFor:#ERRORWINDOW
+-- should work because previous OkWindow is modal
+click:#ERRORWINDOW
+-- wait for button OK for next window
+waitFor:#ACCEPT
+click:#ACCEPT
+
+
+
+
+

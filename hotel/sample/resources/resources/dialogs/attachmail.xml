@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" formpanel="">
+
+    <jython>
+      <import>from testpack import sendmail</import>
+      <method>sendmail.addattach({0},{1})</method>
+    </jython>  
+ 
+        <buttons>
+          <button id="attach" displayname="Attach" validate="" /> 
+        </buttons>
+
+        <form>
+                <field id="uploadfile" displayname="Attach" type="upload" notempty="" />
+        </form>
+
+</dialog>

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" >
+
+	<displayname>Menu</displayname>
+
+	<before />
+
+	<types>typesenum.xml</types>
+
+	<jython>
+		<import>from testpack import packenum</import>
+		<method>packenum.dialogaction({0},{1})</method>
+	</jython>
+
+	<buttons>
+		<button id="testcombo" displayname="Test" />
+	</buttons>
+
+
+	<form>
+		<field id="combof" type="custom:payments" signalchange="" notempty="" menu=""/>
+
+		<field id="combome" type="custom:countries" displayname="Multi sel" signalchange="" notempty="" menu="" multi="" vislines="10" />
+
+		
+		<field id="outcombof" readonly="" />
+		
+		<field id="outcombom"  />
+	</form>
+
+
+</dialog>

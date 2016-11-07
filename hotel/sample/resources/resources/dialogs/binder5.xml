@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="DialogSample" polymer="">
+ 
+ <uibinder>binder/binder5.xml</uibinder>
+ 
+  <jython>
+   <import>from testpack import binder1</import>
+   <method>binder1.dialogaction({0},{1})</method>
+ </jython>  
+
+ <buttons>
+   <button id="dialogBtn" displayname="" actiontype="JUP_DIALOG" actionparam="binder5dialog1.xml" />
+   <button id="scrollingBtn" displayname="" actiontype="JUP_DIALOG" actionparam="binder5dialog2.xml" />
+   <button id="actionsBtn" displayname="" actiontype="JUP_DIALOG" actionparam="binder5dialog3.xml" />
+   <button id="modalBtn" displayname="" actiontype="JUP_DIALOG" actionparam="binder5dialog4.xml" />
+   <button id="colorsBtn" displayname="" actiontype="JUP_DIALOG" actionparam="binder5dialog5.xml" />
+   <button id="positionBtn" displayname="" actiontype="JUP_DIALOG" actionparam="binder5dialog6.xml" />
+   <button id="animatedBtn" displayname="" actiontype="JUP_DIALOG" actionparam="binder5dialog7.xml" />
+ </buttons>
+  
+
+</dialog>

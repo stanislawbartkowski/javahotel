@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" htmlpanel="chartaread.html">
+
+<before/>
+ 
+ <jython>
+   <import>from testpack import filechartarea</import>
+   <method>filechartarea.dialogaction({0},{1})</method>
+ </jython>  
+ 
+ <buttons>
+   <button id="refresh" displayname="Refresh" />
+ </buttons>   
+
+     <list id="list" displayname="My everyday progress"  toolbartype="listonly" buttons-addlist="refresh">
+        <columns>
+            <column id="name" displayname="Text" editable= "" />
+            <column id="id" type="int" displayname="Sleeping" editable= ""/>
+            <column id="id1" type="int" displayname="Eating" editable= ""/>
+            <column id="id2" type="int" displayname="Working" editable= ""/>
+        </columns>
+     </list>
+
+  
+   <chart id="chart" displayname="My everyday progress" charttype="AREA" >
+        <columns>
+            <column id="name" displayname="Text" />
+            <column id="id" type="int" displayname="Sleeping" />
+            <column id="id1" type="int" displayname="Eating" />
+            <column id="id2" type="int" displayname="Working" />
+        </columns>
+   </chart>
+
+    <chart id="chart1" displayname="My everyday progress" charttype="BARS" >
+        <columns>
+            <column id="name" displayname="Text" />
+            <column id="id" type="int" displayname="Sleeping" />
+            <column id="id1" type="int" displayname="Eating" />
+            <column id="id2" type="int" displayname="Working" />
+        </columns>
+   </chart>
+
+   <chart id="chart2" displayname="My everyday progress" charttype="LINE" >
+        <columns>
+            <column id="name" displayname="Text" />
+            <column id="id" type="int" displayname="Sleeping" />
+            <column id="id1" type="int" displayname="Eating" />
+            <column id="id2" type="int" displayname="Working" />
+        </columns>
+   </chart>
+
+   <chart id="chart3" displayname="My everyday progress" charttype="COLUMNS" >
+        <columns>
+            <column id="name" displayname="Text" />
+            <column id="id" type="int" displayname="Sleeping" />
+            <column id="id1" type="int" displayname="Eating" />
+            <column id="id2" type="int" displayname="Working" />
+        </columns>
+   </chart>
+
+
+ </dialog>

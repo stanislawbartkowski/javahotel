@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" >
+
+ <jscode>/js/hello.js</jscode>
+
+ <buttons>
+  <button id="close" displayname="Close" actiontype="JCLOSE_DIALOG" />
+  <button id="superaction" displayname="JS" jsaction="JS.HELLO.hello"  />
+ </buttons>
+
+ <form>
+   <field id="globint" type="int" displayname="Integer value" />
+   <field id="globlong" type="int" displayname="Long value" />
+   <field id="globdecimal" type="decimal" afterdot="2" displayname="Decimal" />
+   <field id="globdate" type="date" displayname="Date" />
+   <field id="globdatetime" type="datetime" displayname="Date and time" />   
+ </form>  
+ 
+</dialog>

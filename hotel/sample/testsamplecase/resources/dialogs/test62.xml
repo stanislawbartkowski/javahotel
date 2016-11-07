@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+	<before />
+
+	<jython>
+		<import>from testpack import testclass</import>
+		<method>testclass.dialogaction1({0},{1})</method>
+	</jython>
+
+	<leftmenu>
+		<button id="ID" displayname="Call script" />
+	</leftmenu>
+
+	<leftstack>
+		<button id="ID" displayname="Call script" />
+		<button id="ID1" displayname="Call script" />
+		<button id="ID2" displayname="Call script" />
+		<button id="ID3" displayname="Call script" />
+	</leftstack>
+
+
+	<upmenu>
+		<button id="ID" displayname="Call script" />
+		<button id="ID1" displayname="Call script" />
+	</upmenu>
+
+	<form>
+		<field id="glob1" />
+		<field id="globint" type="int" />
+	</form>
+
+
+</dialog>

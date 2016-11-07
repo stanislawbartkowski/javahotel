@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+        <jython>
+                <import>from testpack import cleckme</import>
+                <method>cleckme.returnaction({0},{1})</method>
+        </jython>
+
+        <buttons>
+                <button id="accept" displayname="@accept"  actiontype="JYESNO_MESSAGE" 
+    actionparam="Do you really want to accept ?" />
+                <button id="resign" displayname="@resign" />
+        </buttons>
+
+
+</dialog>
