@@ -24,10 +24,10 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import com.gwtmodel.shared.JythonUIFatal;
 import com.gwtmodel.table.binder.BinderWidget;
 import com.gwtmodel.table.binder.WidgetTypes;
 import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.shared.JythonUIFatal;
 import com.jamesmurty.utils.XMLBuilder;
 import com.jythonui.server.IBinderUIStyle;
 import com.jythonui.server.IConsts;

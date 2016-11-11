@@ -16,7 +16,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gwtmodel.shared.RMap;
+import com.gwtmodel.table.shared.RMap;
 
 public class OObjectRoles implements Serializable {
 

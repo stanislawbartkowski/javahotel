@@ -14,7 +14,7 @@ package com.jythonui.server.crud;
 
 import java.util.List;
 
-import com.gwtmodel.shared.PropDescription;
+import com.gwtmodel.table.shared.PropDescription;
 import com.jython.serversecurity.cache.OObjectId;
 
 public interface IObjectCrud<T extends PropDescription> {

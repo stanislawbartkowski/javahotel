@@ -20,8 +20,8 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import com.gwtmodel.shared.JythonUIFatal;
 import com.gwtmodel.table.common.TT;
+import com.gwtmodel.table.shared.JythonUIFatal;
 import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.FieldItem;

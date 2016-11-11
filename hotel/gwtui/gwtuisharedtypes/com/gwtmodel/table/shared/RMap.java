@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.shared;
+package com.gwtmodel.table.shared;
 
 import java.util.Date;
 

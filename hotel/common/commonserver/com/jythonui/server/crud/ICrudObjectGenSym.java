@@ -12,7 +12,7 @@
  */
 package com.jythonui.server.crud;
 
-import com.gwtmodel.shared.PropDescription;
+import com.gwtmodel.table.shared.PropDescription;
 import com.jython.serversecurity.cache.OObjectId;
 
 public interface ICrudObjectGenSym {

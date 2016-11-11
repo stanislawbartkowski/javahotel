@@ -10,29 +10,26 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.shared;
+package com.gwtmodel.table.shared;
 
-import com.gwtmodel.shared.RMap;
-import com.jythonui.server.ISharedConsts;
-
-abstract public class PropDescription extends RMap {
+/**
+ * @author hotel
+ * 
+ */
+public class JythonUIFatal extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
-    public String getAutomPattern() {
-        return getAttr(ISharedConsts.PATTPROP);
+    public JythonUIFatal(String mess) {
+        super(mess);
     }
 
-    public boolean isGensymbol() {
-        return isAttr(ISharedConsts.PATTPROP);
+    public JythonUIFatal(Throwable e) {
+        super(e);
     }
 
-    public void setOOBjectId(String object) {
-        setAttr(ISharedConsts.OBJECTPROP, object);
-    }
-
-    public String getOObjectId() {
-        return getAttr(ISharedConsts.OBJECTPROP);
+    public JythonUIFatal(String mess, Throwable e) {
+        super(mess, e);
     }
 
 }

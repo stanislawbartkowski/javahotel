@@ -12,7 +12,7 @@
  */
 package com.jythonui.server.mail;
 
-import com.gwtmodel.shared.RMap;
+import com.gwtmodel.table.shared.RMap;
 import com.jythonui.server.ISharedConsts;
 
 public class NoteAttach extends RMap {

@@ -12,7 +12,7 @@
  */
 package com.jython.serversecurity;
 
-import com.gwtmodel.shared.RMap;
+import com.gwtmodel.table.shared.RMap;
 
 public class OObject extends RMap {
 

@@ -22,8 +22,8 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import com.google.inject.Inject;
-import com.gwtmodel.shared.RMap;
 import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.shared.RMap;
 import com.jython.serversecurity.AppInstanceId;
 import com.jython.serversecurity.IOObjectAdmin;
 import com.jython.serversecurity.OObject;

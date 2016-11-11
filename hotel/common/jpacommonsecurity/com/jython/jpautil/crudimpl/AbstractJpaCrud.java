@@ -18,7 +18,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import com.gwtmodel.shared.PropDescription;
+import com.gwtmodel.table.shared.PropDescription;
 import com.jython.jpautil.JpaUtils;
 import com.jython.jpautil.crudimpl.gensym.IJpaObjectGenSymFactory;
 import com.jython.serversecurity.cache.OObjectId;

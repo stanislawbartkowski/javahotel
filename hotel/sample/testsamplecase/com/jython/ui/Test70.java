@@ -28,9 +28,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import com.gwtmodel.shared.JythonUIFatal;
 import com.gwtmodel.table.binder.BinderWidget;
 import com.gwtmodel.table.binder.WidgetTypes;
+import com.gwtmodel.table.shared.JythonUIFatal;
 import com.jythonui.server.IBinderUIStyle;
 import com.jythonui.server.IParseRegString;
 import com.jythonui.server.Util;

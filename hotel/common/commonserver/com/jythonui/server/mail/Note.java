@@ -15,7 +15,7 @@ package com.jythonui.server.mail;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gwtmodel.shared.PropDescription;
+import com.gwtmodel.table.shared.PropDescription;
 import com.jythonui.server.ISharedConsts;
 
 public class Note extends PropDescription {

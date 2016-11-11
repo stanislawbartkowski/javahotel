@@ -21,8 +21,8 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import com.gwtmodel.shared.JythonUIFatal;
 import com.gwtmodel.table.common.TT;
+import com.gwtmodel.table.shared.JythonUIFatal;
 import com.jythonui.shared.ButtonItem;
 import com.jythonui.shared.DateLine;
 import com.jythonui.shared.DialogFormat;

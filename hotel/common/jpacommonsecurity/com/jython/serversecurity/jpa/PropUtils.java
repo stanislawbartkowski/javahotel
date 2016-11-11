@@ -1,6 +1,6 @@
 package com.jython.serversecurity.jpa;
 
-import com.gwtmodel.shared.RMap;
+import com.gwtmodel.table.shared.RMap;
 
 /*
  * Copyright 2016 stanislawbartkowski@gmail.com 

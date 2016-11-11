@@ -12,7 +12,7 @@
  */
 package com.jythonui.server.journal;
 
-import com.gwtmodel.shared.PropDescription;
+import com.gwtmodel.table.shared.PropDescription;
 import com.jythonui.server.ISharedConsts;
 
 public class JournalRecord extends PropDescription {

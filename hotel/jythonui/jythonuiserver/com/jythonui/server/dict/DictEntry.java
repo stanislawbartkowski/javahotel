@@ -12,7 +12,7 @@
  */
 package com.jythonui.server.dict;
 
-import com.gwtmodel.shared.RMap;
+import com.gwtmodel.table.shared.RMap;
 
 public class DictEntry extends RMap {
 

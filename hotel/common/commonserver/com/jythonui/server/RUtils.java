@@ -18,7 +18,7 @@ import java.util.Date;
 import org.apache.commons.beanutils.PropertyUtils;
 
 import com.google.common.base.Optional;
-import com.gwtmodel.shared.RMap;
+import com.gwtmodel.table.shared.RMap;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
 

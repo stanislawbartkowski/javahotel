@@ -15,7 +15,7 @@ package com.jythonui.server;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.gwtmodel.shared.JythonUIFatal;
+import com.gwtmodel.table.shared.JythonUIFatal;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.holder.SHolder;
 
