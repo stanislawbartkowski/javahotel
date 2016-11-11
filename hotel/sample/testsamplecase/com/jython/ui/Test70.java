@@ -12,7 +12,11 @@
  */
 package com.jython.ui;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -24,13 +28,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import com.gwtmodel.shared.JythonUIFatal;
 import com.gwtmodel.table.binder.BinderWidget;
 import com.gwtmodel.table.binder.WidgetTypes;
 import com.jythonui.server.IBinderUIStyle;
 import com.jythonui.server.IParseRegString;
 import com.jythonui.server.Util;
 import com.jythonui.shared.DialogFormat;
-import com.jythonui.shared.JythonUIFatal;
 
 public class Test70 extends TestHelper {
 

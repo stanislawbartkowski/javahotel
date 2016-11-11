@@ -20,11 +20,11 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
+import com.gwtmodel.shared.JythonUIFatal;
 import com.gwtmodel.table.common.TT;
 import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.FieldItem;
-import com.jythonui.shared.JythonUIFatal;
 
 public class Test30 extends TestHelper {
 

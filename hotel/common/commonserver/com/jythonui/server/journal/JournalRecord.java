@@ -12,8 +12,8 @@
  */
 package com.jythonui.server.journal;
 
+import com.gwtmodel.shared.PropDescription;
 import com.jythonui.server.ISharedConsts;
-import com.jythonui.shared.PropDescription;
 
 public class JournalRecord extends PropDescription {
 

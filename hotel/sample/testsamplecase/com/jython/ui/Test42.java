@@ -21,12 +21,12 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
+import com.gwtmodel.shared.JythonUIFatal;
 import com.gwtmodel.table.common.TT;
 import com.jythonui.shared.ButtonItem;
 import com.jythonui.shared.DateLine;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.FieldItem;
-import com.jythonui.shared.JythonUIFatal;
 import com.jythonui.shared.ListFormat;
 
 public class Test42 extends TestHelper {

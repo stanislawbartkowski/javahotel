@@ -18,6 +18,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import com.gwtmodel.shared.PropDescription;
 import com.jython.jpautil.JpaUtils;
 import com.jython.jpautil.crudimpl.gensym.IJpaObjectGenSymFactory;
 import com.jython.serversecurity.cache.OObjectId;
@@ -32,7 +33,6 @@ import com.jythonui.server.crud.ICrudObjectGenSym;
 import com.jythonui.server.crud.IObjectCrud;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
-import com.jythonui.shared.PropDescription;
 
 public abstract class AbstractJpaCrud<T extends PropDescription, E extends EObjectDict>
         extends UtilHelper implements IObjectCrud<T> {

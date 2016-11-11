@@ -17,6 +17,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import com.gwtmodel.shared.JythonUIFatal;
 import com.gwtmodel.table.common.TT;
 
 /**

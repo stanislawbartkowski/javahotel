@@ -22,6 +22,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import com.google.inject.Inject;
+import com.gwtmodel.shared.RMap;
 import com.gwtmodel.table.common.CUtil;
 import com.jython.serversecurity.AppInstanceId;
 import com.jython.serversecurity.IOObjectAdmin;
@@ -40,7 +41,6 @@ import com.jythonui.server.UtilHelper;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
-import com.jythonui.shared.RMap;
 
 public class OObjectAdminJpa extends UtilHelper implements IOObjectAdmin {
 

@@ -12,13 +12,15 @@
  */
 package com.jython.ui;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
+import com.gwtmodel.shared.JythonUIFatal;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.FieldItem;
-import com.jythonui.shared.JythonUIFatal;
 
 public class Test43 extends TestHelper {
 

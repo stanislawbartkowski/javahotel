@@ -1,0 +1,16 @@
+<Context reloadable="false">
+	<!-- <Environment description="Resource directory" name="hotelapp/resource" 
+		type="java.lang.String" value="/home/hotel/workspace/modelgui/HotelReSource/resource" 
+		/> <Environment description="Cached" name="hotelapp/cached" type="java.lang.Boolean" 
+		value="false" /> -->
+
+	<ResourceLink global="mail/Session" name="mail/Session"
+		type="javax.mail.Session" />
+		
+	<ResourceLink global="sampleapp/resource" name="sampleapp/resource"
+		type="java.lang.String" />
+		
+	<ResourceLink global="hotelapp/cached" name="hotelapp/cached"
+		type="java.lang.Boolean" />
+
+</Context>

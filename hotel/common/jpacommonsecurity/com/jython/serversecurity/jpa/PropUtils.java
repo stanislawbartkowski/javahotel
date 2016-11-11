@@ -1,5 +1,7 @@
 package com.jython.serversecurity.jpa;
 
+import com.gwtmodel.shared.RMap;
+
 /*
  * Copyright 2016 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
@@ -15,7 +17,6 @@ package com.jython.serversecurity.jpa;
 
 import com.jython.serversecurity.jpa.entities.EDictEntry;
 import com.jythonui.server.RUtils;
-import com.jythonui.shared.RMap;
 
 public class PropUtils {
 

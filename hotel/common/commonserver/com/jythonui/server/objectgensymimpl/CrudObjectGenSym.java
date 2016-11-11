@@ -12,6 +12,7 @@
  */
 package com.jythonui.server.objectgensymimpl;
 
+import com.gwtmodel.shared.PropDescription;
 import com.gwtmodel.table.common.CUtil;
 import com.jython.serversecurity.cache.OObjectId;
 import com.jythonui.server.UtilHelper;
@@ -20,7 +21,6 @@ import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.server.storage.gensym.ISymGenerator;
-import com.jythonui.shared.PropDescription;
 
 public class CrudObjectGenSym extends UtilHelper implements ICrudObjectGenSym {
 

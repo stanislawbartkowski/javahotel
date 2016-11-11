@@ -10,35 +10,26 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jython.serversecurity;
+package com.gwtmodel.shared;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.gwtmodel.shared.RMap;
-
-public class OObjectRoles implements Serializable {
+/**
+ * @author hotel
+ * 
+ */
+public class JythonUIFatal extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
-    private final RMap object;
-    private final List<String> roles = new ArrayList<String>();
-
-    public OObjectRoles(RMap object) {
-        this.object = object;
+    public JythonUIFatal(String mess) {
+        super(mess);
     }
 
-    public OObjectRoles() {
-        this(null);
+    public JythonUIFatal(Throwable e) {
+        super(e);
     }
 
-    public RMap getObject() {
-        return object;
-    }
-
-    public List<String> getRoles() {
-        return roles;
+    public JythonUIFatal(String mess, Throwable e) {
+        super(mess, e);
     }
 
 }

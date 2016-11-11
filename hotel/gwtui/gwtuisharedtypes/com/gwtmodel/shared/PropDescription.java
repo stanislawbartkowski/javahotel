@@ -10,35 +10,29 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jython.serversecurity;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+package com.gwtmodel.shared;
 
 import com.gwtmodel.shared.RMap;
+import com.jythonui.server.ISharedConsts;
 
-public class OObjectRoles implements Serializable {
+abstract public class PropDescription extends RMap {
 
     private static final long serialVersionUID = 1L;
 
-    private final RMap object;
-    private final List<String> roles = new ArrayList<String>();
-
-    public OObjectRoles(RMap object) {
-        this.object = object;
+    public String getAutomPattern() {
+        return getAttr(ISharedConsts.PATTPROP);
     }
 
-    public OObjectRoles() {
-        this(null);
+    public boolean isGensymbol() {
+        return isAttr(ISharedConsts.PATTPROP);
     }
 
-    public RMap getObject() {
-        return object;
+    public void setOOBjectId(String object) {
+        setAttr(ISharedConsts.OBJECTPROP, object);
     }
 
-    public List<String> getRoles() {
-        return roles;
+    public String getOObjectId() {
+        return getAttr(ISharedConsts.OBJECTPROP);
     }
 
 }

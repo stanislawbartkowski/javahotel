@@ -18,9 +18,9 @@ import java.util.Date;
 import org.apache.commons.beanutils.PropertyUtils;
 
 import com.google.common.base.Optional;
+import com.gwtmodel.shared.RMap;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
-import com.jythonui.shared.RMap;
 
 public class RUtils extends UtilHelper {
 

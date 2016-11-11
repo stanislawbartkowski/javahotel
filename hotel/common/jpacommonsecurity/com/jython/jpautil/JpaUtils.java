@@ -16,13 +16,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import com.gwtmodel.shared.RMap;
 import com.jython.serversecurity.cache.OObjectId;
 import com.jython.serversecurity.jpa.PropUtils;
 import com.jython.serversecurity.jpa.entities.EObjectDict;
 import com.jythonui.server.UtilHelper;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
-import com.jythonui.shared.RMap;
 
 public class JpaUtils extends UtilHelper {
 

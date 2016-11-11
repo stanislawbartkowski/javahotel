@@ -15,6 +15,7 @@ package com.jythonui.shared;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.gwtmodel.shared.JythonUIFatal;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.TT;
 

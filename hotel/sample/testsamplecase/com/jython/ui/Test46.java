@@ -12,14 +12,17 @@
  */
 package com.jython.ui;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
+import com.gwtmodel.shared.JythonUIFatal;
 import com.jythonui.shared.ChartFormat;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogVariables;
-import com.jythonui.shared.JythonUIFatal;
 import com.jythonui.shared.ListOfRows;
 
 public class Test46 extends TestHelper {

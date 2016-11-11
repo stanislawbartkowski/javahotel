@@ -12,7 +12,7 @@
  */
 package com.jython.serversecurity;
 
-import com.jythonui.shared.RMap;
+import com.gwtmodel.shared.RMap;
 
 public class Person extends RMap {
 
