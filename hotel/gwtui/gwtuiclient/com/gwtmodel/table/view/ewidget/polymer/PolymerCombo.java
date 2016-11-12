@@ -59,7 +59,7 @@ class PolymerCombo extends AbstractWField implements IValueLB {
 		}
 
 		String getSelected() {
-			return e.getSelected();
+			return (String) e.getSelected();
 		}
 
 		void addMenu(String s) {
@@ -112,14 +112,14 @@ class PolymerCombo extends AbstractWField implements IValueLB {
 
 			@Override
 			public Object call(Object arg) {
-				pMenu = new MenuP(pDown);
+				pMenu = new MenuP(pDown); /*
 				pDown.addPaperDropdownOpenHandler(new PaperDropdownOpenEventHandler() {
 
 					@Override
 					public void onPaperDropdownOpen(PaperDropdownOpenEvent event) {
 						openid = (String) getValObj();
 					}
-				});
+				}); */
 				iS.signalDone();
 				return null;
 			}
