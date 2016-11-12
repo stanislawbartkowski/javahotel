@@ -8,7 +8,7 @@
    <property name="proj.classes" value="out.classes" />
    
    
-   <property name="gwthome" value="/home/opt/gwt-2.8.0-rc3" />
+   <property name="gwthome" value="/home/opt/gwt-2.8.0" />
    <property name="gwt-user" value="${gwthome}/gwt-user.jar" />
    <property name="gwt-dev" value="${gwthome}/gwt-dev.jar" />
    <property name="gwt-servlet" value="${gwthome}/gwt-servlet.jar" />
@@ -29,6 +29,7 @@
    <property name="sampletomcatguice" value="sample/sampletomcatguice" />
    <property name="samplewebsrc" value="sample/samplewebsrc" />
    <property name="tomcatenv" value="common/tomcatenv" />
+   <property name="sampleres" value="sample/resources" />
    <property name="eewar" value="eprojects/eesample/war" />
    
    <path id="dep.jars">
@@ -127,13 +128,12 @@
        </copy>
       
        <copy todir="${proj.war}/WEB-INF/classes/resources">
+           <fileset dir="${sampleres}/resources"/>
+           <fileset dir="${samplewebsrc}/resources"/>	   
+           <fileset dir="${commonserver}/resources"/>
            <fileset dir="${jythonuiserver}/resources"/>
        </copy>
-       
-       <copy todir="${proj.war}/WEB-INF/classes/resources">
-           <fileset dir="${samplewebsrc}/resources"/>
-       </copy>
-        
+               
        <jar destfile="target/jythonuisample.war" compress="true" basedir="war"/>
 
     </target>
