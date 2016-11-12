@@ -1,0 +1,143 @@
+<project name="JythonUI" default="build" xmlns:ivy="antlib:org.apache.ivy.ant">
+  
+   <property name="proj.gwtCache" value="gwt-unitCache" />
+   <property name="proj.target" value="target" />
+   <property name="proj.output" value="output" />
+   <property name="proj.war" value="war"/>
+   <property name="res.lib" value="lib" />
+   <property name="proj.classes" value="out.classes" />
+   
+   
+   <property name="gwthome" value="/home/opt/gwt-2.8.0-rc3" />
+   <property name="gwt-user" value="${gwthome}/gwt-user.jar" />
+   <property name="gwt-dev" value="${gwthome}/gwt-dev.jar" />
+   <property name="gwt-servlet" value="${gwthome}/gwt-servlet.jar" />
+   <property name="gwt-validation" value="${gwthome}/validation-api-1.0.0.GA-sources.jar" />
+   <property name="gwt-validation1" value="${gwthome}/validation-api-1.0.0.GA.jar"/>
+            
+   <property name="commonserver" value="common/commonserver" />
+   <property name="gwtuiclient" value="gwtui/gwtuiclient" />
+   <property name="gwtuiserver" value="gwtui/gwtuiserver" />
+   <property name="gwtuisharedtypes" value="gwtui/gwtuisharedtypes" />
+   <property name="jpacommonsecurity" value="common/jpacommonsecurity" />
+   <property name="jpasampledb" value="sample/jpasampledb" />
+   <property name="jpastoragekey" value="common/jpastoragekey" />
+   <property name="jythonuiclient" value="jythonui/jythonuiclient" />
+   <property name="jythonuiserver" value="jythonui/jythonuiserver" />
+   <property name="jythonuishared" value="jythonui/jythonuishared" />
+   <property name="sampledbmodel" value="sample/sampledbmodel" />
+   <property name="sampletomcatguice" value="sample/sampletomcatguice" />
+   <property name="samplewebsrc" value="sample/samplewebsrc" />
+   <property name="tomcatenv" value="common/tomcatenv" />
+   <property name="eewar" value="eprojects/eesample/war" />
+   
+   <path id="dep.jars">
+      <fileset dir="manualdependency">
+          <include name="**/*.jar"/>
+      </fileset>
+   </path>
+   
+   <path id="ivy.dep">
+    <fileset dir="${res.lib}/">
+      <include name="**/*.jar" />
+      </fileset>
+   </path>
+
+   <target name="resolve" description="retrieve dependencies with ivy">
+	<ivy:resolve file="eprojects/eesample/ivy.xml" />
+	<ivy:retrieve type="jar,bundle,ejb,maven-plugin" file="eprojects/eesample/ivy.xml" />
+   </target>
+   
+   <target name="resolvec" description="retrieve dependencies with ivyc">
+	<ivy:resolve file="eprojects/eesample/ivyc.xml" />
+	<ivy:retrieve type="jar,bundle,ejb,maven-plugin" file="eprojects/eesample/ivyc.xml" />
+   </target>
+
+   
+   <target name="clean" description="clean up">
+	<delete dir="${proj.gwtCache}" />
+	<delete dir="${proj.target}" />
+   	<delete dir="${proj.output}" />
+   	<delete dir="${proj.war}" />
+   	<delete dir="${res.lib}" />
+   </target>
+   
+   <target name="javac" >
+       <delete dir="${proj.classes}" />
+       <mkdir dir="${proj.classes}" />
+       <echo message="gwtguiclient ${gwtuiclient}" />
+       <echo message="gwt user ${gwt-user}" />
+       <javac fork="true" srcdir="${commonserver}:${gwtuiclient}:${gwtuiserver}:${gwtuisharedtypes}:${jpacommonsecurity}:${jpasampledb}:${jpastoragekey}:${jythonuiclient}:${jythonuiserver}:${jythonuishared}:${sampledbmodel}:${sampletomcatguice}:${samplewebsrc}:${tomcatenv}" destdir="${proj.classes}"
+               source="1.8" target="1.8">
+           <classpath> 
+              <path refid="dep.jars"/>
+              <path refid="ivy.dep" /> 
+	      <pathelement location="${gwt-user}" />
+           </classpath>
+        </javac>
+   </target>
+   
+   <target name="gwtc" description="GWT compile to JavaScript">
+      <echo message="gwt-user ${gwt-user}" />
+      <echo message="gwt-dev ${com.google.gwt:gwt-dev:jar}" />
+      <echo message="gwt-dev ${gwt-dev}" />
+      <echo message="classes ${proj.classes}"/> 
+
+      <echo message="jythonuishared ${jythonuishared}" />
+      <echo message="jythonuiclient ${jythonuiclient}" />		    
+      <java fork="true" classname="com.google.gwt.dev.Compiler">
+          <jvmarg value="-Xmx512M"/>
+             <classpath>
+	       <!-- <pathelement location="${proj.classes}"/> -->
+ 	       <pathelement location="${gwt-user}" />
+               <pathelement location="${gwt-dev}"/>			
+	       <pathelement location="${gwt-validation}"/>
+               <pathelement location="${gwt-validation1}"/>
+						
+               <pathelement location="${gwtuiclient}"/>
+               <pathelement location="${gwtuisharedtypes}" />
+               <pathelement location="${jythonuishared}"/>                         
+               <pathelement location="${jythonuiclient}"/> 
+               <pathelement location="${samplewebsrc}"/>
+               <pathelement location="${sampletomcatguice}"/>
+               <path refid="dep.jars"/>
+               <path refid="ivy.dep" /> 
+            </classpath>
+            <arg line="com.jython.ui.WebJythonUi"/>
+      </java>   
+    </target> 
+    
+    <target name="war">  
+       <copy todir="${proj.war}/WEB-INF/classes">
+          <fileset dir="${proj.classes}"/>
+          <fileset file="${samplewebsrc}/app.properties"/>
+        </copy>
+
+       <copy todir="${proj.war}/WEB-INF/classes/META-INF">
+	  <fileset dir="${sampletomcatguice}/META-INF" />
+        </copy>
+
+       <copy todir="${proj.war}">
+           <fileset dir="${eewar}"/>
+        </copy>
+	
+       <copy todir="${proj.war}/WEB-INF/lib">
+           <path refid="ivy.dep" />
+           <fileset file="${gwt-servlet}"/>
+       </copy>
+      
+       <copy todir="${proj.war}/WEB-INF/classes/resources">
+           <fileset dir="${jythonuiserver}/resources"/>
+       </copy>
+       
+       <copy todir="${proj.war}/WEB-INF/classes/resources">
+           <fileset dir="${samplewebsrc}/resources"/>
+       </copy>
+        
+       <jar destfile="target/jythonuisample.war" compress="true" basedir="war"/>
+
+    </target>
+   
+   <target name="build" description="Build JutyhonUI Sample WAR" depends="clean, resolve, resolvec, javac, gwtc, war">
+  </target>
+</project>
