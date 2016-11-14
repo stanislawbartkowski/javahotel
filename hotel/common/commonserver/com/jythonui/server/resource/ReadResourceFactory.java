@@ -19,48 +19,52 @@ import java.net.URL;
 import com.jythonui.server.BUtil;
 import com.jythonui.server.UtilHelper;
 
-public class ReadResourceFactory extends UtilHelper implements
-        IReadResourceFactory {
+public class ReadResourceFactory extends UtilHelper implements IReadResourceFactory {
 
-    private class ClassL implements IReadResource {
-        private final ClassLoader cl;
+	private class ClassL implements IReadResource {
+		private final ClassLoader cl;
 
-        ClassL(ClassLoader cl) {
-            this.cl = cl;
-        }
+		ClassL(ClassLoader cl) {
+			this.cl = cl;
+		}
 
-        @Override
-        public URL getRes(String resourcePath) {
-            return cl.getResource(BUtil.addNameToPath(IReadResource.RESOURCES,
-                    resourcePath));
-        }
+		@Override
+		public URL getRes(String resourcePath) {
+			String fName = BUtil.addNameToPath(IReadResource.RESOURCES, resourcePath);
+			traceLog("getRes: class " + cl.getClass().getName() + " " + fName);
+			URL u = cl.getResource(fName);
+			if (u == null)
+				traceLog("Resolved to null");
+			else
+				traceLog(u.getPath());
+			return u;
+		}
 
-    }
+	}
 
-    @Override
-    public IReadResource constructLoader(final ClassLoader cl) {
-        return new ClassL(cl);
-    }
+	@Override
+	public IReadResource constructLoader(final ClassLoader cl) {
+		return new ClassL(cl);
+	}
 
-    @Override
-    public IReadResource constructDirLoader(final String baseDir) {
+	@Override
+	public IReadResource constructDirLoader(final String baseDir) {
 
-        return new IReadResource() {
+		return new IReadResource() {
 
-            @Override
-            public URL getRes(String resourcePath) {
-                String fName = BUtil.addNameToPath(baseDir,
-                        IReadResource.RESOURCES, resourcePath);
-                try {
-                    URL u = new File(fName).toURI().toURL();
-                    return u;
-                } catch (MalformedURLException e) {
-                    errorLog(fName, e);
-                }
-                return null;
-            }
+			@Override
+			public URL getRes(String resourcePath) {
+				String fName = BUtil.addNameToPath(baseDir, IReadResource.RESOURCES, resourcePath);
+				try {
+					URL u = new File(fName).toURI().toURL();
+					return u;
+				} catch (MalformedURLException e) {
+					errorLog(fName, e);
+				}
+				return null;
+			}
 
-        };
-    }
+		};
+	}
 
 }

@@ -111,6 +111,7 @@ public class Util extends UtilHelper {
 			errorLog(SHolder.getM().getMess(IErrorCode.ERRORCODE17, ILogMess.DIALOGDIRECTORYNULL), null);
 		}
 		String fName = BUtil.addNameToPath(f);
+		traceLog("getFirstURL:" + fName);
 		URL u = p.getResource().getFirstUrl(fName);
 		if (u == null)
 			if (thrownotexist)
