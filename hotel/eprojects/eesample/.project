@@ -92,6 +92,11 @@
 			<locationURI>WORKSPACE_LOC/javahotel/hotel/jythonui/jythonuishared</locationURI>
 		</link>
 		<link>
+			<name>resources</name>
+			<type>2</type>
+			<locationURI>WORKSPACE_LOC/javahotel/hotel/sample/resources</locationURI>
+		</link>
+		<link>
 			<name>sampledbmodel</name>
 			<type>2</type>
 			<locationURI>WORKSPACE_LOC/javahotel/hotel/sample/sampledbmodel</locationURI>

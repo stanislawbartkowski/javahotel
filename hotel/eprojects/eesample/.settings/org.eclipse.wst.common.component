@@ -15,6 +15,7 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/sampletomcatguice"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/gwtuiserver"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/jythonuiclient"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/resources"/>
         <property name="context-root" value="eesample"/>
         <property name="java-output-path" value="/eesample/war/WEB-INF/classes"/>
     </wb-module>
