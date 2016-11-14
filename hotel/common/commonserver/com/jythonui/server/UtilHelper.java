@@ -77,7 +77,7 @@ abstract public class UtilHelper {
 
     static protected void traceLog(String mess) {
         info(mess);
-        // enable
+        // enable tracing only
     }
         
 
