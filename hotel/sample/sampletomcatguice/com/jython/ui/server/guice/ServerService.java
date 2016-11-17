@@ -27,7 +27,6 @@ import com.jython.serversecurity.IOObjectAdmin;
 import com.jython.serversecurity.instance.IAppInstanceOObject;
 import com.jython.serversecurity.jpa.OObjectAdminInstance;
 import com.jython.serversecurity.jpa.OObjectAdminJpa;
-import com.jython.ui.server.Cached;
 import com.jython.ui.server.datastore.IDateLineOp;
 import com.jython.ui.server.datastore.IDateRecordOp;
 import com.jython.ui.server.datastore.IPersonOp;
@@ -52,7 +51,6 @@ import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.defa.EmptyConnectionProvider;
 import com.jythonui.server.defa.EmptyRPCNotifier;
 import com.jythonui.server.defa.GetMailFromApp;
-import com.jythonui.server.defa.IsCached;
 import com.jythonui.server.envvar.IGetEnvVariable;
 import com.jythonui.server.envvar.IGetResourceJNDI;
 import com.jythonui.server.envvar.defa.GetEnvDefaultData;
@@ -77,7 +75,6 @@ public class ServerService {
 		@Override
 		protected void configure() {
 			configureJythonUi();
-			bind(IsCached.class).to(Cached.class).in(Singleton.class);
 			bind(IPersonOp.class).to(PersonOp.class).in(Singleton.class);
 			bind(IDateLineOp.class).to(DateLineOp.class).in(Singleton.class);
 			bind(IDateRecordOp.class).to(DateRecordOp.class).in(Singleton.class);

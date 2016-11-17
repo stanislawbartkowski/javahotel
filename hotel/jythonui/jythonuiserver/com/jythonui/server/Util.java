@@ -20,7 +20,9 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.inject.Named;
@@ -196,6 +198,19 @@ public class Util extends UtilHelper {
 		if (in == null)
 			errorLog(gMess.getMess(IErrorCode.ERRORCODE133, ILogMess.CANNOTFINDRESOURCEFILE, resName));
 		return BUtil.readFromFileInput(in);
+	}
+
+	public static Map<String, String> readResDataMap(URL resName) {
+		Map<String, String> ma = new HashMap<String, String>();
+		Properties prop;
+		try {
+			prop = ReadUTF8Properties.readProperties(resName.openStream());
+		} catch (IOException e) {
+			errorLog(gMess.getMess(IErrorCode.ERRORCODE139, ILogMess.CANNOTFINDRESOURCEFILE, resName.toString()),e);
+			return null;
+		}
+		MUtil.toElem(ma, prop);
+		return ma;
 	}
 
 }

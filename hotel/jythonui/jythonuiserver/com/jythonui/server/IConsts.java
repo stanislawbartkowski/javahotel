@@ -19,7 +19,6 @@ public interface IConsts {
 
 	String COMMONCACHENAME = "CommonCache";
 	String USERCOMMONCACHENAME = "UserCommonCache";
-	String CACHEDNOW = "CachedNow";
 	String APPMESS = "AppBundle";
 
 	String DIALOGDIR = "dialogs";
@@ -49,6 +48,7 @@ public interface IConsts {
 
 	char PERMSIGN = '$';
 	char EVALSIGN = '#';
+	char ENVVARIABLE = '@';
 
 	String APPMAILFROM = "mailfrom";
 

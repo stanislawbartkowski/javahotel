@@ -12,70 +12,101 @@
  */
 package com.jythonui.server.envvar.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.inject.Inject;
 
+import com.jythonui.server.IConsts;
 import com.jythonui.server.defa.AbstractServerProperties;
 import com.jythonui.server.envvar.IGetEnvVariable;
 import com.jythonui.server.envvar.IGetEnvVariable.IEnvVar;
 import com.jythonui.server.envvar.IGetResourceJNDI;
+import com.jythonui.server.logmess.IErrorCode;
+import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.server.resource.IReadResourceFactory;
 import com.jythonui.server.resourcemulti.IReadMultiResource;
 import com.jythonui.server.resourcemulti.IReadMultiResourceFactory;
 
 public class ServerPropertiesEnv extends AbstractServerProperties {
 
-    private final IGetEnvVariable iGet;
+	private final IGetEnvVariable iGet;
 
-    private final IGetResourceJNDI getJNDI;
+	private final IGetResourceJNDI getJNDI;
 
-    @Inject
-    public ServerPropertiesEnv(IGetResourceJNDI getJNDI,
-            IReadResourceFactory iFactory, IReadMultiResourceFactory mFactory,
-            IGetEnvVariable iGet) {
-        super(iFactory, mFactory);
-        this.getJNDI = getJNDI;
-        this.iGet = iGet;
-    }
+	@Inject
+	public ServerPropertiesEnv(IGetResourceJNDI getJNDI, IReadResourceFactory iFactory,
+			IReadMultiResourceFactory mFactory, IGetEnvVariable iGet) {
+		super(iFactory, mFactory);
+		this.getJNDI = getJNDI;
+		this.iGet = iGet;
+	}
 
-    @Override
-    public String getEJBHost() {
-        IEnvVar e = getEnvString(getJNDI.getEJBHost(),
-                IGetEnvVariable.ResType.STRING, false);
-        if (e.isEmpty())
-            return null;
-        return e.getS();
-    }
+	@Override
+	public String getEJBHost() {
+		IEnvVar e = getEnvString(getJNDI.getEJBHost(), IGetEnvVariable.ResType.STRING, false);
+		if (e.isEmpty())
+			return null;
+		return e.getS();
+	}
 
-    @Override
-    public String getEJBPort() {
-        IEnvVar e = getEnvString(getJNDI.getEJBPort(),
-                IGetEnvVariable.ResType.STRING, false);
-        if (e.isEmpty())
-            return null;
-        return e.getS();
-    }
+	@Override
+	public String getEJBPort() {
+		IEnvVar e = getEnvString(getJNDI.getEJBPort(), IGetEnvVariable.ResType.STRING, false);
+		if (e.isEmpty())
+			return null;
+		return e.getS();
+	}
 
-    private IEnvVar getEnvString(String name, IGetEnvVariable.ResType rType,
-            boolean throwerror) {
-        return iGet.getEnvString(name, rType, throwerror);
-    }
+	private IEnvVar getEnvString(String name, IGetEnvVariable.ResType rType, boolean throwerror) {
+		return iGet.getEnvString(name, rType, throwerror);
+	}
 
-    @Override
-    public IReadMultiResource getResource() {
-        IEnvVar e = getEnvString(getJNDI.getResourceDir(),
-                IGetEnvVariable.ResType.STRING, false);
-        if (!e.isEmpty())
-            return mFactory.construct(e.getS());
-        return mFactory.construct();
-    }
+	@Override
+	public IReadMultiResource getResource() {
+		IEnvVar e = getEnvString(getJNDI.getResourceDir(), IGetEnvVariable.ResType.STRING, false);
+		if (!e.isEmpty())
+			return mFactory.construct(e.getS());
+		return mFactory.construct();
+	}
 
-    @Override
-    public boolean isCached() {
-        IEnvVar e = getEnvString(getJNDI.getCachedValue(),
-                IGetEnvVariable.ResType.LOG, false);
-        if (e.getL())
-            return true;
-        return e.getL();
-    }
+	@Override
+	public boolean isCached() {
+		IEnvVar e = getEnvString(getJNDI.getCachedValue(), IGetEnvVariable.ResType.LOG, false);
+		if (e.getL())
+			return true;
+		return e.getL();
+	}
+
+	@Override
+	public Map<String, String> getDataSourceProp() {
+		IEnvVar e = getEnvString(getJNDI.dataSourceEnv(), IGetEnvVariable.ResType.STRING, false);
+		if (e.isEmpty())
+			return null;
+		String[] s = e.getS().split(",");
+		if (s.length <= 1) {
+			// MORETHENONEVALUESEXPECTED
+			errorLog(L().getMess(IErrorCode.ERRORCODE140, ILogMess.MORETHENONEVALUESEXPECTED, getJNDI.dataSourceEnv(),
+					e.getS(), "" + s.length));
+			return null;
+		}
+		String prefix = s[0];
+		Map<String, String> ma = new HashMap<String, String>();
+		for (int i = 1; i < s.length; i++) {
+			IEnvVar ee = getEnvString(prefix + "." + s[i], IGetEnvVariable.ResType.STRING, true);
+			if (ee.getS().length() > 1 && ee.getS().charAt(0) == IConsts.ENVVARIABLE) {
+				String val = System.getenv(ee.getS().substring(1));
+				if (val == null) {
+					// ENVIRONMENTVARIABLENODEFINED
+					errorLog(L().getMess(IErrorCode.ERRORCODE141, ILogMess.ENVIRONMENTVARIABLENODEFINED,
+							ee.getS().substring(1)));
+					return null;
+				}
+				ma.put(s[i], val);
+			} else
+				ma.put(s[i], ee.getS());
+		}
+		return ma;
+	}
 
 }

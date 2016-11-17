@@ -13,9 +13,11 @@
 package com.jython.ui;
 
 import java.net.URL;
+import java.util.Map;
 
 import javax.inject.Inject;
 
+import com.jythonui.server.Util;
 import com.jythonui.server.defa.AbstractServerProperties;
 import com.jythonui.server.resource.IReadResource;
 import com.jythonui.server.resource.IReadResourceFactory;
@@ -28,40 +30,42 @@ import com.jythonui.server.resourcemulti.IReadMultiResourceFactory;
  */
 public class ServerProperties extends AbstractServerProperties {
 
-    @Inject
-    public ServerProperties(IReadResourceFactory iFactory,
-            IReadMultiResourceFactory mFactory) {
-        super(iFactory, mFactory);
-    }
+	@Inject
+	public ServerProperties(IReadResourceFactory iFactory, IReadMultiResourceFactory mFactory) {
+		super(iFactory, mFactory);
+	}
 
-    @Override
-    public boolean isCached() {
-        return true;
-    }
+	@Override
+	public boolean isCached() {
+		return true;
+	}
 
-    @Override
-    public IReadMultiResource getResource() {
-        if (M.getAddPath() == null)
-            return mFactory.construct(iFactory.constructLoader(TestHelper.class
-                    .getClassLoader()));
-        IReadResource res = iFactory.constructDirLoader(M.getAddPath());
-        return mFactory.construct(res,
-                iFactory.constructLoader(TestHelper.class.getClassLoader()));
-    }
+	@Override
+	public IReadMultiResource getResource() {
+		if (M.getAddPath() == null)
+			return mFactory.construct(iFactory.constructLoader(TestHelper.class.getClassLoader()));
+		IReadResource res = iFactory.constructDirLoader(M.getAddPath());
+		return mFactory.construct(res, iFactory.constructLoader(TestHelper.class.getClassLoader()));
+	}
 
-    @Override
-    public boolean isSerialized() {
-        return M.isJythonSerialized();
-    }
+	@Override
+	public boolean isSerialized() {
+		return M.isJythonSerialized();
+	}
 
-    @Override
-    public URL getSendMailPropertiesFile() {
-        return getResource().getFirstUrl("mail/mailbox.properties");
-    }
+	@Override
+	public URL getSendMailPropertiesFile() {
+		return getResource().getFirstUrl("mail/mailbox.properties");
+	}
 
-    @Override
-    public URL getGetMailPropertiesFile() {
-        return getResource().getFirstUrl("mail/imapmailbox.properties");
-    }
+	@Override
+	public URL getGetMailPropertiesFile() {
+		return getResource().getFirstUrl("mail/imapmailbox.properties");
+	}
+
+	@Override
+	public Map<String, String> getDataSourceProp() {
+		return Util.readResDataMap(getResource().getFirstUrl("datasource.properties"));
+	}
 
 }

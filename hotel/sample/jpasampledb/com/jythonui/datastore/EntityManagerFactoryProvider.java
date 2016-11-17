@@ -16,20 +16,23 @@ import javax.inject.Provider;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-public class EntityManagerFactoryProvider implements Provider<EntityManagerFactory >{
+import com.google.inject.Inject;
+import com.jythonui.server.IJythonUIServerProperties;
 
-    private static EntityManagerFactory factory;
-    
-    private static final String PERSISTENCE_UNIT_NAME = "person";
+public class EntityManagerFactoryProvider implements Provider<EntityManagerFactory> {
 
-    public EntityManagerFactoryProvider() {
-        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-    }
+	private static EntityManagerFactory factory;
 
-    @Override
-    public EntityManagerFactory get() {
-        return factory;
-    }
-    
+	private static final String PERSISTENCE_UNIT_NAME = "person";
+
+	@Inject
+	public EntityManagerFactoryProvider(IJythonUIServerProperties iProp) {
+		factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME, iProp.getDataSourceProp());
+	}
+
+	@Override
+	public EntityManagerFactory get() {
+		return factory;
+	}
 
 }

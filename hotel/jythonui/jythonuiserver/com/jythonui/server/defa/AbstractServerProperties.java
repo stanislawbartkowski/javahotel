@@ -13,6 +13,7 @@
 package com.jythonui.server.defa;
 
 import java.net.URL;
+import java.util.Map;
 
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.UtilHelper;
@@ -60,5 +61,12 @@ abstract public class AbstractServerProperties extends UtilHelper implements
     public URL getGetMailPropertiesFile() {
         return null;
     }
+    
+	@Override
+	public Map<String, String> getDataSourceProp() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

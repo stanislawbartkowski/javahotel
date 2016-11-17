@@ -13,6 +13,7 @@
 package com.jythonui.server;
 
 import java.net.URL;
+import java.util.Map;
 
 import com.jythonui.server.resourcemulti.IReadMultiResource;
 
@@ -37,5 +38,7 @@ public interface IJythonUIServerProperties {
     URL getSendMailPropertiesFile();
 
     URL getGetMailPropertiesFile();
+    
+    Map<String,String> getDataSourceProp();
 
 }

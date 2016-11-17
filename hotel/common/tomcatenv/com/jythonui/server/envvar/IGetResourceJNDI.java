@@ -14,13 +14,15 @@ package com.jythonui.server.envvar;
 
 public interface IGetResourceJNDI {
 
-    String getResourceDir();
+	String getResourceDir();
 
-    String getCachedValue();
+	String getCachedValue();
 
-    String getEJBHost();
+	String getEJBHost();
 
-    String getEJBPort();
+	String getEJBPort();
 
-    String getMailName();
+	String getMailName();
+
+	String dataSourceEnv();
 }
