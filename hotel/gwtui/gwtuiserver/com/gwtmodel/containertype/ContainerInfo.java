@@ -90,6 +90,9 @@ public class ContainerInfo extends UtilHelper {
 		// to log message about container
 		// for some reason it causes guice binding crash
 //		infoMess(L(), ILogMess.CONTAINERRECOGNIZED, t.name());
+		System.out.println("---------------------------");
+		System.out.println(t.name());
+		System.out.println("---------------------------");
 		return t;
 	}
 }
