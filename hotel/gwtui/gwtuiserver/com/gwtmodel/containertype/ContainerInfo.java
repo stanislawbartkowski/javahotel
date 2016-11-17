@@ -89,10 +89,8 @@ public class ContainerInfo extends UtilHelper {
 		ContainerType t = getContainerTypeP();
 		// to log message about container
 		// for some reason it causes guice binding crash
-//		infoMess(L(), ILogMess.CONTAINERRECOGNIZED, t.name());
-		System.out.println("---------------------------");
-		System.out.println(t.name());
-		System.out.println("---------------------------");
+		// infoMess(L(), ILogMess.CONTAINERRECOGNIZED, t.name());
+		traceLog("Container: " + t.name());
 		return t;
 	}
 }

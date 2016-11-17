@@ -95,13 +95,14 @@ public class GetEnvVariables extends UtilHelper implements IGetEnvVariable {
 		Context initCtx;
 		EnvVar r = new EnvVar();
 		String eName = tName;
+		String conte = null;
 		switch (ContainerInfo.getContainerType()) {
 		case TOMCAT:
 		case JETTY:
-			eName = COMP + tName;
+			conte = COMP;
 			break;
 		case JBOSS:
-			eName = GLOBAL + tName;
+			conte = GLOBAL;
 			break;
 		}
 
@@ -109,7 +110,13 @@ public class GetEnvVariables extends UtilHelper implements IGetEnvVariable {
 			infoMess(gMess, ILogMess.LOOKFORENVVARIABLE, eName);
 
 			initCtx = new InitialContext();
-			Object res = initCtx.lookup(eName);
+			Context lookup = initCtx;
+			
+			if (conte != null) {
+				infoMess(gMess, ILogMess.LOOKUPCONTEXT, conte);
+				lookup = (Context) initCtx.lookup(conte);
+			}
+			Object res = lookup.lookup(eName);
 			if (res == null)
 				if (throwerror)
 					errorLog(gMess.getMess(IErrorCode.ERRORCODE44, ILogMess.CANNOTFINDRESOURCEVARIABLE, eName));
