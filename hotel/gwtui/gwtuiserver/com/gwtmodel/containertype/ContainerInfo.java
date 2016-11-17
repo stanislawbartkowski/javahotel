@@ -14,11 +14,14 @@ package com.gwtmodel.containertype;
 
 import java.io.File;
 
+import com.jythonui.server.UtilHelper;
+import com.jythonui.server.logmess.ILogMess;
+
 /**
  * 
  * @author stanislawbartkowski@gmail.com
  */
-public class ContainerInfo {
+public class ContainerInfo extends UtilHelper {
 
 	private ContainerInfo() {
 	}
@@ -57,13 +60,13 @@ public class ContainerInfo {
 
 	// jetty-server-9.1.4.v20140401.jar
 
-	public static ContainerType getContainerType() {
+	private static ContainerType getContainerTypeP() {
 		String classPath = System.getProperty("java.class.path");
 		// log.info(classPath);
 		// null if live google app engine
-		if (classPath == null) {
+		if (classPath == null)
 			return ContainerType.APPENGINE;
-		}
+
 		// add heroku embedded tomcat
 		boolean tomcat = isJarOnPath(classPath, "tomcat-juli.jar") || isJarOnPath(classPath, "webapp-runner.jar");
 		if (tomcat)
@@ -80,5 +83,13 @@ public class ContainerInfo {
 		if (isJarOnPath(classPath, "jetty-server-"))
 			return ContainerType.JETTY;
 		return ContainerType.GLASSFISH;
+	}
+
+	public static ContainerType getContainerType() {
+		ContainerType t = getContainerTypeP();
+		// to log message about container
+		// for some reason it causes guice binding crash
+//		infoMess(L(), ILogMess.CONTAINERRECOGNIZED, t.name());
+		return t;
 	}
 }
