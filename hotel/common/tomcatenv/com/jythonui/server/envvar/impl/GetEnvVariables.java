@@ -99,6 +99,7 @@ public class GetEnvVariables extends UtilHelper implements IGetEnvVariable {
 		switch (ContainerInfo.getContainerType()) {
 		case TOMCAT:
 		case JETTY:
+		case HEROKU:
 			conte = COMP;
 			break;
 		case JBOSS:

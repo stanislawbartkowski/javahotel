@@ -94,17 +94,7 @@ public class ServerPropertiesEnv extends AbstractServerProperties {
 		Map<String, String> ma = new HashMap<String, String>();
 		for (int i = 1; i < s.length; i++) {
 			IEnvVar ee = getEnvString(prefix + "." + s[i], IGetEnvVariable.ResType.STRING, true);
-			if (ee.getS().length() > 1 && ee.getS().charAt(0) == IConsts.ENVVARIABLE) {
-				String val = System.getenv(ee.getS().substring(1));
-				if (val == null) {
-					// ENVIRONMENTVARIABLENODEFINED
-					errorLog(L().getMess(IErrorCode.ERRORCODE141, ILogMess.ENVIRONMENTVARIABLENODEFINED,
-							ee.getS().substring(1)));
-					return null;
-				}
-				ma.put(s[i], val);
-			} else
-				ma.put(s[i], ee.getS());
+			ma.put(s[i], ChangeEnv.replaceV(ee.getS()));
 		}
 		return ma;
 	}

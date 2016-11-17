@@ -68,13 +68,17 @@ public class ContainerInfo extends UtilHelper {
 			return ContainerType.APPENGINE;
 
 		// add heroku embedded tomcat
-		boolean tomcat = isJarOnPath(classPath, "tomcat-juli.jar") || isJarOnPath(classPath, "webapp-runner.jar");
+		boolean tomcat = isJarOnPath(classPath, "tomcat-juli.jar");
 		if (tomcat)
 			return ContainerType.TOMCAT;
+		// return ContainerType.HEROKU;
 
 		boolean jboss = isJarOnPath(classPath, "jboss-modules.jar");
 		if (jboss)
 			return ContainerType.JBOSS;
+
+		if (isJarOnPath(classPath, "webapp-runner.jar"))
+			return ContainerType.HEROKU;
 
 		boolean appengine = isJarOnPath(classPath, "appengine-local-runtime-shared.jar");
 		if (appengine)

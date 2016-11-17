@@ -19,6 +19,8 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
+import com.gwtmodel.containertype.ContainerInfo;
+import com.gwtmodel.containertype.ContainerType;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.gwtmodel.mapcache.SimpleMapCacheFactory;
 import com.jython.jpautil.crudimpl.gensym.IJpaObjectGenSymFactory;
@@ -57,8 +59,11 @@ import com.jythonui.server.envvar.defa.GetEnvDefaultData;
 import com.jythonui.server.envvar.impl.GetEnvVariables;
 import com.jythonui.server.envvar.impl.ServerPropertiesEnv;
 import com.jythonui.server.guice.JythonServerService;
+import com.jythonui.server.heroku.HerokuServerProperties;
 import com.jythonui.server.journal.IJournal;
 import com.jythonui.server.mail.INoteStorage;
+import com.jythonui.server.resource.IReadResourceFactory;
+import com.jythonui.server.resourcemulti.IReadMultiResourceFactory;
 import com.jythonui.server.ressession.ResGetMailSessionProvider;
 import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.server.semaphore.impl.SemaphoreSynch;
@@ -79,7 +84,7 @@ public class ServerService {
 			bind(IDateLineOp.class).to(DateLineOp.class).in(Singleton.class);
 			bind(IDateRecordOp.class).to(DateRecordOp.class).in(Singleton.class);
 
-			bind(IJythonUIServerProperties.class).to(ServerPropertiesEnv.class).in(Singleton.class);
+			// bind(IJythonUIServerProperties.class).to(ServerPropertiesEnv.class).in(Singleton.class);
 			bind(ICommonCacheFactory.class).to(SimpleMapCacheFactory.class).in(Singleton.class);
 			bind(EntityManagerFactory.class).toProvider(EntityManagerFactoryProvider.class).in(Singleton.class);
 			bind(IGetResourceJNDI.class).to(GetResourceJNDI.class).in(Singleton.class);
@@ -131,13 +136,14 @@ public class ServerService {
 			return null;
 		}
 
-		/*
-		 * @Provides
-		 * 
-		 * @Named(IConsts.SENDMAIL)
-		 * 
-		 * @Singleton Session getSendSession() { return null; }
-		 */
+		@Provides
+		@Singleton
+		IJythonUIServerProperties getServerProperties(IGetResourceJNDI getJNDI, IReadResourceFactory iFactory,
+				IReadMultiResourceFactory mFactory, IGetEnvVariable iGet) {
+			if (ContainerInfo.getContainerType() == ContainerType.HEROKU)
+				return new HerokuServerProperties(iFactory, mFactory);
+			return new ServerPropertiesEnv(getJNDI, iFactory, mFactory, iGet);
+		}
 
 	}
 

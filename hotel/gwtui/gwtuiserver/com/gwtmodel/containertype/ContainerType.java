@@ -18,5 +18,5 @@ package com.gwtmodel.containertype;
  */
 public enum ContainerType {
 
-    TOMCAT, GLASSFISH, JBOSS, APPENGINE, JETTY
+	TOMCAT, GLASSFISH, JBOSS, APPENGINE, JETTY, HEROKU
 }
