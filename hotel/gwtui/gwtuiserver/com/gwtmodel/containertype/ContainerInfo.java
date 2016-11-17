@@ -20,65 +20,65 @@ import java.io.File;
  */
 public class ContainerInfo {
 
-    private ContainerInfo() {
-    }
+	private ContainerInfo() {
+	}
 
-    private static boolean isJarOnPath(String classPath, final String jarName) {
-        String[] pat = classPath.split(File.pathSeparator);
-        for (int i = 0; i < pat.length; i++) {
-            String fName = pat[i];
-            File f = new File(fName);
-            String baseName = f.getName();
-            if (baseName.equalsIgnoreCase(jarName))
-                return true;
-            if (baseName.startsWith(jarName))
-                return true;
-        }
-        return false;
-    }
+	private static boolean isJarOnPath(String classPath, final String jarName) {
+		String[] pat = classPath.split(File.pathSeparator);
+		for (int i = 0; i < pat.length; i++) {
+			String fName = pat[i];
+			File f = new File(fName);
+			String baseName = f.getName();
+			if (baseName.equalsIgnoreCase(jarName))
+				return true;
+			if (baseName.startsWith(jarName))
+				return true;
+		}
+		return false;
+	}
 
-    /**
-     * Returns information if transactions are controlled by container
-     * 
-     * @return true: by container false: no
-     */
-    public static boolean TransactionContainer() {
-        return getContainerType() != ContainerType.APPENGINE;
-    }
+	/**
+	 * Returns information if transactions are controlled by container
+	 * 
+	 * @return true: by container false: no
+	 */
+	public static boolean TransactionContainer() {
+		return getContainerType() != ContainerType.APPENGINE;
+	}
 
-    public static boolean isAppEngineLive() {
-        String classPath = System.getProperty("java.class.path");
-        // null if live google app engine
-        if (classPath == null) {
-            return true;
-        }
-        return false;
-    }
+	public static boolean isAppEngineLive() {
+		String classPath = System.getProperty("java.class.path");
+		// null if live google app engine
+		if (classPath == null) {
+			return true;
+		}
+		return false;
+	}
 
-    // jetty-server-9.1.4.v20140401.jar
+	// jetty-server-9.1.4.v20140401.jar
 
-    public static ContainerType getContainerType() {
-        String classPath = System.getProperty("java.class.path");
-        // log.info(classPath);
-        // null if live google app engine
-        if (classPath == null) {
-            return ContainerType.APPENGINE;
-        }
-        boolean tomcat = isJarOnPath(classPath, "tomcat-juli.jar");
-        if (tomcat) {
-            return ContainerType.TOMCAT;
-        }
-        boolean jboss = isJarOnPath(classPath, "jboss-modules.jar");
-        if (jboss) {
-            return ContainerType.JBOSS;
-        }
-        boolean appengine = isJarOnPath(classPath,
-                "appengine-local-runtime-shared.jar");
-        if (appengine) {
-            return ContainerType.APPENGINE;
-        }
-        if (isJarOnPath(classPath, "jetty-server-"))
-            return ContainerType.JETTY;
-        return ContainerType.GLASSFISH;
-    }
+	public static ContainerType getContainerType() {
+		String classPath = System.getProperty("java.class.path");
+		// log.info(classPath);
+		// null if live google app engine
+		if (classPath == null) {
+			return ContainerType.APPENGINE;
+		}
+		// add heroku embedded tomcat
+		boolean tomcat = isJarOnPath(classPath, "tomcat-juli.jar") || isJarOnPath(classPath, "webapp-runner.jar");
+		if (tomcat)
+			return ContainerType.TOMCAT;
+
+		boolean jboss = isJarOnPath(classPath, "jboss-modules.jar");
+		if (jboss)
+			return ContainerType.JBOSS;
+
+		boolean appengine = isJarOnPath(classPath, "appengine-local-runtime-shared.jar");
+		if (appengine)
+			return ContainerType.APPENGINE;
+
+		if (isJarOnPath(classPath, "jetty-server-"))
+			return ContainerType.JETTY;
+		return ContainerType.GLASSFISH;
+	}
 }
