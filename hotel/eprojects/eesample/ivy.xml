@@ -39,6 +39,10 @@
 	<dependency org="com.google.guava" name="guava" rev="20.0"/>	
 	<dependency org="com.google.inject.extensions" name="guice-servlet" rev="4.1.0"/>
     <dependency org="org.apache.derby" name="derby" rev="10.13.1.1"/>    	
+    <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+<dependency org="org.postgresql" name="postgresql" rev="9.4.1212.jre7"/>
+    
+    
 	
 	</dependencies>
 	
