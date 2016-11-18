@@ -112,11 +112,12 @@
        <copy todir="${proj.war}/WEB-INF/classes">
           <fileset dir="${proj.classes}"/>
           <fileset file="${samplewebsrc}/app.properties"/>
+          <fileset file="${tomcatenv}/heroku.properties"/>	  
         </copy>
 
        <copy todir="${proj.war}/WEB-INF/classes/META-INF">
-	  <fileset dir="${sampletomcatguice}/META-INF" />
-        </copy>
+          <fileset dir="${jpasampledb}/META-INF"/>	  
+       </copy>
 
        <copy todir="${proj.war}">
            <fileset dir="${eewar}"/>
@@ -137,7 +138,8 @@
        <jar destfile="target/jythonuisample.war" compress="true" basedir="war"/>
 
     </target>
+    
    
-   <target name="build" description="Build JutyhonUI Sample WAR" depends="clean, resolve, resolvec, javac, gwtc, war">
-  </target>
+   <target name="build" description="Build JutyhonUI Sample WAR" depends="clean, resolve, resolvec, javac, gwtc, war"/>
+
 </project>
