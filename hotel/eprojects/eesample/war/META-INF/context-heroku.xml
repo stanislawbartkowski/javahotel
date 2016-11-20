@@ -1,8 +1,4 @@
 <Context reloadable="false">
-	<!-- <Environment description="Resource directory" name="hotelapp/resource" 
-		type="java.lang.String" value="/home/hotel/workspace/modelgui/HotelReSource/resource" 
-		/> <Environment description="Cached" name="hotelapp/cached" type="java.lang.Boolean" 
-		value="false" /> -->
 
 	<Environment description="Sample database"
 		name="sample.javax.persistence.jdbc.driver" type="java.lang.String"

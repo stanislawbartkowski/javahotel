@@ -45,5 +45,16 @@
 	<classpathentry kind="lib" path="/javahotel/hotel/manualdependency/guice-assistedinject-3.0.jar"/>
 	<classpathentry kind="lib" path="/javahotel/hotel/manualdependency/gwt-visualization-1.1.2.jar"/>
 	<classpathentry kind="lib" path="/javahotel/hotel/manualdependency/vaadin-gwt-polymer-elements-1.7.0.0.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
+	<classpathentry kind="lib" path="/javahotel/hotel/builddependency/commons-fileupload-1.2.2.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/javahotel/hotel/builddependency/guice-servlet-4.1.0.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

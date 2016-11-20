@@ -55,4 +55,5 @@
 		value="true" />
 	<set-property name="compiler.useSourceMaps" value="true" />
 	-->
+
 </module>

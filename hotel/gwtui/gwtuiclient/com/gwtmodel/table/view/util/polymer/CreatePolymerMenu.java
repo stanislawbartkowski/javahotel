@@ -34,8 +34,17 @@ public class CreatePolymerMenu {
 
 	}
 
+	// important: add panel id to put menu item inside menu or submenu htmlpanel
+	// otherwise it would be added to the end, after menu htmlpanel
+	// important: menu id in html should be the menuId String constant (menu-id)
+	private static final String menuC = "<div class=\"menu-content\" id=\"menu-id\"></div>";
+	private static final String submenuC = "<div class=\"menu-trigger\" id=\"trigger\"></div><div class=\"menu-content\" id=\"menu-id\"></div>";
+
+	private static final String menuId = "menu-id";
+
 	private static void constructM(PaperMenu menu, List<ControlButtonDesc> bList, final IControlClick cli) {
 		IGetStandardMessage iMess = GwtGiniInjector.getI().getStandardMessage();
+
 		menu.addStyleName("menupaper-custom");
 		for (final ControlButtonDesc bu : bList) {
 			String m = iMess.getMessage(bu.getDisplayName());
@@ -46,12 +55,12 @@ public class CreatePolymerMenu {
 					cli.click(bu, i);
 				}
 			});
-			menu.add(i);
+			menu.add(i, menuId);
 		}
 	}
 
 	public static PaperMenu construct(final ListOfControlDesc coP, final IControlClick cli) {
-		PaperMenu menu = new PaperMenu();
+		PaperMenu menu = new PaperMenu(menuC);
 		constructM(menu, coP.getcList(), cli);
 		return menu;
 	}
@@ -75,7 +84,7 @@ public class CreatePolymerMenu {
 		void addS() {
 			if (!subl.isEmpty())
 				if (menu == null) {
-					menu = new PaperMenu();
+					menu = new PaperMenu(menuC);
 					constructM(menu, subl, cli);
 				} else
 					constructM(submenu, subl, cli);
@@ -93,13 +102,12 @@ public class CreatePolymerMenu {
 				continue;
 			}
 			m.addS();
-			PaperSubmenu subm = new PaperSubmenu(
-					"<div class=\"menu-trigger\" id=\"trigger\"></div><div class=\"menu-content\" id=\"content\"></div>");
+			PaperSubmenu subm = new PaperSubmenu(submenuC);
 			String mess = iMess.getMessage(co.getDisplayName());
 			PaperItem i = new PaperItem(mess);
 			subm.add(i, "trigger");
 			m.menu = new PaperMenu();
-			subm.add(m.submenu, "content");
+			subm.add(m.submenu, menuId);
 		}
 		m.addS();
 		return m.menu;
