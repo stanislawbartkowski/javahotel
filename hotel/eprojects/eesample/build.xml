@@ -37,6 +37,12 @@
           <include name="**/*.jar"/>
       </fileset>
    </path>
+
+   <path id="build.jars">
+      <fileset dir="builddependency">
+          <include name="**/*.jar"/>
+      </fileset>
+   </path>
    
    <path id="ivy.dep">
     <fileset dir="${res.lib}/">
@@ -72,6 +78,7 @@
                source="1.8" target="1.8">
            <classpath> 
               <path refid="dep.jars"/>
+              <path refid="build.jars"/>
               <path refid="ivy.dep" /> 
 	      <pathelement location="${gwt-user}" />
            </classpath>
@@ -102,6 +109,7 @@
                <pathelement location="${samplewebsrc}"/>
                <pathelement location="${sampletomcatguice}"/>
                <path refid="dep.jars"/>
+               <path refid="build.jars"/>
                <path refid="ivy.dep" /> 
             </classpath>
             <arg line="com.jython.ui.WebJythonUi"/>
@@ -125,6 +133,7 @@
 	
        <copy todir="${proj.war}/WEB-INF/lib">
            <path refid="ivy.dep" />
+           <path refid="build.jars" />
            <fileset file="${gwt-servlet}"/>
        </copy>
       
