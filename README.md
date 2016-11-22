@@ -9,6 +9,10 @@ User : http://testjavahotel.appspot.com/?hotel=hotel (U/P user/user)
 Blog: http://hoteljavaopensource.blogspot.com/
 
 ---
+#2016/11/22 : Heroku, Eclipse, Tomcat
+
+How to create MVP Jython sample Eclipse project
+---
 #2016/10/31 : new version of Jython MVP framework
 More Polymer widgets
 More info: http://hoteljavaopensource.blogspot.com/2016/10/new-features-in-jython-mvp-framework.html
