@@ -4,6 +4,7 @@
 * Ivy plugin : http://www.apache.org/dist/ant/ivyde/updatesite
 * Google plugin : https://dl.google.com/eclipse/plugin/4.6
 * Configure Google plugin to use the latest GWT 2.8
+* Download and install Tomcat servlet container (tested with 8.33 version)
 
 # Create Eclipse project
 9. Import -> Git -> Projects from Git
@@ -23,3 +24,15 @@ After importing eesample project will signal errors. To resolve them :
 
 9. Fix problem of missing gwt-servlet.jar in WEB-INF/lib
 9. Resolve again both ivy reference dependencies libraries
+9. Launch GWT Compile for eesample project
+
+# Launch eesample project as web application 
+9. Create new Tomcat server as Eclipse project.
+9. Define data source (tested with Postgresql and Derby)
+
+In Tomcat server.xml GlobalNamingResources part specify follwing variables
+
+| Name | Value
+| sample/javax.persistence.jdbc.driver | Driver class
+
+
