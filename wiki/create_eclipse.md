@@ -9,10 +9,17 @@
 9. Import -> Git -> Projects from Git
 9. Clone URI: https://github.com/stanislawbartkowski/javahotel.git , master branch only, unselect others
 9. Local destination -> Browse to workspace directory/javahotel
-9. Import using the New Project Wizard -> Project name: javahotel
-   * javahotel is a placeholder for Git clone
-9.
+9. Import using the New Project Wizard -> Project name: javahotel (javahotel is a placeholder for Git clone)
+9. The following project should appear
 
+![](https://github.com/stanislawbartkowski/javahotel/blob/master/wiki/Zrzut%20ekranu%20z%202016-11-22%2022:36:46.png)
 
-asdasdas
-asdasd
+# Import Eclipse projects
+Import two projects from javahotel/hotel/eprojects directory, eesample and jpatestsample
+
+![](https://github.com/stanislawbartkowski/javahotel/blob/master/wiki/Zrzut%20ekranu%20z%202016-11-23%2000:36:21.png)
+
+After importing eesample project will signal errors. To resolve them :
+
+9. Fix problem of missing gwt-servlet.jar in WEB-INF/lib
+9. Resolve again both ivy reference dependencies libraries
