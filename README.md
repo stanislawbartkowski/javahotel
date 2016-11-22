@@ -11,7 +11,7 @@ Blog: http://hoteljavaopensource.blogspot.com/
 ---
 #2016/11/22 : Heroku, Eclipse, Tomcat
 
-How to create MVP Jython sample Eclipse project [link](wiki/create_eclipse)
+How to create MVP Jython sample Eclipse project [link](wiki/create_eclipse.md)
 
 ---
 #2016/10/31 : new version of Jython MVP framework
