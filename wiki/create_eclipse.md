@@ -32,7 +32,20 @@ After importing eesample project will signal errors. To resolve them :
 
 In Tomcat server.xml GlobalNamingResources part specify follwing variables
 
-| Name | Value
+| Name    | Value
+| --------|:---------
 | sample/javax.persistence.jdbc.driver | Driver class
+| sample/javax.persistence.jdbc.url | Database URL
+| sample/javax.persistence.jdbc.user | User name
+| sample/javax.persistence.jdbc.password | Password
+
+Derby example
+
+'''xml
+
+<GlobalNamingResources>
+
+</GlobalNamingResources>
+'''
 
 
