@@ -41,11 +41,11 @@ In Tomcat server.xml GlobalNamingResources part specify follwing variables
 
 Derby example
 
-'''xml
+```xml
 
 <GlobalNamingResources>
 
 </GlobalNamingResources>
-'''
+```
 
 
