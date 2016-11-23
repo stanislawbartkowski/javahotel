@@ -26,4 +26,5 @@ Import three projects from javahotel/eprojects directory: hbasebigsql,hbaseputge
 
 To run the tests, copy your own or modify existing testh/etcb/hase-site.xml
 
+# Enjoy
 
