@@ -44,7 +44,7 @@ public class ToBIGSQL {
 	}
 
 	/**
-	 * TONYINT (single byte) value to binary
+	 * TINYINT (single byte) value to binary
 	 * 
 	 * @param v
 	 * @return
