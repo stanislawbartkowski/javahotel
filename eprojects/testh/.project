@@ -17,6 +17,11 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>etcb</name>
+			<type>2</type>
+			<locationURI>WORKSPACE_LOC/javahotel/TestH/etcb</locationURI>
+		</link>
+		<link>
 			<name>test</name>
 			<type>2</type>
 			<locationURI>WORKSPACE_LOC/javahotel/TestH/test</locationURI>
