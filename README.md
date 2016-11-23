@@ -14,8 +14,16 @@ Prerequisities
 
 # Create Eclipse project
 9. Import -> Git -> Projects from Git
-9. Clone URI: https://github.com/stanislawbartkowski/javahotel.git , *bsqlhbase* branch only, unselect ddd
+9. Clone URI: https://github.com/stanislawbartkowski/javahotel.git , **bsqlhbase** branch only, unselect others
 9. Local destination -> Browse to workspace directory/javahotel
 9. Import using the New Project Wizard -> Project name: javahotel (javahotel is a placeholder for Git clone)
-9. The following project should appear
+
+# Import Eclipse projects
+
+Import three projects from javahotel/eprojects directory: hbasebigsql,hbaseputget and testh
+
+![](https://github.com/stanislawbartkowski/javahotel/blob/bsqlhbase/wiki/Zrzut%20ekranu%20z%202016-11-23%2011:44:10.png)
+
+To run the tests, copy your own or modify existing testh/etcb/hase-site.xml
+
 
