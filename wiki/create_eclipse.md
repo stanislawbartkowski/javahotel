@@ -45,7 +45,23 @@ Derby example
 
 <GlobalNamingResources>
 
+		<Environment description="Sample database" name="sample/javax.persistence.jdbc.driver"
+			type="java.lang.String" value="org.apache.derby.jdbc.EmbeddedDriver" />
+			
+		<Environment description="Sample database" name="sample/javax.persistence.jdbc.url"
+			type="java.lang.String" value="jdbc:derby:/tmp/database/sampleDb;create=true" />
+			
+		<Environment description="Sample database" name="sample/javax.persistence.jdbc.user"
+			type="java.lang.String" value="test" />
+			
+		<Environment description="Sample database" name="sample/javax.persistence.jdbc.password"
+			type="java.lang.String" value="test" />
+
 </GlobalNamingResources>
 ```
+
+9. Start server
+9. Launch http://localhost:8080/eesample/ or http://localhost:8080/eesample/?start=startp.xml
+9. Enjoy
 
 
