@@ -32,7 +32,7 @@ function recognizeobject(objtype) {
   else if (objtype == "TYPES") OBJTYPE=6
   else if (objtype == "ALL") OBJTYPE=10
   else {
-    print "Invalid objtype value:",objtype,"Expected : TABLE, VIEW, TRIGGER, PROCEDURE, FUNCTION, CONSTRAINT or ALL"
+    print "Invalid objtype value:",objtype,"Expected : TABLE, VIEW, TRIGGER, PROCEDURE, FUNCTION, CONSTRAINT, TYPES or ALL"
     exit
   }  
   return OBJTYPE
