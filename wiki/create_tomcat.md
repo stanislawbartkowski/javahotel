@@ -15,3 +15,13 @@
 [link](create_eclipse.md#launch-eesample-project-as-web-application)
 
 # Deploy to Tomcat
+
+* cp {dir}/javahotel/hotel/target/jythonuisample.war {CATALINA_BASE}/webapps
+* start Tomcat
+
+# Launch
+http://localhost:8080/jythonuisample/ or  http://localhost:8080/eesample/?start=startp.xml
+
+Enjoy
+
+
