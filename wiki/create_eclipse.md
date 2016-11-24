@@ -59,6 +59,7 @@ Derby example
 
 </GlobalNamingResources>
 ```
+Important: eesample project contains derby-10.13.1.1.jar as a dependency. If Tomcat installation contains also Derby somewhere in it's classpath make sure that both Derby versions match or remove Derby from Tomcat.
 
 9. Start server
 9. Launch http://localhost:8080/eesample/ or http://localhost:8080/eesample/?start=startp.xml
