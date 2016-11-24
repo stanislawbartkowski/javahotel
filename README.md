@@ -13,6 +13,8 @@ Blog: http://hoteljavaopensource.blogspot.com/
 
 How to create MVP Jython sample Eclipse project [link](wiki/create_eclipse.md)
 
+How to create war file to deploy to Tomcat [link](wiki/create_tomcat.md)
+
 ---
 #2016/10/31 : new version of Jython MVP framework
 More Polymer widgets
