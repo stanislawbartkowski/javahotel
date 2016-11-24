@@ -12,4 +12,4 @@
 * ls target/jythonuisample.war
 
 # Define datasource in Tomcat
-[link](wiki/create_eclipse.md#launch-eesample-project-as-web-application)
+[link](create_eclipse.md#launch-eesample-project-as-web-application)
