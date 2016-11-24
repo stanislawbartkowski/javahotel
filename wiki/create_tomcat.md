@@ -11,5 +11,7 @@
 * ant (ignore warnings and errors during GWT compilation)
 * ls target/jythonuisample.war
 
-# Define datasource in Tomcat
+# Define data source in Tomcat
 [link](create_eclipse.md#launch-eesample-project-as-web-application)
+
+# Deploy to Tomcat
