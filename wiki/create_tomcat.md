@@ -20,7 +20,7 @@
 * start Tomcat
 
 # Launch
-http://localhost:8080/jythonuisample/ or  http://localhost:8080/eesample/?start=startp.xml
+http://localhost:8080/jythonuisample/ or http://localhost:8080/jythonuisample/?start=startp.xml
 
 Enjoy
 
