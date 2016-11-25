@@ -5,6 +5,7 @@
 * Java 8
 
 # Make target
+* set GWT_HOME environment variable to point GWT installation, for instance export GWT_HOME=/opt/gwt-2.8.0
 * git clone https://github.com/stanislawbartkowski/javahotel.git
 * cd javahotel/hotel
 * ln -s eprojects/eesample/build.xml
