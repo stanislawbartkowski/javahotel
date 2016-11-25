@@ -1,6 +1,7 @@
 <project name="JythonUI" default="build" xmlns:ivy="antlib:org.apache.ivy.ant">
   
-   <property name="proj.gwtCache" value="gwt-unitCache" />
+   <property environment="env"/>
+   <property name="proj.gwtCache" value="gwt-unitCache" /> 
    <property name="proj.target" value="target" />
    <property name="proj.output" value="output" />
    <property name="proj.war" value="war"/>
@@ -8,7 +9,11 @@
    <property name="proj.classes" value="out.classes" />
    
    
-   <property name="gwthome" value="/home/opt/gwt-2.8.0" />
+<!--   <property name="gwthome" value="/home/opt/gwt-2.8.0" /> -->
+   <condition property="gwthome" value="${env.GWT_HOME}" else="/home/opt/gwt-2.8.0">
+    <isset property="env.GWT_HOME" />
+   </condition>
+   <echo message="GWT_HOME is set to ${gwthome}" />
    <property name="gwt-user" value="${gwthome}/gwt-user.jar" />
    <property name="gwt-dev" value="${gwthome}/gwt-dev.jar" />
    <property name="gwt-servlet" value="${gwthome}/gwt-servlet.jar" />
