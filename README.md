@@ -15,7 +15,7 @@ How to create MVP Jython sample Eclipse project [link](wiki/create_eclipse.md)
 
 How to create war file to deploy to Tomcat [link](wiki/create_tomcat.md)
 
-How to deploy war to Heroku to get private copy of the application (wiki/create_heroku.md)
+How to deploy war to Heroku to get private copy of the application [link](wiki/create_heroku.md)
 
 ---
 #2016/10/31 : new version of Jython MVP framework
