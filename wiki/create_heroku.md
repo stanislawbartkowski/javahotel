@@ -27,7 +27,7 @@ https://myjythonsample.herokuapp.com/?start=startp.xml
 
 It is also possible to run Heroku by means of webrunner applications. More details: https://devcenter.heroku.com/articles/java-webapp-runner.
 
-* Prepare Postgresql database available and set JDBC_DATABASE_URL to proper URL connection string, should contain login name and password. More details: https://devcenter.heroku.com/articles/heroku-postgresql#connecting-in-java
+* Prepare external Postgresql database and set JDBC_DATABASE_URL to proper URL connection string, should contain login name and password. More details: https://devcenter.heroku.com/articles/heroku-postgresql#connecting-in-java
 * java -jar {dir}/webapp-runner.jar {dir}/jythonuisample.war  (start embedded Tomcat)
 
 # Enjoy
