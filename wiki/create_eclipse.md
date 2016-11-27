@@ -32,7 +32,7 @@ After importing eesample project will signal errors. To resolve them :
 9. Create new Tomcat server as Eclipse project.
 9. Define data source (tested with Postgresql and Derby)
 
-In Tomcat server.xml GlobalNamingResources part specify following variables
+Tomcat server.xml, GlobalNamingResources part,  specify the following variables
 
 | Name    | Value
 | --------|:---------
