@@ -24,7 +24,7 @@
 
 After importing eesample project will signal errors. To resolve them :
 
-9. Fix problem of missing gwt-servlet.jar in WEB-INF/lib (Markers->GWT Problem -> The GWT SDK JAR gwt-servlet is missing -> Right clich -> Quick Fix)
+9. Fix problem of missing gwt-servlet.jar in WEB-INF/lib (Markers->GWT Problem -> The GWT SDK JAR gwt-servlet is missing -> Right clich -> Quick Fix -> Synchronize)
 9. Resolve again both ivy reference dependencies libraries (eesample -> Java Resources -> Libraries -> ivy and ivyc dependency -> Right click -> Team -> Resolve)
 9. Launch GWT Compile for eesample project (specify war as deployment descriptor placeholder)
 
