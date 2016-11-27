@@ -16,7 +16,9 @@
 ![](https://github.com/stanislawbartkowski/javahotel/blob/master/wiki/Zrzut%20ekranu%20z%202016-11-22%2022:36:46.png)
 
 # Import Eclipse projects
-Import two projects from javahotel/hotel/eprojects directory, eesample and jpatestsample
+
+* Import -> General -> Existing Projects into Workspace
+* Import two projects from javahotel/hotel/eprojects directory, eesample and jpatestsample
 
 ![](https://github.com/stanislawbartkowski/javahotel/blob/master/wiki/Zrzut%20ekranu%20z%202016-11-23%2000:36:21.png)
 
