@@ -10,7 +10,7 @@
 9. Import -> Git -> Projects from Git
 9. Clone URI: https://github.com/stanislawbartkowski/javahotel.git , master branch only, unselect others
 9. Local destination -> Browse to workspace directory/javahotel
-9. Import using the New Project Wizard -> Project name: javahotel (javahotel is a placeholder for Git clone)
+9. Import using the New Project Wizard -> General -> Project -> Project name: javahotel (javahotel is a placeholder for Git clone)
 9. The following project should appear
 
 ![](https://github.com/stanislawbartkowski/javahotel/blob/master/wiki/Zrzut%20ekranu%20z%202016-11-22%2022:36:46.png)
