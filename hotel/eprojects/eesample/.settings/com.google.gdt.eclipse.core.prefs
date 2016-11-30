@@ -1,3 +1,5 @@
 eclipse.preferences.version=1
+jarsExcludedFromWebInfLib=
+lastWarOutDir=/home/hotel/workspace/photel/javahotel/hotel/eprojects/eesample/war/WEB-INF
 warSrcDir=war
 warSrcDirIsOutput=true

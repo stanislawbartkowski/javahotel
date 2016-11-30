@@ -12,14 +12,20 @@
  */
 package com.gwtmodel.table.view.util;
 
+import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IGetSetVField;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.binder.BinderWidget;
+import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.editw.FormField;
 import com.gwtmodel.table.editw.FormLineContainer;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -30,86 +36,104 @@ import java.util.List;
  */
 public class FormUtil {
 
-    private FormUtil() {
-    }
+	private FormUtil() {
+	}
 
-    public static FormField findI(final List<FormField> fList, IVField f) {
-        for (FormField re : fList) {
-            if (re.getFie().eq(f)) {
-                return re;
-            }
-        }
-        return null;
-    }
+	public static FormField findI(final List<FormField> fList, IVField f) {
+		for (FormField re : fList) {
+			if (re.getFie().eq(f)) {
+				return re;
+			}
+		}
+		return null;
+	}
 
-    public static void copyFromDataToView(IVModelData aFrom,
-            FormLineContainer fContainer) {
-        copyFromDataToView(aFrom, fContainer.getvList());
-    }
+	public static void copyFromDataToView(IVModelData aFrom, FormLineContainer fContainer) {
+		copyFromDataToView(aFrom, fContainer.getvList());
+	}
 
-    /**
-     * Copies values from model to view
-     *
-     * @param aFrom
-     *            IVModelData to copy from
-     * @param vList
-     *            Destination view
-     */
-    public static void copyFromDataToView(IVModelData aFrom,
-            List<IGetSetVField> vList) {
-        for (IGetSetVField v : vList) {
-            if (aFrom.isValid(v.getV())) {
-                Object o = FUtils.getValue(aFrom, v.getV());
-                v.setValObj(o);
-            }
-        }
-    }
+	/**
+	 * Copies values from model to view
+	 *
+	 * @param aFrom
+	 *            IVModelData to copy from
+	 * @param vList
+	 *            Destination view
+	 */
+	public static void copyFromDataToView(IVModelData aFrom, List<IGetSetVField> vList) {
+		for (IGetSetVField v : vList) {
+			if (aFrom.isValid(v.getV())) {
+				Object o = FUtils.getValue(aFrom, v.getV());
+				v.setValObj(o);
+			}
+		}
+	}
 
-    /**
-     * Copies values from view to model data
-     *
-     * @param fContainer
-     *            Source view
-     * @param aTo
-     *            Destination model data
-     */
-    public static void copyFromViewToData(FormLineContainer fContainer,
-            IVModelData aTo) {
-        copyFromViewToModel(fContainer.getvList(), aTo);
-    }
+	/**
+	 * Copies values from view to model data
+	 *
+	 * @param fContainer
+	 *            Source view
+	 * @param aTo
+	 *            Destination model data
+	 */
+	public static void copyFromViewToData(FormLineContainer fContainer, IVModelData aTo) {
+		copyFromViewToModel(fContainer.getvList(), aTo);
+	}
 
-    public static void copyFromViewToModel(List<IGetSetVField> vList,
-            IVModelData aTo) {
-        for (IGetSetVField v : vList) {
-            IVField vFie = v.getV();
-            if (aTo.isValid(vFie)) {
-                aTo.setF(vFie, v.getValObj());
-            }
-        }
-    }
+	public static void copyFromViewToModel(List<IGetSetVField> vList, IVModelData aTo) {
+		for (IGetSetVField v : vList) {
+			IVField vFie = v.getV();
+			if (aTo.isValid(vFie)) {
+				aTo.setF(vFie, v.getValObj());
+			}
+		}
+	}
 
-    public static List<IVField> getVList(FormLineContainer fContainer) {
-        List<IVField> fList = new ArrayList<IVField>();
-        for (FormField d : fContainer.getfList()) {
-            IVField vFie = d.getFie();
-            fList.add(vFie);
-        }
-        return fList;
-    }
+	public static List<IVField> getVList(FormLineContainer fContainer) {
+		List<IVField> fList = new ArrayList<IVField>();
+		for (FormField d : fContainer.getfList()) {
+			IVField vFie = d.getFie();
+			fList.add(vFie);
+		}
+		return fList;
+	}
 
-    public static void copyData(IVModelData aFrom, IVModelData aTo) {
-        for (IVField v : aFrom.getF()) {
-            Object val = aFrom.getF(v);
-            aTo.setF(v, val);
-        }
-    }
+	public static void copyData(IVModelData aFrom, IVModelData aTo) {
+		for (IVField v : aFrom.getF()) {
+			Object val = aFrom.getF(v);
+			aTo.setF(v, val);
+		}
+	}
 
-    public static FormField findFormField(List<FormField> fList, IVField fie) {
-        for (FormField f : fList) {
-            if (f.getFie().eq(fie)) {
-                return f;
-            }
-        }
-        return null;
-    }
+	public static FormField findFormField(List<FormField> fList, IVField fie) {
+		for (FormField f : fList) {
+			if (f.getFie().eq(fie)) {
+				return f;
+			}
+		}
+		return null;
+	}
+
+	public static Widget findWidgetByFieldId(HasWidgets ha, String fieldid) {
+		Iterator<Widget> iW = ha.iterator();
+		// iterate through widget
+		while (iW.hasNext()) {
+			Widget ww = iW.next();
+			
+			String id = Utils.getWidgetAttribute(ww, BinderWidget.FIELDID);
+			// look for fieldid attribute
+			if (CUtil.EqNS(id, fieldid))
+				return ww;
+			if (ww instanceof HasWidgets) {
+				// recursive
+				ww = findWidgetByFieldId((HasWidgets) ww,fieldid);
+				if (ww != null) return ww;
+			}
+				
+		}
+		// not found
+		return null;
+	}
+
 }

@@ -29,7 +29,7 @@ public class Test69 extends TestHelper {
 	@Parameters(name = "{index}: {0}")
 	public static Object[] data() {
 		return new Object[] { "test134.xml", "test135.xml", "test136.xml", "test137.xml", "test138.xml",
-				"test139.xml", "test142.xml", "test143.xml", "test144.xml" };
+				"test139.xml", "test142.xml", "test143.xml", "test144.xml" ,"test146.xml"};
 	}
 
 	@Parameter

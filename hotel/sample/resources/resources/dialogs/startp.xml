@@ -19,6 +19,7 @@
   <button id="edit1" displayname="Password Text" actiontype="JMAIN_DIALOG" actionparam="passwordtext.xml" />
   <button id="edit2" displayname="Polymer combo" actiontype="JMAIN_DIALOG" actionparam="polymermenu.xml" />
   <button id="edit3" displayname="Menu" actiontype="JMAIN_DIALOG" actionparam="polymermenu.xml" />
+  <button id="edit4" displayname="Simple test" actiontype="JMAIN_DIALOG" actionparam="htmlpaneltest.xml" />
   <button id="paperelements" displayname="Paper"  header=""/>
   <button id="binder3" displayname="Buttons" actiontype="JMAIN_DIALOG" actionparam="binder3.xml" />
   <button id="binder4" displayname="CheckBox" actiontype="JMAIN_DIALOG" actionparam="binder4.xml" />
@@ -38,6 +39,7 @@
   <button id="binder18" displayname="Spinner" actiontype="JMAIN_DIALOG" actionparam="binder18.xml" />
   <button id="binder19" displayname="Slider" actiontype="JMAIN_DIALOG" actionparam="binder19.xml" />
   <button id="binder20" displayname="Tabs" actiontype="JMAIN_DIALOG" actionparam="binder20.xml" />
+  <button id="binder21" displayname="Tooltip" actiontype="JMAIN_DIALOG" actionparam="binder21.xml" />
 </leftstack>  
 
 <buttons>

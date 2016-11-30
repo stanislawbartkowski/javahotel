@@ -22,7 +22,6 @@ import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.ISignal;
-import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.vaadin.polymer.iron.widget.IronDropdown;
 import com.vaadin.polymer.iron.widget.IronIcon;

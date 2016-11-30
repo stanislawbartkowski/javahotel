@@ -16,6 +16,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
@@ -28,7 +29,6 @@ import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.slotmodel.SlotType;
 import com.gwtmodel.table.stackpanelcontroller.IStackPanelController;
-import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
 import com.gwtmodel.table.view.controlpanel.IContrButtonView;
 import com.gwtmodel.table.view.controlpanel.IContrButtonViewFactory;
 import com.gwtmodel.table.view.controlpanel.IControlClick;
@@ -75,7 +75,7 @@ public class StackPanelButtonFactory {
 		@Override
 		public void startPublish(CellId cellId) {
 			SlotType sl = slTypeFactory.constructH(cellId);
-			IGWidget gw = new GWidget(html);
+			IGWidget gw = new GWidget(new HTMLPanel(html));
 
 			getSlContainer().registerCaller(sl, new GetGwt(gw));
 			publish(dType, cellId, gw);

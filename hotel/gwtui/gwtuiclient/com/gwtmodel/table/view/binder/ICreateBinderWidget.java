@@ -16,6 +16,14 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.gwtmodel.table.binder.BinderWidget;
 
 public interface ICreateBinderWidget {
+	
+	HTMLPanel createEmptyHtmlPanel(BinderWidget w);
 
-	HTMLPanel create(BinderWidget w);	
+	void buildHTMLPanel(HTMLPanel w, BinderWidget bw);
+	
+	default HTMLPanel create(BinderWidget w) {
+		HTMLPanel pa = createEmptyHtmlPanel(w);
+		buildHTMLPanel(pa, w);
+		return pa;
+	}
 }

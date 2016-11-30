@@ -1,0 +1,18 @@
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="Tooltip" polymer="">
+ 
+ <uibinder>binder/binderhtml.xml</uibinder>
+   
+  <before />
+  
+  <jython>
+   <import>from testpack import binder1</import>
+   <method>binder1.slideraction({0},{1})</method>
+ </jython>  
+ 
+ <form>
+   <field id="ratings" type="decimal"  />
+   <field id="ratingsLabel" type="string" />
+ </form>
+
+   
+</dialog>

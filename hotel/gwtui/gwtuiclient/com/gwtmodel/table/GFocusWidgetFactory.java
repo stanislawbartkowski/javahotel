@@ -13,7 +13,6 @@
 package com.gwtmodel.table;
 
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.mm.LogT;

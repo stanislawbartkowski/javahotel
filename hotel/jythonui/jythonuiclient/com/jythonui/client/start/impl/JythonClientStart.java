@@ -321,6 +321,7 @@ public class JythonClientStart implements IJythonClientStart {
 				imp.add("paper-item/paper-item.html");		
 				imp.add("paper-item/paper-item-body.html");		
 				imp.add("iron-icon/iron-icon.html");		
+				imp.add("paper-tooltip/paper-tooltip.html");		
 				Polymer.importHref(imp, new Function() {
 					public Object call(Object arg) {
 						// The app is executed when all imports succeed.

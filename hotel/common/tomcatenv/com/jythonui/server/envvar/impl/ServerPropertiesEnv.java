@@ -17,7 +17,6 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import com.jythonui.server.IConsts;
 import com.jythonui.server.defa.AbstractServerProperties;
 import com.jythonui.server.envvar.IGetEnvVariable;
 import com.jythonui.server.envvar.IGetEnvVariable.IEnvVar;
@@ -72,8 +71,9 @@ public class ServerPropertiesEnv extends AbstractServerProperties {
 
 	@Override
 	public boolean isCached() {
+		// as e
 		IEnvVar e = getEnvString(getJNDI.getCachedValue(), IGetEnvVariable.ResType.LOG, false);
-		if (e.getL())
+		if (e.isEmpty())
 			return true;
 		return e.getL();
 	}

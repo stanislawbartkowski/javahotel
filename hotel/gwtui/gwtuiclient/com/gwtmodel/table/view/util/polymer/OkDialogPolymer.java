@@ -17,12 +17,9 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonFactory;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
-import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.injector.GwtGiniInjector;
-import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.gwtmodel.table.view.helper.IStandDialog;
-import com.vaadin.polymer.paper.widget.PaperButton;
 import com.vaadin.polymer.paper.widget.PaperDialog;
 
 public class OkDialogPolymer implements IStandDialog {

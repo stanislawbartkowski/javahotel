@@ -88,7 +88,8 @@
 					<p:PaperIconButton fieldid="exitIcon" icon="exit-to-app" visible="false"></p:PaperIconButton>
 				</p:PaperToolbar>
 			 </div>
- 			   <div id="mainpanel">.</div>
+			 <!--		         <div id="mainpanel">.</div> -->
+			 <g:HTMLPanel fieldid="mainpanel"></g:HTMLPanel>
 		</p:PaperHeaderPanel>
   	    </div>
 	</p:PaperDrawerPanel>

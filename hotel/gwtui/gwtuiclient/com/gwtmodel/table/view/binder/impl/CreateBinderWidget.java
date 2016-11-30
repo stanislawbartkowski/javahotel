@@ -59,6 +59,7 @@ import com.vaadin.polymer.paper.widget.PaperTab;
 import com.vaadin.polymer.paper.widget.PaperTabs;
 import com.vaadin.polymer.paper.widget.PaperTextarea;
 import com.vaadin.polymer.paper.widget.PaperToolbar;
+import com.vaadin.polymer.paper.widget.PaperTooltip;
 
 public class CreateBinderWidget implements ICreateBinderWidget {
 
@@ -82,7 +83,7 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 		}
 	}
 
-	private Widget createWidget(BinderWidget bw) {
+	private Widget constructEmptyWidget(BinderWidget bw) {
 		Widget w = null;
 		String html = "";
 		if (!CUtil.EmptyS(bw.getContentHtml()))
@@ -189,25 +190,36 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 			else
 				w = new FlowPanel(html);
 			break;
+		case PaperTooltip:
+			w = new PaperTooltip(html);
+			break;
 		default:
 			Utils.errAlertB(LogT.getT().PolymerWidgetNotImplemented(bw.getType().name()));
 			break;
 		} // switch
+
+		return w;
+	}
+
+	private void buildWidget(Widget w, BinderWidget bw) {
 		setWAttribute(w, bw);
 		if (bw.getwList().isEmpty())
-			return w;
+			return;
 		if (!(w instanceof HasWidgets))
 			Utils.errAlertB(LogT.getT().BinderCannotHaveWidgets(bw.getType().name()));
-		HTMLPanel h = null;
-		HasWidgets hw = null;
-		if (w instanceof HTMLPanel)
+		HTMLPanel h;
+		HasWidgets hw;
+		if (w instanceof HTMLPanel) {
 			h = (HTMLPanel) w;
-		else
+			hw = null;
+		} else {
 			hw = (HasWidgets) w;
-		// TODO: debug only
-		String elemS = w.toString();
-		for (BinderWidget c : bw.getwList()) {
-			Widget child = createWidget(c);
+			h = null;
+		}
+
+		bw.getwList().forEach(c -> {
+			Widget child = constructEmptyWidget(c);
+			buildWidget(child, c);
 			Element ee = h.getElementById(c.getId());
 			if (ee == null)
 				Utils.errAlert(LogT.getT().BinderCannotFindWidget(c.getId()));
@@ -221,21 +233,25 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 				}
 			} else
 				hw.add(child);
+		});
 
-		} // for
-		return w;
-	}
+	} // for
 
 	@Override
-	public HTMLPanel create(BinderWidget w) {
+	public HTMLPanel createEmptyHtmlPanel(BinderWidget w) {
 		if (w.getwList().isEmpty())
 			Utils.errAlertB(LogT.getT().BinderWidgetNoPanels());
 		BinderWidget p = w.getwList().get(0);
-		Widget ww = createWidget(p);
+		Widget ww = constructEmptyWidget(p);
 		if (ww instanceof HTMLPanel)
 			return (HTMLPanel) ww;
 		Utils.errAlert(LogT.getT().BinderNotHTMLPanel(p.getType().name()));
 		return null;
+	}
+
+	@Override
+	public void buildHTMLPanel(HTMLPanel w, BinderWidget bw) {
+		buildWidget(w, bw.getwList().get(0));
 	}
 
 }

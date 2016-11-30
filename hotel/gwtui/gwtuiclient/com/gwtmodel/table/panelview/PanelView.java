@@ -68,6 +68,7 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
 	private CellId panelId;
 	private IGwtPanelView pView;
 	private HTMLPanel htmlWidget;
+	private BinderWidget bw;
 	private final SlotSignalContextFactory slFactory;
 	private final ICreateBinderWidget iBinder;
 
@@ -79,6 +80,7 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
 		this.dType = dType;
 		htmlWidget = null;
 		pView = null;
+		bw = null;
 	}
 
 	@Override
@@ -168,7 +170,10 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
 			}
 			pView = GwtPanelViewFactory.construct(maxR + 1, maxC + 1);
 		} else {
-			htmlWidget = html != null ? new HTMLPanel(html) : iBinder.create(b);
+			bw = b;
+			// htmlWidget = html != null ? new HTMLPanel(html) :
+			// iBinder.create(b);
+			htmlWidget = html != null ? new HTMLPanel(html) : iBinder.createEmptyHtmlPanel(b);
 			ISlotCustom sl = BinderWidgetSignal.constructSlotLineErrorSignal(dType);
 			registerCaller(sl, new GetMainHtml(b));
 		}
@@ -188,7 +193,7 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
 			publishType = cellId.getdType();
 		}
 		if (htmlWidget != null) {
-			publish(publishType, cellId, new GWidget(htmlWidget));
+			publish(publishType, cellId, new GWidget(htmlWidget, bw));
 		} else if (pView != null)
 			publish(publishType, cellId, pView);
 	}

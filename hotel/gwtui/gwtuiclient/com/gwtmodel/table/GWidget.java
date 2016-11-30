@@ -14,7 +14,10 @@ package com.gwtmodel.table;
 
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
+import com.gwtmodel.table.binder.BinderWidget;
 import com.gwtmodel.table.mm.LogT;
+import com.gwtmodel.table.view.binder.ICreateBinderWidget;
 
 /**
  *
@@ -22,20 +25,33 @@ import com.gwtmodel.table.mm.LogT;
  */
 public class GWidget implements IGWidget {
 
-    private final Widget w;
+	private final Widget w;
+	private final BinderWidget bw;
 
-    public GWidget(Widget w) {
-        assert w != null : LogT.getT().widgetCanotbeNull();
-        this.w = w;
-    }
+	@Inject
+	private static ICreateBinderWidget iBinder;
 
-    public GWidget(String html) {
-        HTMLPanel ha = new HTMLPanel(html);
-        w = ha;
-    }
+	public GWidget(Widget w, BinderWidget bw) {
+		assert w != null : LogT.getT().widgetCanotbeNull();
+		assert bw == null || (bw != null && w instanceof HTMLPanel);
+		this.w = w;
+		this.bw = bw;
+	}
 
-    @Override
-    public Widget getGWidget() {
-        return w;
-    }
+	public GWidget(Widget w) {
+		this(w, null);
+	}
+
+	@Override
+	public Widget getGWidget() {
+		return w;
+	}
+
+	@Override
+	public void completeWidget() {
+		if (bw == null)
+			return;
+		iBinder.buildHTMLPanel((HTMLPanel) w, bw);
+	}
+
 }

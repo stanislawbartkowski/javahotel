@@ -7,11 +7,13 @@
 	<ResourceLink global="mail/Session" name="mail/Session"
 		type="javax.mail.Session" />
 		
+<!-- 		
 	<ResourceLink global="sampleapp/resource" name="sampleapp/resource"
 		type="java.lang.String" />
 		
 	<ResourceLink global="sample/cached" name="sample/cached"
 		type="java.lang.Boolean" />
+-->
 
 	<ResourceLink global="sample/javax.persistence.jdbc.driver" name="sample.javax.persistence.jdbc.driver"
 		type="java.lang.String" />

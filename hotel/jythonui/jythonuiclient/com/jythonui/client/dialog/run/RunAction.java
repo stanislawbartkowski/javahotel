@@ -21,6 +21,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.SynchronizeList;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WSize;
@@ -284,9 +285,10 @@ public class RunAction implements IJythonUIClient {
 		
 		@Override
 		public void signal(ISlotSignalContext slContext) {
-			Widget w = slContext.getGwtWidget().getGWidget();
+			IGWidget w = slContext.getGwtWidget();
 			IWebPanel i = GwtGiniInjector.getI().getWebPanel();
-			i.setDCenter(w);
+			i.setDCenter(w.getGWidget());
+			w.completeWidget();			
 		}
 
 	}

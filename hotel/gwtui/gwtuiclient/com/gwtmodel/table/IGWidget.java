@@ -17,5 +17,6 @@ import com.google.gwt.user.client.ui.Widget;
 public interface IGWidget {
 
     Widget getGWidget();
-
+    
+    default void completeWidget() {}
 }

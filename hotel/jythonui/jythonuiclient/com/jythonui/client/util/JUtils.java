@@ -241,17 +241,4 @@ public class JUtils {
 		return name;
 	}
 
-	public static Widget findWidgetByFieldId(HasWidgets ha, String fieldid) {
-		Iterator<Widget> iW = ha.iterator();
-		// iterate through widget
-		while (iW.hasNext()) {
-			Widget ww = iW.next();
-			String id = Utils.getWidgetAttribute(ww, BinderWidget.FIELDID);
-			// look for fieldid attribute
-			if (CUtil.EqNS(id, fieldid))
-				return ww;
-		}
-		// not found
-		return null;
-	}
 }

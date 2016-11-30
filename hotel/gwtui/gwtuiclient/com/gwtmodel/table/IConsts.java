@@ -228,11 +228,21 @@ public interface IConsts {
 	String ATTRPIN = "pin";
 	String ATTRSECONDARYPROGRESS = "secondaryProgress";
 	String ATTRSECONDARYPROGRESSS = "secondaryProgressS";
-	String ATTRSNAPS="snaps";
-	String ATTRTRANSITING="transiting";
-	String ATTRSCROLLABLE="scrollable";
-	String ATTRAUTOSELECT="autoselect";
-	String ATTRLINK="link";
+	String ATTRSNAPS = "snaps";
+	String ATTRTRANSITING = "transiting";
+	String ATTRSCROLLABLE = "scrollable";
+	String ATTRAUTOSELECT = "autoselect";
+	String ATTRLINK = "link";
+	String ATTRANIMATIONDELAY = "animationDelay";
+	String ATTRANIMATIONDELAYS = "animationDelayS";
+	String ATTRFITTOVISIBLEBOUNDS = "fitToVisibleBounds";
+	String ATTRFOR = "for";
+	String ATTRMANUALMODE = "manualMode";
+	String ATTRMARGINTOP = "marginTop";
+	String ATTRMARGINTOPS = "marginTopS";
+	String ATTROFFSET = "offset";
+	String ATTROFFSETS = "offsetS";
+	String ATTRPOSITION = "position";
 
 	String RESBEG = "{" + IMessConsts.STANDCH;
 	String RESEND = "}";

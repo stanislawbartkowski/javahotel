@@ -55,6 +55,7 @@ import com.vaadin.polymer.paper.widget.PaperTab;
 import com.vaadin.polymer.paper.widget.PaperTabs;
 import com.vaadin.polymer.paper.widget.PaperTextarea;
 import com.vaadin.polymer.paper.widget.PaperToolbar;
+import com.vaadin.polymer.paper.widget.PaperTooltip;
 
 @SuppressWarnings("unchecked")
 public class SetWidgetAttribute implements ISetWidgetAttribute {
@@ -348,7 +349,8 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 				w.setIcon(v);
 			else if (k.equals(IConsts.ATTRSRC))
 				w.setSrc(v);
-
+			else if (k.equals(IConsts.ATTRALT))
+				w.setAlt(v);
 			else
 				return false;
 			return true;
@@ -610,15 +612,16 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 				w.setNoSlide(bv);
 			else if (k.equals(IConsts.ATTRSCROLLABLE))
 				w.setScrollable(bv);
-/*	error: no autoselect method, is defined in javadoc		
-			else if (k.equals(IConsts.ATTRSELECTED))			 
-*/				
+			/*
+			 * error: no autoselect method, is defined in javadoc else if
+			 * (k.equals(IConsts.ATTRSELECTED))
+			 */
 			else
 				return false;
 			return true;
 		}
 	};
-	
+
 	private static final IVisitor<PaperTab> papertabG = new IVisitor<PaperTab>() {
 
 		@Override
@@ -641,10 +644,10 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 				w.setReceivedFocusFromKeyboard(bv);
 			else if (k.equals(IConsts.ATTRKEYEVENTTARGET))
 				w.setKeyEventTarget(v);
-/* no setLink method, visible in Javadoc			
-			else if (k.equals(IConsts.ATTRLINK))
-				w.setL
-*/
+			/*
+			 * no setLink method, visible in Javadoc else if
+			 * (k.equals(IConsts.ATTRLINK)) w.setL
+			 */
 			else if (k.equals(IConsts.ATTRNOINK))
 				w.setNoink(bv);
 			else
@@ -1099,6 +1102,42 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 		}
 	};
 
+	private static final IVisitor<PaperTooltip> papertooltipG = new IVisitor<PaperTooltip>() {
+
+		@Override
+		public boolean visit(PaperTooltip w, String k, String v, boolean bv, double dv) {
+			if (k.equals(IConsts.ATTRANIMATIONCONFIG))
+				w.setAnimationConfig(k);
+			else if (k.equals(IConsts.ATTRANIMATIONDELAY))
+				w.setAnimationDelay(dv);
+			else if (k.equals(IConsts.ATTRANIMATIONDELAYS))
+				w.setAnimationDelay(k);
+			else if (k.equals(IConsts.ATTRETRYANIMATION))
+				w.setEntryAnimation(k);
+			else if (k.equals(IConsts.ATTREXITANIMATION))
+				w.setExitAnimation(k);
+			else if (k.equals(IConsts.ATTRFITTOVISIBLEBOUNDS))
+				w.setFitToVisibleBounds(bv);
+			else if (k.equals(IConsts.ATTRFOR))
+				w.setFor(k);
+			else if (k.equals(IConsts.ATTRMANUALMODE))
+				w.setManualMode(bv);
+			else if (k.equals(IConsts.ATTRMARGINTOP))
+				w.setMarginTop(dv);
+			else if (k.equals(IConsts.ATTRMARGINTOPS))
+				w.setMarginTop(k);
+			else if (k.equals(IConsts.ATTROFFSET))
+				w.setOffset(dv);
+			else if (k.equals(IConsts.ATTROFFSETS))
+				w.setOffset(k);
+			else if (k.equals(IConsts.ATTRPOSITION))
+				w.setPosition(k);
+			else
+				return false;
+			return true;
+		}
+	};
+
 	private final static Map<WidgetTypes, IVisitor<Widget>[]> setAWidget = new HashMap<WidgetTypes, IVisitor<Widget>[]>();
 
 	static {
@@ -1138,6 +1177,7 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 		setAWidget.put(WidgetTypes.PaperSpinner, new IVisitor[] { polymerWidgetG, paperspinnerG });
 		setAWidget.put(WidgetTypes.PaperSlider, new IVisitor[] { polymerWidgetG, papersliderG });
 		setAWidget.put(WidgetTypes.PaperTab, new IVisitor[] { polymerWidgetG, papertabG });
+		setAWidget.put(WidgetTypes.PaperTooltip, new IVisitor[] { polymerWidgetG, papertooltipG });
 	}
 
 	private WidgetTypes widgetToType(Widget w) {

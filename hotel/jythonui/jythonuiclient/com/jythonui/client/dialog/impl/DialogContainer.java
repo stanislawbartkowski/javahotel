@@ -82,6 +82,7 @@ import com.gwtmodel.table.view.helper.HelperDialogFactory;
 import com.gwtmodel.table.view.helper.IStandDialog;
 import com.gwtmodel.table.view.util.AbstractDataModel;
 import com.gwtmodel.table.view.util.CreateFormView;
+import com.gwtmodel.table.view.util.FormUtil;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.jythonui.client.IUIConsts;
 import com.jythonui.client.M;
@@ -1429,7 +1430,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 						Widget w = co.getGwtWidget().getGWidget();
 						if (w instanceof HasWidgets) {
 							HasWidgets ha = (HasWidgets) w;
-							Widget ww = JUtils.findWidgetByFieldId(ha, t.id);
+							Widget ww = FormUtil.findWidgetByFieldId(ha, t.id);
 							if (ww != null) {
 								// found, bingo
 								iAttr.setAttr(ww, t.action, valS);

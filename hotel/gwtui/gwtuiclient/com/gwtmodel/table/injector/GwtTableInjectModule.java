@@ -15,6 +15,7 @@ package com.gwtmodel.table.injector;
 import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.Singleton;
 import com.google.inject.name.Names;
+import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonFactory;
@@ -127,6 +128,6 @@ public class GwtTableInjectModule extends AbstractGinModule {
 		requestStaticInjection(ImgButtonFactory.class, ControlButtonViewFactory.class, EditWidgetFactory.class,
 				GridViewFactory.class, GwtPanelViewFactory.class, ChooseListFactory.class, PanelViewFactory.class,
 				LoginViewFactory.class, TabPanelViewFactory.class, PolymerUtil.class, ControlButtonImages.class,
-				SlU.class, Utils.class);
+				SlU.class, Utils.class, GWidget.class);
 	}
 }

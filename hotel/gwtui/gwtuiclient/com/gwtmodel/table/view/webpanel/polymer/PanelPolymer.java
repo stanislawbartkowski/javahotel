@@ -17,23 +17,29 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.binder.BinderWidget;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.factories.IWebPanelResources;
 import com.gwtmodel.table.mm.LogT;
+import com.gwtmodel.table.view.util.FormUtil;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.gwtmodel.table.view.webpanel.common.AbstractWebPanel;
+import com.vaadin.polymer.Polymer;
+import com.vaadin.polymer.elemental.Document;
+import com.vaadin.polymer.elemental.Node;
 
 public class PanelPolymer extends AbstractWebPanel implements IWebPanel {
 
 	private final PanelElemWidgets uW;
 
 	private Element menuWidget;
-	private Element mainWidget;
+	private HTMLPanel mainPa;
 	private Element menuiconWidget;
 	private IStatusMenuIcon i = null;
 
@@ -64,7 +70,8 @@ public class PanelPolymer extends AbstractWebPanel implements IWebPanel {
 		uW.titleIcon.setTitle(title);
 		Window.setTitle(pResources.getRes(IWebPanelResources.TITLE));
 		menuWidget = getId("leftmenu");
-		mainWidget = getId("mainpanel");
+		//  important HTMLPanel
+		mainPa = (HTMLPanel) FormUtil.findWidgetByFieldId(uW.htmlPanel, "mainpanel");
 		menuiconWidget = getId("menuicon");
 		uW.menuIcon.addClickHandler(new ClickHandler() {
 
@@ -108,8 +115,10 @@ public class PanelPolymer extends AbstractWebPanel implements IWebPanel {
 	}
 
 	private void setCentreE(Widget w) {
-		uW.htmlPanel.addAndReplaceElement(w, mainWidget);
-		mainWidget = w.getElement();
+		// proper way to replace widget
+		// 2016/11/29 
+		mainPa.clear();
+		mainPa.add(w);
 	}
 
 	@Override

@@ -139,6 +139,7 @@
 		<xs:attributeGroup ref="baseButtonItemG"></xs:attributeGroup>
 		<xs:attribute name="icon" type="xs:string" />
 		<xs:attribute name="src" type="xs:string" />
+		<xs:attribute name="alt" type="xs:string" />
 	</xs:attributeGroup>
 
 	<xs:attributeGroup name="paperDrawePaneG">
@@ -394,8 +395,32 @@
 		<xs:attribute name="valueS" type="xs:string" />
 	</xs:attributeGroup>
 
+	<xs:attributeGroup name="papertooltipG">
+		<xs:attributeGroup ref="polymerWidgetG"></xs:attributeGroup>
+		<xs:attribute name="animationConfig" type="xs:string" />
+		<xs:attribute name="animationDelay" type="xs:float" />
+		<xs:attribute name="animationDelayS" type="xs:string" />
+		<xs:attribute name="entryAnimation" type="xs:string" />		
+		<xs:attribute name="exitAnimation" type="xs:string" />		
+		<xs:attribute name="fitToVisibleBounds" type="xs:boolean" />
+		<xs:attribute name="for" type="xs:string" />		
+		<xs:attribute name="manualMode" type="xs:boolean" />
+		<xs:attribute name="offset" type="xs:float" />
+		<xs:attribute name="offsetS" type="xs:string" />
+		<xs:attribute name="position" type="xs:string" />
+	</xs:attributeGroup>
+
 
 	<!-- Elements -->
+
+	<xs:element name="PaperTooltip">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:any></xs:any>
+			</xs:choice>
+			<xs:attributeGroup ref="papertooltipG" />
+		</xs:complexType>
+	</xs:element>
 
 	<xs:element name="PaperSlider">
 		<xs:complexType mixed="true">
