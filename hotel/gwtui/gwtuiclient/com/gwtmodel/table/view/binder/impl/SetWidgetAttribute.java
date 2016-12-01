@@ -1107,31 +1107,31 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 		@Override
 		public boolean visit(PaperTooltip w, String k, String v, boolean bv, double dv) {
 			if (k.equals(IConsts.ATTRANIMATIONCONFIG))
-				w.setAnimationConfig(k);
+				w.setAnimationConfig(v);
 			else if (k.equals(IConsts.ATTRANIMATIONDELAY))
 				w.setAnimationDelay(dv);
 			else if (k.equals(IConsts.ATTRANIMATIONDELAYS))
-				w.setAnimationDelay(k);
+				w.setAnimationDelay(v);
 			else if (k.equals(IConsts.ATTRETRYANIMATION))
-				w.setEntryAnimation(k);
+				w.setEntryAnimation(v);
 			else if (k.equals(IConsts.ATTREXITANIMATION))
-				w.setExitAnimation(k);
+				w.setExitAnimation(v);
 			else if (k.equals(IConsts.ATTRFITTOVISIBLEBOUNDS))
 				w.setFitToVisibleBounds(bv);
 			else if (k.equals(IConsts.ATTRFOR))
-				w.setFor(k);
+				w.setFor(v);
 			else if (k.equals(IConsts.ATTRMANUALMODE))
 				w.setManualMode(bv);
 			else if (k.equals(IConsts.ATTRMARGINTOP))
 				w.setMarginTop(dv);
 			else if (k.equals(IConsts.ATTRMARGINTOPS))
-				w.setMarginTop(k);
+				w.setMarginTop(v);
 			else if (k.equals(IConsts.ATTROFFSET))
 				w.setOffset(dv);
 			else if (k.equals(IConsts.ATTROFFSETS))
-				w.setOffset(k);
+				w.setOffset(v);
 			else if (k.equals(IConsts.ATTRPOSITION))
-				w.setPosition(k);
+				w.setPosition(v);
 			else
 				return false;
 			return true;

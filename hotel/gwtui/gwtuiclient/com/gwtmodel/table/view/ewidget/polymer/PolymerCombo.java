@@ -37,8 +37,6 @@ import com.vaadin.polymer.paper.PaperMenuElement;
 import com.vaadin.polymer.paper.widget.PaperDropdownMenu;
 import com.vaadin.polymer.paper.widget.PaperItem;
 import com.vaadin.polymer.paper.widget.PaperTab;
-import com.vaadin.polymer.paper.widget.event.PaperDropdownOpenEvent;
-import com.vaadin.polymer.paper.widget.event.PaperDropdownOpenEventHandler;
 
 class PolymerCombo extends AbstractWField implements IValueLB {
 
@@ -92,8 +90,7 @@ class PolymerCombo extends AbstractWField implements IValueLB {
 				return;
 			if (addEmpty)
 				pMenu.addMenu("&nbsp;");
-			for (String s : vals)
-				pMenu.addMenu(s);
+			vals.forEach(s -> pMenu.addMenu(s));
 		}
 
 	};
@@ -112,14 +109,17 @@ class PolymerCombo extends AbstractWField implements IValueLB {
 
 			@Override
 			public Object call(Object arg) {
-				pMenu = new MenuP(pDown); /*
-				pDown.addPaperDropdownOpenHandler(new PaperDropdownOpenEventHandler() {
+				pMenu = new MenuP(pDown);
+				// pDown.addPaperDropdownOpenHandler(new
+				// PaperDropdownOpenEventHandler() {
+				//
+				// @Override
+				// public void onPaperDropdownOpen(PaperDropdownOpenEvent event)
+				// {
+				// openid = (String) getValObj();
+				// }
+				// });
 
-					@Override
-					public void onPaperDropdownOpen(PaperDropdownOpenEvent event) {
-						openid = (String) getValObj();
-					}
-				}); */
 				iS.signalDone();
 				return null;
 			}
@@ -153,13 +153,15 @@ class PolymerCombo extends AbstractWField implements IValueLB {
 
 	@Override
 	public Object getValObj() {
-		if (pMenu == null) return null;
+		if (pMenu == null)
+			return null;
 		String id = pMenu.getSelected();
 		if (id == null)
 			return null;
 		int inde = CUtil.toInteger(id);
 		// can be moved up
-		if (ids == null) return null;
+		if (ids == null)
+			return null;
 		String o = ids.get(inde);
 		return o;
 	}
