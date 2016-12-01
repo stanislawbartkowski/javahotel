@@ -91,9 +91,9 @@
                 <h4>Anchored to custom elements</h4>
                 <div class="horizontal-section">
 		  <p:PaperIconButton id="m" icon="menu" alt="menu"></p:PaperIconButton>
-                    <p:PaperIconButton id="heart" icon="favorite" alt="heart"/>
-                    <p:PaperIconButton id="back" icon="arrow-back" alt="go back"/>
-                    <p:PaperIconButton id="fwd" icon="arrow-forward" alt="go forward"/>
+                    <p:PaperIconButton id="heart" icon="favorite" alt="heart"></p:PaperIconButton>
+                    <p:PaperIconButton id="back" icon="arrow-back" alt="go back"></p:PaperIconButton>
+                    <p:PaperIconButton id="fwd" icon="arrow-forward" alt="go forward"></p:PaperIconButton>
 
                     <!-- paper-icon-buttons have an inherent padding that will push the tooltip down. offset undoes it -->
                     <p:PaperTooltip attributes="for:m" offset="0">hot dogs</p:PaperTooltip>
@@ -107,9 +107,9 @@
                 <h4>Rich-text tooltips (not Material Design)</h4>
                 <div class="horizontal-section">
 		  <div id="red" class="avatar red" tabindex="0"> </div>
-		  <div id="blue" class="avatar blue" tabindex="0"></div>
-		  <div id="green" class="avatar green" tabindex="0"></div>
-                    <div id="orange" class="avatar orange" tabindex="0"/>
+		  <div id="blue" class="avatar blue" tabindex="0"> </div>
+		  <div id="green" class="avatar green" tabindex="0"> </div>
+                    <div id="orange" class="avatar orange" tabindex="0"> </div>
 
                     <p:PaperTooltip attributes="for:red" addStyleNames="custom" position="left">
                         <img src="https://robohash.org/1.jpg"/>
