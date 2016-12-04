@@ -271,6 +271,7 @@ public class PerformVariableAction {
 		String param1 = null;
 		String param2 = null;
 		String param3 = null;
+		String displayName = null;
 		if (pars != null) {
 			if (pars.length > 0)
 				param = pars[0];
@@ -280,6 +281,8 @@ public class PerformVariableAction {
 				param2 = pars[2];
 			if (pars.length > 3)
 				param3 = pars[3];
+			if (pars.length > 4)
+				displayName = pars[4];
 		}
 		if (action.equals(ICommonConsts.JURL_OPEN)) {
 			Utils.openTabUrl(param, param1);
@@ -294,7 +297,7 @@ public class PerformVariableAction {
 			if (M.getMainD() != null)
 				M.getMainD().close();
 			M.setMainD(null);
-			new RunAction().start(param);
+			new RunAction().start(param, displayName);
 			return;
 		}
 		if (action.equals(ICommonConsts.JUPDIALOG)) {
@@ -308,7 +311,7 @@ public class PerformVariableAction {
 		if (action.equals(ICommonConsts.JOKMESSAGE) || action.equals(ICommonConsts.JERRORMESSAGE)) {
 			if (!checkW(action, param, param1, param2, w))
 				return;
-			IStandDialog ok = HelperDialogFactory.construct(param,param1);
+			IStandDialog ok = HelperDialogFactory.construct(param, param1);
 			ok.show(w);
 			return;
 		}

@@ -1086,7 +1086,8 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 				if (CUtil.EmptyS(param3))
 					param3 = bItem.getId();
 				PerformVariableAction.performAction(construct(new MapDialogVariable(), bItem), new CloseDialog(id),
-						action, new String[] { param, param1, param2, param3 }, w, iCon, new AfterModal());
+						action, new String[] { param, param1, param2, param3, bItem.getDisplayName() }, w, iCon,
+						new AfterModal());
 				// PerformVariableAction.performAction(new HandleYesNoDialog(new
 				// MapDialogVariable(), bItem),
 				// new CloseDialog(id), action, new String[] { param, param1,
@@ -1394,54 +1395,49 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 			};
 			JUtils.visitListOfFields(arg, IUIConsts.JDATELINE_GOTODATE, gotoDL);
 
-			JUtils.IVisitor binderAttr = new JUtils.IVisitor() {
-
-				@Override
-				public void action(String fie, String field) {
-					SplitIntoTwo t = new SplitIntoTwo();
-					t.extract(fie, field, IUIConsts.JSETBINDERFIELD);
-					FieldValue val = arg.getValue(field);
-					String valS = FUtils.getValueS(val.getValue(), val.getType(), val.getAfterdot());
-					FieldItem fI = d.findFieldItem(t.id);
-					if (fI != null) {
-						IVField v = VField.construct(fI);
-						IFormLineView vi = SlU.getVWidget(dType, DialogContainer.this, v);
-						iAttr.setAttr(vi.getGWidget(), t.action, valS);
-						return;
-					}
-					ButtonItem b = DialogFormat.findE(d.getButtonList(), t.id);
-					CreateFormView.IGetButtons iG = SlU.getButtons(dType, DialogContainer.this);
-					if (b != null && iG != null) {
-						IGFocusWidget g = null;
-						for (int i = 0; i < iG.getDList().size(); i++)
-							if (CUtil.EqNS(iG.getDList().get(i).getCustomButt(), t.id))
-								g = iG.getBList().get(i);
-						if (g == null)
-							Utils.errAlertB(d.getId(), M.M().InternalSetBinderAttributeNoId(t.id));
-						iAttr.setAttr(g.getGWidget(), t.action, valS);
-						return;
-					}
-					// now try to reach out widget directly
-					// probably it covers code above
-					ISlotCustom sl = GetWidgetSignal.constructSignal(dType);
-					ISlotSignalContext co = iSlot.getSlContainer().getGetterCustom(sl);
-					// get panel
-					if (co != null && co.getGwtWidget() != null) {
-						Widget w = co.getGwtWidget().getGWidget();
-						if (w instanceof HasWidgets) {
-							HasWidgets ha = (HasWidgets) w;
-							Widget ww = FormUtil.findWidgetByFieldId(ha, t.id);
-							if (ww != null) {
-								// found, bingo
-								iAttr.setAttr(ww, t.action, valS);
-								return;
-							}
+			JUtils.visitListOfFields(arg, IUIConsts.JSETBINDERFIELD, (fie, field) -> {
+				SplitIntoTwo t = new SplitIntoTwo();
+				t.extract(fie, field, IUIConsts.JSETBINDERFIELD);
+				FieldValue val = arg.getValue(field);
+				String valS = FUtils.getValueS(val.getValue(), val.getType(), val.getAfterdot());
+				FieldItem fI = d.findFieldItem(t.id);
+				if (fI != null) {
+					IVField v = VField.construct(fI);
+					IFormLineView vi = SlU.getVWidget(dType, DialogContainer.this, v);
+					iAttr.setAttr(vi.getGWidget(), t.action, valS);
+					return;
+				}
+				ButtonItem b = DialogFormat.findE(d.getButtonList(), t.id);
+				CreateFormView.IGetButtons iG = SlU.getButtons(dType, DialogContainer.this);
+				if (b != null && iG != null) {
+					IGFocusWidget g = null;
+					for (int i = 0; i < iG.getDList().size(); i++)
+						if (CUtil.EqNS(iG.getDList().get(i).getCustomButt(), t.id))
+							g = iG.getBList().get(i);
+					if (g == null)
+						Utils.errAlertB(d.getId(), M.M().InternalSetBinderAttributeNoId(t.id));
+					iAttr.setAttr(g.getGWidget(), t.action, valS);
+					return;
+				}
+				// now try to reach out widget directly
+				// probably it covers code above
+				ISlotCustom sl = GetWidgetSignal.constructSignal(dType);
+				ISlotSignalContext co = iSlot.getSlContainer().getGetterCustom(sl);
+				// get panel
+				if (co != null && co.getGwtWidget() != null) {
+					Widget w = co.getGwtWidget().getGWidget();
+					if (w instanceof HasWidgets) {
+						HasWidgets ha = (HasWidgets) w;
+						Widget ww = FormUtil.findWidgetByFieldId(ha, t.id);
+						if (ww != null) {
+							// found, bingo
+							iAttr.setAttr(ww, t.action, valS);
+							return;
 						}
 					}
-					Utils.errAlertB(d.getId(), M.M().SetBinderAttributeNoId(t.id));
 				}
-			};
-			JUtils.visitListOfFields(arg, IUIConsts.JSETBINDERFIELD, binderAttr);
+				Utils.errAlertB(d.getId(), M.M().SetBinderAttributeNoId(t.id));
+			});
 
 			JUtils.IVisitor binderactionAttr = new JUtils.IVisitor() {
 
@@ -1486,6 +1482,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 		public IVModelData construct(IDataType dType) {
 			return new VModelData();
 		}
+
 	}
 
 	/**

@@ -67,25 +67,24 @@ public class RunAction implements IJythonUIClient {
 
 	private final Synch sy = new Synch();
 	private final SynchM syM = new SynchM();
-	
+
 	private class GetWidget implements ISlotCallerListener {
 
 		@Override
 		public ISlotSignalContext call(ISlotSignalContext slContext) {
 			return sy.slW;
 		}
-		
+
 	}
 
-	
 	private class Synch extends SynchronizeList {
-		
 
 		DialogFormat d;
 		IDialogContainer dI = null;
 		ISlotListener sl;
 		ISlotSignalContext slW;
 		boolean mainW = false;
+		String displayName = null;
 
 		Synch() {
 			super(3);
@@ -129,6 +128,8 @@ public class RunAction implements IJythonUIClient {
 				String dTitle = sy.d.getDisplayName();
 				// display dialog title in the status bar
 				IWebPanel i = GwtGiniInjector.getI().getWebPanel();
+				if (CUtil.EmptyS(dTitle))
+					dTitle = sy.displayName;
 				i.setPaneText(InfoType.UPINFO, dTitle);
 			}
 		}
@@ -282,13 +283,13 @@ public class RunAction implements IJythonUIClient {
 	}
 
 	private class GetCenterWidget implements ISlotListener {
-		
+
 		@Override
 		public void signal(ISlotSignalContext slContext) {
 			IGWidget w = slContext.getGwtWidget();
 			IWebPanel i = GwtGiniInjector.getI().getWebPanel();
 			i.setDCenter(w.getGWidget());
-			w.completeWidget();			
+			w.completeWidget();
 		}
 
 	}
@@ -390,9 +391,10 @@ public class RunAction implements IJythonUIClient {
 	}
 
 	@Override
-	public void start(String startdialogName) {
+	public void start(String startdialogName, String displayName) {
 		IDataType dType = DataType.construct(startdialogName, null);
 		sy.mainW = true;
+		sy.displayName = displayName;
 		UIGiniInjector.getI().getDialogFormatHandler().getDialogFormat(null, startdialogName,
 				new StartBack(dType, new GetCenterWidget(), null, null, null, null, null, null, true));
 

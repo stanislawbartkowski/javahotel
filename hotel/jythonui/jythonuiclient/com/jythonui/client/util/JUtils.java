@@ -51,6 +51,7 @@ public class JUtils {
 	private JUtils() {
 	}
 
+	@FunctionalInterface
 	public interface IVisitor {
 		void action(String fie, String field);
 	};

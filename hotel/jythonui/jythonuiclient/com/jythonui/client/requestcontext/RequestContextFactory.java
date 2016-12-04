@@ -20,18 +20,18 @@ import com.jythonui.shared.RequestContext;
 
 public class RequestContextFactory implements Provider<RequestContext> {
 
-    @Override
-    public RequestContext get() {
-        RequestContext req = new RequestContext();
-        String token = M.getSecToken();
-        if (!CUtil.EmptyS(token))
-            req.setToken(token);
-        String loca = Utils.getLocale();
-        if (loca != null)
-            req.setLocale(loca);
-        req.setUrlParam(Utils.getURLMap());
-        req.setHostName(Utils.getHost());
-        return req;
-    }
+	@Override
+	public RequestContext get() {
+		RequestContext req = new RequestContext();
+		String token = M.getSecToken();
+		if (!CUtil.EmptyS(token))
+			req.setToken(token);
+		String loca = Utils.getLocale();
+		if (loca != null)
+			req.setLocale(loca);
+		req.setUrlParam(Utils.getURLMap());
+		req.setHostName(Utils.getHost());
+		return req;
+	}
 
 }

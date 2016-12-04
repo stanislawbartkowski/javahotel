@@ -18,6 +18,6 @@ package com.jythonui.client;
  */
 public interface IJythonUIClient {
 
-    void start(String startdialogName);
+	void start(String startdialogName, String displayName);
 
 }

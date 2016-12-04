@@ -1,4 +1,4 @@
-<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="Radion Button" polymer="">
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" polymer="">
  
  <uibinder>binder/binder15.xml</uibinder>
   

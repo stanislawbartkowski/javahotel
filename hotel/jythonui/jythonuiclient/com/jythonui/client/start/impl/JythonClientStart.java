@@ -129,7 +129,7 @@ public class JythonClientStart implements IJythonClientStart {
 
 			@Override
 			public void execute() {
-				iClient.start(startX);
+				iClient.start(startX, null);
 			}
 		}
 
@@ -286,13 +286,13 @@ public class JythonClientStart implements IJythonClientStart {
 				// for some reason this empty declarations are necessary here
 				// for Polymer to work properly
 				// otherwise a message "open is not a function"
-//				PaperDialog p = new PaperDialog();
-     			IronDropdown pi = new IronDropdown();
-//				PaperDialogScrollable ps = new PaperDialogScrollable();
-//				PaperMenu pm = new PaperMenu();
-//				PaperItem pii = new PaperItem();
-//				PaperDropdownMenu pd = new PaperDropdownMenu();
-				
+				// PaperDialog p = new PaperDialog();
+				IronDropdown pi = new IronDropdown();
+				// PaperDialogScrollable ps = new PaperDialogScrollable();
+				// PaperMenu pm = new PaperMenu();
+				// PaperItem pii = new PaperItem();
+				// PaperDropdownMenu pd = new PaperDropdownMenu();
+
 				// end of empty declaration
 
 				final String polymerPanel = result.getAttr(IUIConsts.POLYMERPANEL);
@@ -310,18 +310,18 @@ public class JythonClientStart implements IJythonClientStart {
 				imp.add("paper-listbox/paper-listbox.html");
 				imp.add("paper-tabs/paper-tabs.html");
 				imp.add("paper-tabs/paper-tab.html");
-//				imp.add("paper-tabs/paper-tab-icons.html");
+				// imp.add("paper-tabs/paper-tab-icons.html");
 				imp.add("paper-menu/paper-menu.html");
 				imp.add("paper-menu/paper-submenu.html");
 				imp.add("paper-fab/paper-fab.html");
 				imp.add("paper-dialog-scrollable/paper-dialog-scrollable.html");
-//				imp.add("iron-drop-down/iron-drop-down.html");
-//				imp.add("iron-drop-down/iron-dropdown-scroll-manager.html");		
-				imp.add("paper-dialog/paper-dialog.html");		
-				imp.add("paper-item/paper-item.html");		
-				imp.add("paper-item/paper-item-body.html");		
-				imp.add("iron-icon/iron-icon.html");		
-				imp.add("paper-tooltip/paper-tooltip.html");		
+				// imp.add("iron-drop-down/iron-drop-down.html");
+				// imp.add("iron-drop-down/iron-dropdown-scroll-manager.html");
+				imp.add("paper-dialog/paper-dialog.html");
+				imp.add("paper-item/paper-item.html");
+				imp.add("paper-item/paper-item-body.html");
+				imp.add("iron-icon/iron-icon.html");
+				imp.add("paper-tooltip/paper-tooltip.html");
 				Polymer.importHref(imp, new Function() {
 					public Object call(Object arg) {
 						// The app is executed when all imports succeed.
