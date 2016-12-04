@@ -20,6 +20,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import com.gwtmodel.table.common.TT;
+import com.gwtmodel.table.shared.JythonUIFatal;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.FieldItem;
 
@@ -62,6 +63,27 @@ public class Test68 extends TestHelper {
 		FieldItem f = d.findFieldItem("ratings");
 		assertNotNull(f);
 		assertEquals("XX",f.getJsSignalChange());
+	}
+	
+	@Test(expected=JythonUIFatal.class)
+	public void test4() {
+		DialogFormat d = findDialog("test148.xml");
+		assertNotNull(d);
+		assertTrue(d.isPolymer());
+	}
+
+	@Test(expected=JythonUIFatal.class)
+	public void test5() {
+		DialogFormat d = findDialog("test149.xml");
+		assertNotNull(d);
+		assertTrue(d.isPolymer());
+	}
+	
+	@Test(expected=JythonUIFatal.class)
+	public void test6() {
+		DialogFormat d = findDialog("test150.xml");
+		assertNotNull(d);
+		assertTrue(d.isPolymer());
 	}
 
 

@@ -28,6 +28,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.binder.BinderWidget;
+import com.gwtmodel.table.binder.IAttrName;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.mm.LogT;
 import com.gwtmodel.table.view.binder.ICreateBinderWidget;
@@ -58,6 +59,7 @@ import com.vaadin.polymer.paper.widget.PaperSpinner;
 import com.vaadin.polymer.paper.widget.PaperTab;
 import com.vaadin.polymer.paper.widget.PaperTabs;
 import com.vaadin.polymer.paper.widget.PaperTextarea;
+import com.vaadin.polymer.paper.widget.PaperToast;
 import com.vaadin.polymer.paper.widget.PaperToolbar;
 import com.vaadin.polymer.paper.widget.PaperTooltip;
 
@@ -72,11 +74,11 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 
 	private void setWAttribute(Widget w, BinderWidget bw) {
 		if (bw.isFieldId())
-			Utils.setWidgetAttribute(w, BinderWidget.FIELDID, bw.getFieldId());
+			Utils.setWidgetAttribute(w, IAttrName.FIELDID, bw.getFieldId());
 		Iterator<String> i = bw.getKeys();
 		while (i.hasNext()) {
 			String k = i.next();
-			if (k.equals(BinderWidget.FIELDID))
+			if (k.equals(IAttrName.FIELDID))
 				continue;
 			String v = bw.getAttr(k);
 			iAttr.setAttr(w, k, v);
@@ -192,6 +194,9 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 			break;
 		case PaperTooltip:
 			w = new PaperTooltip(html);
+			break;
+		case PaperToast:
+			w = new PaperToast(html);
 			break;
 		default:
 			Utils.errAlertB(LogT.getT().PolymerWidgetNotImplemented(bw.getType().name()));

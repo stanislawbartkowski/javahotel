@@ -36,6 +36,7 @@ import com.jythonui.server.holder.SHolder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.shared.ICommonConsts;
+import com.gwtmodel.table.binder.BinderWidgetAttributes;
 
 class BinderHandler extends DefaultHandler {
 
@@ -61,6 +62,15 @@ class BinderHandler extends DefaultHandler {
 					// not happy, exception in constructor
 					throw new SAXException(e.getMessage());
 				}
+				// verify attr name
+				if (BinderWidgetAttributes.isBinderWidgetAttr(w)) {
+					BinderWidgetAttributes.IWidgetAttribute a = BinderWidgetAttributes.getWidgetAttribute(w, key, val);
+					if (a == null)
+						throwE(IErrorCode.ERRORCODE143, ILogMess.ATTRIBUTNAMENOTCORRECT, w.name(), key, val);
+					if (a.errval() != null)
+						throwE(IErrorCode.ERRORCODE144, ILogMess.ATTRIBUTEVALNOTCORRECT, w.name(), key, val,
+								a.errval());
+				}
 				b.setAttr(key, val);
 			}
 			builder = XMLBuilder.create(root);
@@ -73,7 +83,7 @@ class BinderHandler extends DefaultHandler {
 	private static Random ra = new Random();
 
 	BinderWidget parsed;
-	
+
 	private final IBinderUIStyle resC = SHolder.getiStyleBinderFactory().construct();
 
 	private static String genId() {

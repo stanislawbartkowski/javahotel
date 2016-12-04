@@ -31,6 +31,7 @@ import com.gwtmodel.table.IGFocusWidget;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.binder.BinderWidget;
+import com.gwtmodel.table.binder.IAttrName;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.editw.FormField;
 import com.gwtmodel.table.editw.IFormLineView;
@@ -86,7 +87,7 @@ public class CreateFormView {
 		Iterator<Widget> i = pa.iterator();
 		while (i.hasNext()) {
 			Widget w = i.next();
-			String id = Utils.getWidgetAttribute(w, BinderWidget.FIELDID);
+			String id = Utils.getWidgetAttribute(w, IAttrName.FIELDID);
 			if (!CUtil.EmptyS(id))
 				iR.replace(id, w);
 			if (w instanceof HasWidgets)

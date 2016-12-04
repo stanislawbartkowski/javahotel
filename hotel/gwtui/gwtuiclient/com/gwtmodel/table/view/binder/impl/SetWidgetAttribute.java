@@ -23,6 +23,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.binder.BinderWidgetAttributes;
 import com.gwtmodel.table.binder.WidgetTypes;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.DecimalUtils;
@@ -54,6 +55,7 @@ import com.vaadin.polymer.paper.widget.PaperSpinner;
 import com.vaadin.polymer.paper.widget.PaperTab;
 import com.vaadin.polymer.paper.widget.PaperTabs;
 import com.vaadin.polymer.paper.widget.PaperTextarea;
+import com.vaadin.polymer.paper.widget.PaperToast;
 import com.vaadin.polymer.paper.widget.PaperToolbar;
 import com.vaadin.polymer.paper.widget.PaperTooltip;
 
@@ -1193,6 +1195,7 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void setAttr(Widget w, String attr, String val) {
+		WidgetTypes wType = widgetToType(w);
 		String v = PolymerUtil.convert(val);
 		boolean bval = false;
 		double dval = -1;
@@ -1201,12 +1204,43 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 			// exception expected
 			dval = DecimalUtils.toDoubleE(v, -1);
 		}
-		boolean found = argW.visit(w, attr, v, bval, dval);
-		for (IVisitor vi : setAWidget.get(widgetToType(w)))
-			found |= vi.visit(w, attr, v, bval, dval);
-		if (!found) {
-			Utils.errAlertB(widgetToType(w).toString(), LogT.getT().AttributeNotRecognized(attr, val));
+		if (argW.visit(w, attr, v, bval, dval))
+			return;
+		if (BinderWidgetAttributes.isBinderWidgetAttr(wType)) {
+			PolymerWidget pw = (PolymerWidget) w;
+			if (polymerWidgetG.visit(pw, attr, v, bval, dval))
+				return;
+			BinderWidgetAttributes.IWidgetAttribute a = BinderWidgetAttributes.getWidgetAttribute(wType, attr, v);
+			if (a == null)
+				Utils.errAlertB(widgetToType(w).toString(), LogT.getT().AttributeNotRecognized(attr, val));
+			if (a.errval() != null)
+				Utils.errAlertB(widgetToType(w).toString(), LogT.getT().InvalidValueForAttribute(attr, val));
+			if (a.getString() != null)
+				// pw.setAttributes(attr + ":" + v);
+				Utils.setWidgetAttribute(pw, attr, v);
+			else
+				pw.setBooleanAttribute(attr, a.getBool());
+			return;
 		}
+		boolean found = false;
+		for (IVisitor vi : setAWidget.get(wType))
+			found |= vi.visit(w, attr, v, bval, dval);
+		if (!found)
+			Utils.errAlertB(widgetToType(w).toString(), LogT.getT().AttributeNotRecognized(attr, val));
+
+	}
+
+	@Override
+	public void runAction(Widget w, String action, String param) {
+		if (!IConsts.WIDGETACTIONOPEN.equalsIgnoreCase(action))
+			Utils.errAlertB(widgetToType(w).toString(),
+					LogT.getT().InvalidWidgetAction(action, IConsts.WIDGETACTIONOPEN));
+		WidgetTypes wType = widgetToType(w);
+		if (wType != WidgetTypes.PaperToast)
+			Utils.errAlertB(widgetToType(w).toString(),
+					LogT.getT().ActionSupportedOnlyForWidget(action, WidgetTypes.PaperTab.name(), wType.name()));
+		PaperToast p = (PaperToast) w;
+		p.open();
 	}
 
 }

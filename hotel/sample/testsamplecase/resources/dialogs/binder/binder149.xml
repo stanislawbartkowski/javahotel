@@ -17,7 +17,7 @@
 
         <p:PaperToast fieldid="toast1" text="Your draft has been discarded."/>
 
-        <p:PaperToast fieldid="toast2" text="Connection timed out. Showing limited messages.">
+        <p:PaperToast fieldid="toast2" text="Connection timed out. Showing limited messages." restoreFocusOnClose="aaa">
             <span role="button" tabindex="0" style="color: #eeff41;margin: 10px" onclick="console.log('RETRY')">Retry</span>
         </p:PaperToast>
     </g:HTMLPanel></ui:UiBinder>

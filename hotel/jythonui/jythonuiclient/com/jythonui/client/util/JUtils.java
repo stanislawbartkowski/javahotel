@@ -13,18 +13,13 @@
 package com.jythonui.client.util;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.HasWidgets;
-import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.Utils;
-import com.gwtmodel.table.binder.BinderWidget;
-import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.TT;
 import com.gwtmodel.table.datalisttype.DataListTypeFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
@@ -61,11 +56,12 @@ public class JUtils {
 	};
 
 	public static void visitListOfFields(DialogVariables var, String prefix, IVisitor i) {
-		for (String key : var.getFields())
-			if (key.startsWith(prefix)) {
-				String fie = key.substring(prefix.length());
-				i.action(fie, key);
-			}
+
+		var.getFields().stream().filter(key -> key.startsWith(prefix)).forEach(key -> {
+			String fie = key.substring(prefix.length());
+			i.action(fie, key);
+		});
+
 	}
 
 	public static IDataListType constructFromList(final List<String> li) {

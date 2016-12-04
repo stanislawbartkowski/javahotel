@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 import java.util.Set;
 
 import javax.inject.Named;
@@ -204,23 +205,21 @@ public class RunJython extends UtilHelper implements IExecuteJython {
 	}
 
 	private PyList createList(List<FieldItem> cList, ListOfRows rList) {
-		Collection<PyDictionary> c = new ArrayList<PyDictionary>();
 		RowIndex rI = new RowIndex(cList);
-		for (RowContent row : rList.getRowList()) {
+		Collection<PyDictionary> c = rList.getRowList().stream().map(row -> {
 			MapDialogVariable var = toVariables(rI, row);
 			Map<PyObject, PyObject> ma = toPythonMap(var);
-			PyDictionary pMa = new PyDictionary(ma);
-			c.add(pMa);
-		}
+			return new PyDictionary(ma);
+		}).collect(Collectors.toList());
 		PyList pList = new PyList(c);
 		return pList;
 	}
 
 	private void addListToMap(Map<PyObject, PyObject> pMap, DialogFormat d, DialogVariables v) {
 		Map<String, ListOfRows> rowList = v.getRowList();
-		if (rowList.isEmpty()) {
+		if (rowList.isEmpty())
 			return;
-		}
+
 		Map<PyObject, PyObject> m = new HashMap<PyObject, PyObject>();
 		Iterator<Entry<String, ListOfRows>> iter = rowList.entrySet().iterator();
 		while (iter.hasNext()) {

@@ -119,5 +119,7 @@ public interface JMessages extends Messages {
 	String SetBinderAttributeNoId(String id);
 
 	String InternalSetBinderAttributeNoId(String id);
+	
+	String ActionBinderCannotFind(String id);
 
 }

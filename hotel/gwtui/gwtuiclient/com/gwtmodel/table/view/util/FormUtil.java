@@ -12,6 +12,10 @@
  */
 package com.gwtmodel.table.view.util;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.FUtils;
@@ -19,14 +23,10 @@ import com.gwtmodel.table.IGetSetVField;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.Utils;
-import com.gwtmodel.table.binder.BinderWidget;
+import com.gwtmodel.table.binder.IAttrName;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.editw.FormField;
 import com.gwtmodel.table.editw.FormLineContainer;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * Utility class for copying data between view and model
@@ -121,7 +121,7 @@ public class FormUtil {
 		while (iW.hasNext()) {
 			Widget ww = iW.next();
 			
-			String id = Utils.getWidgetAttribute(ww, BinderWidget.FIELDID);
+			String id = Utils.getWidgetAttribute(ww, IAttrName.FIELDID);
 			// look for fieldid attribute
 			if (CUtil.EqNS(id, fieldid))
 				return ww;

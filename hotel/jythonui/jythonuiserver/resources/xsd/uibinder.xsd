@@ -413,6 +413,9 @@
 
 	<!-- Elements -->
 
+	<xs:element name="PaperToast">
+	</xs:element>
+
 	<xs:element name="PaperTooltip">
 		<xs:complexType mixed="true">
 			<xs:choice minOccurs="0" maxOccurs="unbounded">

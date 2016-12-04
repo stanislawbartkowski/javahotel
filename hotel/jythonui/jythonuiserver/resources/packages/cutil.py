@@ -71,6 +71,12 @@ def hideButton(var,li,hide=True) :
 def setBinderAttr(var,id,attr,val) :
     var["JSETATTR_BINDER_" + id + "_" + attr] = val
     
+def setBinderAction(var,id,attr,val) :
+    var["JACTION_BINDER_" + id + "_" + attr] = val
+    
+def setBinderOpen(var,id) :
+    setBinderAction(var,id,"open","")    
+    
 def setElevationAttr(var,id,val) :
     setBinderAttr(var,id,"elevation",val)
 

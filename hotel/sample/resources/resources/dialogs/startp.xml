@@ -40,6 +40,7 @@
   <button id="binder19" displayname="Slider" actiontype="JMAIN_DIALOG" actionparam="binder19.xml" />
   <button id="binder20" displayname="Tabs" actiontype="JMAIN_DIALOG" actionparam="binder20.xml" />
   <button id="binder21" displayname="Tooltip" actiontype="JMAIN_DIALOG" actionparam="binder21.xml" />
+  <button id="binder22" displayname="Toast" actiontype="JMAIN_DIALOG" actionparam="binder22.xml" />
 </leftstack>  
 
 <buttons>

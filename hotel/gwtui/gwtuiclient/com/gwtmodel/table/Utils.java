@@ -104,11 +104,11 @@ public class Utils {
 	public static String getImageAdr(final String image) {
 		String folder = c.getCustomValue(IGetCustomValues.IMAGEFOLDER);
 		String img;
-		if (CUtil.EmptyS(folder)) {
+		if (CUtil.EmptyS(folder)) 
 			img = image;
-		} else {
+		 else 
 			img = addPath(folder, image);
-		}
+		
 		if (!img.contains("."))
 			img = img + ".gif";
 		String path = getResAdr(img);

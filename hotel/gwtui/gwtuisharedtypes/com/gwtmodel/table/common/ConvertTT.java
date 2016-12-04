@@ -16,8 +16,6 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import com.jython.dateutil.DateFormatUtil;
-
 public class ConvertTT {
 
 	private ConvertTT() {
@@ -25,9 +23,9 @@ public class ConvertTT {
 	}
 
 	public static Object toO(TT t, String s) {
-		if (CUtil.EmptyS(s)) {
+		if (CUtil.EmptyS(s))
 			return null;
-		}
+
 		Object o;
 		switch (t) {
 		case DATE:

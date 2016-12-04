@@ -171,5 +171,11 @@ public interface TLogMessages extends Messages {
 	String AttributeNotRecognized(String attr, String val);
 	
 	String BinderReplaceWidget(String id, String className);
+	
+	String InvalidValueForAttribute(String attr, String val);
+	
+	String InvalidWidgetAction(String action, String allowed);
+	
+	String ActionSupportedOnlyForWidget(String action, String allowed, String found);
 
 }

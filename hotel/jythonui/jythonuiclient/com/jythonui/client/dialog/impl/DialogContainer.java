@@ -1399,7 +1399,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 				@Override
 				public void action(String fie, String field) {
 					SplitIntoTwo t = new SplitIntoTwo();
-					t.extract(fie, field, IUIConsts.JSETATTRFIELD);
+					t.extract(fie, field, IUIConsts.JSETBINDERFIELD);
 					FieldValue val = arg.getValue(field);
 					String valS = FUtils.getValueS(val.getValue(), val.getType(), val.getAfterdot());
 					FieldItem fI = d.findFieldItem(t.id);
@@ -1442,6 +1442,32 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 				}
 			};
 			JUtils.visitListOfFields(arg, IUIConsts.JSETBINDERFIELD, binderAttr);
+
+			JUtils.IVisitor binderactionAttr = new JUtils.IVisitor() {
+
+				@Override
+				public void action(String fie, String field) {
+					SplitIntoTwo t = new SplitIntoTwo();
+					t.extract(fie, field, IUIConsts.JACTIONBINDER);
+					ISlotCustom sl = GetWidgetSignal.constructSignal(dType);
+					ISlotSignalContext co = iSlot.getSlContainer().getGetterCustom(sl);
+					// get panel
+					if (co != null && co.getGwtWidget() != null) {
+						Widget w = co.getGwtWidget().getGWidget();
+						if (w instanceof HasWidgets) {
+							HasWidgets ha = (HasWidgets) w;
+							Widget ww = FormUtil.findWidgetByFieldId(ha, t.id);
+							if (ww != null) {
+								// found, bingo
+								iAttr.runAction(ww, t.action, null);
+								return;
+							}
+						}
+					}
+					Utils.errAlertB(d.getId(), M.M().ActionBinderCannotFind(t.id));
+				}
+			};
+			JUtils.visitListOfFields(arg, IUIConsts.JACTIONBINDER, binderactionAttr);
 
 			// suggestion values
 			iSuggest.setSuggestionList(arg);

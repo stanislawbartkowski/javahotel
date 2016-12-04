@@ -64,6 +64,43 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
 		}
 	}
 
+	private interface ICreateBinderWidgetPanel {
+		HTMLPanel create(BinderWidget bw);
+
+		GWidget construct(HTMLPanel h, BinderWidget bw);
+	}
+
+	private class EarlyBinder implements ICreateBinderWidgetPanel {
+
+		@Override
+		public HTMLPanel create(BinderWidget bw) {
+			return iBinder.create(bw);
+		}
+
+		@Override
+		public GWidget construct(HTMLPanel h, BinderWidget bw) {
+			return new GWidget(htmlWidget);
+		}
+
+	}
+
+	private class DelayedBinder implements ICreateBinderWidgetPanel {
+
+		@Override
+		public HTMLPanel create(BinderWidget bw) {
+			return iBinder.createEmptyHtmlPanel(bw);
+		}
+
+		@Override
+		public GWidget construct(HTMLPanel h, BinderWidget bw) {
+			return new GWidget(htmlWidget, bw);
+		}
+
+	}
+
+	private final ICreateBinderWidgetPanel iB = new EarlyBinder();
+//	private final ICreateBinderWidgetPanel iB = new DelayedBinder();
+
 	private final Map<CellId, PanelRowCell> colM = new HashMap<CellId, PanelRowCell>();
 	private CellId panelId;
 	private IGwtPanelView pView;
@@ -171,16 +208,13 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
 			pView = GwtPanelViewFactory.construct(maxR + 1, maxC + 1);
 		} else {
 			bw = b;
-			// htmlWidget = html != null ? new HTMLPanel(html) :
-			// iBinder.create(b);
-			htmlWidget = html != null ? new HTMLPanel(html) : iBinder.createEmptyHtmlPanel(b);
+			htmlWidget = html != null ? new HTMLPanel(html) : iB.create(bw);
 			ISlotCustom sl = BinderWidgetSignal.constructSlotLineErrorSignal(dType);
 			registerCaller(sl, new GetMainHtml(b));
 		}
 
-		for (CellId ii : colM.keySet()) {
-			registerSubscriber(dType, ii, new SetWidget());
-		}
+		colM.keySet().forEach(ii -> registerSubscriber(dType, ii, new SetWidget()));
+
 		// create publisher
 	}
 
@@ -193,7 +227,7 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
 			publishType = cellId.getdType();
 		}
 		if (htmlWidget != null) {
-			publish(publishType, cellId, new GWidget(htmlWidget, bw));
+			publish(publishType, cellId, iB.construct(htmlWidget, bw));
 		} else if (pView != null)
 			publish(publishType, cellId, pView);
 	}

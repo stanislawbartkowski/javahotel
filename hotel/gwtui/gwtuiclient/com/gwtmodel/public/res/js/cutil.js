@@ -39,6 +39,15 @@ var CUTIL = (function() {
 		v["JSETATTR_BINDER_" + id + "_" + attr] = val
 	};
 
+	my.setBinderAction = function(v, id, attr, val) {
+		// alert(id + attr + val);
+		v["JACTION_BINDER_" + id + "_" + attr] = val
+	};
+
+	my.setBinderOpen = function(v, id, attr, val) {
+		my.setBinderAction(v,id,"open","")
+	};
+
 	my.setElevationAttr = function(v, id, val) {
 		my.setBinderAttr(v, id, "elevation", val)
 	};
