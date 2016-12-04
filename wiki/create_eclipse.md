@@ -10,27 +10,29 @@
 9. Import -> Git -> Projects from Git
 9. Clone URI: https://github.com/stanislawbartkowski/javahotel.git , master branch only, unselect others
 9. Local destination -> Browse to workspace directory/javahotel
-9. Import using the New Project Wizard -> Project name: javahotel (javahotel is a placeholder for Git clone)
+9. Import using the New Project Wizard -> General -> Project -> Project name: javahotel (javahotel is a placeholder for Git clone)
 9. The following project should appear
 
 ![](https://github.com/stanislawbartkowski/javahotel/blob/master/wiki/Zrzut%20ekranu%20z%202016-11-22%2022:36:46.png)
 
 # Import Eclipse projects
-Import two projects from javahotel/hotel/eprojects directory, eesample and jpatestsample
+
+* Import -> General -> Existing Projects into Workspace
+* Import two projects from javahotel/hotel/eprojects directory, eesample and jpatestsample
 
 ![](https://github.com/stanislawbartkowski/javahotel/blob/master/wiki/Zrzut%20ekranu%20z%202016-11-23%2000:36:21.png)
 
 After importing eesample project will signal errors. To resolve them :
 
-9. Fix problem of missing gwt-servlet.jar in WEB-INF/lib
-9. Resolve again both ivy reference dependencies libraries
-9. Launch GWT Compile for eesample project
+9. Fix problem of missing gwt-servlet.jar in WEB-INF/lib (Markers->GWT Problem -> The GWT SDK JAR gwt-servlet is missing -> Right clich -> Quick Fix -> Synchronize)
+9. Resolve again both ivy reference dependencies libraries (eesample -> Java Resources -> Libraries -> ivy and ivyc dependency -> Right click -> Team -> Resolve)
+9. Launch GWT Compile for eesample project (specify war as deployment descriptor placeholder)
 
 # Launch eesample project as web application 
 9. Create new Tomcat server as Eclipse project.
 9. Define data source (tested with Postgresql and Derby)
 
-In Tomcat server.xml GlobalNamingResources part specify following variables
+Tomcat server.xml, GlobalNamingResources part,  specify the following variables
 
 | Name    | Value
 | --------|:---------
