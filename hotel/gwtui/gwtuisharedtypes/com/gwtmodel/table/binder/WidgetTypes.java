@@ -14,6 +14,6 @@ package com.gwtmodel.table.binder;
 
 public enum WidgetTypes {
 
-	HTMLPanel, Button, Label, UiBinder, IronIcon, PaperIconItem, PaperButton, PaperHeaderPanel, PaperToolbar, Image, PaperIconButton, PaperDrawerPanel, PaperCheckbox, PaperDialog, PaperDialogScrollable, PaperDropdownMenu, PaperMenu, PaperTabs, PaperTab, PaperFab, PaperItem, PaperItemBody, PaperInput, PaperTextarea, PaperMaterial, PaperProgress, PaperRadioButton, PaperRadioGroup, PaperRipple, PaperSpinner, PaperSlider, HTML, InlineLabel, FlowPanel, PaperTooltip, PaperToast
+	HTMLPanel, Button, Label, UiBinder, IronIcon, PaperIconItem, PaperButton, PaperHeaderPanel, PaperToolbar, Image, PaperIconButton, PaperDrawerPanel, PaperCheckbox, PaperDialog, PaperDialogScrollable, PaperDropdownMenu, PaperMenu, PaperTabs, PaperTab, PaperFab, PaperItem, PaperItemBody, PaperInput, PaperTextarea, PaperMaterial, PaperProgress, PaperRadioButton, PaperRadioGroup, PaperRipple, PaperSpinner, PaperSlider, HTML, InlineLabel, FlowPanel, PaperTooltip, PaperToast, PaperToggleButton
 
 }

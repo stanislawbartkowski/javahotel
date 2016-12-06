@@ -179,10 +179,7 @@ class BinderWidget extends AbstractWField {
 			b = new LabelBinderWidget((InlineLabel) wi);
 		else if (wi instanceof Label)
 			b = new LabelBinderWidget((Label) wi);
-		else {
-			String mess = LogT.getT().BinderReplaceWidget(v.getId(), wi.getClass().getName());
-			Utils.errAlertB(mess);
-		}
+		else Utils.ReplaceForClassNotImplemented(v.getId(), wi.getClass().getName());
 	}
 
 }

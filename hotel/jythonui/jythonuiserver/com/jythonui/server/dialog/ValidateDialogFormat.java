@@ -15,6 +15,7 @@ package com.jythonui.server.dialog;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.TT;
@@ -50,7 +51,7 @@ class ValidateDialogFormat extends UtilHelper {
 
 	private static <T extends ElemDescription> void validateL(String lTag, String eTag, List<T> eList) {
 		Set<String> sId = new HashSet<String>();
-		for (ElemDescription e : eList) {
+		eList.forEach(e -> {
 			idNotNull(lTag + " " + eTag, e);
 			String id = e.getId();
 			if (sId.contains(id))
@@ -58,7 +59,7 @@ class ValidateDialogFormat extends UtilHelper {
 						ICommonConsts.ID, id));
 
 			sId.add(id);
-		}
+		});
 	}
 
 	private static void tagExists(DialogFormat d, ElemDescription e, String tag, String... tagList) {
@@ -138,25 +139,27 @@ class ValidateDialogFormat extends UtilHelper {
 	}
 
 	static void validate(DialogFormat d) {
+		validateL(ICommonConsts.BUTTONS, ICommonConsts.BUTTON, d.getButtonList());
 		validateL(ICommonConsts.LEFTMENU, ICommonConsts.BUTTON, d.getLeftButtonList());
 		validateL(ICommonConsts.CHECKLIST, ICommonConsts.CHECKLIST, d.getCheckList());
 		validateL(ICommonConsts.CHARTTYPE, ICommonConsts.COLUMN, d.getChartList());
 		validateL(ICommonConsts.FORM, ICommonConsts.FIELD, d.getFieldList());
-		for (ListFormat l : d.getListList()) {
+		validateL(ICommonConsts.LEFTSTACK, ICommonConsts.BUTTON, d.getLeftStackList());
+		d.getListList().forEach(l -> {
 			idNotNull(ICommonConsts.LIST, l);
 			validateL(ICommonConsts.COLUMNS, ICommonConsts.COLUMN, l.getColumns());
-
-		}
-		Set<String> sId = new HashSet<String>();
-		for (FieldItem f : d.getFieldList()) {
-			sId.add(f.getId());
-		}
+		});
+		// Set<String> sId = new HashSet<String>();
+		// for (FieldItem f : d.getFieldList()) {
+		// sId.add(f.getId());
+		// }
+		Set<String> sId = d.getFieldList().stream().map(l -> l.getId()).collect(Collectors.toSet());
 		for (ListFormat l : d.getListList()) {
 			String id = l.getId();
 			if (sId.contains(id))
 				errorLog(SHolder.getM().getMess(IErrorCode.ERRORCODE27, ILogMess.TAGDUPLICATEDITENDTIFIER, l.getId(),
 						ICommonConsts.FIELD, id));
-			// check for editable, boolean and signalbefore
+			// check for editable, boolean and signal before
 			for (FieldItem f : l.getColumns()) {
 				if (f.isColumnEditable() && f.getFieldType() == TT.BOOLEAN && f.isSignalBefore())
 					errorLog(SHolder.getM().getMess(IErrorCode.ERRORCODE71, ILogMess.CANNOTEDITBOOLEANBEFORE, d.getId(),

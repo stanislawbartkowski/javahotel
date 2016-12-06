@@ -76,10 +76,21 @@ public class BinderWidgetAttributes {
 					new A(IAttrName.ATTRVETICALOFFSET, TT.BIGDECIMAL), new A(IAttrName.ATTRWITHBACKDROP, TT.BOOLEAN))
 			.stream().collect(Collectors.toMap(A::getName, A::getType));
 
+	private static Map<String, TT> papertogglebuttontMap = Arrays.asList(new A(IAttrName.ATTRACTIVE, TT.BOOLEAN),
+			new A(IAttrName.ATTRARIAACTIVEATTRIBUTE), new A(IAttrName.ATTRCHECKED, TT.BOOLEAN),
+			new A(IAttrName.ATTRFOCUSED, TT.BOOLEAN), new A(IAttrName.ATTRINVALID, TT.BOOLEAN),
+			new A(IAttrName.ATTRKEYBINDINGS), new A(IAttrName.ATTRKEYEVENTTARGET),
+			new A(IAttrName.ATTRPOINTERDOWN, TT.BOOLEAN), new A(IAttrName.ATTRPRESSED, TT.BOOLEAN),
+			new A(IAttrName.ATTRRECEIVEDFOCUSFROMKEYBOARD, TT.BOOLEAN), new A(IAttrName.ATTRREQUIRED, TT.BOOLEAN),
+			new A(IAttrName.ATTRSTOPKEYBORADFROMPROPAGATION, TT.BOOLEAN), new A(IAttrName.ATTRTOGGLES, TT.BOOLEAN),
+			new A(IAttrName.ATTRVALIDATOR), new A(IAttrName.ATTRVALIDATORTYPE), new A(IAttrName.ATTRVALUE)).stream()
+			.collect(Collectors.toMap(A::getName, A::getType));
+
 	private final static Map<WidgetTypes, Map<String, TT>> wMap = new HashMap<WidgetTypes, Map<String, TT>>();
 
 	static {
 		wMap.put(WidgetTypes.PaperToast, paperToastMap);
+		wMap.put(WidgetTypes.PaperToggleButton, papertogglebuttontMap);
 	}
 
 	private static TT getPolymerA(WidgetTypes w, String attr) {

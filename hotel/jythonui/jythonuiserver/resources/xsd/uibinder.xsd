@@ -400,10 +400,10 @@
 		<xs:attribute name="animationConfig" type="xs:string" />
 		<xs:attribute name="animationDelay" type="xs:float" />
 		<xs:attribute name="animationDelayS" type="xs:string" />
-		<xs:attribute name="entryAnimation" type="xs:string" />		
-		<xs:attribute name="exitAnimation" type="xs:string" />		
+		<xs:attribute name="entryAnimation" type="xs:string" />
+		<xs:attribute name="exitAnimation" type="xs:string" />
 		<xs:attribute name="fitToVisibleBounds" type="xs:boolean" />
-		<xs:attribute name="for" type="xs:string" />		
+		<xs:attribute name="for" type="xs:string" />
 		<xs:attribute name="manualMode" type="xs:boolean" />
 		<xs:attribute name="offset" type="xs:float" />
 		<xs:attribute name="offsetS" type="xs:string" />
@@ -414,7 +414,13 @@
 	<!-- Elements -->
 
 	<xs:element name="PaperToast">
+
 	</xs:element>
+
+	<xs:element name="PaperToggleButton">
+
+	</xs:element>
+
 
 	<xs:element name="PaperTooltip">
 		<xs:complexType mixed="true">
@@ -718,9 +724,9 @@
 			<xs:attributeGroup ref="polymerWidgetG"></xs:attributeGroup>
 		</xs:complexType>
 	</xs:element>
-	
+
 	<xs:element name="style">
 	</xs:element>
-	
+
 
 </xs:schema>

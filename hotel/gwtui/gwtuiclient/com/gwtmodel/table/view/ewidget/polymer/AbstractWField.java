@@ -23,7 +23,6 @@ import com.gwtmodel.table.editw.IFormChangeListener;
 import com.gwtmodel.table.editw.IFormFieldProperties;
 import com.gwtmodel.table.editw.IFormLineView;
 import com.gwtmodel.table.editw.ITouchListener;
-import com.gwtmodel.table.mm.LogT;
 import com.gwtmodel.table.mm.MM;
 import com.vaadin.polymer.elemental.EventListener;
 import com.vaadin.polymer.iron.event.KeysPressedEvent;
@@ -57,13 +56,15 @@ abstract class AbstractWField implements IFormLineView {
 	}
 
 	protected void runOnTouch() {
-		for (ITouchListener i : lTouch)
-			i.onTouch();
+		// for (ITouchListener i : lTouch)
+		// i.onTouch();
+		lTouch.forEach(i -> i.onTouch());
 	}
 
 	protected void onChangeEdit(boolean afterfocus) {
-		for (IFormChangeListener c : cList)
-			c.onChange(AbstractWField.this, afterfocus);
+		// for (IFormChangeListener c : cList)
+		// c.onChange(AbstractWField.this, afterfocus);
+		cList.forEach(c -> c.onChange(AbstractWField.this, afterfocus));
 	}
 
 	/* focus lost and something changed */
@@ -111,7 +112,7 @@ abstract class AbstractWField implements IFormLineView {
 
 	@Override
 	public void replaceWidget(Widget w) {
-		Utils.ReplaceWidgetNotImplements(v.getId(),w.getClass().getName());
+		Utils.ReplaceWidgetNotImplements(v.getId(), w.getClass().getName());
 	}
 
 }

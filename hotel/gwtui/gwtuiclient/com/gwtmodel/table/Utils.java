@@ -480,10 +480,16 @@ public class Utils {
 	public static void ReplaceWidgetNotImplements(String id) {
 		ReplaceWidgetNotImplements(id, null);
 	}
+	
+	public static void ReplaceForClassNotImplemented(String id, String classes) {
+		String mess = LogT.getT().BinderReplaceWidget(id, classes);
+		Utils.errAlertB(mess);
+	}
 
 	public static void setInnerText(Widget w, String text) {
 		w.getElement().setInnerText(text);
 	}
+	
 
 	public static void setTopLeftProperty(Widget w, int top, int left) {
 		w.getElement().getStyle().setProperty("top", "" + top);
