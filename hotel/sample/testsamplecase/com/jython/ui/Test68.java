@@ -86,5 +86,17 @@ public class Test68 extends TestHelper {
 		assertTrue(d.isPolymer());
 	}
 
+	@Test(expected=JythonUIFatal.class)
+	public void test7() {
+		DialogFormat d = findDialog("test153.xml");
+		assertNotNull(d);
+	}
+
+	@Test(expected=JythonUIFatal.class)
+	public void test8() {
+		DialogFormat d = findDialog("test154.xml");
+		assertNotNull(d);
+	}
+
 
 }

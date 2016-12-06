@@ -79,6 +79,7 @@ public class CreateFormView {
 		List<IGFocusWidget> getBList();
 	}
 
+	@FunctionalInterface
 	private interface IReplace {
 		void replace(String id, Widget w);
 	}
@@ -167,16 +168,9 @@ public class CreateFormView {
 		}
 
 		// try to replace widgets
-		replaceBinder(pa, new IReplace() {
-
-			@Override
-			public void replace(String id, Widget w) {
-				for (FormField f : fList) {
-					IFormLineView i = f.getELine();
-					if (i.getV().getId().equals(id))
-						i.replaceWidget(w);
-				}
-			}
+		replaceBinder(pa, (id, w) -> {
+			fList.stream().filter(f -> f.getELine().getV().getId().equals(id))
+					.forEach(f -> f.getELine().replaceWidget(w));
 		});
 
 	}

@@ -60,6 +60,7 @@ import com.vaadin.polymer.paper.widget.PaperTab;
 import com.vaadin.polymer.paper.widget.PaperTabs;
 import com.vaadin.polymer.paper.widget.PaperTextarea;
 import com.vaadin.polymer.paper.widget.PaperToast;
+import com.vaadin.polymer.paper.widget.PaperToggleButton;
 import com.vaadin.polymer.paper.widget.PaperToolbar;
 import com.vaadin.polymer.paper.widget.PaperTooltip;
 
@@ -197,6 +198,9 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 			break;
 		case PaperToast:
 			w = new PaperToast(html);
+			break;
+		case PaperToggleButton :
+			w = new PaperToggleButton(html);
 			break;
 		default:
 			Utils.errAlertB(LogT.getT().PolymerWidgetNotImplemented(bw.getType().name()));

@@ -61,6 +61,31 @@ public interface IAttrName {
 	String ATTRTEXT = "text";
 	String ATTRVERTICALALIGN = "verticalAlign";
 	String ATTRVETICALOFFSET = "verticalOffset";
-	String ATTRWITHBACKDROP = "withBackdrop"; 
+	String ATTRWITHBACKDROP = "withBackdrop";
+	
+	String ATTRACTIVE = "active";
+	String ATTRARIAACTIVEATTRIBUTE = "ariaActiveAttribute";
+	String ATTRCHECKED = "checked"; 
+	String ATTRFOCUSED = "focused";
+	String ATTRINVALID = "invalid";
+	String ATTRKEYBINDINGS = "keyBindgings";
+	String ATTRKEYEVENTTARGET = "keyEventTarget";
+	String ATTRPOINTERDOWN = "pointerDown";
+	String ATTRPRESSED = "pressed";
+	String ATTRRECEIVEDFOCUSFROMKEYBOARD = "receivedFocusFromKeyboard"; 
+	String ATTRREQUIRED = "required";
+	String ATTRSTOPKEYBORADFROMPROPAGATION = "stopKeyboardEventPropagation";
+	String ATTRTOGGLES = "toggles";
+	String ATTRVALIDATOR = "validator";
+	String ATTRVALIDATORTYPE = "validatorType";
+	String ATTRVALUE = "value";
+
+
+
+
+
+
+
+
 
 }

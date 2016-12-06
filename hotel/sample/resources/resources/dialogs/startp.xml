@@ -41,6 +41,8 @@
   <button id="binder20" displayname="Tabs" actiontype="JMAIN_DIALOG" actionparam="binder20.xml" />
   <button id="binder21" displayname="Tooltip" actiontype="JMAIN_DIALOG" actionparam="binder21.xml" />
   <button id="binder22" displayname="Toast" actiontype="JMAIN_DIALOG" actionparam="binder22.xml" />
+  <button id="binder23" displayname="Toggle Button" actiontype="JMAIN_DIALOG" actionparam="binder23.xml" />
+  <button id="binder24" displayname="Toolbar" actiontype="JMAIN_DIALOG" actionparam="binder24.xml" />
 </leftstack>  
 
 <buttons>
