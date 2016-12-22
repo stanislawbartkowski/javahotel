@@ -28,7 +28,81 @@ Prerequisites:
 * Java 8
 * If comparison feature is used also DB2 JDBC driver.
 
-1. Clone or download project.
+Preparation
+
+1. Clone or download project : git clone  https://github.com/stanislawbartkowski/javahotel.git -b jmigration
+2. cd javahotel
+3. ant (dist/OMigration.jar file is created)
+4. cd sh
+5. modify source.rc file according to your environment
+
+Execute 
+
+1. cd sh
+6. list
+7. extract
+8. compare 
+
+# Command line 
+
+### source.rc
+
+
+| Environment variable     | Value           | Sample  |
+| ------------- |:-------------:| -----:|
+| INPUTFILE      | Input Oracle DDL file | /mnt/exported/oracle/oracle.DDL |
+| OJAR      | path to OMigration.jar file      |  ../dist/OMigrationDB2.jar |
+| URL | DB2 JDBC url   | jdbc:db2://db211:50000/eod |
+| USER | DB2 user name | db2inst1 
+| PASSWD | DB2 password | db2inst1
+| DB2JAR | path to DB2 JDBC driver | /opt/ibm/db2/V11.1/java/db2jcc4.jar
+
+Important: URL, USER, PASSWORD and DB2JAR variables are required only if compare script is used.
+
+Example
+
+```
+export INPUTFILE=/home/sbartkowski/Dokumenty/oracle/oracle.DDL
+export OJAR=../dist/OMigrationDB2.jar
+# only if compare is called
+export URL=jdbc:db2://db211:50000/eod:retrieveMessagesFromServerOnGetMessage=true
+export USER=db2inst1
+export PASSWD=db2inst1
+export DB2JAR=/opt/ibm/db2/V11.1/java/db2jcc4.jar
+```
+### list
+
+sh/list script
+
+List all objects found in Oracle DDL source file
+
+### extract
+
+sh/extract script
+
+Extracts all objects from Oracle DDL source file and stores them to /tmp/db2odir directory. The content of the output directory is automatically removed at the beginning. Every object is kept in a single file and all objects of particular type are saved in a separate directory.
+During extraction some simple tranformation is applied.
+
+### compare
+
+sh/compare script
+
+Should be executed during or after migration. Retrieves all objects from Oracle DDL source file and compares against current of DB2 database. Reports all objects missed. The script needs a single parameter, the object type scanned or ALL meaning all objects
+
+sh/compare {object type}
+
+{object type} :  FUNCTION,SEQUENCE,TABLE,TRIGGER,VIEW,PACKAGE,PROCEDURE,GLOBALTEMP,TYPE,BODY or ALL
+
+Example:
+
+sh/compare SEQUENCE 
+
+#
+
+
+
+
+
 
 
 
