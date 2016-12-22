@@ -97,8 +97,74 @@ Example:
 
 sh/compare SEQUENCE 
 
-#
+# Tranformation
 
+[DB2 Oracle Compatibility Mode](http://www.ibm.com/support/knowledgecenter/SSEPGG_11.1.0/com.ibm.db2.luw.apdv.porting.doc/doc/c_compat_oracle.html) allows execution of Oracle PL/SQL statements almost out of the box. Nevertheless, some adjustments are required.
+Examples
+
+### Remove trails 
+
+```
+CREATE
+  TABLE SCHEM.acc_history
+  (
+    BUSINESSOBJECTID NVARCHAR2 (25) NOT NULL ,
+    MACHINEX NVARCHAR2 (50) NOT NULL ,
+  )
+  TABLESPACE EOAS LOGGING ;
+```
+All stuff after closing parentheses is remove. Optionally DB2 table space clause is added
+
+```
+CREATE
+  TABLE SCHEM.acc_history
+  (
+    BUSINESSOBJECTID NVARCHAR2 (25) NOT NULL ,
+    MACHINEX NVARCHAR2 (50) NOT NULL ,
+  )
+IN USERSPACE16;
+```
+
+### Object type
+
+```
+CREATE OR REPLACE TYPE schem.customer
+AS
+  OBJECT
+  (
+    ID NUMBER (9) ,
+    NAME NVARCHAR2 (255) ) FINAL ;
+  /
+```
+DB2 does not support OBJECT type. It is replace by ROW and FINAL is removed. Also object initializer is not supported in PL/SQL code, shoule be replaced by manual initialization.
+
+```
+
+CREATE OR REPLACE TYPE schem.customer
+AS
+  ROW
+  (
+    ID NUMBER (9) ,
+    NAME NVARCHAR2 (255) ) ;
+  @
+```
+
+### Sequence MAX to big
+
+```
+CREATE SEQUENCE XXXX.CM_CONTAINERPMCHANGE_SEQ INCREMENT BY 1 MAXVALUE
+  999999999999999999999999999 MINVALUE 0 NOCACHE ;
+```
+
+Is replaced by maximum value supported by DB2
+```
+CREATE SEQUENCE XXXX.CM_CONTAINERPMCHANGE_SEQ INCREMENT BY 1 MAXVALUE
+  99999999999999999999999999 MINVALUE 0 NOCACHE ;
+```
+
+# Custom tranformation
+
+The Java project can be extended by custom tranformation. Current tranformarmations are stored in org.migration.fix.impl package.
 
 
 
