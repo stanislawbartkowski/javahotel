@@ -166,6 +166,8 @@ CREATE SEQUENCE XXXX.CM_CONTAINERPMCHANGE_SEQ INCREMENT BY 1 MAXVALUE
 
 The Java project can be extended by custom tranformation. Current tranformarmations are stored in org.migration.fix.impl package.
 
+(wiki/Zrzut ekranu z 2016-12-22 23:56:47.png)
+
 
 
 
