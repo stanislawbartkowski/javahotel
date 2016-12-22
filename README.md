@@ -166,7 +166,54 @@ CREATE SEQUENCE XXXX.CM_CONTAINERPMCHANGE_SEQ INCREMENT BY 1 MAXVALUE
 
 The Java project can be extended by custom tranformation. Current tranformarmations are stored in org.migration.fix.impl package.
 
-(wiki/Zrzut ekranu z 2016-12-22 23:56:47.png)
+![a](wiki/Zrzut ekranu z 2016-12-22 23:56:47.png)
+
+The new tranformation should extends FixHelper abstract class. The new tranformation should be registered in MainExtract class.
+
+```
+public static void main(String[] args) throws Exception {
+
+		if (args.length != 3)
+			drawhelp();
+		String propname = args[2];
+		l.info("Read properties from " + propname);
+		Properties prop = new Properties();
+		prop.load(new FileInputStream(propname));
+		// merge with default
+		PropHolder.getProp().putAll(prop);
+		FixObject.register(ObjectExtractor.OBJECT.TABLE, new TableFixUnique());
+		FixObject.register(ObjectExtractor.OBJECT.TABLE, new TableFixTail());
+		FixObject.register(ObjectExtractor.OBJECT.TABLE, new TableFixIndexName());
+		FixObject.register(ObjectExtractor.OBJECT.TABLE, new TableFixTypes());
+		FixObject.register(ObjectExtractor.OBJECT.TABLE, new TableFixPrimaryKey());
+		FixObject.register(ObjectExtractor.OBJECT.TABLE, new Replace32767());
+		
+		FixObject.register(ObjectExtractor.OBJECT.GLOBALTEMP, new TableFixIndexName());
+		FixObject.register(ObjectExtractor.OBJECT.GLOBALTEMP, new TableFixTail());
+		FixObject.register(ObjectExtractor.OBJECT.GLOBALTEMP, new GlobalTableFixPrimary());
+		FixObject.register(ObjectExtractor.OBJECT.GLOBALTEMP, new Replace32767());
+		
+		FixObject.register(ObjectExtractor.OBJECT.SEQUENCE, new SequenceFixMaxValue());
+		
+		FixObject.register(ObjectExtractor.OBJECT.PROCEDURE, new ProcedFixNEq());
+		FixObject.register(ObjectExtractor.OBJECT.PROCEDURE, new Replace32767());
+				
+		FixObject.register(ObjectExtractor.OBJECT.FUNCTION, new ProcedFixNEq());
+		FixObject.register(ObjectExtractor.OBJECT.FUNCTION, new Replace32767());
+		
+		FixObject.register(ObjectExtractor.OBJECT.BODY, new ProcedFixNEq());
+		FixObject.register(ObjectExtractor.OBJECT.BODY, new Replace32767());
+		
+		FixObject.register(ObjectExtractor.OBJECT.FOREIGNKEY, new ForeignFixTail());
+		
+		FixObject.register(ObjectExtractor.OBJECT.PACKAGE, new Replace32767());
+		
+		FixObject.register(ObjectExtractor.OBJECT.TRIGGER, new Replace32767());
+
+		FixObject.register(ObjectExtractor.OBJECT.TYPE, new Replace32767());
+```
+
+
 
 
 
