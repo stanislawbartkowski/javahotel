@@ -1,4 +1,0 @@
-<module>
-<source path="table" />
-<inherits name="com.google.gwt.user.User"/> 
-</module>
