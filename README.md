@@ -136,7 +136,7 @@ AS
     NAME NVARCHAR2 (255) ) FINAL ;
   /
 ```
-DB2 does not support OBJECT type. Instead of ROW is used and FINAL is redundant. Also object initializer is not supported in PL/SQL code, should be replaced by manual initialization.
+DB2 does not support OBJECT type. In place of it, ROW is used and FINAL is redundant. Also object initializer is not supported in PL/SQL code, should be replaced by manual initialization.
 
 ```
 
