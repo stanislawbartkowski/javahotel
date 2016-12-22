@@ -1,14 +1,14 @@
 # Simple solution to ease Oracle to DB2 SQL objects migration
 
-The solution prepares migration of SQL objects: like tables, packages, stored procedures etc. from Oracle to DB2. The solution is available as Java application callable from command line or can imported as Eclipse project to evaluate or adjust to a particular needs.
+The solution prepares migration of SQL objects: like tables, packages, stored procedures etc. from Oracle to DB2. The solution is available as Java application callable from a command line or can be imported as Eclipse project to evaluate or adjust to a particular needs.
 
 Functionality implemented.
 
-* Statistics, list of objects. Browse through the Oracle source code and enumerate the number of particular SQL objects. The output can be imported to Excel or Libre Office and for migration progress monitoring.
+* Statistics, a list of objects. Browse through the Oracle source code and enumerate the number of particular SQL objects. The output can be imported to Excel or Libre Office and for migration progress monitoring.
 
 * Extract objects and performs some simple transformation. Every object is stored as a single file and all objects of the same type, like UDF, packages, triggers are saved in a separate directory.
 
-* Comparison. When migration is finished compares the list of objects from Oracle source code with the DB2 deployed objects. Allows doublecheck that nothing  has been missed during migration.
+* Comparison. When migration is finished compares the list of objects from Oracle source code with the DB2 deployed objects. Allows double check that nothing has been missed during migration.
 
 # Eclipse project
 
@@ -80,8 +80,8 @@ List all objects found in Oracle DDL source file
 
 sh/extract script
 
-Extracts all objects from Oracle DDL source file and stores them to /tmp/db2odir directory. The content of the output directory is automatically removed at the beginning. Every object is kept in a single file and all objects of particular type are saved in a separate directory.
-During extraction some simple tranformation is applied.
+Extracts all objects from Oracle DDL source file and stores them to /tmp/db2odir directory. The content of the output directory is automatically removed at the beginning. Every object is kept in a single file and all objects of a particular type are saved in a separate directory.
+During extraction, some simple transformation is applied.
 
 ### compare
 
@@ -136,7 +136,7 @@ AS
     NAME NVARCHAR2 (255) ) FINAL ;
   /
 ```
-DB2 does not support OBJECT type. It is replace by ROW and FINAL is removed. Also object initializer is not supported in PL/SQL code, shoule be replaced by manual initialization.
+DB2 does not support OBJECT type. Instead of ROW is used and FINAL is redundant. Also object initializer is not supported in PL/SQL code, should be replaced by manual initialization.
 
 ```
 
@@ -164,11 +164,11 @@ CREATE SEQUENCE XXXX.CM_CONTAINERPMCHANGE_SEQ INCREMENT BY 1 MAXVALUE
 
 # Custom tranformation
 
-The Java project can be extended by custom tranformation. Current tranformarmations are stored in org.migration.fix.impl package.
+The Java project can be extended by custom tranformation. Current tranformations are stored in org.migration.fix.impl package.
 
 ![a](wiki/Zrzut ekranu z 2016-12-22 23:56:47.png)
 
-The new tranformation should extends FixHelper abstract class. The new tranformation should be registered in MainExtract class.
+The new tranformation should extends FixHelper abstract class. To be activated, new tranformation should be registered in MainExtract class.
 
 ```
 public static void main(String[] args) throws Exception {
@@ -212,13 +212,3 @@ public static void main(String[] args) throws Exception {
 
 		FixObject.register(ObjectExtractor.OBJECT.TYPE, new Replace32767());
 ```
-
-
-
-
-
-
-
-
-
-
