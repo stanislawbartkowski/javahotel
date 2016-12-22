@@ -1,0 +1,9 @@
+CREATE OR REPLACE Package SCHEMA.TEMPPROC As
+
+  Type StringCodesArray Is Table Of Nvarchar2(255) Index By Binary_Integer;
+
+  ---------------------------------------------------------------------------------------
+  Procedure GetBUDiaryCollection(p_ID In Number, CUR_BU Out Sys_Refcursor);
+  ---------------------------------------------------------------------------------------
+  End TEMPPROC;
+/

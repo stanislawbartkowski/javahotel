@@ -1,0 +1,21 @@
+CREATE OR REPLACE Procedure SCHE.PROC
+
+(p_UserCode            Nvarchar2,
+ p_ContainerObjectCode Nvarchar2,
+ p_cur                 Out Sys_Refcursor
+)
+
+ Is
+
+  v_UserCode      nvarchar2(15);
+  v_CustodianCode nvarchar2(15);
+Begin
+
+  v_UserCode := p_UserCode;
+  
+  if (v < = Sysdate and v >  = sysDate) then
+   go(1);
+  end if
+
+End;
+/

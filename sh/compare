@@ -1,0 +1,2 @@
+source source.rc
+java -cp $OJAR:$DB2JAR main.MainCompare $INPUTFILE $URL $USER $PASSWD $@

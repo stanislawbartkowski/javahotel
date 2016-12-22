@@ -1,0 +1,15 @@
+CREATE OR REPLACE PROCEDURE PROCEDURE2 (VARRESULT OUT CURSOR)
+AS
+BEGIN
+        OPEN VARRESULT FOR
+        -- #######################################################################
+        -- # Replace the SQL statement with your statement.
+        -- #  Note: Be sure to end statements with the terminator character (usually ';')
+        -- #
+        -- # The example SQL statement SELECT NAME FROM SYSIBM.SYSTABLES
+        -- # returns all table names from SYSIBM.SYSTABLES.
+        -- ######################################################################
+        SELECT NAME FROM SYSIBM.SYSTABLES;
+        /* asdads */
+END;
+/

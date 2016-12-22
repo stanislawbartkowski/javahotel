@@ -1,0 +1,28 @@
+CREATE OR REPLACE FUNCTION PROC.TEXT_PROC
+    (
+      p_InsCode IN accounttbl.recordobjectcode %TYPE,
+      p_val VARCHAR2
+     )
+  RETURN VARCHAR2
+IS
+  l_text VARCHAR2(32767) := NULL;
+  l_text1 CHAR(32760) := NULL;
+  l_text2 CHAR(MAX) := NULL;
+BEGIN
+  FOR cur_rec IN
+  (
+    SELECT
+      fullname
+      || '@'
+      || usercode AS Receiver
+    FROM
+      accounttbl a
+    WHERE
+      a.recordobjectcode =p_InsCode
+    AND rownum           <30
+  )
+  LOOP
+    l_text := l_text || ',' || cur_rec.Sender;
+  END LOOP;
+RETURN RTRIM(l_text, ',');
+END;

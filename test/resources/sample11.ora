@@ -1,0 +1,28 @@
+CREATE OR REPLACE TRIGGER SCHEMA.TRIGGER 
+    AFTER UPDATE ON SCHEMA.TABLE 
+    FOR EACH ROW 
+Declare
+
+  v_IsReaOnly tblautoindexvalues.isreadonly%type;
+Begin
+  v_IsReaOnly := 1;
+  If :New.CANUPLOADTOOTHER = 1 Then
+    v_IsReaOnly := 0;
+  end if;
+
+  update tblautoindexvalues au
+     set au.isreadonly = v_IsReaOnly
+   where au.claioncode = :New.ClassificationCode
+     and au.propertycode =
+         (select ertyCode
+            from ertybag pb
+           where pb.name = 'RClassificationAddressee')
+     and au.ycode =
+         (select propertyCode
+            from tblpropertybag pb
+           where pb.name = 'RSubjectRecordType')
+     and au.parvalue = 'hello';
+
+End SAMPLE_TRIGGER; 
+/
+

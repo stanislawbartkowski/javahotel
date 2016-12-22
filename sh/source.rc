@@ -1,0 +1,7 @@
+export INPUTFILE=/home/sbartkowski/Dokumenty/oracle/oracle.DDL
+export OJAR=../dist/OMigrationDB2.jar
+# only if compare is called
+export URL=jdbc:db2://db211:50000/eod:retrieveMessagesFromServerOnGetMessage=true
+export USER=db2inst1
+export PASSWD=db2inst1
+export DB2JAR=/opt/ibm/db2/V11.1/java/db2jcc4.jar

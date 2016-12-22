@@ -1,0 +1,11 @@
+CREATE OR REPLACE Procedure SCHEMA.PROCEDUREX
+(
+     p_msg      Nvarchar2,
+     p_ERR_TYPE Nvarchar2 := Null
+) As
+    Pragma Autonomous_Transaction;
+Begin
+     Insert Into err_log (err_msg, ERR_TYPE) Values (p_msg, p_ERR_TYPE);
+     Commit;
+End;
+/

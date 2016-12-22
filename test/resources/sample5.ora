@@ -1,0 +1,17 @@
+CREATE OR REPLACE Package Body SCHEMA.TEMPPROC As
+
+  Type StringCodesArray Is Table Of Nvarchar2(255) Index By Binary_Integer;
+
+  WORD1 /* WORD2 WORD3 WORD4 
+  gdfgdgfd
+  dfgdfgdfg
+  dfgdfgdfgdfgdfgdfg
+  */WORD4
+  
+  Procedure GetBUDiaryCollection(p_ID In Number, CUR_BU Out Sys_Refcursor);
+  ---------------------------------------------------------------------------------------
+  End TEMPPROC;
+/
+
+CREATE TABLE X (X INT);
+CREATE TABLE Y (X INT);

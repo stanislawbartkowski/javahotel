@@ -1,0 +1,7 @@
+CREATE OR REPLACE VIEW SCHEMA.MYVIEW ( COL1, COL2, COL3, COL3 ) AS
+select d.DisposalID, d.Calendar, d.Event, d.External
+    from TABLE.TEST i INNER JOIN
+         DSM_DisplSchedulePhases p ON i.ID = p.PhseId INNER JOIN
+         DSM_DisplSchedules d ON i.DisposalID = d.DisposalID
+   where (p.Phaseuence = 1) AND (i.STATUSID IN (0, 1, 99)) 
+;

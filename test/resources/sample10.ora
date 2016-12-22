@@ -1,0 +1,17 @@
+CREATE OR REPLACE FUNCTION SCHEMA.SAMPLE_FUNCTION (
+    p_reviewcode NVARCHAR2)
+  RETURN NVARCHAR2
+IS
+  t_reviewphaseid testpackagebody.phaseid%Type;
+BEGIN
+  SELECT
+    a.phaseid
+  INTO
+    t_reviewphaseid
+  FROM
+    testtable_accounts a
+  WHERE
+    a.disposalid = p_reviewdisposalcode;
+  RETURN(t_reviewphaseid);
+END FUNCTION ;
+/
