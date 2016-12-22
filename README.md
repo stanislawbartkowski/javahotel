@@ -25,8 +25,8 @@ Tested with Eclipse Neon.
 
 Prerequisites:
 
-# Java 8
-# If comparison feature is used DB2 jdbc.jar driver.
+* Java 8
+* If comparison feature is used also DB2 JDBC driver.
 
 1. Clone or download project.
 
