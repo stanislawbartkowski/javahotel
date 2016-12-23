@@ -113,7 +113,7 @@ CREATE
   )
   TABLESPACE EOAS LOGGING ;
 ```
-All stuff after closing parentheses is remove. Optionally DB2 table space clause is added
+All stuff after closing parentheses is removed. Optionally DB2 table space clause is added.
 
 ```
 CREATE
