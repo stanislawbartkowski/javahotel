@@ -10,6 +10,14 @@ Functionality implemented.
 
 * Comparison. When migration is finished compares the list of objects from Oracle source code with the DB2 deployed objects. Allows double check that nothing has been missed during migration.
 
+# Content description
+
+* src Java source file
+* test Junit tests and Oracle sanples
+* sh Bash script files
+* sh/source.rc To customize
+* build.xml Ant build
+
 # Eclipse project
 
 Tested with Eclipse Neon.
@@ -20,6 +28,7 @@ Tested with Eclipse Neon.
 4. Select base directory for project
 5. Check "Import existing Eclipse project"
 6. Finish 
+
 
 # Command line
 
