@@ -12,9 +12,9 @@ Functionality implemented.
 
 # Content description
 
-* src Java source file
+* src Java source files
 * test Junit tests and Oracle sanples
-* sh Bash script files
+* sh Bash scripts
 * sh/source.rc To customize
 * build.xml Ant build
 
