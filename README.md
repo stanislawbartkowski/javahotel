@@ -1,6 +1,6 @@
  git clone -b bsqlhbase https://github.com/stanislawbartkowski/javahotel.git
 
-Javadocs: https://stanislawbartkowski.github.io/javadoc/bsqlhbase/HBaseBigSql
+Javadoc : https://stanislawbartkowski.github.io/javadoc/bsqlhbase/HBaseBigSql
 
 HBaseBigSql:  https://stanislawbartkowski.github.io/javadoc/bsqlhbase/HBaseBigSql
 
