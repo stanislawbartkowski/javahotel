@@ -265,12 +265,14 @@ public class HVal {
 	 * @param t
 	 *            BigSQL column type, should correspond to t value from class
 	 *            constructor
+	 *            if t is null then it takes type set during construction
 	 * @return byte[]
 	 */
 	public byte[] toB(BIGSQLTYPE t) {
 		if (isNull())
 			return ToBIGSQL.toNull();
 		assert val != null;
+		if (t == null) t = this.t;
 		switch (t) {
 		case TINYINT:
 			return ToBIGSQL.tinytoB((byte) toL());
