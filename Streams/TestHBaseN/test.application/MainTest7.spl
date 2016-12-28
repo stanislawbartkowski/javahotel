@@ -1,0 +1,67 @@
+namespace test.application ;
+
+use org.ibm.converthbase::JConvert ;
+use com.ibm.streamsx.hbase::HBASEPut ;
+
+timestamp toT(int32 year, int32 month, int32 day, int32 hour, int32 minute,
+	int32 sec)
+{
+	Sys.tm tm = { sec = sec, min = minute, hour = hour, mday = day, mon = month,
+		year = year, wday = 0, yday = 0, isdst = 0, gmtoff = 0, zone = "" } ;
+	return toTimestamp(tm) ;
+}
+
+timestamp toTS(rstring s)
+{
+	return toTimestamp(Sys.YYYY_MM_DD_hh_mm_ss_mmm, s) ;
+}
+
+rstring toS(timestamp t)
+{
+	mutable Sys.tm tm = { } ;
+	gmtime(t, tm) ;
+	return strftime(tm, "%Y-%m-%d %H:%M:%S") ;
+}
+
+composite MainTest7
+{
+	graph
+		(stream<rstring key, rstring val> FileSource_2_out0) as FileSource_2 =
+			FileSource()
+		{
+			param
+				file : "test7/input.txt" ;
+				format : csv ;
+		}
+
+		() as Custom_3 = Custom(FileSource_2_out0)
+		{
+			logic
+				onTuple FileSource_2_out0 : println(FileSource_2_out0) ;
+		}
+
+		(stream<rstring key, timestamp val> Functor_3_out0) as Functor_3 =
+			Functor(FileSource_2_out0 as inputStream)
+		{
+			output
+				Functor_3_out0 : val = toTS(val) ;
+		}
+
+		(stream<blob key, blob val> JConvert_4_out0) as JConvert_4 =
+			JConvert(Functor_3_out0)
+		{
+		}
+		
+		() as HBASEPut_3 = HBASEPut(JConvert_4_out0)
+		{
+			param
+				hbaseSite : dataDirectory() + "/conf/hbase-site.xml" ;
+				rowAttrName : "key" ;
+				tableName : "sb.testtimestamp"; 
+				staticColumnFamily : "cf_data" ;
+				staticColumnQualifier : "cq_x" ;
+				valueAttrName : "val" ;
+		}
+		
+
+}

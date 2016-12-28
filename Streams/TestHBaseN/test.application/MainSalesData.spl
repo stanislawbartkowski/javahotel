@@ -1,0 +1,131 @@
+namespace test.application ;
+
+use com.ibm.streamsx.hbase::HBASEPut ;
+use org.ibm.converthbase::JConvert ;
+type salesdata = int32 cq_ORDER_DAY_KEY, int32 cq_ORGANIZATION_KEY,
+	int32 cq_EMPLOYEE_KEY, int32 cq_RETAILER_KEY, int32 cq_RETAILER_SITE_KEY,
+	int32 cq_PRODUCT_KEY, int32 cq_PROMOTION_KEY, int32 cq_ORDER_METHOD_KEY,
+	int32 cq_SALES_ORDER_KEY, int32 cq_SHIP_DAY_KEY, int32 cq_CLOSE_DAY_KEY,
+	int32 cq_QUANTITY, decimal64 cq_UNIT_COST, decimal64 cq_UNIT_PRICE,
+	decimal64 cq_UNIT_SALE_PRICE, decimal64 cq_GROSS_MARGIN,
+	decimal64 cq_SALE_TOTAL, decimal64 cq_GROSS_PROFIT ;
+type salesdatablob = blob cq_ORDER_DAY_KEY, blob cq_ORGANIZATION_KEY,
+	blob cq_EMPLOYEE_KEY, blob cq_RETAILER_KEY, blob cq_RETAILER_SITE_KEY,
+	blob cq_PRODUCT_KEY, blob cq_PROMOTION_KEY, blob cq_ORDER_METHOD_KEY,
+	blob cq_SALES_ORDER_KEY, blob cq_SHIP_DAY_KEY, blob cq_CLOSE_DAY_KEY,
+	blob cq_QUANTITY, blob cq_UNIT_COST, blob cq_UNIT_PRICE,
+	blob cq_UNIT_SALE_PRICE, blob cq_GROSS_MARGIN, blob cq_SALE_TOTAL,
+	blob cq_GROSS_PROFIT ;
+int32 toInt32(rstring s)
+{
+	return(int32) s ;
+}
+
+float32 toFloat32(rstring s)
+{
+	return(float32) s ;
+}
+
+float64 toFloat64(rstring s)
+{
+	return(float64) s ;
+}
+
+decimal64 toDecimal64(rstring s)
+{
+	return(decimal64) s ;
+}
+
+composite MainSalesData
+{
+	graph
+		(stream<rstring line> FileSource_1_out0) as FileSource_1 = FileSource()
+		{
+			param
+				file : "salesdata/SLS_SALES_FACT.10p.txt" ;
+				format : line ;
+		}
+
+		() as Custom_2 = Custom(FileSource_1_out0 as S)
+		{
+		//					logic
+		//						onTuple S : println(S) ;
+
+		}
+
+		(stream<list<rstring> fields> Functor_3_out0) as Functor_3 =
+			Functor(FileSource_1_out0 as inputStream)
+		{
+			output
+				Functor_3_out0 : fields = tokenize(inputStream.line, "\t", true) ;
+		}
+
+		() as Custom_4 = Custom(Functor_3_out0)
+		{
+		//			logic
+		//				onTuple Functor_3_out0 : println(Functor_3_out0) ;
+
+		}
+
+		(stream<salesdata> Functor_5_out0) as Functor_5 = Functor(Functor_3_out0 as
+			i)
+		{
+			output
+				Functor_5_out0 : cq_ORDER_DAY_KEY = toInt32(fields [ 0 ]),
+					cq_ORGANIZATION_KEY = toInt32(fields [ 1 ]), cq_EMPLOYEE_KEY =
+					toInt32(fields [ 2 ]), cq_RETAILER_KEY = toInt32(fields [ 3 ]),
+					cq_RETAILER_SITE_KEY = toInt32(fields [ 4 ]), cq_PRODUCT_KEY =
+					toInt32(fields [ 5 ]), cq_PROMOTION_KEY = toInt32(fields [ 6 ]),
+					cq_ORDER_METHOD_KEY = toInt32(fields [ 7 ]), cq_SALES_ORDER_KEY =
+					toInt32(fields [ 8 ]), cq_SHIP_DAY_KEY = toInt32(fields [ 9 ]),
+					cq_CLOSE_DAY_KEY = toInt32(fields [ 10 ]), cq_QUANTITY = toInt32(fields [
+					11 ]), cq_UNIT_COST = toDecimal64(fields [ 12 ]), cq_UNIT_PRICE =
+					toDecimal64(fields [ 13 ]), cq_UNIT_SALE_PRICE = toDecimal64(fields [ 14
+					]), cq_GROSS_MARGIN = toDecimal64(fields [ 15 ]), cq_SALE_TOTAL =
+					toDecimal64(fields [ 16 ]), cq_GROSS_PROFIT = toDecimal64(fields [ 17 ]) ;
+		}
+
+		() as Custom_6 = Custom(Functor_5_out0 as S)
+		{
+		//			logic
+		//				onTuple S : println(S) ;
+
+		}
+
+		(stream<blob key, salesdatablob data> JConvert_7_out0) as JConvert_7 =
+			JConvert(Functor_9_out0)
+		{
+		}
+
+		() as Custom_8 = Custom(JConvert_7_out0 as inputStream)
+		{
+			logic
+				onTuple inputStream :
+				{
+					println(inputStream) ;
+				}
+
+		}
+
+		(stream<int32 key, salesdata data> Functor_9_out0) as Functor_9 =
+			Functor(Functor_5_out0 as inputStream)
+		{
+			logic
+				state : mutable int32 counter = 0 ;
+			output
+				Functor_9_out0 : key = counter ++, data = inputStream ;
+		}
+
+		() as putsink = HBASEPut(JConvert_7_out0 as toHBASE)
+		{
+			param
+				hbaseSite : dataDirectory() + "/conf/hbase-site.xml" ;
+				rowAttrName : "key" ;
+				tableName : "gosalesdw.sls_sales_fact" ;
+				staticColumnFamily : "cf_data" ;
+				valueAttrName : "data" ;
+				enableBuffer : true ;
+		}
+
+}
+

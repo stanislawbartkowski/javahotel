@@ -1,0 +1,35 @@
+namespace test.application ;
+
+use org.ibm.converthbase::JConvert ;
+
+composite TestTu1
+{
+	graph
+		(stream<int32 counter, tuple<rstring n1, rstring n2> data> Beacon_1_out0 as
+			O) as Beacon_1 = Beacon()
+		{
+			logic
+				state : mutable int32 i = 0 ;
+			param
+				iterations : 100 ;
+				period : 0.1f ;
+			output
+				O : counter = i ++, data =
+				{
+					n1 = 'n1' +(rstring) i, n2 = 'n2' +(rstring) i
+				} ;
+		}
+
+		(stream<blob counter, tuple<blob n1, blob n2> data> JConvert_2_out0) as
+			JConvert_2 = JConvert(Beacon_1_out0)
+		{
+		}
+
+		() as Custom_3 = Custom(JConvert_2_out0)
+		{
+			logic
+				onTuple JConvert_2_out0 : println(JConvert_2_out0) ;
+		}
+
+}
+

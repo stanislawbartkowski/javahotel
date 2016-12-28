@@ -1,0 +1,14 @@
+namespace test.application;
+
+composite MainTest9 {
+
+	graph
+		() as TestComposite_1 = TestComposite()
+		{
+			param
+				hbaseTable : "testbool" ;
+				testDir : "test9" ;
+				colType : boolean ;
+		}
+
+}

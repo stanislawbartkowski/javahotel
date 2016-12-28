@@ -1,0 +1,7 @@
+TESTFLOAT
+FLOAT
+CREATE HBASE TABLE TESTFLOAT ( K VARCHAR(100), V FLOAT ) COLUMN MAPPING ( key  mapped by (k), cf_data: cq_x mapped by (v));
+key1,0f
+key2,1.234f
+key3,-1.456f
+key3,123456.78f

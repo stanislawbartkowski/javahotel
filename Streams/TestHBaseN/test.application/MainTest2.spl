@@ -1,0 +1,15 @@
+namespace test.application ;
+
+composite MainTest2
+{
+	graph
+		() as TestComposite_1 = TestComposite()
+		{
+			param
+				hbaseTable : "testtiny" ;
+				testDir : "test2" ;
+				colType : int8 ;
+		}
+
+}
+

@@ -1,0 +1,14 @@
+namespace test.application;
+
+composite MainTest10 {
+
+	graph
+		() as TestComposite_1 = TestComposite()
+		{
+			param
+				hbaseTable : "testdecimal" ;
+				testDir : "test5" ;
+				colType : decimal32 ;
+		}
+
+}

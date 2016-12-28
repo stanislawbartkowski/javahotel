@@ -1,3 +1,7 @@
 /.project
 /bin/
 /dist/
+/Streams/TestHBaseN/output
+/Streams/org.ibm.converthbase/output
+/Streams/TestHBaseN/data/conf/hbase-site.xml
+/Streams/TestHBaseN/data/salesdata/SLS_SALES_FACT.10p.txt

@@ -1,0 +1,13 @@
+namespace test.application;
+
+composite MainTest4 {
+
+	graph
+		() as TestComposite_1 = TestComposite()
+		{
+			param
+				hbaseTable : "testbigint" ;
+				testDir : "test4" ;
+				colType : int64 ;
+		}
+}

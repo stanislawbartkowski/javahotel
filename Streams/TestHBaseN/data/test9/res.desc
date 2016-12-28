@@ -1,0 +1,5 @@
+TESTBOOL
+BOOLEAN
+CREATE HBASE TABLE TESTBOOL ( K VARCHAR(100), V BOOLEAN ) COLUMN MAPPING ( key  mapped by (k), cf_data: cq_x mapped by (v));
+key1,true
+key2,false

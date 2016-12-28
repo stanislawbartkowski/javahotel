@@ -1,0 +1,62 @@
+namespace test.application ;
+
+use org.ibm.converthbase::JConvert ;
+use com.ibm.streamsx.hbase::HBASEPut ;
+
+
+composite TestHBaseN
+{
+	graph
+		(stream<int32 counter, rstring value> Beacon_1_out0 as O) as Beacon_1 =
+			Beacon()
+		{
+			logic
+				state : mutable int32 i = 0 ;
+			param
+				iterations : 10 ;
+				period : 0.1f ;
+			output
+				O : counter = i ++, value = "val= " +(rstring) i ;
+		}
+
+		() as Custom_2 = Custom(Beacon_1_out0 as inputStream)
+		{
+			logic
+				onTuple inputStream :
+				{
+				// Add code here
+				//					println(inputStream) ;
+
+				}
+
+		}
+
+		(stream<blob counter, blob value> JConvert_3_out0) as JConvert_3 =
+			JConvert(Beacon_1_out0)
+		{
+		}
+
+		() as Custom_4 = Custom(JConvert_3_out0 as inputStream)
+		{
+			logic
+				onTuple inputStream :
+				{
+//				    println(dataDirectory() + "/conf/hbase-site.xml");
+					println(inputStream) ;
+				}
+
+		}
+
+		() as HBASEPut_3 = HBASEPut(JConvert_3_out0)
+		{
+			param
+				hbaseSite : dataDirectory() + "/conf/hbase-site.xml" ;
+//				hbaseSite : "/home/streamuser/workspacehbase/TestHBaseN/conf/hbase-site.xml";
+				rowAttrName : "counter" ;
+				tableName : "stest1" ;
+				staticColumnFamily : "f1" ;
+				staticColumnQualifier : "colQ" ;
+				valueAttrName : "value" ;
+		}
+
+}

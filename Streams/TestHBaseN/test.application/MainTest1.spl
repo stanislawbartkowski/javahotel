@@ -1,0 +1,17 @@
+namespace test.application ;
+
+use org.ibm.converthbase::JConvert ;
+use com.ibm.streamsx.hbase::HBASEPut ;
+
+composite MainTest1
+{
+	graph
+		() as TestComposite_1 = TestComposite()
+		{
+			param
+				hbaseTable : "testchar" ;
+				testDir : "test1" ;
+				colType : rstring ;
+		}
+
+}

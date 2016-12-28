@@ -1,0 +1,3 @@
+key1,hello
+key2,gżegżółka
+key3,straszni mieszczanie

@@ -1,0 +1,14 @@
+namespace test.application ;
+
+composite MainTest5
+{
+	graph
+		() as TestComposite_1 = TestComposite()
+		{
+			param
+				hbaseTable : "testfloat" ;
+				testDir : "test5" ;
+				colType : float32 ;
+		}
+
+}

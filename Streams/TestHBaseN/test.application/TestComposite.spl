@@ -1,0 +1,43 @@
+namespace test.application;
+
+use org.ibm.converthbase::JConvert ;
+use com.ibm.streamsx.hbase::HBASEPut ;
+
+composite TestComposite
+{
+    param 
+      expression<rstring> $hbaseTable; 
+      expression<rstring> $testDir; 
+      type $colType;
+	graph
+		() as HBASEPut_3 = HBASEPut(JConvert_4_out0)
+		{
+			param
+				hbaseSite : dataDirectory() + "/conf/hbase-site.xml" ;
+				rowAttrName : "key" ;
+				tableName : "sb." + $hbaseTable; 
+				staticColumnFamily : "cf_data" ;
+				staticColumnQualifier : "cq_x" ;
+				valueAttrName : "val" ;
+		}
+
+		(stream<rstring key, $colType val> FileSource_2_out0) as FileSource_2 =
+			FileSource()
+		{
+			param
+				file : $testDir + "/input.txt" ;
+				format : csv ;				
+		}
+
+		() as Custom_3 = Custom(FileSource_2_out0)
+		{
+			logic
+				onTuple FileSource_2_out0 : println(FileSource_2_out0) ;
+		}
+
+		(stream<blob key, blob val> JConvert_4_out0) as JConvert_4 =
+			JConvert(FileSource_2_out0)
+		{
+		}
+
+}

@@ -1,0 +1,6 @@
+TESTTINY
+TINYINT
+CREATE HBASE TABLE TESTTINY ( K VARCHAR(100), V TINYINT ) COLUMN MAPPING ( key  mapped by (k), cf_data: cq_x mapped by (v));
+key1,10
+key2,-110 
+key3,123

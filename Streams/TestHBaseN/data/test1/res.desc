@@ -1,0 +1,6 @@
+TESTCHAR
+CHAR
+CREATE HBASE TABLE TESTCHAR ( K VARCHAR(100), v VARCHAR(100)) COLUMN MAPPING ( key  mapped by (k), cf_data: cq_x mapped by (v)); 
+key1,hello
+key2,gżegżółka
+key3,straszni mieszczanie
