@@ -135,7 +135,7 @@ Contains a good number of tests and usage examples.
 
 All input data are stored in data/test1 ... data/testn directories and corresponding MainTest{N} main composite.
 
-In order to run the example one has to create data/conf/hbase-site.xml property file with access data to BigInsights cluster.
+In order to run the example one has to create data/conf/hbase-site.xml property file with connection parameters to BigInsights cluster.
 
 The MainSalesData composite and data/salesdata implements an example described in http://www.ibm.com/developerworks/library/bd-bigsqlhbase1/ article. The data/salesdata directory should contain SLS_SALES_FACT.10p.txt extracted from IBD-1687A_Data.zip sample data file.
 
