@@ -55,12 +55,65 @@ The following projects should be accessible
 
 Provides single operator JConverter.
 
-JConverter accepts one or more input streams and the same number of output streams.
+JConverter accepts one or more input streams and the same number of output streams. Attributes from input streams are encoded to blob (binary) using format readable by BigSql/HBase.
 
 The number of attributes in input stream(s) should correspond to the number of attributes in output stream(s). All attributes in output streams should be of __blob__ type.
 
+JConverter output stream can be consumed directly by [HBasePut](http://www.ibm.com/support/knowledgecenter/SSCRJU_4.0.1/com.ibm.streams.toolkits.doc/doc/tk$com.ibm.streamsx.hbase/op$com.ibm.streamsx.hbase$HBASEPut.html) operator.
+
 An example:
 
->> <aaa>asdadas<aaa>
+<pre>
+  Input schema
+  &lt; int32 id, rstring line, decimal32 balance &gt;
+  
+  Output schema
+  &lt; blob id, blob line, blob balance &gt;
+</pre>
+
+The attributes are encoded to blob (binary) by position, not by name, from left to right.
+
+JCoverter operator accepts also nested tuple type. It also should be mirrored in nested tuple in output stream
+<pre>
+  Input schema
+  &lt; int32 id, &lt; rstring line, decimal32 balance &gt; data &gt;
+  
+  Output schema
+  &lt; blob id, &lt; blob line, blob balance &gt; data &gt;
+
+</pre>
+
+### Conversion rules
+
+Stream input attribute types should be reflected in target BigSql/HBase table
+
+| Streams type  | BigSql column type |
+| ------------- |:-------------:|
+|  boolean      | BOOLEAN 
+| int64 uint64  | BIGINT 
+| int16 int32 uint16 uint32 | INT 
+| int8 uint8 | TINYINT
+| rstring | VARCHAR
+| float32 | FLOAT
+| float64 | DOUBLE
+| timestamp | TIMESTAMP
+| decimal32 decimal64 decimal128 | DECIMAL
+
+An example
+
+<pre>
+Input schema 
+&lt; rstring key, int32 val &gt;
+
+Output schema
+
+&lt; blob key, blob val &gt;
+
+BigSql/HBase table
+
+CREATE HBASE TABLE TESTDECIMAL ( K VARCHAR(100), V INT ) COLUMN MAPPING ( key  mapped by (k), cf_data: cq_x mapped by (v));
+
+</pre>
+
 
 
