@@ -4,39 +4,55 @@
   <toolkit name="TestHBaseN" requiredProductVersion="4.2.0.0" version="1.0.0">
     <description/>
     <uriTable>
-      <uri index="4" value="test.application/MainTest1.spl"/>
-      <uri index="6" value="test.application/TestComposite.spl"/>
-      <uri index="9" value="test.application/MainTest6.spl"/>
-      <uri index="7" value="test.application/MainTest4.spl"/>
-      <uri index="13" value="test.application/MainSalesData.spl"/>
-      <uri index="10" value="test.application/MainTest7.spl"/>
-      <uri index="12" value="test.application/MainTest10.spl"/>
-      <uri index="1" value="test.application/TestHBaseN.spl"/>
+      <uri index="2" value="test.application/MainTest1.spl"/>
+      <uri index="11" value="test.application/TestComposite.spl"/>
+      <uri index="8" value="test.application/MainTest6.spl"/>
+      <uri index="6" value="test.application/MainTest4.spl"/>
+      <uri index="1" value="test.application/MainSalesData.spl"/>
+      <uri index="9" value="test.application/MainTest7.spl"/>
+      <uri index="12" value="test.application/TestHBaseN.spl"/>
+      <uri index="3" value="test.application/MainTest10.spl"/>
+      <uri index="13" value="test.application/TestTu1.spl"/>
       <uri index="5" value="test.application/MainTest3.spl"/>
-      <uri index="2" value="test.application/TestTu1.spl"/>
-      <uri index="8" value="test.application/MainTest5.spl"/>
-      <uri index="11" value="test.application/MainTest9.spl"/>
-      <uri index="3" value="test.application/MainTest2.spl"/>
+      <uri index="7" value="test.application/MainTest5.spl"/>
+      <uri index="10" value="test.application/MainTest9.spl"/>
+      <uri index="4" value="test.application/MainTest2.spl"/>
     </uriTable>
     <namespace name="test.application">
-      <compositeOp column="11" line="7" name="TestHBaseN" potentialMain="true" uriIndex="1"/>
-      <compositeOp column="11" line="5" name="TestTu1" potentialMain="true" uriIndex="2"/>
-      <compositeOp column="11" line="3" name="MainTest2" potentialMain="true" uriIndex="3"/>
-      <compositeOp column="11" line="6" name="MainTest1" potentialMain="true" uriIndex="4"/>
+      <compositeOp column="11" line="39" name="MainSalesData" potentialMain="true" uriIndex="1"/>
+      <compositeOp column="11" line="6" name="MainTest1" potentialMain="true" uriIndex="2"/>
+      <compositeOp column="11" line="3" name="MainTest10" potentialMain="true" uriIndex="3"/>
+      <compositeOp column="11" line="3" name="MainTest2" potentialMain="true" uriIndex="4"/>
       <compositeOp column="11" line="3" name="MainTest3" potentialMain="true" uriIndex="5"/>
-      <compositeOp column="11" line="6" name="TestComposite" potentialMain="false" uriIndex="6">
+      <compositeOp column="11" line="3" name="MainTest4" potentialMain="true" uriIndex="6"/>
+      <compositeOp column="11" line="3" name="MainTest5" potentialMain="true" uriIndex="7"/>
+      <compositeOp column="11" line="3" name="MainTest6" potentialMain="true" uriIndex="8"/>
+      <compositeOp column="11" line="26" name="MainTest7" potentialMain="true" uriIndex="9"/>
+      <compositeOp column="11" line="3" name="MainTest9" potentialMain="true" uriIndex="10"/>
+      <compositeOp column="11" line="6" name="TestComposite" potentialMain="false" uriIndex="11">
         <parameter metaType="Expression" name="hbaseTable" optional="false" type="&lt;rstring>"/>
         <parameter metaType="Expression" name="testDir" optional="false" type="&lt;rstring>"/>
         <parameter metaType="Type" name="colType" optional="false"/>
       </compositeOp>
-      <compositeOp column="11" line="3" name="MainTest4" potentialMain="true" uriIndex="7"/>
-      <compositeOp column="11" line="3" name="MainTest5" potentialMain="true" uriIndex="8"/>
-      <compositeOp column="11" line="3" name="MainTest6" potentialMain="true" uriIndex="9"/>
-      <compositeOp column="11" line="26" name="MainTest7" potentialMain="true" uriIndex="10"/>
-      <compositeOp column="11" line="3" name="MainTest9" potentialMain="true" uriIndex="11"/>
-      <compositeOp column="11" line="3" name="MainTest10" potentialMain="true" uriIndex="12"/>
-      <compositeOp column="11" line="39" name="MainSalesData" potentialMain="true" uriIndex="13"/>
-      <function column="1" line="6" name="toT" native="false" returnType="timestamp" uriIndex="10">
+      <compositeOp column="11" line="7" name="TestHBaseN" potentialMain="true" uriIndex="12"/>
+      <compositeOp column="11" line="5" name="TestTu1" potentialMain="true" uriIndex="13"/>
+      <function column="1" line="19" name="toInt32" native="false" returnType="int32" uriIndex="1">
+        <prototype>int32 toInt32(rstring s)</prototype>
+        <parameter name="s" type="rstring"/>
+      </function>
+      <function column="1" line="24" name="toFloat32" native="false" returnType="float32" uriIndex="1">
+        <prototype>float32 toFloat32(rstring s)</prototype>
+        <parameter name="s" type="rstring"/>
+      </function>
+      <function column="1" line="29" name="toFloat64" native="false" returnType="float64" uriIndex="1">
+        <prototype>float64 toFloat64(rstring s)</prototype>
+        <parameter name="s" type="rstring"/>
+      </function>
+      <function column="1" line="34" name="toDecimal64" native="false" returnType="decimal64" uriIndex="1">
+        <prototype>decimal64 toDecimal64(rstring s)</prototype>
+        <parameter name="s" type="rstring"/>
+      </function>
+      <function column="1" line="6" name="toT" native="false" returnType="timestamp" uriIndex="9">
         <prototype>timestamp toT(int32 year, int32 month, int32 day, int32 hour, int32 minute, int32 sec)</prototype>
         <parameter name="year" type="int32"/>
         <parameter name="month" type="int32"/>
@@ -45,32 +61,16 @@
         <parameter name="minute" type="int32"/>
         <parameter name="sec" type="int32"/>
       </function>
-      <function column="1" line="14" name="toTS" native="false" returnType="timestamp" uriIndex="10">
+      <function column="1" line="14" name="toTS" native="false" returnType="timestamp" uriIndex="9">
         <prototype>timestamp toTS(rstring s)</prototype>
         <parameter name="s" type="rstring"/>
       </function>
-      <function column="1" line="19" name="toS" native="false" returnType="rstring" uriIndex="10">
+      <function column="1" line="19" name="toS" native="false" returnType="rstring" uriIndex="9">
         <prototype>rstring toS(timestamp t)</prototype>
         <parameter name="t" type="timestamp"/>
       </function>
-      <function column="1" line="19" name="toInt32" native="false" returnType="int32" uriIndex="13">
-        <prototype>int32 toInt32(rstring s)</prototype>
-        <parameter name="s" type="rstring"/>
-      </function>
-      <function column="1" line="24" name="toFloat32" native="false" returnType="float32" uriIndex="13">
-        <prototype>float32 toFloat32(rstring s)</prototype>
-        <parameter name="s" type="rstring"/>
-      </function>
-      <function column="1" line="29" name="toFloat64" native="false" returnType="float64" uriIndex="13">
-        <prototype>float64 toFloat64(rstring s)</prototype>
-        <parameter name="s" type="rstring"/>
-      </function>
-      <function column="1" line="34" name="toDecimal64" native="false" returnType="decimal64" uriIndex="13">
-        <prototype>decimal64 toDecimal64(rstring s)</prototype>
-        <parameter name="s" type="rstring"/>
-      </function>
-      <type column="6" line="5" name="salesdata" static="true" type="int32 cq_ORDER_DAY_KEY, int32 cq_ORGANIZATION_KEY, int32 cq_EMPLOYEE_KEY, int32 cq_RETAILER_KEY, int32 cq_RETAILER_SITE_KEY, int32 cq_PRODUCT_KEY, int32 cq_PROMOTION_KEY, int32 cq_ORDER_METHOD_KEY, int32 cq_SALES_ORDER_KEY, int32 cq_SHIP_DAY_KEY, int32 cq_CLOSE_DAY_KEY, int32 cq_QUANTITY, decimal64 cq_UNIT_COST, decimal64 cq_UNIT_PRICE, decimal64 cq_UNIT_SALE_PRICE, decimal64 cq_GROSS_MARGIN, decimal64 cq_SALE_TOTAL, decimal64 cq_GROSS_PROFIT" uriIndex="13"/>
-      <type column="6" line="12" name="salesdatablob" static="true" type="blob cq_ORDER_DAY_KEY, blob cq_ORGANIZATION_KEY, blob cq_EMPLOYEE_KEY, blob cq_RETAILER_KEY, blob cq_RETAILER_SITE_KEY, blob cq_PRODUCT_KEY, blob cq_PROMOTION_KEY, blob cq_ORDER_METHOD_KEY, blob cq_SALES_ORDER_KEY, blob cq_SHIP_DAY_KEY, blob cq_CLOSE_DAY_KEY, blob cq_QUANTITY, blob cq_UNIT_COST, blob cq_UNIT_PRICE, blob cq_UNIT_SALE_PRICE, blob cq_GROSS_MARGIN, blob cq_SALE_TOTAL, blob cq_GROSS_PROFIT" uriIndex="13"/>
+      <type column="6" line="5" name="salesdata" static="true" type="int32 cq_ORDER_DAY_KEY, int32 cq_ORGANIZATION_KEY, int32 cq_EMPLOYEE_KEY, int32 cq_RETAILER_KEY, int32 cq_RETAILER_SITE_KEY, int32 cq_PRODUCT_KEY, int32 cq_PROMOTION_KEY, int32 cq_ORDER_METHOD_KEY, int32 cq_SALES_ORDER_KEY, int32 cq_SHIP_DAY_KEY, int32 cq_CLOSE_DAY_KEY, int32 cq_QUANTITY, decimal64 cq_UNIT_COST, decimal64 cq_UNIT_PRICE, decimal64 cq_UNIT_SALE_PRICE, decimal64 cq_GROSS_MARGIN, decimal64 cq_SALE_TOTAL, decimal64 cq_GROSS_PROFIT" uriIndex="1"/>
+      <type column="6" line="12" name="salesdatablob" static="true" type="blob cq_ORDER_DAY_KEY, blob cq_ORGANIZATION_KEY, blob cq_EMPLOYEE_KEY, blob cq_RETAILER_KEY, blob cq_RETAILER_SITE_KEY, blob cq_PRODUCT_KEY, blob cq_PROMOTION_KEY, blob cq_ORDER_METHOD_KEY, blob cq_SALES_ORDER_KEY, blob cq_SHIP_DAY_KEY, blob cq_CLOSE_DAY_KEY, blob cq_QUANTITY, blob cq_UNIT_COST, blob cq_UNIT_PRICE, blob cq_UNIT_SALE_PRICE, blob cq_GROSS_MARGIN, blob cq_SALE_TOTAL, blob cq_GROSS_PROFIT" uriIndex="1"/>
     </namespace>
     <dependency>
       <common:name>com.ibm.streamsx.hbase</common:name>
