@@ -111,7 +111,21 @@ Output schema
 
 BigSql/HBase table
 
-CREATE HBASE TABLE TESTDECIMAL ( K VARCHAR(100), V INT ) COLUMN MAPPING ( key  mapped by (k), cf_data: cq_x mapped by (v));
+HBasePut operator
+
+		() as HBASEPut_3 = HBASEPut(JConvert_4_out0)
+		{
+			param
+				hbaseSite : dataDirectory() + "/conf/hbase-site.xml" ;
+				rowAttrName : "key" ;
+				tableName : "sb.testint" ;
+				staticColumnFamily : "cf_data" ;
+				staticColumnQualifier : "cq_x" ;
+				valueAttrName : "val" ;
+		}
+
+
+CREATE HBASE TABLE TESTINT ( K VARCHAR(100), V INT ) COLUMN MAPPING ( key  mapped by (k), cf_data: cq_x mapped by (v));
 
 </pre>
 
