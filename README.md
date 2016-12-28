@@ -49,4 +49,18 @@ Import two projects from javahotel/Streams directory.
 
 The following projects should be accessible
 
+![](https://github.com/stanislawbartkowski/javahotel/blob/bsqlhbase/wiki/Zrzut%20ekranu%20z%202016-12-28%2023-42-14.png)
+
+### org.ibm.converthbase
+
+Provides single operator JConverter.
+
+JConverter accepts one or more input streams and the same number of output streams.
+
+The number of attributes in input stream(s) should correspond to the number of attributes in output stream(s). All attributes in output streams should be of __blob__ type.
+
+An example:
+
+>> <aaa>asdadas<aaa>
+
 
