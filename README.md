@@ -37,4 +37,16 @@ Target: dist/bigsqlhbase.jar
 
 # IBM InfoSphere Projects
 
-## asasdas
+## Import Eclipse projects into IBM StreamsStudio
+
+### Clone GitHub branch
+
+git clone -b bsqlhbase https://github.com/stanislawbartkowski/javahotel.git
+
+### Import projects
+
+Import two projects from javahotel/Streams directory.
+
+The following projects should be accessible
+
+
