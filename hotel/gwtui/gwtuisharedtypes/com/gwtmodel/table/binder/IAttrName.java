@@ -62,6 +62,34 @@ public interface IAttrName {
 	String ATTRVERTICALALIGN = "verticalAlign";
 	String ATTRVETICALOFFSET = "verticalOffset";
 	String ATTRWITHBACKDROP = "withBackdrop";
+<<<<<<< HEAD
+=======
+	
+	String ATTRACTIVE = "active";
+	String ATTRARIAACTIVEATTRIBUTE = "ariaActiveAttribute";
+	String ATTRCHECKED = "checked"; 
+	String ATTRFOCUSED = "focused";
+	String ATTRINVALID = "invalid";
+	String ATTRKEYBINDINGS = "keyBindgings";
+	String ATTRKEYEVENTTARGET = "keyEventTarget";
+	String ATTRPOINTERDOWN = "pointerDown";
+	String ATTRPRESSED = "pressed";
+	String ATTRRECEIVEDFOCUSFROMKEYBOARD = "receivedFocusFromKeyboard"; 
+	String ATTRREQUIRED = "required";
+	String ATTRSTOPKEYBORADFROMPROPAGATION = "stopKeyboardEventPropagation";
+	String ATTRTOGGLES = "toggles";
+	String ATTRVALIDATOR = "validator";
+	String ATTRVALIDATORTYPE = "validatorType";
+	String ATTRVALUE = "value";
+
+
+
+
+
+
+
+
+>>>>>>> branch 'master' of ssh://githotel@localhost/home/githotel/git/javahotel.git
 
 	String ATTRACTIVE = "active";
 	String ATTRARIAACTIVEATTRIBUTE = "ariaActiveAttribute";

@@ -417,6 +417,7 @@
 	</xs:element>
 
 	<xs:element name="PaperToast">
+
 	</xs:element>
 
 	<xs:element name="PaperToggleButton">

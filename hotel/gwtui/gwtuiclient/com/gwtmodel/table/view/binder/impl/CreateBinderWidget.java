@@ -200,11 +200,16 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 		case PaperToast:
 			w = new PaperToast(html);
 			break;
+<<<<<<< HEAD
 		case PaperToggleButton:
 			w = new PaperToggleButton(html);
 			break;
 		case IronAjax:
 			w = new IronAjax(html);
+=======
+		case PaperToggleButton :
+			w = new PaperToggleButton(html);
+>>>>>>> branch 'master' of ssh://githotel@localhost/home/githotel/git/javahotel.git
 			break;
 		default:
 			Utils.errAlertB(LogT.getT().PolymerWidgetNotImplemented(bw.getType().name()));

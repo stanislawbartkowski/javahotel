@@ -43,8 +43,11 @@
   <button id="binder22" displayname="Toast" actiontype="JMAIN_DIALOG" actionparam="binder22.xml" />
   <button id="binder23" displayname="Toggle Button" actiontype="JMAIN_DIALOG" actionparam="binder23.xml" />
   <button id="binder24" displayname="Toolbar" actiontype="JMAIN_DIALOG" actionparam="binder24.xml" />
+<<<<<<< HEAD
   <button id="ironelements" displayname="Iron"  header=""/>
   <button id="binder25" displayname="Ajax" actiontype="JMAIN_DIALOG" actionparam="binder25.xml" />
+=======
+>>>>>>> branch 'master' of ssh://githotel@localhost/home/githotel/git/javahotel.git
 </leftstack>  
 
 <buttons>

@@ -86,6 +86,7 @@ public class BinderWidgetAttributes {
 			new A(IAttrName.ATTRVALIDATOR), new A(IAttrName.ATTRVALIDATORTYPE), new A(IAttrName.ATTRVALUE)).stream()
 			.collect(Collectors.toMap(A::getName, A::getType));
 
+<<<<<<< HEAD
 	private static Map<String, TT> ironajaxMap = Arrays
 			.asList(new A(IAttrName.ATTRACTIVEREQUESTS), new A(IAttrName.ATTRAUTO, TT.BOOLEAN),
 					new A(IAttrName.ATTRBODY), new A(IAttrName.ATTRBUBBLES, TT.BOOLEAN),
@@ -97,12 +98,17 @@ public class BinderWidgetAttributes {
 					new A(IAttrName.ATTRVERBOSE, TT.BOOLEAN), new A(IAttrName.ATTRWITHCREDENTIALS, TT.BOOLEAN))
 			.stream().collect(Collectors.toMap(A::getName, A::getType));
 
+=======
+>>>>>>> branch 'master' of ssh://githotel@localhost/home/githotel/git/javahotel.git
 	private final static Map<WidgetTypes, Map<String, TT>> wMap = new HashMap<WidgetTypes, Map<String, TT>>();
 
 	static {
 		wMap.put(WidgetTypes.PaperToast, paperToastMap);
 		wMap.put(WidgetTypes.PaperToggleButton, papertogglebuttontMap);
+<<<<<<< HEAD
 		wMap.put(WidgetTypes.IronAjax, ironajaxMap);
+=======
+>>>>>>> branch 'master' of ssh://githotel@localhost/home/githotel/git/javahotel.git
 	}
 
 	private static TT getPolymerA(WidgetTypes w, String attr) {
