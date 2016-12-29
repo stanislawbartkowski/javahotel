@@ -111,6 +111,7 @@
 			<xs:element minOccurs="0" name="readonly" type="emptyT" />
 			<xs:element minOccurs="0" name="header" type="emptyT" />
 			<xs:element minOccurs="0" name="imagebutton" type="xs:string" />
+			<xs:element minOccurs="0" name="ajax" type="emptyT" />
 		</xs:sequence>
 	</xs:group>
 
@@ -130,6 +131,7 @@
 		<xs:attribute name="readonly" type="emptyT" />
 		<xs:attribute name="header" type="emptyT" />
 		<xs:attribute name="imagebutton" type="xs:string" />
+		<xs:attribute name="ajax" type="emptyT" />
 	</xs:attributeGroup>
 
 	<xs:group name="dialogG">

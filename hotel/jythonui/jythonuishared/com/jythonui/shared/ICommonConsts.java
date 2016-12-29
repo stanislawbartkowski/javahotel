@@ -64,12 +64,13 @@ public interface ICommonConsts {
 	String LONGTYPE = "long";
 	String SPINNERTYPE = "spinner";
 	String SPINNERMIN = "spinnermin";
-	String MENU="menu";
-	String BINDER="binder";
+	String MENU = "menu";
+	String BINDER = "binder";
+	String AJAXBUTTON = "ajax";
 	int DEFAULTSPINNERMIN = 1;
 	String SPINNERMAX = "spinnermax";
 	int DEFAULTSPINNERMAX = 5;
-	String MULTI="multi";
+	String MULTI = "multi";
 	String EMAILTYPE = "email";
 	String AFTERDOT = "afterdot";
 	String DEFVALUE = "defvalue";

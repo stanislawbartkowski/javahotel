@@ -413,8 +413,10 @@
 
 	<!-- Elements -->
 
-	<xs:element name="PaperToast">
+	<xs:element name="IronAjax">
+	</xs:element>
 
+	<xs:element name="PaperToast">
 	</xs:element>
 
 	<xs:element name="PaperToggleButton">

@@ -13,12 +13,12 @@
 package com.gwtmodel.table.binder;
 
 public interface IAttrName {
-	
+
 	String FIELDID = "fieldid";
-	
+
 	String BOOLEANTRUE = "true";
-	String BOOLEANFALSE = "false";	
-	
+	String BOOLEANFALSE = "false";
+
 	String ATTRADDSTYLENAMES = "addStyleNames";
 	String ATTRSIZE = "size";
 	String ATTRPIXELSIZE = "pixelSize";
@@ -28,7 +28,7 @@ public interface IAttrName {
 	String ATTRTITLE = "title";
 	String ATTRVISIBLE = "visible";
 	String ATTRWIDTH = "width";
-	
+
 	String ATTRATRIBUTES = "attributes";
 	String ATTRBOOLEANATTRIBUTE = "booleanAttribute";
 	String ATTRDISABLED = "disabled";
@@ -39,15 +39,15 @@ public interface IAttrName {
 	String ATTRTABINDEX = "tabindex";
 	String ATTRCLASS = "class";
 	String ATTRARIALABEL = "ariaLabel";
-	
+
 	String ATTRSETALWAYSONTOP = "alwaysOnTop";
 	String ATTRAUTOFITONATTACH = "autoFitOnAttach";
-	String ATTRBACKDROPELEMENT="backdropElement";
+	String ATTRBACKDROPELEMENT = "backdropElement";
 	String ATTRCANCELED = "canceled";
 	String ATTRCLOSINGREASON = "closingReason";
-    String ATTRDURATION = "duration"; 
-    String ATTRDYNAMICALLIGN = "dynamicAlign";
-    String ATTRFITINFO = "fitInto";
+	String ATTRDURATION = "duration";
+	String ATTRDYNAMICALLIGN = "dynamicAlign";
+	String ATTRFITINFO = "fitInto";
 	String ATTRHORIZONTALALIGN = "horizontalAlign";
 	String ATTRHORIZONTALOFFSET = "horizontalOffset";
 	String ATTRNOAUTOFOCUS = "noAutoFocus";
@@ -62,17 +62,17 @@ public interface IAttrName {
 	String ATTRVERTICALALIGN = "verticalAlign";
 	String ATTRVETICALOFFSET = "verticalOffset";
 	String ATTRWITHBACKDROP = "withBackdrop";
-	
+
 	String ATTRACTIVE = "active";
 	String ATTRARIAACTIVEATTRIBUTE = "ariaActiveAttribute";
-	String ATTRCHECKED = "checked"; 
+	String ATTRCHECKED = "checked";
 	String ATTRFOCUSED = "focused";
 	String ATTRINVALID = "invalid";
 	String ATTRKEYBINDINGS = "keyBindgings";
 	String ATTRKEYEVENTTARGET = "keyEventTarget";
 	String ATTRPOINTERDOWN = "pointerDown";
 	String ATTRPRESSED = "pressed";
-	String ATTRRECEIVEDFOCUSFROMKEYBOARD = "receivedFocusFromKeyboard"; 
+	String ATTRRECEIVEDFOCUSFROMKEYBOARD = "receivedFocusFromKeyboard";
 	String ATTRREQUIRED = "required";
 	String ATTRSTOPKEYBORADFROMPROPAGATION = "stopKeyboardEventPropagation";
 	String ATTRTOGGLES = "toggles";
@@ -80,12 +80,24 @@ public interface IAttrName {
 	String ATTRVALIDATORTYPE = "validatorType";
 	String ATTRVALUE = "value";
 
-
-
-
-
-
-
-
-
+	String ATTRACTIVEREQUESTS = "activeRequests";
+	String ATTRAUTO = "auto";
+	String ATTRBODY = "body";
+	String ATTRBUBBLES = "bubbles";
+	String ATTRCONTENTTYPE = "contentType";
+	String ATTRDEBOUNCEDURATION = "debounceDuration";
+	String ATTRHANDLEAS = "handleAs";
+	String ATTRHEADERS = "headers";
+	String ATTRJSONPREFIX = "jJsonPrefix";
+	String ATTRLASTERROR = "lastError";
+	String ATTRLASTREQUEST = "lastRequest";
+	String ATTRLASTRESPONSE = "lastResponse";
+	String ATTRLOADING = "loading";
+	String ATTRMETHOD = "method";
+	String ATTRPARAMS = "params";
+	String ATTRSYNC = "sync";
+	String ATTRTIMEOUT = "timeout";
+	String ATTRURL = "url";
+	String ATTRVERBOSE = "verbose";
+	String ATTRWITHCREDENTIALS="withCredentials";
 }

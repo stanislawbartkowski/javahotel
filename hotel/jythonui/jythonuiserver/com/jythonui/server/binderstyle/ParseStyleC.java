@@ -89,8 +89,8 @@ class ParseStyleC extends UtilHelper {
 			return val;
 		if (val.charAt(0) != '{')
 			return val;
-		// double {{ at the beginning
-		if (val.length() > 1 && val.charAt(1) == '{')
+		// double {{ or {" at the beginning
+		if (val.length() > 1 && (val.charAt(1) == '{' || val.charAt(1) == '"'))
 			return val;
 		int i = val.indexOf('}');
 		if (i == -1)

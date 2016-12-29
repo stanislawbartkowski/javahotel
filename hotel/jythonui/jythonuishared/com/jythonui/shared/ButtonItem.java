@@ -18,38 +18,42 @@ package com.jythonui.shared;
  */
 public class ButtonItem extends ElemDescription {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    public boolean isAction() {
-        return isAttr(ICommonConsts.ACTIONTYPE);
-    }
+	public boolean isAjax() {
+		return isAttr(ICommonConsts.AJAXBUTTON);
+	}
 
-    public String getAction() {
-        return getAttr(ICommonConsts.ACTIONTYPE);
-    }
+	public boolean isAction() {
+		return isAttr(ICommonConsts.ACTIONTYPE);
+	}
 
-    public String getActionParam() {
-        return getAttr(ICommonConsts.ACTIONPARAM);
-    }
+	public String getAction() {
+		return getAttr(ICommonConsts.ACTIONTYPE);
+	}
 
-    public boolean isValidateAction() {
-        return isAttr(ICommonConsts.VALIDATE);
-    }
+	public String getActionParam() {
+		return getAttr(ICommonConsts.ACTIONPARAM);
+	}
 
-    public boolean isHeaderButton() {
-        return isAttr(ICommonConsts.BUTTONHEADER);
-    }
+	public boolean isValidateAction() {
+		return isAttr(ICommonConsts.VALIDATE);
+	}
 
-    public String getImageButton() {
-        return getAttr(ICommonConsts.IMAGENAME);
-    }
+	public boolean isHeaderButton() {
+		return isAttr(ICommonConsts.BUTTONHEADER);
+	}
 
-    public String getJsAction() {
-        return getAttr(ICommonConsts.JSACTION);
-    }
+	public String getImageButton() {
+		return getAttr(ICommonConsts.IMAGENAME);
+	}
 
-    public boolean isHidden() {
-        return isAttr(ICommonConsts.HIDDEN);
-    }
+	public String getJsAction() {
+		return getAttr(ICommonConsts.JSACTION);
+	}
+
+	public boolean isHidden() {
+		return isAttr(ICommonConsts.HIDDEN);
+	}
 
 }

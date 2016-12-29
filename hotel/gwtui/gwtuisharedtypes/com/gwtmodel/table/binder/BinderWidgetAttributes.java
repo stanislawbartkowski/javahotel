@@ -86,11 +86,23 @@ public class BinderWidgetAttributes {
 			new A(IAttrName.ATTRVALIDATOR), new A(IAttrName.ATTRVALIDATORTYPE), new A(IAttrName.ATTRVALUE)).stream()
 			.collect(Collectors.toMap(A::getName, A::getType));
 
+	private static Map<String, TT> ironajaxMap = Arrays
+			.asList(new A(IAttrName.ATTRACTIVEREQUESTS), new A(IAttrName.ATTRAUTO, TT.BOOLEAN),
+					new A(IAttrName.ATTRBODY), new A(IAttrName.ATTRBUBBLES, TT.BOOLEAN),
+					new A(IAttrName.ATTRDEBOUNCEDURATION), new A(IAttrName.ATTRCONTENTTYPE),
+					new A(IAttrName.ATTRHANDLEAS), new A(IAttrName.ATTRHEADERS), new A(IAttrName.ATTRJSONPREFIX),
+					new A(IAttrName.ATTRLASTERROR), new A(IAttrName.ATTRLASTREQUEST), new A(IAttrName.ATTRLASTRESPONSE),
+					new A(IAttrName.ATTRLOADING, TT.BOOLEAN), new A(IAttrName.ATTRMETHOD), new A(IAttrName.ATTRPARAMS),
+					new A(IAttrName.ATTRSYNC, TT.BOOLEAN), new A(IAttrName.ATTRTIMEOUT), new A(IAttrName.ATTRURL),
+					new A(IAttrName.ATTRVERBOSE, TT.BOOLEAN), new A(IAttrName.ATTRWITHCREDENTIALS, TT.BOOLEAN))
+			.stream().collect(Collectors.toMap(A::getName, A::getType));
+
 	private final static Map<WidgetTypes, Map<String, TT>> wMap = new HashMap<WidgetTypes, Map<String, TT>>();
 
 	static {
 		wMap.put(WidgetTypes.PaperToast, paperToastMap);
 		wMap.put(WidgetTypes.PaperToggleButton, papertogglebuttontMap);
+		wMap.put(WidgetTypes.IronAjax, ironajaxMap);
 	}
 
 	private static TT getPolymerA(WidgetTypes w, String attr) {

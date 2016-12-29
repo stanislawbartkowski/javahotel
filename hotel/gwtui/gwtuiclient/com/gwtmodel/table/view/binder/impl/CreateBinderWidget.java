@@ -34,6 +34,7 @@ import com.gwtmodel.table.mm.LogT;
 import com.gwtmodel.table.view.binder.ICreateBinderWidget;
 import com.gwtmodel.table.view.binder.ISetWidgetAttribute;
 import com.gwtmodel.table.view.util.polymer.PolymerUtil;
+import com.vaadin.polymer.iron.widget.IronAjax;
 import com.vaadin.polymer.iron.widget.IronIcon;
 import com.vaadin.polymer.paper.widget.PaperButton;
 import com.vaadin.polymer.paper.widget.PaperCheckbox;
@@ -199,8 +200,11 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 		case PaperToast:
 			w = new PaperToast(html);
 			break;
-		case PaperToggleButton :
+		case PaperToggleButton:
 			w = new PaperToggleButton(html);
+			break;
+		case IronAjax:
+			w = new IronAjax(html);
 			break;
 		default:
 			Utils.errAlertB(LogT.getT().PolymerWidgetNotImplemented(bw.getType().name()));

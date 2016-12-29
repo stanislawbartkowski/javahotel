@@ -10,10 +10,29 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.binder;
+package com.jython.ui;
 
-public enum WidgetTypes {
+import static org.junit.Assert.*;
 
-	HTMLPanel, Button, Label, UiBinder, IronIcon, PaperIconItem, PaperButton, PaperHeaderPanel, PaperToolbar, Image, PaperIconButton, PaperDrawerPanel, PaperCheckbox, PaperDialog, PaperDialogScrollable, PaperDropdownMenu, PaperMenu, PaperTabs, PaperTab, PaperFab, PaperItem, PaperItemBody, PaperInput, PaperTextarea, PaperMaterial, PaperProgress, PaperRadioButton, PaperRadioGroup, PaperRipple, PaperSpinner, PaperSlider, HTML, InlineLabel, FlowPanel, PaperTooltip, PaperToast, PaperToggleButton, IronAjax
+import org.junit.Test;
+
+import com.jythonui.shared.ButtonItem;
+import com.jythonui.shared.DialogFormat;
+
+public class Test71 extends TestHelper {
+	
+	
+	@Test
+	public void test1() {
+		
+		DialogFormat d = findDialog("test156.xml");
+		assertNotNull(d);
+		ButtonItem bu = d.findE(d.getButtonList(),"button");
+		assertNotNull(bu);
+		assertFalse(bu.isAjax());
+		bu = d.findE(d.getButtonList(),"bajax");
+		assertNotNull(bu);
+		assertTrue(bu.isAjax());		
+	}
 
 }

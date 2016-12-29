@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" polymer="">
+
+ <uibinder>binder/binder155.xml</uibinder>
+  
+  <jython>
+   <import>from testpack import binder1</import>
+   <method>binder1.slideraction({0},{1})</method>
+ </jython>  
+ 
+ <buttons>
+   <button id="button" displayname="" jsaction="JS.TOAST22.opentoast1" />
+   <button id="bajax" displayname="" jsaction="JS.TOAST22.opentoast2" ajax="" />
+ </buttons>
+ 
+ 
+ <form>
+   <field id="ratings" type="decimal" binder="" jssignalchange="XX" />
+   <field id="ratingsLabel" type="string" binder="" readonly="" />
+ </form>
+
+</dialog>
