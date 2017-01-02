@@ -14,13 +14,20 @@ package com.gwtmodel.table.editc;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.gwtmodel.table.*;
+import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IGWidget;
+import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.chooselist.ChooseListFactory;
 import com.gwtmodel.table.chooselist.ICallBackWidget;
 import com.gwtmodel.table.chooselist.IChooseList;
-import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.mm.LogT;
-import com.gwtmodel.table.slotmodel.*;
+import com.gwtmodel.table.slotmodel.AbstractSlotListener;
+import com.gwtmodel.table.slotmodel.DataActionEnum;
+import com.gwtmodel.table.slotmodel.ISlotSignalContext;
+import com.gwtmodel.table.slotmodel.ISlotable;
+import com.gwtmodel.table.slotmodel.SlotType;
 import com.gwtmodel.table.view.util.ModalDialog;
 
 /**

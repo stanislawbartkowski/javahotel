@@ -97,12 +97,28 @@ public class BinderWidgetAttributes {
 					new A(IAttrName.ATTRVERBOSE, TT.BOOLEAN), new A(IAttrName.ATTRWITHCREDENTIALS, TT.BOOLEAN))
 			.stream().collect(Collectors.toMap(A::getName, A::getType));
 
+	private static Map<String, TT> ironcollapseMap = Arrays
+			.asList(new A(IAttrName.ATTROPENED, TT.BOOLEAN), new A(IAttrName.ATTRHORIZONTAL, TT.BOOLEAN),
+					new A(IAttrName.ATTRNOANIMATION, TT.BOOLEAN))
+			.stream().collect(Collectors.toMap(A::getName, A::getType));
+
+	private static Map<String, TT> ironimageMap = Arrays
+			.asList(new A(IAttrName.ATTRFADE, TT.BOOLEAN), new A(IAttrName.ATTRALT, TT.BOOLEAN),
+					new A(IAttrName.ATTRERROR, TT.BOOLEAN), new A(IAttrName.ATTRHEIGHT),
+					new A(IAttrName.ATTRLOADED, TT.BOOLEAN), new A(IAttrName.ATTRLOADING, TT.BOOLEAN),
+					new A(IAttrName.ATTRPLACEHOLDER), new A(IAttrName.ATTRPOSITION),
+					new A(IAttrName.ATTRPRELOAD, TT.BOOLEAN), new A(IAttrName.ATTRPREVENTLOAD, TT.BOOLEAN),
+					new A(IAttrName.ATTRSIZING), new A(IAttrName.ATTRSRC), new A(IAttrName.ATTRWIDTH))
+			.stream().collect(Collectors.toMap(A::getName, A::getType));
+
 	private final static Map<WidgetTypes, Map<String, TT>> wMap = new HashMap<WidgetTypes, Map<String, TT>>();
 
 	static {
 		wMap.put(WidgetTypes.PaperToast, paperToastMap);
 		wMap.put(WidgetTypes.PaperToggleButton, papertogglebuttontMap);
 		wMap.put(WidgetTypes.IronAjax, ironajaxMap);
+		wMap.put(WidgetTypes.IronCollapse, ironcollapseMap);
+		wMap.put(WidgetTypes.IronImage, ironimageMap);
 	}
 
 	private static TT getPolymerA(WidgetTypes w, String attr) {

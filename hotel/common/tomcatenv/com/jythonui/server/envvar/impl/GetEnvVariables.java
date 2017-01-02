@@ -156,7 +156,6 @@ public class GetEnvVariables extends UtilHelper implements IGetEnvVariable {
 		Object o = iCache.get(name);
 		EnvVar r = (EnvVar) o;
 		if (r != null) {
-
 			traceLog(name + " already cached " + r.toS());
 			return r;
 		}

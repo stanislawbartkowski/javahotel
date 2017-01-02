@@ -45,7 +45,7 @@ var CUTIL = (function() {
 	};
 
 	my.setBinderOpen = function(v, id, attr, val) {
-		my.setBinderAction(v,id,"open","")
+		my.setBinderAction(v, id, "open", "")
 	};
 
 	my.setElevationAttr = function(v, id, val) {
@@ -56,8 +56,16 @@ var CUTIL = (function() {
 		my.setBinderAttr(v, id, "active", val)
 	};
 
-	my.setLabelText = function(v,id,val) {
-		my.setBinderAttr(v,id,"text",val)
+	my.setLabelText = function(v, id, val) {
+		my.setBinderAttr(v, id, "text", val)
+	}
+
+	my.setOpened = function(v, id, val) {
+		my.setBinderAttr(v, id, "opened", val)
+	}
+
+	my.setSrc = function(v, id, val) {
+		my.setBinderAttr(v, id, "src", val)
 	}
 
 	my.setCopyL = function() {

@@ -64,14 +64,14 @@ public interface IAttrName {
 	String ATTRWITHBACKDROP = "withBackdrop";
 	String ATTRACTIVE = "active";
 	String ATTRARIAACTIVEATTRIBUTE = "ariaActiveAttribute";
-	String ATTRCHECKED = "checked"; 
+	String ATTRCHECKED = "checked";
 	String ATTRFOCUSED = "focused";
 	String ATTRINVALID = "invalid";
 	String ATTRKEYBINDINGS = "keyBindgings";
 	String ATTRKEYEVENTTARGET = "keyEventTarget";
 	String ATTRPOINTERDOWN = "pointerDown";
 	String ATTRPRESSED = "pressed";
-	String ATTRRECEIVEDFOCUSFROMKEYBOARD = "receivedFocusFromKeyboard"; 
+	String ATTRRECEIVEDFOCUSFROMKEYBOARD = "receivedFocusFromKeyboard";
 	String ATTRREQUIRED = "required";
 	String ATTRSTOPKEYBORADFROMPROPAGATION = "stopKeyboardEventPropagation";
 	String ATTRTOGGLES = "toggles";
@@ -97,5 +97,19 @@ public interface IAttrName {
 	String ATTRTIMEOUT = "timeout";
 	String ATTRURL = "url";
 	String ATTRVERBOSE = "verbose";
-	String ATTRWITHCREDENTIALS="withCredentials";
+	String ATTRWITHCREDENTIALS = "withCredentials";
+	String ATTRHORIZONTAL = "horizontal";
+	String ATTRNOANIMATION = "noAnimations";
+	String ATTRFADE = "fade";
+	String ATTRALT = "alt";
+	String ATTRERROR = "error";
+	String ATTRLOADED = "loaded";
+	String ATTRPLACEHOLDER = "placeholder";
+	String ATTRPOSITION = "position";
+	String ATTRPRELOAD = "preload";
+	String ATTRPREVENTLOAD = "preventload";
+	String ATTRSIZING = "sizing";
+	String ATTRSRC = "src"; 
+
+
 }

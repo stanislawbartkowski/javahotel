@@ -97,5 +97,11 @@
 	<xs:element name="paper-tooltip" type="ElementContentType">
 	</xs:element>
 
+	<xs:element name="iron-meta" type="ElementContentType">
+	</xs:element>
+	
+	<xs:element name="iron-icon" type="ElementContentType">
+	</xs:element>
+
 
 </xs:schema>

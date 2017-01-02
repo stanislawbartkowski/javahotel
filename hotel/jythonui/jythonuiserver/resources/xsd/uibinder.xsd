@@ -413,6 +413,13 @@
 
 	<!-- Elements -->
 
+	<xs:element name="IronImage">
+	</xs:element>
+
+
+	<xs:element name="IronCollapse">
+	</xs:element>
+
 	<xs:element name="IronAjax">
 	</xs:element>
 

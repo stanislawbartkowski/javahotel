@@ -13,7 +13,9 @@
 package com.gwtmodel.table.view.button.polymer;
 
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.GFocusWidgetFactory;
 import com.gwtmodel.table.IGFocusWidget;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.mm.LogT;
@@ -25,6 +27,7 @@ public class ImgButtonPolymerImpl implements IImgButton {
 
 	private class PolymerWidgetButton implements IGFocusWidget {
 
+		private IGFocusWidget gwtBut = null;
 		private PolymerWidget pa;
 		private final String bId;
 		private ClickHandler cli;
@@ -38,33 +41,52 @@ public class ImgButtonPolymerImpl implements IImgButton {
 
 		@Override
 		public Widget getGWidget() {
+			if (gwtBut != null)
+				return gwtBut.getGWidget();
 			return pa;
 		}
 
 		@Override
 		public void addClickHandler(ClickHandler h) {
 			this.cli = h;
-			pa.addClickHandler(h);
+			if (gwtBut != null)
+				gwtBut.addClickHandler(h);
+			else
+				pa.addClickHandler(h);
 		}
 
 		@Override
 		public void setEnabled(boolean enabled) {
-			pa.setDisabled(!enabled);
+			if (gwtBut != null)
+				gwtBut.setEnabled(enabled);
+			else
+				pa.setDisabled(!enabled);
 		}
 
 		@Override
 		public void setHidden(boolean hidden) {
-			pa.setVisible(!hidden);
+			if (gwtBut != null)
+				gwtBut.setHidden(hidden);
+			else
+				pa.setVisible(!hidden);
 
 		}
 
 		@Override
-		public void replaceButtonWidget(Widget w) {
+		public void replaceButtonWidget(Widget w) {			
+			if (w instanceof FocusWidget) {
+				gwtBut = GFocusWidgetFactory.construct((FocusWidget) w);
+				if (cli != null)
+					gwtBut.addClickHandler(cli);
+				return;
+			}
 			if (!(w instanceof PolymerWidget))
 				Utils.errAlert(bId, LogT.getT().PolymerButtonShouldBePolymerWidget(w.getClass().getName()));
 			// replace widget
 			pa = (PolymerWidget) w;
-			if  (cli != null) pa.addClickHandler(cli);
+			if (cli != null)
+				pa.addClickHandler(cli);
+			gwtBut = null;
 		}
 
 	}

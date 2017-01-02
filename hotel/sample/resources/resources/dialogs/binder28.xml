@@ -1,0 +1,26 @@
+<dialog xmlns="http://www.jythongwt.dialogxsd.com"  polymer="">
+ 
+ <uibinder>binder/binder28.xml</uibinder>    
+ 
+ <jscode>js/binder28.js</jscode>
+
+ 
+ <jython>
+   <import>from testpack import binder28</import>
+   <method>binder28.dialogaction({0},{1})</method>
+ </jython>  
+
+  <buttons>
+   <button id="button1a" displayname="" jsaction="JS.DIAL28.clickbutton"/>
+   <button id="button1b" displayname="" jsaction="JS.DIAL28.clickbutton"/>
+   <button id="button1c" displayname="" jsaction="JS.DIAL28.clickbutton"/>
+   <button id="button3a" displayname="" jsaction="JS.DIAL28.clickbutton"/>
+   <button id="button3b" displayname="" jsaction="JS.DIAL28.clickbutton"/>
+   <button id="button3c" displayname="" jsaction="JS.DIAL28.clickbutton"/>
+   <button id="button3aFade" displayname="" jsaction="JS.DIAL28.clickbutton"/>
+   <button id="button3bFade" displayname="" jsaction="JS.DIAL28.clickbutton"/>
+   <button id="button3cFade" displayname="" jsaction="JS.DIAL28.clickbutton"/>
+ </buttons>
+  
+   
+</dialog>

@@ -15,6 +15,7 @@ package com.gwtmodel.table.view.binder.impl;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -35,7 +36,14 @@ import com.gwtmodel.table.view.binder.ICreateBinderWidget;
 import com.gwtmodel.table.view.binder.ISetWidgetAttribute;
 import com.gwtmodel.table.view.util.polymer.PolymerUtil;
 import com.vaadin.polymer.iron.widget.IronAjax;
+import com.vaadin.polymer.iron.widget.IronCollapse;
 import com.vaadin.polymer.iron.widget.IronIcon;
+import com.vaadin.polymer.iron.widget.IronImage;
+import com.vaadin.polymer.iron.widget.event.ErrorEvent;
+import com.vaadin.polymer.iron.widget.event.ErrorEventHandler;
+import com.vaadin.polymer.iron.widget.event.RequestEvent;
+import com.vaadin.polymer.iron.widget.event.RequestEventHandler;
+import com.vaadin.polymer.iron.widget.event.ResponseEventHandler;
 import com.vaadin.polymer.paper.widget.PaperButton;
 import com.vaadin.polymer.paper.widget.PaperCheckbox;
 import com.vaadin.polymer.paper.widget.PaperDialog;
@@ -205,7 +213,43 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 			break;
 		case IronAjax:
 			w = new IronAjax(html);
+			IronAjax aj = (IronAjax) w;
+			JavaScriptObject o = aj.getParams();
+			aj.addResponseHandler(new ResponseEventHandler() {
+
+				@Override
+				public void onResponse(com.vaadin.polymer.iron.widget.event.ResponseEvent event) {
+					int k = 0;
+					Utils.errAlert("aaa");
+
+				}
+			});
+			aj.addErrorHandler(new ErrorEventHandler() {
+
+				@Override
+				public void onError(ErrorEvent event) {
+					Utils.errAlert("bbbb");
+					int k = 0;
+
+				}
+			});
+			aj.addRequestHandler(new RequestEventHandler() {
+
+				@Override
+				public void onRequest(RequestEvent event) {
+					Utils.errAlert("ccc");
+					int k = 0;
+				}
+			});
+			// Object o = aj.getLastResponse();
+			int z = 0;
 			break;
+		case IronCollapse:
+			w = new IronCollapse(html);
+			break;
+		case IronImage:
+			w = new IronImage(html);
+			break;			
 		default:
 			Utils.errAlertB(LogT.getT().PolymerWidgetNotImplemented(bw.getType().name()));
 			break;

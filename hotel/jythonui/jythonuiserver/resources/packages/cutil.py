@@ -75,7 +75,10 @@ def setBinderAction(var,id,attr,val) :
     var["JACTION_BINDER_" + id + "_" + attr] = val
     
 def setBinderOpen(var,id) :
-    setBinderAction(var,id,"open","")    
+    setBinderAction(var,id,"open","")
+    
+def setBinderOpenedAttr(var,id,val=True) :
+    cutil.setBinderAttr(var,id,"opened",val)
     
 def setElevationAttr(var,id,val) :
     setBinderAttr(var,id,"elevation",val)
@@ -85,6 +88,9 @@ def setSpinnerActive(var,id,val=True) :
     
 def setLabelText(var,id,val=True) :
     setBinderAttr(var,id,"text",val)    
+    
+def setBinderSrcAttr(var,id,val=True) :
+    setBinderAttr(var,id,"src",val)    
 
 def setEditListActionOk(var,li,ok=True) :
    var["JLIST_EDIT_ACTIONOK_" + li] = ok

@@ -77,7 +77,7 @@ public interface IConsts {
 	String ATTRPRESSED = "pressed"; //*
 	String ATTRTOGGLES = "toggles"; //*
 	String ATTRICON = "icon";
-	String ATTRSRC = "src";
+	String ATTRSRC = "src"; //*
 	String ATTRTHEME = "theme";
 	String ATTRADDSTYLENAMES = "addStyleNames"; //*
 	String ATTRTABINDEX = "tabindex"; //*
@@ -135,7 +135,7 @@ public interface IConsts {
 	String ATTRKEYBINDINGS = "keyBindgings"; //*
 	String ATTRKEYEVENTTARGET = "keyEventTarget"; //*
 	String ATTRLABEL = "label";
-	String ATTRNOANIMATION = "noAnimations";
+	String ATTRNOANIMATION = "noAnimations"; // *
 	String ATTRNOLABELFLOAT = "noLabelFloat";
 	String ATTRPLACEHOLDER = "placeholder";
 	String ATTRRECEIVEDFOCUSFROMKEYBOARD = "receivedFocusFromKeyboard"; //*
@@ -216,7 +216,7 @@ public interface IConsts {
 	String ATTROPACITYDECAYVELOCITYS = "opacityDecayVelocityS";
 	String ATTRRECENTERS = "recenters";
 	String ATTRRIPPLES = "ripples";
-	String ATTRALT = "alt";
+	String ATTRALT = "alt"; // *
 	String ATTRDRAGGINF = "dragging";
 	String ATTREDITABLE = "editable";
 	String ATTREXPAND = "expand";
@@ -242,7 +242,7 @@ public interface IConsts {
 	String ATTRMARGINTOPS = "marginTopS";
 	String ATTROFFSET = "offset";
 	String ATTROFFSETS = "offsetS";
-	String ATTRPOSITION = "position";
+	String ATTRPOSITION = "position"; //*
 
 	String RESBEG = "{" + IMessConsts.STANDCH;
 	String RESEND = "}";

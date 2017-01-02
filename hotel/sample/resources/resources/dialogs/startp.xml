@@ -45,6 +45,9 @@
   <button id="binder24" displayname="Toolbar" actiontype="JMAIN_DIALOG" actionparam="binder24.xml" />
   <button id="ironelements" displayname="Iron"  header=""/>
   <button id="binder25" displayname="Ajax" actiontype="JMAIN_DIALOG" actionparam="binder25.xml" />
+  <button id="binder26" displayname="Icons" actiontype="JMAIN_DIALOG" actionparam="binder26.xml" />
+  <button id="binder27" displayname="Collapse" actiontype="JMAIN_DIALOG" actionparam="binder27.xml" />
+  <button id="binder28" displayname="Image" actiontype="JMAIN_DIALOG" actionparam="binder28.xml" />
 </leftstack>  
 
 <buttons>

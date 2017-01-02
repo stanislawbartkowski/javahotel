@@ -1,16 +1,16 @@
 <dialog xmlns="http://www.jythongwt.dialogxsd.com"  polymer="">
  
- <uibinder>binder/binder25.xml</uibinder>
+ <uibinder>binder/binder26.xml</uibinder>
    
-  <before />
-  
+ <jscode>js/binder26.js</jscode>
+
   <jython>
    <import>from testpack import binder22</import>
    <method>binder22.dialogaction({0},{1})</method>
  </jython>  
  
   <buttons>
-   <button id="ajax" displayname="" ajax="" />
+   <button id="ajax" displayname="" />
  </buttons>
  
    

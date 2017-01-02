@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.stream.IntStream;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.Grid;
@@ -99,35 +100,26 @@ public class CreateFormView {
 	public static Map<String, Widget> createListOfFieldsId(HTMLPanel pa) {
 
 		final Map<String, Widget> ma = new HashMap<String, Widget>();
-		replaceBinder(pa, new IReplace() {
-
-			@Override
-			public void replace(String id, Widget w) {
-				ma.put(id, w);
-			}
-		});
+		replaceBinder(pa, (id, w) -> ma.put(id, w));
 		return ma;
 	}
 
 	public static void setHtml(HTMLPanel pa, final IGetButtons iG, BinderWidget bw) {
-		int i = 0;
-		for (ClickButtonType c : iG.getDList()) {
-			IGFocusWidget b = iG.getBList().get(i++);
+		IntStream.range(0, iG.getDList().size()).forEach(i -> {
+			ClickButtonType c = iG.getDList().get(i);
+			IGFocusWidget b = iG.getBList().get(i);
 			String htmlId = c.getHtmlElementName();
 			replace(pa, htmlId, b.getGWidget());
-		}
+		});
 		// try to replace widgets
-		replaceBinder(pa, new IReplace() {
+		replaceBinder(pa, (id, w) -> {
+			IntStream.range(0, iG.getDList().size()).forEach(i -> {
+				ClickButtonType c = iG.getDList().get(i);
+				IGFocusWidget b = iG.getBList().get(i);
+				if (c.getHtmlElementName().equals(id))
+					b.replaceButtonWidget(w);
 
-			@Override
-			public void replace(String id, Widget w) {
-				int i = 0;
-				for (ClickButtonType c : iG.getDList()) {
-					IGFocusWidget b = iG.getBList().get(i++);
-					if (c.getHtmlElementName().equals(id))
-						b.replaceButtonWidget(w);
-				}
-			}
+			});
 		});
 	}
 
@@ -190,7 +182,6 @@ public class CreateFormView {
 		// number of rows
 		int rows = 0;
 		for (FormField d : fList) {
-			IVField v = d.getFie();
 			if (d.isRange())
 				continue;
 			rows++;

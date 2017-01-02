@@ -128,6 +128,6 @@ public class GwtTableInjectModule extends AbstractGinModule {
 		requestStaticInjection(ImgButtonFactory.class, ControlButtonViewFactory.class, EditWidgetFactory.class,
 				GridViewFactory.class, GwtPanelViewFactory.class, ChooseListFactory.class, PanelViewFactory.class,
 				LoginViewFactory.class, TabPanelViewFactory.class, PolymerUtil.class, ControlButtonImages.class,
-				SlU.class, Utils.class, GWidget.class);
+				SlU.class, Utils.class, GWidget.class, ImgButtonPolymerImpl.class);
 	}
 }
