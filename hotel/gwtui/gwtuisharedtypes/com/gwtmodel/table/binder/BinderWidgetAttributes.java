@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 stanislawbartkowski@gmail.com 
+ * Copyright 2017 stanislawbartkowski@gmail.com  
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -111,6 +111,17 @@ public class BinderWidgetAttributes {
 					new A(IAttrName.ATTRSIZING), new A(IAttrName.ATTRSRC), new A(IAttrName.ATTRWIDTH))
 			.stream().collect(Collectors.toMap(A::getName, A::getType));
 
+	private static Map<String, TT> ironlistMap = Arrays
+			.asList(new A(IAttrName.ATTRAS), new A(IAttrName.ATTRFIRSTVISIBLEINDEX), new A(IAttrName.ATTRGRID),
+					new A(IAttrName.ATTRINDEXAS), new A(IAttrName.ATTRITEMS), new A(IAttrName.ATTRKEYBINDINGS),
+					new A(IAttrName.ATTRKEYEVENTTARGET), new A(IAttrName.ATTRLASTVISIBLEINDEX),
+					new A(IAttrName.ATTRMAXPHYSICALCOUNT), new A(IAttrName.ATTRMULTISELECTION, TT.BOOLEAN),
+					new A(IAttrName.ATTRSCROLLTARGET), new A(IAttrName.ATTRSELECTEDAS),
+					new A(IAttrName.ATTRSELECTEDITEM), new A(IAttrName.ATTRSELECTEDITEMS),
+					new A(IAttrName.ATTRSELECTIONENABLED, TT.BOOLEAN),
+					new A(IAttrName.ATTRSTOPKEYBORADFROMPROPAGATION, TT.BOOLEAN))
+			.stream().collect(Collectors.toMap(A::getName, A::getType));
+
 	private final static Map<WidgetTypes, Map<String, TT>> wMap = new HashMap<WidgetTypes, Map<String, TT>>();
 
 	static {
@@ -119,6 +130,7 @@ public class BinderWidgetAttributes {
 		wMap.put(WidgetTypes.IronAjax, ironajaxMap);
 		wMap.put(WidgetTypes.IronCollapse, ironcollapseMap);
 		wMap.put(WidgetTypes.IronImage, ironimageMap);
+		wMap.put(WidgetTypes.IronList, ironlistMap);
 	}
 
 	private static TT getPolymerA(WidgetTypes w, String attr) {

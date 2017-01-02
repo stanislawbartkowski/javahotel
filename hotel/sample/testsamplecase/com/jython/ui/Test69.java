@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 stanislawbartkowski@gmail.com 
+ * Copyright 2017 stanislawbartkowski@gmail.com  
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -30,7 +30,7 @@ public class Test69 extends TestHelper {
 	public static Object[] data() {
 		return new Object[] { "test134.xml", "test135.xml", "test136.xml", "test137.xml", "test138.xml", "test139.xml",
 				"test142.xml", "test143.xml", "test144.xml", "test146.xml", "test147.xml", "test151.xml", "test152.xml",
-				"test155.xml", "test157.xml", "test158.xml", "test159.xml" };
+				"test155.xml", "test157.xml", "test158.xml", "test159.xml", "test160.xml" };
 	}
 
 	@Parameter

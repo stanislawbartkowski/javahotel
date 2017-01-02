@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 stanislawbartkowski@gmail.com 
+ * Copyright 2017 stanislawbartkowski@gmail.com  
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -101,7 +101,7 @@ public interface IUIConsts {
 	int PANELMENUDEFAH = 10;
 	String PANELMENUNAME = "Down";
 
-	String UIVersion = "UI : 2016/12/31 (r 2.00)";
+	String UIVersion = "UI : 2017/01/03 (r 2.00)";
 
 	String JBUTTONDIALOGSTART = "JUPDIALOG_START";
 	String JBUTTONDIALOGSTART1 = "JUPDIALOG_STARTPAR";

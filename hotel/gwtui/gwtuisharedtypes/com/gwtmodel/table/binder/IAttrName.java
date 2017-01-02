@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 stanislawbartkowski@gmail.com 
+ * Copyright 2017 stanislawbartkowski@gmail.com  
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -109,7 +109,20 @@ public interface IAttrName {
 	String ATTRPRELOAD = "preload";
 	String ATTRPREVENTLOAD = "preventload";
 	String ATTRSIZING = "sizing";
-	String ATTRSRC = "src"; 
+	String ATTRSRC = "src";
+	String ATTRAS = "as";
+	String ATTRFIRSTVISIBLEINDEX = "firstVisibleIndex";
+	String ATTRGRID = "grid";
+	String ATTRINDEXAS = "indexAs";
+	String ATTRITEMS = "items";
+	String ATTRLASTVISIBLEINDEX = "lastVisibleIndex";
+	String ATTRMAXPHYSICALCOUNT = "maxPhysicalCount";
+	String ATTRMULTISELECTION = "multiSelection";
+	String ATTRSCROLLTARGET = "scrollTarget";
+	String ATTRSELECTEDAS = "selectedAs";
+	String ATTRSELECTEDITEM = "selectedItem";
+	String ATTRSELECTEDITEMS = "selectedItems";
+	String ATTRSELECTIONENABLED = "selectionEnabled";
 
 
 }

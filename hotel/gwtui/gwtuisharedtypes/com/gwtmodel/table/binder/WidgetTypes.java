@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 stanislawbartkowski@gmail.com 
+ * Copyright 2017 stanislawbartkowski@gmail.com  
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -14,6 +14,6 @@ package com.gwtmodel.table.binder;
 
 public enum WidgetTypes {
 
-	HTMLPanel, Button, Label, UiBinder, IronIcon, PaperIconItem, PaperButton, PaperHeaderPanel, PaperToolbar, Image, PaperIconButton, PaperDrawerPanel, PaperCheckbox, PaperDialog, PaperDialogScrollable, PaperDropdownMenu, PaperMenu, PaperTabs, PaperTab, PaperFab, PaperItem, PaperItemBody, PaperInput, PaperTextarea, PaperMaterial, PaperProgress, PaperRadioButton, PaperRadioGroup, PaperRipple, PaperSpinner, PaperSlider, HTML, InlineLabel, FlowPanel, PaperTooltip, PaperToast, PaperToggleButton, IronAjax, IronCollapse,IronImage
+	HTMLPanel, Button, Label, UiBinder, IronIcon, PaperIconItem, PaperButton, PaperHeaderPanel, PaperToolbar, Image, PaperIconButton, PaperDrawerPanel, PaperCheckbox, PaperDialog, PaperDialogScrollable, PaperDropdownMenu, PaperMenu, PaperTabs, PaperTab, PaperFab, PaperItem, PaperItemBody, PaperInput, PaperTextarea, PaperMaterial, PaperProgress, PaperRadioButton, PaperRadioGroup, PaperRipple, PaperSpinner, PaperSlider, HTML, InlineLabel, FlowPanel, PaperTooltip, PaperToast, PaperToggleButton, IronAjax, IronCollapse,IronImage, IronList
 
 }

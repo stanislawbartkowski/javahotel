@@ -416,6 +416,8 @@
 	<xs:element name="IronImage">
 	</xs:element>
 
+	<xs:element name="IronList">
+	</xs:element>
 
 	<xs:element name="IronCollapse">
 	</xs:element>

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2016 stanislawbartkowski@gmail.com
+ *  Copyright 2017 stanislawbartkowski@gmail.com 
  * 
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -136,20 +136,20 @@ public interface IConsts {
 	String ATTRKEYEVENTTARGET = "keyEventTarget"; //*
 	String ATTRLABEL = "label";
 	String ATTRNOANIMATION = "noAnimations"; // *
-	String ATTRNOLABELFLOAT = "noLabelFloat";
+	String ATTRNOLABELFLOAT = "noLabelFloaFselt";
 	String ATTRPLACEHOLDER = "placeholder";
 	String ATTRRECEIVEDFOCUSFROMKEYBOARD = "receivedFocusFromKeyboard"; //*
 	String ATTRREQUIRED = "required"; //*
-	String ATTRSELECTEDITEMS = "selectedItems";
-	String ATTRSELECTEDITEM = "selectedItem";
-	String ATTRSELECTITEMLABEL = "selectedItemLabel";
+	String ATTRSELECTEDITEMS = "selectedItems"; //*
+	String ATTRSELECTEDITEM = "selectedItem"; //*
+	String ATTRSELECTITEMLABEL = "selectedItemLabel"; 
 	String ATTRSTOPKEYBORADFROMPROPAGATION = "stopKeyboardEventPropagation"; //*
 	String ATTRVERTICALALIGN = "verticalAlign"; //*
 	String ATTRACTIVATEEVENT = "activateEvent";
 	String ATTRFORITEMTITLE = "attrForItemTitle";
 	String ATTRATTRFORSELECTED = "attrForSelected";
 	String ATTRFOCUSEDITEM = "focusedItem";
-	String ATTRITEMS = "items";
+	String ATTRITEMS = "items"; //*
 	String ATTRMULTI = "multi";
 	String ATTRSELECTEDATTRIBUTE = "selectedAttribute";
 	String ATTRSELECTEDVALUES = "selectedValues";
