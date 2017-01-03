@@ -10,13 +10,14 @@
  
  <buttons>
    <button id="button" displayname="" jsaction="JS.TOAST22.opentoast1" />
-   <button id="bajax" displayname="" jsaction="JS.TOAST22.opentoast2" ajax="" />
+   <button id="bajax" displayname="" jsaction="JS.TOAST22.opentoast2" />
  </buttons>
  
  
  <form>
    <field id="ratings" type="decimal" binder="" jssignalchange="XX" />
    <field id="ratingsLabel" type="string" binder="" readonly="" />
+   <field id="ajaxid" binder="" type="ajax" readonly="" defvalue="template:hello" />
  </form>
 
 </dialog>

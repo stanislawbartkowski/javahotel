@@ -18,6 +18,7 @@ import java.util.List;
 import com.gwtmodel.table.FieldDataType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGetDataList;
+import com.gwtmodel.table.IResponseJson;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
@@ -98,7 +99,8 @@ public class CreateForm {
 	}
 
 	public static FormLineContainer construct(DialogInfo dInfo, IGetDataList iGet, IGetDataList iSuggest,
-			IEnumTypesList eList, IRequestForGWidget iHelper, IConstructCustomDataType fType, IGetListOfIcons imaList) {
+			IEnumTypesList eList, IRequestForGWidget iHelper, IConstructCustomDataType fType, IGetListOfIcons imaList,
+			IResponseJson iR) {
 		DialogFormat d = dInfo.getDialog();
 		List<FieldItem> iList = d.getFieldList();
 		boolean isPolymer = JUtils.isPolymerD(dInfo.getDialog());
@@ -131,6 +133,8 @@ public class CreateForm {
 				v = eFactory.constructImageButton(vf, fieldProp, f.getImageColumn(), imaList);
 			else if (f.isLabel())
 				v = eFactory.constructLabelField(vf, fieldProp, iMess.getMessage(f.getDisplayName()));
+			else if (f.isAjaxField())
+				v = eFactory.constructAjaxField(vf, fieldProp, iR);
 			else if (!CUtil.EmptyS(f.getCustom())) {
 				TypedefDescr te = d.findCustomType(f.getCustom());
 				if (te == null) {

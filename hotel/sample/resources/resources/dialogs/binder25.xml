@@ -1,17 +1,9 @@
 <dialog xmlns="http://www.jythongwt.dialogxsd.com"  polymer="">
  
  <uibinder>binder/binder25.xml</uibinder>
-   
-  <before />
-  
-  <jython>
-   <import>from testpack import binder22</import>
-   <method>binder22.dialogaction({0},{1})</method>
- </jython>  
- 
-  <buttons>
-   <button id="ajax" displayname="" ajax="" />
- </buttons>
- 
+      
+ <form>
+   <field id="ajax" type="ajax" readonly="" defvalue="template:repeat" hidden="" />
+ </form> 
    
 </dialog>

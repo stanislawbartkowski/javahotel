@@ -209,7 +209,7 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
 		} else {
 			bw = b;
 			htmlWidget = html != null ? new HTMLPanel(html) : iB.create(bw);
-			ISlotCustom sl = BinderWidgetSignal.constructSlotLineErrorSignal(dType);
+			ISlotCustom sl = BinderWidgetSignal.constructGetWidgetSignal(dType);
 			registerCaller(sl, new GetMainHtml(b));
 		}
 

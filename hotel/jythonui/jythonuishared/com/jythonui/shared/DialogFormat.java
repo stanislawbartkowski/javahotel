@@ -76,15 +76,8 @@ public class DialogFormat extends ElemDescription {
 	}
 
 	public static <T extends ElemDescription> T findE(List<T> eList, String id) {
-		if (eList == null) {
-			return null;
-		}
-		for (T e : eList) {
-			if (e.eqId(id)) {
-				return e;
-			}
-		}
-		return null;
+		if (eList == null) return null;
+		return eList.stream().filter(e->e.eqId(id)).findFirst().orElse(null);
 	}
 
 	public FieldItem findFieldItem(String id) {

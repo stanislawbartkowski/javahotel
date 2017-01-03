@@ -1,9 +1,5 @@
 from com.google.gson import JsonObject
 from com.google.gson import JsonParser
-#from com.jythonui.server.holder import Holder
-#from com.jythonui.shared import DialogFormat
-#from com.jythonui.shared import ICommonConsts
-#from com.gwtmodel.table.common import TT
 
 import cutil,con,miscutil
 

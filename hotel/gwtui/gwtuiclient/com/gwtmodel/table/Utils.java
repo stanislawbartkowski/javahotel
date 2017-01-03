@@ -472,6 +472,11 @@ public class Utils {
 	public static void PolymerNotImplemented(String mess) {
 		errAlert(LogT.getT().PolymerDialogNotImplemented(mess));
 	}
+	
+	public static void GwtNotImplemented(String wName) {
+		errAlert(LogT.getT().GetWidgetNotImplemented(wName));
+	}
+
 
 	public static void ReplaceWidgetNotImplements(String id, String mess) {
 		errAlert(LogT.getT().ReplaceWidgetNotImplemented(id), mess);

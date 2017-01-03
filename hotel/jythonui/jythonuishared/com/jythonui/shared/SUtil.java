@@ -12,29 +12,40 @@
  */
 package com.jythonui.shared;
 
+import com.gwtmodel.table.common.CUtil;
+
 public class SUtil {
 
-    private SUtil() {
+	private SUtil() {
 
-    }
+	}
 
-    private static String getDirectory(String fileName) {
-        String[] s = fileName.split("/");
-        String dir = "";
-        for (int i = 0; i < s.length - 1; i++)
-            dir = dir + s[i] + "/";
-        return dir;
-    }
+	private static String getDirectory(String fileName) {
+		String[] s = fileName.split("/");
+		String dir = "";
+		for (int i = 0; i < s.length - 1; i++)
+			dir = dir + s[i] + "/";
+		return dir;
+	}
 
-    public static String getFileName(String parentDialogName, String pdialogName) {
-        String dialogName = pdialogName;
-        if (pdialogName.charAt(0) == ICommonConsts.RELCHAR) {
-            if (parentDialogName == null)
-                return null;
-            String dirName = getDirectory(parentDialogName);
-            dialogName = dirName + pdialogName.substring(1);
-        }
-        return dialogName;
-    }
+	public static String getFileName(String parentDialogName, String pdialogName) {
+		String dialogName = pdialogName;
+		if (pdialogName.charAt(0) == ICommonConsts.RELCHAR) {
+			if (parentDialogName == null)
+				return null;
+			String dirName = getDirectory(parentDialogName);
+			dialogName = dirName + pdialogName.substring(1);
+		}
+		return dialogName;
+	}
+
+	public static String getTemplateId(String template) {
+		if (CUtil.EmptyS(template))
+			return null;
+		String t = ICommonConsts.TEMPLATE + ":";
+		if (!template.startsWith(t))
+			return null;
+		return template.substring(t.length());
+	}
 
 }

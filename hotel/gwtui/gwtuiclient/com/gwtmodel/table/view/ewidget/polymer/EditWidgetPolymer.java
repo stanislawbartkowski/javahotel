@@ -16,6 +16,7 @@ import java.util.List;
 
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGetDataList;
+import com.gwtmodel.table.IResponseJson;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.common.CUtil;
@@ -225,6 +226,11 @@ public class EditWidgetPolymer implements IEditWidget {
 	@Override
 	public IFormLineView constructBinderField(IVField v, IFormFieldProperties pr) {
 		return new BinderWidget(v, pr);
+	}
+
+	@Override
+	public IFormLineView constructAjaxField(IVField v, IFormFieldProperties pr, IResponseJson iR) {
+		return new AjaxWidget(v, pr, iR);
 	}
 
 }

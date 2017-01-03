@@ -20,10 +20,6 @@ public class ButtonItem extends ElemDescription {
 
 	private static final long serialVersionUID = 1L;
 
-	public boolean isAjax() {
-		return isAttr(ICommonConsts.AJAXBUTTON);
-	}
-
 	public boolean isAction() {
 		return isAttr(ICommonConsts.ACTIONTYPE);
 	}

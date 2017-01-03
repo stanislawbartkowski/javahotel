@@ -34,7 +34,7 @@ public class BinderWidgetSignal extends CustomObjectValue<HTMLPanel> {
 
 	private static final String SIGNAL_ID = BinderWidgetSignal.class.getName() + "TABLE_PUBLIC_GET_BINDER_WIDGET";
 
-	public static CustomStringSlot constructSlotLineErrorSignal(IDataType dType) {
+	public static CustomStringSlot constructGetWidgetSignal(IDataType dType) {
 		return new CustomStringDataTypeSlot(dType, SIGNAL_ID);
 	}
 

@@ -16,6 +16,7 @@ import java.util.List;
 
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGetDataList;
+import com.gwtmodel.table.IResponseJson;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.editc.IRequestForGWidget;
 import com.gwtmodel.table.editw.IFormFieldProperties;
@@ -83,4 +84,6 @@ public interface IEditWidget {
 	IFormLineView constructDateTimePicker(IVField v, IFormFieldProperties pr);
 
 	IFormLineView constructListComboEnum(IVField v, IFormFieldProperties pr);
+
+	IFormLineView constructAjaxField(IVField v, IFormFieldProperties pr,IResponseJson iR);
 }

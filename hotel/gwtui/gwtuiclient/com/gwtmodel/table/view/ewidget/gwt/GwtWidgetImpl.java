@@ -17,6 +17,7 @@ import java.util.List;
 
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGetDataList;
+import com.gwtmodel.table.IResponseJson;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.editc.IRequestForGWidget;
@@ -122,7 +123,7 @@ public class GwtWidgetImpl implements IEditWidget {
 			boolean refreshAlways) {
 		return new DateBoxWithHelper(v, pr, i, refreshAlways);
 	}
-	
+
 	@Override
 	public IFormLineView constructRadioSelectField(IVField v, IFormFieldProperties pr) {
 		return new RadioBoxField(v, pr);
@@ -197,7 +198,13 @@ public class GwtWidgetImpl implements IEditWidget {
 
 	@Override
 	public IFormLineView constructBinderField(IVField v, IFormFieldProperties pr) {
-		// TODO Auto-generated method stub
+		Utils.GwtNotImplemented("GWT::constructBinder");
+		return null;
+	}
+
+	@Override
+	public IFormLineView constructAjaxField(IVField v, IFormFieldProperties pr, IResponseJson iR) {
+		Utils.GwtNotImplemented("GWT::constructAjax");
 		return null;
 	}
 

@@ -10,7 +10,7 @@
  
  <buttons>
    <button id="button" displayname="" jsaction="JS.TOAST22.opentoast1" />
-   <button id="bajax" displayname="" jsaction="JS.TOAST22.opentoast2" ajax="" />
+   <button id="bajax" displayname="" jsaction="JS.TOAST22.opentoast2"  />
  </buttons>
  
  

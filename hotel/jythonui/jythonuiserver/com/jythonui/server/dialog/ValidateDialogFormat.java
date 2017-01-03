@@ -32,6 +32,7 @@ import com.jythonui.shared.ElemDescription;
 import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.ListFormat;
+import com.jythonui.shared.SUtil;
 import com.jythonui.shared.TabPanel;
 
 /**
@@ -138,7 +139,19 @@ class ValidateDialogFormat extends UtilHelper {
 
 	}
 
+	private static void verifyAjax(DialogFormat d) {
+
+		d.getFieldList().stream().filter(f -> f.isAjaxField()).forEach(f -> {
+			String id = SUtil.getTemplateId(f.getDefValue());
+			if (CUtil.EmptyS(id)) 
+				//AJAXFIELDBADFORMAT
+				errorLog(SHolder.getM().getMess(IErrorCode.ERRORCODE145, ILogMess.AJAXFIELDBADFORMAT, d.getId(),
+						f.getId(), ICommonConsts.DEFVALUE));
+		});
+	}
+
 	static void validate(DialogFormat d) {
+		verifyAjax(d);
 		validateL(ICommonConsts.BUTTONS, ICommonConsts.BUTTON, d.getButtonList());
 		validateL(ICommonConsts.LEFTMENU, ICommonConsts.BUTTON, d.getLeftButtonList());
 		validateL(ICommonConsts.CHECKLIST, ICommonConsts.CHECKLIST, d.getCheckList());
@@ -149,10 +162,6 @@ class ValidateDialogFormat extends UtilHelper {
 			idNotNull(ICommonConsts.LIST, l);
 			validateL(ICommonConsts.COLUMNS, ICommonConsts.COLUMN, l.getColumns());
 		});
-		// Set<String> sId = new HashSet<String>();
-		// for (FieldItem f : d.getFieldList()) {
-		// sId.add(f.getId());
-		// }
 		Set<String> sId = d.getFieldList().stream().map(l -> l.getId()).collect(Collectors.toSet());
 		for (ListFormat l : d.getListList()) {
 			String id = l.getId();

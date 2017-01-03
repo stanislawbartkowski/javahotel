@@ -20,6 +20,7 @@
   <button id="edit2" displayname="Polymer combo" actiontype="JMAIN_DIALOG" actionparam="polymermenu.xml" />
   <button id="edit3" displayname="Menu" actiontype="JMAIN_DIALOG" actionparam="polymermenu.xml" />
   <button id="edit4" displayname="Simple test" actiontype="JMAIN_DIALOG" actionparam="htmlpaneltest.xml" />
+  <button id="edit5" displayname="Test iron" actiontype="JMAIN_DIALOG" actionparam="testiron.xml" />
   <button id="paperelements" displayname="Paper"  header=""/>
   <button id="binder3" displayname="Buttons" actiontype="JMAIN_DIALOG" actionparam="binder3.xml" />
   <button id="binder4" displayname="CheckBox" actiontype="JMAIN_DIALOG" actionparam="binder4.xml" />
@@ -48,6 +49,7 @@
   <button id="binder26" displayname="Icons" actiontype="JMAIN_DIALOG" actionparam="binder26.xml" />
   <button id="binder27" displayname="Collapse" actiontype="JMAIN_DIALOG" actionparam="binder27.xml" />
   <button id="binder28" displayname="Image" actiontype="JMAIN_DIALOG" actionparam="binder28.xml" />
+  <button id="binder29" displayname="List" actiontype="JMAIN_DIALOG" actionparam="binder29.xml" />
 </leftstack>  
 
 <buttons>

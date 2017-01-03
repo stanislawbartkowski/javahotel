@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<ui:UiBinder xmlns:ui='http://www.jythongwt.uibinderxsd.com'
+	xmlns:g='http://www.jythongwt.uibinderxsd.com' xmlns:p='http://www.jythongwt.uibinderxsd.com'
+	xmlns:i='http://www.jythongwt.uibinderxsd.com' xmlns='http://www.jythongwt.uihtml.com'>
+
+ <g:HTMLPanel addStyleNames="iron-list-sample">
+        <style is="custom-style">
+            .iron-list-sample paper-scroll-header-panel {
+                @apply(--layout-fit);
+                @apply(--layout-vertical);
+                @apply(--paper-font-common-base);
+                margin-top: 50px;
+            }
+            .iron-list-sample iron-list {
+                background-color: var(--paper-grey-200, #eee);
+                padding-bottom: 16px;
+            }
+            .iron-list-sample .item {
+                @apply(--layout-horizontal);
+                margin: 16px 16px 0 16px;
+                padding: 20px;
+                border-radius: 8px;
+                background-color: white;
+                border: 1px solid #ddd;
+            }
+            .iron-list-sample .avatar {
+                height: 40px;
+                width: 40px;
+                border-radius: 20px;
+                box-sizing: border-box;
+                background-color: #DDD;
+            }
+            .iron-list-sample .pad {
+                padding: 0 16px;
+                @apply(--layout-flex);
+                @apply(--layout-vertical);
+            }
+            .iron-list-sample .primary {
+                font-size: 16px;
+                font-weight: bold;
+            }
+            .iron-list-sample .secondary {
+                font-size: 14px;
+            }
+            .iron-list-sample .dim {
+                color: gray;
+            }
+        </style>
+
+        <i:IronList fieldid="list" as="item" addStyleNames="fit">
+            <template>
+                <div>
+                    <div class="item">
+                        <img class="avatar" src="[[item.image]]"/>
+                        <div class="pad">
+                            <div class="primary">[[item.name]]</div>
+                            <div class="secondary">[[item.shortText]]</div>
+                            <div class="secondary dim">[[item.longText]]</div>
+                        </div>
+                        <iron-icon icon="star"/>
+                    </div>
+                </div>
+            </template>
+        </i:IronList>
+
+    </g:HTMLPanel>
+
+</ui:UiBinder>

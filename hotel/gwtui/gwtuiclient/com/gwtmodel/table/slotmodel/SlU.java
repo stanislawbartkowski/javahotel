@@ -447,7 +447,7 @@ public class SlU {
 	}
 
 	public static BinderWidgetSignal getBW(IDataType dType, ISlotable iSlo) {
-		ISlotCustom sl = BinderWidgetSignal.constructSlotLineErrorSignal(dType);
+		ISlotCustom sl = BinderWidgetSignal.constructGetWidgetSignal(dType);
 		ISlotSignalContext i = iSlo.getSlContainer().getGetterCustom(sl);
 		if (i == null)
 			return null;

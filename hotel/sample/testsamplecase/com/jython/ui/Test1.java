@@ -13,11 +13,11 @@
 package com.jython.ui;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import com.gwtmodel.table.shared.JythonUIFatal;
 import com.jythonui.shared.DialogFormat;
 
 /**
@@ -26,34 +26,22 @@ import com.jythonui.shared.DialogFormat;
  */
 public class Test1 extends TestHelper {
 
-    @Test
-    public void test() {
-        DialogFormat d = null;
-        try {
-            d = findDialog("startnonexisting.xml");
-        } catch (Exception e) {
-        }
-        ;
-        assertNull(d);
-    }
+	@Test(expected = JythonUIFatal.class)
+	public void test() {
+		DialogFormat d = findDialog("startnonexisting.xml");
+	}
 
-    @Test
-    public void test1() {
-        DialogFormat d = findDialog("start1.xml");
-        assertNotNull(d);
-        assertTrue(d.isBefore());
-        assertNotNull(d.getLeftButtonList());
-    }
+	@Test
+	public void test1() {
+		DialogFormat d = findDialog("start1.xml");
+		assertNotNull(d);
+		assertTrue(d.isBefore());
+		assertNotNull(d.getLeftButtonList());
+	}
 
-    @Test
-    public void test2() {
-        DialogFormat d = null;
-        try {
-            d = findDialog("test2.xml");
-        } catch (Exception e) {
-        }
-        ;
-        assertNull(d);
-    }
+	@Test(expected = JythonUIFatal.class)
+	public void test2() {
+		DialogFormat d = findDialog("test2.xml");
+	}
 
 }

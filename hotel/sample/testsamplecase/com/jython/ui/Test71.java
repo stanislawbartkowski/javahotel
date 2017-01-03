@@ -12,12 +12,18 @@
  */
 package com.jython.ui;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import com.gwtmodel.table.shared.JythonUIFatal;
 import com.jythonui.shared.ButtonItem;
 import com.jythonui.shared.DialogFormat;
+import com.jythonui.shared.FieldItem;
+import com.jythonui.shared.SUtil;
 
 public class Test71 extends TestHelper {
 	
@@ -29,10 +35,18 @@ public class Test71 extends TestHelper {
 		assertNotNull(d);
 		ButtonItem bu = d.findE(d.getButtonList(),"button");
 		assertNotNull(bu);
-		assertFalse(bu.isAjax());
-		bu = d.findE(d.getButtonList(),"bajax");
-		assertNotNull(bu);
-		assertTrue(bu.isAjax());		
+		FieldItem fi = d.findFieldItem("ajaxid");
+		assertTrue(fi.isAjaxField());
+		assertEquals("template:hello",fi.getDefValue());
+		assertEquals("hello",SUtil.getTemplateId(fi.getDefValue()));
+		fi = d.findFieldItem("ratings");
+		assertFalse(fi.isAjaxField());
+	}
+	
+	@Test(expected=JythonUIFatal.class)
+	public void test2() {
+		
+		DialogFormat d = findDialog("test161.xml");
 	}
 
 }

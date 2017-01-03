@@ -38,6 +38,7 @@ public class FieldItem extends ElemDescription {
 		stringType.add(ICommonConsts.DOWNLOADTYPE);
 		stringType.add(ICommonConsts.HTMLTYPE);
 		stringType.add(ICommonConsts.PASSWORD);
+		stringType.add(ICommonConsts.AJAXTYPE);
 	}
 
 	public String getTypeName() {
@@ -310,6 +311,10 @@ public class FieldItem extends ElemDescription {
 
 	public boolean isBinderField() {
 		return isAttr(ICommonConsts.BINDER);
+	}
+
+	public boolean isAjaxField() {
+		return isType(ICommonConsts.AJAXTYPE);
 	}
 
 }

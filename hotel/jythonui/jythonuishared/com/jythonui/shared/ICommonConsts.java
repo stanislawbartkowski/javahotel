@@ -66,7 +66,7 @@ public interface ICommonConsts {
 	String SPINNERMIN = "spinnermin";
 	String MENU = "menu";
 	String BINDER = "binder";
-	String AJAXBUTTON = "ajax";
+	String AJAXTYPE = "ajax";
 	int DEFAULTSPINNERMIN = 1;
 	String SPINNERMAX = "spinnermax";
 	int DEFAULTSPINNERMAX = 5;
@@ -281,5 +281,7 @@ public interface ICommonConsts {
 
 	String DROPMENUID = "dropmenuid";
 	String DROPDOWNCONTENT = "dropdown-content";
+
+	String TEMPLATE = "template";
 
 }

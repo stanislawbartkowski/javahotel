@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
@@ -33,6 +35,7 @@ import com.gwtmodel.table.IGetDataList;
 import com.gwtmodel.table.IGetDataListCallBack;
 import com.gwtmodel.table.IMapEntry;
 import com.gwtmodel.table.IOkModelData;
+import com.gwtmodel.table.IResponseJson;
 import com.gwtmodel.table.ISetGWidget;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
@@ -59,6 +62,7 @@ import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.listdataview.ButtonCheckLostFocusSignal;
 import com.gwtmodel.table.listdataview.IsBooleanSignalNow;
 import com.gwtmodel.table.mm.LogT;
+import com.gwtmodel.table.panelview.BinderWidgetSignal;
 import com.gwtmodel.table.panelview.IPanelView;
 import com.gwtmodel.table.panelview.PanelViewFactory;
 import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
@@ -141,8 +145,11 @@ import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.ListFormat;
 import com.jythonui.shared.ListOfRows;
 import com.jythonui.shared.MapDialogVariable;
+import com.jythonui.shared.SUtil;
 import com.jythonui.shared.TabPanel;
 import com.jythonui.shared.TabPanelElem;
+import com.vaadin.polymer.Polymer;
+import com.vaadin.polymer.elemental.Template;
 
 /**
  * @author hotel
@@ -783,6 +790,25 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 
 	}
 
+	private class TemplateResponse implements IResponseJson {
+
+		@Override
+		public void run(IVField v, JavaScriptObject o) {
+			if (o == null)
+				return;
+			FieldItem ite = d.findFieldItem(v.getId());
+			String tempid = SUtil.getTemplateId(ite.getDefValue());
+			BinderWidgetSignal bv = SlU.getBW(dType, DialogContainer.this);
+			int k = 0;
+			Element e = bv.getValue().getElementById(tempid);
+			if (e == null)
+				Utils.errAlertB(LogT.getT().CannotFindTemplateWidget(tempid));
+			Template repeat = (Template) e;
+			repeat.setItems(Polymer.property(o, "items"));
+		}
+
+	}
+
 	@Override
 	public void startPublish(CellId cId) {
 
@@ -817,7 +843,7 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 		IEnumTypesList eList = UIGiniInjector.getI().getEnumTypesFactory().construct(d, liManager);
 		if (!d.getFieldList().isEmpty()) {
 			FormLineContainer fContainer = CreateForm.construct(info, new GetEnumList(eList), iSuggest, eList,
-					new HelperW(), new DTypeFactory(), new GetListOfIcons());
+					new HelperW(), new DTypeFactory(), new GetListOfIcons(), new TemplateResponse());
 
 			DataViewModelFactory daFactory = GwtGiniInjector.getI().getDataViewModelFactory();
 

@@ -165,17 +165,23 @@ public interface TLogMessages extends Messages {
 	String ReplaceTypeNotCorrect(String desc, String expectedType, String givenType);
 
 	String PolymerWidgetNotImplemented(String wType);
-	
+
 	String WidgetToSetAttrNotImplemented();
-	
+
 	String AttributeNotRecognized(String attr, String val);
-	
+
 	String BinderReplaceWidget(String id, String className);
-	
+
 	String InvalidValueForAttribute(String attr, String val);
-	
+
 	String InvalidWidgetAction(String action, String allowed);
-	
+
 	String ActionSupportedOnlyForWidget(String action, String allowed, String found);
+
+	String GetWidgetNotImplemented(String wType);
+
+	String CannotFindTemplateWidget(String id);
+	
+	String ErrorWhileRunningAjax(String err);
 
 }
