@@ -480,66 +480,6 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 		}
 	};
 
-	private static final IVisitor<PaperDropdownMenu> paperdropdownmenuG = new IVisitor<PaperDropdownMenu>() {
-
-		@Override
-		public boolean visit(PaperDropdownMenu w, String k, String v, boolean bv, double dv) {
-			if (k.equals(IConsts.ATTRACTIVE))
-				w.setActive(bv);
-			else if (k.equals(IConsts.ATTRALWAYSFLOATLABEL))
-				w.setAlwaysFloatLabel(bv);
-			else if (k.equals(IConsts.ATTRARIAACTIVEATTRIBUTE))
-				w.setAriaActiveAttribute(v);
-			else if (k.equals(IConsts.ATTRHORIZONTALALIGN))
-				w.setHorizontalAlign(v);
-			else if (k.equals(IConsts.ATTRINVALID))
-				w.setInvalid(bv);
-			else if (k.equals(IConsts.ATTRKEYBINDINGS))
-				w.setKeyBindings(v);
-			else if (k.equals(IConsts.ATTRKEYEVENTTARGET))
-				w.setKeyEventTarget(v);
-			else if (k.equals(IConsts.ATTRLABEL))
-				w.setLabel(v);
-			else if (k.equals(IConsts.ATTRNOANIMATION))
-				w.setNoAnimations(bv);
-			else if (k.equals(IConsts.ATTRNOLABELFLOAT))
-				w.setNoLabelFloat(bv);
-			else if (k.equals(IConsts.ATTROPENED))
-				w.setOpened(bv);
-			else if (k.equals(IConsts.ATTRFOCUSED))
-				w.setFocused(bv);
-			else if (k.equals(IConsts.ATTRPOINTERDOWN))
-				w.setPointerDown(bv);
-			else if (k.equals(IConsts.ATTRPRESSED))
-				w.setPressed(bv);
-			else if (k.equals(IConsts.ATTRTOGGLES))
-				w.setToggles(bv);
-			else if (k.equals(IConsts.ATTRPLACEHOLDER))
-				w.setPlaceholder(v);
-			else if (k.equals(IConsts.ATTRRECEIVEDFOCUSFROMKEYBOARD))
-				w.setReceivedFocusFromKeyboard(bv);
-			else if (k.equals(IConsts.ATTRREQUIRED))
-				w.setRequired(bv);
-			else if (k.equals(IConsts.ATTRSELECTEDITEM))
-				w.setSelectedItem(v);
-			else if (k.equals(IConsts.ATTRSELECTITEMLABEL))
-				w.setSelectedItem(v);
-			else if (k.equals(IConsts.ATTRSTOPKEYBORADFROMPROPAGATION))
-				w.setStopKeyboardEventPropagation(bv);
-			else if (k.equals(IConsts.ATTRVALIDATOR))
-				w.setValidator(v);
-			else if (k.equals(IConsts.ATTRVALIDATORTYPE))
-				w.setValidatorType(v);
-			else if (k.equals(IConsts.ATTRVALUE))
-				w.setValue(v);
-			else if (k.equals(IConsts.ATTRVERTICALALIGN))
-				w.setVerticalAlign(v);
-			else
-				return false;
-			return true;
-		}
-	};
-
 	private static final IVisitor<PaperMenu> papermenuG = new IVisitor<PaperMenu>() {
 
 		@Override
@@ -1163,7 +1103,6 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 		setAWidget.put(WidgetTypes.PaperCheckbox, new IVisitor[] { polymerWidgetG, papercheckboxG });
 		setAWidget.put(WidgetTypes.PaperDialog, new IVisitor[] { polymerWidgetG, paperdialogG });
 		setAWidget.put(WidgetTypes.PaperDialogScrollable, new IVisitor[] { polymerWidgetG, paperdialogscrollableG });
-		setAWidget.put(WidgetTypes.PaperDropdownMenu, new IVisitor[] { polymerWidgetG, paperdropdownmenuG });
 		setAWidget.put(WidgetTypes.PaperMenu, new IVisitor[] { polymerWidgetG, papermenuG });
 		setAWidget.put(WidgetTypes.PaperTabs, new IVisitor[] { polymerWidgetG, papertabsG });
 		setAWidget.put(WidgetTypes.PaperFab, new IVisitor[] { polymerWidgetG, paperfabG });

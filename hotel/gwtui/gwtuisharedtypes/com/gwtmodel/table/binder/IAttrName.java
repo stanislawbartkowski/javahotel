@@ -123,6 +123,11 @@ public interface IAttrName {
 	String ATTRSELECTEDITEM = "selectedItem";
 	String ATTRSELECTEDITEMS = "selectedItems";
 	String ATTRSELECTIONENABLED = "selectionEnabled";
-
+	String ATTRALLOWOUTSIDESCROLL = "allowOutsideScroll";
+	String ATTRALWAYSFLOATLABEL = "alwaysFloatLabel";
+	String ATTRERRORMESSAGE = "errorMessage";
+	String ATTRNOLABELFLOAT = "noLabelFloat";
+	String ATTRSELECTITEMLABEL = "selectedItemLabel";
+	String ATTRLABEL = "label";
 
 }

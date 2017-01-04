@@ -183,30 +183,6 @@
 		<xs:attribute name="dialogElement" type="xs:string" />
 	</xs:attributeGroup>
 
-	<xs:attributeGroup name="paperDropdownMenuG">
-		<xs:attributeGroup ref="baseButtonItemG"></xs:attributeGroup>
-		<xs:attribute name="active" type="xs:boolean" />
-		<xs:attribute name="alwaysFloatLabel" type="xs:boolean" />
-		<xs:attribute name="ariaActiveAttribute" type="xs:string" />
-		<xs:attribute name="horizontalAlign" type="xs:string" />
-		<xs:attribute name="invalid" type="xs:string" />
-		<xs:attribute name="keyBindgings" type="xs:string" />
-		<xs:attribute name="keyEventTarget" type="xs:string" />
-		<xs:attribute name="label" type="xs:string" />
-		<xs:attribute name="noAnimations" type="xs:boolean" />
-		<xs:attribute name="noLabelFloat" type="xs:boolean" />
-		<xs:attribute name="opened" type="xs:boolean" />
-		<xs:attribute name="placeholder" type="xs:string" />
-		<xs:attribute name="receivedFocusFromKeyboard" type="xs:boolean" />
-		<xs:attribute name="required" type="xs:boolean" />
-		<xs:attribute name="selectedItem" type="xs:string" />
-		<xs:attribute name="selectedItemLabel" type="xs:string" />
-		<xs:attribute name="stopKeyboardEventPropagation" type="xs:boolean" />
-		<xs:attribute name="validator" type="xs:string" />
-		<xs:attribute name="validatorType" type="xs:string" />
-		<xs:attribute name="value" type="xs:string" />
-		<xs:attribute name="verticalAlign" type="xs:string" />
-	</xs:attributeGroup>
 
 	<xs:attributeGroup name="paperMenuG">
 		<xs:attributeGroup ref="polymerWidgetG"></xs:attributeGroup>
@@ -426,13 +402,13 @@
 	</xs:element>
 
 	<xs:element name="PaperToast">
-
 	</xs:element>
 
 	<xs:element name="PaperToggleButton">
-
 	</xs:element>
 
+	<xs:element name="PaperDropdownMenu">
+	</xs:element>
 
 	<xs:element name="PaperTooltip">
 		<xs:complexType mixed="true">
@@ -575,15 +551,6 @@
 				<xs:any></xs:any>
 			</xs:choice>
 			<xs:attributeGroup ref="paperMenuG" />
-		</xs:complexType>
-	</xs:element>
-
-	<xs:element name="PaperDropdownMenu">
-		<xs:complexType mixed="true">
-			<xs:choice minOccurs="0" maxOccurs="unbounded">
-				<xs:any></xs:any>
-			</xs:choice>
-			<xs:attributeGroup ref="paperDropdownMenuG" />
 		</xs:complexType>
 	</xs:element>
 
