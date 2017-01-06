@@ -135,6 +135,8 @@ public class CreateForm {
 				v = eFactory.constructLabelField(vf, fieldProp, iMess.getMessage(f.getDisplayName()));
 			else if (f.isAjaxField())
 				v = eFactory.constructAjaxField(vf, fieldProp, iR);
+			else if (f.isSelectorField())
+				v = eFactory.constructListValuesCombo(vf, fieldProp, null, !f.isNotEmpty());
 			else if (!CUtil.EmptyS(f.getCustom())) {
 				TypedefDescr te = d.findCustomType(f.getCustom());
 				if (te == null) {

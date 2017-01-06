@@ -109,7 +109,7 @@ public interface IConsts {
 	String ATTRPEEKING = "peeking";
 	String ATTRRESPONSICEWIDTH = "responsiveWidth";
 	String ATTRRIGHTDRAWER = "rightDrawer";
-	String ATTRSELECTED = "selected";
+	String ATTRSELECTED = "selected"; //*
 	String ATTRCHECKED = "checked"; //* 
 	String ATTRINVALID = "invalid"; //*
 	String ATTRVALIDATOR = "validator"; //*
@@ -145,14 +145,14 @@ public interface IConsts {
 	String ATTRSELECTITEMLABEL = "selectedItemLabel"; //* 
 	String ATTRSTOPKEYBORADFROMPROPAGATION = "stopKeyboardEventPropagation"; //*
 	String ATTRVERTICALALIGN = "verticalAlign"; //*
-	String ATTRACTIVATEEVENT = "activateEvent";
+	String ATTRACTIVATEEVENT = "activateEvent"; //* 
 	String ATTRFORITEMTITLE = "attrForItemTitle";
-	String ATTRATTRFORSELECTED = "attrForSelected";
+	String ATTRATTRFORSELECTED = "attrForSelected"; //*
 	String ATTRFOCUSEDITEM = "focusedItem";
 	String ATTRITEMS = "items"; //*
-	String ATTRMULTI = "multi";
-	String ATTRSELECTEDATTRIBUTE = "selectedAttribute";
-	String ATTRSELECTEDVALUES = "selectedValues";
+	String ATTRMULTI = "multi"; //*
+	String ATTRSELECTEDATTRIBUTE = "selectedAttribute"; //*
+	String ATTRSELECTEDVALUES = "selectedValues"; //* 
 	String ATTRALIGNBOTTOM = "alignBottom";
 	String ATTRDISABLEDRAG = "disableDrag";
 	String ATTRHIDESCROLLBUTTONS = "hideScrollButtons";
@@ -166,7 +166,7 @@ public interface IConsts {
 	String ATTRAUTOCAPITALIZE = "autocapitalize";
 	String ATTRAUTOCOMPLETE = "autocomplete";
 	String ATTRAUTOCORRECT = "autocorrect";
-	String ATTRAUTOFOCUS = "autofocus";
+	String ATTRAUTOFOCUS = "autofocus"; //*
 	String ATTRAUTOSAVE = "autosave";
 	String ATTRAUTOVALIDATE = "autoValidate";
 	String ATTRCHARCOUNTER = "charCounter";
@@ -182,7 +182,7 @@ public interface IConsts {
 	String ATTRMINLENGTH = "minlength";
 	String ATTRMINLENGTHS = "minlengthS";
 	String ATTRPATTERN = "pattern";
-	String ATTRPREVENTINVALIDINPUT = "preventInvalidInput";
+	String ATTRPREVENTINVALIDINPUT = "preventInvalidInput"; // * 
 	String ATTRREADONLY = "readOnly";
 	String ATTRRESULS = "results";
 	String ATTRRESULSS = "resultsS";
@@ -205,8 +205,8 @@ public interface IConsts {
 	String ATTRVALUES = "valueS";
 	String ATTRINDETERMINATE = "indeterminate";
 	String ATTRALLOWEMPTYSELECTION = "allowEmptySelection";
-	String ATTRSELECTABLE = "selectable";
-	String ATTRSELECTEDCLASS = "selectedClass";
+	String ATTRSELECTABLE = "selectable"; // *
+	String ATTRSELECTEDCLASS = "selectedClass"; //*
 	String ATTRANIMATING = "animating";
 	String ATTRCENTER = "center";
 	String ATTRHOLDDOWN = "holdDown";

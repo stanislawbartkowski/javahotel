@@ -86,8 +86,6 @@ class PolymerTextField extends AbstractWField {
 	@Override
 	public void setReadOnly(boolean readOnly) {
 		in.setReadonly(readOnly);
-		// if (readOnly)
-		// setAttr("aria-disabled", "true");
 	}
 
 	@Override

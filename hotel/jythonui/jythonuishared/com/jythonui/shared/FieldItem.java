@@ -39,6 +39,7 @@ public class FieldItem extends ElemDescription {
 		stringType.add(ICommonConsts.HTMLTYPE);
 		stringType.add(ICommonConsts.PASSWORD);
 		stringType.add(ICommonConsts.AJAXTYPE);
+		stringType.add(ICommonConsts.SELECTORTYPE);
 	}
 
 	public String getTypeName() {
@@ -315,6 +316,10 @@ public class FieldItem extends ElemDescription {
 
 	public boolean isAjaxField() {
 		return isType(ICommonConsts.AJAXTYPE);
+	}
+
+	public boolean isSelectorField() {
+		return isType(ICommonConsts.SELECTORTYPE);
 	}
 
 }

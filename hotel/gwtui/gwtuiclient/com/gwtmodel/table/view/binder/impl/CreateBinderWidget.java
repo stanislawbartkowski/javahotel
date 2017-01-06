@@ -39,6 +39,7 @@ import com.vaadin.polymer.iron.widget.IronCollapse;
 import com.vaadin.polymer.iron.widget.IronIcon;
 import com.vaadin.polymer.iron.widget.IronImage;
 import com.vaadin.polymer.iron.widget.IronList;
+import com.vaadin.polymer.iron.widget.IronSelector;
 import com.vaadin.polymer.paper.widget.PaperButton;
 import com.vaadin.polymer.paper.widget.PaperCheckbox;
 import com.vaadin.polymer.paper.widget.PaperDialog;
@@ -67,6 +68,8 @@ import com.vaadin.polymer.paper.widget.PaperToast;
 import com.vaadin.polymer.paper.widget.PaperToggleButton;
 import com.vaadin.polymer.paper.widget.PaperToolbar;
 import com.vaadin.polymer.paper.widget.PaperTooltip;
+import com.vaadin.polymer.vaadin.widget.VaadinComboBox;
+import com.vaadin.polymer.vaadin.widget.VaadinGrid;
 
 public class CreateBinderWidget implements ICreateBinderWidget {
 
@@ -214,9 +217,18 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 			break;
 		case IronImage:
 			w = new IronImage(html);
-			break;			
+			break;
 		case IronList:
 			w = new IronList(html);
+			break;
+		case IronSelector:
+			w = new IronSelector(html);
+			break;
+		case VaadinGrid:
+			w = new VaadinGrid(html);
+			break;
+		case VaadinComboBox:
+			w = new VaadinComboBox(html);
 			break;
 		default:
 			Utils.errAlertB(LogT.getT().PolymerWidgetNotImplemented(bw.getType().name()));

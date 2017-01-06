@@ -50,6 +50,10 @@
   <button id="binder27" displayname="Collapse" actiontype="JMAIN_DIALOG" actionparam="binder27.xml" />
   <button id="binder28" displayname="Image" actiontype="JMAIN_DIALOG" actionparam="binder28.xml" />
   <button id="binder29" displayname="List" actiontype="JMAIN_DIALOG" actionparam="binder29.xml" />
+  <button id="binder30" displayname="Selector" actiontype="JMAIN_DIALOG" actionparam="binder30.xml" />
+  <button id="vaadinelements" displayname="Vaadin Elements"  header=""/>
+  <button id="binder31" displayname="Grid" actiontype="JMAIN_DIALOG" actionparam="binder31.xml" />
+  <button id="binder32" displayname="Combo box" actiontype="JMAIN_DIALOG" actionparam="binder32.xml" />
 </leftstack>  
 
 <buttons>

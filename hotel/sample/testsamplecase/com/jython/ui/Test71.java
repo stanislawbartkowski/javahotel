@@ -48,5 +48,17 @@ public class Test71 extends TestHelper {
 		
 		DialogFormat d = findDialog("test161.xml");
 	}
+	
+	@Test
+	public void test3() {
+		
+		DialogFormat d = findDialog("test163.xml");
+		assertNotNull(d);
+		FieldItem fi = d.findFieldItem("select");
+		assertTrue(fi.isSelectorField());
+		fi = d.findFieldItem("ratings");
+		assertFalse(fi.isSelectorField());
+	}
+
 
 }

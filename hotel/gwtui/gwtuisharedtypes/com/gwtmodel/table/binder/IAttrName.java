@@ -129,5 +129,36 @@ public interface IAttrName {
 	String ATTRNOLABELFLOAT = "noLabelFloat";
 	String ATTRSELECTITEMLABEL = "selectedItemLabel";
 	String ATTRLABEL = "label";
+	String ATTRALWAYSONTOP = "alwaysOnTop";
+	String ATTRACTIVATEEVENT = "activateEvent"; 
+	String ATTRATTRFORSELECTED = "attrForSelected";
+	String ATTRFALLBACKSELECTION = "fallbackSelection";
+	String ATTRMULTI = "multi";
+	String ATTRSELECTABLE = "selectable";
+	String ATTRSELECTED = "selected";
+	String ATTRSELECTEDATTRIBUTE = "selectedAttribute";
+	String ATTRSELECTEDCLASS = "selectedClass";
+	String ATTRSELECTEDVALUES = "selectedValues"; 
+	String ATTRCOLUMNS = "columns";
+	String ATTRCOLUMNREORDERINGALLOWED = "columnReorderingAllowed";
+	String ATTRDETAILEDEVENTS = "detailedEvents";
+	String ATTRFOOTER = "footer";
+	String ATTRFROZENCOLUMN = "frozenColumns";
+	String ATTRHEADER = "header";
+	String ATTRSELECTION = "selection";
+	String ATTRSORTORDER = "sortOrder";
+	String ATTRVISIBLEROWS = "visibleRows";
+	String ATTRALLOWCUSTOMVALUE = "allowCustomValue";
+	String ATTRALLOWEDPATTERN = "allowedPattern";
+	String ATTRAUTOFOCUS = "autofocus"; 
+	String ATTRHASVALUE = "hasValue";
+	String ATTRINPUTELEMENT = "inputElement";
+	String ATTRINPUTMODE = "inputmode";
+	String ATTRITEMLABELPATH = "itemLabelPath";
+	String ATTRPREVENTINVALIDINPUT = "preventInvalidInput";  
+	String ATTRREADONLY = "readOnly";
+
+
 
 }
+;

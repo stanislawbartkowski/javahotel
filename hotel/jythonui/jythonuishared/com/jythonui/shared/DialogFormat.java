@@ -76,8 +76,9 @@ public class DialogFormat extends ElemDescription {
 	}
 
 	public static <T extends ElemDescription> T findE(List<T> eList, String id) {
-		if (eList == null) return null;
-		return eList.stream().filter(e->e.eqId(id)).findFirst().orElse(null);
+		if (eList == null)
+			return null;
+		return eList.stream().filter(e -> e.eqId(id)).findFirst().orElse(null);
 	}
 
 	public FieldItem findFieldItem(String id) {
@@ -127,9 +128,8 @@ public class DialogFormat extends ElemDescription {
 	public TypedefDescr findCustomType(String customType) {
 		for (TypesDescr ty : typeList) {
 			TypedefDescr te = findE(ty.getTypeList(), customType);
-			if (te != null) {
+			if (te != null)
 				return te;
-			}
 		}
 		return null;
 	}

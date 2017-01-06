@@ -1,0 +1,20 @@
+<dialog xmlns="http://www.jythongwt.dialogxsd.com"  polymer="">
+ 
+ <uibinder>binder/binder31.xml</uibinder>
+ 
+
+  <before />
+  
+  <jython>
+   <import>from testpack import binder31</import>
+   <method>binder31.dialogaction({0},{1})</method>
+ </jython>  
+
+ <form>
+     
+   <field id="selector1" type="selector"  />   
+
+
+ </form>
+   
+</dialog>

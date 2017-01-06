@@ -3,8 +3,7 @@
 
  <form>
    <field id="ratings" type="decimal" binder="" jssignalchange="XX" />
-   <field id="ratingsLabel" type="string" binder="" readonly="" />
-   <field id="ajaxid" binder="" type="ajax" readonly="" defvalue="xxxxxx" />
+   <field id="select" type="selector" readonly="" defvalue="xxxxxx" />
  </form>
 
 </dialog>

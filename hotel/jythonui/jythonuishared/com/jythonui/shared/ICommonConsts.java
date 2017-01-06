@@ -67,6 +67,7 @@ public interface ICommonConsts {
 	String MENU = "menu";
 	String BINDER = "binder";
 	String AJAXTYPE = "ajax";
+	String SELECTORTYPE = "selector";
 	int DEFAULTSPINNERMIN = 1;
 	String SPINNERMAX = "spinnermax";
 	int DEFAULTSPINNERMAX = 5;

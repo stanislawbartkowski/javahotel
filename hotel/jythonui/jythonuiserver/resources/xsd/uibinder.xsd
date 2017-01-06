@@ -389,6 +389,16 @@
 
 	<!-- Elements -->
 
+	<xs:element name="VaadinComboBox">
+	</xs:element>
+
+
+	<xs:element name="IronSelector">
+	</xs:element>
+
+	<xs:element name="VaadinGrid">
+	</xs:element>
+
 	<xs:element name="IronImage">
 	</xs:element>
 

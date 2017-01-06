@@ -1,10 +1,13 @@
 <?xml version="1.0"?>
 <dialog xmlns="http://www.jythongwt.dialogxsd.com" polymer="">
 
+ <uibinder>binder/binder165.xml</uibinder>
+ 
+ 
  <form>
    <field id="ratings" type="decimal" binder="" jssignalchange="XX" />
    <field id="ratingsLabel" type="string" binder="" readonly="" />
-   <field id="ajaxid" binder="" type="ajax" readonly="" defvalue="xxxxxx" />
+   <field id="ajaxid" binder="" type="ajax" readonly="" defvalue="template:aaa" />
  </form>
 
 </dialog>

@@ -24,20 +24,22 @@ import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.binder.BinderWidgetAttributes;
+import com.gwtmodel.table.binder.IAttrName;
 import com.gwtmodel.table.binder.WidgetTypes;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.DecimalUtils;
 import com.gwtmodel.table.mm.LogT;
 import com.gwtmodel.table.view.binder.ISetWidgetAttribute;
+import com.gwtmodel.table.view.ewidget.ItemsEvent;
 import com.gwtmodel.table.view.util.polymer.PolymerUtil;
 import com.vaadin.polymer.PolymerWidget;
 import com.vaadin.polymer.iron.widget.IronIcon;
+import com.vaadin.polymer.iron.widget.IronSelector;
 import com.vaadin.polymer.paper.widget.PaperButton;
 import com.vaadin.polymer.paper.widget.PaperCheckbox;
 import com.vaadin.polymer.paper.widget.PaperDialog;
 import com.vaadin.polymer.paper.widget.PaperDialogScrollable;
 import com.vaadin.polymer.paper.widget.PaperDrawerPanel;
-import com.vaadin.polymer.paper.widget.PaperDropdownMenu;
 import com.vaadin.polymer.paper.widget.PaperFab;
 import com.vaadin.polymer.paper.widget.PaperHeaderPanel;
 import com.vaadin.polymer.paper.widget.PaperIconButton;
@@ -1080,6 +1082,20 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 		}
 	};
 
+	private static final IVisitor<IronSelector> ironselectorG = new IVisitor<IronSelector>() {
+
+		@Override
+		public boolean visit(IronSelector w, String k, String v, boolean bv, double dv) {
+			if (k.equals(IAttrName.ATTRSELECTEDVALUES))
+				w.setSelectedValues(v);
+			else if (k.equals(IAttrName.ATTRATTRFORSELECTED))
+				w.setAttrForSelected(v);
+			else
+				return false;
+			return true;
+		}
+	};
+
 	private final static Map<WidgetTypes, IVisitor<Widget>[]> setAWidget = new HashMap<WidgetTypes, IVisitor<Widget>[]>();
 
 	static {
@@ -1119,6 +1135,7 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 		setAWidget.put(WidgetTypes.PaperSlider, new IVisitor[] { polymerWidgetG, papersliderG });
 		setAWidget.put(WidgetTypes.PaperTab, new IVisitor[] { polymerWidgetG, papertabG });
 		setAWidget.put(WidgetTypes.PaperTooltip, new IVisitor[] { polymerWidgetG, papertooltipG });
+		setAWidget.put(WidgetTypes.IronSelector, new IVisitor[] { polymerWidgetG, ironselectorG });
 	}
 
 	private WidgetTypes widgetToType(Widget w) {
@@ -1145,6 +1162,15 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 		}
 		if (argW.visit(w, attr, v, bval, dval))
 			return;
+
+		if (setAWidget.get(wType) != null) {
+			boolean found = false;
+			for (IVisitor vi : setAWidget.get(wType))
+				found |= vi.visit(w, attr, v, bval, dval);
+			if (found)
+				return;
+		}
+
 		if (BinderWidgetAttributes.isBinderWidgetAttr(wType)) {
 			PolymerWidget pw = (PolymerWidget) w;
 			if (polymerWidgetG.visit(pw, attr, v, bval, dval))
@@ -1159,13 +1185,12 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 				Utils.setWidgetAttribute(pw, attr, v);
 			else
 				pw.setBooleanAttribute(attr, a.getBool());
+			if (wType == WidgetTypes.VaadinComboBox && attr.equals(IAttrName.ATTRITEMS)) {
+				ItemsEvent event = new ItemsEvent(v);
+				pw.fireEvent(event);
+			}
 			return;
 		}
-		boolean found = false;
-		for (IVisitor vi : setAWidget.get(wType))
-			found |= vi.visit(w, attr, v, bval, dval);
-		if (!found)
-			Utils.errAlertB(widgetToType(w).toString(), LogT.getT().AttributeNotRecognized(attr, val));
 
 	}
 

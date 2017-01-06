@@ -44,7 +44,7 @@ var CUTIL = (function() {
 		v["JACTION_BINDER_" + id + "_" + attr] = val
 	};
 
-	my.setBinderOpen = function(v, id, attr, val) {
+	my.setBinderOpen = function(v, id) {
 		my.setBinderAction(v, id, "open", "")
 	};
 
@@ -58,15 +58,20 @@ var CUTIL = (function() {
 
 	my.setLabelText = function(v, id, val) {
 		my.setBinderAttr(v, id, "text", val)
-	}
+	};
 
 	my.setOpened = function(v, id, val) {
 		my.setBinderAttr(v, id, "opened", val)
-	}
+	};
+
+	my.setToastText = function(v, id, text) {
+		my.setLabelText(v, id, text)
+		my.setBinderOpen(v, id)
+	};
 
 	my.setSrc = function(v, id, val) {
 		my.setBinderAttr(v, id, "src", val)
-	}
+	};
 
 	my.setCopyL = function() {
 		v = arguments[0];

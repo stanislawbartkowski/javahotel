@@ -3,7 +3,7 @@
  
  <uibinder>binder/binder6.xml</uibinder>
  
- 	<before />
+  <before />
 
  
   <types>typesanim.xml</types>
