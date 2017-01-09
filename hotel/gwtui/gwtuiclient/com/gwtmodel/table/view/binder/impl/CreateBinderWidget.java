@@ -69,6 +69,7 @@ import com.vaadin.polymer.paper.widget.PaperToggleButton;
 import com.vaadin.polymer.paper.widget.PaperToolbar;
 import com.vaadin.polymer.paper.widget.PaperTooltip;
 import com.vaadin.polymer.vaadin.widget.VaadinComboBox;
+import com.vaadin.polymer.vaadin.widget.VaadinDatePicker;
 import com.vaadin.polymer.vaadin.widget.VaadinGrid;
 
 public class CreateBinderWidget implements ICreateBinderWidget {
@@ -229,6 +230,9 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 			break;
 		case VaadinComboBox:
 			w = new VaadinComboBox(html);
+			break;
+		case VaadinDatePicker:
+			w = new VaadinDatePicker(html);
 			break;
 		default:
 			Utils.errAlertB(LogT.getT().PolymerWidgetNotImplemented(bw.getType().name()));

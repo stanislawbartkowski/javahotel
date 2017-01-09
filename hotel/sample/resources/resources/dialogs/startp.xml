@@ -54,6 +54,7 @@
   <button id="vaadinelements" displayname="Vaadin Elements"  header=""/>
   <button id="binder31" displayname="Grid" actiontype="JMAIN_DIALOG" actionparam="binder31.xml" />
   <button id="binder32" displayname="Combo box" actiontype="JMAIN_DIALOG" actionparam="binder32.xml" />
+  <button id="binder33" displayname="Date picker" actiontype="JMAIN_DIALOG" actionparam="binder33.xml" />
 </leftstack>  
 
 <buttons>

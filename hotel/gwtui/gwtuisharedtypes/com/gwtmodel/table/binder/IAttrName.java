@@ -157,8 +157,8 @@ public interface IAttrName {
 	String ATTRITEMLABELPATH = "itemLabelPath";
 	String ATTRPREVENTINVALIDINPUT = "preventInvalidInput";  
 	String ATTRREADONLY = "readOnly";
-
-
-
+	String ATTRAUTOVALIDATE = "autoValidate"; 
+	String ATTRI18N = "i18n";
+	String ATTRINITIALPOSITION = "initialPosition";
 }
 ;

@@ -1,0 +1,17 @@
+<dialog xmlns="http://www.jythongwt.dialogxsd.com"  polymer="">
+ 
+ <uibinder>binder/binder33.xml</uibinder>
+ 
+ <before/>
+ 
+ <jython>
+   <import>from testpack import binder33</import>
+   <method>binder33.dialogaction({0},{1})</method>
+ </jython>  
+
+ 
+ <form>     
+   <field id="datePicker"  type="date" signalchange="" />   
+ </form>
+   
+</dialog>

@@ -68,6 +68,12 @@ public class BinderWidgetAttributes {
 					new A(IAttrName.ATTRTOGGLES, TT.BOOLEAN))
 			.stream().collect(Collectors.toMap(A::getName, A::getType));
 
+	private static Map<String, TT> baseenterMap = Arrays
+			.asList(new A(IAttrName.ATTRERRORMESSAGE), new A(IAttrName.ATTRDISABLED, TT.BOOLEAN),
+					new A(IAttrName.ATTRINVALID, TT.BOOLEAN), new A(IAttrName.ATTRVALIDATOR),
+					new A(IAttrName.ATTRVALIDATORTYPE), new A(IAttrName.ATTRVALUE))
+			.stream().collect(Collectors.toMap(A::getName, A::getType));
+
 	private static Map<String, TT> paperToastMap = Arrays
 			.asList(new A(IAttrName.ATTRSETALWAYSONTOP, TT.BOOLEAN), new A(IAttrName.ATTRAUTOFITONATTACH, TT.BOOLEAN),
 					new A(IAttrName.ATTRBACKDROPELEMENT), new A(IAttrName.ATTRCANCELED),
@@ -128,26 +134,16 @@ public class BinderWidgetAttributes {
 					new A(IAttrName.ATTRSTOPKEYBORADFROMPROPAGATION, TT.BOOLEAN))
 			.stream().collect(Collectors.toMap(A::getName, A::getType));
 
-	private static Map<String, TT> paperdropdownmenuMap = Arrays
-			.asList(new A(IAttrName.ATTRACTIVE, TT.BOOLEAN), new A(IAttrName.ATTRALLOWOUTSIDESCROLL, TT.BOOLEAN),
-					new A(IAttrName.ATTRALWAYSFLOATLABEL, TT.BOOLEAN), new A(IAttrName.ATTRARIAACTIVEATTRIBUTE),
-					new A(IAttrName.ATTRDISABLED, TT.BOOLEAN), new A(IAttrName.ATTRDYNAMICALLIGN, TT.BOOLEAN),
-					new A(IAttrName.ATTRERRORMESSAGE), new A(IAttrName.ATTRHORIZONTALALIGN),
-					new A(IAttrName.ATTRINVALID, TT.BOOLEAN), new A(IAttrName.ATTRKEYBINDINGS),
-					new A(IAttrName.ATTRKEYEVENTTARGET), new A(IAttrName.ATTRLABEL), new A(IAttrName.ATTRNAME),
-					new A(IAttrName.ATTRNOANIMATION, TT.BOOLEAN), new A(IAttrName.ATTRNOLABELFLOAT, TT.BOOLEAN),
-
-					new A(IAttrName.ATTROPENED, TT.BOOLEAN), new A(IAttrName.ATTRPLACEHOLDER),
-
-					new A(IAttrName.ATTRRECEIVEDFOCUSFROMKEYBOARD, TT.BOOLEAN),
-					new A(IAttrName.ATTRREQUIRED, TT.BOOLEAN),
-
-					new A(IAttrName.ATTRSELECTEDITEM), new A(IAttrName.ATTRSELECTITEMLABEL),
-					new A(IAttrName.ATTRSTOPKEYBORADFROMPROPAGATION, TT.BOOLEAN), new A(IAttrName.ATTRVALIDATOR),
-					new A(IAttrName.ATTRVALIDATORTYPE),
-
-					new A(IAttrName.ATTRVALUE), new A(IAttrName.ATTRVERTICALALIGN))
-			.stream().collect(Collectors.toMap(A::getName, A::getType));
+	private static Map<String, TT> paperdropdownmenuMap = Arrays.asList(new A(IAttrName.ATTRACTIVE, TT.BOOLEAN),
+			new A(IAttrName.ATTRALLOWOUTSIDESCROLL, TT.BOOLEAN), new A(IAttrName.ATTRALWAYSFLOATLABEL, TT.BOOLEAN),
+			new A(IAttrName.ATTRARIAACTIVEATTRIBUTE), new A(IAttrName.ATTRDYNAMICALLIGN, TT.BOOLEAN),
+			new A(IAttrName.ATTRHORIZONTALALIGN), new A(IAttrName.ATTRKEYBINDINGS), new A(IAttrName.ATTRKEYEVENTTARGET),
+			new A(IAttrName.ATTRLABEL), new A(IAttrName.ATTRNAME), new A(IAttrName.ATTRNOANIMATION, TT.BOOLEAN),
+			new A(IAttrName.ATTRNOLABELFLOAT, TT.BOOLEAN), new A(IAttrName.ATTROPENED, TT.BOOLEAN),
+			new A(IAttrName.ATTRPLACEHOLDER), new A(IAttrName.ATTRRECEIVEDFOCUSFROMKEYBOARD, TT.BOOLEAN),
+			new A(IAttrName.ATTRREQUIRED, TT.BOOLEAN), new A(IAttrName.ATTRSELECTEDITEM),
+			new A(IAttrName.ATTRSELECTITEMLABEL), new A(IAttrName.ATTRSTOPKEYBORADFROMPROPAGATION, TT.BOOLEAN),
+			new A(IAttrName.ATTRVERTICALALIGN)).stream().collect(Collectors.toMap(A::getName, A::getType));
 
 	private static Map<String, TT> ironselectorMap = Arrays.asList(new A(IAttrName.ATTRACTIVATEEVENT),
 			new A(IAttrName.ATTRATTRFORSELECTED), new A(IAttrName.ATTRFALLBACKSELECTION), new A(IAttrName.ATTRITEMS),
@@ -164,24 +160,33 @@ public class BinderWidgetAttributes {
 					new A(IAttrName.ATTRSORTORDER), new A(IAttrName.ATTRVISIBLEROWS))
 			.stream().collect(Collectors.toMap(A::getName, A::getType));
 
-	private static Map<String, TT> vaadincomboboxMap = Arrays
-			.asList(new A(IAttrName.ATTRALLOWCUSTOMVALUE, TT.BOOLEAN), new A(IAttrName.ATTRALLOWEDPATTERN),
-					new A(IAttrName.ATTRALWAYSFLOATLABEL, TT.BOOLEAN), new A(IAttrName.ATTRAUTOFOCUS, TT.BOOLEAN),
-					new A(IAttrName.ATTRDISABLED, TT.BOOLEAN), new A(IAttrName.ATTRERRORMESSAGE, TT.BOOLEAN),
-					new A(IAttrName.ATTRHASVALUE, TT.BOOLEAN), new A(IAttrName.ATTRINPUTELEMENT),
-					new A(IAttrName.ATTRINPUTMODE, TT.BOOLEAN), new A(IAttrName.ATTRINVALID, TT.BOOLEAN),
-					new A(IAttrName.ATTRITEMS), new A(IAttrName.ATTRITEMLABELPATH), new A(IAttrName.ATTRLABEL),
-					new A(IAttrName.ATTRNAME), new A(IAttrName.ATTRNOLABELFLOAT, TT.BOOLEAN),
-					new A(IAttrName.ATTROPENED, TT.BOOLEAN), new A(IAttrName.ATTRPLACEHOLDER),
-					new A(IAttrName.ATTRREADONLY, TT.BOOLEAN), new A(IAttrName.ATTRREQUIRED, TT.BOOLEAN),
-					new A(IAttrName.ATTRSELECTEDITEM), new A(IAttrName.ATTRSIZE), new A(IAttrName.ATTRVALIDATOR),
-					new A(IAttrName.ATTRVALIDATORTYPE), new A(IAttrName.ATTRVALUE))
+	private static Map<String, TT> vaadincomboboxMap = Arrays.asList(new A(IAttrName.ATTRALLOWCUSTOMVALUE, TT.BOOLEAN),
+			new A(IAttrName.ATTRALLOWEDPATTERN), new A(IAttrName.ATTRALWAYSFLOATLABEL, TT.BOOLEAN),
+			new A(IAttrName.ATTRAUTOFOCUS, TT.BOOLEAN), new A(IAttrName.ATTRHASVALUE, TT.BOOLEAN),
+			new A(IAttrName.ATTRINPUTELEMENT), new A(IAttrName.ATTRINPUTMODE, TT.BOOLEAN), new A(IAttrName.ATTRITEMS),
+			new A(IAttrName.ATTRITEMLABELPATH), new A(IAttrName.ATTRLABEL), new A(IAttrName.ATTRNAME),
+			new A(IAttrName.ATTRNOLABELFLOAT, TT.BOOLEAN), new A(IAttrName.ATTROPENED, TT.BOOLEAN),
+			new A(IAttrName.ATTRPLACEHOLDER), new A(IAttrName.ATTRREADONLY, TT.BOOLEAN),
+			new A(IAttrName.ATTRREQUIRED, TT.BOOLEAN), new A(IAttrName.ATTRSELECTEDITEM), new A(IAttrName.ATTRSIZE))
 			.stream().collect(Collectors.toMap(A::getName, A::getType));
+
+	private static Map<String, TT> vaadindatepickerMap = Arrays.asList(new A(IAttrName.ATTRAUTOVALIDATE, TT.BOOLEAN),
+			new A(IAttrName.ATTRHASVALUE, TT.BOOLEAN), new A(IAttrName.ATTRI18N), new A(IAttrName.ATTRINITIALPOSITION),
+			new A(IAttrName.ATTRKEYBINDINGS), new A(IAttrName.ATTRKEYEVENTTARGET),
+
+			new A(IAttrName.ATTRLABEL), new A(IAttrName.ATTRNAME), new A(IAttrName.ATTROPENED, TT.BOOLEAN),
+			new A(IAttrName.ATTRREADONLY), new A(IAttrName.ATTRREQUIRED, TT.BOOLEAN),
+			new A(IAttrName.ATTRSTOPKEYBORADFROMPROPAGATION, TT.BOOLEAN)).stream()
+			.collect(Collectors.toMap(A::getName, A::getType));
 
 	private final static Map<WidgetTypes, Map<String, TT>> wMap = new HashMap<WidgetTypes, Map<String, TT>>();
 
 	private final static Set<WidgetTypes> buttSet = Arrays
 			.asList(WidgetTypes.PaperDropdownMenu, WidgetTypes.PaperToggleButton).stream().collect(Collectors.toSet());
+
+	private final static Set<WidgetTypes> editSet = Arrays
+			.asList(WidgetTypes.PaperDropdownMenu, WidgetTypes.VaadinComboBox, WidgetTypes.VaadinDatePicker).stream()
+			.collect(Collectors.toSet());
 
 	static {
 		wMap.put(WidgetTypes.PaperToast, paperToastMap);
@@ -194,6 +199,7 @@ public class BinderWidgetAttributes {
 		wMap.put(WidgetTypes.IronSelector, ironselectorMap);
 		wMap.put(WidgetTypes.VaadinGrid, vaadingridMap);
 		wMap.put(WidgetTypes.VaadinComboBox, vaadincomboboxMap);
+		wMap.put(WidgetTypes.VaadinDatePicker, vaadindatepickerMap);
 	}
 
 	private static TT getPolymerA(WidgetTypes w, String attr) {
@@ -204,6 +210,8 @@ public class BinderWidgetAttributes {
 		// w exists in wMap
 		if (buttSet.contains(w) && basebuttonMap.containsKey(attr))
 			return basebuttonMap.get(attr);
+		if (editSet.contains(w) && baseenterMap.containsKey(attr))
+			return baseenterMap.get(attr);
 		return wMap.get(w).get(attr);
 	}
 

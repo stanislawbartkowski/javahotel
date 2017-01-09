@@ -137,12 +137,12 @@ class PolymerTextField extends AbstractWField {
 		if (in.isPaperInput()) {
 			if (!(w instanceof PaperInput))
 				Utils.errAlertB(LogT.getT().ReplaceTypeNotCorrect(WidgetTypes.PaperInput.name(),
-						PaperInput.class.getName(), Widget.class.getName()));
+						PaperInput.class.getName(), w.getClass().getName()));
 			in.setP((PaperInput) w);
 		} else {
 			if (!(w instanceof PaperTextarea))
 				Utils.errAlertB(LogT.getT().ReplaceTypeNotCorrect(WidgetTypes.PaperTextarea.name(),
-						PaperTextarea.class.getName(), Widget.class.getName()));
+						PaperTextarea.class.getName(), w.getClass().getName()));
 			in.setP((PaperTextarea) w);
 		}
 		setP();

@@ -168,7 +168,7 @@ public interface IConsts {
 	String ATTRAUTOCORRECT = "autocorrect";
 	String ATTRAUTOFOCUS = "autofocus"; //*
 	String ATTRAUTOSAVE = "autosave";
-	String ATTRAUTOVALIDATE = "autoValidate";
+	String ATTRAUTOVALIDATE = "autoValidate"; // *
 	String ATTRCHARCOUNTER = "charCounter";
 	String ATTRERRORMESSAGE = "errorMessage"; //*
 	String ATTRINPUTMODE = "inputMode";

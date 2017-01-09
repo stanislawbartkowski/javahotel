@@ -12,70 +12,29 @@
  */
 package com.gwtmodel.table.view.ewidget.polymer;
 
-import java.util.Date;
-
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.datepicker.client.DatePicker;
+import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.editw.IFormFieldProperties;
-import com.gwtmodel.table.view.util.ClickPopUp;
+import com.vaadin.polymer.vaadin.widget.VaadinDatePicker;
 
-class DateCalendarPolymer extends TextHelperImage {
+class DateCalendarPolymer extends AbstractFieldDecorator {
 
-	interface IGetSetValue {
-		Date getVal();
-
-		void setVal(Date d);
-	}
-
-	private class GetSetValue implements IGetSetValue {
-
-		@Override
-		public Date getVal() {
-			return (Date) getValObj();
-		}
-
-		@Override
-		public void setVal(Date d) {
-			setValObj(d);
-		}
-	}
-	
-	private final HorizontalPanel vp = new HorizontalPanel();
-
-	protected IGetSetValue iGet = new GetSetValue();
+	private final String standErrMess;
 
 	DateCalendarPolymer(IVField v, IFormFieldProperties pr, String pattern, String standErrMess) {
-		super(v, pr, pattern, standErrMess, "vaadin-icons:calendar");
-		bu.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				final DatePicker dPicker = new DatePicker();
-				// Date da = (Date) getValObj();
-				Date da = iGet.getVal();
-				if (da != null) {
-					dPicker.setValue(da);
-					dPicker.setCurrentMonth(da);
-				}
-				final ClickPopUp pUp = new ClickPopUp(bu, dPicker);
-				dPicker.addValueChangeHandler(new ValueChangeHandler<Date>() {
-
-					@Override
-					public void onValueChange(ValueChangeEvent<Date> event) {
-						// setValObj(dPicker.getValue());
-						iGet.setVal(dPicker.getValue());
-						pUp.setVisible(false);
-
-					}
-				});
-				pUp.setVisible(true);
-			}
-		});
+		super(pr);
+		this.standErrMess = standErrMess;
+		fV = new DateCalendarPolymerPaper(v, pr, pattern, standErrMess);
 	}
 
+	@Override
+	public void replaceWidget(Widget w) {
+		if (w instanceof VaadinDatePicker) {
+			fV = new VaadinDatePickerPolymer(fV.getV(), pr, standErrMess, (VaadinDatePicker) w);
+			replayListener();
+			return;
+		}
+		fV.replaceWidget(w);
+		replayListener();
+	}
 }

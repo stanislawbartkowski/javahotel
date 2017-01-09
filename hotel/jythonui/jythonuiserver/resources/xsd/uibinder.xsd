@@ -388,6 +388,10 @@
 
 
 	<!-- Elements -->
+		
+	<xs:element name="VaadinDatePicker">
+	</xs:element>
+	
 
 	<xs:element name="VaadinComboBox">
 	</xs:element>

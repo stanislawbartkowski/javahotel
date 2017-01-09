@@ -18,7 +18,7 @@ import java.util.Date;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.editw.IFormFieldProperties;
 
-class DateTimePolymer extends DateCalendarPolymer {
+class DateTimePolymer extends DateCalendarPolymerPaper {
 	
 	private class GetSet implements IGetSetValue {
 
