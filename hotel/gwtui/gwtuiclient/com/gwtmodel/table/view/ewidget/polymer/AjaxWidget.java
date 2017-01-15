@@ -38,44 +38,8 @@ class AjaxWidget extends AbstractWField {
 	protected AjaxWidget(IVField v, IFormFieldProperties pr, IResponseJson iR) {
 		super(v, pr, null);
 		this.iR = iR;
-		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public void setReadOnly(boolean readOnly) {
-
-	}
-
-	@Override
-	public void setHidden(boolean hidden) {
-
-	}
-
-	@Override
-	public void setInvalidMess(String errmess) {
-
-	}
-
-	@Override
-	public void setGStyleName(String styleMess, boolean set) {
-	}
-
-	@Override
-	public void setCellTitle(String title) {
-	}
-
-	@Override
-	public void setSuggestList(List<String> list) {
-	}
-
-	@Override
-	public void setFocus(boolean focus) {
-	}
-
-	@Override
-	public boolean isInvalid() {
-		return false;
-	}
 
 	@Override
 	public Object getValObj() {
@@ -126,4 +90,5 @@ class AjaxWidget extends AbstractWField {
 		}
 		Utils.ReplaceForClassNotImplemented(v.getId(), w.getClass().getName());
 	}
+
 }

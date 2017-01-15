@@ -103,5 +103,9 @@
 	<xs:element name="iron-icon" type="ElementContentType">
 	</xs:element>
 
+	<xs:element name="vaadin-mock-xhr" type="ElementContentType">
+	</xs:element>
+	
+
 
 </xs:schema>

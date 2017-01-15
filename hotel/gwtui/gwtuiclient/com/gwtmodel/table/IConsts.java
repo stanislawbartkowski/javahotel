@@ -161,7 +161,7 @@ public interface IConsts {
 	String ATTRNOCINK = "noInk";
 	String ATTRMINI = "mini";
 	String ATTRARIALABEL = "ariaLabel"; //*
-	String ATTRACCEPT = "accept";
+	String ATTRACCEPT = "accept"; //*
 	String ATTRALLOWEDPATTERN = "allowedPattern";
 	String ATTRAUTOCAPITALIZE = "autocapitalize";
 	String ATTRAUTOCOMPLETE = "autocomplete";

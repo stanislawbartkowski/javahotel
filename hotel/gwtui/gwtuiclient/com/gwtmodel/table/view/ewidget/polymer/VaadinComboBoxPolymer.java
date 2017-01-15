@@ -12,8 +12,6 @@
  */
 package com.gwtmodel.table.view.ewidget.polymer;
 
-import java.util.List;
-
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.common.CUtil;
@@ -80,15 +78,6 @@ class VaadinComboBoxPolymer extends AbstractWField {
 	@Override
 	public void setCellTitle(String title) {
 		vBox.setTitle(title);
-	}
-
-	@Override
-	public void setSuggestList(List<String> list) {
-
-	}
-
-	@Override
-	public void setFocus(boolean focus) {
 	}
 
 	@Override

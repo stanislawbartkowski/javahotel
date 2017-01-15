@@ -179,6 +179,17 @@ public class BinderWidgetAttributes {
 			new A(IAttrName.ATTRSTOPKEYBORADFROMPROPAGATION, TT.BOOLEAN)).stream()
 			.collect(Collectors.toMap(A::getName, A::getType));
 
+	private static Map<String, TT> vaadinuploadMap = Arrays.asList(new A(IAttrName.ATTRACCEPT),
+			new A(IAttrName.ATTRFILES), new A(IAttrName.ATTRHEADERS), new A(IAttrName.ATTRI18N),
+			new A(IAttrName.ATTRMAXFILES), new A(IAttrName.ATTRMAXFILESIZE), new A(IAttrName.ATTRMETHOD),
+			new A(IAttrName.ATTRNODROP, TT.BOOLEAN), new A(IAttrName.ATTRTARGET), new A(IAttrName.ATTRTIMEOUT)).stream()
+			.collect(Collectors.toMap(A::getName, A::getType));
+
+	private static Map<String, TT> vaadinsplitlayoutMap = Arrays.asList(new A(IAttrName.ATTRVERTICAL)).stream()
+			.collect(Collectors.toMap(A::getName, A::getType));
+
+	// VaadinSplitLayout
+
 	private final static Map<WidgetTypes, Map<String, TT>> wMap = new HashMap<WidgetTypes, Map<String, TT>>();
 
 	private final static Set<WidgetTypes> buttSet = Arrays
@@ -187,6 +198,8 @@ public class BinderWidgetAttributes {
 	private final static Set<WidgetTypes> editSet = Arrays
 			.asList(WidgetTypes.PaperDropdownMenu, WidgetTypes.VaadinComboBox, WidgetTypes.VaadinDatePicker).stream()
 			.collect(Collectors.toSet());
+
+	// VaadinSplitLayout
 
 	static {
 		wMap.put(WidgetTypes.PaperToast, paperToastMap);
@@ -200,6 +213,8 @@ public class BinderWidgetAttributes {
 		wMap.put(WidgetTypes.VaadinGrid, vaadingridMap);
 		wMap.put(WidgetTypes.VaadinComboBox, vaadincomboboxMap);
 		wMap.put(WidgetTypes.VaadinDatePicker, vaadindatepickerMap);
+		wMap.put(WidgetTypes.VaadinUpload, vaadinuploadMap);
+		wMap.put(WidgetTypes.VaadinSplitLayout, vaadinsplitlayoutMap);
 	}
 
 	private static TT getPolymerA(WidgetTypes w, String attr) {

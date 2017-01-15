@@ -166,8 +166,7 @@ public class EditWidgetPolymer implements IEditWidget {
 
 	@Override
 	public IFormLineView constructEditFileName(IVField v, IFormFieldProperties pr) {
-		Utils.PolymerNotImplemented("EWidgetPolymer:constructEditFileName");
-		return null;
+		return new FileUpLoad(v, pr);
 	}
 
 	@Override

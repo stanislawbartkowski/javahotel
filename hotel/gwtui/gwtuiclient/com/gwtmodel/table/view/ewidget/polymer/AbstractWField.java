@@ -111,6 +111,45 @@ abstract class AbstractWField implements IFormLineView {
 	}
 
 	@Override
+	public void setInvalidMess(String errmess) {
+	}
+
+	@Override
+	public void setGStyleName(String styleMess, boolean set) {
+
+	}
+
+	@Override
+	public void setCellTitle(String title) {
+
+	}
+
+	@Override
+	public void setSuggestList(List<String> list) {
+
+	}
+
+	@Override
+	public void setFocus(boolean focus) {
+	}
+
+	@Override
+	public boolean isInvalid() {
+		return false;
+	}
+	
+	@Override
+	public void setReadOnly(boolean readOnly) {
+	}
+
+
+	@Override
+	public void setHidden(boolean hidden) {
+		
+	}
+
+
+	@Override
 	public void replaceWidget(Widget w) {
 		Utils.ReplaceWidgetNotImplements(v.getId(), w.getClass().getName());
 	}

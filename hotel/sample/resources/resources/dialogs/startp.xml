@@ -55,6 +55,8 @@
   <button id="binder31" displayname="Grid" actiontype="JMAIN_DIALOG" actionparam="binder31.xml" />
   <button id="binder32" displayname="Combo box" actiontype="JMAIN_DIALOG" actionparam="binder32.xml" />
   <button id="binder33" displayname="Date picker" actiontype="JMAIN_DIALOG" actionparam="binder33.xml" />
+  <button id="binder34" displayname="Uploader" actiontype="JMAIN_DIALOG" actionparam="binder34.xml" />
+  <button id="binder35" displayname="Split layout" actiontype="JMAIN_DIALOG" actionparam="binder35.xml" />
 </leftstack>  
 
 <buttons>

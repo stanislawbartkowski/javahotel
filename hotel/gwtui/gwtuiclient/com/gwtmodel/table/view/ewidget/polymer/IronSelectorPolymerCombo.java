@@ -47,31 +47,6 @@ class IronSelectorPolymerCombo extends AbstractWField {
 		iSel.setVisible(!hidden);
 	}
 
-	@Override
-	public void setInvalidMess(String errmess) {
-	}
-
-	@Override
-	public void setGStyleName(String styleMess, boolean set) {
-	}
-
-	@Override
-	public void setCellTitle(String title) {
-	}
-
-	@Override
-	public void setSuggestList(List<String> list) {
-	}
-
-	@Override
-	public void setFocus(boolean focus) {
-	}
-
-	@Override
-	public boolean isInvalid() {
-		return false;
-	}
-
 	private String getV(JavaScriptObject o, Object oo) {
 		String a = iSel.getAttrForSelected();
 		String ss;

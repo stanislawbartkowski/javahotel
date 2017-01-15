@@ -22,7 +22,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.editw.IFormFieldProperties;
-import com.gwtmodel.table.mm.LogT;
 import com.gwtmodel.table.view.ewidget.widgets.EmptyBinderWidget;
 import com.gwtmodel.table.view.ewidget.widgets.HTMLBinderWidget;
 import com.gwtmodel.table.view.ewidget.widgets.IBinderWidget;

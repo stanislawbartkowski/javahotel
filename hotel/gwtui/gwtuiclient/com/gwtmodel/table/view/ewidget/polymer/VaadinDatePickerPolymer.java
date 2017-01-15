@@ -13,7 +13,6 @@
 package com.gwtmodel.table.view.ewidget.polymer;
 
 import java.util.Date;
-import java.util.List;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.Widget;
@@ -54,23 +53,6 @@ class VaadinDatePickerPolymer extends AbstractWField {
 			dp.setErrorMessage(errmess);
 			dp.setInvalid(true);
 		}
-	}
-
-	@Override
-	public void setGStyleName(String styleMess, boolean set) {
-
-	}
-
-	@Override
-	public void setCellTitle(String title) {
-	}
-
-	@Override
-	public void setSuggestList(List<String> list) {
-	}
-
-	@Override
-	public void setFocus(boolean focus) {
 	}
 
 	@Override

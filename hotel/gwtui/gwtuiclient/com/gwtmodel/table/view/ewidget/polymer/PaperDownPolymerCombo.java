@@ -154,10 +154,6 @@ class PaperDownPolymerCombo extends AbstractWField implements IValueLB {
 		return pDown.getInvalid();
 	}
 
-	@Override
-	public void setCellTitle(String title) {
-		// pMenu.setTitle(title);
-	}
 
 	@Override
 	public void setFocus(boolean focus) {
@@ -195,10 +191,6 @@ class PaperDownPolymerCombo extends AbstractWField implements IValueLB {
 	@Override
 	public void setReadOnly(boolean readOnly) {
 		pDown.setDisabled(readOnly);
-	}
-
-	@Override
-	public void setSuggestList(List<String> list) {
 	}
 
 	@Override

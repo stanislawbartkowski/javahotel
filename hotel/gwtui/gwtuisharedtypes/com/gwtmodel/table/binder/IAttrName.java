@@ -130,7 +130,7 @@ public interface IAttrName {
 	String ATTRSELECTITEMLABEL = "selectedItemLabel";
 	String ATTRLABEL = "label";
 	String ATTRALWAYSONTOP = "alwaysOnTop";
-	String ATTRACTIVATEEVENT = "activateEvent"; 
+	String ATTRACTIVATEEVENT = "activateEvent";
 	String ATTRATTRFORSELECTED = "attrForSelected";
 	String ATTRFALLBACKSELECTION = "fallbackSelection";
 	String ATTRMULTI = "multi";
@@ -138,7 +138,7 @@ public interface IAttrName {
 	String ATTRSELECTED = "selected";
 	String ATTRSELECTEDATTRIBUTE = "selectedAttribute";
 	String ATTRSELECTEDCLASS = "selectedClass";
-	String ATTRSELECTEDVALUES = "selectedValues"; 
+	String ATTRSELECTEDVALUES = "selectedValues";
 	String ATTRCOLUMNS = "columns";
 	String ATTRCOLUMNREORDERINGALLOWED = "columnReorderingAllowed";
 	String ATTRDETAILEDEVENTS = "detailedEvents";
@@ -150,15 +150,22 @@ public interface IAttrName {
 	String ATTRVISIBLEROWS = "visibleRows";
 	String ATTRALLOWCUSTOMVALUE = "allowCustomValue";
 	String ATTRALLOWEDPATTERN = "allowedPattern";
-	String ATTRAUTOFOCUS = "autofocus"; 
+	String ATTRAUTOFOCUS = "autofocus";
 	String ATTRHASVALUE = "hasValue";
 	String ATTRINPUTELEMENT = "inputElement";
 	String ATTRINPUTMODE = "inputmode";
 	String ATTRITEMLABELPATH = "itemLabelPath";
-	String ATTRPREVENTINVALIDINPUT = "preventInvalidInput";  
+	String ATTRPREVENTINVALIDINPUT = "preventInvalidInput";
 	String ATTRREADONLY = "readOnly";
-	String ATTRAUTOVALIDATE = "autoValidate"; 
+	String ATTRAUTOVALIDATE = "autoValidate";
 	String ATTRI18N = "i18n";
 	String ATTRINITIALPOSITION = "initialPosition";
-}
-;
+	String ATTRACCEPT = "accept";
+	String ATTRFILES = "files";
+	String ATTRMAXFILES = "maxFiles";
+	String ATTRMAXFILESIZE = "maxFileSize";
+	String ATTRNODROP = "nodrop";
+	String ATTRTARGET = "target";
+	String ATTRVERTICAL = "vertical";
+
+};

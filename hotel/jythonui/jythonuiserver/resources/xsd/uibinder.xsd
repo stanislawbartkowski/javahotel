@@ -386,8 +386,13 @@
 		<xs:attribute name="position" type="xs:string" />
 	</xs:attributeGroup>
 
-
 	<!-- Elements -->
+	
+	<xs:element name="VaadinSplitLayout">
+	</xs:element>
+
+	<xs:element name="VaadinUpload">
+	</xs:element>
 		
 	<xs:element name="VaadinDatePicker">
 	</xs:element>

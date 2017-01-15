@@ -1,0 +1,19 @@
+<dialog xmlns="http://www.jythongwt.dialogxsd.com"  polymer="">
+ 
+ <uibinder>binder/binder34.xml</uibinder>
+ 
+  <jython>
+   <import>from testpack import binder34</import>
+   <method>binder34.dialogaction({0},{1})</method>
+ </jython>  
+
+ 
+ <buttons>
+     <button id="send" displayname="Send" />
+ </buttons>     
+ 
+ <form>     
+   <field id="uploader"  type="upload" />   
+ </form>
+   
+</dialog>

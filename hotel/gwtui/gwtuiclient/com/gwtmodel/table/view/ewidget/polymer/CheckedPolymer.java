@@ -136,26 +136,14 @@ class CheckedPolymer extends AbstractWField {
 	}
 
 	@Override
-	public void setGStyleName(String styleMess, boolean set) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void setCellTitle(String title) {
 		chW.setTitle(title);
 	}
 
-	@Override
-	public void setSuggestList(List<String> list) {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public void setFocus(boolean focus) {
 		chW.setFocused(focus);
-
 	}
 
 	@Override
