@@ -185,6 +185,10 @@ public class BinderWidgetAttributes {
 			new A(IAttrName.ATTRNODROP, TT.BOOLEAN), new A(IAttrName.ATTRTARGET), new A(IAttrName.ATTRTIMEOUT)).stream()
 			.collect(Collectors.toMap(A::getName, A::getType));
 
+	private static Map<String, TT> vaadincontextmenuMap = Arrays.asList(new A(IAttrName.ATTRCLOSEON),
+			new A(IAttrName.ATTRLISTENON), new A(IAttrName.ATTROPENON), new A(IAttrName.ATTRSELECTOR)).stream()
+			.collect(Collectors.toMap(A::getName, A::getType));
+
 	private static Map<String, TT> vaadinsplitlayoutMap = Arrays.asList(new A(IAttrName.ATTRVERTICAL)).stream()
 			.collect(Collectors.toMap(A::getName, A::getType));
 
@@ -215,6 +219,7 @@ public class BinderWidgetAttributes {
 		wMap.put(WidgetTypes.VaadinDatePicker, vaadindatepickerMap);
 		wMap.put(WidgetTypes.VaadinUpload, vaadinuploadMap);
 		wMap.put(WidgetTypes.VaadinSplitLayout, vaadinsplitlayoutMap);
+		wMap.put(WidgetTypes.VaadinContextMenu, vaadincontextmenuMap);
 	}
 
 	private static TT getPolymerA(WidgetTypes w, String attr) {

@@ -12,8 +12,6 @@
  */
 package com.gwtmodel.table.view.ewidget.polymer;
 
-import java.util.List;
-
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Element;

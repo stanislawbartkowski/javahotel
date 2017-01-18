@@ -22,6 +22,7 @@ import java.util.Map.Entry;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.FUtils;
@@ -1481,7 +1482,8 @@ class DialogContainer extends AbstractSlotMediatorContainer implements IDialogCo
 							Widget ww = FormUtil.findWidgetByFieldId(ha, t.id);
 							if (ww != null) {
 								// found, bingo
-								iAttr.runAction(ww, t.action, null);
+								FieldValue val = arg.getValue(field);
+								iAttr.runAction(ww, t.action, val.getType() == TT.STRING ? val.getValueS() : null, (HTMLPanel) w);
 								return;
 							}
 						}

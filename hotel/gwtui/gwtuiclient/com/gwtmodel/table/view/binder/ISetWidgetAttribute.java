@@ -12,12 +12,13 @@
  */
 package com.gwtmodel.table.view.binder;
 
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public interface ISetWidgetAttribute {
 
 	void setAttr(Widget w, String attr, String val);
 
-	void runAction(Widget w, String action, String param);
+	void runAction(Widget w, String action, String param, HTMLPanel panel);
 
 }

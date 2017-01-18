@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 stanislawbartkowski@gmail.com  
+ * Copyright 2017 stanislawbartkowski@gmail.com  f
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -15,9 +15,11 @@ package com.gwtmodel.table.view.binder.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.ButtonBase;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -31,6 +33,7 @@ import com.gwtmodel.table.common.DecimalUtils;
 import com.gwtmodel.table.mm.LogT;
 import com.gwtmodel.table.view.binder.ISetWidgetAttribute;
 import com.gwtmodel.table.view.ewidget.ItemsEvent;
+import com.gwtmodel.table.view.util.FormUtil;
 import com.gwtmodel.table.view.util.polymer.PolymerUtil;
 import com.vaadin.polymer.PolymerWidget;
 import com.vaadin.polymer.iron.widget.IronIcon;
@@ -60,6 +63,7 @@ import com.vaadin.polymer.paper.widget.PaperTextarea;
 import com.vaadin.polymer.paper.widget.PaperToast;
 import com.vaadin.polymer.paper.widget.PaperToolbar;
 import com.vaadin.polymer.paper.widget.PaperTooltip;
+import com.vaadin.polymer.vaadin.widget.VaadinContextMenu;
 
 @SuppressWarnings("unchecked")
 public class SetWidgetAttribute implements ISetWidgetAttribute {
@@ -1195,16 +1199,34 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 	}
 
 	@Override
-	public void runAction(Widget w, String action, String param) {
-		if (!IConsts.WIDGETACTIONOPEN.equalsIgnoreCase(action))
-			Utils.errAlertB(widgetToType(w).toString(),
-					LogT.getT().InvalidWidgetAction(action, IConsts.WIDGETACTIONOPEN));
+	public void runAction(Widget w, String action, String param, HTMLPanel panel) {
 		WidgetTypes wType = widgetToType(w);
-		if (wType != WidgetTypes.PaperToast)
-			Utils.errAlertB(widgetToType(w).toString(),
-					LogT.getT().ActionSupportedOnlyForWidget(action, WidgetTypes.PaperTab.name(), wType.name()));
-		PaperToast p = (PaperToast) w;
-		p.open();
+		if (IConsts.WIDGETACTIONOPEN.equals(action)) {
+			if (wType != WidgetTypes.PaperToast)
+				Utils.errAlertB(widgetToType(w).toString(),
+						LogT.getT().ActionSupportedOnlyForWidget(action, WidgetTypes.PaperTab.name(), wType.name()));
+			PaperToast p = (PaperToast) w;
+			p.open();
+			return;
+		}
+		if (IAttrName.ATTRLISTENON.equals(action)) {
+			if (wType != WidgetTypes.VaadinContextMenu)
+				Utils.errAlertB(widgetToType(w).toString(), LogT.getT().ActionSupportedOnlyForWidget(action,
+						WidgetTypes.VaadinContextMenu.name(), wType.name()));
+			Element e;
+			Widget we = FormUtil.findWidgetByFieldId(panel, param);
+			if (we != null)
+				e = we.getElement();
+			else
+				e = panel.getElementById(param);
+			if (e == null)
+				Utils.errAlertB(LogT.getT().CannotFindElementForAction(action, param));
+			VaadinContextMenu me = (VaadinContextMenu) w;
+			me.setListenOn(e);
+			return;
+		}
+		Utils.errAlertB(widgetToType(w).toString(),
+				LogT.getT().InvalidWidgetAction(action, IConsts.WIDGETACTIONOPEN + " " + IAttrName.ATTRLISTENON));
 	}
 
 }

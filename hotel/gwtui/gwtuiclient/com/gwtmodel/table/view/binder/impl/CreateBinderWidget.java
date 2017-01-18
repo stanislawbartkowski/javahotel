@@ -69,6 +69,7 @@ import com.vaadin.polymer.paper.widget.PaperToggleButton;
 import com.vaadin.polymer.paper.widget.PaperToolbar;
 import com.vaadin.polymer.paper.widget.PaperTooltip;
 import com.vaadin.polymer.vaadin.widget.VaadinComboBox;
+import com.vaadin.polymer.vaadin.widget.VaadinContextMenu;
 import com.vaadin.polymer.vaadin.widget.VaadinDatePicker;
 import com.vaadin.polymer.vaadin.widget.VaadinGrid;
 import com.vaadin.polymer.vaadin.widget.VaadinSplitLayout;
@@ -242,6 +243,9 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 		case VaadinSplitLayout:
 			w = new VaadinSplitLayout(html);
 			break;
+		case VaadinContextMenu:
+			w = new VaadinContextMenu(html);
+			break;			
 		default:
 			Utils.errAlertB(LogT.getT().PolymerWidgetNotImplemented(bw.getType().name()));
 			break;

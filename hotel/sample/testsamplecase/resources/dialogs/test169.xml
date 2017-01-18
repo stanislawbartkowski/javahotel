@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" polymer="">
+
+ <uibinder>binder/binder169.xml</uibinder>
+ 
+
+</dialog>

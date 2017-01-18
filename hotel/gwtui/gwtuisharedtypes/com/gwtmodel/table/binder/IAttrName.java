@@ -167,5 +167,9 @@ public interface IAttrName {
 	String ATTRNODROP = "nodrop";
 	String ATTRTARGET = "target";
 	String ATTRVERTICAL = "vertical";
+	String ATTRCLOSEON = "closeOn";
+	String ATTRLISTENON = "listenOn";
+	String ATTROPENON = "openOn";
+	String ATTRSELECTOR = "selector";
 
 };

@@ -1,0 +1,18 @@
+<dialog xmlns="http://www.jythongwt.dialogxsd.com"  polymer="">
+ 
+ <uibinder>binder/binder36.xml</uibinder>
+  
+  <before/>
+ 
+  <jython>
+   <import>from testpack import binder36</import>
+   <method>binder36.dialogaction({0},{1})</method>
+ </jython>  
+
+ 
+ <form>     
+    <field id="basiccontext"  type="selector" signalchange="" />   
+    <field id="gridcontext"  type="selector" signalchange="" />   
+ </form>
+   
+</dialog>

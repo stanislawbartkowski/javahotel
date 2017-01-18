@@ -388,6 +388,11 @@
 
 	<!-- Elements -->
 	
+	
+	<xs:element name="VaadinContextMenu">
+	</xs:element>
+	
+	
 	<xs:element name="VaadinSplitLayout">
 	</xs:element>
 

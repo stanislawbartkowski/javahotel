@@ -67,15 +67,18 @@ def hideButton(var, li, hide=True) :
     if type(li) != list : li = [li]
     for buttid in li :
       var["JSETATTR_BUTTON_" + buttid + "_hidden"] = hide
-      
-def setBinderAttr(var, id, attr, val) :
-    var["JSETATTR_BINDER_" + id + "_" + attr] = val
-    
+          
 def setBinderAction(var, id, attr, val) :
     var["JACTION_BINDER_" + id + "_" + attr] = val
     
 def setBinderOpen(var, id) :
     setBinderAction(var, id, "open", "")
+    
+def setBinderListenOnAction(var, id, target) :
+    setBinderAction(var, id, "listenOn", target)    
+        
+def setBinderAttr(var, id, attr, val) :
+    var["JSETATTR_BINDER_" + id + "_" + attr] = val
     
 def setBinderOpenedAttr(var, id, val=True) :
     cutil.setBinderAttr(var, id, "opened", val)

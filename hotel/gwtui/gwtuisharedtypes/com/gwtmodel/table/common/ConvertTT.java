@@ -23,7 +23,7 @@ public class ConvertTT {
 	}
 
 	public static Object toO(TT t, String s) {
-		if (CUtil.EmptyS(s))
+		if (CUtil.EmptyS(s) && t != TT.STRING)
 			return null;
 
 		Object o;

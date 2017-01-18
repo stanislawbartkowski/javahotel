@@ -286,9 +286,9 @@ class ReadDialog extends UtilHelper {
 
 		@Override
 		public void endElement(String uri, String localName, String qName) throws SAXException {
-			if (dFormat == null) {
+			if (dFormat == null)
 				return;
-			}
+
 			if (qName.equals(ICommonConsts.BUTTON) || qName.equals(ICommonConsts.ACTION)) {
 				ButtonItem bI = (ButtonItem) bDescr;
 				if (bI.isAction()) {
@@ -457,8 +457,7 @@ class ReadDialog extends UtilHelper {
 			if (!b.isClassDropDownContent())
 				logB(IErrorCode.ERRORCODE129, IConsts.HTMLCLASS, ICommonConsts.DROPDOWNCONTENT);
 		}
-		for (BinderWidget bb : b.getwList())
-			verifyBinder(bb);
+		b.getwList().forEach(bb -> verifyBinder(bb));
 	}
 
 	private static void readBinder(IGetResourceFile iGetResource, String parentName, DialogFormat d,

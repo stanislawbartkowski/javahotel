@@ -57,6 +57,7 @@
   <button id="binder33" displayname="Date picker" actiontype="JMAIN_DIALOG" actionparam="binder33.xml" />
   <button id="binder34" displayname="Uploader" actiontype="JMAIN_DIALOG" actionparam="binder34.xml" />
   <button id="binder35" displayname="Split layout" actiontype="JMAIN_DIALOG" actionparam="binder35.xml" />
+  <button id="binder36" displayname="Context menu" actiontype="JMAIN_DIALOG" actionparam="binder36.xml" />
 </leftstack>  
 
 <buttons>

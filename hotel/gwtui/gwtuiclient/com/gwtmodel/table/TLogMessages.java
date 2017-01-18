@@ -181,7 +181,9 @@ public interface TLogMessages extends Messages {
 	String GetWidgetNotImplemented(String wType);
 
 	String CannotFindTemplateWidget(String id);
-	
+
 	String ErrorWhileRunningAjax(String err);
+
+	String CannotFindElementForAction(String action, String id);
 
 }

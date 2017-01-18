@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 stanislawbartkowski@gmail.com 
+F * Copyright 2017 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not ue this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -12,8 +12,6 @@
  */
 package com.gwtmodel.table.view.ewidget.polymer;
 
-import java.util.List;
-
 import com.google.gwt.event.logical.shared.AttachEvent;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IResponseJson;
@@ -25,8 +23,6 @@ import com.gwtmodel.table.mm.LogT;
 import com.vaadin.polymer.iron.widget.IronAjax;
 import com.vaadin.polymer.iron.widget.event.ErrorEvent;
 import com.vaadin.polymer.iron.widget.event.ErrorEventHandler;
-import com.vaadin.polymer.iron.widget.event.RequestEvent;
-import com.vaadin.polymer.iron.widget.event.RequestEventHandler;
 import com.vaadin.polymer.iron.widget.event.ResponseEventHandler;
 
 class AjaxWidget extends AbstractWField {
