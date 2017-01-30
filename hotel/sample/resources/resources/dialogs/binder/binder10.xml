@@ -3,7 +3,7 @@
 	xmlns:g='http://www.jythongwt.uibinderxsd.com' xmlns:p='http://www.jythongwt.uibinderxsd.com'
 	xmlns:i='http://www.jythongwt.uibinderxsd.com' xmlns='http://www.jythongwt.uihtml.com'>
 
-    <g:HTMLPanel addStyleNames="item-sample">
+  <g:HTMLPanel addStyleNames="item-sample">
         <style is="custom-style">
             .item-sample .list {
                 padding-top: 12px;
@@ -80,16 +80,16 @@
               <h4>Avatar with text</h4>
               <div class="list short">
                   <p:PaperIconItem>
-		    <div class="avatar blue" item-icon=""> </div> Alphonso Engelking
+                      <div class="avatar blue" item-icon=""/> Alphonso Engelking
                   </p:PaperIconItem>
                   <p:PaperIconItem>
-                      <div class="avatar red" item-icon="">   </div>Andrews Boyd
+                      <div class="avatar red" item-icon=""/> Andrews Boyd
                   </p:PaperIconItem>
                   <p:PaperIconItem>
-                      <div class="avatar orange" item-icon="">  </div> Angela Decker
+                      <div class="avatar orange" item-icon=""/> Angela Decker
                   </p:PaperIconItem>
                   <p:PaperIconItem>
-                      <div class="avatar green" item-icon="">  </div> Lorem Ipsum
+                      <div class="avatar green" item-icon=""/> Lorem Ipsum
                   </p:PaperIconItem>
               </div>
           </div>
@@ -98,24 +98,24 @@
               <h4>Avatar with text and icon</h4>
               <div class="list short">
                   <p:PaperIconItem>
-                      <div class="avatar red" item-icon="">  </div>
+                      <div class="avatar red" item-icon=""/>
                       <div class="flex">Alphonso</div>
-                      <i:IronIcon icon="communication:message"/>
+                      <i:IronIcon icon="communication:messenger"/>
                   </p:PaperIconItem>
                   <p:PaperIconItem>
-                      <div class="avatar orange" item-icon="">  </div>
+                      <div class="avatar orange" item-icon=""/>
                       <div class="flex">Andrews</div>
-                      <i:IronIcon icon="communication:message"/>
+                      <i:IronIcon icon="communication:messenger"/>
                   </p:PaperIconItem>
                   <p:PaperIconItem>
-                      <div class="avatar green" item-icon="">  </div>
+                      <div class="avatar green" item-icon=""/>
                       <div class="flex">Angela</div>
-                      <i:IronIcon icon="communication:message"/>
+                      <i:IronIcon icon="communication:messenger"/>
                   </p:PaperIconItem>
                   <p:PaperIconItem>
-                      <div class="avatar blue" item-icon="">  </div>
+                      <div class="avatar blue" item-icon=""/>
                       <div class="flex">Lorem</div>
-                      <i:IronIcon icon="communication:message"/>
+                      <i:IronIcon icon="communication:messenger"/>
                   </p:PaperIconItem>
               </div>
           </div>
@@ -124,22 +124,22 @@
               <h4>Avatar with text and control</h4>
               <div class="list short">
                   <p:PaperIconItem>
-                      <div class="avatar orange" item-icon="">  </div>
+                      <div class="avatar orange" item-icon=""/>
                       <div class="flex">Alphonso</div>
                       <p:PaperCheckbox/>
                   </p:PaperIconItem>
                   <p:PaperIconItem>
-                      <div class="avatar green" item-icon="">  </div>
+                      <div class="avatar green" item-icon=""/>
                       <div class="flex">Andrews</div>
                       <p:PaperCheckbox checked="true"/>
                   </p:PaperIconItem>
                   <p:PaperIconItem>
-                      <div class="avatar blue" item-icon="">  </div>
+                      <div class="avatar blue" item-icon=""/>
                       <div class="flex">Angela</div>
                       <p:PaperCheckbox/>
                   </p:PaperIconItem>
                   <p:PaperIconItem>
-                      <div class="avatar red" item-icon="">  </div>
+                      <div class="avatar red" item-icon=""/>
                       <div class="flex">Lorem</div>
                       <p:PaperCheckbox/>
                   </p:PaperIconItem>
@@ -152,22 +152,22 @@
                   <p:PaperIconItem>
                       <p:PaperCheckbox attributes="item-icon"/>
                       <div class="flex">Alphonso</div>
-                      <i:IronIcon icon="communication:message"/>
+                      <i:IronIcon icon="communication:messenger"/>
                   </p:PaperIconItem>
                   <p:PaperIconItem>
                       <p:PaperCheckbox checked="true" attributes="item-icon"/>
                       <div class="flex">Andrews</div>
-                      <i:IronIcon icon="communication:message"/>
+                      <i:IronIcon icon="communication:messenger"/>
                   </p:PaperIconItem>
                   <p:PaperIconItem>
                       <p:PaperCheckbox attributes="item-icon"/>
                       <div class="flex">Angela</div>
-                      <i:IronIcon icon="communication:message"/>
+                      <i:IronIcon icon="communication:messenger"/>
                   </p:PaperIconItem>
                   <p:PaperIconItem>
                       <p:PaperCheckbox attributes="item-icon"/>
                       <div class="flex">Lorem</div>
-                      <i:IronIcon icon="communication:message"/>
+                      <i:IronIcon icon="communication:messenger"/>
                   </p:PaperIconItem>
               </div>
           </div>
@@ -200,14 +200,14 @@
               <h4>Icon with two-line text</h4>
               <div class="list">
                   <p:PaperIconItem>
-                      <div class="avatar green" item-icon="">  </div>
+                      <div class="avatar green" item-icon=""/>
                       <p:PaperItemBody attributes="two-line">
                           <div>Alphonso Engelking</div>
                           <div secondary="">Change photo</div>
                       </p:PaperItemBody>
                   </p:PaperIconItem>
                   <p:PaperIconItem>
-		    <i:IronIcon icon="communication:phone" attributes="item-icon"/>
+                      <i:IronIcon icon="communication:phone" attributes="item-icon"/>
                       <p:PaperItemBody attributes="two-line">
                           <div>(650) 555-1234</div>
                           <div secondary="">Mobile</div>
@@ -227,7 +227,7 @@
               <h4>Avatar with text and icon</h4>
               <div class="list">
                   <p:PaperIconItem>
-                      <div class="avatar blue" item-icon="">  </div>
+                      <div class="avatar blue" item-icon=""/>
                       <p:PaperItemBody attributes="two-line">
                           <div>Photos</div>
                           <div secondary="">Jan 9, 2014</div>
@@ -235,7 +235,7 @@
                       <i:IronIcon icon="star"/>
                   </p:PaperIconItem>
                   <p:PaperIconItem>
-                      <div class="avatar red" item-icon="">  </div>
+                      <div class="avatar red" item-icon=""/>
                       <p:PaperItemBody attributes="two-line">
                           <div>Recipes</div>
                           <div secondary="">Jan 17, 2014</div>
@@ -243,7 +243,7 @@
                       <i:IronIcon icon="star"/>
                   </p:PaperIconItem>
                   <p:PaperIconItem>
-                      <div class="avatar orange" item-icon="">  </div>
+                      <div class="avatar orange" item-icon=""/>
                       <p:PaperItemBody attributes="two-line">
                           <div>Work</div>
                           <div secondary="">Jan 28, 2014</div>
@@ -253,5 +253,6 @@
               </div>
           </div>
         </div>
-    </g:HTMLPanel>        
-</ui:UiBinder>
+    </g:HTMLPanel>
+    
+    </ui:UiBinder>
