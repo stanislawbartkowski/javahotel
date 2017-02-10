@@ -23,6 +23,10 @@ http://hoteljavaopensource.blogspot.com/2016/04/oracle-db2-hive-data-migration.h
 * drivername
 * sourcedb  **db2**, **mssql**, **oracle**. It is important to specify oracle value for Oracle database. For some reason, Oracle JDBC driver does not report properly Oracle temporary table. In order to exclude temporary tables from data extraction process, a specific Oracle catalog view is referenced.
 * destdb **db2** or **hive**. The default is db2. It is important to specify hive if data extracted is going to be consumed by Hive later on.
+* hivedb Controls the prefix for hive tables. Possible values :
+ * Empty, it is the default. Hive table is preceded with schema name from the original database. Example: dbo.Sales (MSSQL) -> dbo.Sales (Hive). Hive does not support schemas, so the table will be positioned in dbo database.
+ * - (dash). Hive table does any prefix at all. Example: dbo.Sales (MSSQL) -> Sales
+ * (name). The prefix for Hive table is (name). For instance. hivedb=salesdb. dbo.Sales (MSSQL) -> salesdb.Sales (Hive)
 
 # sh/export.sh, main script description
 
