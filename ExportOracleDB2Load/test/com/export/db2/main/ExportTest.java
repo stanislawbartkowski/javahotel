@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 stanislawbartkowski@gmail.com 
+ * Copyright 2017 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -21,7 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.export.db2.main.util.ExportProperties;
-import com.export.db2.main.util.NumberOfRecords;
+import com.export.db2.main.util.SchemaToList;
 
 public class ExportTest {
 
@@ -45,11 +45,11 @@ public class ExportTest {
 		}
 		try {
 			// TableToCSV.exportTable(conn, prop, TABLE, "/tmp/data/");
-			// SchemaToList.exportList(conn, prop, "HO", "output.list");
+			SchemaToList.exportList(conn, prop, "dbo", "output.list");
 			// SchemaToList.exportList(conn, prop, "Sales", "output.list");
-			// ExtractSchemas.exportList(conn, prop, "output.schema");
+			//ExtractSchemas.exportList(conn, prop, "output.schema");
 			// CreateHiveTable.create(conn, prop, TABLEH,"output.hive");
-			NumberOfRecords.exportNumbers(conn, prop, "output.list", "out.number");
+			//NumberOfRecords.exportNumbers(conn, prop, "output.list", "out.number");
 		} catch (SQLException | IOException e) {
 			log.log(Level.SEVERE, "Error while exporting file", e);
 			System.exit(10);

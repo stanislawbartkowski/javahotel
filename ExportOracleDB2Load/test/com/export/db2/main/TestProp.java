@@ -10,8 +10,8 @@ import com.export.db2.main.util.ExportProperties;
 public class TestProp {
 
 	static String getTestName() {
-		URL u = TestProp.class.getClassLoader().getResource("testd/oracleexp.properties");
-//		URL u = TestProp.class.getClassLoader().getResource("testd/mssqlexp.properties");
+//		URL u = TestProp.class.getClassLoader().getResource("testd/oracleexp.properties");
+		URL u = TestProp.class.getClassLoader().getResource("testd/mssqlexp.properties");
 		return u.getPath();
 	}
 

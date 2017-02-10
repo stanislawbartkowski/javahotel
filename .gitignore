@@ -1,0 +1,7 @@
+/jars/
+/jdbc/
+/log/
+/hive.load
+/schema.list
+/table.list
+/create.list

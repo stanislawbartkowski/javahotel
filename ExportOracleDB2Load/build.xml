@@ -1,0 +1,29 @@
+<project name="ExportDB" default="build" >
+   <property name="src.dir" location="ExportOracleDB2Load/src" />
+   <property name="build.dir" location="bin" />
+   <property name="dist.dir" location="jars" />
+     
+   
+   <target name="compile" description="Compile the source " >
+     <mkdir dir="${build.dir}" />
+	<javac includeantruntime="false" srcdir="${src.dir}" destdir="${build.dir}" compiler="javac1.8" target="1.8"/>
+    </target>
+    
+
+    <target name="jar" depends="compile" description="package, output to JAR">
+
+		<mkdir dir="${dist.dir}" />
+
+		<jar jarfile="${dist.dir}/exportdb.jar" basedir="${build.dir}">
+		</jar>
+   </target>
+   	
+   <target name="clean" description="clean up">
+	<delete dir="${dist.dir}" />
+	<delete dir="${build.dir}" />
+   </target>
+   
+  <target name="build" description="Export DB jar" depends="clean,jar">
+  </target>
+  
+</project>

@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 stanislawbartkowski@gmail.com 
+ * Copyright 2017 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -22,16 +22,17 @@ import java.util.Set;
 
 public class ExtractSchemas {
 
-	public static void exportList(Connection con, Properties prop, String outputfileName) throws IOException, SQLException {
+	public static void exportList(Connection con, Properties prop, String outputfileName)
+			throws IOException, SQLException {
 		Set<String> sche = CreateSetOfSchemas.create(con);
 
-		OutputTextFile out = new OutputTextFile();
-		out.open(new File(outputfileName), false);
-		Iterator<String> ite = sche.iterator();
+		try (OutputTextFile out = new OutputTextFile()) {
+			out.open(new File(outputfileName), false);
+			Iterator<String> ite = sche.iterator();
 
-		while (ite.hasNext())
-			out.writeline(ite.next());
-		out.close();
+			while (ite.hasNext())
+				out.writeline(ite.next());
+		}
 	}
 
 }

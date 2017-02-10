@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 stanislawbartkowski@gmail.com 
+ * Copyright 2017 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -25,11 +25,11 @@ public class CreateSetOfSchemas {
 		Set<String> sche = new HashSet<String>();
 		DatabaseMetaData mData = con.getMetaData();
 
-		ResultSet res = mData.getSchemas();
+		try (ResultSet res = mData.getSchemas()) {
 
-		while (res.next())
-			sche.add(res.getString("TABLE_SCHEM"));
-		res.close();
+			while (res.next())
+				sche.add(res.getString("TABLE_SCHEM"));
+		}
 		return sche;
 	}
 

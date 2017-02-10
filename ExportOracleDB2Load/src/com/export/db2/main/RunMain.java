@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 stanislawbartkowski@gmail.com 
+ * Copyright 2017 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -31,7 +31,6 @@ class RunMain {
 	}
 
 	static void doMain(String propfileName, RunTask task) {
-		log.info("Connect to Oracle");
 		Properties prop = null;
 		try {
 			prop = ExportProperties.readProp(propfileName);
@@ -39,23 +38,10 @@ class RunMain {
 			log.log(Level.SEVERE, "Cannot load property file", e1);
 			System.exit(10);
 		}
-		Connection conn = null;
-		try {
-			conn = JDBCConnection.getConnection(prop);
-		} catch (ClassNotFoundException | SQLException e) {
-			log.log(Level.SEVERE, "Cannot connect", e);
-			System.exit(10);
-		}
-		try {
+		try (Connection conn = JDBCConnection.getConnection(prop)) {
 			task.doTask(conn,prop);
-		} catch (SQLException | IOException e) {
-			log.log(Level.SEVERE, "Error while doing task", e);
-			System.exit(10);
-		}
-		try {
-			conn.close();
-		} catch (SQLException e) {
-			log.log(Level.SEVERE, "Cannot close", e);
+		} catch (ClassNotFoundException | SQLException | IOException e) {
+			log.log(Level.SEVERE, "Cannot connect", e);
 			System.exit(10);
 		}
 

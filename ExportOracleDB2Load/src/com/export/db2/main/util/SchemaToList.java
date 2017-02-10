@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 stanislawbartkowski@gmail.com 
+ * Copyright 2017 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -29,39 +29,40 @@ public class SchemaToList {
 			throws SQLException {
 		Set<String> temporarySet = new HashSet<String>();
 		if (ExportProperties.isOracle(prop)) {
-			ResultSet res = con.prepareStatement(
+			try (ResultSet res = con.prepareStatement(
 					"SELECT * FROM SYS.ALL_TABLES WHERE TEMPORARY = 'Y' AND OWNER = '" + schemaName.toUpperCase() + "'")
-					.executeQuery();
-			while (res.next()) {
-				String name = res.getString("TABLE_NAME");
-				temporarySet.add(name);
+					.executeQuery()) {
+				while (res.next()) {
+					String name = res.getString("TABLE_NAME");
+					temporarySet.add(name);
+				}
+				res.getStatement().close();
 			}
-			res.getStatement().close();
 		}
 		return temporarySet;
 	}
 
 	public static void exportList(Connection con, Properties prop, String schemaName, String outputfileName)
 			throws IOException, SQLException {
-		Set<String> sche = CreateSetOfSchemas.create(con);
+		Set<String> sche = CreateSetOfSchemas.create(con);		
 		if (!sche.contains(schemaName))
 			throw new IOException("Cannot find schema (case sensitive) " + schemaName);
 
-		OutputTextFile out = new OutputTextFile();
-		out.open(new File(outputfileName), true);
-		// important: append
 		Set<String> setT = createSetOfTemporary(con, prop, schemaName);
 		DatabaseMetaData mData = con.getMetaData();
-		ResultSet res = mData.getTables(null, schemaName.toUpperCase(), null, new String[] { "TABLE" });
-		while (res.next()) {
-			String tableName = res.getString("TABLE_NAME");
-			// ignore temporary
-			if (setT.contains(tableName))
-				continue;
-			String tName = res.getString("TABLE_SCHEM") + "." + tableName;
-			out.writeline(tName);
+		try (ResultSet res = mData.getTables(null, schemaName.toUpperCase(), null, new String[] { "TABLE" });
+				OutputTextFile out = new OutputTextFile()) {
+			out.open(new File(outputfileName), true);
+			// important: append
+			while (res.next()) {
+				String tableName = res.getString("TABLE_NAME");
+				// ignore temporary
+				if (setT.contains(tableName))
+					continue;
+				String tName = res.getString("TABLE_SCHEM") + "." + tableName;
+				out.writeline(tName);
+			}
 		}
-		out.close();
 	}
 
 }

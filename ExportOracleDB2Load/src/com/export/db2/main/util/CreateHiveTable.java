@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 stanislawbartkowski@gmail.com 
+ * Copyright 2017 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -28,27 +28,19 @@ import java.util.logging.Logger;
 public class CreateHiveTable {
 
 	private static Logger log = Logger.getLogger(CreateHiveTable.class.getName());
-	
-	private final static int MAXVARCHAR = 65535;
 
+	private final static int MAXVARCHAR = 65535;
 
 	public static void create(Connection con, Properties prop, String fulltableName, String outputFile)
 			throws IOException, SQLException {
-		OutputTextFile out = new OutputTextFile();
-		out.open(new File(outputFile), true);
 		DatabaseMetaData mData = con.getMetaData();
-		String[] t = fulltableName.split("[.]");
-		String schemaName = null;
-		String tableName = t[0].trim();
-		if (t.length == 2) {
-			schemaName = tableName;
-			tableName = t[1].trim();
-		}
-		log.severe(fulltableName);
-		ResultSet res = mData.getColumns(null, schemaName, tableName, null);
-		String SEPARATOR = ExportProperties.getSeparator(prop);
-		out.writeline("CREATE TABLE " + fulltableName + "(");
-		try {
+		SQLUtil.OutputFileName outp = SQLUtil.tranformFileName(prop, fulltableName);
+		log.severe(outp.exporttableName);
+		try (ResultSet res = mData.getColumns(null, outp.schemaName, outp.tableName, null);
+				OutputTextFile out = new OutputTextFile()) {
+			out.open(new File(outputFile), true);
+			String SEPARATOR = ExportProperties.getSeparator(prop);
+			out.writeline("CREATE TABLE " +outp.exporttableName + "(");
 			boolean first = true;
 			while (res.next()) {
 				int typeC = res.getInt("DATA_TYPE");
@@ -56,8 +48,8 @@ public class CreateHiveTable {
 				int decFDigits = res.getInt("DECIMAL_DIGITS");
 				int colSize = res.getInt("COLUMN_SIZE");
 				if (colSize > MAXVARCHAR) {
-					log.warning(columnName + "truncated from " + colSize + " to " + MAXVARCHAR); 
-					colSize = MAXVARCHAR;  
+					log.warning(columnName + "truncated from " + colSize + " to " + MAXVARCHAR);
+					colSize = MAXVARCHAR;
 				}
 				String typeS = null;
 				if (SQLUtil.isChar(typeC))
@@ -99,15 +91,12 @@ public class CreateHiveTable {
 				first = false;
 			}
 			if (first)
-				throw new IOException("Cannot find table " + tableName + " or cannot find any columns for Hive");
+				throw new IOException("Cannot find table " + outp.tableName + " or cannot find any columns for Hive");
 			out.writeline(")");
 			out.writeline("ROW FORMAT DELIMITED FIELDS TERMINATED BY '" + SEPARATOR + "'");
 			out.writeline("LINES TERMINATED BY '\\n' STORED AS TEXTFILE;");
 			out.writeline();
-		} finally {
-			res.close();
-			out.close();
-		}
+		} // try, covers closing resources as well
 
 	}
 

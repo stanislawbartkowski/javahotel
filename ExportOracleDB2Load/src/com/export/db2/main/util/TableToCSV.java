@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 stanislawbartkowski@gmail.com 
+ * Copyright 2017 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -27,6 +27,8 @@ import java.sql.Types;
 import java.util.Properties;
 import java.util.logging.Logger;
 
+import com.export.db2.main.ExportProp;
+
 public class TableToCSV {
 
 	private static Logger log = Logger.getLogger(TableToCSV.class.getName());
@@ -34,9 +36,9 @@ public class TableToCSV {
 	private static void clearOutput(File f, File bdir) throws IOException {
 		log.info("Create or truncate " + f.getAbsolutePath());
 		f.createNewFile();
-		FileChannel outChan = new FileOutputStream(f, true).getChannel();
-		outChan.truncate(0);
-		outChan.close();
+		try (FileChannel outChan = new FileOutputStream(f, true).getChannel()) {
+			outChan.truncate(0);
+		}
 
 		if (bdir.isFile())
 			throw new IOException(bdir.getAbsolutePath() + " not a directory");
@@ -71,19 +73,19 @@ public class TableToCSV {
 	private static String retrieveBlob(InputStream blo, File bdir, String columnName, int rowno) throws IOException {
 		String filename = columnName + "-" + rowno + ".lob";
 		File blobFile = new File(bdir, filename);
-		FileOutputStream writer = new FileOutputStream(blobFile);
-		byte[] buffer = new byte[1024];
-		int bread = blo.read(buffer);
-		boolean empty = true;
-		while (bread > 0) {
-			empty = false;
-			for (int i = 0; i < bread; i++)
-				writer.write(buffer[i]);
-			bread = blo.read(buffer);
+		try (FileOutputStream writer = new FileOutputStream(blobFile)) {
+			byte[] buffer = new byte[1024];
+			int bread = blo.read(buffer);
+			boolean empty = true;
+			while (bread > 0) {
+				empty = false;
+				for (int i = 0; i < bread; i++)
+					writer.write(buffer[i]);
+				bread = blo.read(buffer);
+			}
+			if (empty)
+				return null;
 		}
-		writer.close();
-		if (empty)
-			return null;
 		return filename;
 	}
 
@@ -94,90 +96,98 @@ public class TableToCSV {
 		String QUOTECHAR = ExportProperties.getQuoteChar(prop);
 		String ESCAPECHAR = ExportProperties.getEscapeChar(prop);
 
-		String filenamebase = tableName.toLowerCase().replace('.', '_');
+		SQLUtil.OutputFileName pout = SQLUtil.tranformFileName(prop, tableName);
+		String filenamebase = pout.exporttableName.toLowerCase().replace('.', '_');
+		
+		// store table file name
+		File fout = new File(outputDir, ExportProp.EXPORTEDFILENAME);
+		try (OutputTextFile tout = new OutputTextFile()) {
+			tout.open(fout, true);
+			tout.writeline(pout.exporttableName);
+		} 
+		// stored and closed
 
 		File f = new File(outputDir, filenamebase + ".txt");
-		OutputTextFile out = new OutputTextFile();
-		out.open(f, false);
 		File bdir = new File(outputDir, filenamebase);
 		clearOutput(f, bdir);
 		boolean blobDirCreated = false;
-		ResultSet res = con.prepareStatement("SELECT * FROM " + tableName).executeQuery();
-		// FileWriter writer = new FileWriter(f);
-		ResultSetMetaData resData = res.getMetaData();
-		int no = 0;
-		int blobno = 0;
-		while (res.next()) {
-			no++;
-			StringBuilder b = new StringBuilder();
-			// columns starting from ! so <= limitation
-			for (int i = 1; i <= resData.getColumnCount(); i++) {
-				int typeC = resData.getColumnType(i);
-				// ignore columns not recognized by Hive
-				if (ExportProperties.isHiveDest(prop) && !SQLUtil.isHiveType(typeC))
-					continue;
-				String valS = null;
-				boolean addQuote = false;
-				InputStream blobS = null;
-				if (isString(typeC)) {
-					addQuote = true;
-					valS = res.getString(i);
-					if (valS != null) {
-						valS = valS.replace(QUOTECHAR, ESCAPECHAR + QUOTECHAR);
-						// remove LF
-						valS = valS.replace("\n", "");
+		try (ResultSet res = con.prepareStatement("SELECT * FROM " + tableName).executeQuery();
+				OutputTextFile out = new OutputTextFile()) {
+			out.open(f, false);
+			// FileWriter writer = new FileWriter(f);
+			ResultSetMetaData resData = res.getMetaData();
+			int no = 0;
+			int blobno = 0;
+			while (res.next()) {
+				no++;
+				StringBuilder b = new StringBuilder();
+				// columns starting from ! so <= limitation
+				for (int i = 1; i <= resData.getColumnCount(); i++) {
+					int typeC = resData.getColumnType(i);
+					// ignore columns not recognized by Hive
+					if (ExportProperties.isHiveDest(prop) && !SQLUtil.isHiveType(typeC))
+						continue;
+					String valS = null;
+					boolean addQuote = false;
+					InputStream blobS = null;
+					if (isString(typeC)) {
+						addQuote = true;
+						valS = res.getString(i);
+						if (valS != null) {
+							valS = valS.replace(QUOTECHAR, ESCAPECHAR + QUOTECHAR);
+							// remove LF
+							valS = valS.replace("\n", "");
+						}
+					} else if (isToString(typeC))
+						valS = res.getString(i);
+					else if (isBLOB(typeC) && !ExportProperties.isHiveDest(prop)) {
+						Blob blo = res.getBlob(i);
+						if (blo != null && !res.wasNull() && blo.length() != 0)
+							blobS = blo.getBinaryStream();
+					} else if (isCLOB(typeC) && !ExportProperties.isHiveDest(prop)) {
+						Clob clo = res.getClob(i);
+						if (clo != null && !res.wasNull() && clo.length() != 0)
+							blobS = clo.getAsciiStream();
+					} else
+						valS = null;
+					if (blobS != null) {
+						if (!blobDirCreated)
+							bdir.mkdirs();
+						blobDirCreated = true;
+						valS = retrieveBlob(blobS, bdir, resData.getColumnName(i), no);
+						if (valS != null) {
+							blobno++;
+							if (blobno % 100 == 0)
+								log.info("lobs: " + blobno);
+						}
 					}
-				} else if (isToString(typeC))
-					valS = res.getString(i);
-				else if (isBLOB(typeC) && !ExportProperties.isHiveDest(prop)) {
-					Blob blo = res.getBlob(i);
-					if (blo != null && !res.wasNull() && blo.length() != 0)
-						blobS = blo.getBinaryStream();
-				} else if (isCLOB(typeC) && !ExportProperties.isHiveDest(prop)) {
-					Clob clo = res.getClob(i);
-					if (clo != null && !res.wasNull() && clo.length() != 0)
-						blobS = clo.getAsciiStream();
-				} else
-					valS = null;
-				if (blobS != null) {
-					if (!blobDirCreated)
-						bdir.mkdirs();
-					blobDirCreated = true;
-					valS = retrieveBlob(blobS, bdir, resData.getColumnName(i), no);
-					if (valS != null) {
-						blobno++;
-						if (blobno % 100 == 0)
-							log.info("lobs: " + blobno);
-					}
-				}
 
-				if (valS != null && res.wasNull())
-					valS = null;
-				// else all others ignore
-				if (i > 1)
-					b.append(SEPARATOR);
-				// Hive, do not add string quotes
-				if (ExportProperties.isHiveDest(prop))
-					addQuote = false;
-				if (valS != null) {
-					if (addQuote)
-						b.append(QUOTECHAR);
-					b.append(valS);
-					if (addQuote)
-						b.append(QUOTECHAR);
-				}
-			} // for
-			if (no % 1000 == 0)
-				log.info("rows: " + no);
-			// writer.write(b.toString());
-			// writer.append('\n');
-			out.writeline(b.toString());
-		} // while
-		res.getStatement().close(); // very important, close cursor !!
-		res.close();
+					if (valS != null && res.wasNull())
+						valS = null;
+					// else all others ignore
+					if (i > 1)
+						b.append(SEPARATOR);
+					// Hive, do not add string quotes
+					if (ExportProperties.isHiveDest(prop))
+						addQuote = false;
+					if (valS != null) {
+						if (addQuote)
+							b.append(QUOTECHAR);
+						b.append(valS);
+						if (addQuote)
+							b.append(QUOTECHAR);
+					}
+				} // for
+				if (no % 1000 == 0)
+					log.info("rows: " + no);
+				// writer.write(b.toString());
+				// writer.append('\n');
+				out.writeline(b.toString());
+			} // while
+			res.getStatement().close(); // very important, close cursor !!
+			log.info(no + " rows exported, " + blobno + " lobs exported.");
+		}
 		// writer.close();
-		out.close();
-		log.info(no + " rows exported, " + blobno + " lobs exported.");
 	}
 
 }

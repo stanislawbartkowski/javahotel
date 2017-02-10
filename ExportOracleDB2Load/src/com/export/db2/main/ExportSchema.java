@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 stanislawbartkowski@gmail.com 
+ * Copyright 2017 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -42,6 +42,7 @@ public class ExportSchema {
 			System.exit(10);
 		}
 		log.info("Extract tables in schema " + args[1]);
+		log.info("List of tables in " + args[2]);
 		RunMain.doMain(args[0], new RunMain.RunTask() {
 
 			@Override

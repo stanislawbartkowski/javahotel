@@ -1,5 +1,5 @@
 #
-# Copyright 2016 stanislawbartkowski@gmail.com 
+# Copyright 2017 stanislawbartkowski@gmail.com 
 # Licensed under the Apache License, Version 2.0 (the "License"); 
 # you may not use this file except in compliance with the License. 
 # You may obtain a copy of the License at 
@@ -27,6 +27,9 @@ TABLELIST=table.list
 SCHEMALIST=schema.list
 # file containing hive create
 CREATELIST=create.list
+
+# file with exporte table list
+EXPTABLELIST=$EXPORT_DIR/lasttablename
 
 # common log procedure
 # args
@@ -71,6 +74,7 @@ cleardir() {
   mkdir -p $LOGDIR
   mkdir $MSGDIR
   mkdir $DUMPDIR
+  rm -f $EXPTABLELIST
 }
 
 # makes DB2 load statement
@@ -178,7 +182,9 @@ exporthivetable() {
   EXPCONFIG=`javacall com.export.db2.main.ExportMain`
   
   ! java $EXPCONFIG $CONNPROP $tablename $EXPORT_DIR && logfatal "Failed" 
-  addhiveloadstatement $tablename
+  # get table file
+  exptablename=`cat $EXPTABLELIST`
+  addhiveloadstatement $exptablename
 }
 
 extracthivefromlist() {
@@ -186,7 +192,7 @@ extracthivefromlist() {
   ! java $EXPCONFIG $CONNPROP $TABLELIST $EXPORT_DIR && logfatal "Failed" 
   while read tablename; do 
     addhiveloadstatement $tablename
-  done < $TABLELIST  
+  done < $EXPTABLELIST
 }
 
 # create hive tables definitions

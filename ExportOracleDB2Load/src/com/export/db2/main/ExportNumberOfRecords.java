@@ -7,7 +7,6 @@ import java.util.Properties;
 import java.util.logging.Logger;
 
 import com.export.db2.main.util.NumberOfRecords;
-import com.export.db2.main.util.TableToCSV;
 
 public class ExportNumberOfRecords {
 

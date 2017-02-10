@@ -1,0 +1,7 @@
+<ivy-module version="2.0">
+    <info organisation="org.apache" module="hello-ivy"/>
+    <dependencies>
+<!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
+<dependency org="commons-logging" name="commons-logging" rev="1.2"/>
+    </dependencies>
+</ivy-module>

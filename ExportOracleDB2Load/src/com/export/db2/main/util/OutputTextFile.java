@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 stanislawbartkowski@gmail.com 
+ * Copyright 2017 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -12,12 +12,13 @@
  */
 package com.export.db2.main.util;
 
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-class OutputTextFile {
+class OutputTextFile implements Closeable {
 
 	private PrintWriter pw;
 
@@ -35,7 +36,7 @@ class OutputTextFile {
 		pw.println();
 	}
 
-	void close() {
+	public void close() {
 		pw.close();
 	}
 

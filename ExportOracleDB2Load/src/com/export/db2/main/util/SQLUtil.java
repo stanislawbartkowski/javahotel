@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 stanislawbartkowski@gmail.com 
+ * Copyright 2017 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -13,6 +13,9 @@
 package com.export.db2.main.util;
 
 import java.sql.Types;
+import java.util.Properties;
+
+import com.export.db2.main.ExportProp;
 
 class SQLUtil {
 
@@ -68,6 +71,32 @@ class SQLUtil {
 		return isChar(typeC) || isVarChar(typeC) || isTinyInt(typeC) || isSmallInt(typeC) || isInt(typeC)
 				|| isBigInt(typeC) || isBoolean(typeC) || isFloat(typeC) || isDouble(typeC) || isDate(typeC)
 				|| isDateTime(typeC) || isDecimal(typeC);
+	}
+
+	static class OutputFileName {
+		String schemaName;
+		String tableName;
+		String exporttableName;
+	}
+
+	static OutputFileName tranformFileName(Properties prop, String fulltableName) {
+
+		OutputFileName out = new OutputFileName();
+		String[] t = fulltableName.split("[.]");
+		out.schemaName = null;
+		out.tableName = t[0].trim();
+		if (t.length == 2) {
+			out.schemaName = out.tableName;
+			out.tableName = t[1].trim();
+		}
+		out.exporttableName = fulltableName;
+		// determine the table name
+		if (ExportProperties.getHiveDB(prop) != null)
+			if (ExportProperties.getHiveDB(prop).equals(ExportProp.HIVENODB))
+				out.exporttableName = out.tableName;
+			else
+				out.exporttableName = ExportProperties.getHiveDB(prop) + "." + out.tableName;
+		return out;
 	}
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 stanislawbartkowski@gmail.com 
+ * Copyright 2017 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -16,8 +16,13 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.logging.Logger;
+
+import com.export.db2.main.util.ExportProperties;
 
 class JDBCConnection {
+
+	private static Logger log = Logger.getLogger(ExportProperties.class.getName());
 
 	static Connection getConnection(Properties prop) throws ClassNotFoundException, SQLException {
 
@@ -25,9 +30,11 @@ class JDBCConnection {
 		String USER = prop.getProperty(ExportProp.PARAMUSER);
 		String PASSWORD = prop.getProperty(ExportProp.PARAMPASSWORD);
 		String DRIVERNAME = prop.getProperty(ExportProp.PARAMDRIVERNAME);
+		
+		log.info("Connecting to " + URL);
 
 		Class.forName(DRIVERNAME);
-
+		
 		return DriverManager.getConnection(URL, USER, PASSWORD);
 
 	}
