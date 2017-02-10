@@ -1,2 +1,5 @@
 /bin/
 /target/
+/out.number
+/output.hive
+/pom.xml
