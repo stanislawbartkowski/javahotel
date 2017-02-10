@@ -9,13 +9,14 @@ http://hoteljavaopensource.blogspot.com/2016/04/oracle-db2-hive-data-migration.h
 * jars Directory containing jar exported from Eclipse project with Java code
 * jdbc Directory containing all dependencies, particularly JDBC drivers appropriate for the database used.
 * log Log directory
+
 # Configuration, export.rc file
 * EXPORT_DIR Directory where extracted data are downloaded. 
 * LOGIR Log directory
 * LOADSQL File name for load data script created by the solution
 * CONNPROP Property file with JDBC connection details
 
-# export.sh, main script description
+# sh/export.sh, main script description
 
 Format: sh/export.sh {action} parameters related to {action}
 
