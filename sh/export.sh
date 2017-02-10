@@ -156,7 +156,7 @@ exporttable() {
 
 # extract data from all file in the list
 extractfromlist() {
-  EXPCONFIG=`javacall com.export.db2.main.ExportList`
+  EXPCONFIG=`javacall com.export.db2.main.ExportListMain`
   ! java $EXPCONFIG $CONNPROP $TABLELIST $EXPORT_DIR && logfatal "Failed" 
   while read tablename; do 
     addloadstatement $tablename
