@@ -16,6 +16,14 @@ http://hoteljavaopensource.blogspot.com/2016/04/oracle-db2-hive-data-migration.h
 * LOADSQL File name for load data script created by the solution
 * CONNPROP Property file with JDBC connection details
 
+# Property file 
+* sourceurl
+* user
+* password
+* drivername
+* sourcedb  **db2**, **mssql**, **oracle**. It is important to specify oracle value for Oracle database. For some reason, Oracle JDBC driver does not report properly Oracle temporary table. In order to exclude temporary tables from data extraction process, a specific Oracle catalog view is referenced.
+* destdb **db2** or **hive**. The default is db2. It is important to specify hive if data extracted is going to be consumed by Hive later on.
+
 # sh/export.sh, main script description
 
 Format: sh/export.sh {action} parameters related to {action}
