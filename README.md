@@ -13,6 +13,14 @@ http://hoteljavaopensource.blogspot.com/2016/04/oracle-db2-hive-data-migration.h
 * modify sh/export.rc
 * run sh/export.sh
 
+# Create Eclipse project
+
+* Import -> Project from Git
+* (URI) : https://github.com/stanislawbartkowski/javahotel.git
+* Select branch exportdb only
+* Import existing Eclipse project, only javahotel and ExportData
+* Enjoy
+
 # The solution layout:
 * sh/export.sh Main script
 * sh/export.rc Environment variables
