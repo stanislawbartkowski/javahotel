@@ -2,10 +2,21 @@
 
 http://hoteljavaopensource.blogspot.com/2016/04/oracle-db2-hive-data-migration.html
 
+# Preparation
+
+* git clone https://github.com/stanislawbartkowski/javahotel.git -b exportdb
+* cd javahotel
+* ln -s ExportOracleDB2Load/build.xml (if not created already)
+* ant (jars/exportdb.jar should be created)
+* mkdir jdbc
+* copy to jdbc directory and make link to all neccessary jdbc driver jars 
+* modify sh/export.rc
+* run sh/export.sh
+
 # The solution layout:
-* export.sh Main script
-* export.rc Environment variables
-* {db}.properties Property file referenced by CONNPROP variable in export.rc. Contains connection parameters.
+* sh/export.sh Main script
+* sh/export.rc Environment variables
+* sh/{db}.properties Property file referenced by CONNPROP variable in export.rc. Contains connection parameters.
 * jars Directory containing jar exported from Eclipse project with Java code
 * jdbc Directory containing all dependencies, particularly JDBC drivers appropriate for the database used.
 * log Log directory
@@ -32,6 +43,11 @@ http://hoteljavaopensource.blogspot.com/2016/04/oracle-db2-hive-data-migration.h
 
 Format: sh/export.sh {action} parameters related to {action}
 
+*extractschemas*
+* No parameters
+* Extract list of schemas from a source database. The list is stored in schema.list file. This action is not connected with any other actions, can be used as a data discovery.
+* Example: sh/export.sh extractschemas
+
 *listoftables*
 * Parameters: list of schemas
 * Creates a list of tables extracted from source database and schemas. The list is stored in the table.list file. The list is later reused by extractfromlist action. The list can be reviewed and modified manually.
@@ -46,11 +62,6 @@ Format: sh/export.sh {action} parameters related to {action}
 * No parameters
 * Extract data from tables found in table.list file. The table.list file can be created by listoftable action.
 * Example: sh/extract.sh extractfromlist
-
-*extractschemas*
-* No parameters
-* Extract list of schemas from a source database. The list is stored in schema.list file. This action is not connected with any other actions, can be used as a data discovery.
-* Example: sh/export.sh extractschemas
 
 *extracthivetables*
 * No parameters
