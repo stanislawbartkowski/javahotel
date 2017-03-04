@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="websrc"/>
+	<classpathentry kind="src" path="njythonui"/>
+	<classpathentry kind="src" path="jpasampledb"/>
+	<classpathentry kind="src" path="jythonuishared"/>
+	<classpathentry kind="src" path="gwtuiserver"/>
+	<classpathentry kind="src" path="commonserver"/>
+	<classpathentry kind="src" path="gwtuisharedtypes"/>
+	<classpathentry kind="src" path="jpastoragekey"/>
+	<classpathentry kind="src" path="sampledbmodel"/>
+	<classpathentry kind="src" path="jythonuiserver"/>
+	<classpathentry kind="src" path="tomcatenv"/>
+	<classpathentry kind="src" path="sampletomcatguice"/>
+	<classpathentry kind="src" path="jpacommonsecurity"/>
+	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?project=nnsample&amp;ivyXmlPath=ivy.xml&amp;confs=*">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?project=nnsample&amp;ivyXmlPath=ivyc.xml&amp;confs=*"/>
+	<classpathentry kind="lib" path="/javahotel/hotel/builddependency/commons-fileupload-1.2.2.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/javahotel/hotel/builddependency/guice-servlet-4.1.0.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/javahotel/hotel/manualdependency/gin-2.1.2.jar"/>
+	<classpathentry kind="lib" path="/javahotel/hotel/manualdependency/guice-3.0.jar"/>
+	<classpathentry kind="lib" path="/javahotel/hotel/manualdependency/guice-assistedinject-3.0.jar"/>
+	<classpathentry kind="lib" path="/javahotel/hotel/manualdependency/gwt-visualization-1.1.2.jar"/>
+	<classpathentry kind="lib" path="/javahotel/hotel/manualdependency/vaadin-gwt-polymer-elements-1.7.0.0.jar"/>
+	<classpathentry kind="output" path="war/WEB-INF/classes"/>
+</classpath>

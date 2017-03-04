@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <dialog xmlns="http://www.jythongwt.dialogxsd.com" polymer="">
 
+ <uibinder>binder/startp.xml</uibinder>
+
   <before/>  
   
 <jython>

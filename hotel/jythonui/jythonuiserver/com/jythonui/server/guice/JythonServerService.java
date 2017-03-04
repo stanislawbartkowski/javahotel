@@ -16,8 +16,6 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
 
-import javax.persistence.EntityManagerFactory;
-
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
@@ -29,7 +27,6 @@ import com.jython.serversecurity.IOObjectAdmin;
 import com.jython.serversecurity.cache.IGetInstanceOObjectIdCache;
 import com.jython.serversecurity.impl.GetInstanceObjectId;
 import com.jython.serversecurity.persons.SecurityForPersons;
-import com.jythonui.datastore.EntityManagerFactoryProvider;
 import com.jythonui.server.IBinderParser;
 import com.jythonui.server.IBinderUIStyle;
 import com.jythonui.server.IBinderUIStyleFactory;

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<ui:UiBinder xmlns:ui='http://www.jythongwt.uibinderxsd.com' xmlns='http://www.jythongwt.uihtml.com'>
+	<ui:HTMLPanel>
+	    <ui:Label>This dialog is binder created</ui:Label>
+	    <br/>
+          <div id="labelfor-name1">Hello</div>
+	  <div id="name1">Hello</div>
+	  <br/>
+          <div id="labelfor-name2">Hello</div>
+	  <div id="name2">Hello</div>
+	  <br/>
+	  <ui:Button fieldid="akce">Accept binder</ui:Button>
+	  <ui:Button fieldid="reze">{@resign}</ui:Button>
+</ui:HTMLPanel>
+</ui:UiBinder>
