@@ -16,8 +16,8 @@ import com.google.gwt.core.client.GWT;
 import com.google.inject.Inject;
 import com.jythonui.client.service.JythonService;
 import com.jythonui.client.service.JythonServiceAsync;
+import com.jythonui.client.smessage.IGetStandardMessage;
 import com.jythonui.shared.ClientProp;
-import com.polymerui.client.smessage.IGetStandardMessage;
 import com.polymerui.client.view.panel.IMainPanel;
 
 public class M {

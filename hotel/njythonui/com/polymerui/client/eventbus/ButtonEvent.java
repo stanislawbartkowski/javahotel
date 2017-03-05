@@ -10,23 +10,14 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.polymerui.client.view.panel;
+package com.polymerui.client.eventbus;
 
-import com.polymerui.client.IGWidget;
-import com.vaadin.polymer.paper.widget.PaperMenu;
+import com.jythonui.shared.ButtonItem;
 
-public interface IMainPanel extends IGWidget {
+public class ButtonEvent extends EventElem<ButtonItem> {
 
-	enum InfoType {
-		USER, DATA, UPINFO, OWNER, PRODUCT, TITLE
+	public ButtonEvent(ButtonItem t) {
+		super(ButtonItem.class, t);
 	}
-
-	void drawInfo(InfoType e, String s);
-
-	void IncDecCounter(boolean inc);
-
-	void setErrorL(String mess);
-
-	PaperMenu getLeftMenu();
 
 }

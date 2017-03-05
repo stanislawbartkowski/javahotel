@@ -81,6 +81,11 @@ public class Utils {
 		for (Map.Entry<String, String> p : prop.entrySet())
 			e.setAttribute(p.getKey(), p.getValue());
 	}
+	
+	public static native void addE(Element p, Element c) /*-{
+	$wnd.addE(p, c);
+    }-*/;
+
 
 	// --------------------
 	// resources

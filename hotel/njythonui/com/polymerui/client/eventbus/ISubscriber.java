@@ -10,23 +10,9 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.polymerui.client.view.panel;
+package com.polymerui.client.eventbus;
 
-import com.polymerui.client.IGWidget;
-import com.vaadin.polymer.paper.widget.PaperMenu;
-
-public interface IMainPanel extends IGWidget {
-
-	enum InfoType {
-		USER, DATA, UPINFO, OWNER, PRODUCT, TITLE
-	}
-
-	void drawInfo(InfoType e, String s);
-
-	void IncDecCounter(boolean inc);
-
-	void setErrorL(String mess);
-
-	PaperMenu getLeftMenu();
-
+public interface ISubscriber<T> {
+	
+	void raise(IEvent<T> i);
 }

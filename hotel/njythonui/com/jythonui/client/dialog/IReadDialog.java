@@ -10,23 +10,10 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.polymerui.client.view.panel;
+package com.jythonui.client.dialog;
 
-import com.polymerui.client.IGWidget;
-import com.vaadin.polymer.paper.widget.PaperMenu;
-
-public interface IMainPanel extends IGWidget {
-
-	enum InfoType {
-		USER, DATA, UPINFO, OWNER, PRODUCT, TITLE
-	}
-
-	void drawInfo(InfoType e, String s);
-
-	void IncDecCounter(boolean inc);
-
-	void setErrorL(String mess);
-
-	PaperMenu getLeftMenu();
+public interface IReadDialog {
+	
+	void readDialog(String dialogName);
 
 }

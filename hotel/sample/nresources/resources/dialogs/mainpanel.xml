@@ -216,8 +216,14 @@
 
 		<p:PaperDrawerPanel drawerWidth="10%" fieldid="drawerPanel">
 			<div drawer="">
-				<div id="leftmenu">.</div>
-			</div>
+                            <!--				<div id="leftmenu">.</div> -->
+                    <p:PaperMenu addStyleNames="list" fieldid="leftmenu" >
+                        <p:PaperItem>Inbox</p:PaperItem>
+                        <p:PaperItem>Starred</p:PaperItem>
+                        <p:PaperItem>Sent mail</p:PaperItem>
+                        <p:PaperItem>Drafts</p:PaperItem>
+                    </p:PaperMenu>			
+                    </div>
 			<div main="">
 				<p:PaperHeaderPanel class="flex" mode="seamed">
 					<div class="paper-header">

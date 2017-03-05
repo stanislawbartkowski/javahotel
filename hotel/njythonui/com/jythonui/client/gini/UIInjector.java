@@ -14,6 +14,7 @@ package com.jythonui.client.gini;
 
 import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
+import com.jythonui.client.dialog.IReadDialog;
 import com.jythonui.client.start.IJythonClientStart;
 import com.jythonui.shared.RequestContext;
 
@@ -23,5 +24,7 @@ public interface UIInjector extends Ginjector {
 	IJythonClientStart getJythonClientStart();
 
 	RequestContext getRequestContext();
+	
+	IReadDialog getReadDialog();
 
 }

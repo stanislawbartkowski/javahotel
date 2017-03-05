@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gwt.core.shared.GWT;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -24,25 +25,25 @@ import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.common.CUtil;
 import com.jythonui.client.M;
 import com.polymerui.client.IConsts;
+import com.polymerui.client.IGWidget;
 import com.polymerui.client.util.Utils;
 import com.polymerui.client.view.util.PolymerUtil;
+import com.vaadin.polymer.paper.widget.PaperMenu;
 
 class MainPanel implements IMainPanel {
 
 	private final HTMLPanel ha;
-		
-//    <g:HTMLPanel width="5%" fieldid="progressHtml">
-//    <g:Image fieldid="progressIcon" visible="false"></g:Image>
-//    <g:Label fieldid="labelError" visible="true"></g:Label>
-// </g:HTMLPanel>
 
-
+	// <g:HTMLPanel width="5%" fieldid="progressHtml">
+	// <g:Image fieldid="progressIcon" visible="false"></g:Image>
+	// <g:Label fieldid="labelError" visible="true"></g:Label>
+	// </g:HTMLPanel>
 
 	private final static Map<InfoType, String> mapToElem = new HashMap<InfoType, String>();
-	
+
 	private final Image proI;
 	private final HTMLPanel hProgress;
-	
+
 	private int colL = 0;
 
 	// default_logo.png
@@ -62,15 +63,24 @@ class MainPanel implements IMainPanel {
 		return (Image) w;
 	}
 
+	private Element getId(String id) {
+		// debug
+		Element e = ha.getElementById(id);
+		if (e != null)
+			return e;
+		String errmess = M.M().HTMLPanelCannotFindWIdget("Left menu", id);
+		Utils.errAlertB(errmess);
+		return null;
+	}
+
 	// String JVersion = pResources.getRes(IWebPanelResources.JUIVERSION);
 	// String title = CUtil.joinS('\n',
 	// pResources.getRes(IWebPanelResources.VERSION),
 	// LogT.getT().GWTVersion(GWT.getVersion(), JVersion));
-	
-//	String ima = pResources.getRes(IWebPanelResources.PROGRESSICON);
-//	String url = Utils.getImageAdr(ima);
-//	uW.progressIcon.setUrl(url);
 
+	// String ima = pResources.getRes(IWebPanelResources.PROGRESSICON);
+	// String url = Utils.getImageAdr(ima);
+	// uW.progressIcon.setUrl(url);
 
 	private void drawLogo(String logoIcon, String v) {
 		Image i = findImageWidget(IConsts.PANELTITLEICON);
@@ -83,14 +93,16 @@ class MainPanel implements IMainPanel {
 	MainPanel(HTMLPanel ha, String logoIcon, String v) {
 		this.ha = ha;
 		drawLogo(logoIcon, v);
-		proI = (Image) PolymerUtil.findandverifyWidget(M.M().MainPanelIconWidget(IConsts.PANELPROGRESSICON), ha, IConsts.PANELPROGRESSICON, Image.class);
+		proI = (Image) PolymerUtil.findandverifyWidget(M.M().MainPanelIconWidget(IConsts.PANELPROGRESSICON), ha,
+				IConsts.PANELPROGRESSICON, Image.class);
 		String url = Utils.getImageAdr(IConsts.PROGRESSIMAGEDEFAULT);
-		proI.setUrl(url);		
-		hProgress = (HTMLPanel) PolymerUtil.findandverifyWidget(M.M().MainPanelIconWidget(IConsts.PANELPROGRESSHTML), ha, IConsts.PANELPROGRESSHTML, HTMLPanel.class);
-		
-//		PANELPROGRESSHTML
+		proI.setUrl(url);
+		hProgress = (HTMLPanel) PolymerUtil.findandverifyWidget(M.M().MainPanelIconWidget(IConsts.PANELPROGRESSHTML),
+				ha, IConsts.PANELPROGRESSHTML, HTMLPanel.class);
+
+		// PANELPROGRESSHTML
 	}
-	
+
 	private void setProgIcon(boolean visible) {
 		proI.setVisible(visible);
 	}
@@ -110,7 +122,6 @@ class MainPanel implements IMainPanel {
 	public void setErrorL(String errmess) {
 		setErrorMess(errmess);
 	}
-
 
 	@Override
 	public Widget getWidget() {
@@ -132,8 +143,7 @@ class MainPanel implements IMainPanel {
 		Label l = (Label) w;
 		l.setText(s);
 	}
-		
-	
+
 	private void setReplay(int replNo) {
 		if (replNo == 1) {
 			setErrorMess(null);
@@ -143,11 +153,21 @@ class MainPanel implements IMainPanel {
 			setProgIcon(false);
 	}
 
-
 	@Override
 	public void IncDecCounter(boolean inc) {
-		if (inc) colL++; else colL--;
-		setReplay(colL);		
+		if (inc)
+			colL++;
+		else
+			colL--;
+		setReplay(colL);
+	}
+
+	@Override
+	public PaperMenu getLeftMenu() {
+		PaperMenu p = (PaperMenu) PolymerUtil.findandverifyWidget(M.M().MainPanelIconWidget("leftmenu"), ha, "leftmenu",
+				PaperMenu.class);
+		return p;
+
 	}
 
 }
