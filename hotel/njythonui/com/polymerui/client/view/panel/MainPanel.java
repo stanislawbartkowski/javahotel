@@ -170,4 +170,12 @@ class MainPanel implements IMainPanel {
 
 	}
 
+	@Override
+	public void drawContent(HTMLPanel pa) {
+		HTMLPanel pane = (HTMLPanel) PolymerUtil.findandverifyWidget(M.M().MainPanelIconWidget("mainpanel"), ha,
+				"mainpanel", HTMLPanel.class);
+		pane.clear();
+		pane.add(pa);
+	}
+
 }

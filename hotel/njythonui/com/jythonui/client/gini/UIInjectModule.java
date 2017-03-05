@@ -57,7 +57,7 @@ public class UIInjectModule extends AbstractGinModule {
 
 			@Override
 			public String getMessage(String sou) {
-				return M.getClientProp().getAttr(sou);
+				return M.getClientProp().getCustomM().getAttr(sou);
 			}
 
 		};

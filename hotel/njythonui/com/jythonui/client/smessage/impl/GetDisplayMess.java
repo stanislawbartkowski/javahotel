@@ -37,7 +37,7 @@ public class GetDisplayMess implements IGetDisplayMess {
 			key = sou.substring(2);
 		else
 			key = sou.substring(1);
-		String val = iMess.getMessage(sou);
+		String val = iMess.getMessage(key);
 		if (val == null)
 			return sou;
 		switch (action) {

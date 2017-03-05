@@ -15,16 +15,12 @@ package com.polymerui.client.view.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Event;
 import com.google.inject.Inject;
 import com.jythonui.client.smessage.IGetDisplayMess;
 import com.jythonui.shared.ButtonItem;
 import com.polymerui.client.eventbus.ButtonEvent;
 import com.polymerui.client.eventbus.IEventBus;
 import com.polymerui.client.util.Utils;
-import com.vaadin.polymer.elemental.EventListener;
 import com.vaadin.polymer.paper.widget.PaperItem;
 import com.vaadin.polymer.paper.widget.PaperMenu;
 import com.vaadin.polymer.paper.widget.PaperSubmenu;

@@ -12,17 +12,24 @@
  */
 package com.jythonui.client.dialog.impl;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.inject.Inject;
+import com.gwtmodel.table.binder.BinderWidget;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.IReadDialog;
 import com.jythonui.client.gini.UIGiniInjector;
+import com.jythonui.client.util.ExecuteAction;
 import com.jythonui.shared.ButtonItem;
 import com.jythonui.shared.DialogInfo;
+import com.jythonui.shared.DialogVariables;
+import com.polymerui.client.binder.ICreateBinderWidget;
 import com.polymerui.client.callback.CommonCallBack;
 import com.polymerui.client.eventbus.ButtonEvent;
 import com.polymerui.client.eventbus.IEvent;
 import com.polymerui.client.eventbus.IEventBus;
 import com.polymerui.client.eventbus.ISubscriber;
+import com.polymerui.client.util.SynchronizeList;
 import com.polymerui.client.util.Utils;
 import com.polymerui.client.view.panel.IMainPanel;
 import com.polymerui.client.view.util.CreatePolymerMenu;
@@ -31,10 +38,27 @@ import com.vaadin.polymer.paper.widget.PaperMenu;
 public class ReadDialog implements IReadDialog {
 
 	private final IEventBus iBus;
+	private final ICreateBinderWidget iBinder;
+
+	private void go(DialogInfo arg) {
+		IMainPanel iP = M.getPanel();
+		if (!arg.getDialog().getLeftStackList().isEmpty()) {
+			PaperMenu me = iP.getLeftMenu();
+			me.clear();
+			arg.getDialog().getLeftStackList().forEach(b -> iBus.subscribe(new ButtonEvent(b), new ButtonSubscribe()));
+			CreatePolymerMenu.constructStackMenu(me, arg.getDialog().getLeftStackList(), iBus);
+		}
+		BinderWidget w = arg.getDialog().getBinderW();
+		assert w != null;
+		HTMLPanel ha = iBinder.create(w);
+		iP.drawContent(ha);
+
+	}
 
 	@Inject
-	public ReadDialog(IEventBus iBus) {
+	public ReadDialog(IEventBus iBus, ICreateBinderWidget iBinder) {
 		this.iBus = iBus;
+		this.iBinder = iBinder;
 	}
 
 	private void verify(DialogInfo d) {
@@ -54,19 +78,37 @@ public class ReadDialog implements IReadDialog {
 
 	}
 
+	private class BeforeA extends CommonCallBack<DialogVariables> {
+
+		private final DialogInfo d;
+
+		BeforeA(DialogInfo d) {
+			this.d = d;
+		}
+
+		@Override
+		public void onMySuccess(DialogVariables arg) {
+			go(d);
+
+		}
+
+	}
+
 	private class CallB extends CommonCallBack<DialogInfo> {
+
+		private final String dialogName;
+
+		CallB(String dialogName) {
+			this.dialogName = dialogName;
+		}
 
 		@Override
 		public void onMySuccess(DialogInfo arg) {
 			verify(arg);
-			if (!arg.getDialog().getLeftStackList().isEmpty()) {
-				IMainPanel iP = M.getPanel();
-				PaperMenu me = iP.getLeftMenu();
-				me.clear();
-				arg.getDialog().getLeftStackList()
-						.forEach(b -> iBus.subscribe(new ButtonEvent(b), new ButtonSubscribe()));
-				CreatePolymerMenu.constructStackMenu(me, arg.getDialog().getLeftStackList(), iBus);
-			}
+			if (!arg.getDialog().isBefore())
+				go(arg);
+			else
+				ExecuteAction.action(new DialogVariables(), dialogName, "before", new BeforeA(arg));
 		}
 
 	}
@@ -74,7 +116,7 @@ public class ReadDialog implements IReadDialog {
 	@Override
 	public void readDialog(String dialogName) {
 
-		M.JR().getDialogFormat(UIGiniInjector.getI().getRequestContext(), dialogName, new CallB());
+		M.JR().getDialogFormat(UIGiniInjector.getI().getRequestContext(), dialogName, new CallB(dialogName));
 
 	}
 

@@ -16,7 +16,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.inject.Inject;
 import com.jythonui.client.service.JythonService;
 import com.jythonui.client.service.JythonServiceAsync;
-import com.jythonui.client.smessage.IGetStandardMessage;
+import com.jythonui.client.smessage.IGetDisplayMess;
 import com.jythonui.shared.ClientProp;
 import com.polymerui.client.view.panel.IMainPanel;
 
@@ -31,7 +31,7 @@ public class M {
 	private static IMainPanel panel;
 
 	@Inject
-	private static IGetStandardMessage sMessage;
+	private static IGetDisplayMess sMessage;
 
 	public static ClientProp getClientProp() {
 		return clientProp;
@@ -67,7 +67,7 @@ public class M {
 		M.panel = panel;
 	}
 
-	public static IGetStandardMessage S() {
+	public static IGetDisplayMess S() {
 		return sMessage;
 	}
 

@@ -216,7 +216,6 @@
 
 		<p:PaperDrawerPanel drawerWidth="10%" fieldid="drawerPanel">
 			<div drawer="">
-                            <!--				<div id="leftmenu">.</div> -->
                     <p:PaperMenu addStyleNames="list" fieldid="leftmenu" >
                         <p:PaperItem>Inbox</p:PaperItem>
                         <p:PaperItem>Starred</p:PaperItem>
@@ -248,7 +247,6 @@
 								visible="false"></p:PaperIconButton>
 						</p:PaperToolbar>
 					</div>
-					<!-- <div id="mainpanel">.</div> -->
 					<g:HTMLPanel fieldid="mainpanel"></g:HTMLPanel>
 				</p:PaperHeaderPanel>
 			</div>

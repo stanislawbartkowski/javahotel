@@ -12,6 +12,7 @@
  */
 package com.polymerui.client.view.panel;
 
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.polymerui.client.IGWidget;
 import com.vaadin.polymer.paper.widget.PaperMenu;
 
@@ -28,5 +29,7 @@ public interface IMainPanel extends IGWidget {
 	void setErrorL(String mess);
 
 	PaperMenu getLeftMenu();
+	
+	void drawContent(HTMLPanel pa);
 
 }

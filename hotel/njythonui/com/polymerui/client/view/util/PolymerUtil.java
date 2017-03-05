@@ -39,7 +39,7 @@ public class PolymerUtil {
 				break;
 			String res = b.substring(i + 1, k);
 			// together with $
-			String v = M.S().getMessage(res);
+			String v = M.S().getString(res);
 			b.replace(i, k + 2, v);
 		}
 		return b.toString();
