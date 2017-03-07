@@ -1,10 +1,16 @@
 <?xml version="1.0"?>
 <ui:UiBinder xmlns:ui='http://www.jythongwt.uibinderxsd.com'
 	xmlns:g='http://www.jythongwt.uibinderxsd.com' xmlns:p='http://www.jythongwt.uibinderxsd.com'
-	xmlns:i='http://www.jythongwt.uibinderxsd.com' xmlns='http://www.jythongwt.uihtml.com'>
+	xmlns:i='http://www.jythongwt.uibinderxsd.com' xmlns:v='http://www.jythongwt.uibinderxsd.com' 
+        xmlns='http://www.jythongwt.uihtml.com'>
 	<ui:HTMLPanel>
 	    <ui:Label>This dialog is binder created</ui:Label>
 	    <br/>
-            <p:PaperInput label="label"/>
+            <p:PaperInput label="String" fieldid="glob1" />
+            <p:PaperInput label="Integer" fieldid="globint" />            
+            <p:PaperInput label="Double" fieldid="globdou" />   
+            <p:PaperCheckbox fieldid="globchecked">Good</p:PaperCheckbox>
+            <v:VaadinDatePicker fieldid="globdate" label="Select a date" />
+            <!--            <v:VaadinDatePickerLight fieldid="globdatex" label="Select a date" /> -->
         </ui:HTMLPanel>
 </ui:UiBinder>

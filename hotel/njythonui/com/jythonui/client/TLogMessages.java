@@ -71,6 +71,10 @@ public interface TLogMessages extends Messages {
 	String CannotLoadMainPanelBinder(String panelName);
 	
 	String DialogShouldContainBinder(String dName);
+	
+	String BooleanValueCannotBeNull();
+	
+	String ShouldBeBooleanValue(String found);
 
 
 }

@@ -75,9 +75,9 @@ public class PolymerUtil {
 		String desc = null;
 		for (Class<? extends Widget> c : classes)
 			if (desc == null)
-				desc = c.getClass().getName();
+				desc = c.getName();
 			else
-				desc = desc + " , " + c.getClass().getName();
+				desc = desc + " , " + c.getName();
 		Utils.errAlertB(M.M().ActionSupportedOnlyForWidget(description, w.getClass().getName(), desc));
 	}
 

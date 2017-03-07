@@ -12,7 +12,6 @@
  */
 package com.jythonui.client.dialog.impl;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.inject.Inject;
 import com.gwtmodel.table.binder.BinderWidget;
@@ -23,13 +22,13 @@ import com.jythonui.client.util.ExecuteAction;
 import com.jythonui.shared.ButtonItem;
 import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
+import com.jythonui.shared.ICommonConsts;
 import com.polymerui.client.binder.ICreateBinderWidget;
 import com.polymerui.client.callback.CommonCallBack;
 import com.polymerui.client.eventbus.ButtonEvent;
 import com.polymerui.client.eventbus.IEvent;
 import com.polymerui.client.eventbus.IEventBus;
 import com.polymerui.client.eventbus.ISubscriber;
-import com.polymerui.client.util.SynchronizeList;
 import com.polymerui.client.util.Utils;
 import com.polymerui.client.view.panel.IMainPanel;
 import com.polymerui.client.view.util.CreatePolymerMenu;
@@ -39,8 +38,9 @@ public class ReadDialog implements IReadDialog {
 
 	private final IEventBus iBus;
 	private final ICreateBinderWidget iBinder;
+	private HTMLPanel ha;
 
-	private void go(DialogInfo arg) {
+	private void go(DialogInfo arg, DialogVariables va) {
 		IMainPanel iP = M.getPanel();
 		if (!arg.getDialog().getLeftStackList().isEmpty()) {
 			PaperMenu me = iP.getLeftMenu();
@@ -50,9 +50,9 @@ public class ReadDialog implements IReadDialog {
 		}
 		BinderWidget w = arg.getDialog().getBinderW();
 		assert w != null;
-		HTMLPanel ha = iBinder.create(w);
+		ha = iBinder.create(w);
+		SetFields.setV(ha, arg, va);
 		iP.drawContent(ha);
-
 	}
 
 	@Inject
@@ -88,7 +88,7 @@ public class ReadDialog implements IReadDialog {
 
 		@Override
 		public void onMySuccess(DialogVariables arg) {
-			go(d);
+			go(d, arg);
 
 		}
 
@@ -106,9 +106,9 @@ public class ReadDialog implements IReadDialog {
 		public void onMySuccess(DialogInfo arg) {
 			verify(arg);
 			if (!arg.getDialog().isBefore())
-				go(arg);
+				go(arg, new DialogVariables());
 			else
-				ExecuteAction.action(new DialogVariables(), dialogName, "before", new BeforeA(arg));
+				ExecuteAction.action(new DialogVariables(), dialogName, ICommonConsts.BEFORE, new BeforeA(arg));
 		}
 
 	}

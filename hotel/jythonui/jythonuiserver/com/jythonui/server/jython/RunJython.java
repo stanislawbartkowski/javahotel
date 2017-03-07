@@ -846,7 +846,9 @@ public class RunJython extends UtilHelper implements IExecuteJython {
 		}
 		logDebug(s);
 		interp.exec(s);
-		toDialogVariables(d.getFieldList(), d.getListList(), v, pyMap, true);
+		// 2017/03/07: relief for variables
+//		toDialogVariables(d.getFieldList(), d.getListList(), v, pyMap, true);
+		toDialogVariables(d.getFieldList(), d.getListList(), v, pyMap, false);
 		if (pyMap.has_key(JLISTMAP)) {
 			PyObject o = pyMap.__getitem__(JLISTMAP);
 			extractList((PyDictionary) o, v, d, actionId);
