@@ -99,18 +99,6 @@ var CUTIL = (function() {
 	return my;
 }());
 
-var JSAMPLE = (function() {
-	var my = {};
-
-	my.download = function(s) {
-		var o = eval('(' + s + ')');
-		var key = o.row.realm + ":" + o.row.key + ":" + o.row.filename;
-		// alert(s + " " + key);
-		return CUTIL.download(key);
-	}
-	return my;
-}());
-
 function addStyle(str) {
 	var pa = document.getElementsByTagName('head')[0];
 	var el = document.createElement('style');
@@ -125,4 +113,40 @@ function addStyle(str) {
 
 function addE(p, c) {
 	Polymer.dom(p).appendChild(c);
+}
+
+function test_geti18N(loca) {
+	return 'aaa';
+}
+
+
+function geti18N(loca) {
+	
+	return {
+	      week: 'Week',
+	      calendar: 'Calendar',
+	      clear: 'CLEAR',
+	      today: 'TODAY',
+	      cancel: 'CANCEL',
+	      firstDayOfWeek: 0,
+	      monthNames:
+	       'January_February_March_April_May_June_July_August_September_October_November_December'.split('_'),
+	      weekdays: 'Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday'.split('_'),
+	      weekdaysShort: 'Sun_Mon_Tue_Wed_Thu_Fri_Sat'.split('_'),
+	      formatDate: function(date) {
+	    	return i18parseDate(date);
+	      },
+	      formatTitle: function(monthName, fullYear) {
+	        return monthName + ' ' + fullYear;
+	      },
+	      parseDate: function(dateString) {
+	        var matches = datepicker.i18n.monthNames.filter(function(monthName) {
+	          return monthName.toLowerCase().startsWith(dateString.trim().toLowerCase());
+	        });
+	        dateString = matches.length === 1 ? matches[0] : dateString;
+	        // Parse the date
+	        return Sugar.Date.create(dateString);
+	      }
+	    };
+	
 }

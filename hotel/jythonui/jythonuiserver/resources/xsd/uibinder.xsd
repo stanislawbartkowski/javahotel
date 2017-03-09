@@ -402,6 +402,9 @@
 	<xs:element name="VaadinDatePicker">
 	</xs:element>
 	
+	<xs:element name="VaadinDatePickerLight">
+	</xs:element>
+	
 
 	<xs:element name="VaadinComboBox">
 	</xs:element>

@@ -171,5 +171,6 @@ public interface IAttrName {
 	String ATTRLISTENON = "listenOn";
 	String ATTROPENON = "openOn";
 	String ATTRSELECTOR = "selector";
+	String ATTRATTRFORVALUE = "attrForValue";
 
 };

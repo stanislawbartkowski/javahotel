@@ -11,6 +11,17 @@
             <p:PaperInput label="Double" fieldid="globdou" />   
             <p:PaperCheckbox fieldid="globchecked">Good</p:PaperCheckbox>
             <v:VaadinDatePicker fieldid="globdate" label="Select a date" />
-            <!--            <v:VaadinDatePickerLight fieldid="globdatex" label="Select a date" /> -->
-        </ui:HTMLPanel>
+            <v:VaadinDatePickerLight fieldid="globdatel" attrForValue="value" >
+                <!--                                                   <input is="iron-input" />  -->
+                <p:PaperInput name="value" id="value" label="Date of birthday" size="9"/>
+            </v:VaadinDatePickerLight>
+            
+<!--            
+            <vaadin-date-picker-light attr-for-value="value">                
+            <paper-input label="Birthday">
+            </paper-input>
+             </vaadin-date-picker-light>
+-->            
+ 
+            </ui:HTMLPanel>
 </ui:UiBinder>

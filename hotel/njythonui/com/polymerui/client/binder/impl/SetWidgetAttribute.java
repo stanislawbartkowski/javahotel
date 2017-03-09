@@ -15,6 +15,7 @@ package com.polymerui.client.binder.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.ButtonBase;
 import com.google.gwt.user.client.ui.FocusWidget;
@@ -63,6 +64,7 @@ import com.vaadin.polymer.paper.widget.PaperToast;
 import com.vaadin.polymer.paper.widget.PaperToolbar;
 import com.vaadin.polymer.paper.widget.PaperTooltip;
 import com.vaadin.polymer.vaadin.widget.VaadinContextMenu;
+import com.vaadin.polymer.vaadin.widget.VaadinDatePickerLight;
 
 @SuppressWarnings("unchecked")
 public class SetWidgetAttribute implements ISetWidgetAttribute {
@@ -1099,6 +1101,24 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 		}
 	};
 
+	private static final IVisitor<VaadinDatePickerLight> datepickerlightG = new IVisitor<VaadinDatePickerLight>() {
+
+		@Override
+		public boolean visit(VaadinDatePickerLight w, String k, String v, boolean bv, double dv) {
+			if (k.equals(IAttrName.ATTRATTRFORVALUE)) {
+				w.setAttrForValue(v);
+				Object o = w.getI18n();
+				int kk = 0;
+				Object oo = Utils.geti18N("");
+				int ll = 0;
+				w.setI18n((JavaScriptObject) oo);
+			}
+			else
+				return false;
+			return true;
+		}
+	};
+
 	private final static Map<WidgetTypes, IVisitor<Widget>[]> setAWidget = new HashMap<WidgetTypes, IVisitor<Widget>[]>();
 
 	static {
@@ -1139,6 +1159,7 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 		setAWidget.put(WidgetTypes.PaperTab, new IVisitor[] { polymerWidgetG, papertabG });
 		setAWidget.put(WidgetTypes.PaperTooltip, new IVisitor[] { polymerWidgetG, papertooltipG });
 		setAWidget.put(WidgetTypes.IronSelector, new IVisitor[] { polymerWidgetG, ironselectorG });
+		setAWidget.put(WidgetTypes.VaadinDatePickerLight, new IVisitor[] { polymerWidgetG, datepickerlightG });
 	}
 
 	private WidgetTypes widgetToType(Widget w) {
@@ -1210,8 +1231,8 @@ public class SetWidgetAttribute implements ISetWidgetAttribute {
 		}
 		if (IAttrName.ATTRLISTENON.equals(action)) {
 			if (wType != WidgetTypes.VaadinContextMenu)
-				Utils.errAlertB(widgetToType(w).toString(), M.M().ActionSupportedOnlyForWidget(action,
-						WidgetTypes.VaadinContextMenu.name(), wType.name()));
+				Utils.errAlertB(widgetToType(w).toString(),
+						M.M().ActionSupportedOnlyForWidget(action, WidgetTypes.VaadinContextMenu.name(), wType.name()));
 			Element e;
 			Widget we = PolymerUtil.findWidgetByFieldId(panel, param);
 			if (we != null)

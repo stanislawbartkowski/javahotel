@@ -12,15 +12,18 @@
  */
 package com.polymerui.client.util;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JsDate;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.common.DateFormat;
 import com.polymerui.client.IConsts;
 
 public class Utils {
@@ -85,6 +88,23 @@ public class Utils {
 	public static native void addE(Element p, Element c) /*-{
 	$wnd.addE(p, c);
     }-*/;
+	
+	public static native Object geti18N(String id) /*-{
+		$wnd.i18parseDate = function(date) {
+			return @com.polymerui.client.util.Utils::i18parseDate(*)(date);
+		};
+		return $wnd.geti18N(id);
+	}-*/;
+	
+	public static String i18parseDate(JsDate da) {
+		int y = da.getFullYear();
+		int m = da.getMonth();
+		int dd = da.getDate();
+		Date dt = new Date((long) da.getTime());
+		return DateFormat.toS(dt, false);
+	}
+	
+	
 
 
 	// --------------------

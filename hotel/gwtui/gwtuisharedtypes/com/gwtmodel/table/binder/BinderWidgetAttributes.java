@@ -170,14 +170,15 @@ public class BinderWidgetAttributes {
 			new A(IAttrName.ATTRREQUIRED, TT.BOOLEAN), new A(IAttrName.ATTRSELECTEDITEM), new A(IAttrName.ATTRSIZE))
 			.stream().collect(Collectors.toMap(A::getName, A::getType));
 
-	private static Map<String, TT> vaadindatepickerMap = Arrays.asList(new A(IAttrName.ATTRAUTOVALIDATE, TT.BOOLEAN),
-			new A(IAttrName.ATTRHASVALUE, TT.BOOLEAN), new A(IAttrName.ATTRI18N), new A(IAttrName.ATTRINITIALPOSITION),
-			new A(IAttrName.ATTRKEYBINDINGS), new A(IAttrName.ATTRKEYEVENTTARGET),
+	private static Map<String, TT> vaadindatepickerMap = Arrays
+			.asList(new A(IAttrName.ATTRAUTOVALIDATE, TT.BOOLEAN), new A(IAttrName.ATTRHASVALUE, TT.BOOLEAN),
+					new A(IAttrName.ATTRI18N), new A(IAttrName.ATTRINITIALPOSITION), new A(IAttrName.ATTRKEYBINDINGS),
+					new A(IAttrName.ATTRKEYEVENTTARGET), new A(IAttrName.ATTRINVALID, TT.BOOLEAN),
 
-			new A(IAttrName.ATTRLABEL), new A(IAttrName.ATTRNAME), new A(IAttrName.ATTROPENED, TT.BOOLEAN),
-			new A(IAttrName.ATTRREADONLY), new A(IAttrName.ATTRREQUIRED, TT.BOOLEAN),
-			new A(IAttrName.ATTRSTOPKEYBORADFROMPROPAGATION, TT.BOOLEAN)).stream()
-			.collect(Collectors.toMap(A::getName, A::getType));
+					new A(IAttrName.ATTRLABEL), new A(IAttrName.ATTRNAME), new A(IAttrName.ATTROPENED, TT.BOOLEAN),
+					new A(IAttrName.ATTRREADONLY), new A(IAttrName.ATTRREQUIRED, TT.BOOLEAN),
+					new A(IAttrName.ATTRSTOPKEYBORADFROMPROPAGATION, TT.BOOLEAN))
+			.stream().collect(Collectors.toMap(A::getName, A::getType));
 
 	private static Map<String, TT> vaadinuploadMap = Arrays.asList(new A(IAttrName.ATTRACCEPT),
 			new A(IAttrName.ATTRFILES), new A(IAttrName.ATTRHEADERS), new A(IAttrName.ATTRI18N),
@@ -192,6 +193,17 @@ public class BinderWidgetAttributes {
 	private static Map<String, TT> vaadinsplitlayoutMap = Arrays.asList(new A(IAttrName.ATTRVERTICAL)).stream()
 			.collect(Collectors.toMap(A::getName, A::getType));
 
+	private static Map<String, TT> vaadindatepickerlightMap = Arrays.asList(new A(IAttrName.ATTRATTRFORVALUE),
+
+			new A(IAttrName.ATTRHASVALUE, TT.BOOLEAN), new A(IAttrName.ATTRI18N), new A(IAttrName.ATTRINITIALPOSITION),
+
+			new A(IAttrName.ATTRKEYBINDINGS), new A(IAttrName.ATTRKEYEVENTTARGET),
+
+			new A(IAttrName.ATTRLABEL), new A(IAttrName.ATTRNAME), new A(IAttrName.ATTROPENED, TT.BOOLEAN),
+			new A(IAttrName.ATTRREADONLY), new A(IAttrName.ATTRREQUIRED, TT.BOOLEAN),
+			new A(IAttrName.ATTRSTOPKEYBORADFROMPROPAGATION, TT.BOOLEAN), new A(IAttrName.ATTRVALIDATOR),
+			new A(IAttrName.ATTRVALIDATORTYPE)).stream().collect(Collectors.toMap(A::getName, A::getType));
+
 	// VaadinSplitLayout
 
 	private final static Map<WidgetTypes, Map<String, TT>> wMap = new HashMap<WidgetTypes, Map<String, TT>>();
@@ -199,8 +211,8 @@ public class BinderWidgetAttributes {
 	private final static Set<WidgetTypes> buttSet = Arrays
 			.asList(WidgetTypes.PaperDropdownMenu, WidgetTypes.PaperToggleButton).stream().collect(Collectors.toSet());
 
-	private final static Set<WidgetTypes> editSet = Arrays
-			.asList(WidgetTypes.PaperDropdownMenu, WidgetTypes.VaadinComboBox, WidgetTypes.VaadinDatePicker).stream()
+	private final static Set<WidgetTypes> editSet = Arrays.asList(WidgetTypes.PaperDropdownMenu,
+			WidgetTypes.VaadinComboBox, WidgetTypes.VaadinDatePicker, WidgetTypes.VaadinDatePickerLight).stream()
 			.collect(Collectors.toSet());
 
 	// VaadinSplitLayout
@@ -220,6 +232,7 @@ public class BinderWidgetAttributes {
 		wMap.put(WidgetTypes.VaadinUpload, vaadinuploadMap);
 		wMap.put(WidgetTypes.VaadinSplitLayout, vaadinsplitlayoutMap);
 		wMap.put(WidgetTypes.VaadinContextMenu, vaadincontextmenuMap);
+		wMap.put(WidgetTypes.VaadinDatePickerLight, vaadindatepickerlightMap);
 	}
 
 	private static TT getPolymerA(WidgetTypes w, String attr) {

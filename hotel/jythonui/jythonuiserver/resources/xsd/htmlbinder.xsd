@@ -36,6 +36,10 @@
 	<xs:element name="paper-item" type="ElementContentType">
 	</xs:element>
 
+	<xs:element name="paper-input" type="ElementContentType">
+	</xs:element>
+
+
 	<xs:element name="paper-tabs" type="ElementContentType">
 	</xs:element>
 
@@ -109,7 +113,7 @@
 	<xs:element name="paper-item-body" type="ElementContentType">
 	</xs:element>
 	
-	
-
+	<xs:element name="vaadin-date-picker-light" type="ElementContentType">
+	</xs:element>
 
 </xs:schema>
