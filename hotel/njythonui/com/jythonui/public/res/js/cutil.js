@@ -134,18 +134,13 @@ function geti18N(loca) {
 	      weekdays: 'Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday'.split('_'),
 	      weekdaysShort: 'Sun_Mon_Tue_Wed_Thu_Fri_Sat'.split('_'),
 	      formatDate: function(date) {
-	    	return i18parseDate(date);
+	    	return i18formatDate(date);
 	      },
 	      formatTitle: function(monthName, fullYear) {
 	        return monthName + ' ' + fullYear;
 	      },
 	      parseDate: function(dateString) {
-	        var matches = datepicker.i18n.monthNames.filter(function(monthName) {
-	          return monthName.toLowerCase().startsWith(dateString.trim().toLowerCase());
-	        });
-	        dateString = matches.length === 1 ? matches[0] : dateString;
-	        // Parse the date
-	        return Sugar.Date.create(dateString);
+	    	  return i18parseDate(dateString);
 	      }
 	    };
 	

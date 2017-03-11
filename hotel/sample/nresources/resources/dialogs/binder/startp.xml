@@ -22,6 +22,8 @@
             </paper-input>
              </vaadin-date-picker-light>
 -->            
+            
+            <p:PaperButton fieldid="click" tabindex="0" toggles="true">Click me</p:PaperButton>
  
             </ui:HTMLPanel>
 </ui:UiBinder>

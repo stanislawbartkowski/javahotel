@@ -41,17 +41,19 @@ public class ReadDialog implements IReadDialog {
 	private HTMLPanel ha;
 
 	private void go(DialogInfo arg, DialogVariables va) {
+		ButtonSubscribe sI = new ButtonSubscribe();
 		IMainPanel iP = M.getPanel();
 		if (!arg.getDialog().getLeftStackList().isEmpty()) {
 			PaperMenu me = iP.getLeftMenu();
 			me.clear();
-			arg.getDialog().getLeftStackList().forEach(b -> iBus.subscribe(new ButtonEvent(b), new ButtonSubscribe()));
+			arg.getDialog().getLeftStackList().forEach(b -> iBus.subscribe(new ButtonEvent(b), sI));
 			CreatePolymerMenu.constructStackMenu(me, arg.getDialog().getLeftStackList(), iBus);
 		}
 		BinderWidget w = arg.getDialog().getBinderW();
 		assert w != null;
 		ha = iBinder.create(w);
 		SetFields.setV(ha, arg, va);
+		EnrichWidgets.enrich(iBus, ha, sI);
 		iP.drawContent(ha);
 	}
 

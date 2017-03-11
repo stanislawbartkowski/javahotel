@@ -45,26 +45,48 @@ public class PolymerUtil {
 		return b.toString();
 	}
 
-	public static Widget findWidgetByFieldId(HasWidgets ha, String fieldid) {
+	public interface IVisitor {
+		void visit(String fieldid, Widget w);
+	}
+
+	public static void walkHTMLPanel(HasWidgets ha, IVisitor i) {
 		Iterator<Widget> iW = ha.iterator();
 		// iterate through widget
 		while (iW.hasNext()) {
 			Widget ww = iW.next();
 
 			String id = Utils.getWidgetAttribute(ww, IAttrName.FIELDID);
-			// look for fieldid attribute
-			if (CUtil.EqNS(id, fieldid))
-				return ww;
-			if (ww instanceof HasWidgets) {
-				// recursive
-				ww = findWidgetByFieldId((HasWidgets) ww, fieldid);
-				if (ww != null)
-					return ww;
-			}
-
+			if (!CUtil.EmptyS(id))
+				i.visit(id, ww);
+			if (ww instanceof HasWidgets)
+				walkHTMLPanel((HasWidgets) ww, i);
 		}
-		// not found
-		return null;
+	}
+
+	private static class FoundI implements IVisitor {
+
+		private final String searchId;
+		private Widget foundW;
+
+		FoundI(String searchId) {
+			this.searchId = searchId;
+		}
+
+		@Override
+		public void visit(String fieldid, Widget w) {
+			if (fieldid.equals(searchId))
+				foundW = w;
+		}
+
+	}
+
+	public static Widget findWidgetByFieldId(HasWidgets ha, String fieldid) {
+
+		FoundI i = new FoundI(fieldid);
+
+		walkHTMLPanel(ha, i);
+
+		return i.foundW;
 	}
 
 	public static void verifyWidgetType(String description, Widget w, Class<? extends Widget>... classes) {

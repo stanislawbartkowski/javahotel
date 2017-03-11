@@ -40,6 +40,8 @@ public class EventBus implements IEventBus {
 
 	@Override
 	public void subscribe(IEvent e, ISubscriber i) {
+		assert e != null;
+		assert i != null;
 		list.add(new B(e,i));		
 	}
 

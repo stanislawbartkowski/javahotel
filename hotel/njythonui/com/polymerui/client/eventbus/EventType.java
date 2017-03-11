@@ -22,6 +22,9 @@ abstract class EventType<T> implements IEvent<T> {
 	EventType(Class c, T t) {
 		this.c = c;
 		this.t = t;
+		assert c != null;
+		assert t != null;
+				
 	}
 
 	@Override

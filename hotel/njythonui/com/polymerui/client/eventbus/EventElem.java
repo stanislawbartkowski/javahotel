@@ -12,16 +12,19 @@
  */
 package com.polymerui.client.eventbus;
 
+import com.gwtmodel.table.common.CUtil;
 import com.jythonui.shared.ElemDescription;
 
 class EventElem<T extends ElemDescription> extends EventType<T> {
 
-	EventElem(Class c, T t) {
+	EventElem(Class<T> c, T t) {
 		super(c, t);
+		assert !CUtil.EmptyS(t.getId());
 	}
 
 	@Override
 	boolean eqT(EventType<T> b) {
+
 		return t.getId().equals(b.getT().getId());
 	}
 

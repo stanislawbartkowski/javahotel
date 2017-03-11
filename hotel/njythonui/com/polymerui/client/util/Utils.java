@@ -90,20 +90,26 @@ public class Utils {
     }-*/;
 	
 	public static native Object geti18N(String id) /*-{
-		$wnd.i18parseDate = function(date) {
-			return @com.polymerui.client.util.Utils::i18parseDate(*)(date);
+		$wnd.i18formatDate = function(date) {
+			return @com.polymerui.client.util.Utils::i18formatDate(*)(date);
+		};
+		$wnd.i18parseDate = function(dateString) {
+			return @com.polymerui.client.util.Utils::i18parseDate(*)(dateString);
 		};
 		return $wnd.geti18N(id);
 	}-*/;
 	
-	public static String i18parseDate(JsDate da) {
-		int y = da.getFullYear();
-		int m = da.getMonth();
-		int dd = da.getDate();
+	public static String i18formatDate(JsDate da) {
 		Date dt = new Date((long) da.getTime());
 		return DateFormat.toS(dt, false);
 	}
 	
+	public static JsDate i18parseDate(String dateString) {
+		
+		// TODO: develop
+		return null;
+		
+	}
 	
 
 
