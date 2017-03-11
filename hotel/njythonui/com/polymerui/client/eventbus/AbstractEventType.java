@@ -12,10 +12,19 @@
  */
 package com.polymerui.client.eventbus;
 
-public class ButtonEvent extends AbstractEventType {
-
-	public ButtonEvent() {
-		super(ButtonEvent.class);
+abstract class AbstractEventType implements IEvent {
+	
+	private final Class cl;
+	
+	AbstractEventType(Class cl) {
+		this.cl = cl;		
+		assert cl != null;
 	}
+	
+	@Override
+	public boolean eq(IEvent e) {
+		return e.getClass().equals(cl);
+	}
+
 
 }

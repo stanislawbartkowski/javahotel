@@ -10,12 +10,12 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.polymerui.client.eventbus;
+package com.jythonui.client.var;
 
-public class ButtonEvent extends AbstractEventType {
+import com.jythonui.shared.DialogVariables;
 
-	public ButtonEvent() {
-		super(ButtonEvent.class);
-	}
+public interface ISetJythonVariables {
+
+	void set(DialogVariables v);
 
 }

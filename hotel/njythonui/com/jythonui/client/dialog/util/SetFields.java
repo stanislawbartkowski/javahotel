@@ -10,34 +10,37 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.client.dialog.impl;
+package com.jythonui.client.dialog.util;
 
-import com.google.gwt.user.client.ui.HTMLPanel;
 import com.gwtmodel.table.common.ConvertTT;
-import com.jythonui.shared.DialogInfo;
+import com.jythonui.client.dialog.IReadDialog;
+import com.jythonui.client.util.U;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.FieldValue;
 import com.jythonui.shared.ICommonConsts;
+import com.polymerui.client.eventbus.IEventBus;
 import com.polymerui.client.view.util.SetWValue;
 
-class SetFields {
+public class SetFields {
 
 	private SetFields() {
 
 	}
 
-	static void setV(HTMLPanel ha, DialogInfo arg, DialogVariables va) {
+	public static void setV(DialogVariables va, IEventBus iBus) {
+
+		IReadDialog iR = U.getIDialog(iBus);
 
 		visitListOfFields(va, ICommonConsts.JCOPY, (fie, field) -> {
 			FieldValue val = va.getValue(fie);
 			assert val != null;
-			FieldItem def = arg.getDialog().findFieldItem(fie);
+			FieldItem def = iR.getD().getDialog().findFieldItem(fie);
 			int afterdot = ICommonConsts.DEFAULTAFTERDOT;
 			if (def != null)
 				afterdot = def.getAfterDot();
 			String sval = ConvertTT.toS(val.getValue(), val.getType(), afterdot);
-			SetWValue.setVal(arg.getDialog().getId() + " " + field, ha, fie, sval, val);
+			SetWValue.setVal(iR.getD().getDialog().getId() + " " + field, iR.getH(), fie, sval, val);
 		});
 
 	}

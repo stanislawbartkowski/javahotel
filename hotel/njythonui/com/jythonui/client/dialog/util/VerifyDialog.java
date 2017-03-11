@@ -10,32 +10,33 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.polymerui.client.view.panel;
+package com.jythonui.client.dialog.util;
 
-import com.google.gwt.user.client.ui.HTMLPanel;
-import com.polymerui.client.IGWidget;
-import com.vaadin.polymer.paper.widget.PaperMenu;
+import com.jythonui.client.dialog.IReadDialog;
+import com.jythonui.client.util.U;
+import com.polymerui.client.eventbus.IEventBus;
+import com.polymerui.client.view.util.PolymerUtil;
 
-public interface IMainPanel extends IGWidget {
+public class VerifyDialog {
 
-	enum InfoType {
-		USER, DATA, UPINFO, OWNER, PRODUCT, TITLE
+	private VerifyDialog() {
 	}
 
-	interface IContent {
-		HTMLPanel getH();
+	private static class E {
+		boolean valid = true;
 	}
 
-	void drawInfo(InfoType e, String s);
+	public static boolean verify(IEventBus iBus, boolean syntaxonly) {
+		IReadDialog iR = U.getIDialog(iBus);
 
-	void IncDecCounter(boolean inc);
+		E e = new E();
 
-	void setErrorL(String mess);
-
-	PaperMenu getLeftMenu();
-
-	void replaceContent(IContent i);
-
-	IContent getCurrentContent();
+		PolymerUtil.walkHTMLPanel(iR.getH(), (fieldid, w) -> {
+			BiWidget bi = new BiWidget(w, fieldid);
+			if (!bi.validate())
+				e.valid = false;
+		});
+		return e.valid;
+	}
 
 }

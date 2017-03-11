@@ -12,8 +12,15 @@
  */
 package com.jythonui.client.dialog;
 
+import com.google.gwt.user.client.ui.HTMLPanel;
+import com.jythonui.shared.DialogInfo;
+
 public interface IReadDialog {
-	
-	void readDialog(String dialogName);
+
+	void readDialog(String dialogName, boolean main);
+
+	HTMLPanel getH();
+
+	DialogInfo getD();
 
 }

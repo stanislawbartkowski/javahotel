@@ -12,10 +12,10 @@
  */
 package com.polymerui.client.eventbus;
 
-public class ButtonEvent extends AbstractEventType {
+public class ResultButtonAction extends AbstractEventType {
 
-	public ButtonEvent() {
-		super(ButtonEvent.class);
+	public ResultButtonAction() {
+		super(ResultButtonAction.class);
 	}
 
 }

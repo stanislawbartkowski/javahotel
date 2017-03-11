@@ -12,9 +12,7 @@
  */
 package com.polymerui.client.eventbus;
 
-public interface IEvent<T> {
+public interface IEvent {
 	
 	boolean eq(IEvent e);
-	
-	T getT();
 }

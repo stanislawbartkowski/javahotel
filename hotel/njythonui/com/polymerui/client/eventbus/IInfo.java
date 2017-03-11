@@ -12,10 +12,7 @@
  */
 package com.polymerui.client.eventbus;
 
-public class ButtonEvent extends AbstractEventType {
-
-	public ButtonEvent() {
-		super(ButtonEvent.class);
-	}
-
+public interface IInfo<T> {
+	
+	T get();
 }

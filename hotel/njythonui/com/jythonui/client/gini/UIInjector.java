@@ -15,6 +15,7 @@ package com.jythonui.client.gini;
 import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
 import com.jythonui.client.dialog.IReadDialog;
+import com.jythonui.client.smessage.IGetDisplayMess;
 import com.jythonui.client.start.IJythonClientStart;
 import com.jythonui.shared.RequestContext;
 
@@ -26,5 +27,7 @@ public interface UIInjector extends Ginjector {
 	RequestContext getRequestContext();
 	
 	IReadDialog getReadDialog();
+	
+	IGetDisplayMess getGetDisplayMess();
 
 }

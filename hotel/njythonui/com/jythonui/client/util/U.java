@@ -10,22 +10,31 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.polymerui.client.eventbus;
+package com.jythonui.client.util;
 
-import com.gwtmodel.table.common.CUtil;
-import com.jythonui.shared.ElemDescription;
+import com.google.gwt.user.client.ui.Widget;
+import com.jythonui.client.dialog.IReadDialog;
+import com.polymerui.client.eventbus.EventDialogGetHTML;
+import com.polymerui.client.eventbus.IEventBus;
+import com.polymerui.client.eventbus.IInfo;
 
-class EventElem<T extends ElemDescription> extends EventType<T> {
+public class U {
 
-	EventElem(Class<T> c, T t) {
-		super(c, t);
-		assert !CUtil.EmptyS(t.getId());
+	private U() {
+
 	}
 
-	@Override
-	boolean eqT(EventType<T> b) {
+	public static <T extends Widget> T castP(Widget w, Class<T> cl) {
 
-		return t.getId().equals(b.getT().getId());
+		if (w.getClass().equals(cl))
+			return (T) w;
+		return null;
+	}
+
+	public static IReadDialog getIDialog(IEventBus i) {
+		IInfo<IReadDialog> r = i.request(new EventDialogGetHTML());
+		assert r != null;
+		return r.get();
 	}
 
 }

@@ -12,10 +12,10 @@
  */
 package com.jythonui.client.util;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.jythonui.client.M;
 import com.jythonui.client.gini.UIGiniInjector;
 import com.jythonui.shared.DialogVariables;
+import com.polymerui.client.callback.CommonCallBack;
 
 /**
  * @author hotel
@@ -28,7 +28,7 @@ public class ExecuteAction {
 
 
     public static void action(DialogVariables v, String dialogName, String actionId,
-            AsyncCallback<DialogVariables> callback) {
+    		CommonCallBack<DialogVariables> callback) {
         M.JR().runAction(UIGiniInjector.getI().getRequestContext(), v, dialogName,
                 actionId, callback);
     }

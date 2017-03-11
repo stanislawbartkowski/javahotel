@@ -12,32 +12,26 @@
  */
 package com.polymerui.client.eventbus;
 
-abstract class EventType<T> implements IEvent<T> {
+abstract class AbstractTypeString extends AbstractEventType {
 
-	private final Class c;
-	protected final T t;
+	private final String id;
 
-	abstract boolean eqT(EventType<T> b);
-
-	EventType(Class c, T t) {
-		this.c = c;
-		this.t = t;
-		assert c != null;
-		assert t != null;
-				
+	AbstractTypeString(String id, Class cl) {
+		super(cl);
+		this.id = id;
+		assert id != null;
 	}
 
 	@Override
 	public boolean eq(IEvent e) {
-		Object o = e.getT();
-		if (!o.getClass().equals(c))
+		if (!super.eq(e))
 			return false;
-		return eqT((EventType<T>) e);
+		AbstractTypeString et = (AbstractTypeString) e;
+		return id.equals(et.id);
 	}
 
-	@Override
-	public T getT() {
-		return t;
+	public String getT() {
+		return id;
 	}
 
 }

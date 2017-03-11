@@ -10,12 +10,29 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.polymerui.client.eventbus;
+package com.jythonui.client.dialog.util;
 
-public class ButtonEvent extends AbstractEventType {
+import com.jythonui.client.dialog.IReadDialog;
+import com.jythonui.client.util.U;
+import com.jythonui.shared.DialogVariables;
+import com.polymerui.client.eventbus.IEventBus;
+import com.polymerui.client.view.util.PolymerUtil;
 
-	public ButtonEvent() {
-		super(ButtonEvent.class);
+public class SetVariables {
+
+	private SetVariables() {
+
+	}
+
+	public static void set(DialogVariables va, IEventBus iBus) {
+
+		IReadDialog iR = U.getIDialog(iBus);
+
+		PolymerUtil.walkHTMLPanel(iR.getH(), (fieldid, w) -> {
+			BiWidget bi = new BiWidget(w, fieldid);
+			bi.setToVar(va);
+		});
+
 	}
 
 }

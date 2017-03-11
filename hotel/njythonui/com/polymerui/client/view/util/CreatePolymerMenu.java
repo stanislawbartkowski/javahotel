@@ -49,7 +49,7 @@ public class CreatePolymerMenu {
 			String m = iMess.getString(bu.getDisplayName());
 			final PaperItem i = new PaperItem(m);
 			i.getPolymerElement().addEventListener("click", event -> {
-				iBus.publish(new ButtonEvent(bu));
+				iBus.publish(new ButtonEvent(), bu);
 			});
 			Utils.addE(menu.getElement(), i.getElement());
 		});
