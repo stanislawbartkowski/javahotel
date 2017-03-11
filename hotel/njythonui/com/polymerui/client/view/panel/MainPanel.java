@@ -46,6 +46,8 @@ class MainPanel implements IMainPanel {
 
 	private int colL = 0;
 
+	private IContent contenti = null;
+
 	// default_logo.png
 	// String h =
 	// Utils.getImageAdr(pResources.getRes(IWebPanelResources.IIMAGEPRODUCT));
@@ -171,11 +173,17 @@ class MainPanel implements IMainPanel {
 	}
 
 	@Override
-	public void drawContent(HTMLPanel pa) {
+	public void replaceContent(IContent i) {
 		HTMLPanel pane = (HTMLPanel) PolymerUtil.findandverifyWidget(M.M().MainPanelIconWidget("mainpanel"), ha,
 				"mainpanel", HTMLPanel.class);
 		pane.clear();
-		pane.add(pa);
+		pane.add(i.getH());
+		contenti = i;
+	}
+
+	@Override
+	public IContent getCurrentContent() {
+		return contenti;
 	}
 
 }

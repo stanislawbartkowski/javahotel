@@ -14,8 +14,12 @@ package com.polymerui.client.eventbus;
 
 public interface IEventBus {
 
-	void publish(IEvent e);
+	<I> void publish(IEvent e, I i);
 
-	void subscribe(IEvent e, ISubscriber i);
+	<I> IInfo<I> request(IEvent e);
+
+	<I> void subscribe(IEvent e, ISubscriber<I> i);
+
+	<I> void registerInfoProvider(IEvent e, IInfo<I> i);
 
 }

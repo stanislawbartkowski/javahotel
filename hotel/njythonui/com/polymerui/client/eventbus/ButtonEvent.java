@@ -12,12 +12,10 @@
  */
 package com.polymerui.client.eventbus;
 
-import com.jythonui.shared.ButtonItem;
+public class ButtonEvent extends AbstractEventType {
 
-public class ButtonEvent extends EventElem<ButtonItem> {
-
-	public ButtonEvent(ButtonItem t) {
-		super(ButtonItem.class, t);
+	public ButtonEvent() {
+		super(ButtonEvent.class);
 	}
 
 }

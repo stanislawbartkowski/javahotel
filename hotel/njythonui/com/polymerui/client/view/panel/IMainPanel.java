@@ -22,6 +22,10 @@ public interface IMainPanel extends IGWidget {
 		USER, DATA, UPINFO, OWNER, PRODUCT, TITLE
 	}
 
+	interface IContent {
+		HTMLPanel getH();
+	}
+
 	void drawInfo(InfoType e, String s);
 
 	void IncDecCounter(boolean inc);
@@ -29,7 +33,9 @@ public interface IMainPanel extends IGWidget {
 	void setErrorL(String mess);
 
 	PaperMenu getLeftMenu();
-	
-	void drawContent(HTMLPanel pa);
+
+	void replaceContent(IContent i);
+
+	IContent getCurrentContent();
 
 }

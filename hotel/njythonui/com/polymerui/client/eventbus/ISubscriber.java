@@ -12,7 +12,7 @@
  */
 package com.polymerui.client.eventbus;
 
-public interface ISubscriber<T> {
-	
-	void raise(IEvent<T> i);
+public interface ISubscriber<I> {
+
+	void raise(IEvent e, I i);
 }

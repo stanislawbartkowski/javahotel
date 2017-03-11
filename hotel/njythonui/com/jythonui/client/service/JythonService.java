@@ -27,20 +27,18 @@ import com.jythonui.shared.RequestContext;
 @RemoteServiceRelativePath("greet")
 public interface JythonService extends RemoteService {
 
-    DialogInfo getDialogFormat(RequestContext context, String name);
+	DialogInfo getDialogFormat(RequestContext context, String name);
 
-    DialogVariables runAction(RequestContext context, DialogVariables v,
-            String name, String actionId);
+	DialogVariables runAction(RequestContext context, DialogVariables v, String name, String actionId);
 
-    ClientProp getClientRes(RequestContext context);
+	ClientProp getClientRes(RequestContext context);
 
-    String login(String shiroRealm, String user, String password,
-            CustomSecurity iCustom);
+	String login(String shiroRealm, String user, String password, CustomSecurity iCustom);
 
-    String withoutlogin(CustomSecurity iCustom);
+	String withoutlogin(CustomSecurity iCustom);
 
 	void logout(RequestContext context);
-	
+
 	BinderWidget readBinderWidget(String fileName);
 
 }

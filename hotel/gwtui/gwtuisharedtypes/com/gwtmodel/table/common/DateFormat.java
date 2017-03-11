@@ -20,22 +20,22 @@ public class DateFormat {
 
 	}
 
-	public static int getY(final Date d) {
+	public static int getY(Date d) {
 		int year = d.getYear() + 1900;
 		return year;
 	}
 
-	public static int getM(final Date d) {
+	public static int getM(Date d) {
 		int mo = d.getMonth() + 1;
 		return mo;
 	}
 
-	public static int getD(final Date d) {
+	public static int getD(Date d) {
 		int da = d.getDate();
 		return da;
 	}
 
-	private static int toI(final String s, final int len) throws NumberFormatException {
+	private static int toI(String s, int len) throws NumberFormatException {
 		if (s.length() != len) {
 			throw new NumberFormatException();
 		}
@@ -47,7 +47,7 @@ public class DateFormat {
 		}
 	}
 
-	private static String toNS(final int nu, final int ma) {
+	private static String toNS(int nu, int ma) {
 		String s = new Integer(nu).toString();
 		while (s.length() < ma) {
 			s = "0" + s;
@@ -78,6 +78,10 @@ public class DateFormat {
 		return dd;
 	}
 
+	public static String getDateFormat() {
+		return "YYYY/MM/DD";
+	}
+
 	public static void toD(Date dd, int y, int m, int d) {
 		dd.setYear(y - 1900);
 		dd.setMonth(m - 1);
@@ -88,7 +92,7 @@ public class DateFormat {
 		dd.setSeconds(0);
 	}
 
-	private static boolean setD(final Date dd, final String s) {
+	private static boolean setD(Date dd, String s) {
 		String a[] = s.split("/");
 		if (a.length != 3) {
 			return false;
@@ -115,7 +119,7 @@ public class DateFormat {
 
 	}
 
-	public static Date toD(final String s, boolean timestamp) {
+	public static Date toD(String s, boolean timestamp) {
 		Date d = new Date();
 		String dS = null;
 		String tS = null;

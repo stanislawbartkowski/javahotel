@@ -82,14 +82,14 @@
 
 	<xs:element name="pre" type="ElementContentType">
 	</xs:element>
+	
+	<xs:element name="input" type="ElementContentType">
+	</xs:element>
 
 	<xs:element name="style">
 	</xs:element>
 
 	<xs:element name="paper-material" type="ElementContentType">
-	</xs:element>
-
-	<xs:element name="input" type="ElementContentType">
 	</xs:element>
 
 	<xs:element name="img" type="ElementContentType">
