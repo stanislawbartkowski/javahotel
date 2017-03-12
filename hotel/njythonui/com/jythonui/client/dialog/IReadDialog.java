@@ -12,11 +12,16 @@
  */
 package com.jythonui.client.dialog;
 
+import java.util.List;
+
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.jythonui.shared.DialogInfo;
+import com.jythonui.shared.FieldItem;
 
 public interface IReadDialog {
 
+	List<FieldItem> getDynamicList();
+	
 	void readDialog(String dialogName, boolean main);
 
 	HTMLPanel getH();

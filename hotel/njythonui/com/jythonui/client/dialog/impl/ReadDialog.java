@@ -12,6 +12,9 @@
  */
 package com.jythonui.client.dialog.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.inject.Inject;
 import com.gwtmodel.table.binder.BinderWidget;
@@ -29,6 +32,7 @@ import com.jythonui.client.var.JythonVariables;
 import com.jythonui.shared.ButtonItem;
 import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
+import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.ICommonConsts;
 import com.polymerui.client.binder.ICreateBinderWidget;
 import com.polymerui.client.callback.CommonCallBack;
@@ -123,6 +127,8 @@ public class ReadDialog implements IReadDialog {
 
 	private boolean main;
 
+	private final List<FieldItem> dynamicList = new ArrayList<FieldItem>();
+
 	private final ISetJythonVariables iSet = new ISetJythonVariables() {
 
 		@Override
@@ -188,6 +194,11 @@ public class ReadDialog implements IReadDialog {
 		if (d.getDialog().getBinderW() == null) {
 			Utils.errAlertB(M.M().DialogShouldContainBinder(d.getDialog().getId()));
 		}
+	}
+
+	@Override
+	public List<FieldItem> getDynamicList() {
+		return dynamicList;
 	}
 
 }

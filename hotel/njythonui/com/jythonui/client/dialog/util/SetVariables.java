@@ -30,7 +30,7 @@ public class SetVariables {
 
 		PolymerUtil.walkHTMLPanel(iR.getH(), (fieldid, w) -> {
 			BiWidget bi = new BiWidget(w, fieldid);
-			bi.setToVar(va);
+			bi.setToVar(va, SetFields.getDef(iR, fieldid));
 		});
 
 	}

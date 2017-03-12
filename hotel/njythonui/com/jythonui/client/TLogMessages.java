@@ -65,16 +65,23 @@ public interface TLogMessages extends Messages {
 	String GWTVersion(String j1);
 
 	String PanelHTMLInfo(String id);
-	
+
 	String CannotLoadClientResource();
 
 	String CannotLoadMainPanelBinder(String panelName);
-	
-	String DialogShouldContainBinder(String dName);
-	
-	String BooleanValueCannotBeNull();
-	
-	String ShouldBeBooleanValue(String found);
 
+	String DialogShouldContainBinder(String dName);
+
+	String BooleanValueCannotBeNull();
+
+	String DialogField(String dialogName, String fielditem);
+
+	String WidgetTypeAndValueDoesNotMatch(String widgetClass, String fieldType);
+
+	String WidgetTypeNotImplemented(String widgetClass);
+
+	String CannotWindWidget();
+
+	String FieldDefinitionValueNotMatch(String t1, String t2);
 
 }

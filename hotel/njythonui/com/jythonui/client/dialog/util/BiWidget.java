@@ -13,6 +13,8 @@
 package com.jythonui.client.dialog.util;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -21,11 +23,15 @@ import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.ConvertTT;
 import com.gwtmodel.table.common.DateFormat;
 import com.gwtmodel.table.common.TT;
+import com.jythonui.client.M;
+import com.jythonui.client.dialog.IReadDialog;
 import com.jythonui.client.gini.UIGiniInjector;
 import com.jythonui.client.smessage.IGetDisplayMess;
 import com.jythonui.client.util.U;
 import com.jythonui.shared.ButtonItem;
 import com.jythonui.shared.DialogVariables;
+import com.jythonui.shared.FieldItem;
+import com.jythonui.shared.FieldValue;
 import com.polymerui.client.eventbus.ButtonEvent;
 import com.polymerui.client.eventbus.IEventBus;
 import com.polymerui.client.util.Utils;
@@ -40,6 +46,15 @@ class BiWidget {
 	private final Widget w;
 	private final String fieldid;
 	private final IGetDisplayMess iGet;
+
+	private static final Map<Class, TT> widgetType = new HashMap<Class, TT>();
+
+	static {
+		widgetType.put(PaperInput.class, TT.STRING);
+		widgetType.put(PaperCheckbox.class, TT.BOOLEAN);
+		widgetType.put(VaadinDatePickerLight.class, TT.DATE);
+		widgetType.put(VaadinDatePicker.class, TT.DATE);
+	}
 
 	BiWidget(Widget w, String fieldid) {
 		this.w = w;
@@ -109,7 +124,7 @@ class BiWidget {
 			return null;
 		return s.replace('-', '/');
 	}
-	
+
 	private void setErrorMessage(String err) {
 		VaadinDatePicker d1 = getVaadinDatePicker();
 		if (d1 != null) {
@@ -119,7 +134,7 @@ class BiWidget {
 		VaadinDatePickerLight d2 = getVaadinDatePickerLight();
 		if (d2 != null) {
 			d2.setInvalid(err != null);
-		}		
+		}
 	}
 
 	private V checkForDate() {
@@ -129,7 +144,8 @@ class BiWidget {
 		if (d1 != null)
 			o = Optional.of(d1.getValue());
 		VaadinDatePickerLight d2 = getVaadinDatePickerLight();
-		if (d2 != null) o = Optional.of(d2.getValue());
+		if (d2 != null)
+			o = Optional.of(d2.getValue());
 		if (o.isPresent())
 			return new V(toPicker(o.get()), TT.DATE);
 		else
@@ -168,14 +184,20 @@ class BiWidget {
 		return checkForBoolean();
 	}
 
-	void setToVar(DialogVariables v) {
+	void setToVar(DialogVariables v, FieldItem i) {
 
 		V va = getV();
 		if (va == null)
 			return;
 		switch (va.t) {
 		case STRING:
-			v.setValueS(fieldid, va.v);
+			if (i != null) {
+				FieldValue val = new FieldValue();
+				Object o = ConvertTT.toO(i.getFieldType(), va.v);
+				val.setValue(i.getFieldType(), o, i.getAfterDot());
+				v.setValue(fieldid, val);
+			} else
+				v.setValueS(fieldid, va.v);
 			break;
 		case DATE:
 			Date d = (Date) ConvertTT.toO(TT.DATE, va.v);
@@ -206,6 +228,74 @@ class BiWidget {
 		if (mess != null)
 			setErrorMessage(mess);
 		return mess == null;
+	}
+
+	TT getWidgetType() {
+		return widgetType.get(w.getClass());
+	}
+
+	void setValue(IReadDialog iR, FieldValue val, FieldItem def) {
+
+		assert val.getType() == def.getFieldType();
+
+		TT t = getWidgetType();
+		assert t != null;
+		boolean ok = false;
+
+		// check if widget matches value
+		switch (t) {
+		case STRING:
+			switch (val.getType()) {
+			case STRING:
+			case INT:
+			case LONG:
+			case BIGDECIMAL:
+				ok = true;
+			default:
+				break;
+			}
+			break;
+		case BOOLEAN:
+			ok = val.getType() == TT.BOOLEAN;
+			break;
+		case DATE:
+			ok = val.getType() == TT.DATE;
+			break;
+		default:
+			break;
+		}
+
+		if (!ok)
+			Utils.errAlertB(M.M().DialogField(iR.getD().getDialog().getId(), def.getId()),
+					M.M().WidgetTypeAndValueDoesNotMatch(w.getClass().getName(), val.getType().name()));
+
+		String sval = ConvertTT.toS(val.getValue(), val.getType(), def.getAfterDot());
+
+		if (t == TT.BOOLEAN && val.getValue() == null)
+			Utils.errAlertB(M.M().DialogField(iR.getD().getDialog().getId(), def.getId()),
+					M.M().BooleanValueCannotBeNull());
+
+		if (w instanceof PaperInput) {
+			PaperInput p = (PaperInput) w;
+			p.setValue(sval);
+			return;
+		}
+		if (w instanceof PaperCheckbox) {
+			PaperCheckbox c = (PaperCheckbox) w;
+			if (val != null)
+				c.setChecked(val.getValueB());
+			return;
+		}
+
+		if (t == TT.DATE) {
+			sval = sval.replace('/', '-');
+			if (w instanceof VaadinDatePickerLight)
+				getVaadinDatePickerLight().setValue(sval);
+			if (w instanceof VaadinDatePicker)
+				getVaadinDatePicker().setValue(sval);
+			return;
+		}
+
 	}
 
 }
