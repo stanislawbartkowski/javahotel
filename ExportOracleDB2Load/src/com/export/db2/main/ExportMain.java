@@ -30,10 +30,11 @@ public class ExportMain {
 	}
 
 	private static void printHelp() {
+		P("Export single table");
 		P("Parameters:");
 		P(" <propertyfile> <table> <export dir>  ");
 		P("Example: ");
-		P(" /home/sb/export/prop.properties table.list ho.bsl_document_flag /tmp/data/");
+		P(" /home/sb/export/prop.properties ho.bsl_document_flag /tmp/data/");
 	}
 
 	public static void main(String[] args) {

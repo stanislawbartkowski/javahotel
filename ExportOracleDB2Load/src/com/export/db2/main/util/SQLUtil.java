@@ -91,11 +91,13 @@ class SQLUtil {
 		}
 		out.exporttableName = fulltableName;
 		// determine the table name
-		if (ExportProperties.getHiveDB(prop) != null)
-			if (ExportProperties.getHiveDB(prop).equals(ExportProp.HIVENODB))
-				out.exporttableName = out.tableName;
-			else
-				out.exporttableName = ExportProperties.getHiveDB(prop) + "." + out.tableName;
+		if (ExportProperties.isHiveDest(prop))
+			// only if hive dest
+			if (ExportProperties.getHiveDB(prop) != null)
+				if (ExportProperties.getHiveDB(prop).equals(ExportProp.HIVENODB))
+					out.exporttableName = out.tableName;
+				else
+					out.exporttableName = ExportProperties.getHiveDB(prop) + "." + out.tableName;
 		return out;
 	}
 
