@@ -23,7 +23,6 @@ import com.google.inject.Inject;
 import com.gwtmodel.table.binder.BinderWidget;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.IReadDialog;
-import com.jythonui.client.dialog.impl.ReadDialog;
 import com.jythonui.client.gini.UIGiniInjector;
 import com.jythonui.client.start.IJythonClientStart;
 import com.jythonui.shared.ClientProp;
@@ -43,20 +42,20 @@ public class JythonClientStart implements IJythonClientStart {
 		this.pFactory = pFactory;
 	}
 
-	private static final String mainPanel = "mainpanel.xml";
 	private static final String startP = "startp.xml";
 
 	class WSync extends SynchronizeList {
 
-		BinderWidget w;
+		BinderWidget[] w = new BinderWidget[M.getBinders().length];
 
 		WSync() {
-			super(3);
+			super(2 + M.getBinders().length);
 		}
 
 		@Override
 		protected void doTask() {
-			moveForward(w);
+			M.setStandw(w);
+			moveForward();
 		}
 	}
 
@@ -95,14 +94,16 @@ public class JythonClientStart implements IJythonClientStart {
 	private class PanelBack implements AsyncCallback<BinderWidget> {
 
 		private final WSync s;
+		private final int i;
 
-		PanelBack(WSync s) {
+		PanelBack(WSync s, int i) {
 			this.s = s;
+			this.i = i;
 		}
 
 		@Override
 		public void onFailure(Throwable caught) {
-			String html = "<H1>" + M.M().CannotLoadMainPanelBinder(mainPanel) + "</H1>";
+			String html = "<H1>" + M.M().CannotLoadMainPanelBinder(M.getBinders()[i]) + "</H1>";
 			if (caught != null) {
 				html = html + "<p>" + caught.getLocalizedMessage();
 			}
@@ -111,7 +112,7 @@ public class JythonClientStart implements IJythonClientStart {
 
 		@Override
 		public void onSuccess(BinderWidget result) {
-			s.w = result;
+			s.w[i] = result;
 			s.signalDone();
 		}
 
@@ -122,8 +123,8 @@ public class JythonClientStart implements IJythonClientStart {
 		M.getPanel().drawInfo(t, i);
 	}
 
-	private void moveForward(BinderWidget w) {
-		IMainPanel i = pFactory.produceMainPanel(w,
+	private void moveForward() {
+		IMainPanel i = pFactory.produceMainPanel(M.getStandw()[0],
 				M.getClientProp().getAttr(IConsts.PANELINFOPRODUCTIMAGE, IConsts.PRODUCTIMAGEDEFAULT),
 				M.getClientProp().getAttr(IConsts.PANELINFOVERSIONINFO));
 		M.setPanel(i);
@@ -141,7 +142,8 @@ public class JythonClientStart implements IJythonClientStart {
 		WSync s = new WSync();
 
 		M.JR().getClientRes(UIGiniInjector.getI().getRequestContext(), new ResBack(s));
-		M.JR().readBinderWidget(mainPanel, new PanelBack(s));
+		for (int i = 0; i < M.getBinders().length; i++)
+			M.JR().readBinderWidget(M.getBinders()[i], new PanelBack(s, i));
 
 		List<String> imp = new ArrayList<String>();
 		imp.add("iron-icons/iron-icons.html");

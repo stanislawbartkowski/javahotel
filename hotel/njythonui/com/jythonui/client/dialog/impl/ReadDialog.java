@@ -22,6 +22,7 @@ import com.jythonui.client.M;
 import com.jythonui.client.dialog.IReadDialog;
 import com.jythonui.client.dialog.util.ActionButton;
 import com.jythonui.client.dialog.util.EnrichWidgets;
+import com.jythonui.client.dialog.util.RunAction;
 import com.jythonui.client.dialog.util.SetFields;
 import com.jythonui.client.dialog.util.SetVariables;
 import com.jythonui.client.dialog.util.VerifyDialog;
@@ -42,6 +43,8 @@ import com.polymerui.client.eventbus.IEvent;
 import com.polymerui.client.eventbus.IEventBus;
 import com.polymerui.client.eventbus.ISubscriber;
 import com.polymerui.client.eventbus.ResultButtonAction;
+import com.polymerui.client.eventbus.StandardDialogEvent;
+import com.polymerui.client.eventbus.StandardDialogResult;
 import com.polymerui.client.util.Utils;
 import com.polymerui.client.view.panel.IMainPanel;
 import com.polymerui.client.view.util.CreatePolymerMenu;
@@ -60,7 +63,6 @@ public class ReadDialog implements IReadDialog {
 		@Override
 		public void onMySuccess(DialogVariables arg) {
 			go(d, arg);
-
 		}
 
 	}
@@ -69,10 +71,26 @@ public class ReadDialog implements IReadDialog {
 
 		@Override
 		public void raise(IEvent e, ButtonItem i) {
-			if (!VerifyDialog.verify(iBus, true))
+			if (!VerifyDialog.verify(iBus, i))
 				return;
+			if (i.isAction()) {
+				RunAction.buttonAction(iBus, i);
+				return;
+			}
 			ActionButton.call(iBus, JythonVariables.constructVar(), i);
 		}
+	}
+	
+	private class StandardDialogSubscriber implements ISubscriber<StandardDialogResult> {
+
+		@Override
+		public void raise(IEvent e, StandardDialogResult i) {
+			int k = 0;
+			DialogVariables v = JythonVariables.constructVar();
+			v.setValueB(ICommonConsts.JYESANSWER, i.isOk());
+			ActionButton.callA(iBus, v, i.getAction());			
+		}
+		
 	}
 
 	private class ResultAction implements ISubscriber<DialogVariables> {
@@ -158,6 +176,7 @@ public class ReadDialog implements IReadDialog {
 		iBus.registerInfoProvider(new EventDialogGetHTML(), () -> ReadDialog.this);
 		iBus.subscribe(new ButtonEvent(), new ButtonSubscribe());
 		iBus.subscribe(new ResultButtonAction(), new ResultAction());
+		iBus.subscribe(new StandardDialogEvent(), new StandardDialogSubscriber());
 		d = arg;
 		IMainPanel iP = M.getPanel();
 		if (!arg.getDialog().getLeftStackList().isEmpty()) {

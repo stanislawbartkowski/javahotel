@@ -14,6 +14,8 @@ package com.jythonui.client.dialog.util;
 
 import com.jythonui.client.dialog.IReadDialog;
 import com.jythonui.client.util.U;
+import com.jythonui.shared.ButtonItem;
+import com.jythonui.shared.FieldItem;
 import com.polymerui.client.eventbus.IEventBus;
 import com.polymerui.client.view.util.PolymerUtil;
 
@@ -26,7 +28,7 @@ public class VerifyDialog {
 		boolean valid = true;
 	}
 
-	public static boolean verify(IEventBus iBus, boolean syntaxonly) {
+	public static boolean verify(IEventBus iBus, ButtonItem i) {
 		IReadDialog iR = U.getIDialog(iBus);
 
 		E e = new E();
@@ -35,6 +37,13 @@ public class VerifyDialog {
 			BiWidget bi = new BiWidget(w, fieldid);
 			if (!bi.validate())
 				e.valid = false;
+			else if (i.isValidateAction()) {
+				// button with validation
+				FieldItem f = iR.getD().getDialog().findFieldItem(fieldid);
+				if ((f != null) && f.isNotEmpty())
+					if (bi.isEmpty(f))
+						e.valid = false;
+			}
 		});
 		return e.valid;
 	}

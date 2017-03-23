@@ -14,6 +14,7 @@ package com.jythonui.client;
 
 import com.google.gwt.core.client.GWT;
 import com.google.inject.Inject;
+import com.gwtmodel.table.binder.BinderWidget;
 import com.jythonui.client.service.JythonService;
 import com.jythonui.client.service.JythonServiceAsync;
 import com.jythonui.client.smessage.IGetDisplayMess;
@@ -32,6 +33,23 @@ public class M {
 
 	@Inject
 	private static IGetDisplayMess sMessage;
+
+	private static BinderWidget[] standw;
+
+	private static final String[] binders = new String[] { "mainpanel.xml", "okdialogbinder.xml",
+			"yesnodialogbinder.xml" };
+
+	public static String[] getBinders() {
+		return binders;
+	}
+
+	public static BinderWidget[] getStandw() {
+		return standw;
+	}
+
+	public static void setStandw(BinderWidget[] w) {
+		standw = w;
+	}
 
 	public static ClientProp getClientProp() {
 		return clientProp;

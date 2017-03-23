@@ -40,6 +40,7 @@ public class EnrichWidgets {
 			BiWidget bi = new BiWidget(w, fieldid);
 			bi.setI18();
 			bi.setButtonSubscriber(iBus, DialogFormat.findE(bList, fieldid));
+			bi.setInputPattern(SetFields.getDef(iR, fieldid));
 		});
 	}
 

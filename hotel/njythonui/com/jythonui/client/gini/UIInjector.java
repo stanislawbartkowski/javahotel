@@ -16,8 +16,10 @@ import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
 import com.jythonui.client.dialog.IReadDialog;
 import com.jythonui.client.smessage.IGetDisplayMess;
+import com.jythonui.client.smessage.IGetStandardMessage;
 import com.jythonui.client.start.IJythonClientStart;
 import com.jythonui.shared.RequestContext;
+import com.polymerui.client.binder.ICreateBinderWidget;
 
 @GinModules(UIInjectModule.class)
 public interface UIInjector extends Ginjector {
@@ -29,5 +31,9 @@ public interface UIInjector extends Ginjector {
 	IReadDialog getReadDialog();
 	
 	IGetDisplayMess getGetDisplayMess();
+	
+	IGetStandardMessage getGetStandardMessage();
+	
+	ICreateBinderWidget getCreateBinderWidget();
 
 }

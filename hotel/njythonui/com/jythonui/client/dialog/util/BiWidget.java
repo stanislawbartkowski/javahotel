@@ -26,12 +26,13 @@ import com.gwtmodel.table.common.TT;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.IReadDialog;
 import com.jythonui.client.gini.UIGiniInjector;
-import com.jythonui.client.smessage.IGetDisplayMess;
+import com.jythonui.client.smessage.IGetStandardMessage;
 import com.jythonui.client.util.U;
 import com.jythonui.shared.ButtonItem;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.FieldValue;
+import com.polymerui.client.IConsts;
 import com.polymerui.client.eventbus.ButtonEvent;
 import com.polymerui.client.eventbus.IEventBus;
 import com.polymerui.client.util.Utils;
@@ -45,7 +46,23 @@ class BiWidget {
 
 	private final Widget w;
 	private final String fieldid;
-	private final IGetDisplayMess iGet;
+	private final IGetStandardMessage iGet;
+
+	private String regNumberExpr(FieldItem i) {
+		switch (i.getAfterDot()) {
+		case 0:
+			return "[-+]?[0-9]*";
+		case 1:
+			return "[-+]?[0-9]*(\\.[0-9])?";
+		case 2:
+			return "[-+]?[0-9]+(\\.[0-9][0-9]?)?";
+		case 3:
+			return "[-+]?[0-9]+(\\.[0-9][0-9]?[0-9]?)?";
+		case 4:
+			return "[-+]?[0-9]+(\\.[0-9][0-9]?[0-9]?[0-9]?)?";
+		}
+		return null;
+	}
 
 	private static final Map<Class, TT> widgetType = new HashMap<Class, TT>();
 
@@ -59,7 +76,7 @@ class BiWidget {
 	BiWidget(Widget w, String fieldid) {
 		this.w = w;
 		this.fieldid = fieldid;
-		iGet = UIGiniInjector.getI().getGetDisplayMess();
+		iGet = UIGiniInjector.getI().getGetStandardMessage();
 	}
 
 	void setI18() {
@@ -100,22 +117,22 @@ class BiWidget {
 		final TT t;
 		final int afterdot;
 
-		V(String v, TT t) {
-			this.v = v;
-			this.t = t;
+		V(boolean b) {
+			this.b = b;
+			t = TT.BOOLEAN;
+			v = null;
 			afterdot = 0;
-			b = false;
 		}
 
 		V(String v) {
 			this(v, TT.STRING);
 		}
 
-		V(boolean b) {
-			this.b = b;
-			t = TT.BOOLEAN;
-			v = null;
+		V(String v, TT t) {
+			this.v = v;
+			this.t = t;
 			afterdot = 0;
+			b = false;
 		}
 	}
 
@@ -134,6 +151,12 @@ class BiWidget {
 		VaadinDatePickerLight d2 = getVaadinDatePickerLight();
 		if (d2 != null) {
 			d2.setInvalid(err != null);
+		}
+		if (w instanceof PaperInput) {
+			PaperInput p = (PaperInput) w;
+			p.setErrorMessage(err);
+			p.setInvalid(err != null);
+			return;
 		}
 	}
 
@@ -185,7 +208,6 @@ class BiWidget {
 	}
 
 	void setToVar(DialogVariables v, FieldItem i) {
-
 		V va = getV();
 		if (va == null)
 			return;
@@ -212,6 +234,11 @@ class BiWidget {
 	}
 
 	boolean validate() {
+		PaperInput p1 = U.castP(w, PaperInput.class);
+		if (p1 != null)
+			if (!p1.validate())
+				return false;
+
 		V va = getV();
 		if (va == null || CUtil.EmptyS(va.v))
 			return true;
@@ -220,7 +247,7 @@ class BiWidget {
 		case DATE:
 			Date d = DateFormat.toD(va.v, false);
 			if (d == null)
-				mess = iGet.getString("dateformatnotvalid");
+				mess = iGet.getMessage("dateformatnotvalid");
 			break;
 		default:
 			break;
@@ -296,6 +323,32 @@ class BiWidget {
 			return;
 		}
 
+	}
+
+	void setInputPattern(FieldItem i) {
+		if (i == null)
+			return;
+		TT t = i.getFieldType();
+		assert t != null;
+		if (t == TT.BIGDECIMAL || t == TT.INT || t == TT.LONG)
+			if (w instanceof PaperInput) {
+				PaperInput p = (PaperInput) w;
+				p.setPattern(regNumberExpr(i));
+				return;
+			}
+	}
+
+	boolean isEmpty(FieldItem f) {
+		V va = getV();
+		if (va == null)
+			return false;
+		if (va.t == TT.BOOLEAN)
+			return false;
+		if (!CUtil.EmptyS(va.v))
+			return false;
+		String errmess = iGet.getMessage(IConsts.EMPTYFIELDMESSAGE);
+		setErrorMessage(errmess);
+		return true;
 	}
 
 }

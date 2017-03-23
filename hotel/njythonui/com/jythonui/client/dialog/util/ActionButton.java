@@ -22,19 +22,24 @@ import com.polymerui.client.eventbus.IEventBus;
 import com.polymerui.client.eventbus.ResultButtonAction;
 
 public class ActionButton {
-	
+
 	private ActionButton() {
-		
+
 	}
-	
+
 	public static void call(IEventBus iBus, DialogVariables v, ButtonItem b) {
+		callA(iBus, v, b.getId());
+	}
+
+	public static void callA(IEventBus iBus, DialogVariables v, String action) {
 		IReadDialog iR = U.getIDialog(iBus);
-		ExecuteAction.action(v, iR.getD().getDialog().getId(), b.getId(), new CommonCallBack<DialogVariables>() {
+		ExecuteAction.action(v, iR.getD().getDialog().getId(), action, new CommonCallBack<DialogVariables>() {
 
 			@Override
 			public void onMySuccess(DialogVariables arg) {
-				iBus.publish(new ResultButtonAction(),arg);
-			}});
+				iBus.publish(new ResultButtonAction(), arg);
+			}
+		});
 
 	}
 

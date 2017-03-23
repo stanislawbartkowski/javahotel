@@ -18,6 +18,7 @@ import com.google.inject.Singleton;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.IReadDialog;
 import com.jythonui.client.dialog.impl.ReadDialog;
+import com.jythonui.client.dialog.util.StandardDialog;
 import com.jythonui.client.requestcontext.RequestContextFactory;
 import com.jythonui.client.smessage.IGetDisplayMess;
 import com.jythonui.client.smessage.IGetStandardMessage;
@@ -47,7 +48,7 @@ public class UIInjectModule extends AbstractGinModule {
 		bind(IGetDisplayMess.class).to(GetDisplayMess.class).in(Singleton.class);
 		bind(IEventBus.class).to(EventBus.class);
 		bind(IReadDialog.class).to(ReadDialog.class);
-		requestStaticInjection(M.class, CreatePolymerMenu.class);
+		requestStaticInjection(M.class, CreatePolymerMenu.class, StandardDialog.class);
 	}
 
 	@Provides

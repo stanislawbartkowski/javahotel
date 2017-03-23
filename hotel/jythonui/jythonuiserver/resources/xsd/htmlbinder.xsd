@@ -82,7 +82,7 @@
 
 	<xs:element name="pre" type="ElementContentType">
 	</xs:element>
-	
+
 	<xs:element name="input" type="ElementContentType">
 	</xs:element>
 
@@ -103,7 +103,7 @@
 
 	<xs:element name="iron-meta" type="ElementContentType">
 	</xs:element>
-	
+
 	<xs:element name="iron-icon" type="ElementContentType">
 	</xs:element>
 
@@ -112,8 +112,16 @@
 
 	<xs:element name="paper-item-body" type="ElementContentType">
 	</xs:element>
-	
+
+	<xs:element name="paper-button" type="ElementContentType">
+	</xs:element>
+
+
+	<xs:element name="paper-dialog-scrollable" type="ElementContentType">
+	</xs:element>
+
 	<xs:element name="vaadin-date-picker-light" type="ElementContentType">
 	</xs:element>
+
 
 </xs:schema>

@@ -34,7 +34,7 @@ public class SetFields {
 
 	static FieldItem getDef(IReadDialog iR, String id) {
 		FieldItem i = iR.getD().getDialog().findFieldItem(id);
-		if (i == null)
+		if (i != null)
 			return i;
 		return DialogFormat.findE(iR.getDynamicList(), id);
 	}
@@ -46,49 +46,67 @@ public class SetFields {
 
 		visitListOfFields(va, ICommonConsts.JCOPY, (fie, field) -> {
 
-			FieldItem def = getDef(iR,fie);
-			Widget w = PolymerUtil.findWidgetByFieldId(iR.getH(),fie);
-			if (w == null) Utils.errAlert(M.M().DialogField(dialogName, fie),M.M().CannotWindWidget());			
-			BiWidget bi = new BiWidget(w,fie);			
+			FieldItem def = getDef(iR, fie);
+			Widget w = PolymerUtil.findWidgetByFieldId(iR.getH(), fie);
+			if (w == null)
+				Utils.errAlert(M.M().DialogField(dialogName, fie), M.M().CannotWindWidget());
+			BiWidget bi = new BiWidget(w, fie);
 			TT t = bi.getWidgetType();
-			if (t == null) Utils.errAlertB(M.M().DialogField(dialogName, field),M.M().WidgetTypeNotImplemented(w.getClass().getName()));
+			if (t == null)
+				Utils.errAlertB(M.M().DialogField(dialogName, field),
+						M.M().WidgetTypeNotImplemented(w.getClass().getName()));
 			FieldValue val = va.getValue(fie);
 			assert val != null;
-			
+
 			// try to specify type
+			int afterdot = 0;
 			if (def == null) {
 				String dType = null;
 				switch (t) {
 				case STRING:
 					switch (val.getType()) {
-					case STRING : dType = ICommonConsts.STRINGTYPE; break;
-					case LONG : dType = ICommonConsts.LONGTYPE; break;
-					case INT: dType = ICommonConsts.INTTYPE; break;
-					case BIGDECIMAL: dType = ICommonConsts.DECIMALTYPE; break;
-					default : break;
+					case STRING:
+						dType = ICommonConsts.STRINGTYPE;
+						break;
+					case LONG:
+						dType = ICommonConsts.LONGTYPE;
+						break;
+					case INT:
+						dType = ICommonConsts.INTTYPE;
+						break;
+					case BIGDECIMAL:
+						afterdot = ICommonConsts.DEFAULTAFTERDOT;
+						dType = ICommonConsts.DECIMALTYPE;
+						break;
+					default:
+						break;
 					}
 					break;
 				case DATE:
-					if (val.getType() == TT.DATE) dType = ICommonConsts.DATETYPE;
+					if (val.getType() == TT.DATE)
+						dType = ICommonConsts.DATETYPE;
 					break;
 				case BOOLEAN:
-					if (val.getType() == TT.BOOLEAN) dType = ICommonConsts.BOOLTYPE;
+					if (val.getType() == TT.BOOLEAN)
+						dType = ICommonConsts.BOOLTYPE;
 					break;
 				}
-				if (dType == null) 
-					Utils.errAlertB(M.M().DialogField(dialogName, field),M.M().WidgetTypeAndValueDoesNotMatch(w.getClass().getName(), val.getType().name()));
-				
+				if (dType == null)
+					Utils.errAlertB(M.M().DialogField(dialogName, field),
+							M.M().WidgetTypeAndValueDoesNotMatch(w.getClass().getName(), val.getType().name()));
+
 				def = new FieldItem();
 				def.setId(fie);
-				def.setAttr(ICommonConsts.TYPE,dType);
-				def.setAttr(ICommonConsts.AFTERDOT,Integer.toString(ICommonConsts.DEFAULTAFTERDOT));
+				def.setAttr(ICommonConsts.TYPE, dType);
+				def.setAttr(ICommonConsts.AFTERDOT, Integer.toString(afterdot));
 				// update dynamic list (once only)
 				iR.getDynamicList().add(def);
 			}
-			
+
 			if (def.getFieldType() != val.getType())
-				Utils.errAlertB(M.M().DialogField(dialogName, field),M.M().FieldDefinitionValueNotMatch(def.getFieldType().name(),val.getType().name()));
-						
+				Utils.errAlertB(M.M().DialogField(dialogName, field),
+						M.M().FieldDefinitionValueNotMatch(def.getFieldType().name(), val.getType().name()));
+
 			bi.setValue(iR, val, def);
 		});
 

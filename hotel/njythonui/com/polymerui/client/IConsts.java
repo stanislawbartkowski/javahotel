@@ -23,9 +23,13 @@ import com.gwtmodel.table.common.IMessConsts;
  * @author hotel
  */
 public interface IConsts {
-	
-	String UIVersion = "UI : 2017/01/18 (r 2.00)";
 
+	String UIVersion = "UI : 2017/01/18 (r 2.00)";
+	
+	String JBUTTONDIALOGSTART = "JUPDIALOG_START";
+	String JBUTTONDIALOGSTART1 = "JUPDIALOG_STARTPAR";
+	String JBUTTONDIALOGRES = "JUPDIALOG_RES";
+	String JBUTTONRES = "JUPDIALOG_BUTTON";
 
 	int defaultDecimal = 2;
 	int defaultPage = 20;
@@ -53,6 +57,7 @@ public interface IConsts {
 	int headerImageWidth = 20;
 	int headerImageHeight = 20;
 	String EMPTYIM = "-";
+	String EMPTYFIELDMESSAGE = "emptyfieldmessage";
 
 	String GWT = "gwtwidget";
 	String POLYMER = "polymerwidget";

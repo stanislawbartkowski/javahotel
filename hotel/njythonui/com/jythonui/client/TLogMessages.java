@@ -84,4 +84,8 @@ public interface TLogMessages extends Messages {
 
 	String FieldDefinitionValueNotMatch(String t1, String t2);
 
+	String ValueShouldBeString(String fielid, String found);
+
+	String UnknownAction(String action, String param);
+
 }
