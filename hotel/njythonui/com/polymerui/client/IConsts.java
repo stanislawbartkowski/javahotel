@@ -24,7 +24,7 @@ import com.gwtmodel.table.common.IMessConsts;
  */
 public interface IConsts {
 
-	String UIVersion = "UI : 2017/01/18 (r 2.00)";
+	String UIVersion = "UI : 2017/04/01 (r 2.00)";
 	
 	String JBUTTONDIALOGSTART = "JUPDIALOG_START";
 	String JBUTTONDIALOGSTART1 = "JUPDIALOG_STARTPAR";

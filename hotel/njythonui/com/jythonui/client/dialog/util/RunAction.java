@@ -12,22 +12,18 @@
  */
 package com.jythonui.client.dialog.util;
 
-import com.google.gwt.user.client.ui.HTMLPanel;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.TT;
 import com.jythonui.client.M;
+import com.jythonui.client.dialog.IReadDialog;
 import com.jythonui.client.gini.UIGiniInjector;
 import com.jythonui.shared.ButtonItem;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldValue;
 import com.jythonui.shared.ICommonConsts;
 import com.polymerui.client.IConsts;
-import com.polymerui.client.binder.ICreateBinderWidget;
 import com.polymerui.client.eventbus.IEventBus;
 import com.polymerui.client.util.Utils;
-import com.polymerui.client.view.panel.IMainPanel;
-import com.polymerui.client.view.util.PolymerUtil;
-import com.vaadin.polymer.paper.widget.PaperDialog;
 
 public class RunAction {
 
@@ -88,7 +84,20 @@ public class RunAction {
 		performAction(iBus, action, new String[] { param, param1, param2, param3, bItem.getDisplayName() });
 	}
 
+	private static void verifyParams(String action, String[] pars) {
+		String[] requ0 = { ICommonConsts.JMAINDIALOG, ICommonConsts.JUPDIALOG };
+		boolean require0 = false;
+		for (String s : requ0)
+			if (action.equals(s))
+				require0 = true;
+		if (!require0 || !CUtil.EmptyS(pars[0]))
+			return;
+		String mess = M.M().ActionRequiresParameter(action);
+		Utils.errAlertB(mess);
+	}
+
 	private static void performAction(IEventBus iBus, String action, String[] pars) {
+		verifyParams(action, pars);
 		String param = null;
 		String param1 = null;
 		String param2 = null;
@@ -115,7 +124,11 @@ public class RunAction {
 		// i.logOut();
 		// return;
 		// }
-		// if (action.equals(ICommonConsts.JMAINDIALOG)) {
+		if (action.equals(ICommonConsts.JMAINDIALOG)) {
+			IReadDialog d = UIGiniInjector.getI().getReadDialog();
+			d.readDialog(pars[0], displayName, true);
+			return;
+		}
 		// if (M.getMainD() != null)
 		// M.getMainD().close();
 		// M.setMainD(null);

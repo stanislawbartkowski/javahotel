@@ -12,6 +12,7 @@
 
 	<leftstack>
 		<button id="standard" displayname="Standard" header="" />
+                <button id="maindialog" displayname="Main dialog" actiontype="JMAIN_DIALOG" actionparam="startp.xml" />
                 <button id="okmessage" displayname="Ok Message" actiontype="JOK_MESSAGE" actionparam="Hello" actionparam1="Title" actionparam2="okaction" />
                 <button id="yesmessage" displayname="YesNo Message" actiontype="JYESNO_MESSAGE" actionparam="Do you really want to carry on" actionparam1="I'm asking You" actionparam2="yesnoaction" />
         </leftstack>     
@@ -21,7 +22,8 @@
         </buttons>
         
          <form>
-            <field id="glob1" notempty="" />
+            <field id="glob1" notempty="" signalchange="" />
+            <field id="globchange" signalchange="" />
         </form>
  
 

@@ -10,22 +10,12 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.client.dialog;
+package com.polymerui.client.eventbus;
 
-import java.util.List;
+public class ChangeEvent extends AbstractEventType {
 
-import com.google.gwt.user.client.ui.HTMLPanel;
-import com.jythonui.shared.DialogInfo;
-import com.jythonui.shared.FieldItem;
-
-public interface IReadDialog {
-
-	List<FieldItem> getDynamicList();
-
-	void readDialog(String dialogName, String displayName, boolean main);
-
-	HTMLPanel getH();
-
-	DialogInfo getD();
+	public ChangeEvent() {
+		super(ChangeEvent.class);
+	}
 
 }

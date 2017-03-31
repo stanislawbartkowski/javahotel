@@ -87,5 +87,7 @@ public interface TLogMessages extends Messages {
 	String ValueShouldBeString(String fielid, String found);
 
 	String UnknownAction(String action, String param);
+	
+	String ActionRequiresParameter(String action);
 
 }

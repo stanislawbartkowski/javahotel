@@ -41,6 +41,7 @@ public class EnrichWidgets {
 			bi.setI18();
 			bi.setButtonSubscriber(iBus, DialogFormat.findE(bList, fieldid));
 			bi.setInputPattern(SetFields.getDef(iR, fieldid));
+			bi.setSignalChange(iBus, SetFields.getDef(iR, fieldid));
 		});
 	}
 

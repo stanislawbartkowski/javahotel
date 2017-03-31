@@ -133,7 +133,7 @@ public class JythonClientStart implements IJythonClientStart {
 		displayPanelInfo(IMainPanel.InfoType.TITLE, IConsts.PANELINFOTITLE);
 		displayPanelInfo(IMainPanel.InfoType.OWNER, IConsts.PANELINFOOWNERNAME);
 		IReadDialog d = UIGiniInjector.getI().getReadDialog();
-		d.readDialog(startP, true);
+		d.readDialog(startP, null, true);
 	}
 
 	@Override
@@ -170,6 +170,7 @@ public class JythonClientStart implements IJythonClientStart {
 		imp.add("paper-item/paper-item.html");
 		imp.add("paper-item/paper-item-body.html");
 		imp.add("iron-icon/iron-icon.html");
+		imp.add("paper-input/paper-input.html");
 		imp.add("paper-tooltip/paper-tooltip.html");
 		Polymer.importHref(imp, new Function() {
 

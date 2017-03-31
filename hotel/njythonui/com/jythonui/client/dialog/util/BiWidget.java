@@ -34,6 +34,7 @@ import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.FieldValue;
 import com.polymerui.client.IConsts;
 import com.polymerui.client.eventbus.ButtonEvent;
+import com.polymerui.client.eventbus.ChangeEvent;
 import com.polymerui.client.eventbus.IEventBus;
 import com.polymerui.client.util.Utils;
 import com.vaadin.polymer.paper.widget.PaperButton;
@@ -349,6 +350,23 @@ class BiWidget {
 		String errmess = iGet.getMessage(IConsts.EMPTYFIELDMESSAGE);
 		setErrorMessage(errmess);
 		return true;
+	}
+
+	private void publishChange(IEventBus iBus) {
+		iBus.publish(new ChangeEvent(), fieldid);
+	}
+
+	void setSignalChange(IEventBus iBus, FieldItem i) {
+		if (i == null)
+			return;
+		if (!i.isSignalChange())
+			return;
+		if (w instanceof PaperInput) {
+			PaperInput f = (PaperInput) w;
+			f.addChangeHandler(e -> {
+				publishChange(iBus);
+			});
+		}
 	}
 
 }

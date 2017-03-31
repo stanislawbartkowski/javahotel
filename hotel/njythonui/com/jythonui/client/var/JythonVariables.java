@@ -37,6 +37,10 @@ public class JythonVariables {
 	public static void deregisterVar(ISetJythonVariables i) {
 		iList.removeIf(vi -> vi == i);
 	}
+	
+	public static void resetVar() {
+		iList.clear();
+	}
 
 	public static DialogVariables constructVar() {
 		DialogVariables v = new DialogVariables();
