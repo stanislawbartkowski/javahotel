@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+
+	<jython>
+		<import>from testpack import testclasslist</import>
+		<method>testclasslist.dialogaction({0},{1})</method>
+	</jython>
+
+
+	<form>
+		<field id="glob1" />
+		<field id="globtimestamp" type="datetime" />
+	</form>
+
+	<list id="lista" displayname="List of entries">
+		<columns>
+			<column id="ID" type="string" />
+			<column id="Name" type="string" />
+		</columns>
+	</list>
+
+	<list id="lista1" displayname="List of entries">
+		<columns>
+			<column id="id" type="string" />
+			<column id="name" />
+		</columns>
+	</list>
+
+</dialog>

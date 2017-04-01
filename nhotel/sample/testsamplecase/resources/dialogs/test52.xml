@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+	<list id="lista" displayname="List of entries">
+		<columns>
+			<column id="id" type="int" />
+			<column id="name" footer="" />
+		</columns>
+	</list>
+
+</dialog>

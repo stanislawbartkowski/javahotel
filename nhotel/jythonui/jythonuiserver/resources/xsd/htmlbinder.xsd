@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.jythongwt.uihtml.com"
+	targetNamespace="http://www.jythongwt.uihtml.com" elementFormDefault="qualified">
+
+	<xs:complexType name="ElementContentType" mixed="true">
+
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:any />
+		</xs:choice>
+		<xs:anyAttribute processContents="lax" />
+
+	</xs:complexType>
+
+	<xs:element name="div" type="ElementContentType">
+	</xs:element>
+
+	<xs:element name="a" type="ElementContentType">
+	</xs:element>
+
+	<xs:element name="template" type="ElementContentType">
+	</xs:element>
+
+	<xs:element name="section" type="ElementContentType">
+	</xs:element>
+
+	<xs:element name="H1" type="ElementContentType">
+	</xs:element>
+
+	<xs:element name="h1" type="ElementContentType">
+	</xs:element>
+
+	<xs:element name="paper-menu" type="ElementContentType">
+	</xs:element>
+
+	<xs:element name="paper-item" type="ElementContentType">
+	</xs:element>
+
+	<xs:element name="paper-input" type="ElementContentType">
+	</xs:element>
+
+
+	<xs:element name="paper-tabs" type="ElementContentType">
+	</xs:element>
+
+	<xs:element name="paper-tab" type="ElementContentType">
+	</xs:element>
+
+	<xs:element name="paper-listbox" type="ElementContentType">
+	</xs:element>
+
+	<xs:element name="paper-header-panel" type="ElementContentType">
+	</xs:element>
+
+	<xs:element name="H2" type="ElementContentType">
+	</xs:element>
+
+	<xs:element name="h2" type="ElementContentType">
+	</xs:element>
+
+	<xs:element name="H3" type="ElementContentType">
+	</xs:element>
+
+	<xs:element name="h3" type="ElementContentType">
+	</xs:element>
+
+
+	<xs:element name="H4" type="ElementContentType">
+	</xs:element>
+
+	<xs:element name="h4" type="ElementContentType">
+	</xs:element>
+
+	<xs:element name="span" type="ElementContentType">
+	</xs:element>
+
+	<xs:element name="br" type="ElementContentType">
+	</xs:element>
+
+	<xs:element name="p" type="ElementContentType">
+	</xs:element>
+
+	<xs:element name="pre" type="ElementContentType">
+	</xs:element>
+
+	<xs:element name="input" type="ElementContentType">
+	</xs:element>
+
+	<xs:element name="style">
+	</xs:element>
+
+	<xs:element name="paper-material" type="ElementContentType">
+	</xs:element>
+
+	<xs:element name="img" type="ElementContentType">
+	</xs:element>
+
+	<xs:element name="button" type="ElementContentType">
+	</xs:element>
+
+	<xs:element name="paper-tooltip" type="ElementContentType">
+	</xs:element>
+
+	<xs:element name="iron-meta" type="ElementContentType">
+	</xs:element>
+
+	<xs:element name="iron-icon" type="ElementContentType">
+	</xs:element>
+
+	<xs:element name="vaadin-mock-xhr" type="ElementContentType">
+	</xs:element>
+
+	<xs:element name="paper-item-body" type="ElementContentType">
+	</xs:element>
+
+	<xs:element name="paper-button" type="ElementContentType">
+	</xs:element>
+
+
+	<xs:element name="paper-dialog-scrollable" type="ElementContentType">
+	</xs:element>
+
+	<xs:element name="vaadin-date-picker-light" type="ElementContentType">
+	</xs:element>
+
+
+</xs:schema>

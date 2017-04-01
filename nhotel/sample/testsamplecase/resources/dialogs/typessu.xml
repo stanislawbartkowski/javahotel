@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<typedefs xmlns="http://www.jythongwt.typedefxsd.com">
+
+     <jython>
+       <import>from testpack import testtypes</import>
+      </jython>    
+
+  <typedef id="names" type="suggest" comboid="id">
+  
+     <jython>
+        <method>testclass.dialogaction({0},{1})</method>
+      </jython>    
+ 
+   </typedef>
+  
+</typedefs>

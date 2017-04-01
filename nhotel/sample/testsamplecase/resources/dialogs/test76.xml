@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" modeless="" >
+
+    <jython>
+        <import>from testpack import testpdf</import>
+        <method>testpdf.dialogaction({0},{1})</method>
+    </jython>
+
+    <actions>
+        <action id="hello" />
+    </actions>
+    
+    <disclosurepanel>
+      <disclosureelem id="id1" htmlpanel="disc1.html"/>
+      <disclosureelem id="id2" htmlpanel="disc2.html"/>
+    </disclosurepanel>
+
+
+</dialog>

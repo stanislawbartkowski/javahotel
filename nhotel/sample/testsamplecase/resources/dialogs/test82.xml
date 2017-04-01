@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+	<before />
+
+
+	<form>
+		<field id="glob1" />
+		<field id="globbool" type="bool" />
+		<field id="globint" type="int" displayname="Integer value" />
+		<field id="spin" type="spinner" spinnermin="5" />
+		<field id="spin1" type="spinner" spinnermax="15" />
+		<field id="spin2" type="spinner" spinnermin="24" spinnermax="25" />
+	</form>
+
+</dialog>

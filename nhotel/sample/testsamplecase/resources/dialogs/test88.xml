@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" autohide="">
+
+
+ <form>
+      <field id="urlsuperpar" displayname="URL parmeter named superpar" readonly="" />
+      <field id="hello" displayname="#env.e('custompar')"  />
+ </form>
+ 
+        <list id="list" displayname="List of URL params" toolbartype="listonly" >
+          <!--                <standbutt>TOOLS,FIND,FILTER</standbutt> -->
+                <columns>
+                        <column id="ukey" displayname="Key" />
+                        <column id="uvalue" displayname="Value" />
+                </columns>
+        </list>
+ 
+ 
+</dialog>

@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<ui:UiBinder xmlns:ui='http://www.jythongwt.uibinderxsd.com'
+	xmlns:g='http://www.jythongwt.uibinderxsd.com' xmlns:p='http://www.jythongwt.uibinderxsd.com'
+	xmlns:i='http://www.jythongwt.uibinderxsd.com' xmlns='http://www.jythongwt.uihtml.com'>
+
+ <ui:style>
+  @external .iron-selected, .selector-sample;
+  .selector-sample iron-selector>* {
+      padding: 8px;
+  }
+  
+  .selector-sample .iron-selected {
+      background-color: #ddd;
+  }
+  </ui:style>
+
+
+  <g:HTMLPanel addStyleNames="selector-sample">
+    <p:PaperToast fieldid="toast" />
+
+    <div class="horizontal-section-container center-justified layout">
+      <div class="vertical-section">
+        <h3>Basic</h3>
+        <i:IronSelector fieldid="selector1" selected="0">
+          <div selected="">Item 0</div>
+          <div>Item 1</div>
+          <div>Item 2</div>
+          <div>Item 3</div>
+          <div>Item 4</div>
+        </i:IronSelector>
+      </div>
+
+      <div class="vertical-section">
+        <h3>Multi-select</h3>
+        <i:IronSelector fieldid="selector2" multi="true" selectedValues="[0,2]">
+          <div>Item 0</div>
+          <div>Item 1</div>
+          <div>Item 2</div>
+          <div>Item 3</div>
+          <div>Item 4</div>
+        </i:IronSelector>
+      </div>
+
+      <div class="vertical-section">
+        <h3>Valued-attribute</h3>
+        <i:IronSelector fieldid="selector3" selected="foo" attrForSelected="name">
+          <div name="foo">Foo</div>
+          <div name="bar">Bar</div>
+          <div name="zot">Zot</div>
+        </i:IronSelector>
+      </div>
+    </div>
+  </g:HTMLPanel>
+  
+</ui:UiBinder>
+

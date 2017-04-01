@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<ui:UiBinder xmlns:ui='http://www.jythongwt.uibinderxsd.com'
+	xmlns:g='http://www.jythongwt.uibinderxsd.com' xmlns:p='http://www.jythongwt.uibinderxsd.com'
+	xmlns:i='http://www.jythongwt.uibinderxsd.com' xmlns='http://www.jythongwt.uihtml.com'>
+
+
+    <g:HTMLPanel addStyleNames="dropdown-menu-sample">
+        <div class="horizontal-section-container">
+            <div>
+                <h4>Basic Menu</h4>
+                <div class="horizontal-section">
+                    <p:PaperDropdownMenu label="Dinosaurs">
+                        <paper-menu id="dropmenuid" class="dropdown-content"/>
+                    </p:PaperDropdownMenu>
+                </div>
+            </div>
+        </div>
+
+        <div class="horizontal-section-container">
+            <div>
+                <h4>Pre-selected Value</h4>
+                <div class="horizontal-section">
+                    <p:PaperDropdownMenu label="Dinosaurs">
+                        <paper-menu id="dropmenuid" class="dropdown-content" selected="1"/>
+                    </p:PaperDropdownMenu>
+                </div>
+            </div>
+        </div>
+
+        <div class="horizontal-section-container">
+            <div>
+                <h4>Disabled</h4>
+                <div class="horizontal-section">
+                    <p:PaperDropdownMenu disabled="true" label="Disabled">
+                        <paper-menu id="dropmenuid" class="dropdown-content"/>
+                    </p:PaperDropdownMenu>
+                </div>
+            </div>
+        </div>
+
+        <div class="horizontal-section-container">
+            <div>
+                <h4>Alternative Content</h4>
+                <div class="horizontal-section">
+                    <p:PaperDropdownMenu label="Menu tabs!?">
+                        <paper-tabs id="dropmenuid" class="dropdown-content"/>
+                    </p:PaperDropdownMenu>
+                </div>
+            </div>
+        </div>
+
+        <div class="horizontal-section-container">
+            <div>
+                <h4>No Label Float</h4>
+                <div class="horizontal-section">
+                    <p:PaperDropdownMenu addStyleNames="letters" label="Letters" noLabelFloat="true">
+                        <paper-menu id="dropmenuid" class="dropdown-content"/>
+                    </p:PaperDropdownMenu>
+                </div>
+            </div>
+        </div>
+
+        <div class="horizontal-section-container">
+            <div>
+                <h4>No Ripple, No Animations</h4>
+                <div class="horizontal-section">
+                    <p:PaperDropdownMenu label="Dinosaurs" noink="true" noAnimations="true">
+                        <paper-menu id="dropmenuid" class="dropdown-content"/>
+                    </p:PaperDropdownMenu>
+                </div>
+            </div>
+        </div>
+    </g:HTMLPanel>
+</ui:UiBinder>

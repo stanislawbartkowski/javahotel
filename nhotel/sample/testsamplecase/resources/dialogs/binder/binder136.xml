@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<ui:UiBinder xmlns:ui='http://www.jythongwt.uibinderxsd.com'
+	xmlns:g='http://www.jythongwt.uibinderxsd.com' xmlns:p='http://www.jythongwt.uibinderxsd.com'
+	xmlns:i='http://www.jythongwt.uibinderxsd.com' xmlns='http://www.jythongwt.uihtml.com'>
+
+  <g:HTMLPanel addStyleNames="radio-group-sample">
+        <style is="custom-style">
+            .radio-group-sample .horizontal-section {
+                min-width: 200px;
+            }
+
+            .radio-group-sample paper-radio-button.blue {
+                --paper-radio-button-checked-color: var(--paper-light-blue-500);
+                --paper-radio-button-checked-ink-color: var(--paper-light-blue-500);
+                --paper-radio-button-unchecked-color: var(--paper-light-blue-900);
+                --paper-radio-button-unchecked-ink-color: var(--paper-light-blue-900);
+            }
+
+            .radio-group-sample paper-radio-button.red {
+                --paper-radio-button-checked-color: var(--paper-red-500);
+                --paper-radio-button-checked-ink-color: var(--paper-red-500);
+                --paper-radio-button-unchecked-color: var(--paper-red-900);
+                --paper-radio-button-unchecked-ink-color: var(--paper-red-900);
+            }
+
+            .radio-group-sample paper-radio-button.green {
+                --paper-radio-button-checked-color: var(--paper-green-500);
+                --paper-radio-button-checked-ink-color: var(--paper-green-500);
+                --paper-radio-button-unchecked-color: var(--paper-green-900);
+                --paper-radio-button-unchecked-ink-color: var(--paper-green-900);
+            }
+
+            .radio-group-sample paper-radio-button.orange {
+                --paper-radio-button-checked-color: var(--paper-orange-500);
+                --paper-radio-button-checked-ink-color: var(--paper-orange-500);
+                --paper-radio-button-unchecked-color: var(--paper-orange-900);
+                --paper-radio-button-unchecked-ink-color: var(--paper-orange-900);
+            }
+
+            .radio-group-sample paper-radio-button {
+                display: block;
+                padding: 12px;
+            }
+        </style>
+
+        <div class="horizontal-section-container center-justified layout">
+            <div>
+                <h4>Enabled</h4>
+                <div class="horizontal-section">
+                    <p:PaperRadioGroup selected="c">
+                        <p:PaperRadioButton name="o">Oxygen</p:PaperRadioButton>
+                        <p:PaperRadioButton name="c">Carbon</p:PaperRadioButton>
+                        <p:PaperRadioButton name="h">Hydrogen</p:PaperRadioButton>
+                        <p:PaperRadioButton name="n">Nitrogen</p:PaperRadioButton>
+                        <p:PaperRadioButton name="ca">Calcium</p:PaperRadioButton>
+                    </p:PaperRadioGroup>
+                </div>
+            </div>
+
+            <div>
+                <h4>Disabled</h4>
+                <div class="horizontal-section">
+                    <p:PaperRadioGroup selected="c">
+                        <p:PaperRadioButton name="o">Oxygen</p:PaperRadioButton>
+                        <p:PaperRadioButton name="c">Carbon</p:PaperRadioButton>
+                        <p:PaperRadioButton name="h" disabled="true">Hydrogen</p:PaperRadioButton>
+                        <p:PaperRadioButton name="n" disabled="true">Nitrogen</p:PaperRadioButton>
+                        <p:PaperRadioButton name="ca">Calcium</p:PaperRadioButton>
+                    </p:PaperRadioGroup>
+                </div>
+            </div>
+
+            <div>
+                <h4>Color</h4>
+                <div class="horizontal-section">
+                    <p:PaperRadioGroup selected="c">
+                        <p:PaperRadioButton name="o" addStyleNames="blue">Oxygen</p:PaperRadioButton>
+                        <p:PaperRadioButton name="c" addStyleNames="red">Carbon</p:PaperRadioButton>
+                        <p:PaperRadioButton name="h" addStyleNames="orange">Hydrogen</p:PaperRadioButton>
+                        <p:PaperRadioButton name="n" addStyleNames="green">Nitrogen</p:PaperRadioButton>
+                        <p:PaperRadioButton name="ca" addStyleNames="blue">Calcium</p:PaperRadioButton>
+                    </p:PaperRadioGroup>
+                </div>
+            </div>
+        </div>
+    </g:HTMLPanel>    
+
+ </ui:UiBinder>

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<dialog xmlns="http://www.jythongwt.dialogxsd.com" polymer="">
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
 
 	<uibinder>binder/startp.xml</uibinder>
 
@@ -15,6 +15,7 @@
                 <button id="maindialog" displayname="Main dialog" actiontype="JMAIN_DIALOG" actionparam="startp.xml" />
                 <button id="okmessage" displayname="Ok Message" actiontype="JOK_MESSAGE" actionparam="Hello" actionparam1="Title" actionparam2="okaction" />
                 <button id="yesmessage" displayname="YesNo Message" actiontype="JYESNO_MESSAGE" actionparam="Do you really want to carry on" actionparam1="I'm asking You" actionparam2="yesnoaction" />
+                <button id="alertdialog" displayname="Alert dialogs" actiontype="JMAIN_DIALOG" actionparam="alertp.xml" />
         </leftstack>     
         
         <buttons>

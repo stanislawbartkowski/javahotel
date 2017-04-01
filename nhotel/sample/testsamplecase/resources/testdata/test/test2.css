@@ -1,0 +1,15 @@
+        @external .iron-selected;
+
+        .toolbar {
+            background: #00796B !important;
+        }
+        .toolbar > div {
+           justify-content: center;
+        }
+
+        .iron-selected {
+            background: #00796B !important;
+        }
+        .iron-selected > div {
+           justify-content: center;
+        }

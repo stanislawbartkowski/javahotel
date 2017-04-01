@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Invoice xmlns="http://www.example.org/InvoiceXMLSchema" >
+
+
+<InvoiceData>
+  <InvoiceNumber></InvoiceNumber>
+  <InvoiceDate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:nil="true" type="date"></InvoiceDate>
+  <DateOfSale xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:nil="true" type="date"></DateOfSale>
+  <TownMaking></TownMaking>
+  <PersonMaking></PersonMaking>
+  <BankAccount></BankAccount>
+</InvoiceData>
+
+<HotelData>
+  <Symbol></Symbol>
+  <Name1></Name1>
+  <Name2></Name2>
+  <Country></Country>
+  <City></City>
+  <Address1></Address1>
+  <Address2></Address2>
+  <State></State>
+  <ZipCode></ZipCode>  
+</HotelData>
+
+<Person>
+  <Title type="title" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:nil="true"></Title>
+  <Symbol></Symbol>
+  <Name1></Name1>
+  <Name2></Name2>
+  <Country></Country>
+  <City></City>
+  <ZipCode></ZipCode>
+  <Address1></Address1>
+  <Address2></Address2>
+  <NIP></NIP>
+</Person>
+
+<Payer>
+  <Title type="title" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:nil="true"></Title>
+  <Symbol></Symbol>
+  <Name1></Name1>
+  <Name2></Name2>
+  <Country></Country>
+  <City></City>
+  <ZipCode></ZipCode>
+  <Address1></Address1>
+  <Address2></Address2>
+  <NIP></NIP>
+</Payer>
+
+<Payment>
+  <PaymentMethod type="pay" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:nil="true"></PaymentMethod>
+  <DaysForPayment type="integer" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:nil="true"></DaysForPayment>
+  <TerminOfPayment type="date" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:nil="true"></TerminOfPayment>
+  <AccountNumber></AccountNumber>
+</Payment>
+
+<Lines>
+  <Line>
+    <No type="long" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:nil="true"></No>
+    <Description></Description>
+    <Quantity type="int" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:nil="true"></Quantity>
+    <Rate type="decimal" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:nil="true"></Rate>
+    <ServiceDate type="date" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:nil="true"></ServiceDate>
+    <Tax></Tax>
+    <Total type="decimal" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:nil="true"></Total>
+  </Line>
+</Lines>
+
+<Total>
+  <SubTotal type="decimal" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:nil="true"></SubTotal>
+  <Tax type="decimal" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:nil="true"></Tax>
+  <Total type="decimal" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:nil="true"></Total>
+</Total>
+
+</Invoice>

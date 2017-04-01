@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+	<actions>
+		<action id="hello" />
+	</actions>
+
+	<list id="lista" displayname="List of entries">
+		<standbutt>TOOLS,ADD,REMOVE,MODIF,FIND,FILTER,custom:hello</standbutt>
+		<columns>
+			<column id="id" defvalue="changepassword" />
+			<column id="name" />
+		</columns>
+	</list>
+
+</dialog>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+    <jython>
+        <import>from testpack import testxml0</import>
+        <method>testxml0.dialogaction({0},{1})</method>
+    </jython>
+
+    <form>
+        <field id="bignumber" type="decimal" afterdot="4" />
+        <field id="no" type="int" />
+        <field id="email" type="email" />
+        <field id="content" type="textarea" vislines="10" />
+    </form>
+
+</dialog>

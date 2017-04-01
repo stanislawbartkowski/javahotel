@@ -1,0 +1,30 @@
+<Context reloadable="false">
+
+<!-- 
+	<ResourceLink global="mail/Session" name="mail/Session"
+		type="javax.mail.Session" />
+-->		
+		
+	<ResourceLink global="nsampleapp/resource" name="sampleapp/resource"
+		type="java.lang.String" />
+		
+	<ResourceLink global="sampleapp/cached" name="sampleapp/cached"
+		type="java.lang.Boolean" />
+
+	<ResourceLink global="sample/javax.persistence.jdbc.driver" name="sample.javax.persistence.jdbc.driver"
+		type="java.lang.String" />
+
+	<ResourceLink global="sample/javax.persistence.jdbc.url" name="sample.javax.persistence.jdbc.url"
+		type="java.lang.String" />
+		
+	<ResourceLink global="sample/javax.persistence.jdbc.user" name="sample.javax.persistence.jdbc.user"
+		type="java.lang.String" />
+		
+	<ResourceLink global="sample/javax.persistence.jdbc.password" name="sample.javax.persistence.jdbc.password"
+		type="java.lang.String" />
+
+		
+     <Environment name="sampleapp/datasource" value="sample,javax.persistence.jdbc.driver,javax.persistence.jdbc.url,javax.persistence.jdbc.user,javax.persistence.jdbc.password"
+         type="java.lang.String" override="false"/>           
+
+</Context>

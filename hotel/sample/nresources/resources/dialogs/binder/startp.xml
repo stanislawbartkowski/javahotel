@@ -17,9 +17,7 @@
                 <!-- <input is="iron-input" label="Date of birthday"></input> -->                
             </v:VaadinDatePickerLight>
             <p:PaperInput label="Event after change" fieldid="globchange" />
-            
-            
-            
+                        
             <p:PaperButton fieldid="click" tabindex="0" toggles="true">Click me</p:PaperButton>
  
             </ui:HTMLPanel>

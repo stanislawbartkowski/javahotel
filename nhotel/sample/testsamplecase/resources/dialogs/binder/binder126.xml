@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<ui:UiBinder xmlns:ui='http://www.jythongwt.uibinderxsd.com'
+	xmlns:g='http://www.jythongwt.uibinderxsd.com' xmlns:p='http://www.jythongwt.uibinderxsd.com'
+	xmlns:i='http://www.jythongwt.uibinderxsd.com' xmlns='http://www.jythongwt.uihtml.com'>
+
+
+<g:HTMLPanel addStyleNames="fab-sample">
+        <style is="custom-style">
+            .fab-sample .horizontal-section {
+                min-width: 200px;
+            }
+
+            .fab-sample paper-fab {
+                display: block;
+                margin-bottom:24px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .fab-sample paper-fab.blue {
+                --paper-fab-background: var(--paper-light-blue-500);
+            }
+
+            .fab-sample paper-fab.red {
+                --paper-fab-background: var(--paper-red-500);
+            }
+
+            .fab-sample paper-fab.green {
+                --paper-fab-background: var(--paper-green-500);
+            }
+
+            .fab-sample paper-fab.orange {
+                --paper-fab-background: var(--paper-orange-500);
+            }
+        </style>
+        <div class="horizontal-section-container center-justified layout">
+            <div>
+                <h4>Enabled</h4>
+                <div class="horizontal-section">
+                    <p:PaperFab icon="arrow-forward" title="arrow-forward" tabindex="0"></p:PaperFab>
+                    <p:PaperFab icon="create" title="create" tabindex="0"></p:PaperFab>
+                    <p:PaperFab icon="favorite" title="heart" tabindex="0"></p:PaperFab>
+                    <p:PaperFab mini="true" icon="done" title="done" tabindex="0"></p:PaperFab>
+                    <p:PaperFab mini="true" icon="reply" title="reply" tabindex="0"></p:PaperFab>
+                </div>
+            </div>
+
+            <div>
+                <h4>Disabled</h4>
+                <div class="horizontal-section">
+                    <p:PaperFab disabled="true" icon="arrow-forward" title="arrow-forward"></p:PaperFab>
+                    <p:PaperFab disabled="true" icon="create" title="create"></p:PaperFab>
+                    <p:PaperFab disabled="true" icon="favorite" title="heart"></p:PaperFab>
+                    <p:PaperFab disabled="true" mini="true" icon="done" title="done"></p:PaperFab>
+                    <p:PaperFab disabled="true" mini="true" icon="reply" title="reply"></p:PaperFab>
+                </div>
+            </div>
+
+            <div>
+                <h4>Colors</h4>
+                <div class="horizontal-section">
+                    <p:PaperFab icon="arrow-forward" title="arrow-forward" addStyleNames="blue"></p:PaperFab>
+                    <p:PaperFab icon="create" title="create" addStyleNames="red"></p:PaperFab>
+                    <p:PaperFab icon="favorite" title="heart" addStyleNames="orange"></p:PaperFab>
+                    <p:PaperFab mini="true" icon="done" title="done" addStyleNames="green"></p:PaperFab>
+                    <p:PaperFab mini="true" icon="reply" title="reply" addStyleNames="blue"></p:PaperFab>
+                </div>
+            </div>
+        </div>
+
+    </g:HTMLPanel>
+    
+</ui:UiBinder>

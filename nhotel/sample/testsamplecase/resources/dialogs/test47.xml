@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+	<before />
+
+	<jython>
+		<import>from testpack import testchecklist</import>
+		<method>testchecklist.numdialogaction({0},{1})</method>
+	</jython>
+
+
+	<form>
+		<field id="id" type="long" />
+		<field id="pnumber" />
+		<field id="pname" />
+	</form>
+
+	<checklist id="prices" displayname="Permissions" type="decimal"
+		afterdot="2">
+	</checklist>
+
+</dialog>

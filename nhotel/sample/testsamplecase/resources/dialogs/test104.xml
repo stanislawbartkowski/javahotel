@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+    <displayname>Dialog title</displayname>
+
+ <form>
+   <field id="glob" />
+   <field id="globenum" htmlid="globhtmlid" />
+   <field id="ctitle" celltitle="hello" />
+   <field id="recipient" suggest="" />
+ </form>  
+
+
+</dialog>

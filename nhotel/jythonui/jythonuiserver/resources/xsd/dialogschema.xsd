@@ -1,0 +1,767 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.jythongwt.dialogxsd.com" xmlns="http://www.jythongwt.dialogxsd.com"
+	elementFormDefault="qualified">
+
+	<xs:simpleType name="typeName">
+		<xs:restriction base="xs:string">
+			<xs:pattern
+				value="int|string|textarea|richtext|bool|decimal|long|date|datetime|password|upload|download|html|spinner|email|ajax|selector|custom:.*" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="toolbarType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="edit|listonly|listshowonly|empty" />
+		</xs:restriction>
+	</xs:simpleType>
+
+
+	<xs:simpleType name="idType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[A-Za-z0-9_\-\.]+" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="listidsType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="((([A-Za-z0-9_\-\.]+),)*([A-Za-z0-9_\-\.]+)+)" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="integerTypeOrFun">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="([\-\+]{0,1}[0-9]+)|(#.*)" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="typeOpVal">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="eq" />
+			<xs:enumeration value="le" />
+			<xs:enumeration value="lt" />
+			<xs:enumeration value="gt" />
+			<xs:enumeration value="ge" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="chartType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="PIE" />
+			<xs:enumeration value="AREA" />
+			<xs:enumeration value="BARS" />
+			<xs:enumeration value="COLUMNS" />
+			<xs:enumeration value="LINE" />
+			<xs:enumeration value="SCATTER" />
+		</xs:restriction>
+	</xs:simpleType>
+
+
+
+	<xs:simpleType name="typeAlign">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="L" />
+			<xs:enumeration value="R" />
+			<xs:enumeration value="C" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="listStand">
+		<xs:restriction base="xs:string">
+			<xs:pattern
+				value="(((TOOLS|ADD|MODIF|REMOVE|SHOW|FIND|FILTER|custom:.*),)*(TOOLS|ADD|MODIF|REMOVE|SHOW|FIND|FILTER|custom:.*)?)" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="emptyT">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(\$.*)|()" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:attributeGroup name="validateattrG">
+		<xs:attribute name="id" type="idType" />
+		<xs:attribute name="op" type="typeOpVal" />
+		<xs:attribute name="id1" type="xs:string" />
+		<xs:attribute name="displayname" type="xs:string" />
+	</xs:attributeGroup>
+
+	<xs:group name="validateG">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="id" type="idType" />
+			<xs:element minOccurs="0" name="op" type="typeOpVal" />
+			<xs:element minOccurs="0" name="id1" type="xs:string" />
+			<xs:element minOccurs="0" name="displayname" type="xs:string" />
+		</xs:sequence>
+	</xs:group>
+
+	<xs:group name="buttonG">
+		<xs:sequence>
+			<xs:group ref="jythonG" minOccurs="0" />
+			<xs:element minOccurs="0" name="id" type="idType" />
+			<xs:element minOccurs="0" name="displayname" type="xs:string" />
+			<xs:element minOccurs="0" name="validate" type="emptyT" />
+			<xs:element minOccurs="0" name="jsaction" type="xs:string" />
+			<xs:element minOccurs="0" name="actiontype" type="xs:string" />
+			<xs:element minOccurs="0" name="actionparam" type="xs:string" />
+			<xs:element minOccurs="0" name="actionparam1" type="xs:string" />
+			<xs:element minOccurs="0" name="actionparam2" type="xs:string" />
+			<xs:element minOccurs="0" name="actionparam3" type="xs:string" />
+			<xs:element minOccurs="0" name="hidden" type="emptyT" />
+			<xs:element minOccurs="0" name="readonly" type="emptyT" />
+			<xs:element minOccurs="0" name="header" type="emptyT" />
+			<xs:element minOccurs="0" name="imagebutton" type="xs:string" />
+		</xs:sequence>
+	</xs:group>
+
+
+	<xs:attributeGroup name="buttonattrG">
+		<xs:attributeGroup ref="jythonattrG" />
+		<xs:attribute name="id" type="idType" />
+		<xs:attribute name="displayname" type="xs:string" />
+		<xs:attribute name="validate" type="emptyT" />
+		<xs:attribute name="jsaction" type="xs:string" />
+		<xs:attribute name="actiontype" type="xs:string" />
+		<xs:attribute name="actionparam" type="xs:string" />
+		<xs:attribute name="actionparam1" type="xs:string" />
+		<xs:attribute name="actionparam2" type="xs:string" />
+		<xs:attribute name="actionparam3" type="xs:string" />
+		<xs:attribute name="hidden" type="emptyT" />
+		<xs:attribute name="readonly" type="emptyT" />
+		<xs:attribute name="header" type="emptyT" />
+		<xs:attribute name="imagebutton" type="xs:string" />
+	</xs:attributeGroup>
+
+	<xs:group name="dialogG">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="htmlpanel" type="xs:string" />
+			<xs:element minOccurs="0" name="uibinder" type="xs:string" />
+			<xs:element minOccurs="0" name="htmlleftmenu" type="xs:string" />
+			<xs:element minOccurs="0" name="jscode" type="xs:string" />
+			<xs:element minOccurs="0" name="csscode" type="xs:string" />
+			<xs:element minOccurs="0" name="displayname" type="xs:string" />
+			<xs:element minOccurs="0" name="before" type="emptyT" />
+			<xs:element minOccurs="0" name="parent" type="xs:string" />
+			<xs:element minOccurs="0" name="types" type="xs:string" />
+			<xs:element minOccurs="0" name="asxml" type="listidsType" />
+			<xs:element minOccurs="0" name="clearleft" type="emptyT" />
+			<xs:element minOccurs="0" name="clearcentre" type="emptyT" />
+			<xs:element minOccurs="0" name="formpanel" type="emptyT" />
+			<xs:element minOccurs="0" name="autohide" type="emptyT" />
+			<xs:element minOccurs="0" name="modeless" type="emptyT" />
+			<xs:element minOccurs="0" name="maxleft" type="xs:positiveInteger" />
+			<xs:element minOccurs="0" name="maxtop" type="xs:positiveInteger" />
+			<xs:element minOccurs="0" name="left" type="xs:positiveInteger" />
+			<xs:element minOccurs="0" name="top" type="xs:positiveInteger" />
+			<xs:element minOccurs="0" name="signalclose" type="emptyT" />
+		</xs:sequence>
+	</xs:group>
+
+	<xs:attributeGroup name="dialogattrG">
+		<xs:attribute name="htmlpanel" type="xs:string" />
+		<xs:attribute name="uibinder" type="xs:string" />
+		<xs:attribute name="htmlleftmenu" type="xs:string" />
+		<xs:attribute name="jscode" type="xs:string" />
+		<xs:attribute name="csscode" type="xs:string" />
+		<xs:attribute name="displayname" type="xs:string" />
+		<xs:attribute name="before" type="emptyT" />
+		<xs:attribute name="parent" type="xs:string" />
+		<xs:attribute name="types" type="xs:string" />
+		<xs:attribute name="asxml" type="listidsType" />
+		<xs:attribute name="clearleft" type="emptyT" />
+		<xs:attribute name="clearcentre" type="emptyT" />
+		<xs:attribute name="formpanel" type="emptyT" />
+		<xs:attribute name="autohide" type="emptyT" />
+		<xs:attribute name="modeless" type="emptyT" />
+		<xs:attribute name="maxleft" type="xs:positiveInteger" />
+		<xs:attribute name="maxtop" type="xs:positiveInteger" />
+		<xs:attribute name="left" type="xs:positiveInteger" />
+		<xs:attribute name="top" type="xs:positiveInteger" />
+		<xs:attribute name="signalclose" type="emptyT" />
+	</xs:attributeGroup>
+
+	<xs:group name="chartG">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="id" type="idType" />
+			<xs:element minOccurs="0" name="displayname" type="xs:string" />
+			<xs:element minOccurs="0" name="charttype" type="chartType" />
+			<xs:element minOccurs="0" name="width" type="xs:positiveInteger" />
+			<xs:element minOccurs="0" name="height" type="xs:positiveInteger" />
+			<xs:element minOccurs="0" name="not3d" type="emptyT" />
+		</xs:sequence>
+	</xs:group>
+
+	<xs:attributeGroup name="chartattrG">
+		<xs:attribute name="id" type="idType" />
+		<xs:attribute name="displayname" type="xs:string" />
+		<xs:attribute name="charttype" type="chartType" />
+		<xs:attribute name="width" type="xs:positiveInteger" />
+		<xs:attribute name="height" type="xs:positiveInteger" />
+		<xs:attribute name="notpie3d" type="emptyT" />
+	</xs:attributeGroup>
+
+	<xs:group name="listG">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="id" type="idType" />
+			<xs:element minOccurs="0" name="displayname" type="xs:string" />
+			<xs:element minOccurs="0" name="elemformat" type="xs:string" />
+			<xs:element minOccurs="0" name="standbutt" type="listStand" />
+			<xs:element minOccurs="0" name="pagesize" type="xs:positiveInteger" />
+			<xs:element minOccurs="0" name="width" type="xs:string" />
+			<xs:element minOccurs="0" name="chunked" type="emptyT" />
+			<xs:element minOccurs="0" name="beforerow" type="emptyT" />
+			<xs:element minOccurs="0" name="aftereditrow" type="emptyT" />
+			<xs:element minOccurs="0" name="buttons-addlist" type="listidsType" />
+			<xs:element minOccurs="0" name="buttons-validate" type="listidsType" />
+			<xs:element minOccurs="0" name="buttons-selected" type="listidsType" />
+			<xs:element minOccurs="0" name="buttons-selectedmess"
+				type="xs:string" />
+			<xs:element minOccurs="0" name="jsmodifrow" type="xs:string" />
+			<xs:element minOccurs="0" name="toolbartype" type="toolbarType" />
+			<xs:element minOccurs="0" name="nowrap" type="emptyT" />
+			<xs:element minOccurs="0" name="nopropertycolumn" type="emptyT" />
+		</xs:sequence>
+	</xs:group>
+
+	<xs:attributeGroup name="listattrG">
+		<xs:attribute name="id" type="idType" />
+		<xs:attribute name="displayname" type="xs:string" />
+		<xs:attribute name="elemformat" type="xs:string" />
+		<xs:attribute name="standbutt" type="listStand" />
+		<xs:attribute name="pagesize" type="xs:positiveInteger" />
+		<xs:attribute name="width" type="xs:string" />
+		<xs:attribute name="chunked" type="emptyT" />
+		<xs:attribute name="beforerow" type="emptyT" />
+		<xs:attribute name="aftereditrow" type="emptyT" />
+		<xs:attribute name="buttons-addlist" type="listidsType" />
+		<xs:attribute name="buttons-validate" type="listidsType" />
+		<xs:attribute name="buttons-selected" type="listidsType" />
+		<xs:attribute name="buttons-selectedmess" type="xs:string" />
+		<xs:attribute name="jsmodifrow" type="xs:string" />
+		<xs:attribute name="toolbartype" type="toolbarType" />
+		<xs:attribute name="nowrap" type="emptyT" />
+		<xs:attribute name="nopropertycolumn" type="emptyT" />
+	</xs:attributeGroup>
+
+	<xs:group name="jythonG">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="import" type="xs:string" />
+			<xs:element minOccurs="0" name="method" type="xs:string" />
+		</xs:sequence>
+	</xs:group>
+
+	<xs:attributeGroup name="jythonattrG">
+		<xs:attribute name="import" type="xs:string" />
+		<xs:attribute name="method" type="xs:string" />
+	</xs:attributeGroup>
+
+	<xs:group name="fieldG">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="id" type="idType" />
+			<xs:element minOccurs="0" name="htmlid" type="xs:string" />
+			<xs:element minOccurs="0" name="from" type="xs:string" />
+			<xs:element minOccurs="0" name="displayname" type="xs:string" />
+			<xs:element minOccurs="0" name="defvalue" type="xs:string" />
+			<xs:element minOccurs="0" name="type" type="typeName" />
+			<xs:element minOccurs="0" name="afterdot" type="xs:nonNegativeInteger" />
+			<xs:element minOccurs="0" name="actionid" type="idType" />
+			<xs:element minOccurs="0" name="helper" type="xs:string" />
+			<xs:element minOccurs="0" name="width" type="xs:string" />
+			<xs:element minOccurs="0" name="align" type="typeAlign" />
+			<xs:element minOccurs="0" name="helperrefresh" type="emptyT" />
+			<xs:element minOccurs="0" name="notempty" type="emptyT" />
+			<xs:element minOccurs="0" name="hidden" type="emptyT" />
+			<xs:element minOccurs="0" name="readonly" type="emptyT" />
+			<xs:element minOccurs="0" name="readonlyadd" type="emptyT" />
+			<xs:element minOccurs="0" name="readonlychange" type="emptyT" />
+			<xs:element minOccurs="0" name="signalchange" type="emptyT" />
+			<xs:element minOccurs="0" name="jssignalchange" type="xs:string" />
+			<xs:element minOccurs="0" name="footer" type="emptyT" />
+			<xs:element minOccurs="0" name="footertype" type="typeName" />
+			<xs:element minOccurs="0" name="footeralign" type="typeAlign" />
+			<xs:element minOccurs="0" name="footerafterdot" type="xs:nonNegativeInteger" />
+			<xs:element minOccurs="0" name="editable" type="emptyT" />
+			<xs:element minOccurs="0" name="signalbefore" type="emptyT" />
+			<xs:element minOccurs="0" name="imagecolumn" type="xs:nonNegativeInteger" />
+			<xs:element minOccurs="0" name="imagelist" type="xs:string" />
+			<xs:element minOccurs="0" name="editclass" type="xs:string" />
+			<xs:element minOccurs="0" name="editcss" type="xs:string" />
+			<xs:element minOccurs="0" name="label" type="xs:string" />
+			<xs:element minOccurs="0" name="columnclass" type="xs:string" />
+			<xs:element minOccurs="0" name="headerclass" type="xs:string" />
+			<xs:element minOccurs="0" name="spinnermin" type="integerTypeOrFun" />
+			<xs:element minOccurs="0" name="spinnermax" type="integerTypeOrFun" />
+			<xs:element minOccurs="0" name="vislines" type="xs:nonNegativeInteger" />
+			<xs:element minOccurs="0" name="celltitle" type="xs:string" />
+			<xs:element minOccurs="0" name="suggest" type="emptyT" />
+			<xs:element minOccurs="0" name="suggestkey" type="xs:string" />
+			<xs:element minOccurs="0" name="suggestsize" type="xs:nonNegativeInteger" />
+			<xs:element minOccurs="0" name="remember" type="emptyT" />
+			<xs:element minOccurs="0" name="rememberkey" type="xs:string" />
+			<xs:element minOccurs="0" name="multi" type="emptyT" />
+			<xs:element minOccurs="0" name="menu" type="emptyT" />
+			<xs:element minOccurs="0" name="binder" type="emptyT" />
+		</xs:sequence>
+	</xs:group>
+
+	<xs:attributeGroup name="fieldattrG">
+		<xs:attribute name="id" type="idType" />
+		<xs:attribute name="htmlid" type="xs:string" />
+		<xs:attribute name="from" type="xs:string" />
+		<xs:attribute name="displayname" type="xs:string" />
+		<xs:attribute name="defvalue" type="xs:string" />
+		<xs:attribute name="actionid" type="idType" />
+		<xs:attribute name="helper" type="xs:string" />
+		<xs:attribute name="width" type="xs:string" />
+		<xs:attribute name="align" type="typeAlign" />
+		<xs:attribute name="helperrefresh" type="emptyT" />
+		<xs:attribute name="type" type="typeName" />
+		<xs:attribute name="afterdot" type="xs:nonNegativeInteger" />
+		<xs:attribute name="notempty" type="emptyT" />
+		<xs:attribute name="hidden" type="emptyT" />
+		<xs:attribute name="readonly" type="emptyT" />
+		<xs:attribute name="readonlyadd" type="emptyT" />
+		<xs:attribute name="readonlychange" type="emptyT" />
+		<xs:attribute name="signalchange" type="emptyT" />
+		<xs:attribute name="jssignalchange" type="xs:string" />
+		<xs:attribute name="footer" type="emptyT" />
+		<xs:attribute name="footertype" type="typeName" />
+		<xs:attribute name="footeralign" type="typeAlign" />
+		<xs:attribute name="footerafterdot" type="xs:nonNegativeInteger" />
+		<xs:attribute name="editable" type="emptyT" />
+		<xs:attribute name="signalbefore" type="emptyT" />
+		<xs:attribute name="imagecolumn" type="xs:nonNegativeInteger" />
+		<xs:attribute name="imagelist" type="xs:string" />
+		<xs:attribute name="editclass" type="xs:string" />
+		<xs:attribute name="editcss" type="xs:string" />
+		<xs:attribute name="label" type="emptyT" />
+		<xs:attribute name="columnclass" type="xs:string" />
+		<xs:attribute name="headerclass" type="xs:string" />
+		<xs:attribute name="spinnermin" type="integerTypeOrFun" />
+		<xs:attribute name="spinnermax" type="integerTypeOrFun" />
+		<xs:attribute name="vislines" type="xs:nonNegativeInteger" />
+		<xs:attribute name="celltitle" type="xs:string" />
+		<xs:attribute name="suggest" type="emptyT" />
+		<xs:attribute name="suggestkey" type="xs:string" />
+		<xs:attribute name="suggestsize" type="xs:nonNegativeInteger" />
+		<xs:attribute name="remember" type="emptyT" />
+		<xs:attribute name="rememberkey" type="xs:string" />
+		<xs:attribute name="multi" type="emptyT" />
+		<xs:attribute name="menu" type="emptyT" />
+		<xs:attribute name="binder" type="emptyT" />
+	</xs:attributeGroup>
+
+	<xs:group name="checklistG">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="id" type="idType" />
+			<xs:element minOccurs="0" name="displayname" type="xs:string" />
+			<xs:element minOccurs="0" name="type" type="typeName" />
+			<xs:element minOccurs="0" name="afterdot" type="xs:nonNegativeInteger" />
+			<xs:element minOccurs="0" name="readonly" type="emptyT" />
+		</xs:sequence>
+	</xs:group>
+
+	<xs:attributeGroup name="checklistattrG">
+		<xs:attribute name="id" type="idType" />
+		<xs:attribute name="displayname" type="xs:string" />
+		<xs:attribute name="type" type="typeName" />
+		<xs:attribute name="afterdot" type="xs:nonNegativeInteger" />
+		<xs:attribute name="readonly" type="emptyT" />
+	</xs:attributeGroup>
+
+	<xs:group name="checkG">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="id" type="xs:string" />
+			<xs:element minOccurs="0" name="displayname" type="xs:string" />
+		</xs:sequence>
+	</xs:group>
+
+	<xs:attributeGroup name="checkattrG">
+		<xs:attribute name="id" type="xs:string" />
+		<xs:attribute name="displayname" type="xs:string" />
+	</xs:attributeGroup>
+
+	<xs:group name="datelineG">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="id" type="xs:string" />
+			<xs:element minOccurs="0" name="displayname" type="xs:string" />
+			<xs:element minOccurs="0" name="pagesize" type="xs:nonNegativeInteger" />
+			<xs:element minOccurs="0" name="colno" type="xs:nonNegativeInteger" />
+			<xs:element minOccurs="0" name="lineid" type="idType" />
+			<xs:element minOccurs="0" name="dateid" type="idType" />
+			<xs:element minOccurs="0" name="file" type="xs:string" />
+			<xs:element minOccurs="0" name="defafile" type="xs:string" />
+			<xs:element minOccurs="0" name="cssclass" type="xs:string" />
+			<xs:element minOccurs="0" name="standbutt" type="listStand" />
+			<xs:element minOccurs="0" name="currentpos" type="xs:nonNegativeInteger" />
+		</xs:sequence>
+	</xs:group>
+
+	<xs:attributeGroup name="datelineattrG">
+		<xs:attribute name="id" type="xs:string" />
+		<xs:attribute name="displayname" type="xs:string" />
+		<xs:attribute name="pagesize" type="xs:nonNegativeInteger" />
+		<xs:attribute name="colno" type="xs:nonNegativeInteger" />
+		<xs:attribute name="lineid" type="idType" />
+		<xs:attribute name="dateid" type="idType" />
+		<xs:attribute name="file" type="xs:string" />
+		<xs:attribute name="defafile" type="xs:string" />
+		<xs:attribute name="cssclass" type="xs:string" />
+		<xs:attribute name="standbutt" type="listStand" />
+		<xs:attribute name="currentpos" type="xs:nonNegativeInteger" />
+	</xs:attributeGroup>
+
+	<xs:group name="formfileG">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="id" type="idType" />
+			<xs:element minOccurs="0" name="file" type="xs:string" />
+		</xs:sequence>
+	</xs:group>
+
+	<xs:attributeGroup name="formfileG">
+		<xs:attribute name="id" type="idType" />
+		<xs:attribute name="file" type="xs:string" />
+	</xs:attributeGroup>
+
+	<xs:element name="validaterules">
+		<xs:complexType>
+			<xs:sequence minOccurs="1" maxOccurs="unbounded">
+				<xs:element name="validate">
+					<xs:complexType>
+						<xs:group ref="validateG" />
+						<xs:attributeGroup ref="validateattrG" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+
+	</xs:element>
+
+	<xs:element name="form">
+		<xs:complexType>
+			<xs:sequence minOccurs="1" maxOccurs="unbounded">
+				<xs:element name="field">
+					<xs:complexType>
+						<xs:group ref="fieldG" />
+						<xs:attributeGroup ref="fieldattrG" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="list">
+		<xs:complexType>
+
+			<xs:sequence>
+				<xs:group ref="listG" />
+				<xs:element minOccurs="1" name="columns">
+					<xs:complexType>
+						<xs:sequence minOccurs="1" maxOccurs="unbounded">
+							<xs:element name="column">
+								<xs:complexType>
+									<xs:group ref="fieldG" />
+									<xs:attributeGroup ref="fieldattrG" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+
+				<xs:element minOccurs="0" ref="validaterules">
+				</xs:element>
+
+			</xs:sequence>
+			<xs:attributeGroup ref="listattrG" />
+		</xs:complexType>
+
+	</xs:element>
+
+	<xs:element name="chart">
+		<xs:complexType>
+
+			<xs:sequence>
+				<xs:group ref="chartG" />
+				<xs:element minOccurs="1" name="columns">
+					<xs:complexType>
+						<xs:sequence minOccurs="1" maxOccurs="unbounded">
+							<xs:element name="column">
+								<xs:complexType>
+									<xs:group ref="fieldG" />
+									<xs:attributeGroup ref="fieldattrG" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+
+			</xs:sequence>
+			<xs:attributeGroup ref="chartattrG" />
+
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="jython">
+		<xs:complexType>
+			<xs:group ref="jythonG" />
+			<xs:attributeGroup ref="jythonattrG" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:group name="disclosurepanelG">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="id" type="idType" />
+		</xs:sequence>
+	</xs:group>
+
+	<xs:attributeGroup name="disclosurepanelattrG">
+		<xs:attribute name="id" type="idType" />
+	</xs:attributeGroup>
+
+	<xs:group name="disclosureelemG">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="id" type="idType" />
+			<xs:element minOccurs="0" name="displayname" type="xs:string" />
+			<xs:element minOccurs="0" name="htmlpanel" type="xs:string" />
+			<xs:element minOccurs="0" name="signalchange" type="emptyT" />
+		</xs:sequence>
+	</xs:group>
+
+	<xs:attributeGroup name="disclosureelemattrG">
+		<xs:attribute name="id" type="idType" />
+		<xs:attribute name="displayname" type="xs:string" />
+		<xs:attribute name="htmlpanel" type="xs:string" />
+		<xs:attribute name="signalchange" type="emptyT" />
+	</xs:attributeGroup>
+
+	<xs:element name="disclosurepanel">
+		<xs:complexType>
+
+			<xs:sequence>
+				<xs:group ref="disclosurepanelG" />
+				<xs:sequence minOccurs="1" maxOccurs="unbounded">
+					<xs:element name="disclosureelem">
+						<xs:complexType>
+							<xs:group ref="disclosureelemG" />
+							<xs:attributeGroup ref="disclosureelemattrG" />
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+
+			</xs:sequence>
+			<xs:attributeGroup ref="disclosurepanelattrG" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:group name="tabpanelG">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="id" type="idType" />
+		</xs:sequence>
+	</xs:group>
+
+
+	<xs:attributeGroup name="tabpanelattrG">
+		<xs:attribute name="id" type="idType" />
+	</xs:attributeGroup>
+
+
+	<xs:group name="tabpanelelemG">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="id" type="idType" />
+			<xs:element minOccurs="0" name="displayname" type="xs:string" />
+			<xs:element minOccurs="0" name="beforechangetab" type="emptyT" />
+		</xs:sequence>
+	</xs:group>
+
+	<xs:attributeGroup name="tabpanelelemattrG">
+		<xs:attribute name="id" type="idType" />
+		<xs:attribute name="displayname" type="xs:string" />
+		<xs:attribute name="beforechangetab" type="emptyT" />
+	</xs:attributeGroup>
+
+	<xs:element name="tabpanel">
+		<xs:complexType>
+
+			<xs:sequence>
+				<xs:group ref="tabpanelG" />
+				<xs:sequence minOccurs="1" maxOccurs="unbounded">
+					<xs:element name="tabelem">
+						<xs:complexType>
+							<xs:group ref="tabpanelelemG" />
+							<xs:attributeGroup ref="tabpanelelemattrG" />
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+
+			</xs:sequence>
+			<xs:attributeGroup ref="tabpanelattrG" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="upmenu">
+		<xs:complexType>
+			<xs:sequence minOccurs="1" maxOccurs="unbounded">
+				<xs:element name="button">
+					<xs:complexType>
+						<xs:group ref="buttonG" />
+						<xs:attributeGroup ref="buttonattrG" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="buttons">
+		<xs:complexType>
+			<xs:sequence minOccurs="1" maxOccurs="unbounded">
+				<xs:element name="button">
+					<xs:complexType>
+						<xs:group ref="buttonG" />
+						<xs:attributeGroup ref="buttonattrG" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="leftmenu">
+		<xs:complexType>
+			<xs:sequence minOccurs="1" maxOccurs="unbounded">
+				<xs:element name="button">
+					<xs:complexType>
+						<xs:group ref="buttonG" />
+						<xs:attributeGroup ref="buttonattrG" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="leftstack">
+		<xs:complexType>
+			<xs:sequence minOccurs="1" maxOccurs="unbounded">
+				<xs:element name="button">
+					<xs:complexType>
+						<xs:group ref="buttonG" />
+						<xs:attributeGroup ref="buttonattrG" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="actions">
+		<xs:complexType>
+			<xs:sequence minOccurs="1" maxOccurs="unbounded">
+				<xs:element name="action">
+					<xs:complexType>
+						<xs:group ref="buttonG" />
+						<xs:attributeGroup ref="buttonattrG" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="dialog">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:group ref="dialogG" />
+
+				<xs:element minOccurs="0" ref="jython" />
+
+				<xs:element minOccurs="0" ref="leftmenu" />
+
+				<xs:element minOccurs="0" ref="leftstack" />
+
+				<xs:element minOccurs="0" ref="actions" />
+
+				<xs:element minOccurs="0" ref="buttons" />
+
+				<xs:element minOccurs="0" ref="upmenu" />
+
+				<xs:element minOccurs="0" ref="form" />
+
+				<xs:element minOccurs="0" ref="validaterules" />
+
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="list" />
+
+				<xs:element minOccurs="0" maxOccurs="unbounded" name="checklist">
+					<xs:complexType>
+
+						<xs:sequence>
+							<xs:group ref="checklistG" />
+
+							<xs:element minOccurs="0" name="lines">
+								<xs:complexType>
+									<xs:group ref="checkG" />
+									<xs:attributeGroup ref="checkattrG" />
+								</xs:complexType>
+							</xs:element>
+
+							<xs:element minOccurs="0" name="columns">
+								<xs:complexType>
+									<xs:group ref="checkG" />
+									<xs:attributeGroup ref="checkattrG" />
+								</xs:complexType>
+							</xs:element>
+
+						</xs:sequence>
+						<xs:attributeGroup ref="checklistattrG" />
+					</xs:complexType>
+
+				</xs:element>
+
+				<xs:element minOccurs="0" maxOccurs="unbounded" name="dateline">
+					<xs:complexType>
+
+						<xs:sequence>
+							<xs:group ref="datelineG" />
+							<xs:element minOccurs="1" name="columns">
+								<xs:complexType>
+									<xs:sequence minOccurs="1" maxOccurs="unbounded">
+										<xs:element name="column">
+											<xs:complexType>
+												<xs:group ref="fieldG" />
+												<xs:attributeGroup ref="fieldattrG" />
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+
+							<xs:element minOccurs="1" name="files">
+								<xs:complexType>
+									<xs:sequence minOccurs="1" maxOccurs="unbounded">
+										<xs:element name="filedef">
+											<xs:complexType>
+												<xs:group ref="formfileG" />
+												<xs:attributeGroup ref="formfileG" />
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+
+
+						</xs:sequence>
+						<xs:attributeGroup ref="datelineattrG" />
+					</xs:complexType>
+
+				</xs:element>
+
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="tabpanel" />
+
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="disclosurepanel" />
+
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="chart" />
+
+			</xs:sequence>
+			<xs:attributeGroup ref="dialogattrG" />
+		</xs:complexType>
+	</xs:element>
+
+
+</xs:schema>
+

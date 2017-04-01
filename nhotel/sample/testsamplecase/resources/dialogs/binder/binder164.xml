@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<ui:UiBinder xmlns:ui='http://www.jythongwt.uibinderxsd.com'
+	xmlns:g='http://www.jythongwt.uibinderxsd.com' xmlns:p='http://www.jythongwt.uibinderxsd.com'
+	xmlns:i='http://www.jythongwt.uibinderxsd.com' xmlns='http://www.jythongwt.uihtml.com'
+	xmlns:v='http://www.jythongwt.uibinderxsd.com' >
+
+   <ui:style>
+      .vaadin-grid-sample {
+        width: 100%;
+        height: 100%;
+      }
+      .vaadin-grid-sample table tr td {
+         padding: 0px 2px 0px 6px !important;
+      }
+      @external .info;
+      .info {
+        height: 75px;
+        background: #cde5e3;
+        padding: 8px;
+        margin: 0px 20px 0px 5px;
+        overflow: hidden;
+      }
+      .info img {
+         border-radius: 50%;
+         float: left;
+         margin-right: 18px;
+         width: 73px;
+      }
+      .info span {
+         border-radius: 50%;
+         white-space: normal;
+      }
+      @external .vaadin-grid-sidebar-button, .vaadin-grid;
+      .vaadin-grid-sidebar-button.vaadin-grid:after {
+        opacity: 0.3;
+        top: -4px !important;
+        left:27px !important;
+      }
+      @external .color-0, .color-1, .color-2, .color-3;
+      .color-0 td:nth-child\(2\) {
+        color: #ff6961;
+      }
+      .color-1 td:nth-child\(2\){
+        color: #03c03c;
+      }
+      .color-2 td:nth-child\(2\){
+        color: #966fd6;
+      }
+      .color-3 td:nth-child\(2\){
+        color: black;
+      }
+
+      .vaadin-grid-sample paper-input label {
+        font-size: 12px !important;
+        color: #0799f1 !important;
+      }
+      .vaadin-grid-sample paper-input {
+         margin-bottom: 20px;
+      }
+    </ui:style>
+
+    <g:HTMLPanel addStyleNames="{style.vaadin-grid-sample}">
+
+        <p:PaperInput label="Filter by Name" fieldid="filter"></p:PaperInput>
+
+        <v:VaadinGrid fieldid="grid" addStyleNames="fit" frozenColumns="1" columnReorderingAllowed="true" >
+          <table>
+            <colgroup>
+              <col name="index" header-text="#" width='30' />
+              <col name="name" header-text="Name" width="150" resizable=""/>
+              <col name="address" header-text="Address" hidable="" sortable="" resizable=""/>
+              <col name="city" header-text="City" sortable="" hidable="" resizable=""/>
+              <col name="zip" header-text="ZIP" sortable="" hidable="" width='90' resizable=""/>
+              <col name="state" header-text="State" sortable="" hidable="" resizable=""/>
+              <col name="country" header-text="Country" sortable="" hidable="" resizable=""/>
+            </colgroup>
+          </table>
+        </v:VaadinGrid>
+
+        <p:PaperMaterial fieldid="info" addStyleNames="info" elevation="5">
+          <img fieldid="img"/><span fieldid="txt"/>
+        </p:PaperMaterial>
+
+    </g:HTMLPanel>
+      
+</ui:UiBinder>
+

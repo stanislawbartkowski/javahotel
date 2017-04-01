@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" autohide="">
+
+    <jython>
+        <import>from testpack import testpdf</import>
+        <method>testpdf.dialogaction({0},{1})</method>
+    </jython>
+
+    <actions>
+        <action id="hello" />
+    </actions>
+
+
+</dialog>
