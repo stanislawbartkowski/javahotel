@@ -125,18 +125,11 @@ public class RunAction {
 		// i.logOut();
 		// return;
 		// }
-		if (action.equals(ICommonConsts.JMAINDIALOG)) {
+		if (action.equals(ICommonConsts.JMAINDIALOG) || action.equals(ICommonConsts.JUPDIALOG)) {
 			IReadDialog d = UIGiniInjector.getI().getReadDialog();
-			d.readDialog(pars[0], displayName, true);
+			d.readDialog(pars[0], displayName, action.equals(ICommonConsts.JMAINDIALOG));
 			return;
 		}
-		// if (M.getMainD() != null)
-		// M.getMainD().close();
-		// M.setMainD(null);
-		// new RunAction().start(param, displayName);
-		// return;
-		// }
-		// if (action.equals(ICommonConsts.JUPDIALOG)) {
 		// if (!checkW(action, param, param1, param2, w))
 		// return;
 		// if (iEx != null)

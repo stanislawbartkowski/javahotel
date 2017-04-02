@@ -126,7 +126,6 @@ public interface ICommonConsts {
 	String ELEMFORMAT = "elemformat";
 	String NOTEMPTY = "notempty";
 	String HIDDEN = "hidden";
-	String READONLY = "readonly";
 	String READONLYADD = "readonlyadd";
 	String READONLYCHANGE = "readonlychange";
 	String JLIST_NAME = "JLIST_NAME";

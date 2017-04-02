@@ -22,6 +22,7 @@ import com.gwtmodel.table.common.CUtil;
 import com.jythonui.client.M;
 import com.polymerui.client.IConsts;
 import com.polymerui.client.util.Utils;
+import com.vaadin.polymer.paper.widget.PaperDialog;
 
 public class PolymerUtil {
 
@@ -111,6 +112,18 @@ public class PolymerUtil {
 		else
 			verifyWidgetType(description, w, classes);
 		return w;
+	}
+
+	public static PaperDialog findPaperDialog(String errMess, HTMLPanel ha) {
+		if (ha instanceof PaperDialog) return (PaperDialog) ha;
+		Iterator<Widget> iW = ha.iterator();
+		while (iW.hasNext()) {
+			Widget ww = iW.next();
+			if (ww instanceof PaperDialog)
+				return (PaperDialog) ww;
+		}
+		Utils.errAlertB(errMess, M.M().CannotFindPaperDialog());
+		return null;
 	}
 
 }

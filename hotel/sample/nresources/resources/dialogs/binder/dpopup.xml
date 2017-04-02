@@ -4,14 +4,19 @@
         xmlns:i='http://www.jythongwt.uibinderxsd.com' xmlns='http://www.jythongwt.uihtml.com'>
 
 <p:PaperDialog modal="true">
-    <h2><g:Label fieldid="header"> </g:Label></h2>
+    
     <paper-dialog-scrollable>
-      <div id="content">XXXXX</div>
+
+    <p:PaperInput label="String copied from parent" readonly="true" fieldid="dstring" />
+
+    <p:PaperInput label="String to copy to parent" fieldid="newstring" />
+
     </paper-dialog-scrollable>
-  <div class="buttons">
-      <p:PaperButton fieldid="yes" attributes="dialog-confirm"><i:IronIcon icon="check"/>  {@yes}</p:PaperButton>
-      <p:PaperButton fieldid="no" attributes="dialog-dismiss"><i:IronIcon icon="clear"/>  {@no}</p:PaperButton>
-  </div>
+    
+    <div class="buttons">
+        <p:PaperButton attributes="dialog-dismiss" fieldid="ok">My Button</p:PaperButton>
+     </div>
 </p:PaperDialog>
+
     
 </ui:UiBinder>

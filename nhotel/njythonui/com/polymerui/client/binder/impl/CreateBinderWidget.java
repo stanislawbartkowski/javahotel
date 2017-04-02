@@ -205,7 +205,7 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 			else
 				w = new FlowPanel(html);
 			break;
-		case PaperTooltip:
+		case PaperTooltip: 
 			w = new PaperTooltip(html);
 			break;
 		case PaperToast:

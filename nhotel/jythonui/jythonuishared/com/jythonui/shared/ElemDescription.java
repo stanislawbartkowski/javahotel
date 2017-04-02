@@ -51,10 +51,6 @@ public abstract class ElemDescription extends XMap {
         return isAttr(ICommonConsts.HTMLID);
     }
 
-    public boolean isReadOnly() {
-        return isAttr(ICommonConsts.READONLY);
-    }
-
     public String getClassName() {
         return getAttr(ICommonConsts.CLASSNAME);
     }

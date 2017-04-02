@@ -16,6 +16,7 @@
                 <button id="okmessage" displayname="Ok Message" actiontype="JOK_MESSAGE" actionparam="Hello" actionparam1="Title" actionparam2="okaction" />
                 <button id="yesmessage" displayname="YesNo Message" actiontype="JYESNO_MESSAGE" actionparam="Do you really want to carry on" actionparam1="I'm asking You" actionparam2="yesnoaction" />
                 <button id="alertdialog" displayname="Alert dialogs" actiontype="JMAIN_DIALOG" actionparam="alertp.xml" />
+                <button id="dialogup" displayname="Dialog" actiontype="JMAIN_DIALOG" actionparam="dialogup.xml" />
         </leftstack>     
         
         <buttons>

@@ -146,7 +146,6 @@ public class Test5 extends TestHelper {
         for (FieldItem i : d.getFieldList()) {
             assertFalse(i.isHidden());
             assertFalse(i.isNotEmpty());
-            assertFalse(i.isReadOnly());
         }
 
     }

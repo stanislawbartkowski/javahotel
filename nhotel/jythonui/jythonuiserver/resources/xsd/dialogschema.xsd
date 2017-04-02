@@ -108,7 +108,6 @@
 			<xs:element minOccurs="0" name="actionparam2" type="xs:string" />
 			<xs:element minOccurs="0" name="actionparam3" type="xs:string" />
 			<xs:element minOccurs="0" name="hidden" type="emptyT" />
-			<xs:element minOccurs="0" name="readonly" type="emptyT" />
 			<xs:element minOccurs="0" name="header" type="emptyT" />
 			<xs:element minOccurs="0" name="imagebutton" type="xs:string" />
 		</xs:sequence>
@@ -127,7 +126,6 @@
 		<xs:attribute name="actionparam2" type="xs:string" />
 		<xs:attribute name="actionparam3" type="xs:string" />
 		<xs:attribute name="hidden" type="emptyT" />
-		<xs:attribute name="readonly" type="emptyT" />
 		<xs:attribute name="header" type="emptyT" />
 		<xs:attribute name="imagebutton" type="xs:string" />
 	</xs:attributeGroup>
@@ -271,7 +269,6 @@
 			<xs:element minOccurs="0" name="helperrefresh" type="emptyT" />
 			<xs:element minOccurs="0" name="notempty" type="emptyT" />
 			<xs:element minOccurs="0" name="hidden" type="emptyT" />
-			<xs:element minOccurs="0" name="readonly" type="emptyT" />
 			<xs:element minOccurs="0" name="readonlyadd" type="emptyT" />
 			<xs:element minOccurs="0" name="readonlychange" type="emptyT" />
 			<xs:element minOccurs="0" name="signalchange" type="emptyT" />
@@ -319,7 +316,6 @@
 		<xs:attribute name="afterdot" type="xs:nonNegativeInteger" />
 		<xs:attribute name="notempty" type="emptyT" />
 		<xs:attribute name="hidden" type="emptyT" />
-		<xs:attribute name="readonly" type="emptyT" />
 		<xs:attribute name="readonlyadd" type="emptyT" />
 		<xs:attribute name="readonlychange" type="emptyT" />
 		<xs:attribute name="signalchange" type="emptyT" />
@@ -357,7 +353,6 @@
 			<xs:element minOccurs="0" name="displayname" type="xs:string" />
 			<xs:element minOccurs="0" name="type" type="typeName" />
 			<xs:element minOccurs="0" name="afterdot" type="xs:nonNegativeInteger" />
-			<xs:element minOccurs="0" name="readonly" type="emptyT" />
 		</xs:sequence>
 	</xs:group>
 
@@ -366,7 +361,6 @@
 		<xs:attribute name="displayname" type="xs:string" />
 		<xs:attribute name="type" type="typeName" />
 		<xs:attribute name="afterdot" type="xs:nonNegativeInteger" />
-		<xs:attribute name="readonly" type="emptyT" />
 	</xs:attributeGroup>
 
 	<xs:group name="checkG">

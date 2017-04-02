@@ -19,6 +19,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.inject.Inject;
 import com.gwtmodel.table.common.CUtil;
 import com.jythonui.client.M;
+import com.jythonui.client.dialog.IReadDialog;
+import com.jythonui.client.util.U;
 import com.polymerui.client.binder.ICreateBinderWidget;
 import com.polymerui.client.eventbus.IEventBus;
 import com.polymerui.client.eventbus.StandardDialogEvent;
@@ -40,10 +42,16 @@ public class StandardDialog {
 	static final int OKDIALOG = 1;
 	static final int YESNODIALOG = 2;
 
+	public static void drawpopupDialog(IEventBus iBus, PaperDialog p) {
+		IReadDialog iR = U.getIDialog(iBus);
+		HTMLPanel ha = iR.getH();
+     	popupDraw(p,ha);
+
+	}
+
 	static void dialog(IEventBus iBus, int a, String[] pars) {
 		HTMLPanel ha = iBinder.create(M.getStandw()[a]);
-		PaperDialog p = (PaperDialog) PolymerUtil.findandverifyWidget(M.getBinders()[a], ha, "dialog",
-				PaperDialog.class);
+		PaperDialog p = PolymerUtil.findPaperDialog(M.getBinders()[a], ha);
 		Label header = (Label) PolymerUtil.findandverifyWidget(M.getBinders()[a], ha, "header", Label.class);
 		String[] butt = null;
 		switch (a) {
@@ -72,13 +80,18 @@ public class StandardDialog {
 		e.removeAllChildren();
 		HTML html = new HTML(pars[0]);
 		e.insertFirst(html.getElement());
+		popupDraw(p, ha);
+	}
+
+	private static void popupDraw(PaperDialog p, HTMLPanel ha) {
 		IMainPanel iM = M.getPanel();
 		HTMLPanel hM = iM.getCurrentContent().getH();
-		hM.add(ha);
+		hM.add(p);
 		p.open();
 		p.addIronOverlayClosedHandler(event -> {
 			hM.remove(ha);
 		});
+
 	}
 
 }

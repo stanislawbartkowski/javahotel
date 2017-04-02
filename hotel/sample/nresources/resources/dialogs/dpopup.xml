@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+	<uibinder>binder/dpopup.xml</uibinder>
+
+	<before />
+        
+	<jython>
+		<import>from samplep import dialogup</import>
+		<method>dialogup.dpopaction({0},{1})</method>
+	</jython>
+        
+
+</dialog>

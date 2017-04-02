@@ -87,11 +87,10 @@ class ReadDialog extends UtilHelper {
 				ICommonConsts.LEFT, ICommonConsts.MAXLEFT, ICommonConsts.MAXTOP, ICommonConsts.SIGNALCLOSE };
 		private final String[] buttonTag = { ICommonConsts.ID, ICommonConsts.DISPLAYNAME, ICommonConsts.ACTIONTYPE,
 				ICommonConsts.ACTIONPARAM, ICommonConsts.ACTIONPARAM1, ICommonConsts.ACTIONPARAM2,
-				ICommonConsts.ACTIONPARAM3, ICommonConsts.IMPORT, ICommonConsts.HIDDEN, ICommonConsts.READONLY,
-				ICommonConsts.METHOD, ICommonConsts.VALIDATE, ICommonConsts.BUTTONHEADER, ICommonConsts.IMAGENAME,
+				ICommonConsts.ACTIONPARAM3, ICommonConsts.IMPORT, ICommonConsts.HIDDEN, ICommonConsts.METHOD, ICommonConsts.VALIDATE, ICommonConsts.BUTTONHEADER, ICommonConsts.IMAGENAME,
 				ICommonConsts.JSACTION };
 		private final String[] fieldTag = { ICommonConsts.ID, ICommonConsts.TYPE, ICommonConsts.AFTERDOT,
-				ICommonConsts.ACTIONID, ICommonConsts.DISPLAYNAME, ICommonConsts.NOTEMPTY, ICommonConsts.READONLY,
+				ICommonConsts.ACTIONID, ICommonConsts.DISPLAYNAME, ICommonConsts.NOTEMPTY,
 				ICommonConsts.HIDDEN, ICommonConsts.READONLYADD, ICommonConsts.READONLYCHANGE,
 				ICommonConsts.SIGNALCHANGE, ICommonConsts.HELPER, ICommonConsts.HELPERREFRESH, ICommonConsts.FROM,
 				ICommonConsts.WIDTH, ICommonConsts.ALIGN, ICommonConsts.HTMLID, ICommonConsts.DEFVALUE,
@@ -110,7 +109,7 @@ class ReadDialog extends UtilHelper {
 				ICommonConsts.NOPROPERTYCOLUMN };
 		private final String[] valTag = { ICommonConsts.ID, ICommonConsts.DISPLAYNAME, ICommonConsts.VALIDATEOP,
 				ICommonConsts.VALIDATEID1 };
-		private final String[] checklistTag = { ICommonConsts.ID, ICommonConsts.DISPLAYNAME, ICommonConsts.READONLY,
+		private final String[] checklistTag = { ICommonConsts.ID, ICommonConsts.DISPLAYNAME, 
 				ICommonConsts.TYPE, ICommonConsts.AFTERDOT };
 		private final String[] datelineTag = { ICommonConsts.ID, ICommonConsts.DISPLAYNAME, ICommonConsts.PAGESIZE,
 				ICommonConsts.COLNO, ICommonConsts.DATELINEID, ICommonConsts.DATELINEDEFAFILE,

@@ -63,7 +63,6 @@ public class Test6 extends TestHelper {
             String id = i.getId();
             if (id.equals("glob1")) {
                 assertTrue(i.isHidden());
-                assertTrue(i.isReadOnly());
                 assertFalse(i.isNotEmpty());
                 no++;
             }
@@ -71,7 +70,6 @@ public class Test6 extends TestHelper {
                 no++;
                 assertTrue(i.isNotEmpty());
                 assertFalse(i.isHidden());
-                assertFalse(i.isReadOnly());
             }
         }
         assertEquals(2, no);

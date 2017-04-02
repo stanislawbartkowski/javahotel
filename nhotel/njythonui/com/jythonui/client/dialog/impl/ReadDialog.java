@@ -13,9 +13,11 @@
 package com.jythonui.client.dialog.impl;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.gwtmodel.table.binder.BinderWidget;
 import com.gwtmodel.table.common.CUtil;
@@ -26,6 +28,7 @@ import com.jythonui.client.dialog.util.EnrichWidgets;
 import com.jythonui.client.dialog.util.RunAction;
 import com.jythonui.client.dialog.util.SetFields;
 import com.jythonui.client.dialog.util.SetVariables;
+import com.jythonui.client.dialog.util.StandardDialog;
 import com.jythonui.client.dialog.util.VerifyDialog;
 import com.jythonui.client.gini.UIGiniInjector;
 import com.jythonui.client.util.ExecuteAction;
@@ -51,6 +54,8 @@ import com.polymerui.client.util.Utils;
 import com.polymerui.client.view.panel.IMainPanel;
 import com.polymerui.client.view.panel.IMainPanel.InfoType;
 import com.polymerui.client.view.util.CreatePolymerMenu;
+import com.polymerui.client.view.util.PolymerUtil;
+import com.vaadin.polymer.paper.widget.PaperDialog;
 import com.vaadin.polymer.paper.widget.PaperMenu;
 
 public class ReadDialog implements IReadDialog {
@@ -144,10 +149,6 @@ public class ReadDialog implements IReadDialog {
 			return ha;
 		}
 
-		ISetJythonVariables getS() {
-			return iSet;
-		}
-
 	}
 
 	private final IEventBus iBus;
@@ -155,6 +156,9 @@ public class ReadDialog implements IReadDialog {
 	private final ICreateBinderWidget iBinder;
 
 	private HTMLPanel ha;
+
+	// pop up dialog
+	private PaperDialog p = null;
 
 	private DialogInfo d;
 
@@ -200,7 +204,7 @@ public class ReadDialog implements IReadDialog {
 		String uDisplay = displayName;
 		if (!CUtil.EmptyS(arg.getDialog().getDisplayName()))
 			uDisplay = arg.getDialog().getDisplayName();
-		iP.drawInfo(InfoType.UPINFO, uDisplay);
+		if (main) iP.drawInfo(InfoType.UPINFO, uDisplay);
 		if (!arg.getDialog().getLeftStackList().isEmpty()) {
 			PaperMenu me = iP.getLeftMenu();
 			me.clear();
@@ -212,7 +216,12 @@ public class ReadDialog implements IReadDialog {
 		SetFields.setV(va, iBus);
 
 		EnrichWidgets.enrich(iBus);
-		M.getPanel().replaceContent(new PC());
+		if (main)
+			M.getPanel().replaceContent(new PC());
+		else {
+			p = PolymerUtil.findPaperDialog(d.getDialog().getId(), ha);
+			StandardDialog.drawpopupDialog(iBus, p);
+		}
 		JythonVariables.registerVar(iSet);
 	}
 

@@ -89,5 +89,7 @@ public interface TLogMessages extends Messages {
 	String UnknownAction(String action, String param);
 	
 	String ActionRequiresParameter(String action);
+	
+	String CannotFindPaperDialog();
 
 }
