@@ -87,9 +87,11 @@ public interface TLogMessages extends Messages {
 	String ValueShouldBeString(String fielid, String found);
 
 	String UnknownAction(String action, String param);
-	
+
 	String ActionRequiresParameter(String action);
-	
+
 	String CannotFindPaperDialog();
+
+	String CloseActionCannotBeAppliedToMainDialog(String closeAction, String mainDialog);
 
 }

@@ -13,11 +13,9 @@
 package com.jythonui.client.dialog.impl;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.gwtmodel.table.binder.BinderWidget;
 import com.gwtmodel.table.common.CUtil;
@@ -43,6 +41,8 @@ import com.polymerui.client.binder.ICreateBinderWidget;
 import com.polymerui.client.callback.CommonCallBack;
 import com.polymerui.client.eventbus.ButtonEvent;
 import com.polymerui.client.eventbus.ChangeEvent;
+import com.polymerui.client.eventbus.CloseDialogEvent;
+import com.polymerui.client.eventbus.CloseDialogHandler;
 import com.polymerui.client.eventbus.EventDialogGetHTML;
 import com.polymerui.client.eventbus.IEvent;
 import com.polymerui.client.eventbus.IEventBus;
@@ -116,8 +116,33 @@ public class ReadDialog implements IReadDialog {
 
 		@Override
 		public void raise(IEvent e, DialogVariables i) {
-			SetFields.setV(i, iBus);
+			SetFields.setV(i);
 			RunAction.action(iBus, i);
+		}
+	}
+
+	private class CloseDialogAction implements ISubscriber<String[]> {
+
+		@Override
+		public void raise(IEvent e, String[] i) {
+			String closeAction = i[0];
+			String closeButton = i[1];
+			if (main) {
+				String mess = M.M().CloseActionCannotBeAppliedToMainDialog(ICommonConsts.JCLOSEDIALOG,
+						ICommonConsts.JMAINDIALOG);
+				Utils.errAlert(d.getDialog().getId(), mess);
+				return;
+			}
+			assert p != null;
+			p.close();
+		}
+	}
+
+	private class CloseDialogFromDocHandler implements ISubscriber<Void> {
+
+		@Override
+		public void raise(IEvent e, Void i) {
+			JythonVariables.deregisterVar(iBus);
 		}
 
 	}
@@ -174,6 +199,11 @@ public class ReadDialog implements IReadDialog {
 		public void set(DialogVariables v) {
 			SetVariables.set(v, iBus);
 		}
+
+		@Override
+		public IEventBus getBus() {
+			return iBus;
+		}
 	};
 
 	@Inject
@@ -199,12 +229,15 @@ public class ReadDialog implements IReadDialog {
 		iBus.subscribe(new ResultButtonAction(), new ResultAction());
 		iBus.subscribe(new StandardDialogEvent(), new StandardDialogSubscriber());
 		iBus.subscribe(new ChangeEvent(), new ChangeSubscriber());
+		iBus.subscribe(new CloseDialogEvent(), new CloseDialogAction());
+		iBus.subscribe(new CloseDialogHandler(), new CloseDialogFromDocHandler());
 		d = arg;
 		IMainPanel iP = M.getPanel();
 		String uDisplay = displayName;
 		if (!CUtil.EmptyS(arg.getDialog().getDisplayName()))
 			uDisplay = arg.getDialog().getDisplayName();
-		if (main) iP.drawInfo(InfoType.UPINFO, uDisplay);
+		if (main)
+			iP.drawInfo(InfoType.UPINFO, uDisplay);
 		if (!arg.getDialog().getLeftStackList().isEmpty()) {
 			PaperMenu me = iP.getLeftMenu();
 			me.clear();
@@ -213,7 +246,6 @@ public class ReadDialog implements IReadDialog {
 		BinderWidget w = arg.getDialog().getBinderW();
 		assert w != null;
 		ha = iBinder.create(w);
-		SetFields.setV(va, iBus);
 
 		EnrichWidgets.enrich(iBus);
 		if (main)
@@ -223,6 +255,7 @@ public class ReadDialog implements IReadDialog {
 			StandardDialog.drawpopupDialog(iBus, p);
 		}
 		JythonVariables.registerVar(iSet);
+		SetFields.setV(va);
 	}
 
 	@Override

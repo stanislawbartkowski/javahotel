@@ -10,15 +10,12 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.client.var;
+package com.polymerui.client.eventbus;
 
-import com.jythonui.shared.DialogVariables;
-import com.polymerui.client.eventbus.IEventBus;
-
-public interface ISetJythonVariables {
-
-	void set(DialogVariables v);
+public class CloseDialogEvent extends AbstractEventType  {
 	
-	IEventBus getBus();
+	public CloseDialogEvent() {
+		super(CloseDialogEvent.class);
+	}
 
 }

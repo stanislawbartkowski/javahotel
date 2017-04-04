@@ -12,10 +12,10 @@
  */
 package com.jythonui.client.var;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Stack;
 
 import com.jythonui.shared.DialogVariables;
+import com.polymerui.client.eventbus.IEventBus;
 
 public class JythonVariables {
 
@@ -24,20 +24,20 @@ public class JythonVariables {
 
 	private final static DialogVariables globalv = new DialogVariables();
 
-	private final static List<ISetJythonVariables> iList = new ArrayList<ISetJythonVariables>();
+	private final static Stack<ISetJythonVariables> iList = new Stack<ISetJythonVariables>();
 
 	public static DialogVariables getGlobalv() {
 		return globalv;
 	}
 
 	public static void registerVar(ISetJythonVariables i) {
-		iList.add(i);
+		iList.push(i);
 	}
 
-	public static void deregisterVar(ISetJythonVariables i) {
-		iList.removeIf(vi -> vi == i);
+	public static void deregisterVar(IEventBus e) {
+		iList.removeIf(vi -> vi.getBus() == e);
 	}
-	
+
 	public static void resetVar() {
 		iList.clear();
 	}
@@ -49,6 +49,10 @@ public class JythonVariables {
 		// from left to right FIFO
 		iList.forEach(i -> i.set(v));
 		return v;
+	}
+
+	public static Stack<ISetJythonVariables> getS() {
+		return iList;
 	}
 
 }

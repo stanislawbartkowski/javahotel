@@ -12,17 +12,22 @@
  */
 package com.jythonui.client.dialog.util;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.common.TT;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.IReadDialog;
 import com.jythonui.client.util.U;
+import com.jythonui.client.var.ISetJythonVariables;
+import com.jythonui.client.var.JythonVariables;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.FieldValue;
 import com.jythonui.shared.ICommonConsts;
-import com.polymerui.client.eventbus.IEventBus;
 import com.polymerui.client.util.Utils;
 import com.polymerui.client.view.util.PolymerUtil;
 
@@ -39,22 +44,41 @@ public class SetFields {
 		return DialogFormat.findE(iR.getDynamicList(), id);
 	}
 
-	public static void setV(DialogVariables va, IEventBus iBus) {
+	private static class R {
+		IReadDialog iR;
+		Widget w;
+	}
 
-		IReadDialog iR = U.getIDialog(iBus);
-		String dialogName = iR.getD().getDialog().getId();
+	private static R getIRForField(String fie) {
+		List<ISetJythonVariables> stack = new ArrayList<ISetJythonVariables>();
+		stack.addAll(JythonVariables.getS());
+		Collections.reverse(stack); // from last to first
+		R r = new R();
+		for (ISetJythonVariables i : stack) {
+			r.iR = U.getIDialog(i.getBus());
+			r.w = PolymerUtil.findWidgetByFieldId(r.iR.getH(), fie);
+			if (r.w != null)
+				return r;
+		}
+		return null;
+	}
+
+	public static void setV(DialogVariables va) {
 
 		visitListOfFields(va, ICommonConsts.JCOPY, (fie, field) -> {
 
-			FieldItem def = getDef(iR, fie);
-			Widget w = PolymerUtil.findWidgetByFieldId(iR.getH(), fie);
-			if (w == null)
-				Utils.errAlert(M.M().DialogField(dialogName, fie), M.M().CannotWindWidget());
-			BiWidget bi = new BiWidget(w, fie);
+			R r = getIRForField(fie);
+			if (r == null) {
+				String dName = U.getIDialog(JythonVariables.getS().peek().getBus()).getD().getDialog().getId();
+				Utils.errAlert(M.M().DialogField(dName, fie), M.M().CannotWindWidget());
+			}
+			String dialogName = r.iR.getD().getDialog().getId();
+			FieldItem def = getDef(r.iR, fie);
+			BiWidget bi = new BiWidget(r.w, fie);
 			TT t = bi.getWidgetType();
 			if (t == null)
 				Utils.errAlertB(M.M().DialogField(dialogName, field),
-						M.M().WidgetTypeNotImplemented(w.getClass().getName()));
+						M.M().WidgetTypeNotImplemented(r.w.getClass().getName()));
 			FieldValue val = va.getValue(fie);
 			assert val != null;
 
@@ -93,21 +117,21 @@ public class SetFields {
 				}
 				if (dType == null)
 					Utils.errAlertB(M.M().DialogField(dialogName, field),
-							M.M().WidgetTypeAndValueDoesNotMatch(w.getClass().getName(), val.getType().name()));
+							M.M().WidgetTypeAndValueDoesNotMatch(r.w.getClass().getName(), val.getType().name()));
 
 				def = new FieldItem();
 				def.setId(fie);
 				def.setAttr(ICommonConsts.TYPE, dType);
 				def.setAttr(ICommonConsts.AFTERDOT, Integer.toString(afterdot));
 				// update dynamic list (once only)
-				iR.getDynamicList().add(def);
+				r.iR.getDynamicList().add(def);
 			}
 
 			if (def.getFieldType() != val.getType())
 				Utils.errAlertB(M.M().DialogField(dialogName, field),
 						M.M().FieldDefinitionValueNotMatch(def.getFieldType().name(), val.getType().name()));
 
-			bi.setValue(iR, val, def);
+			bi.setValue(r.iR, val, def);
 		});
 
 	}

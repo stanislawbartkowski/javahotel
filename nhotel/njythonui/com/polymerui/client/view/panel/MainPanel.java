@@ -15,8 +15,7 @@ package com.polymerui.client.view.panel;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.gwt.core.shared.GWT;
-import com.google.gwt.dom.client.Element;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -25,7 +24,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.common.CUtil;
 import com.jythonui.client.M;
 import com.polymerui.client.IConsts;
-import com.polymerui.client.IGWidget;
 import com.polymerui.client.util.Utils;
 import com.polymerui.client.view.util.PolymerUtil;
 import com.vaadin.polymer.paper.widget.PaperMenu;
@@ -65,30 +63,12 @@ class MainPanel implements IMainPanel {
 		return (Image) w;
 	}
 
-	private Element getId(String id) {
-		// debug
-		Element e = ha.getElementById(id);
-		if (e != null)
-			return e;
-		String errmess = M.M().HTMLPanelCannotFindWIdget("Left menu", id);
-		Utils.errAlertB(errmess);
-		return null;
-	}
-
-	// String JVersion = pResources.getRes(IWebPanelResources.JUIVERSION);
-	// String title = CUtil.joinS('\n',
-	// pResources.getRes(IWebPanelResources.VERSION),
-	// LogT.getT().GWTVersion(GWT.getVersion(), JVersion));
-
-	// String ima = pResources.getRes(IWebPanelResources.PROGRESSICON);
-	// String url = Utils.getImageAdr(ima);
-	// uW.progressIcon.setUrl(url);
-
 	private void drawLogo(String logoIcon, String v) {
 		Image i = findImageWidget(IConsts.PANELTITLEICON);
 		String h = Utils.getImageAdr(logoIcon);
 		i.setUrl(h);
-		String title = CUtil.joinS('\n', IConsts.UIVersion, M.M().GWTVersion(GWT.getVersion()), v);
+		String gVersion = GWT.getVersion();
+		String title = CUtil.joinS('\n', IConsts.UIVersion, M.M().GWTVersion(gVersion), v);
 		i.setTitle(title);
 	}
 
@@ -102,7 +82,6 @@ class MainPanel implements IMainPanel {
 		hProgress = (HTMLPanel) PolymerUtil.findandverifyWidget(M.M().MainPanelIconWidget(IConsts.PANELPROGRESSHTML),
 				ha, IConsts.PANELPROGRESSHTML, HTMLPanel.class);
 
-		// PANELPROGRESSHTML
 	}
 
 	private void setProgIcon(boolean visible) {

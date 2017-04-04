@@ -14,7 +14,8 @@
     </paper-dialog-scrollable>
     
     <div class="buttons">
-        <p:PaperButton attributes="dialog-dismiss" fieldid="ok">My Button</p:PaperButton>
+        <p:PaperButton fieldid="ok">My Button</p:PaperButton>
+        <p:PaperButton fieldid="copy">Copy field to parent</p:PaperButton>
      </div>
 </p:PaperDialog>
 

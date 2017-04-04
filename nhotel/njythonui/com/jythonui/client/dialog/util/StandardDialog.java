@@ -22,6 +22,7 @@ import com.jythonui.client.M;
 import com.jythonui.client.dialog.IReadDialog;
 import com.jythonui.client.util.U;
 import com.polymerui.client.binder.ICreateBinderWidget;
+import com.polymerui.client.eventbus.CloseDialogHandler;
 import com.polymerui.client.eventbus.IEventBus;
 import com.polymerui.client.eventbus.StandardDialogEvent;
 import com.polymerui.client.eventbus.StandardDialogResult;
@@ -45,7 +46,7 @@ public class StandardDialog {
 	public static void drawpopupDialog(IEventBus iBus, PaperDialog p) {
 		IReadDialog iR = U.getIDialog(iBus);
 		HTMLPanel ha = iR.getH();
-     	popupDraw(p,ha);
+		popupDraw(p, ha, iBus);
 
 	}
 
@@ -80,16 +81,18 @@ public class StandardDialog {
 		e.removeAllChildren();
 		HTML html = new HTML(pars[0]);
 		e.insertFirst(html.getElement());
-		popupDraw(p, ha);
+		popupDraw(p, ha, null);
 	}
 
-	private static void popupDraw(PaperDialog p, HTMLPanel ha) {
+	private static void popupDraw(PaperDialog p, HTMLPanel ha, IEventBus i) {
 		IMainPanel iM = M.getPanel();
 		HTMLPanel hM = iM.getCurrentContent().getH();
 		hM.add(p);
 		p.open();
 		p.addIronOverlayClosedHandler(event -> {
 			hM.remove(ha);
+			if (i != null)
+				i.publish(new CloseDialogHandler(), null);
 		});
 
 	}

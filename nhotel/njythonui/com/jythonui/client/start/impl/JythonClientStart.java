@@ -176,7 +176,6 @@ public class JythonClientStart implements IJythonClientStart {
 
 			@Override
 			public Object call(Object arg) {
-				// TODO Auto-generated method stub
 				s.signalDone();
 				return null;
 			}

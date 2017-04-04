@@ -22,6 +22,7 @@ import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldValue;
 import com.jythonui.shared.ICommonConsts;
 import com.polymerui.client.IConsts;
+import com.polymerui.client.eventbus.CloseDialogEvent;
 import com.polymerui.client.eventbus.IEventBus;
 import com.polymerui.client.util.Utils;
 
@@ -46,13 +47,16 @@ public class RunAction {
 		// it a little tricky but this way allows code reuse with performAction
 		String[] kom = { ICommonConsts.JMAINDIALOG, ICommonConsts.JUPDIALOG, ICommonConsts.JOKMESSAGE,
 				ICommonConsts.JERRORMESSAGE, ICommonConsts.JYESNOMESSAGE, ICommonConsts.JSUBMIT,
-				ICommonConsts.JURL_OPEN, ICommonConsts.JEXECUTEACTION };
+				ICommonConsts.JURL_OPEN, ICommonConsts.JEXECUTEACTION, ICommonConsts.JCLOSEDIALOG };
 		String[] param = { null, IConsts.JBUTTONDIALOGSTART, ICommonConsts.JMESSAGE_TITLE, ICommonConsts.JMESSAGE_TITLE,
-				ICommonConsts.JMESSAGE_TITLE, null, ICommonConsts.JMESSAGE_TITLE, null };
+				ICommonConsts.JMESSAGE_TITLE, null, ICommonConsts.JMESSAGE_TITLE, null, ICommonConsts.JCLOSEBUTTON };
 		String[] param2 = { null, ICommonConsts.JAFTERDIALOGACTION, ICommonConsts.JAFTERDIALOGACTION,
 				ICommonConsts.JAFTERDIALOGACTION, ICommonConsts.JAFTERDIALOGACTION, null, null,
-				IConsts.JBUTTONDIALOGRES };
-		String[] param3 = { null, IConsts.JBUTTONDIALOGSTART1, null, null, null, null, null, null };
+				IConsts.JBUTTONDIALOGRES, null };
+		String[] param3 = { null, IConsts.JBUTTONDIALOGSTART1, null, null, null, null, null, null, null };
+		assert (kom.length == param.length);
+		assert (kom.length == param2.length);
+		assert (kom.length == param3.length);
 		for (int i = 0; i < kom.length; i++) {
 			FieldValue val = arg.getValue(kom[i]);
 			String[] pars = { null, null, null, null };
@@ -160,11 +164,10 @@ public class RunAction {
 		// iClose.closeAction(param, param1);
 		// return;
 		// }
-		// if (action.equals(ICommonConsts.JCLOSEDIALOG)) {
-		// if (iClose != null)
-		// iClose.closeAction(param, param1);
-		// return;
-		// }
+		if (action.equals(ICommonConsts.JCLOSEDIALOG)) {
+			iBus.publish(new CloseDialogEvent(), new String[] { param, param1 });
+			return;
+		}
 		// if (action.equals(ICommonConsts.JSUBMIT)) {
 		// if (iClose != null)
 		// iClose.submitAction();
