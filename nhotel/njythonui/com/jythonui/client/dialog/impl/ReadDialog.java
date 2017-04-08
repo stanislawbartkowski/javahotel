@@ -36,11 +36,13 @@ import com.jythonui.shared.ButtonItem;
 import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldItem;
+import com.jythonui.shared.FieldValue;
 import com.jythonui.shared.ICommonConsts;
 import com.polymerui.client.binder.ICreateBinderWidget;
 import com.polymerui.client.callback.CommonCallBack;
 import com.polymerui.client.eventbus.ButtonEvent;
 import com.polymerui.client.eventbus.ChangeEvent;
+import com.polymerui.client.eventbus.ClickHelperEvent;
 import com.polymerui.client.eventbus.CloseDialogEvent;
 import com.polymerui.client.eventbus.CloseDialogHandler;
 import com.polymerui.client.eventbus.EventDialogGetHTML;
@@ -81,10 +83,6 @@ public class ReadDialog implements IReadDialog {
 		public void raise(IEvent e, ButtonItem i) {
 			if (!VerifyDialog.verify(iBus, i))
 				return;
-			if (i.isAction()) {
-				RunAction.buttonAction(iBus, i);
-				return;
-			}
 			ActionButton.call(iBus, JythonVariables.constructVar(), i);
 		}
 	}
@@ -96,7 +94,7 @@ public class ReadDialog implements IReadDialog {
 			DialogVariables v = JythonVariables.constructVar();
 			v.setValueS(ICommonConsts.SIGNALCHANGEFIELD, fieldid);
 			v.setValueB(ICommonConsts.SIGNALAFTERFOCUS, true);
-			ActionButton.callA(iBus, v, ICommonConsts.SIGNALCHANGE);
+			ActionButton.callA(iBus, v, ICommonConsts.SIGNALCHANGE, ICommonConsts.SIGNALCHANGE + "-" + fieldid);
 		}
 
 	}
@@ -107,7 +105,18 @@ public class ReadDialog implements IReadDialog {
 		public void raise(IEvent e, StandardDialogResult i) {
 			DialogVariables v = JythonVariables.constructVar();
 			v.setValueB(ICommonConsts.JYESANSWER, i.isOk());
-			ActionButton.callA(iBus, v, i.getAction());
+			ActionButton.callA(iBus, v, i.getAction(), i.getAction());
+		}
+
+	}
+
+	private class ClickHelperSubscriber implements ISubscriber<FieldItem> {
+
+		@Override
+		public void raise(IEvent e, FieldItem i) {
+			DialogVariables v = JythonVariables.constructVar();
+			v.setValueS(ICommonConsts.HELPER, i.getHelper());
+			ActionButton.callA(iBus, v, ICommonConsts.HELPER, i.getHelper() + "-" + i.getId());
 		}
 
 	}
@@ -116,7 +125,7 @@ public class ReadDialog implements IReadDialog {
 
 		@Override
 		public void raise(IEvent e, DialogVariables i) {
-			SetFields.setV(i);
+			SetFields.setV(iBus, i);
 			RunAction.action(iBus, i);
 		}
 	}
@@ -197,7 +206,7 @@ public class ReadDialog implements IReadDialog {
 
 		@Override
 		public void set(DialogVariables v) {
-			SetVariables.set(v, iBus);
+			SetVariables.set(iBus, v);
 		}
 
 		@Override
@@ -231,6 +240,7 @@ public class ReadDialog implements IReadDialog {
 		iBus.subscribe(new ChangeEvent(), new ChangeSubscriber());
 		iBus.subscribe(new CloseDialogEvent(), new CloseDialogAction());
 		iBus.subscribe(new CloseDialogHandler(), new CloseDialogFromDocHandler());
+		iBus.subscribe(new ClickHelperEvent(), new ClickHelperSubscriber());
 		d = arg;
 		IMainPanel iP = M.getPanel();
 		String uDisplay = displayName;
@@ -255,7 +265,7 @@ public class ReadDialog implements IReadDialog {
 			StandardDialog.drawpopupDialog(iBus, p);
 		}
 		JythonVariables.registerVar(iSet);
-		SetFields.setV(va);
+		SetFields.setV(iBus, va);
 	}
 
 	@Override

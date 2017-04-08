@@ -113,6 +113,16 @@ public class DialogFormat extends ElemDescription {
 		return actionList;
 	}
 
+	public List<ButtonItem> getAllButton() {
+		List<ButtonItem> bList = new ArrayList<ButtonItem>();
+		bList.addAll(buttonList);
+		bList.addAll(actionList);
+		bList.addAll(leftButtonList);
+		bList.addAll(upMenuList);
+		bList.addAll(leftStackList);
+		return bList;
+	}
+
 	public List<TypesDescr> getTypeList() {
 		return typeList;
 	}

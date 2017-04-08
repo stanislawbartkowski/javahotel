@@ -28,6 +28,7 @@ import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.FieldValue;
 import com.jythonui.shared.ICommonConsts;
+import com.polymerui.client.eventbus.IEventBus;
 import com.polymerui.client.util.Utils;
 import com.polymerui.client.view.util.PolymerUtil;
 
@@ -63,7 +64,7 @@ public class SetFields {
 		return null;
 	}
 
-	public static void setV(DialogVariables va) {
+	public static void setV(IEventBus iBus, DialogVariables va) {
 
 		visitListOfFields(va, ICommonConsts.JCOPY, (fie, field) -> {
 
@@ -74,7 +75,7 @@ public class SetFields {
 			}
 			String dialogName = r.iR.getD().getDialog().getId();
 			FieldItem def = getDef(r.iR, fie);
-			BiWidget bi = new BiWidget(r.w, fie);
+			BiWidget bi = new BiWidget(iBus, r.w, fie, def);
 			TT t = bi.getWidgetType();
 			if (t == null)
 				Utils.errAlertB(M.M().DialogField(dialogName, field),

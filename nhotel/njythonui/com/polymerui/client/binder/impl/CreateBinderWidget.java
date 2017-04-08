@@ -278,11 +278,11 @@ public class CreateBinderWidget implements ICreateBinderWidget {
 			Widget child = constructEmptyWidget(c);
 			buildWidget(child, c);
 			Element ee = h.getElementById(c.getId());
+			String html = h.toString();
 			if (ee == null)
-				Utils.errAlert(M.M().BinderCannotFindWidget(c.getId()));
+				Utils.errAlertB(M.M().BinderCannotFindWidget(c.getId()));
 
 			if (h != null) {
-				// String html = h.toString();
 				try {
 					h.addAndReplaceElement(child, ee);
 				} catch (NoSuchElementException e) {

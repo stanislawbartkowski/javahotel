@@ -16,6 +16,7 @@ import com.jythonui.client.dialog.IReadDialog;
 import com.jythonui.client.util.ExecuteAction;
 import com.jythonui.client.util.U;
 import com.jythonui.shared.ButtonItem;
+import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogVariables;
 import com.polymerui.client.callback.CommonCallBack;
 import com.polymerui.client.eventbus.IEventBus;
@@ -28,11 +29,19 @@ public class ActionButton {
 	}
 
 	public static void call(IEventBus iBus, DialogVariables v, ButtonItem b) {
-		callA(iBus, v, b.getId());
+		callA(iBus, v, b.getId(), b.getId());
 	}
 
-	public static void callA(IEventBus iBus, DialogVariables v, String action) {
+	public static void callA(IEventBus iBus, DialogVariables v, String action, String buttonAction) {
 		IReadDialog iR = U.getIDialog(iBus);
+
+		ButtonItem bI = DialogFormat.findE(iR.getD().getDialog().getAllButton(), buttonAction);
+
+		if (bI != null && bI.isAction()) {
+			RunAction.buttonAction(iBus, bI);
+			return;
+		}
+
 		ExecuteAction.action(v, iR.getD().getDialog().getId(), action, new CommonCallBack<DialogVariables>() {
 
 			@Override

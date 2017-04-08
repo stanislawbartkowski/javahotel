@@ -19,6 +19,7 @@ import com.jythonui.client.dialog.IReadDialog;
 import com.jythonui.client.util.U;
 import com.jythonui.shared.ButtonItem;
 import com.jythonui.shared.DialogFormat;
+import com.jythonui.shared.FieldItem;
 import com.polymerui.client.eventbus.IEventBus;
 import com.polymerui.client.view.util.PolymerUtil;
 
@@ -32,16 +33,13 @@ public class EnrichWidgets {
 
 		IReadDialog iR = U.getIDialog(iBus);
 
-		List<ButtonItem> bList = new ArrayList<ButtonItem>();
-		bList.addAll(iR.getD().getDialog().getActionList());
-		bList.addAll(iR.getD().getDialog().getButtonList());
-
 		PolymerUtil.walkHTMLPanel(iR.getH(), (fieldid, w) -> {
-			BiWidget bi = new BiWidget(w, fieldid);
+			BiWidget bi = new BiWidget(iBus, w, fieldid, SetFields.getDef(iR, fieldid));
 			bi.setI18();
-			bi.setButtonSubscriber(iBus, DialogFormat.findE(bList, fieldid));
-			bi.setInputPattern(SetFields.getDef(iR, fieldid));
-			bi.setSignalChange(iBus, SetFields.getDef(iR, fieldid));
+			bi.setButtonSubscriber(DialogFormat.findE(iR.getD().getDialog().getAllButton(), fieldid));
+			bi.setInputPattern();
+			bi.setSignalChange();
+			bi.addHelperButton();
 		});
 	}
 

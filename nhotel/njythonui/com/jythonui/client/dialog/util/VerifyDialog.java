@@ -34,14 +34,14 @@ public class VerifyDialog {
 		E e = new E();
 
 		PolymerUtil.walkHTMLPanel(iR.getH(), (fieldid, w) -> {
-			BiWidget bi = new BiWidget(w, fieldid);
+			FieldItem f = SetFields.getDef(iR, fieldid);
+			BiWidget bi = new BiWidget(iBus, w, fieldid, f);
 			if (!bi.validate())
 				e.valid = false;
 			else if (i.isValidateAction()) {
 				// button with validation
-				FieldItem f = iR.getD().getDialog().findFieldItem(fieldid);
 				if ((f != null) && f.isNotEmpty())
-					if (bi.isEmpty(f))
+					if (bi.isEmpty())
 						e.valid = false;
 			}
 		});

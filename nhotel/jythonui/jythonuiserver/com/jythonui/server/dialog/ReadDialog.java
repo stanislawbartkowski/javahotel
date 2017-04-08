@@ -92,7 +92,7 @@ class ReadDialog extends UtilHelper {
 		private final String[] fieldTag = { ICommonConsts.ID, ICommonConsts.TYPE, ICommonConsts.AFTERDOT,
 				ICommonConsts.ACTIONID, ICommonConsts.DISPLAYNAME, ICommonConsts.NOTEMPTY,
 				ICommonConsts.HIDDEN, ICommonConsts.READONLYADD, ICommonConsts.READONLYCHANGE,
-				ICommonConsts.SIGNALCHANGE, ICommonConsts.HELPER, ICommonConsts.HELPERREFRESH, ICommonConsts.FROM,
+				ICommonConsts.SIGNALCHANGE, ICommonConsts.HELPER, ICommonConsts.FROM,
 				ICommonConsts.WIDTH, ICommonConsts.ALIGN, ICommonConsts.HTMLID, ICommonConsts.DEFVALUE,
 				ICommonConsts.FOOTER, ICommonConsts.EDITCOL, ICommonConsts.SIGNALBEFORE, ICommonConsts.FOOTERTYPE,
 				ICommonConsts.FOOTERALIGN, ICommonConsts.FOOTERAFTERDOT, ICommonConsts.IMAGECOLUMN,

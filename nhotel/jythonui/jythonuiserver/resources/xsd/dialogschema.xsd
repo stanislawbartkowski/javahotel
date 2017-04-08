@@ -266,7 +266,6 @@
 			<xs:element minOccurs="0" name="helper" type="xs:string" />
 			<xs:element minOccurs="0" name="width" type="xs:string" />
 			<xs:element minOccurs="0" name="align" type="typeAlign" />
-			<xs:element minOccurs="0" name="helperrefresh" type="emptyT" />
 			<xs:element minOccurs="0" name="notempty" type="emptyT" />
 			<xs:element minOccurs="0" name="hidden" type="emptyT" />
 			<xs:element minOccurs="0" name="readonlyadd" type="emptyT" />
@@ -311,7 +310,6 @@
 		<xs:attribute name="helper" type="xs:string" />
 		<xs:attribute name="width" type="xs:string" />
 		<xs:attribute name="align" type="typeAlign" />
-		<xs:attribute name="helperrefresh" type="emptyT" />
 		<xs:attribute name="type" type="typeName" />
 		<xs:attribute name="afterdot" type="xs:nonNegativeInteger" />
 		<xs:attribute name="notempty" type="emptyT" />

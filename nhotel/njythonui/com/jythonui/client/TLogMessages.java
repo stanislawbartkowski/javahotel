@@ -93,5 +93,9 @@ public interface TLogMessages extends Messages {
 	String CannotFindPaperDialog();
 
 	String CloseActionCannotBeAppliedToMainDialog(String closeAction, String mainDialog);
+	
+	String DialogAttributenotSupported(String dialogId, String fieldid, String aatribute);
+	
+	String CannotFindElementById(String attrid, String fieldid, String elemid);
 
 }

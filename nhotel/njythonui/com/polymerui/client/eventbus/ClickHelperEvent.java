@@ -10,29 +10,12 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.client.dialog.util;
+package com.polymerui.client.eventbus;
 
-import com.jythonui.client.dialog.IReadDialog;
-import com.jythonui.client.util.U;
-import com.jythonui.shared.DialogVariables;
-import com.polymerui.client.eventbus.IEventBus;
-import com.polymerui.client.view.util.PolymerUtil;
+public class ClickHelperEvent extends AbstractEventType {
 
-public class SetVariables {
-
-	private SetVariables() {
-
-	}
-
-	public static void set(IEventBus iBus,DialogVariables va) {
-
-		IReadDialog iR = U.getIDialog(iBus);
-
-		PolymerUtil.walkHTMLPanel(iR.getH(), (fieldid, w) -> {
-			BiWidget bi = new BiWidget(iBus, w, fieldid, SetFields.getDef(iR, fieldid));
-			bi.setToVar(va);
-		});
-
+	public ClickHelperEvent() {
+		super(ClickHelperEvent.class);
 	}
 
 }

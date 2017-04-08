@@ -191,7 +191,6 @@ public interface ICommonConsts {
 	String HELPER = "helper";
 	String LINESET = "_lineset";
 	String STANDBUTT = "standbutt";
-	String HELPERREFRESH = "helperrefresh";
 	String COMBOTYPE = "combo";
 	String TEXTAREA = "textarea";
 	String RICHTEXT = "richtext";

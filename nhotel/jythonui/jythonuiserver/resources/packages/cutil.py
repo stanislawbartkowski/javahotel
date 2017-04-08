@@ -54,6 +54,9 @@ def setYesNoMessage(var,mess,title=None,action=None) :
 def setErrorMessage(var,mess,title=None,action=None) :
     _setStandMessage(var,ICommonConsts.JERRORMESSAGE,mess,title,action)
 
+def setCloseDialog(var,closeS=True,closeB = None) :
+    var[ICommonConsts.JCLOSEDIALOG] = closeS
+    if closeB : var[ICommonConsts.JCLOSEBUTTON] = None
 
 def enableField(var, li, enable=True) :
     if type(li) != list : li = [li]

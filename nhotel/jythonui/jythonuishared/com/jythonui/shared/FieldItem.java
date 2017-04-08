@@ -162,8 +162,12 @@ public class FieldItem extends ElemDescription {
 		return isAttr(ICommonConsts.HELPER);
 	}
 
-	public boolean isHelperRefresh() {
-		return isAttr(ICommonConsts.HELPERREFRESH);
+	public String getHelper() {
+		String he = getAttr(ICommonConsts.HELPER);
+		if (CUtil.EmptyS(he))
+			return ICommonConsts.HELPER;
+		else
+			return he;
 	}
 
 	public boolean isTextArea() {

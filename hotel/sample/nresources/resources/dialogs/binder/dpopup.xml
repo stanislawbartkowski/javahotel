@@ -10,7 +10,7 @@
     <p:PaperInput label="String copied from parent" readonly="true" fieldid="dstring" />
 
     <p:PaperInput label="String to copy to parent" fieldid="newstring" />
-
+    
     </paper-dialog-scrollable>
     
     <div class="buttons">

@@ -18,6 +18,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.ConvertTT;
@@ -32,11 +34,14 @@ import com.jythonui.shared.ButtonItem;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.FieldValue;
+import com.jythonui.shared.ICommonConsts;
 import com.polymerui.client.IConsts;
 import com.polymerui.client.eventbus.ButtonEvent;
 import com.polymerui.client.eventbus.ChangeEvent;
+import com.polymerui.client.eventbus.ClickHelperEvent;
 import com.polymerui.client.eventbus.IEventBus;
 import com.polymerui.client.util.Utils;
+import com.polymerui.client.view.util.PolymerUtil;
 import com.vaadin.polymer.paper.widget.PaperButton;
 import com.vaadin.polymer.paper.widget.PaperCheckbox;
 import com.vaadin.polymer.paper.widget.PaperInput;
@@ -48,6 +53,9 @@ class BiWidget {
 	private final Widget w;
 	private final String fieldid;
 	private final IGetStandardMessage iGet;
+	private final FieldItem fi;
+	private final IReadDialog iR;
+	private final IEventBus iBus;
 
 	private String regNumberExpr(FieldItem i) {
 		switch (i.getAfterDot()) {
@@ -74,10 +82,39 @@ class BiWidget {
 		widgetType.put(VaadinDatePicker.class, TT.DATE);
 	}
 
-	BiWidget(Widget w, String fieldid) {
+	private enum OPTYPE {
+		SIGNALCHANGE, HELPER,
+	}
+
+	private static final Map<OPTYPE, Class[]> opWidget = new HashMap<OPTYPE, Class[]>();
+
+	static {
+		opWidget.put(OPTYPE.SIGNALCHANGE, new Class[] { PaperInput.class });
+		opWidget.put(OPTYPE.HELPER, new Class[] { PaperInput.class });
+	}
+
+	private void verifyOp(OPTYPE o) {
+		String desc = null;
+		switch (o) {
+		case SIGNALCHANGE:
+			desc = M.M().DialogAttributenotSupported(iR.getD().getDialog().getId(), fieldid,
+					ICommonConsts.SIGNALCHANGE);
+			break;
+		case HELPER:
+			desc = M.M().DialogAttributenotSupported(iR.getD().getDialog().getId(), fieldid, ICommonConsts.HELPER);
+			break;
+
+		}
+		PolymerUtil.verifyWidgetType(desc, w, opWidget.get(o));
+	}
+
+	BiWidget(IEventBus iBus, Widget w, String fieldid, FieldItem fi) {
+		this.fi = fi;
 		this.w = w;
 		this.fieldid = fieldid;
 		iGet = UIGiniInjector.getI().getGetStandardMessage();
+		this.iBus = iBus;
+		iR = U.getIDialog(iBus);
 	}
 
 	void setI18() {
@@ -92,8 +129,24 @@ class BiWidget {
 		return U.castP(w, VaadinDatePickerLight.class);
 	}
 
-	void setButtonSubscriber(IEventBus iBus, ButtonItem b) {
-		PaperButton b1 = U.castP(w, PaperButton.class);
+	VaadinDatePicker getVaadinDatePicker() {
+		return U.castP(w, VaadinDatePicker.class);
+	}
+
+	PaperInput getPaperInput() {
+		return U.castP(w, PaperInput.class);
+	}
+
+	PaperButton getPaperButton() {
+		return U.castP(w, PaperButton.class);
+	}
+
+	PaperCheckbox getPaperCheckbox() {
+		return U.castP(w, PaperCheckbox.class);
+	}
+
+	void setButtonSubscriber(ButtonItem b) {
+		PaperButton b1 = getPaperButton();
 		if (b1 != null) {
 			if (b == null) {
 				b = new ButtonItem();
@@ -102,10 +155,6 @@ class BiWidget {
 			ButtonItem bb = b;
 			b1.addClickHandler(p -> iBus.publish(new ButtonEvent(), bb));
 		}
-	}
-
-	VaadinDatePicker getVaadinDatePicker() {
-		return U.castP(w, VaadinDatePicker.class);
 	}
 
 	String getFieldid() {
@@ -153,8 +202,8 @@ class BiWidget {
 		if (d2 != null) {
 			d2.setInvalid(err != null);
 		}
-		if (w instanceof PaperInput) {
-			PaperInput p = (PaperInput) w;
+		PaperInput p = getPaperInput();
+		if (p != null) {
 			p.setErrorMessage(err);
 			p.setInvalid(err != null);
 			return;
@@ -178,7 +227,7 @@ class BiWidget {
 
 	private V checkForString() {
 		Optional<String> o = Optional.empty();
-		PaperInput p = U.castP(w, PaperInput.class);
+		PaperInput p = getPaperInput();
 		if (p != null)
 			o = Optional.of(p.getValue());
 		if (o.isPresent())
@@ -189,7 +238,7 @@ class BiWidget {
 
 	private V checkForBoolean() {
 		Optional<Boolean> o = Optional.empty();
-		PaperCheckbox p = U.castP(w, PaperCheckbox.class);
+		PaperCheckbox p = getPaperCheckbox();
 		if (p != null)
 			o = Optional.of(p.getChecked());
 		if (o.isPresent())
@@ -208,16 +257,16 @@ class BiWidget {
 		return checkForBoolean();
 	}
 
-	void setToVar(DialogVariables v, FieldItem i) {
+	void setToVar(DialogVariables v) {
 		V va = getV();
 		if (va == null)
 			return;
 		switch (va.t) {
 		case STRING:
-			if (i != null) {
+			if (fi != null) {
 				FieldValue val = new FieldValue();
-				Object o = ConvertTT.toO(i.getFieldType(), va.v);
-				val.setValue(i.getFieldType(), o, i.getAfterDot());
+				Object o = ConvertTT.toO(fi.getFieldType(), va.v);
+				val.setValue(fi.getFieldType(), o, fi.getAfterDot());
 				v.setValue(fieldid, val);
 			} else
 				v.setValueS(fieldid, va.v);
@@ -235,7 +284,7 @@ class BiWidget {
 	}
 
 	boolean validate() {
-		PaperInput p1 = U.castP(w, PaperInput.class);
+		PaperInput p1 = getPaperInput();
 		if (p1 != null)
 			if (!p1.validate())
 				return false;
@@ -262,9 +311,10 @@ class BiWidget {
 		return widgetType.get(w.getClass());
 	}
 
-	void setValue(IReadDialog iR, FieldValue val, FieldItem def) {
+	void setValue(IReadDialog iR, FieldValue val, FieldItem fi) {
 
-		assert val.getType() == def.getFieldType();
+		assert fi != null;
+		assert val.getType() == fi.getFieldType();
 
 		TT t = getWidgetType();
 		assert t != null;
@@ -294,22 +344,22 @@ class BiWidget {
 		}
 
 		if (!ok)
-			Utils.errAlertB(M.M().DialogField(iR.getD().getDialog().getId(), def.getId()),
+			Utils.errAlertB(M.M().DialogField(iR.getD().getDialog().getId(), fi.getId()),
 					M.M().WidgetTypeAndValueDoesNotMatch(w.getClass().getName(), val.getType().name()));
 
-		String sval = ConvertTT.toS(val.getValue(), val.getType(), def.getAfterDot());
+		String sval = ConvertTT.toS(val.getValue(), val.getType(), fi.getAfterDot());
 
 		if (t == TT.BOOLEAN && val.getValue() == null)
-			Utils.errAlertB(M.M().DialogField(iR.getD().getDialog().getId(), def.getId()),
+			Utils.errAlertB(M.M().DialogField(iR.getD().getDialog().getId(), fi.getId()),
 					M.M().BooleanValueCannotBeNull());
 
-		if (w instanceof PaperInput) {
-			PaperInput p = (PaperInput) w;
+		PaperInput p = getPaperInput();
+		if (p != null) {
 			p.setValue(sval);
 			return;
 		}
-		if (w instanceof PaperCheckbox) {
-			PaperCheckbox c = (PaperCheckbox) w;
+		PaperCheckbox c = getPaperCheckbox();
+		if (c != null) {
 			if (val != null)
 				c.setChecked(val.getValueB());
 			return;
@@ -326,20 +376,20 @@ class BiWidget {
 
 	}
 
-	void setInputPattern(FieldItem i) {
-		if (i == null)
+	void setInputPattern() {
+		if (fi == null)
 			return;
-		TT t = i.getFieldType();
+		TT t = fi.getFieldType();
 		assert t != null;
 		if (t == TT.BIGDECIMAL || t == TT.INT || t == TT.LONG)
 			if (w instanceof PaperInput) {
 				PaperInput p = (PaperInput) w;
-				p.setPattern(regNumberExpr(i));
+				p.setPattern(regNumberExpr(fi));
 				return;
 			}
 	}
 
-	boolean isEmpty(FieldItem f) {
+	boolean isEmpty() {
 		V va = getV();
 		if (va == null)
 			return false;
@@ -352,21 +402,39 @@ class BiWidget {
 		return true;
 	}
 
-	private void publishChange(IEventBus iBus) {
+	private void publishChange() {
 		iBus.publish(new ChangeEvent(), fieldid);
 	}
 
-	void setSignalChange(IEventBus iBus, FieldItem i) {
-		if (i == null)
+	void setSignalChange() {
+		if (fi == null || !fi.isSignalChange())
 			return;
-		if (!i.isSignalChange())
-			return;
-		if (w instanceof PaperInput) {
-			PaperInput f = (PaperInput) w;
+		verifyOp(OPTYPE.SIGNALCHANGE);
+		PaperInput f = getPaperInput();
+		if (f != null) {
 			f.addChangeHandler(e -> {
-				publishChange(iBus);
+				publishChange();
 			});
 		}
+	}
+
+	void addHelperButton() {
+		if (fi == null || !fi.isHelper())
+			return;
+		verifyOp(OPTYPE.HELPER);
+		PaperInput i = getPaperInput();
+		String he = fi.getHelper();
+		Element ele = i.getElementById(he);
+		if (ele == null)
+			Utils.errAlertB(iR.getD().getDialog().getId(),
+					M.M().CannotFindElementById(ICommonConsts.HELPER, fi.getId(), he));
+		Event.sinkEvents(ele, Event.ONCLICK);
+		Event.setEventListener(ele, e -> {
+			if (e.getTypeInt() == Event.ONCLICK) {
+				iBus.publish(new ClickHelperEvent(), fi);
+			}
+
+		});
 	}
 
 }
