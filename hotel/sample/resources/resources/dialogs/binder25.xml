@@ -1,9 +1,0 @@
-<dialog xmlns="http://www.jythongwt.dialogxsd.com"  polymer="">
- 
- <uibinder>binder/binder25.xml</uibinder>
-      
- <form>
-   <field id="ajax" type="ajax" readonly="" defvalue="template:repeat" hidden="" />
- </form> 
-   
-</dialog>

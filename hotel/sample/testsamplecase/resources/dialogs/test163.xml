@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<dialog xmlns="http://www.jythongwt.dialogxsd.com" polymer="">
-
- <form>
-   <field id="ratings" type="decimal" binder="" jssignalchange="XX" />
-   <field id="select" type="selector" readonly="" defvalue="xxxxxx" />
- </form>
-
-</dialog>
