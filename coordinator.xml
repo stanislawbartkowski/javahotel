@@ -1,0 +1,7 @@
+<coordinator-app name="wf_scheduler" frequency="60" start="2017-05-01T10:01Z" end="2099-12-01T01:01Z" timezone="UTC" xmlns="uri:oozie:coordinator:0.1">
+   <action>
+      <workflow>
+         <app-path>${apppath}</app-path>
+      </workflow>
+   </action>
+</coordinator-app> 

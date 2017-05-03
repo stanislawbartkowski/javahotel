@@ -1,0 +1,10 @@
+cp ~/loadhive/common.properties ~/loadhive/workflow.properties
+echo 'oozie.wf.application.path=${PREFIX}/${user.name}/loadhive' >>~/loadhive/workflow.properties
+
+cp ~/loadhive/common.properties ~/loadhive/coordinator.properties
+echo 'oozie.coord.application.path=${PREFIX}/${user.name}/loadhive' >>~/loadhive/coordinator.properties
+echo 'apppath=${oozie.coord.application.path}' >>~/loadhive/coordinator.properties
+
+hdfs dfs -copyFromLocal -f $HOME/loadhive
+export OOZIE_URL=http://managementnode1.softlayer.com:11000/oozie
+oozie job -run -config ~/loadhive/coordinator.properties
