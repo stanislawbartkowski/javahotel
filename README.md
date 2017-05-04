@@ -34,5 +34,41 @@
    * soozie
    * scoord
 
-* Modify common.properties configuration file
+* Modify common.properties configuration file. It is going to be used as a template for job.propertiers and coordinator.properties
 
+Parameter | Value | Configure | Example
+----------|-------|-----|----------
+namenode| Check oozie | yes | hdfs://nc9128110007.kraklab.pl.ibm.com:8020
+jobtracker | Check oozie | yes | nc9128110007.kraklab.pl.ibm.com:8050
+PREFIX | HDFS home directory | no | ${namenode}/user 
+oozie.use.system.libpath | Check oozie | no | true 
+user.name | Check oozie, owner of the process | yes | sb
+queueName | Check oozoe | if necessary | default
+oozie.use.system.libpath| Check oozie | no | true
+oozie.libpath | Check oozie | yes |/user/oozie/share/lib/lib_20170405230852
+oozie.action.sharelib.for.sqoop | Check oozie | no | hive,hcatalog,sqoop,hive2 (do not change)|
+prescript | Preparation script | no | preparelast.sh
+prescriptPath | Full path | no |${oozie.wf.application.path}/${prescript}
+echoscript | Test script | no | echoscript.sh
+echoscriptPath | Full path | no | ${oozie.wf.application.path}/${echoscript}
+P_TABLE | Source table | yes | customers
+P_ID | Incremental column | yes | customerNumber
+P_DATABASE | Hive target database | yes | salesdb
+P_URL | Hive URL | yes | jdbc:hive2://nc9128110007.kraklab.pl.ibm.com:10000/
+P_HIVE_KERBEROS | Hive Kerbers principal | yes | hive/nc9128110007.kraklab.pl.ibm.com@SB.COM
+P_METASTORE_KERBEROS | Hive metastore Kerberos principal | yes | hive/nc9128109010.kraklab.pl.ibm.com@SB.COM
+P_METASTORE | Hive metastore URI | yes | thrift://nc9128109010.kraklab.pl.ibm.com:9083
+S_URL | Source database URL | yes |jdbc:mysql://re64/classicmodels
+S_USER | User name | yes | test
+S_PASSWORD | Password | yes | test
+S_DRIVER | JDBC driver class | yes |com.mysql.jdbc.Driver
+S_STAGETABLE | Hive staging table | if necessary | stagedb.customers
+HIVE_CREATESCRIPT | Hive script | no | ${oozie.wf.application.path}/creates.sql
+HIVE_UPDATESCRIPT | Hive script | no | ${oozie.wf.application.path}/updates.sql
+K_PRINC | Kerberos credentials kinit to authenticate user.name | yes | sb@SB.COM
+K_PASSWORD | Kerberos password | yes |  secret
+
+* Copy your hive-site.xml file to lib subdirectory (very important !)
+* Modify bin/soozie and bin/scoord script according to your environment.
+
+# Testing
