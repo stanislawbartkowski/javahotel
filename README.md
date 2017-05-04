@@ -1,7 +1,8 @@
 # Load Hive table incrementally as Oozie/Sqoop job
  
- Simple solution to synchronize external RDMS table with Hive table. The solution is developed as Oozie workflow and can be lauch also as Oozie coordinator task. 
- The solution was also tested with Kerberos security
+ Simple solution to synchronize source external RDMS table with target Hive table. The solution is developed as Oozie workflow and can be lauched also as Oozie coordinator task. 
+ 
+ The solution was also tested with Kerberos security.
  
  # Prerequisites
  
@@ -70,5 +71,28 @@ K_PASSWORD | Kerberos password | yes |  secret
 
 * Copy your hive-site.xml file to lib subdirectory (very important !)
 * Modify bin/soozie and bin/scoord script according to your environment.
+
+# Execution
+
+## How it works
+The solution transfers data from source table to target hive table in Parquet format. Two-hop approach is implemented: data is loaded into staging table in text format and then target Parquet table is updated or created if not exists.
+Data is loaded in incremental mode. Firstly the maximum value of **P_ID** column in target Hive table is calculated. Then only rows where **P_ID** is greater than max are selected and loaded to staging table. If no new data is discovered, the target table is not modified.
+Only new rows are inserted. The solution is unable to recognize updated or deleted rows.
+
+## Solution description
+
+The following Oozie tasks are used: shell, sqoop and hive2.
+
+The workflow contains the following steps:
+9. preparelast.sh, shell action. Check if target Hive table **P_DATABASE**.**P_TABLE** exists. If yes than retrieves the maximum value of **P_ID** column. Both information, maximum value and existence of target table, are returned as KEY=VALUE pairs according to shell action specification. preparelast.sh script logs information in HDFS /tmp/loadfile file.
+9. sqoop action. Selects data from RDMS **P_TABLE** table. Only rows **P_ID** > maximum are extracted. Data is loaded into Hive **S_STAGETABLE** as text file.
+9. Oozie switch action regarding if Hive target table exists or not
+9. If table does not exists execute CREATE **P_DATABASE**.**PTABLE** STORED AS PARQUET AS SELECT * FROM **S_STAGETABLE**
+9. If table is already created execute INSERT INTO **P_DATABASE**.**PTABLE** SELECT * FROM **S_STAGETABLE**
+
+# Testing
+
+
+
 
 # Testing
