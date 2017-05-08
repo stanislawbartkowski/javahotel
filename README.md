@@ -1,6 +1,6 @@
 # Load Hive table incrementally as Oozie/Sqoop job
  
- Simple solution to synchronize source external RDMS table with target Hive table. The solution is developed as Oozie workflow and can be lauched also as Oozie coordinator task. 
+A simple solution to synchronize source external RDMS table with target Hive table. The solution is developed as Oozie workflow and can be launched also as Oozie coordinator task. 
  
  The solution was also tested with Kerberos security.
  
@@ -15,11 +15,11 @@
  
  > oozie admin -sharelibupdate
  
-* Add also org.apache.oozie.action.hadoop.Hive2ActionExecutor to oozie.service.ActionService.executor.ext.classes oozie-site configuration file
+* Add also org.apache.oozie.action.hadoop.Hive2ActionExecutor to oozie.service.ActionService.executor.ext.classes oozie-site configuration file. Look into bin/soozie and bin/scoord script file for more details.
 
 # Installation
 
-* Download or clone repository and change main directory name to **loadhive**. The directory structure after deployment:
+* Download or clone repository and change the main directory name to **loadhive**. The directory structure after deployment:
 
 <kbd>
 
@@ -49,7 +49,8 @@ loadhive
    
    * scoord
 </kbd>
-* Modify common.properties configuration file. It is going to be used as a template for job.propertiers and coordinator.properties
+
+* Modify common.properties configuration file. It is going to be used as a template for job.propertiers and coordinator.properties. 
 
 Parameter | Value | Configure | Example
 ----------|-------|-----|----------
@@ -89,24 +90,48 @@ K_PASSWORD | Kerberos password | yes |  secret
 # Execution
 
 ## How it works
-The solution transfers data from source table to target hive table in Parquet format. Two-hop approach is implemented: data is loaded into staging table in text format and then target Parquet table is updated or created if not exists.
-Data is loaded in incremental mode. Firstly the maximum value of **P_ID** column in target Hive table is calculated. Then only rows where **P_ID** is greater than max are selected and loaded to staging table. If no new data is discovered, the target table is not modified.
-Only new rows are inserted. The solution is unable to recognize updated or deleted rows.
+The solution transfers data from source table to target hive table in Parquet format. The two-hop approach is implemented: data is loaded into a staging table in text format and then target Parquet table is updated or created if not exists.
+Data is loaded in incremental mode. Firstly the maximum value of **P_ID** column in target Hive table is calculated. Then only rows where **P_ID** is greater than max are selected and loaded into the staging table. If no new data is discovered, the target table is not modified.
+
+Only new rows are inserted. The solution is unable to recognize updated or deleted rows. It is not "Capture Data Change" solution.
 
 ## Solution description
 
 The following Oozie tasks are used: shell, sqoop and hive2.
 
 The workflow contains the following steps:
-9. preparelast.sh, shell action. Check if target Hive table **P_DATABASE**.**P_TABLE** exists. If yes than retrieves the maximum value of **P_ID** column. Both information, maximum value and existence of target table, are returned as KEY=VALUE pairs according to shell action specification. preparelast.sh script logs information in HDFS /tmp/loadfile file.
-9. sqoop action. Selects data from RDMS **P_TABLE** table. Only rows **P_ID** > maximum are extracted. Data is loaded into Hive **S_STAGETABLE** as text file.
-9. Oozie switch action regarding if Hive target table exists or not
-9. If table does not exists execute CREATE **P_DATABASE**.**PTABLE** STORED AS PARQUET AS SELECT * FROM **S_STAGETABLE**
-9. If table is already created execute INSERT INTO **P_DATABASE**.**PTABLE** SELECT * FROM **S_STAGETABLE**
+
+1. preparelast.sh, shell action. Check if target Hive table **P_DATABASE**.**P_TABLE** exists. If yes than retrieves the maximum value of **P_ID** column. Both information, maximum value and the existence of target table, are returned as KEY=VALUE pairs according to shell action specification. preparelast.sh script logs information in HDFS /tmp/loadfile file.
+
+1. sqoop action. Selects data from RDMS **P_TABLE** table. Only rows **P_ID** > maximum are extracted. Data is loaded into Hive **S_STAGETABLE** as text file.
+
+1. Oozie switch action regarding if Hive target table exists or not
+
+1. If table does not exists execute CREATE **P_DATABASE**.**PTABLE** STORED AS PARQUET AS SELECT * FROM **S_STAGETABLE**
+
+1. If table is already created execute INSERT INTO **P_DATABASE**.**PTABLE** SELECT * FROM **S_STAGETABLE**
+
+# Launching
+
+* bin/soozie script file. Starts data loading as a single Oozie task.
+* bin/scoord script file. Enables data loading as Oozie coordinator task running in the background.
 
 # Testing
 
+For testing, load MySQL tutorial database. 
+
+http://www.mysqltutorial.org/mysql-sample-database.aspx
+
+In order to load data from **customers** table it is enough to set:
+
+* P_TABLE=customers
+* P_ID=customerNumber
+* S_URL=jdbc.mysql://host-name/classicmodels
+* S_STAGETABLE=stagedb.customers
+
+After data is loaded for the first time, try incremental loading. Insert into MySQL/classcismodels/customers table
+> insert into customers values(497,'Galactic','Andrew','John','23-678-09','High Street',null,'Pcim','Dolny','02-234','Gabon',1612,234.2);
 
 
 
-# Testing
+
