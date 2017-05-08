@@ -21,6 +21,7 @@
 
 * Download or clone repository and change main directory name to **loadhive**. The directory structure after deployment:
 
+<quote>
 *~loadhive
  * coordinator.properties
  * echoscript.sh   
@@ -34,7 +35,7 @@
  * bin
    * soozie
    * scoord
-
+ </quote>
 * Modify common.properties configuration file. It is going to be used as a template for job.propertiers and coordinator.properties
 
 Parameter | Value | Configure | Example
