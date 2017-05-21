@@ -281,5 +281,9 @@ public interface ICommonConsts {
 	String DROPDOWNCONTENT = "dropdown-content";
 
 	String TEMPLATE = "template";
+	
+	String JBUTTONDIALOGSTART = "JUPDIALOG_START";
+	String JBUTTONDIALOGSTART1 = "JUPDIALOG_STARTPAR";
+
 
 }

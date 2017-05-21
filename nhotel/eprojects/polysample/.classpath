@@ -38,5 +38,23 @@
 	<classpathentry kind="lib" path="/javahotel/hotel/manualdependency/guice-assistedinject-3.0.jar"/>
 	<classpathentry kind="lib" path="/javahotel/hotel/manualdependency/gwt-visualization-1.1.2.jar"/>
 	<classpathentry kind="lib" path="/javahotel/hotel/manualdependency/vaadin-gwt-polymer-elements-1.7.0.0.jar"/>
+	<classpathentry kind="lib" path="/home/opt/gwt-2.8.1/gwt-user.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/home/opt/gwt-2.8.1/doc/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/home/opt/gwt-2.8.1/gwt-codeserver.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/home/opt/gwt-2.8.1/doc/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/home/opt/gwt-2.8.1/gwt-dev.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/home/opt/gwt-2.8.1/doc/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/home/opt/gwt-2.8.1/validation-api-1.0.0.GA-sources.jar"/>
+	<classpathentry kind="lib" path="/home/opt/gwt-2.8.1/validation-api-1.0.0.GA.jar" sourcepath="/home/opt/gwt-2.8.1/validation-api-1.0.0.GA-sources.jar"/>
+	<classpathentry kind="con" path="com.gwtplugins.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

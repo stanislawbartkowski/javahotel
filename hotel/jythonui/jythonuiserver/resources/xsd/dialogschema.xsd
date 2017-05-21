@@ -1,9 +1,12 @@
 <?xml version="1.0"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="http://www.jythongwt.dialogxsd.com" xmlns="http://www.jythongwt.dialogxsd.com"
-	elementFormDefault="qualified">
+	targetNamespace="http://www.jythongwt.dialogxsd.com"
+	xmlns="http://www.jythongwt.dialogxsd.com"
+	elementFormDefault="qualified"
+	xmlns:ui="http://www.jythongwt.uibinderxsd.com">
 
-	<xs:simpleType name="typeName">
+	<xs:import schemaLocation="uibinder.xsd" namespace="http://www.jythongwt.uibinderxsd.com"></xs:import>
+    <xs:simpleType name="typeName">
 		<xs:restriction base="xs:string">
 			<xs:pattern
 				value="int|string|textarea|richtext|bool|decimal|long|date|datetime|password|upload|download|html|spinner|email|ajax|selector|custom:.*" />
@@ -25,7 +28,8 @@
 
 	<xs:simpleType name="listidsType">
 		<xs:restriction base="xs:string">
-			<xs:pattern value="((([A-Za-z0-9_\-\.]+),)*([A-Za-z0-9_\-\.]+)+)" />
+			<xs:pattern
+				value="((([A-Za-z0-9_\-\.]+),)*([A-Za-z0-9_\-\.]+)+)" />
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -91,7 +95,8 @@
 			<xs:element minOccurs="0" name="id" type="idType" />
 			<xs:element minOccurs="0" name="op" type="typeOpVal" />
 			<xs:element minOccurs="0" name="id1" type="xs:string" />
-			<xs:element minOccurs="0" name="displayname" type="xs:string" />
+			<xs:element minOccurs="0" name="displayname"
+				type="xs:string" />
 		</xs:sequence>
 	</xs:group>
 
@@ -99,18 +104,25 @@
 		<xs:sequence>
 			<xs:group ref="jythonG" minOccurs="0" />
 			<xs:element minOccurs="0" name="id" type="idType" />
-			<xs:element minOccurs="0" name="displayname" type="xs:string" />
+			<xs:element minOccurs="0" name="displayname"
+				type="xs:string" />
 			<xs:element minOccurs="0" name="validate" type="emptyT" />
 			<xs:element minOccurs="0" name="jsaction" type="xs:string" />
-			<xs:element minOccurs="0" name="actiontype" type="xs:string" />
-			<xs:element minOccurs="0" name="actionparam" type="xs:string" />
-			<xs:element minOccurs="0" name="actionparam1" type="xs:string" />
-			<xs:element minOccurs="0" name="actionparam2" type="xs:string" />
-			<xs:element minOccurs="0" name="actionparam3" type="xs:string" />
+			<xs:element minOccurs="0" name="actiontype"
+				type="xs:string" />
+			<xs:element minOccurs="0" name="actionparam"
+				type="xs:string" />
+			<xs:element minOccurs="0" name="actionparam1"
+				type="xs:string" />
+			<xs:element minOccurs="0" name="actionparam2"
+				type="xs:string" />
+			<xs:element minOccurs="0" name="actionparam3"
+				type="xs:string" />
 			<xs:element minOccurs="0" name="hidden" type="emptyT" />
 			<xs:element minOccurs="0" name="readonly" type="emptyT" />
 			<xs:element minOccurs="0" name="header" type="emptyT" />
-			<xs:element minOccurs="0" name="imagebutton" type="xs:string" />
+			<xs:element minOccurs="0" name="imagebutton"
+				type="xs:string" />
 		</xs:sequence>
 	</xs:group>
 
@@ -136,10 +148,12 @@
 		<xs:sequence>
 			<xs:element minOccurs="0" name="htmlpanel" type="xs:string" />
 			<xs:element minOccurs="0" name="uibinder" type="xs:string" />
-			<xs:element minOccurs="0" name="htmlleftmenu" type="xs:string" />
+			<xs:element minOccurs="0" name="htmlleftmenu"
+				type="xs:string" />
 			<xs:element minOccurs="0" name="jscode" type="xs:string" />
 			<xs:element minOccurs="0" name="csscode" type="xs:string" />
-			<xs:element minOccurs="0" name="displayname" type="xs:string" />
+			<xs:element minOccurs="0" name="displayname"
+				type="xs:string" />
 			<xs:element minOccurs="0" name="before" type="emptyT" />
 			<xs:element minOccurs="0" name="parent" type="xs:string" />
 			<xs:element minOccurs="0" name="types" type="xs:string" />
@@ -149,12 +163,15 @@
 			<xs:element minOccurs="0" name="formpanel" type="emptyT" />
 			<xs:element minOccurs="0" name="autohide" type="emptyT" />
 			<xs:element minOccurs="0" name="modeless" type="emptyT" />
-			<xs:element minOccurs="0" name="maxleft" type="xs:positiveInteger" />
-			<xs:element minOccurs="0" name="maxtop" type="xs:positiveInteger" />
-			<xs:element minOccurs="0" name="left" type="xs:positiveInteger" />
-			<xs:element minOccurs="0" name="top" type="xs:positiveInteger" />
+			<xs:element minOccurs="0" name="maxleft"
+				type="xs:positiveInteger" />
+			<xs:element minOccurs="0" name="maxtop"
+				type="xs:positiveInteger" />
+			<xs:element minOccurs="0" name="left"
+				type="xs:positiveInteger" />
+			<xs:element minOccurs="0" name="top"
+				type="xs:positiveInteger" />
 			<xs:element minOccurs="0" name="signalclose" type="emptyT" />
-			<xs:element minOccurs="0" name="polymer" type="emptyT" />
 		</xs:sequence>
 	</xs:group>
 
@@ -179,16 +196,18 @@
 		<xs:attribute name="left" type="xs:positiveInteger" />
 		<xs:attribute name="top" type="xs:positiveInteger" />
 		<xs:attribute name="signalclose" type="emptyT" />
-		<xs:attribute name="polymer" type="emptyT" />
 	</xs:attributeGroup>
 
 	<xs:group name="chartG">
 		<xs:sequence>
 			<xs:element minOccurs="0" name="id" type="idType" />
-			<xs:element minOccurs="0" name="displayname" type="xs:string" />
+			<xs:element minOccurs="0" name="displayname"
+				type="xs:string" />
 			<xs:element minOccurs="0" name="charttype" type="chartType" />
-			<xs:element minOccurs="0" name="width" type="xs:positiveInteger" />
-			<xs:element minOccurs="0" name="height" type="xs:positiveInteger" />
+			<xs:element minOccurs="0" name="width"
+				type="xs:positiveInteger" />
+			<xs:element minOccurs="0" name="height"
+				type="xs:positiveInteger" />
 			<xs:element minOccurs="0" name="not3d" type="emptyT" />
 		</xs:sequence>
 	</xs:group>
@@ -205,23 +224,32 @@
 	<xs:group name="listG">
 		<xs:sequence>
 			<xs:element minOccurs="0" name="id" type="idType" />
-			<xs:element minOccurs="0" name="displayname" type="xs:string" />
-			<xs:element minOccurs="0" name="elemformat" type="xs:string" />
+			<xs:element minOccurs="0" name="displayname"
+				type="xs:string" />
+			<xs:element minOccurs="0" name="elemformat"
+				type="xs:string" />
 			<xs:element minOccurs="0" name="standbutt" type="listStand" />
-			<xs:element minOccurs="0" name="pagesize" type="xs:positiveInteger" />
+			<xs:element minOccurs="0" name="pagesize"
+				type="xs:positiveInteger" />
 			<xs:element minOccurs="0" name="width" type="xs:string" />
 			<xs:element minOccurs="0" name="chunked" type="emptyT" />
 			<xs:element minOccurs="0" name="beforerow" type="emptyT" />
 			<xs:element minOccurs="0" name="aftereditrow" type="emptyT" />
-			<xs:element minOccurs="0" name="buttons-addlist" type="listidsType" />
-			<xs:element minOccurs="0" name="buttons-validate" type="listidsType" />
-			<xs:element minOccurs="0" name="buttons-selected" type="listidsType" />
+			<xs:element minOccurs="0" name="buttons-addlist"
+				type="listidsType" />
+			<xs:element minOccurs="0" name="buttons-validate"
+				type="listidsType" />
+			<xs:element minOccurs="0" name="buttons-selected"
+				type="listidsType" />
 			<xs:element minOccurs="0" name="buttons-selectedmess"
 				type="xs:string" />
-			<xs:element minOccurs="0" name="jsmodifrow" type="xs:string" />
-			<xs:element minOccurs="0" name="toolbartype" type="toolbarType" />
+			<xs:element minOccurs="0" name="jsmodifrow"
+				type="xs:string" />
+			<xs:element minOccurs="0" name="toolbartype"
+				type="toolbarType" />
 			<xs:element minOccurs="0" name="nowrap" type="emptyT" />
-			<xs:element minOccurs="0" name="nopropertycolumn" type="emptyT" />
+			<xs:element minOccurs="0" name="nopropertycolumn"
+				type="emptyT" />
 		</xs:sequence>
 	</xs:group>
 
@@ -262,44 +290,60 @@
 			<xs:element minOccurs="0" name="id" type="idType" />
 			<xs:element minOccurs="0" name="htmlid" type="xs:string" />
 			<xs:element minOccurs="0" name="from" type="xs:string" />
-			<xs:element minOccurs="0" name="displayname" type="xs:string" />
+			<xs:element minOccurs="0" name="displayname"
+				type="xs:string" />
 			<xs:element minOccurs="0" name="defvalue" type="xs:string" />
 			<xs:element minOccurs="0" name="type" type="typeName" />
-			<xs:element minOccurs="0" name="afterdot" type="xs:nonNegativeInteger" />
+			<xs:element minOccurs="0" name="afterdot"
+				type="xs:nonNegativeInteger" />
 			<xs:element minOccurs="0" name="actionid" type="idType" />
 			<xs:element minOccurs="0" name="helper" type="xs:string" />
 			<xs:element minOccurs="0" name="width" type="xs:string" />
 			<xs:element minOccurs="0" name="align" type="typeAlign" />
-			<xs:element minOccurs="0" name="helperrefresh" type="emptyT" />
+			<xs:element minOccurs="0" name="helperrefresh"
+				type="emptyT" />
 			<xs:element minOccurs="0" name="notempty" type="emptyT" />
 			<xs:element minOccurs="0" name="hidden" type="emptyT" />
 			<xs:element minOccurs="0" name="readonly" type="emptyT" />
 			<xs:element minOccurs="0" name="readonlyadd" type="emptyT" />
-			<xs:element minOccurs="0" name="readonlychange" type="emptyT" />
+			<xs:element minOccurs="0" name="readonlychange"
+				type="emptyT" />
 			<xs:element minOccurs="0" name="signalchange" type="emptyT" />
-			<xs:element minOccurs="0" name="jssignalchange" type="xs:string" />
+			<xs:element minOccurs="0" name="jssignalchange"
+				type="xs:string" />
 			<xs:element minOccurs="0" name="footer" type="emptyT" />
 			<xs:element minOccurs="0" name="footertype" type="typeName" />
-			<xs:element minOccurs="0" name="footeralign" type="typeAlign" />
-			<xs:element minOccurs="0" name="footerafterdot" type="xs:nonNegativeInteger" />
+			<xs:element minOccurs="0" name="footeralign"
+				type="typeAlign" />
+			<xs:element minOccurs="0" name="footerafterdot"
+				type="xs:nonNegativeInteger" />
 			<xs:element minOccurs="0" name="editable" type="emptyT" />
 			<xs:element minOccurs="0" name="signalbefore" type="emptyT" />
-			<xs:element minOccurs="0" name="imagecolumn" type="xs:nonNegativeInteger" />
+			<xs:element minOccurs="0" name="imagecolumn"
+				type="xs:nonNegativeInteger" />
 			<xs:element minOccurs="0" name="imagelist" type="xs:string" />
 			<xs:element minOccurs="0" name="editclass" type="xs:string" />
 			<xs:element minOccurs="0" name="editcss" type="xs:string" />
 			<xs:element minOccurs="0" name="label" type="xs:string" />
-			<xs:element minOccurs="0" name="columnclass" type="xs:string" />
-			<xs:element minOccurs="0" name="headerclass" type="xs:string" />
-			<xs:element minOccurs="0" name="spinnermin" type="integerTypeOrFun" />
-			<xs:element minOccurs="0" name="spinnermax" type="integerTypeOrFun" />
-			<xs:element minOccurs="0" name="vislines" type="xs:nonNegativeInteger" />
+			<xs:element minOccurs="0" name="columnclass"
+				type="xs:string" />
+			<xs:element minOccurs="0" name="headerclass"
+				type="xs:string" />
+			<xs:element minOccurs="0" name="spinnermin"
+				type="integerTypeOrFun" />
+			<xs:element minOccurs="0" name="spinnermax"
+				type="integerTypeOrFun" />
+			<xs:element minOccurs="0" name="vislines"
+				type="xs:nonNegativeInteger" />
 			<xs:element minOccurs="0" name="celltitle" type="xs:string" />
 			<xs:element minOccurs="0" name="suggest" type="emptyT" />
-			<xs:element minOccurs="0" name="suggestkey" type="xs:string" />
-			<xs:element minOccurs="0" name="suggestsize" type="xs:nonNegativeInteger" />
+			<xs:element minOccurs="0" name="suggestkey"
+				type="xs:string" />
+			<xs:element minOccurs="0" name="suggestsize"
+				type="xs:nonNegativeInteger" />
 			<xs:element minOccurs="0" name="remember" type="emptyT" />
-			<xs:element minOccurs="0" name="rememberkey" type="xs:string" />
+			<xs:element minOccurs="0" name="rememberkey"
+				type="xs:string" />
 			<xs:element minOccurs="0" name="multi" type="emptyT" />
 			<xs:element minOccurs="0" name="menu" type="emptyT" />
 			<xs:element minOccurs="0" name="binder" type="emptyT" />
@@ -329,7 +373,8 @@
 		<xs:attribute name="footer" type="emptyT" />
 		<xs:attribute name="footertype" type="typeName" />
 		<xs:attribute name="footeralign" type="typeAlign" />
-		<xs:attribute name="footerafterdot" type="xs:nonNegativeInteger" />
+		<xs:attribute name="footerafterdot"
+			type="xs:nonNegativeInteger" />
 		<xs:attribute name="editable" type="emptyT" />
 		<xs:attribute name="signalbefore" type="emptyT" />
 		<xs:attribute name="imagecolumn" type="xs:nonNegativeInteger" />
@@ -356,9 +401,11 @@
 	<xs:group name="checklistG">
 		<xs:sequence>
 			<xs:element minOccurs="0" name="id" type="idType" />
-			<xs:element minOccurs="0" name="displayname" type="xs:string" />
+			<xs:element minOccurs="0" name="displayname"
+				type="xs:string" />
 			<xs:element minOccurs="0" name="type" type="typeName" />
-			<xs:element minOccurs="0" name="afterdot" type="xs:nonNegativeInteger" />
+			<xs:element minOccurs="0" name="afterdot"
+				type="xs:nonNegativeInteger" />
 			<xs:element minOccurs="0" name="readonly" type="emptyT" />
 		</xs:sequence>
 	</xs:group>
@@ -374,7 +421,8 @@
 	<xs:group name="checkG">
 		<xs:sequence>
 			<xs:element minOccurs="0" name="id" type="xs:string" />
-			<xs:element minOccurs="0" name="displayname" type="xs:string" />
+			<xs:element minOccurs="0" name="displayname"
+				type="xs:string" />
 		</xs:sequence>
 	</xs:group>
 
@@ -386,16 +434,20 @@
 	<xs:group name="datelineG">
 		<xs:sequence>
 			<xs:element minOccurs="0" name="id" type="xs:string" />
-			<xs:element minOccurs="0" name="displayname" type="xs:string" />
-			<xs:element minOccurs="0" name="pagesize" type="xs:nonNegativeInteger" />
-			<xs:element minOccurs="0" name="colno" type="xs:nonNegativeInteger" />
+			<xs:element minOccurs="0" name="displayname"
+				type="xs:string" />
+			<xs:element minOccurs="0" name="pagesize"
+				type="xs:nonNegativeInteger" />
+			<xs:element minOccurs="0" name="colno"
+				type="xs:nonNegativeInteger" />
 			<xs:element minOccurs="0" name="lineid" type="idType" />
 			<xs:element minOccurs="0" name="dateid" type="idType" />
 			<xs:element minOccurs="0" name="file" type="xs:string" />
 			<xs:element minOccurs="0" name="defafile" type="xs:string" />
 			<xs:element minOccurs="0" name="cssclass" type="xs:string" />
 			<xs:element minOccurs="0" name="standbutt" type="listStand" />
-			<xs:element minOccurs="0" name="currentpos" type="xs:nonNegativeInteger" />
+			<xs:element minOccurs="0" name="currentpos"
+				type="xs:nonNegativeInteger" />
 		</xs:sequence>
 	</xs:group>
 
@@ -460,7 +512,8 @@
 				<xs:group ref="listG" />
 				<xs:element minOccurs="1" name="columns">
 					<xs:complexType>
-						<xs:sequence minOccurs="1" maxOccurs="unbounded">
+						<xs:sequence minOccurs="1"
+							maxOccurs="unbounded">
 							<xs:element name="column">
 								<xs:complexType>
 									<xs:group ref="fieldG" />
@@ -479,7 +532,7 @@
 		</xs:complexType>
 
 	</xs:element>
-
+		
 	<xs:element name="chart">
 		<xs:complexType>
 
@@ -487,7 +540,8 @@
 				<xs:group ref="chartG" />
 				<xs:element minOccurs="1" name="columns">
 					<xs:complexType>
-						<xs:sequence minOccurs="1" maxOccurs="unbounded">
+						<xs:sequence minOccurs="1"
+							maxOccurs="unbounded">
 							<xs:element name="column">
 								<xs:complexType>
 									<xs:group ref="fieldG" />
@@ -524,7 +578,8 @@
 	<xs:group name="disclosureelemG">
 		<xs:sequence>
 			<xs:element minOccurs="0" name="id" type="idType" />
-			<xs:element minOccurs="0" name="displayname" type="xs:string" />
+			<xs:element minOccurs="0" name="displayname"
+				type="xs:string" />
 			<xs:element minOccurs="0" name="htmlpanel" type="xs:string" />
 			<xs:element minOccurs="0" name="signalchange" type="emptyT" />
 		</xs:sequence>
@@ -546,7 +601,8 @@
 					<xs:element name="disclosureelem">
 						<xs:complexType>
 							<xs:group ref="disclosureelemG" />
-							<xs:attributeGroup ref="disclosureelemattrG" />
+							<xs:attributeGroup
+								ref="disclosureelemattrG" />
 						</xs:complexType>
 					</xs:element>
 				</xs:sequence>
@@ -571,8 +627,10 @@
 	<xs:group name="tabpanelelemG">
 		<xs:sequence>
 			<xs:element minOccurs="0" name="id" type="idType" />
-			<xs:element minOccurs="0" name="displayname" type="xs:string" />
-			<xs:element minOccurs="0" name="beforechangetab" type="emptyT" />
+			<xs:element minOccurs="0" name="displayname"
+				type="xs:string" />
+			<xs:element minOccurs="0" name="beforechangetab"
+				type="emptyT" />
 		</xs:sequence>
 	</xs:group>
 
@@ -687,9 +745,11 @@
 
 				<xs:element minOccurs="0" ref="validaterules" />
 
-				<xs:element minOccurs="0" maxOccurs="unbounded" ref="list" />
+				<xs:element minOccurs="0" maxOccurs="unbounded"
+					ref="list" />
 
-				<xs:element minOccurs="0" maxOccurs="unbounded" name="checklist">
+				<xs:element minOccurs="0" maxOccurs="unbounded"
+					name="checklist">
 					<xs:complexType>
 
 						<xs:sequence>
@@ -715,18 +775,21 @@
 
 				</xs:element>
 
-				<xs:element minOccurs="0" maxOccurs="unbounded" name="dateline">
+				<xs:element minOccurs="0" maxOccurs="unbounded"
+					name="dateline">
 					<xs:complexType>
 
 						<xs:sequence>
 							<xs:group ref="datelineG" />
 							<xs:element minOccurs="1" name="columns">
 								<xs:complexType>
-									<xs:sequence minOccurs="1" maxOccurs="unbounded">
+									<xs:sequence minOccurs="1"
+										maxOccurs="unbounded">
 										<xs:element name="column">
 											<xs:complexType>
 												<xs:group ref="fieldG" />
-												<xs:attributeGroup ref="fieldattrG" />
+												<xs:attributeGroup
+													ref="fieldattrG" />
 											</xs:complexType>
 										</xs:element>
 									</xs:sequence>
@@ -735,11 +798,14 @@
 
 							<xs:element minOccurs="1" name="files">
 								<xs:complexType>
-									<xs:sequence minOccurs="1" maxOccurs="unbounded">
+									<xs:sequence minOccurs="1"
+										maxOccurs="unbounded">
 										<xs:element name="filedef">
 											<xs:complexType>
-												<xs:group ref="formfileG" />
-												<xs:attributeGroup ref="formfileG" />
+												<xs:group
+													ref="formfileG" />
+												<xs:attributeGroup
+													ref="formfileG" />
 											</xs:complexType>
 										</xs:element>
 									</xs:sequence>
@@ -753,12 +819,19 @@
 
 				</xs:element>
 
-				<xs:element minOccurs="0" maxOccurs="unbounded" ref="tabpanel" />
+				<xs:element minOccurs="0" maxOccurs="unbounded"
+					ref="tabpanel" />
 
-				<xs:element minOccurs="0" maxOccurs="unbounded" ref="disclosurepanel" />
+				<xs:element minOccurs="0" maxOccurs="unbounded"
+					ref="disclosurepanel" />
 
-				<xs:element minOccurs="0" maxOccurs="unbounded" ref="chart" />
+				<xs:element minOccurs="0" maxOccurs="unbounded"
+					ref="chart" />
 
+				<xs:element minOccurs="0" maxOccurs="1"
+					ref="ui:UiBinder" />
+
+				
 			</xs:sequence>
 			<xs:attributeGroup ref="dialogattrG" />
 		</xs:complexType>

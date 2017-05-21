@@ -732,7 +732,6 @@
 	</xs:element>
 
 	<xs:element name="style">
-	</xs:element>
-
+	</xs:element>		
 
 </xs:schema>

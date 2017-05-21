@@ -27,7 +27,6 @@ public class Test66 extends TestHelper {
 	public void test1() {
 		DialogFormat d = findDialog("test113.xml");
 		assertNotNull(d);
-		assertTrue(d.isPolymer());
 		BinderWidget ba = d.getBinderW();
 		assertNotNull(ba);
 		assertEquals(WidgetTypes.UiBinder, ba.getType());
@@ -47,7 +46,6 @@ public class Test66 extends TestHelper {
 	public void test2() {
 		DialogFormat d = findDialog("test114.xml");
 		assertNotNull(d);
-		assertTrue(d.isPolymer());
 		BinderWidget ba = d.getBinderW();
 		assertNotNull(ba);
 		assertEquals(WidgetTypes.UiBinder, ba.getType());
@@ -70,7 +68,6 @@ public class Test66 extends TestHelper {
 	public void test3() {
 		DialogFormat d = findDialog("test115.xml");
 		assertNotNull(d);
-		assertTrue(d.isPolymer());
 		BinderWidget ba = d.getBinderW();
 		assertNotNull(ba);
 		assertEquals(WidgetTypes.UiBinder, ba.getType());
@@ -91,14 +88,12 @@ public class Test66 extends TestHelper {
 	public void test4() {
 		DialogFormat d = findDialog("test116.xml");
 		assertNotNull(d);
-		assertTrue(d.isPolymer());
 	}
 
 	@Test
 	public void test5() {
 		DialogFormat d = findDialog("test117.xml");
 		assertNotNull(d);
-		assertTrue(d.isPolymer());
 		BinderWidget b = d.getBinderW();
 		assertTrue(b.getStyleList().isEmpty());
 	}
@@ -107,14 +102,12 @@ public class Test66 extends TestHelper {
 	public void test6() {
 		DialogFormat d = findDialog("test118.xml");
 		assertNotNull(d);
-		assertTrue(d.isPolymer());
 	}
 
 	@Test
 	public void test7() {
 		DialogFormat d = findDialog("test119.xml");
 		assertNotNull(d);
-		assertTrue(d.isPolymer());
 		BinderWidget b = d.getBinderW();
 		assertEquals(1, b.getStyleList().size());
 	}
@@ -123,14 +116,12 @@ public class Test66 extends TestHelper {
 	public void test8() {
 		DialogFormat d = findDialog("test120.xml");
 		assertNotNull(d);
-		assertTrue(d.isPolymer());
 	}
 
 	@Test
 	public void test9() {
 		DialogFormat d = findDialog("test121.xml");
 		assertNotNull(d);
-		assertTrue(d.isPolymer());
 		BinderWidget b = d.getBinderW();
 		assertNotNull(b);
 		assertEquals(1, b.getStyleList().size());
@@ -140,7 +131,6 @@ public class Test66 extends TestHelper {
 	public void test10() {
 		DialogFormat d = findDialog("test122.xml");
 		assertNotNull(d);
-		assertTrue(d.isPolymer());
 		BinderWidget b = d.getBinderW();
 		assertNotNull(b);
 		String css = b.getStyleList().get(0).getContent();
@@ -155,7 +145,6 @@ public class Test66 extends TestHelper {
 	public void test11() {
 		DialogFormat d = findDialog("test123.xml");
 		assertNotNull(d);
-		assertTrue(d.isPolymer());
 		BinderWidget b = d.getBinderW();
 		assertNotNull(b);
 		String css = b.getStyleList().get(0).getContent();
@@ -172,7 +161,6 @@ public class Test66 extends TestHelper {
 	public void test12() {
 		DialogFormat d = findDialog("test124.xml");
 		assertNotNull(d);
-		assertTrue(d.isPolymer());
 		BinderWidget b = d.getBinderW();
 		assertNotNull(b);
 		assertTrue(b.getStyleList().isEmpty());
@@ -186,6 +174,5 @@ public class Test66 extends TestHelper {
 	public void test13() {
 		DialogFormat d = findDialog("test125.xml");
 		assertNotNull(d);
-		assertTrue(d.isPolymer());
 	}
 }

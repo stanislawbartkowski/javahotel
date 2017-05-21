@@ -25,10 +25,13 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import com.gwtmodel.table.binder.BinderWidget;
+import com.gwtmodel.table.binder.BinderWidgetAttributes;
 import com.gwtmodel.table.binder.WidgetTypes;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.shared.JythonUIFatal;
 import com.jamesmurty.utils.XMLBuilder;
+import com.jythonui.server.IBinderParser;
+import com.jythonui.server.IBinderParser.IEofBinderSignal;
 import com.jythonui.server.IBinderUIStyle;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.getmess.IGetLogMess;
@@ -36,13 +39,14 @@ import com.jythonui.server.holder.SHolder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.shared.ICommonConsts;
-import com.gwtmodel.table.binder.BinderWidgetAttributes;
 
-class BinderHandler extends DefaultHandler {
+class BinderHandler extends DefaultHandler implements IBinderParser.IBinderHandler {
 
 	private static final String root = "root";
 
 	static final private Logger log = Logger.getLogger(BinderHandler.class.getName());
+
+	private IEofBinderSignal i = null;
 
 	private class Tag {
 		final BinderWidget b = new BinderWidget();
@@ -82,7 +86,7 @@ class BinderHandler extends DefaultHandler {
 
 	private static Random ra = new Random();
 
-	BinderWidget parsed;
+	private BinderWidget parsed;
 
 	private final IBinderUIStyle resC = SHolder.getiStyleBinderFactory().construct();
 
@@ -201,6 +205,9 @@ class BinderHandler extends DefaultHandler {
 					ta.b.setId(id);
 					// System.out.println(sta.peek().builder.asString());
 				}
+				if (w == WidgetTypes.UiBinder && i != null)
+					i.signal();
+
 				return;
 			}
 			if (isSpecStyle(uri, localName)) {
@@ -232,6 +239,17 @@ class BinderHandler extends DefaultHandler {
 		if (sta.peek().b.getType() != WidgetTypes.UiBinder)
 			sta.peek().buf.peek().append(ch, start, length);
 		charb.append(ch, start, length);
+	}
+
+	@Override
+	public BinderWidget getB() {
+		return parsed;
+	}
+
+	@Override
+	public void setOfBinder(IEofBinderSignal i) {
+		this.i = i;
+
 	}
 
 }

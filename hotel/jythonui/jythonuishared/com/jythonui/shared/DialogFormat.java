@@ -259,10 +259,6 @@ public class DialogFormat extends ElemDescription {
 		return isAttr(ICommonConsts.SIGNALCLOSE);
 	}
 
-	public boolean isPolymer() {
-		return isAttr(ICommonConsts.POLYMER);
-	}
-
 	public BinderWidget getBinderW() {
 		return binderW;
 	}

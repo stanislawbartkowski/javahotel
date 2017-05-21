@@ -13,7 +13,6 @@
 package com.jython.ui;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,7 +38,6 @@ public class Test67 extends TestHelper {
 	public void test() {
 		DialogFormat d = findDialog(dialogName);
 		assertNotNull(d);
-		assertTrue(d.isPolymer());
 	}
 
 }

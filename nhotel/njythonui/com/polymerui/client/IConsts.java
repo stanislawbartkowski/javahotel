@@ -25,11 +25,10 @@ import com.gwtmodel.table.common.IMessConsts;
 public interface IConsts {
 
 	String UIVersion = "UI : 2017/04/01 (r 2.00)";
-	
-	String JBUTTONDIALOGSTART = "JUPDIALOG_START";
-	String JBUTTONDIALOGSTART1 = "JUPDIALOG_STARTPAR";
+
 	String JBUTTONDIALOGRES = "JUPDIALOG_RES";
 	String JBUTTONRES = "JUPDIALOG_BUTTON";
+	String JHELPERFIELD = "JHELPER_FIELD";
 
 	int defaultDecimal = 2;
 	int defaultPage = 20;

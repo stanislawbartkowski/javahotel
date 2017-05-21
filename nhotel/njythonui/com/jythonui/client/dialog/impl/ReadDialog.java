@@ -36,8 +36,8 @@ import com.jythonui.shared.ButtonItem;
 import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldItem;
-import com.jythonui.shared.FieldValue;
 import com.jythonui.shared.ICommonConsts;
+import com.polymerui.client.IConsts;
 import com.polymerui.client.binder.ICreateBinderWidget;
 import com.polymerui.client.callback.CommonCallBack;
 import com.polymerui.client.eventbus.ButtonEvent;
@@ -116,7 +116,9 @@ public class ReadDialog implements IReadDialog {
 		public void raise(IEvent e, FieldItem i) {
 			DialogVariables v = JythonVariables.constructVar();
 			v.setValueS(ICommonConsts.HELPER, i.getHelper());
+			v.setValueS(IConsts.JHELPERFIELD, i.getId());
 			ActionButton.callA(iBus, v, ICommonConsts.HELPER, i.getHelper() + "-" + i.getId());
+
 		}
 
 	}

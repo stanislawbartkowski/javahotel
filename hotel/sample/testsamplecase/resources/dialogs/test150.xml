@@ -1,4 +1,4 @@
-<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="Slider" polymer="">
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="Slider" >
    
  <uibinder>binder/binder150.xml</uibinder>
   

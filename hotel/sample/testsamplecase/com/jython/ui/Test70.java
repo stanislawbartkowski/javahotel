@@ -132,7 +132,6 @@ public class Test70 extends TestHelper {
 	public void test3() {
 		DialogFormat d = findDialog("test145.xml");
 		assertNotNull(d);
-		assertTrue(d.isPolymer());
 		BinderWidget w = d.getBinderW();
 		String h = w.getContentHtml();
 		System.out.println(h);

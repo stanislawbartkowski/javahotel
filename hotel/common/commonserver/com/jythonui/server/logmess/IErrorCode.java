@@ -158,4 +158,5 @@ public interface IErrorCode {
     String ERRORCODE143 = "E0143";
     String ERRORCODE144 = "E0144";
     String ERRORCODE145 = "E0145";
+    String ERRORCODE146 = "E0146";
 }

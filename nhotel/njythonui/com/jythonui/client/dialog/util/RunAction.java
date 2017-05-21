@@ -48,12 +48,12 @@ public class RunAction {
 		String[] kom = { ICommonConsts.JMAINDIALOG, ICommonConsts.JUPDIALOG, ICommonConsts.JOKMESSAGE,
 				ICommonConsts.JERRORMESSAGE, ICommonConsts.JYESNOMESSAGE, ICommonConsts.JSUBMIT,
 				ICommonConsts.JURL_OPEN, ICommonConsts.JEXECUTEACTION, ICommonConsts.JCLOSEDIALOG };
-		String[] param = { null, IConsts.JBUTTONDIALOGSTART, ICommonConsts.JMESSAGE_TITLE, ICommonConsts.JMESSAGE_TITLE,
+		String[] param = { null, ICommonConsts.JBUTTONDIALOGSTART, ICommonConsts.JMESSAGE_TITLE, ICommonConsts.JMESSAGE_TITLE,
 				ICommonConsts.JMESSAGE_TITLE, null, ICommonConsts.JMESSAGE_TITLE, null, ICommonConsts.JCLOSEBUTTON };
 		String[] param2 = { null, ICommonConsts.JAFTERDIALOGACTION, ICommonConsts.JAFTERDIALOGACTION,
 				ICommonConsts.JAFTERDIALOGACTION, ICommonConsts.JAFTERDIALOGACTION, null, null,
 				IConsts.JBUTTONDIALOGRES, null };
-		String[] param3 = { null, IConsts.JBUTTONDIALOGSTART1, null, null, null, null, null, null, null };
+		String[] param3 = { null, ICommonConsts.JBUTTONDIALOGSTART1, null, null, null, null, null, null, null };
 		assert (kom.length == param.length);
 		assert (kom.length == param2.length);
 		assert (kom.length == param3.length);

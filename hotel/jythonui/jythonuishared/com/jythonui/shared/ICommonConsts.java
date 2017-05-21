@@ -232,7 +232,6 @@ public interface ICommonConsts {
 	String CHECKERRORCOL = "col";
 	String CHECKERRORMESS = "errmess";
 	String XMLROOT = "data";
-	String POLYMER = "polymer";
 
 	String APP_FILENAME = "app.properties";
 

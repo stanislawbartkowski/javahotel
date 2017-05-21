@@ -30,7 +30,6 @@ public class Test68 extends TestHelper {
 	public void test1() {
 		DialogFormat d = findDialog("test133.xml");
 		assertNotNull(d);
-		assertFalse(d.isPolymer());
 		FieldItem f = d.findFieldItem("menu");
 		assertNotNull(f);
 		assertFalse(f.isMulti());
@@ -48,7 +47,6 @@ public class Test68 extends TestHelper {
 	public void test2() {
 		DialogFormat d = findDialog("test140.xml");
 		assertNotNull(d);
-		assertTrue(d.isPolymer());
 		FieldItem f = d.findFieldItem("glob1");
 		assertFalse(f.isBinderField());
 		f = d.findFieldItem("globbool");
@@ -59,7 +57,6 @@ public class Test68 extends TestHelper {
 	public void test3() {
 		DialogFormat d = findDialog("test141.xml");
 		assertNotNull(d);
-		assertTrue(d.isPolymer());
 		FieldItem f = d.findFieldItem("ratings");
 		assertNotNull(f);
 		assertEquals("XX",f.getJsSignalChange());
@@ -69,21 +66,18 @@ public class Test68 extends TestHelper {
 	public void test4() {
 		DialogFormat d = findDialog("test148.xml");
 		assertNotNull(d);
-		assertTrue(d.isPolymer());
 	}
 
 	@Test(expected=JythonUIFatal.class)
 	public void test5() {
 		DialogFormat d = findDialog("test149.xml");
 		assertNotNull(d);
-		assertTrue(d.isPolymer());
 	}
 	
 	@Test(expected=JythonUIFatal.class)
 	public void test6() {
 		DialogFormat d = findDialog("test150.xml");
 		assertNotNull(d);
-		assertTrue(d.isPolymer());
 	}
 
 	@Test(expected=JythonUIFatal.class)

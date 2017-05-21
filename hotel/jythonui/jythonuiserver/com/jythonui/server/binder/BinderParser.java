@@ -13,6 +13,7 @@
 package com.jythonui.server.binder;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -38,12 +39,20 @@ public class BinderParser implements IBinderParser {
 
 	@Override
 	public BinderWidget parse(String fileName) throws SAXException, IOException {
+		// important:
+		// iGetResource.getDialogFile(fileName) should be created twice
+		// otherwise StreamClosed error
 		iVerify.verify(iGetResource.getDialogFile(fileName), IConsts.BINDERXSDFILE, IConsts.HTMLXSDFILE);
 		try {
 			return BinderReader.parseBinder(iGetResource.getDialogFile(fileName));
 		} catch (ParserConfigurationException e) {
 			throw new SAXException(e);
 		}
+	}
+
+	@Override
+	public IBinderHandler contructHandler() {
+		return new BinderHandler();
 	}
 
 }

@@ -13,7 +13,6 @@
 package com.jython.ui;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,7 +30,8 @@ public class Test69 extends TestHelper {
 		return new Object[] { "test134.xml", "test135.xml", "test136.xml", "test137.xml", "test138.xml", "test139.xml",
 				"test142.xml", "test143.xml", "test144.xml", "test146.xml", "test147.xml", "test151.xml", "test152.xml",
 				"test155.xml", "test157.xml", "test158.xml", "test159.xml", "test160.xml", "test162.xml", "test164.xml",
-				"test165.xml", "test166.xml", "test167.xml", "test168.xml", "test169.xml", "test170.xml" };
+				"test165.xml", "test166.xml", "test167.xml", "test168.xml", "test169.xml", "test170.xml",
+				"test171.xml" };
 	}
 
 	@Parameter
@@ -41,7 +41,7 @@ public class Test69 extends TestHelper {
 	public void Test() {
 		DialogFormat d = findDialog(dialogName);
 		assertNotNull(d);
-		assertTrue(d.isPolymer());
+		assertNotNull(d.getBinderW());
 	}
 
 }
