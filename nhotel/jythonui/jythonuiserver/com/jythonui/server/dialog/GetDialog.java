@@ -23,6 +23,7 @@ import org.xml.sax.SAXException;
 import com.google.inject.Inject;
 import com.gwtmodel.table.common.CUtil;
 import com.jythonui.server.IBinderParser;
+import com.jythonui.server.IConsts;
 import com.jythonui.server.IGetDialog;
 import com.jythonui.server.IGetResourceFile;
 import com.jythonui.server.ISharedConsts;
@@ -110,7 +111,7 @@ public class GetDialog extends UtilHelper implements IGetDialog {
 		DialogFormat d = null;
 		try {
 			if (verify)
-				iVerify.verify(getXML(dialogName), DIALOGXSD);
+				iVerify.verify(getXML(dialogName), IConsts.BINDERXSDFILE, IConsts.HTMLXSDFILE, DIALOGXSD);
 			InputStream sou = getXML(dialogName);
 			d = ReadDialog.parseDocument(dialogName, sou, iSec, iGetResource, iBinder);
 			if (d != null)

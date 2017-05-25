@@ -11,7 +11,7 @@
  
  
  <form>
-   <field id="glob" readonly="" />
+   <field id="glob"  />
    <field id="globenum" type="custom:tenum" htmlid="globhtmlid" hidden="$!sec.u('darkhelmet')" />
  </form>  
  

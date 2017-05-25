@@ -85,12 +85,10 @@ public class Test12 extends TestHelper {
         assertNotNull(d);
         FieldItem f = d.findFieldItem("glob1");
         assertNotNull(f);
-        assertTrue(f.isHelperRefresh());
         assertTrue(f.isHelper());
 
         f = d.findFieldItem("glob2");
         assertNotNull(f);
-        assertFalse(f.isHelperRefresh());
         assertTrue(f.isHelper());
     }
 }

@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+	<before/>
+
+	<jython>
+		<import>from samplep import helperstring</import>
+		<method>helperstring.dialogaction({0},{1})</method>
+	</jython>
+
+	<form>
+		<field id="username" helper=""/>
+	</form>
+
+	<ui:UiBinder
+		xmlns:ui='http://www.jythongwt.uibinderxsd.com'
+		xmlns:g='http://www.jythongwt.uibinderxsd.com'
+		xmlns:p='http://www.jythongwt.uibinderxsd.com'
+		xmlns:i='http://www.jythongwt.uibinderxsd.com'
+		xmlns:v='http://www.jythongwt.uibinderxsd.com'
+		xmlns='http://www.jythongwt.uihtml.com'>
+		<ui:PaperDialog>
+
+			<div>
+				<h4>Enabled</h4>
+				<div class="horizontal-section">
+					<p:PaperCheckbox>Oxygen</p:PaperCheckbox>
+					<p:PaperCheckbox>Carbon</p:PaperCheckbox>
+					<p:PaperCheckbox checked="true">Hydrogen</p:PaperCheckbox>
+					<p:PaperCheckbox checked="true">Nitrogen</p:PaperCheckbox>
+					<p:PaperCheckbox checked="true">Calcium</p:PaperCheckbox>
+				</div>
+			</div>
+
+			<div class="buttons">
+				<p:PaperButton attributes="dialog-confirm autofocus">Tap me to close</p:PaperButton>
+			</div>
+
+		</ui:PaperDialog>
+
+	</ui:UiBinder>
+
+</dialog>

@@ -9,7 +9,7 @@
  
  <form>
    <field id="ratings" type="decimal" binder="" jssignalchange="XX" />
-   <field id="ratingsLabel" type="string" binder="" readonly="" />
+   <field id="ratingsLabel" type="string" binder=""  />
  </form>
 
    

@@ -24,6 +24,7 @@ import com.jythonui.server.IBinderParser;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IGetResourceFile;
 import com.jythonui.server.IVerifySchema;
+import com.jythonui.server.IBinderParser.IBinderHandler;
 
 public class BinderParser implements IBinderParser {
 
@@ -38,12 +39,20 @@ public class BinderParser implements IBinderParser {
 
 	@Override
 	public BinderWidget parse(String fileName) throws SAXException, IOException {
+		// important:
+		// iGetResource.getDialogFile(fileName) should be created twice
+		// otherwise StreamClosed error
 		iVerify.verify(iGetResource.getDialogFile(fileName), IConsts.BINDERXSDFILE, IConsts.HTMLXSDFILE);
 		try {
 			return BinderReader.parseBinder(iGetResource.getDialogFile(fileName));
 		} catch (ParserConfigurationException e) {
 			throw new SAXException(e);
 		}
+	}
+
+	@Override
+	public IBinderHandler contructHandler() {
+		return new BinderHandler();
 	}
 
 }

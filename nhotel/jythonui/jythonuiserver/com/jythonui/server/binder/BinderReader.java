@@ -43,8 +43,8 @@ class BinderReader {
 		SAXParser saxParser = factory.newSAXParser();
 		BinderHandler ma = new BinderHandler();
 		saxParser.parse(sou, ma);
-		extractStyle(ma.parsed);
-		return ma.parsed;
+		extractStyle(ma.getB());
+		return ma.getB();
 	}
 
 }

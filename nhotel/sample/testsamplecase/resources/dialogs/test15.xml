@@ -9,7 +9,7 @@
 
 
  <form>
-   <field id="glob1" hidden="" readonly=""/>
+   <field id="glob1" hidden="" />
    <field id="globtimestamp" type="datetime" notempty=""/>
  </form>  
 

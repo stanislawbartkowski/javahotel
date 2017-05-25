@@ -9,7 +9,7 @@
 	</jython>
 
 	<form>
-		<field id="glob1" hidden="" readonly="" readonlychange=""
+		<field id="glob1" hidden=""  readonlychange=""
 			helper="helper.xml" helperrefresh="" />
 		<field id="glob2" type="datetime" notempty="" readonlyadd=""
 			helper="helper.xml" />

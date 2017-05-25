@@ -30,6 +30,7 @@ import com.gwtmodel.table.binder.WidgetTypes;
 import com.gwtmodel.table.common.CUtil;
 import com.jythonui.server.BUtil;
 import com.jythonui.server.IBinderParser;
+import com.jythonui.server.IBinderParser.IBinderHandler;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IGetResourceFile;
 import com.jythonui.server.SaxUtil;
@@ -74,6 +75,10 @@ class ReadDialog extends UtilHelper {
 
 		/** DialogFormat class being built. */
 		private DialogFormat dFormat = null;
+		
+		private final IBinderHandler iBind;
+		private final SAXParser saxParser;
+
 
 		/** Tags recognized for a particular element. */
 		/*
@@ -147,10 +152,17 @@ class ReadDialog extends UtilHelper {
 		private List<ValidateRule> formRules = null;
 		private List<TabPanelElem> tabList = null;
 		private List<DisclosureElemPanel> discList = null;
+		
+		private static boolean isBinderNameSpace(String uri) {
+			return IConsts.BINDERNAMESPACE.equals(uri);
+		}
 
-		MyHandler(IGetResourceFile iGetResource, ISecurity iSec) {
+
+		MyHandler(IGetResourceFile iGetResource, ISecurity iSec, IBinderHandler iBind, SAXParser saxParser) {
 			this.iGetResource = iGetResource;
 			iT = new EvaluateJexlValue(Util.getToken(), iSec);
+			this.iBind = iBind;
+			this.saxParser = saxParser;
 		}
 
 		@Override
@@ -277,7 +289,29 @@ class ReadDialog extends UtilHelper {
 				getAttribute = true;
 			}
 
-			if (getAttribute && bDescr != null) {
+			if (isBinderNameSpace(uri)) {
+				if (dFormat.isAttr(ICommonConsts.UIBINDER)) {
+					String mess = SHolder.getM().getMess(IErrorCode.ERRORCODE146, ILogMess.CANNOTUIBINDERFILEANDCONTENT,
+							dFormat.getId(), ICommonConsts.UIBINDER);
+					errorLog(mess);
+				}
+				iBind.startDocument();
+				iBind.startElement(uri, localName, qName, attributes);
+				saxParser.getXMLReader().setContentHandler(iBind);
+				iBind.setOfBinder(() -> {
+					try {
+						saxParser.getXMLReader().setContentHandler(this);
+						dFormat.setBinderW(iBind.getB());
+					} catch (SAXException e) {
+						errorLog(e.getMessage());
+					}
+				});
+				return;
+			}
+
+			if (getAttribute && bDescr != null)
+
+			{
 				SaxUtil.readAttr(bDescr.getMap(), attributes, currentT, iT);
 			}
 		}
@@ -408,6 +442,7 @@ class ReadDialog extends UtilHelper {
 				dFormat.getCheckList().add(checkList);
 				return;
 			}
+
 			SaxUtil.readVal(bDescr.getMap(), qName, currentT, buf, iT);
 		}
 
@@ -464,25 +499,27 @@ class ReadDialog extends UtilHelper {
 		if (CUtil.EmptyS(fileName))
 			return;
 		BinderWidget b = iBinder.parse(fileName);
-		if (b != null) {
+		if (b != null)
 			d.setBinderW(b);
-			verifyBinder(b);
-		}
-
 	}
 
 	static DialogFormat parseDocument(String parentName, InputStream sou, ISecurity iSec, IGetResourceFile iGetResource,
 			IBinderParser iBinder) throws ParserConfigurationException, SAXException, IOException {
 		SAXParserFactory factory = SAXParserFactory.newInstance();
-		SAXParser saxParser;
-		saxParser = factory.newSAXParser();
-		MyHandler ma = new MyHandler(iGetResource, iSec);
+		// important, namespace
+		factory.setNamespaceAware(true);
+		SAXParser saxParser = factory.newSAXParser();
+
+		MyHandler ma = new MyHandler(iGetResource, iSec, iBinder.contructHandler(), saxParser);
 		saxParser.parse(sou, ma);
 		replaceFile(iGetResource, parentName, ma.dFormat, ICommonConsts.HTMLLEFTMENU);
 		replaceFile(iGetResource, parentName, ma.dFormat, ICommonConsts.HTMLPANEL);
 		replaceFile(iGetResource, parentName, ma.dFormat, ICommonConsts.JSCODE);
 		replaceFile(iGetResource, parentName, ma.dFormat, ICommonConsts.CSSCODE);
 		readBinder(iGetResource, parentName, ma.dFormat, iBinder);
+		if (ma.dFormat.getBinderW() != null)
+			verifyBinder(ma.dFormat.getBinderW());
+
 		for (DisclosureElemPanel d : ma.dFormat.getDiscList())
 			replaceFile(iGetResource, parentName, d, ICommonConsts.HTMLPANEL);
 		return ma.dFormat;

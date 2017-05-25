@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<ui:UiBinder xmlns:ui='http://www.jythongwt.uibinderxsd.com'
+	xmlns:g='http://www.jythongwt.uibinderxsd.com' xmlns:p='http://www.jythongwt.uibinderxsd.com'
+	xmlns:i='http://www.jythongwt.uibinderxsd.com' xmlns:v='http://www.jythongwt.uibinderxsd.com' 
+        xmlns='http://www.jythongwt.uihtml.com'>
+	<ui:HTMLPanel>
+           
+            <p:PaperInput label="Title to display" fieldid="title" />
+            <p:PaperInput label="Message to display" fieldid="message" />
+            <p:PaperButton fieldid="click" tabindex="0" toggles="true">Click Ok Message</p:PaperButton>
+            <br/>
+            <p:PaperButton fieldid="clickyesno" tabindex="0" toggles="true">Click YesNo Message</p:PaperButton>
+            <br/>
+            <p:PaperButton fieldid="clickerror" tabindex="0" toggles="true">Click Error Message</p:PaperButton>
+            
+
+            <p:PaperInput label="Message to copy" fieldid="copymessage" />
+            <p:PaperInput label="Message copied" fieldid="dispmessage" readonly="true"/>
+            <p:PaperButton fieldid="copyfield" tabindex="0" toggles="true">Copy field</p:PaperButton>
+            
+            </ui:HTMLPanel>
+</ui:UiBinder>

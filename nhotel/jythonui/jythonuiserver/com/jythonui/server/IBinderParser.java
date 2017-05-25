@@ -14,12 +14,25 @@ package com.jythonui.server;
 
 import java.io.IOException;
 
+import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
 import com.gwtmodel.table.binder.BinderWidget;
 
 public interface IBinderParser {
-			
+
+	interface IEofBinderSignal {
+		void signal();
+	}
+
+	interface IBinderHandler extends ContentHandler {
+		BinderWidget getB();
+
+		void setOfBinder(IEofBinderSignal i);
+	}
+
+	IBinderHandler contructHandler();
+
 	BinderWidget parse(String fileName) throws SAXException, IOException;
 
 }

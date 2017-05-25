@@ -13,7 +13,6 @@
 package com.jythonui.server.binder;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 import javax.xml.parsers.ParserConfigurationException;
 

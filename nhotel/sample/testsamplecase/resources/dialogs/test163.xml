@@ -3,7 +3,7 @@
 
  <form>
    <field id="ratings" type="decimal" binder="" jssignalchange="XX" />
-   <field id="select" type="selector" readonly="" defvalue="xxxxxx" />
+   <field id="select" type="selector"  defvalue="xxxxxx" />
  </form>
 
 </dialog>

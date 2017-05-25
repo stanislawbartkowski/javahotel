@@ -13,7 +13,7 @@
 
 
  <form>
-   <field id="glob1" hidden="" readonly="" remember="" />
+   <field id="glob1" hidden=""  remember="" />
    <field id="globtimestamp" type="datetime" notempty=""/>
    
    <field id="val1" rememberkey="mykey"/>

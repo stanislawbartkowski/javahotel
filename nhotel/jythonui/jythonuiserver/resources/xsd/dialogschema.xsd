@@ -1,7 +1,10 @@
 <?xml version="1.0"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	targetNamespace="http://www.jythongwt.dialogxsd.com" xmlns="http://www.jythongwt.dialogxsd.com"
-	elementFormDefault="qualified">
+	elementFormDefault="qualified" xmlns:ui="http://www.jythongwt.uibinderxsd.com">
+
+	<xs:import schemaLocation="uibinder.xsd"
+		namespace="http://www.jythongwt.uibinderxsd.com"></xs:import>
 
 	<xs:simpleType name="typeName">
 		<xs:restriction base="xs:string">
@@ -748,6 +751,8 @@
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="disclosurepanel" />
 
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="chart" />
+
+				<xs:element minOccurs="0" maxOccurs="1" ref="ui:UiBinder" />
 
 			</xs:sequence>
 			<xs:attributeGroup ref="dialogattrG" />
