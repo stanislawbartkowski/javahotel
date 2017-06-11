@@ -1,5 +1,6 @@
 # Dockerize DB2
 
-## Prepare docker image to host DB2 installation
+## Prepare docker image for hosting DB2 installation
+
 
 
