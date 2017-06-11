@@ -4,6 +4,8 @@
 
 [Dockerfile](Dockerfile.db2)
 
+### Several comments
+
 > FROM centos/systemd
 
 CentOS with systemd running. Docker is used as lightweight virtual machine.
@@ -28,7 +30,9 @@ Set root password and create DB2 required users.
 
 Start systemd, particularly sshd. This way container can be access by means of ssh client
 
-## Create DB2 friendly image.
+## Create DB2 friendly image
+
+In /tmp/i directory of your host machine unpack installation files for your DB2 version. There is a whole variety of different DB2 editions. Happily, there is also free of charge version, DB2 Express-C https://www.ibm.com/us-en/marketplace/db2-express-c. This version can be used for educational purposes as well for business purpose. There are limitations attached to this edition, before using it be familiar with them.
 
 
 
