@@ -2,7 +2,7 @@
 
 ## Prepare docker image for hosting DB2 installation
 
-[Dockerfile.db2]
+[[Dockerfile.db2]]
 
 
 
