@@ -60,7 +60,7 @@ Create container. Here static ip address is 172.18.0.11 and hostname db2cent.sb.
 These are steps to install DB2 Express-C. In a case of any other DB2 editions, use different steps according to the version being installed.
 > ssh root@172.18.0.11
 
-> cd cd /tmp/i/expc/db2/linuxamd64/install/
+> cd /tmp/i/expc/db2/linuxamd64/install/
 
 Install DB2
 > ./db2_install
@@ -90,7 +90,7 @@ Check if created
 
 > docker stop db2centos
 
-### Start container and DB2
+### Start container
 
 > docker start db2centos
 
