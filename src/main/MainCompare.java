@@ -27,8 +27,6 @@ public class MainCompare {
 		System.out.println(s);
 	}
 
-	private final static Logger l = Logger.getLogger(MainExtract.class.getName());
-
 	private static void drawhelp() {
 		e("Parameters");
 		e(" <input file> <url> <user> <password> <list of object> or ALL");

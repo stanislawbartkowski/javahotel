@@ -16,7 +16,7 @@ public class Test10 extends TestHelper {
 	private final static String user = "db2inst1";
 	private final static String password = "db2inst1";
 	
-	private final String sName = "/home/sbartkowski/work/datatech/migration/oracle/EoasExpDDL.DDL";
+	private final String sName = "oracle.ddl";
 
 	@Test
 	public void test1() throws Exception {

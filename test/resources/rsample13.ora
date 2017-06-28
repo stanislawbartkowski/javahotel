@@ -1,0 +1,63 @@
+ CREATE OR REPLACE EDITIONABLE FUNCTION "SCHEDATA"."CIC_GETSCHE_F" ( fModuleName VARCHAR2, fBOName VARCHAR2 ) RETURN NUMBER
+/* =============================================================================
+  Description return value
+   ============================================================================= */
+IS
+ lBoId NUMBER := 0;
+BEGIN
+
+ SELECT
+  NVL2(O.BO_ID,O.BO_ID,0)
+ INTO
+  lBoId
+ FROM DUAL LEFT OUTER JOIN (
+                             SELECT
+                              O.BO_ID
+                             FROM C_TABLE O
+                             WHERE
+                                  ROWNUM = 1
+                              AND O.BO_NAME = C_NAME
+                              AND O.MODULE_NAME = fModuleName
+                           ) O
+      ON 1 = 1
+ ;
+
+ RETURN( lBoId );
+
+EXCEPTION
+  WHEN OTHERS THEN
+   RETURN( 0 );
+END CIC_GetBOID_F;
+/
+
+
+  CREATE OR REPLACE EDITIONABLE FUNCTION "SCHEDATA"."CIC_GETOBKJECTID_F" ( fModuleName VARCHAR2 ) RETURN NUMBER
+/* =============================================================================
+|| DESCRIPTION: Returns the ID of a module
+||   ============================================================================= */
+IS
+ lModuleId NUMBER := 0;
+BEGIN
+
+ SELECT
+  NVL2(O.MODULE_ID,O.MODULE_ID,0)
+ INTO
+  lModuleId
+ FROM DUAL LEFT OUTER JOIN (
+                             SELECT
+                              O.OBJECT_ID
+                             FROM CIC_V_SCHEMA_BZ_INFO O
+                             WHERE
+                                  ROWNUM = 1
+                              AND O.MODULE_NAME = fModuleName
+                           ) O
+      ON 1 = 1
+ ;
+
+ RETURN( lModuleId );
+
+EXCEPTION
+  WHEN OTHERS THEN
+   RETURN( 0 );
+END CIC_GetModuleID_F;
+/

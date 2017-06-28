@@ -22,6 +22,7 @@ import org.migration.fix.FixObject;
 import org.migration.fix.impl.ForeignFixTail;
 import org.migration.fix.impl.GlobalTableFixPrimary;
 import org.migration.fix.impl.ProcedFixNEq;
+import org.migration.fix.impl.RemoveEditionable;
 import org.migration.fix.impl.Replace32767;
 import org.migration.fix.impl.SequenceFixMaxValue;
 import org.migration.fix.impl.TableFixIndexName;
@@ -72,9 +73,12 @@ public class MainExtract {
 		
 		FixObject.register(ObjectExtractor.OBJECT.PROCEDURE, new ProcedFixNEq());
 		FixObject.register(ObjectExtractor.OBJECT.PROCEDURE, new Replace32767());
+		FixObject.register(ObjectExtractor.OBJECT.PROCEDURE, new RemoveEditionable());
 				
 		FixObject.register(ObjectExtractor.OBJECT.FUNCTION, new ProcedFixNEq());
 		FixObject.register(ObjectExtractor.OBJECT.FUNCTION, new Replace32767());
+		FixObject.register(ObjectExtractor.OBJECT.FUNCTION, new RemoveEditionable());
+
 		
 		FixObject.register(ObjectExtractor.OBJECT.BODY, new ProcedFixNEq());
 		FixObject.register(ObjectExtractor.OBJECT.BODY, new Replace32767());

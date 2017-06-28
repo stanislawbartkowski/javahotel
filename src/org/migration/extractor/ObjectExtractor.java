@@ -25,15 +25,17 @@ import org.migration.tokenizer.TokenizeFactory;
 
 public class ObjectExtractor implements AutoCloseable {
 
-	private final static String CREATE = "CREATE";
+	public final static String CREATE = "CREATE";
 	private final static String OR = "OR";
-	private final static String REPLACE = "REPLACE";
+	public final static String REPLACE = "REPLACE";
 	private final static String ALTER = "ALTER";
 	private final static String FOREIGN = "FOREIGN";
 	private final static String KEY = "KEY";
 	private final static String GLOBAL = "GLOBAL";
 	private final static String TEMPORARY = "TEMPORARY";
 	private final static String TABLE = "TABLE";
+	public final static String EDITIONABLE = "EDITIONABLE";
+	public final static String NONEDITIONABLE = " NONEDITIONABLE";
 
 	private final static String SEMI = ";";
 
@@ -113,6 +115,9 @@ public class ObjectExtractor implements AutoCloseable {
 						continue;
 					w = token.readNextWord();
 				}
+				// skip EDITIONABLE
+				if (NONEDITIONABLE.equalsIgnoreCase(w) || EDITIONABLE.equalsIgnoreCase(w))
+					w = token.readNextWord();
 				// object type
 				if (w == null)
 					return null;
@@ -140,6 +145,7 @@ public class ObjectExtractor implements AutoCloseable {
 						continue;
 					// next item is temporary table name
 				} else
+
 					continue;
 			// object name
 			if (isalter)
@@ -170,8 +176,8 @@ public class ObjectExtractor implements AutoCloseable {
 				if (wno == 0)
 					// PACKAGE BODY
 					if (oName.equalsIgnoreCase(OBJECT.BODY.name())) {
-					otype = OBJECT.BODY;
-					oName = w;
+						otype = OBJECT.BODY;
+						oName = w;
 					}
 				if (wno == 1 && (otype == OBJECT.INDEX || otype == OBJECT.UNIQUE))
 					onTable = w;
@@ -196,7 +202,8 @@ public class ObjectExtractor implements AutoCloseable {
 
 				@Override
 				public String getName() {
-					return objectname;
+					// remove "
+					return objectname.replace("\"", "");
 				}
 
 				@Override

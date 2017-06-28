@@ -18,7 +18,6 @@ public class U {
 
 	private U() {
 	}
-	
 
 	public static String addTails(String line) {
 		if (PropHolder.getProp().get(PropHolder.TABLESPACE) != null)
@@ -28,6 +27,10 @@ public class U {
 
 	public static boolean found(String prevw, String w, String w1, String w2) {
 		return prevw.equalsIgnoreCase(w1) && w.equalsIgnoreCase(w2);
+	}
+
+	public static boolean foundor(String prevW, String w1, String w2) {
+		return prevW.equalsIgnoreCase(w1) || prevW.equalsIgnoreCase(w2);
 	}
 
 	public static boolean isComma(String w) {
