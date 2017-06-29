@@ -82,10 +82,13 @@ public class MainExtract {
 		
 		FixObject.register(ObjectExtractor.OBJECT.BODY, new ProcedFixNEq());
 		FixObject.register(ObjectExtractor.OBJECT.BODY, new Replace32767());
+		FixObject.register(ObjectExtractor.OBJECT.BODY, new RemoveEditionable());
+
 		
 		FixObject.register(ObjectExtractor.OBJECT.FOREIGNKEY, new ForeignFixTail());
 		
 		FixObject.register(ObjectExtractor.OBJECT.PACKAGE, new Replace32767());
+		FixObject.register(ObjectExtractor.OBJECT.PACKAGE, new RemoveEditionable());
 		
 		FixObject.register(ObjectExtractor.OBJECT.TRIGGER, new Replace32767());
 
