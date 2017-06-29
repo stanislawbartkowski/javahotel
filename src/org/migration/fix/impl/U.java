@@ -45,9 +45,10 @@ public class U {
 		return w.equals(")");
 	}
 
-	private final static String TERMINATES = "/";
+//	private final static String TERMINATES = "/";
 
 	public static boolean isStatementTerm(String line) {
+		String TERMINATES = (String) PropHolder.getProp().get(PropHolder.INPUTSTATTERM);
 		return line.trim().equals(TERMINATES);
 	}
 
