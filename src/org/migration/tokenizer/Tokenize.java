@@ -77,13 +77,15 @@ class Tokenize implements ITokenize {
 				return null;
 
 			if (insidecomment) {
-				int i = line.indexOf(COMMEND);
+				// 2017/07/05 : substring
+				int i = line.substring(c).indexOf(COMMEND);
 				if (i == -1) {
 					// next line
 					line = null;
 					continue;
 				}
-				c = i + COMMEND.length();
+				// 2017/07/05
+				c = c + i + COMMEND.length();
 				// start after end of comment
 				insidecomment = false;
 			}
