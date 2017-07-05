@@ -106,7 +106,7 @@ Example:
 
 sh/compare SEQUENCE 
 
-# Tranformation
+# Transformation
 
 [DB2 Oracle Compatibility Mode](http://www.ibm.com/support/knowledgecenter/SSEPGG_11.1.0/com.ibm.db2.luw.apdv.porting.doc/doc/c_compat_oracle.html) allows execution of Oracle PL/SQL statements almost out of the box. Nevertheless, some adjustments are required.
 Examples
@@ -171,7 +171,7 @@ CREATE SEQUENCE XXXX.CM_CONTAINERPMCHANGE_SEQ INCREMENT BY 1 MAXVALUE
   99999999999999999999999999 MINVALUE 0 NOCACHE ;
 ```
 
-# Custom tranformation
+# Custom transformation
 
 The Java project can be extended by custom tranformation. Current tranformations are stored in org.migration.fix.impl package.
 
