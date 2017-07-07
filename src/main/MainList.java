@@ -26,6 +26,7 @@ public class MainList {
 	private static void drawhelp() {
 		e("Parameters: ");
 		e("MainList <input file name> /--listof/");
+		e("MainList <input file name> /--listofschemas/");
 		e("    input file containing Oracle code");
 		e("    " + LISTOF + " (optional), list of objects");
 		System.exit(4);
