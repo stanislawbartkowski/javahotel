@@ -14,16 +14,13 @@ package main;
 
 import org.migration.tasks.ProcList;
 
-public class MainList {
-
-	private static void e(String s) {
-		System.out.println(s);
-	}
+public class MainList extends MainHelper {
 
 	private final static String LISTOF = "--listof";
 	private final static String LISTOFSCHEMAS = "--listofschemas";
 
 	private static void drawhelp() {
+		pVersion();
 		e("Parameters: ");
 		e("MainList <input file name> /--listof/");
 		e("MainList <input file name> /--listofschemas/");
@@ -36,6 +33,7 @@ public class MainList {
 
 		if (args.length != 1 && args.length != 2)
 			drawhelp();
+		readProp();
 		boolean listof = false;
 		if (args.length == 2)
 			if (LISTOF.equals(args[1]))
@@ -43,8 +41,7 @@ public class MainList {
 			else if (LISTOFSCHEMAS.equals(args[1])) {
 				ProcList.listofSchemas(args[0]);
 				return;
-			}
-			else
+			} else
 				drawhelp();
 		ProcList.stat(args[0], listof);
 	}

@@ -13,8 +13,6 @@
 
 package main;
 
-import java.io.FileInputStream;
-import java.util.Properties;
 import java.util.logging.Logger;
 
 import org.migration.extractor.ObjectExtractor;
@@ -30,18 +28,14 @@ import org.migration.fix.impl.TableFixPrimaryKey;
 import org.migration.fix.impl.TableFixTail;
 import org.migration.fix.impl.TableFixTypes;
 import org.migration.fix.impl.TableFixUnique;
-import org.migration.properties.PropHolder;
 import org.migration.tasks.ExtractObjects;
 
-public class MainExtract {
-
-	private static void e(String s) {
-		System.out.println(s);
-	}
+public class MainExtract extends MainHelper {
 
 	private final static Logger l = Logger.getLogger(MainExtract.class.getName());
 
 	private static void drawhelp() {
+		pVersion();
 		e("Parameters");
 		e(" <input file> <output dir> <propertyfile>");
 		System.exit(4);
@@ -49,14 +43,9 @@ public class MainExtract {
 
 	public static void main(String[] args) throws Exception {
 
-		if (args.length != 3)
+		if (args.length != 2)
 			drawhelp();
-		String propname = args[2];
-		l.info("Read properties from " + propname);
-		Properties prop = new Properties();
-		prop.load(new FileInputStream(propname));
-		// merge with default
-		PropHolder.getProp().putAll(prop);
+		readProp();
 		FixObject.register(ObjectExtractor.OBJECT.TABLE, new TableFixUnique());
 		FixObject.register(ObjectExtractor.OBJECT.TABLE, new TableFixTail());
 		FixObject.register(ObjectExtractor.OBJECT.TABLE, new TableFixIndexName());

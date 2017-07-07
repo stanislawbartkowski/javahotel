@@ -14,20 +14,16 @@ package main;
 
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import org.migration.comparedb2.CUtil;
 import org.migration.comparedb2.CompareObjects;
 import org.migration.comparedb2.ObjectsNofFound;
 import org.migration.extractor.ObjectExtractor;
 
-public class MainCompare {
-
-	private static void e(String s) {
-		System.out.println(s);
-	}
+public class MainCompare extends MainHelper {
 
 	private static void drawhelp() {
+		pVersion();
 		e("Parameters");
 		e(" <input file> <url> <user> <password> <list of object> or ALL");
 		e(" List of objects : " + CUtil.possibleO());
@@ -38,6 +34,7 @@ public class MainCompare {
 
 		if (args.length != 5)
 			drawhelp();
+		readProp();
 		Set<ObjectExtractor.OBJECT> oList = CUtil.parseList(args[4]);
 		List<ObjectsNofFound> cList = CompareObjects.analyze(args[0], args[1], args[2], args[3], oList);
 		CUtil.printList(cList);
