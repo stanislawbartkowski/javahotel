@@ -40,8 +40,10 @@ public class MainList {
 		if (args.length == 2)
 			if (LISTOF.equals(args[1]))
 				listof = true;
-			else if (LISTOFSCHEMAS.equals(args[1]))
+			else if (LISTOFSCHEMAS.equals(args[1])) {
 				ProcList.listofSchemas(args[0]);
+				return;
+			}
 			else
 				drawhelp();
 		ProcList.stat(args[0], listof);
