@@ -13,7 +13,6 @@
 
 package org.migration.tasks;
 
-import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,11 +32,11 @@ public class ExtractContainer {
 				Map<ObjectExtractor.OBJECT, List<ObjectExtractor.IObjectExtracted>> ma);
 	}
 
-	public static void run(BufferedReader reader, IRunner runner) throws Exception {
+	public static void run(String inputFile, IRunner runner) throws Exception {
 
 		Map<ObjectExtractor.OBJECT, List<ObjectExtractor.IObjectExtracted>> ma = new HashMap<ObjectExtractor.OBJECT, List<ObjectExtractor.IObjectExtracted>>();
 
-		try (ObjectExtractor o = new ObjectExtractor(reader)) {
+		try (ObjectExtractor o = new ObjectExtractor(inputFile)) {
 
 			ObjectExtractor.IObjectExtracted i;
 			while ((i = o.extractNext()) != null) {

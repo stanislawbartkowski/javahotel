@@ -12,19 +12,19 @@
  */
 package org.migration.tokenizer;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.migration.filereader.IFileReader;
 import org.migration.fix.impl.U;
 
 class Tokenize implements ITokenize {
 
 	// unlikely string
 
-	private final BufferedReader reader;
+	private final IFileReader reader;
 
 	private final static String DELIM = " ();/-";
 
@@ -40,7 +40,7 @@ class Tokenize implements ITokenize {
 
 	private final List<String> lines = new ArrayList<String>();
 
-	Tokenize(BufferedReader reader) {
+	Tokenize(IFileReader reader) {
 		this.reader = reader;
 	}
 

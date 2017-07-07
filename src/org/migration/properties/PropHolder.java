@@ -26,6 +26,7 @@ public class PropHolder {
 	public static final String SEQUENCEMAX = "sequence.maxval";
 	public static final String PROCTERMINATOR = "sqlproc.terminator";
 	public static final String INPUTSTATTERM = "input.term";
+	public static final String SCHEMASONLY = "only.schemas";
 
 	public static Properties getProp() {
 		return prop;

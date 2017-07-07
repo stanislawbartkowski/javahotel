@@ -13,11 +13,9 @@
 
 package org.migration.tasks;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -135,8 +133,7 @@ public class ExtractObjects {
 		dir.delete();
 		dir.mkdirs();
 		// cleared and recreated
-		File fn = new File(inputName);
-		ExtractContainer.run(new BufferedReader(new FileReader(fn)),
+		ExtractContainer.run(inputName,
 				(ObjectExtractor.OBJECT oType, List<ObjectExtractor.IObjectExtracted> li,
 						Map<ObjectExtractor.OBJECT, List<ObjectExtractor.IObjectExtracted>> ma) -> extractObject(oType,
 								li, ma, dir));

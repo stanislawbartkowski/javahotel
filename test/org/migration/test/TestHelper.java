@@ -52,4 +52,8 @@ abstract class TestHelper {
 		assertEquals(nolines, lastL.size());
 	}
 
+	protected String getfName(String fname) throws URISyntaxException {
+		return TestHelper.class.getClassLoader().getResource("resources/" + fname).toURI().getPath();
+	}
+
 }

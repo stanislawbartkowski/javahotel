@@ -21,6 +21,7 @@ public class MainList {
 	}
 
 	private final static String LISTOF = "--listof";
+	private final static String LISTOFSCHEMAS = "--listofschemas";
 
 	private static void drawhelp() {
 		e("Parameters: ");
@@ -34,11 +35,15 @@ public class MainList {
 
 		if (args.length != 1 && args.length != 2)
 			drawhelp();
+		boolean listof = false;
 		if (args.length == 2)
-			if (!LISTOF.equals(args[1]))
+			if (LISTOF.equals(args[1]))
+				listof = true;
+			else if (LISTOFSCHEMAS.equals(args[1]))
+				ProcList.listofSchemas(args[0]);
+			else
 				drawhelp();
-		ProcList.stat(args[0], args.length == 2);
-
+		ProcList.stat(args[0], listof);
 	}
 
 }

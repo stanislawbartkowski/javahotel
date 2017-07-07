@@ -18,6 +18,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.migration.comparedb2.CUtil;
 import org.migration.fix.impl.U;
 import org.migration.properties.PropHolder;
 import org.migration.tokenizer.ITokenize;
@@ -40,9 +41,29 @@ public class ObjectExtractor implements AutoCloseable {
 	private final static String SEMI = ";";
 
 	private final ITokenize token;
+	private Set<String> schemasonly = null;
+
+	private void setSchemas() {
+		// = new HashSet<String>();
+		String lOfSchemas = PropHolder.getProp().getProperty(PropHolder.SCHEMASONLY);
+		if (lOfSchemas == null)
+			return;
+		String[] o = lOfSchemas.split(",");
+		if (o.length < 1)
+			return;
+		schemasonly = new HashSet<String>();
+		for (String s : o)
+			schemasonly.add(s);
+	}
 
 	public ObjectExtractor(BufferedReader reader) {
 		token = TokenizeFactory.provide(reader);
+		setSchemas();
+	}
+
+	public ObjectExtractor(String inputFile) {
+		token = TokenizeFactory.provide(inputFile);
+		setSchemas();
 	}
 
 	public enum OBJECT {
@@ -193,8 +214,13 @@ public class ObjectExtractor implements AutoCloseable {
 
 			} // while
 			final OBJECT objecttype = otype;
-			final String objectname = oName;
+			final String objectname = oName.replace("\"", "");
 			final String ontablename = onTable;
+			if (schemasonly != null) {
+				CUtil.IObjectName iName = CUtil.objectName(objectname);
+				if (iName.getSchema() != null && !schemasonly.contains(iName.getSchema()))
+					continue;
+			}
 			// make snapshot of current line
 			final List<String> cList = new ArrayList<String>();
 			cList.addAll(token.getLines());
@@ -203,7 +229,7 @@ public class ObjectExtractor implements AutoCloseable {
 				@Override
 				public String getName() {
 					// remove "
-					return objectname.replace("\"", "");
+					return objectname;
 				}
 
 				@Override

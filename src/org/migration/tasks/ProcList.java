@@ -12,12 +12,12 @@
  */
 package org.migration.tasks;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.migration.comparedb2.CUtil;
 import org.migration.extractor.ObjectExtractor;
 
 public class ProcList {
@@ -43,11 +43,29 @@ public class ProcList {
 	}
 
 	public static void stat(String inputName, boolean listOf) throws Exception {
-		File fn = new File(inputName);
-		ExtractContainer.run(new BufferedReader(new FileReader(fn)),
-				(ObjectExtractor.OBJECT oType, List<ObjectExtractor.IObjectExtracted> li,
-						Map<ObjectExtractor.OBJECT, List<ObjectExtractor.IObjectExtracted>> ma) -> draw(oType, li,
-								listOf));
+		ExtractContainer.run(inputName, (ObjectExtractor.OBJECT oType, List<ObjectExtractor.IObjectExtracted> li,
+				Map<ObjectExtractor.OBJECT, List<ObjectExtractor.IObjectExtracted>> ma) -> draw(oType, li, listOf));
+	}
+
+	private static final String EMPTYSCHEMA = "<no schema>";
+
+	private static void gatherSchemas(Set<String> s, List<ObjectExtractor.IObjectExtracted> li) {
+		if (li == null)
+			return;
+		li.forEach(i -> {
+			CUtil.IObjectName o = CUtil.objectName(i.getName());
+			if (o.getSchema() == null)
+				s.add(EMPTYSCHEMA);
+			else
+				s.add(o.getSchema());
+		});
+	}
+
+	public static void listofSchemas(String inputName) throws Exception {
+		Set<String> se = new HashSet<String>();
+		ExtractContainer.run(inputName, (ObjectExtractor.OBJECT oType, List<ObjectExtractor.IObjectExtracted> li,
+				Map<ObjectExtractor.OBJECT, List<ObjectExtractor.IObjectExtracted>> ma) -> gatherSchemas(se, li));
+		se.forEach(s -> e(s));
 	}
 
 }

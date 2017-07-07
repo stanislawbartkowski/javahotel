@@ -77,4 +77,41 @@ public class CUtil {
 		});
 	}
 
+	public interface IObjectName {
+		String getSchema();
+
+		String getName();
+	}
+
+	public static IObjectName objectName(String oName) {
+		String[] o = oName.split("\\.");
+//		System.out.println(oName);
+		if (o.length == 1)
+			return new IObjectName() {
+
+				@Override
+				public String getSchema() {
+					return null;
+				}
+
+				@Override
+				public String getName() {
+					return oName;
+				}
+			};
+		return new IObjectName() {
+
+			@Override
+			public String getSchema() {
+				return o[0];
+			}
+
+			@Override
+			public String getName() {
+				return o[1];
+			}
+
+		};
+	}
+
 }

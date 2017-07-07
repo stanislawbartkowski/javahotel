@@ -10,24 +10,21 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package org.migration.tokenizer;
+package org.migration.filereader;
 
 import java.io.BufferedReader;
 
-import org.migration.filereader.FileReaderFactory;
+public class FileReaderFactory {
 
-public class TokenizeFactory {
-
-	private TokenizeFactory() {
-
+	private FileReaderFactory() {
 	}
 
-	public static ITokenize provide(BufferedReader reader) {
-		return new Tokenize(FileReaderFactory.provide(reader));
+	public static IFileReader provide(BufferedReader r) {
+		return new FileReaderBuffer(r);
 	}
 
-	public static ITokenize provide(String fileList) {
-		return new Tokenize(FileReaderFactory.provide(fileList));
+	public static IFileReader provide(String l) {
+		return new MultiFileReader(l);
 	}
 
 }

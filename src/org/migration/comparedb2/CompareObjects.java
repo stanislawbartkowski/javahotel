@@ -105,7 +105,7 @@ public class CompareObjects {
 		if (oType == ObjectExtractor.OBJECT.PACKAGE || oType == ObjectExtractor.OBJECT.BODY) {
 			// distinguish between package and package body is tricky
 			// only by REMARKS
-			
+
 			String sql = "SELECT * FROM SYSCAT.MODULES";
 			if (oType == ObjectExtractor.OBJECT.BODY)
 				// learn by experience
@@ -131,7 +131,7 @@ public class CompareObjects {
 					oSet.remove(oName);
 			} // while(res)
 		}
-		
+
 		if (oType == ObjectExtractor.OBJECT.TRIGGER) {
 			ResultSet res = con.createStatement().executeQuery("SELECT * FROM SYSCAT.TRIGGERS");
 			while (res.next()) {
@@ -143,7 +143,7 @@ public class CompareObjects {
 					oSet.remove(oName);
 			} // while(res)
 		}
-		
+
 		outList.add(new ObjectsNofFound() {
 
 			@Override
@@ -164,18 +164,16 @@ public class CompareObjects {
 			Set<ObjectExtractor.OBJECT> lType) throws Exception {
 		List<ObjectsNofFound> outList = new ArrayList<ObjectsNofFound>();
 		Connection con = connect(url, user, password);
-		File fn = new File(inputName);
-		ExtractContainer.run(new BufferedReader(new FileReader(fn)),
-				(ObjectExtractor.OBJECT oType, List<ObjectExtractor.IObjectExtracted> li,
-						Map<ObjectExtractor.OBJECT, List<ObjectExtractor.IObjectExtracted>> ma) -> {
-					if (lType.contains(oType) && li != null)
-						try {
-							compare(oType, li, con, outList);
-						} catch (SQLException e) {
-							log.log(Level.SEVERE, e.getMessage(), e);
-							throw new RuntimeException(e);
-						}
-				});
+		ExtractContainer.run(inputName, (ObjectExtractor.OBJECT oType, List<ObjectExtractor.IObjectExtracted> li,
+				Map<ObjectExtractor.OBJECT, List<ObjectExtractor.IObjectExtracted>> ma) -> {
+			if (lType.contains(oType) && li != null)
+				try {
+					compare(oType, li, con, outList);
+				} catch (SQLException e) {
+					log.log(Level.SEVERE, e.getMessage(), e);
+					throw new RuntimeException(e);
+				}
+		});
 		return outList;
 	}
 
