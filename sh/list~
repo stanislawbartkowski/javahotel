@@ -1,2 +1,0 @@
-source source.rc
-java -cp $OJAR main.MainList $INPUTFILE
