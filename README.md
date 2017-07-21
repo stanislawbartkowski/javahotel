@@ -2,5 +2,5 @@
 
 ## Prepare IBM Streams docker friendly container
 
-[Dockerfile](Dockerfile.streams)
+[Dockerfile](Dockerfile.st)
 
