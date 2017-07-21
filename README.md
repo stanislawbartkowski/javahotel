@@ -93,7 +93,7 @@ Two warnings are expected to pop up.
 CDISI0005I The dependency checker evaluated the system and found 2 warnings.
 ```
 
-For singlehost installation it can be ignored.
+For single host installation, it can be ignored.
 
 ### Install IBM Streams
 
@@ -151,12 +151,18 @@ In case of failure review https://developer.ibm.com/answers/questions/379852/job
 ### Create IBM Streams domain and instance
 
 > streamtool
+
 >>genkey
+
 >>mkdomain
+
 >>startdomain
+
 >>mkinstance
+
 >>startinstance
+
 >>geturl
 
 ### Test 
-Try to logon to IBM Streams console using output URL from geturl command. U/P streamsadmin/streamsadmin. Connect remotely to the instance using IBM Streams Studio.
+Try to log on to IBM Streams console using output URL from geturl command. U/P streamsadmin/streamsadmin. Connect remotely to the instance using IBM Streams Studio.
