@@ -14,7 +14,7 @@ CentOS with systemd running. Docker is used as lightweight virtual machine.
 Update to the latest
 > RUN yum -y install openssh-server telnet which ksh mc wget mlocate zip unzip initscripts
 
-Install several useeful tools
+Install several useful tools
 > RUN yum -y install file libaio numactl libstdc++.so.6 pam-devel
 
 Install DB2 prerequisities
