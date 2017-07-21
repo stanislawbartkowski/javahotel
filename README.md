@@ -53,8 +53,8 @@ Create a separate network, if not created already. It is convenient to have the 
 
 In /tmp/i directory of the host machine unpack the installation image. It is convenient to keep it externally to avoid pumping up the container. The installation directory can be removed when IBM Streams is installed.
 
->> mkdir /tmp/i
->> cd /tmp/i
+> mkdir /tmp/i
+> cd /tmp/i
 
 Unpack the image, the following directoru structure should be created.
 
@@ -70,13 +70,14 @@ StreamsInstallFiles/ibmdita.css
 ```
 ### Create container
 
->> docker run -v /tmp/i:/tmp/i  -h ibmstreams.sb.com --net dnet --ip 172.18.0.15 --privileged=true --name ibmstreams ibmstreams
->> ssh root@172.18.0.15
+> docker run -v /tmp/i:/tmp/i  -h ibmstreams.sb.com --net dnet --ip 172.18.0.15 --privileged=true --name ibmstreams ibmstreams
+> ssh root@172.18.0.15
 
 ### Run IBM Streams prereqcheker
 
->> cd /tmp/i/StreamsInstallFiles
->> ./dependency_checker.sh
+> cd /tmp/i/StreamsInstallFiles
+
+> ./dependency_checker.sh
 
 Two warnings are expected to pop up.
 
@@ -96,18 +97,66 @@ For singlehost installation it can be ignored.
 
 ### Install IBM Streams
 
->> ./IBMStreamsSetup.bin 
+> ./IBMStreamsSetup.bin 
 
-Accept all defaults.
+Console mode installation should be launched, accept all defaults except:
+
+```
+===============================================================================
+System Configuration Warning
+----------------------------
+
+The following warning conditions were detected. You can continue the 
+installation, but the product might not function correctly. If you continue, 
+check the installation summary log file for additional actions.
+
+1. CDISI3061W The ibmstreams.sb.com host name did not resolve to an IP address
+using DNS lookup.
+2. CDISI3059W You may be running a firewall which may prevent communication 
+between the cluster hosts.
 
 
+  ->1- Cancel and exit (default)
+    2- Continue
 
+ENTER THE NUMBER OF THE DESIRED CHOICE, OR PRESS <ENTER> TO ACCEPT THE 
+   DEFAULT: 
+```
+Choose __Continue__ here.
 
+### Source IBM Streams environment
 
+>ssh streamsadmin@172.18.0.15
 
+>vi .bashrc
 
+>source /opt/ibm/InfoSphere_Streams/4.2.1.1/bin/streamsprofile.sh
 
+### Test __sc__ command
 
+>sc
 
+Expected:
+```
+[streamsadmin@ibmstreams ~]$ sc
+Usage: sc [options] -M <main-composite>
+SPL - Streams Compiler (Streams 4.2.1.1)
+```
+Failure
+```
+sc: exception! (type=runtime_error) what='locale::facet::_S_create_c_locale name not valid'. exiting...
+```
+In case of failure review https://developer.ibm.com/answers/questions/379852/job-submission-fails-with-error.html?smartspace=streamsdev
 
+### Create IBM Streams domain and instance
 
+> streamtool
+>>genkey
+>>mkdomain
+>>startdomain
+>>mkinstance
+>>startinstance
+>>geturl
+
+### Test 
+Try to logon to IBM Streams console using output URL from geturl command. U/P streamsadmin/streamsadmin. Connect remotely to the instance using IBM Streams Studio.
