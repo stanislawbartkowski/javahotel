@@ -12,7 +12,14 @@
  */
 package org.migration.fix.impl;
 
+import java.io.BufferedReader;
+import java.io.StringReader;
+import java.util.List;
+
+import org.migration.extractor.ObjectExtractor;
 import org.migration.properties.PropHolder;
+import org.migration.tokenizer.ITokenize;
+import org.migration.tokenizer.TokenizeFactory;
 
 public class U {
 
@@ -51,5 +58,25 @@ public class U {
 		String TERMINATES = (String) PropHolder.getProp().get(PropHolder.INPUTSTATTERM);
 		return line.trim().equals(TERMINATES);
 	}
+
+	// ===============
+	
+	private static void addLines(StringBuffer buf, List<String> l) {
+		l.forEach(line -> {
+			buf.append(line);
+			buf.append(System.lineSeparator());
+		});
+	}
+
+	private static BufferedReader getB(ObjectExtractor.IObjectExtracted i) {
+		StringBuffer buf = new StringBuffer();
+		addLines(buf, i.getLines());
+		return new BufferedReader(new StringReader(buf.toString()));
+	}
+
+	public static ITokenize getT(ObjectExtractor.IObjectExtracted i) {
+		return TokenizeFactory.provide(getB(i));
+	}
+
 
 }

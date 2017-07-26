@@ -29,6 +29,8 @@ import java.util.logging.Logger;
 import org.migration.extractor.ObjectExtractor;
 import org.migration.fix.FixObject;
 import org.migration.fix.ObjectExtracted;
+import org.migration.fix.impl.U;
+import org.migration.tokenizer.ITokenize;
 
 public class ExtractObjects {
 
@@ -90,10 +92,27 @@ public class ExtractObjects {
 		List<ObjectExtractor.IObjectExtracted> eList = ma.get(eType);
 		if (eList == null)
 			return;
-		eList.stream().filter(e -> eqS(eType == ObjectExtractor.OBJECT.ALTERTABLE ? e.getName() : e.onTable(), tName))
+		eList.stream()
+				.filter(e -> eqS(eType == ObjectExtractor.OBJECT.ALTERTABLE ? e.getName() : e.onTable(), tName))
 				.forEach(e -> {
-					ee.getAdded().add(e);
+					if (!ignorealter(e)) ee.getAdded().add(e);
 				});
+	}
+
+	private static boolean ignorealter(ObjectExtractor.IObjectExtracted ee) {
+		if (ee.getType() != ObjectExtractor.OBJECT.ALTERTABLE)
+			return false;
+		// ADD SUPPLEMENTAL LOG GROUP
+		ITokenize i = U.getT(ee);
+		String prevw = i.readNextWord();
+		String w = i.readNextWord();
+		while (w != null) {
+			if (prevw.equals("SUPPLEMENTAL") && w.equals("LOG"))
+				return true;
+			prevw = w;
+			w = i.readNextWord();
+		}
+		return false;
 	}
 
 	private static void extractObject(ObjectExtractor.OBJECT oType, List<ObjectExtractor.IObjectExtracted> li,

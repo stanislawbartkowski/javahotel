@@ -12,31 +12,14 @@
  */
 package org.migration.fix;
 
-import java.io.BufferedReader;
-import java.io.StringReader;
-import java.util.List;
-
 import org.migration.extractor.ObjectExtractor;
+import org.migration.fix.impl.U;
 import org.migration.tokenizer.ITokenize;
-import org.migration.tokenizer.TokenizeFactory;
 
 abstract public class FixHelper implements IFix {
 
-	private void addLines(StringBuffer buf, List<String> l) {
-		l.forEach(line -> {
-			buf.append(line);
-			buf.append(System.lineSeparator());
-		});
-	}
-
-	private BufferedReader getB(ObjectExtractor.IObjectExtracted i) {
-		StringBuffer buf = new StringBuffer();
-		addLines(buf, i.getLines());
-		return new BufferedReader(new StringReader(buf.toString()));
-	}
-
 	protected ITokenize getT(ObjectExtractor.IObjectExtracted i) {
-		return TokenizeFactory.provide(getB(i));
+		return U.getT(i);
 	}
 
 	protected void replaceLines(ObjectExtractor.IObjectExtracted i, ITokenize tot) {
