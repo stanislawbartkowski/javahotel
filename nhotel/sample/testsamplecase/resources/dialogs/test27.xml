@@ -13,7 +13,7 @@
 		<elemformat>elem27.xml</elemformat>
 		<standbutt>FILTER,SHOW</standbutt>
 		<columns>
-			<column id="id" type="long" />
+			<column id="id" type="int" />
 			<column id="pnumber" />
 			<column id="pname" />
 		</columns>
@@ -23,7 +23,7 @@
 		<elemformat>elem27.xml</elemformat>
 		<standbutt></standbutt>
 		<columns>
-			<column id="id" type="long" />
+			<column id="id" type="int" />
 		</columns>
 	</list>
 

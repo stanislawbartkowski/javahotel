@@ -10,7 +10,8 @@
 
 <leftmenu>
   <button id="ID" displayname="Call script" hidden="$!sec.u('darkhelmet')" />
-  <button id="ID1" displayname="Call script" hidden="$!sec.u('darkhelmet') &amp;&amp; !sec.u('lonestarr')" readonly = "$sec.u('lonestarr')" />
+<!--  <button id="ID1" displayname="Call script" hidden="$!sec.u('darkhelmet') &amp;&amp; !sec.u('lonestarr')" readonly = "$sec.u('lonestarr')" /> -->
+  <button id="ID1" displayname="Call script" hidden="$!sec.u('darkhelmet') &amp;&amp; !sec.u('lonestarr')" />
   <button id="ID2" displayname="Call script"/>
 </leftmenu>
 

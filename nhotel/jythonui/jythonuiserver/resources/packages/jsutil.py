@@ -25,7 +25,7 @@ def toList(s,listid,dialname=None,listname=None) :
                 elif  p.isNumber() :
                     val = p.getAsDouble()
                     if lform != None :
-                        if ttype == cutil.LONG : val = int(val)
+                        if ttype == cutil.INT : val = int(val)
                 else : 
                     val = p.getAsString()
                     if lform != None : 

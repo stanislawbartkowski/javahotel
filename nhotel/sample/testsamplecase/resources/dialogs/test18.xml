@@ -10,7 +10,7 @@
 
 
 	<form>
-		<field id="id" type="long" />
+		<field id="id" type="int" />
 		<field id="pnumber" />
 		<field id="pname" />
 	</form>
@@ -18,7 +18,7 @@
 	<list id="list">
 		<elemformat>elem6.xml</elemformat>
 		<columns>
-			<column id="id" type="long" />
+			<column id="id" type="int" />
 			<column id="pnumber" />
 			<column id="pname" />
 		</columns>

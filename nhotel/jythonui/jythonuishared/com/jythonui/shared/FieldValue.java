@@ -58,10 +58,6 @@ public class FieldValue implements Serializable {
 		return (Long) o;
 	}
 
-	public Integer getValueI() {
-		return (Integer) o;
-	}
-
 	public BigDecimal getValueBD() {
 		return (BigDecimal) o;
 	}
@@ -86,13 +82,13 @@ public class FieldValue implements Serializable {
 		this.type = TT.DATETIME;
 	}
 
-	public void setValue(Long l) {
-		this.o = l;
-		type = TT.LONG;
+	public void setValue(Long i) {
+		this.o = i;
+		type = TT.INT;
 	}
 
 	public void setValue(Integer i) {
-		this.o = i;
+		this.o = (Long)i.longValue();
 		type = TT.INT;
 	}
 
@@ -131,11 +127,8 @@ public class FieldValue implements Serializable {
 		case DATETIME:
 			setValue((Timestamp) val);
 			break;
-		case LONG:
-			setValue((Long) val);
-			break;
 		case INT:
-			setValue((Integer) val);
+			setValue((Long) val);
 			break;
 		case BIGDECIMAL:
 			o = (BigDecimal) val;
@@ -157,10 +150,8 @@ public class FieldValue implements Serializable {
 			return getValueD();
 		case DATETIME:
 			return getValueT();
-		case LONG:
-			return (Long) o;
 		case INT:
-			return (Integer) o;
+			return (Long) o;
 		case BIGDECIMAL:
 			return (BigDecimal) o;
 		default:

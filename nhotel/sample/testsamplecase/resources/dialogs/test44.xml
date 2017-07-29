@@ -11,7 +11,7 @@
 
 	<list id="list">
 		<columns>
-			<column id="id" type="long" hidden="$!sec.u('darkhelmet')" />
+			<column id="id" type="int" hidden="$!sec.u('darkhelmet')" />
 			<column id="pnumber" />
 			<column id="pname" />
 		</columns>
@@ -19,7 +19,7 @@
 
 	<list id="list1">
 		<columns>
-			<column id="id" type="long" />
+			<column id="id" type="int" />
 		</columns>
 	</list>
 

@@ -4,9 +4,15 @@
 	<before />
 
 	<buttons>
+<!-- 	
+			<button id="ID" displayname="Call script"
+			hidden="$!sec.u('darkhelmet') &amp;&amp; !sec.u('lonestarr')"
+ 			readonly="$sec.u('lonestarr')"  
+			validate="" />
+-->	
 		<button id="ID" displayname="Call script"
 			hidden="$!sec.u('darkhelmet') &amp;&amp; !sec.u('lonestarr')"
-			readonly="$sec.u('lonestarr')" validate="" />
+			validate="" />
 		<button id="ID1" displayname="Call script" validate="" />
 
 	</buttons>

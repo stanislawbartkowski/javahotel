@@ -3,7 +3,7 @@ import cutil
 class LISTREGISTRY(cutil.RegistryFile):
 
     def __init__(self) :
-      map = {"id" : cutil.LONG, "bignumber" : cutil.DECIMAL}
+      map = {"id" : cutil.INT, "bignumber" : cutil.DECIMAL}
       cutil.RegistryFile.__init__(self,None,"LIST-X-BIGNUMBER-DEMO",None,map, "list","id")
 
 F = LISTREGISTRY()

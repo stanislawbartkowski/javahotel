@@ -43,7 +43,7 @@ def dialogaction(action,var):
         assert dlist != None
         (dtype,afterdot) = miscutil.getColumnDescr(dlist,"id")
         print dtype,afterdot
-        assert "long" == dtype
+        assert "int" == dtype
         assert 0 == afterdot
         (dtype,afterdot) = miscutil.getColumnDescr(dlist,"mon")
         print dtype,afterdot

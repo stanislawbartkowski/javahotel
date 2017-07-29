@@ -41,19 +41,19 @@ public class Test2 extends TestHelper {
     public void test2() {
         DialogVariables v = new DialogVariables();
         FieldValue val = new FieldValue();
-        val.setValue((Integer) null);
+        val.setValue((Long) null);
         v.setValue("globint", val);
         runAction(v, "test4.xml", "before");
         val = v.getValue("globint");
         assertNotNull(val);
-        assertNull(val.getValueI());
+        assertNull(val.getValueL());
     }
 
     @Test
     public void test3() {
         DialogVariables v = new DialogVariables();
         FieldValue val = new FieldValue();
-        val.setValue((Integer) null);
+        val.setValue((Long) null);
         v.setValue("globint", val);
         runAction(v, "test4.xml", "testnone");
         val = v.getValue("result");
@@ -70,7 +70,7 @@ public class Test2 extends TestHelper {
         runAction(v, "test4.xml", "inc");
         val = v.getValue("globint");
         assertNotNull(val);
-        assertEquals((Integer) 2, val.getValueI());
+        assertEquals((Long) 2l, val.getValueL());
     }
 
     @Test

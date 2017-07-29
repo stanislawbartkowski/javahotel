@@ -42,116 +42,113 @@ import com.jythonui.server.logmess.ILogMess;
 
 public class XMLMap extends UtilHelper implements IXMLToMap {
 
-    private final IGetLogMess gMess;
+	private final IGetLogMess gMess;
 
-    @Inject
-    public XMLMap(@Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess gMess) {
-        this.gMess = gMess;
-    }
+	@Inject
+	public XMLMap(@Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess gMess) {
+		this.gMess = gMess;
+	}
 
-    private class Result implements IXMLToMap.IMapResult {
+	private class Result implements IXMLToMap.IMapResult {
 
-        private final Map<String, Object> rMap = new HashMap<String, Object>();
-        private final List<Map<String, Object>> lMap = new ArrayList<Map<String, Object>>();
+		private final Map<String, Object> rMap = new HashMap<String, Object>();
+		private final List<Map<String, Object>> lMap = new ArrayList<Map<String, Object>>();
 
-        @Override
-        public Map<String, Object> getMap() {
-            return rMap;
-        }
+		@Override
+		public Map<String, Object> getMap() {
+			return rMap;
+		}
 
-        @Override
-        public List<Map<String, Object>> getList() {
-            return lMap;
-        }
+		@Override
+		public List<Map<String, Object>> getList() {
+			return lMap;
+		}
 
-    }
+	}
 
-    private class MyHandler extends DefaultHandler {
-        private final Result res = new Result();
-        private boolean listnow = false;
-        private StringBuffer buf;
-        private String type;
-        private Map<String, Object> curr = res.rMap;
+	private class MyHandler extends DefaultHandler {
+		private final Result res = new Result();
+		private boolean listnow = false;
+		private StringBuffer buf;
+		private String type;
+		private Map<String, Object> curr = res.rMap;
 
-        @Override
-        public void startElement(String uri, String localName, String qName,
-                Attributes attributes) throws SAXException {
-            buf = new StringBuffer();
-            type = attributes.getValue(IMapValues.TYPE);
-            if (qName.equals(IMapValues.LIST))
-                listnow = true;
-            if (qName.equals(IMapValues.ELEM) && listnow)
-                curr = new HashMap<String, Object>();
+		@Override
+		public void startElement(String uri, String localName, String qName, Attributes attributes)
+				throws SAXException {
+			buf = new StringBuffer();
+			type = attributes.getValue(IMapValues.TYPE);
+			if (qName.equals(IMapValues.LIST))
+				listnow = true;
+			if (qName.equals(IMapValues.ELEM) && listnow)
+				curr = new HashMap<String, Object>();
 
-        }
+		}
 
-        @Override
-        public void endElement(String uri, String localName, String qName)
-                throws SAXException {
-            if (qName.equals(IMapValues.ELEM)) {
-                if (listnow)
-                    res.lMap.add(curr);
-                return;
-            }
-            if (qName.equals(IMapValues.ROOT))
-                return;
-            if (qName.equals(IMapValues.LIST))
-                return;
+		@Override
+		public void endElement(String uri, String localName, String qName) throws SAXException {
+			if (qName.equals(IMapValues.ELEM)) {
+				if (listnow)
+					res.lMap.add(curr);
+				return;
+			}
+			if (qName.equals(IMapValues.ROOT))
+				return;
+			if (qName.equals(IMapValues.LIST))
+				return;
 
-            String value = buf.toString();
-            Object v = value;
-            if (CUtil.EqNS(type, IMapValues.BOOL)) {
-                Boolean b;
-                if (value.equals("1"))
-                    b = new Boolean(true);
-                else
-                    b = new Boolean(false);
-                v = b;
-            } else if (CUtil.EmptyS(value)) {
-                curr.put(qName, null);
-                return;
-            }
-            if (CUtil.EqNS(type, IMapValues.LONG)) {
-                Long l = Long.parseLong(value);
-                v = l;
-            }
-            if (CUtil.EqNS(type, IMapValues.DECIMAL)) {
-                Double d = Double.parseDouble(value);
-                v = d;
-            }
-            if (CUtil.EqNS(type, IMapValues.DATE)) {
-                Date d = DateFormat.toD(value, false);
-                if (d == null)
-                    // try to recognize date in format YYYY-MM-DD also
-                    d = DateFormat.toD(value.replace('-', '/'), false);
-                v = d;
-            }
-            curr.put(qName, v);
-        }
+			String value = buf.toString();
+			Object v = value;
+			if (CUtil.EqNS(type, IMapValues.BOOL)) {
+				Boolean b;
+				if (value.equals("1"))
+					b = new Boolean(true);
+				else
+					b = new Boolean(false);
+				v = b;
+			} else if (CUtil.EmptyS(value)) {
+				curr.put(qName, null);
+				return;
+			}
+			if (CUtil.EqNS(type, IMapValues.INT)) {
+				Long l = Long.parseLong(value);
+				v = l;
+			}
+			if (CUtil.EqNS(type, IMapValues.DECIMAL)) {
+				Double d = Double.parseDouble(value);
+				v = d;
+			}
+			if (CUtil.EqNS(type, IMapValues.DATE)) {
+				Date d = DateFormat.toD(value, false);
+				if (d == null)
+					// try to recognize date in format YYYY-MM-DD also
+					d = DateFormat.toD(value.replace('-', '/'), false);
+				v = d;
+			}
+			curr.put(qName, v);
+		}
 
-        @Override
-        public void characters(char ch[], int start, int length)
-                throws SAXException {
-            buf.append(ch, start, length);
-        }
+		@Override
+		public void characters(char ch[], int start, int length) throws SAXException {
+			buf.append(ch, start, length);
+		}
 
-    }
+	}
 
-    @Override
-    public IMapResult getMap(String xml) {
-        SAXParserFactory factory = SAXParserFactory.newInstance();
-        SAXParser saxParser;
-        MyHandler ha = new MyHandler();
-        try {
-            saxParser = factory.newSAXParser();
-            InputSource sou = new InputSource(new StringReader(xml));
-            saxParser.parse(sou, ha);
-        } catch (ParserConfigurationException | SAXException | IOException e) {
-            String mess = gMess.getMess(IErrorCode.ERRORCODE73,
-                    ILogMess.ERRORWHILEREADINGXML);
-            errorLog(mess, e);
-            return null;
-        }
-        return ha.res;
-    }
+	@Override
+	public IMapResult getMap(String xml) {
+		SAXParserFactory factory = SAXParserFactory.newInstance();
+		SAXParser saxParser;
+		MyHandler ha = new MyHandler();
+		try {
+			saxParser = factory.newSAXParser();
+			InputSource sou = new InputSource(new StringReader(xml));
+			saxParser.parse(sou, ha);
+		} catch (ParserConfigurationException | SAXException | IOException e) {
+			String mess = gMess.getMess(IErrorCode.ERRORCODE73, ILogMess.ERRORWHILEREADINGXML);
+			errorLog(mess, e);
+			return null;
+		}
+		return ha.res;
+	}
 }

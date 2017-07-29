@@ -18,7 +18,7 @@ import datetime, time
 
 import con, clog
 
-LONG = IMapValues.LONG
+INT = IMapValues.INT
 DECIMAL = IMapValues.DECIMAL
 DATE = IMapValues.DATE
 DATETIME = "datetime"
@@ -452,7 +452,7 @@ class RegistryFile:
             val = RR.getEntryS(id)
             if val == None: valt = None 
             else :
-               if type == LONG :
+               if type == INT :
                    valt = long(val)
                elif type == DATE :
                    valt = self.__tod(val)
@@ -489,7 +489,7 @@ class RegistryFile:
                 val = var[id]
                 if val == None : vals = None
                 else :
-                  if ttype == LONG :                
+                  if ttype == INT :                
                       vals = str(val)
                   elif ttype == DATE :
                       vals = self.__tostr(val)

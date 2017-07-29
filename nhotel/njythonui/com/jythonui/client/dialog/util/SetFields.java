@@ -93,9 +93,6 @@ public class SetFields {
 					case STRING:
 						dType = ICommonConsts.STRINGTYPE;
 						break;
-					case LONG:
-						dType = ICommonConsts.LONGTYPE;
-						break;
 					case INT:
 						dType = ICommonConsts.INTTYPE;
 						break;

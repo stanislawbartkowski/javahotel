@@ -16,7 +16,7 @@
 		defafile="name1" file="file">
 		<standbutt>custom:hello</standbutt>
 		<columns>
-			<column id="id" type="long" hidden="" />
+			<column id="id" type="int" hidden="" />
 			<column id="displayname" />
 		</columns>
 		<files>

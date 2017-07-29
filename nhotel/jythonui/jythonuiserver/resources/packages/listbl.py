@@ -10,7 +10,7 @@ class BLOBREGISTRY(cutil.RegistryFile):
     def __init__(self,realmblobid,billno,bloblist) :
       self._billno = billno
       self._bloblist = bloblist
-      map = {"id" : cutil.LONG, "blob_person" : cutil.STRING, "blob_comment" : cutil.STRING, "blob_key" : cutil.STRING  }
+      map = {"id" : cutil.INT, "blob_person" : cutil.STRING, "blob_comment" : cutil.STRING, "blob_key" : cutil.STRING  }
       cutil.RegistryFile.__init__(self,None,realmblobid + billno ,None,map, bloblist,"id")
       
     def readBlobList(self,var):

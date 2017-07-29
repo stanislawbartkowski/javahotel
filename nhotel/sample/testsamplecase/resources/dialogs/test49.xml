@@ -4,7 +4,7 @@
 	<before />
 
 	<form>
-		<field id="id" type="long" />
+		<field id="id" type="int" />
 		<field id="pnumber" />
 		<field id="pname" />
 	</form>
@@ -12,7 +12,7 @@
 
 	<dateline id="dateline" colno="10" lineid="id" defafile="name1" >
 		<columns>
-			<column id="id" type="long" hidden="" />
+			<column id="id" type="int" hidden="" />
 			<column id="displayname" />
 		</columns>
 		<files>

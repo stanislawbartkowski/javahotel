@@ -8,7 +8,7 @@
 
  <form>
    <field id="glob1" />
-   <field id="globlong" type="long" />
+   <field id="globlong" type="int" />
  </form>  
 
 

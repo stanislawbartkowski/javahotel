@@ -45,6 +45,7 @@ import com.polymerui.client.view.util.PolymerUtil;
 import com.vaadin.polymer.paper.widget.PaperButton;
 import com.vaadin.polymer.paper.widget.PaperCheckbox;
 import com.vaadin.polymer.paper.widget.PaperInput;
+import com.vaadin.polymer.paper.widget.PaperTextarea;
 import com.vaadin.polymer.vaadin.widget.VaadinDatePicker;
 import com.vaadin.polymer.vaadin.widget.VaadinDatePickerLight;
 
@@ -57,7 +58,7 @@ class BiWidget {
 	private final IReadDialog iR;
 	private final IEventBus iBus;
 
-	private String regNumberExpr(FieldItem i) {
+	private static String regNumberExpr(FieldItem i) {
 		switch (i.getAfterDot()) {
 		case 0:
 			return "[-+]?[0-9]*";
@@ -80,6 +81,7 @@ class BiWidget {
 		widgetType.put(PaperCheckbox.class, TT.BOOLEAN);
 		widgetType.put(VaadinDatePickerLight.class, TT.DATE);
 		widgetType.put(VaadinDatePicker.class, TT.DATE);
+		widgetType.put(PaperTextarea.class, TT.STRING);
 	}
 
 	private enum OPTYPE {
@@ -145,6 +147,10 @@ class BiWidget {
 		return U.castP(w, PaperCheckbox.class);
 	}
 
+	PaperTextarea getPaperTextarea() {
+		return U.castP(w, PaperTextarea.class);
+	}
+
 	void setButtonSubscriber(ButtonItem b) {
 		PaperButton b1 = getPaperButton();
 		if (b1 != null) {
@@ -208,6 +214,12 @@ class BiWidget {
 			p.setInvalid(err != null);
 			return;
 		}
+		PaperTextarea a = getPaperTextarea();
+		if (a != null) {
+			a.setErrorMessage(err);
+			a.setInvalid(err != null);
+			return;
+		}
 	}
 
 	private V checkForDate() {
@@ -230,6 +242,9 @@ class BiWidget {
 		PaperInput p = getPaperInput();
 		if (p != null)
 			o = Optional.of(p.getValue());
+		PaperTextarea a = getPaperTextarea();
+		if (a != null && a.getValue() != null)
+			o = Optional.of(a.getValue());
 		if (o.isPresent())
 			return new V(o.get());
 		else
@@ -289,6 +304,11 @@ class BiWidget {
 			if (!p1.validate())
 				return false;
 
+		PaperTextarea a = getPaperTextarea();
+		if (a != null) {
+			if (!a.validate())
+				return false;
+		}
 		V va = getV();
 		if (va == null || CUtil.EmptyS(va.v))
 			return true;
@@ -326,7 +346,6 @@ class BiWidget {
 			switch (val.getType()) {
 			case STRING:
 			case INT:
-			case LONG:
 			case BIGDECIMAL:
 				ok = true;
 			default:
@@ -358,6 +377,11 @@ class BiWidget {
 			p.setValue(sval);
 			return;
 		}
+		PaperTextarea a = getPaperTextarea();
+		if (a != null) {
+			a.setValue(sval);
+			return;
+		}
 		PaperCheckbox c = getPaperCheckbox();
 		if (c != null) {
 			if (val != null)
@@ -376,15 +400,22 @@ class BiWidget {
 
 	}
 
+	private void setErrorMessageForNumbers(TT t, PaperInput w) {
+
+	}
+
 	void setInputPattern() {
 		if (fi == null)
 			return;
 		TT t = fi.getFieldType();
 		assert t != null;
-		if (t == TT.BIGDECIMAL || t == TT.INT || t == TT.LONG)
+		if (t == TT.BIGDECIMAL || t == TT.INT)
 			if (w instanceof PaperInput) {
 				PaperInput p = (PaperInput) w;
 				p.setPattern(regNumberExpr(fi));
+				p.setAllowedPattern(regNumberExpr(fi));
+				p.setAutoValidate(true);
+				p.setErrorMessage("aaaaa");
 				return;
 			}
 	}
@@ -430,10 +461,8 @@ class BiWidget {
 					M.M().CannotFindElementById(ICommonConsts.HELPER, fi.getId(), he));
 		Event.sinkEvents(ele, Event.ONCLICK);
 		Event.setEventListener(ele, e -> {
-			if (e.getTypeInt() == Event.ONCLICK) {
+			if (e.getTypeInt() == Event.ONCLICK)
 				iBus.publish(new ClickHelperEvent(), fi);
-			}
-
 		});
 	}
 

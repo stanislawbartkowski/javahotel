@@ -61,7 +61,6 @@ public interface ICommonConsts {
 	String UPLOADTYPE = "upload";
 	String DOWNLOADTYPE = "download";
 	String INTTYPE = "int";
-	String LONGTYPE = "long";
 	String SPINNERTYPE = "spinner";
 	String SPINNERMIN = "spinnermin";
 	String MENU = "menu";

@@ -86,7 +86,7 @@ def _toHTML(jjdata,lform,listform,vis):
             
             align = "left"
             if ttype == cutil.DATE : align = "center"
-            elif ttype == cutil.DECIMAL or ttype == cutil.LONG : align = "right"
+            elif ttype == cutil.DECIMAL or ttype == cutil.INT : align = "right"
             
             builder = builder.e("td").a("style",styleborder + ";" + padding + ";text-align: " + align).t(val).up()
         builder = builder.up()

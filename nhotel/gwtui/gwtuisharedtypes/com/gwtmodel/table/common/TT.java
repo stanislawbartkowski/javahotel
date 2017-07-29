@@ -18,5 +18,5 @@ package com.gwtmodel.table.common;
  */
 public enum TT {
 
-    BOOLEAN, DATE, DATETIME, BIGDECIMAL, LONG, INT, STRING, ENUM;
+    BOOLEAN, DATE, DATETIME, BIGDECIMAL, INT, STRING, ENUM;
 };

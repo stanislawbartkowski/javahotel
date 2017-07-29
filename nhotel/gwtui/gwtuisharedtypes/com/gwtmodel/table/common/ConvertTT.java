@@ -38,11 +38,8 @@ public class ConvertTT {
 		case BIGDECIMAL:
 			o = DecimalUtils.toBig(s);
 			break;
-		case LONG:
-			o = CUtil.toLong(s);
-			break;
 		case INT:
-			o = CUtil.toInteger(s);
+			o = CUtil.toLong(s);
 			break;
 		case BOOLEAN:
 			o = Boolean.parseBoolean(s);
@@ -70,14 +67,6 @@ public class ConvertTT {
 		return l.toString();
 	}
 
-	private static String getIntS(Object o) {
-		Integer l = (Integer) o;
-		if (l == null) {
-			return "";
-		}
-		return l.toString();
-	}
-
 	private static String getStringS(Object o) {
 		String s = (String) o;
 		return s;
@@ -92,10 +81,8 @@ public class ConvertTT {
 			return DateFormat.toS(d, false);
 		case BIGDECIMAL:
 			return getBigDecimalS(o, afterdot);
-		case LONG:
-			return getLongS(o);
 		case INT:
-			return getIntS(o);
+			return getLongS(o);
 		case BOOLEAN:
 			Boolean b = (Boolean) o;
 			return b.toString();

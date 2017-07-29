@@ -35,7 +35,7 @@ public class Test29 extends TestHelper {
 
 	private void verify(DialogVariables v) {
 		assertEquals("Hello", v.getValueS("glob1"));
-		assertEquals(123, v.getValue("globint").getValueI().intValue());
+		assertEquals(123, v.getValue("globint").getValueL().intValue());
 		assertTrue(v.getValue("globbool").getValueB());
 		assertEquals(new BigDecimal(12.5612).setScale(4, BigDecimal.ROUND_HALF_UP), v.getValue("globdec").getValueBD());
 		Date da = v.getValue("globdate").getValueD();
@@ -46,7 +46,7 @@ public class Test29 extends TestHelper {
 		assertEquals(10, fo.getRowList().size());
 		int no = 0;
 		for (RowContent ro : fo.getRowList()) {
-			int i = ro.getRow(0).getValueI();
+			long i = ro.getRow(0).getValueL();
 			String na = (String) ro.getRow(1).getValue();
 			System.out.println(i + " " + na);
 			assertEquals(no, i);

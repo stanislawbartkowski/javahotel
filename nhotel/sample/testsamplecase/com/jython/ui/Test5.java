@@ -131,7 +131,7 @@ public class Test5 extends TestHelper {
         assertEquals(100, l.getRowList().size());
         int i = 0;
         for (RowContent r : l.getRowList()) {
-            Integer ii = rI.get(r, "id").getValueI();
+            Long ii = rI.get(r, "id").getValueL();
             System.out.println(ii);
             assertEquals(i++, ii.intValue());
             assertNull(rI.get(r, "name").getValue());

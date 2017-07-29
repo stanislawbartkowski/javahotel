@@ -59,7 +59,7 @@ def getVar(map,dialogname,xml,listv):
             b = val.getValueB()
             map[vname] = b
             continue
-        if val.getType() == TT.INT or val.getType() == TT.LONG :
+        if val.getType() == TT.INT :
             map[vname] = val.getValue()
             continue
         if val.getType() == TT.DATE :
@@ -88,7 +88,7 @@ class TOXML :
           val = ma[k]
           vals = None
           atype = None
-          if type(val) == int or type(val) == long : atype = cutil.LONG
+          if type(val) == int or type(val) == long : atype = cutil.INT
           elif type(val) == float or type(val) == BigDecimal : atype = cutil.DECIMAL
           elif type(val) == bool : 
               atype = cutil.BOOL

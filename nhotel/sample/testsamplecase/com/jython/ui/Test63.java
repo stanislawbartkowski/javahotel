@@ -107,7 +107,7 @@ public class Test63 extends TestHelper {
 		runAction(v, "test110.xml", "before");
 		val = v.getValue("varint");
 		assertNotNull(val);
-		assertEquals(new Integer(5), val.getValueI());
+		assertEquals(new Long(5), val.getValueL());
 	}
 
 }

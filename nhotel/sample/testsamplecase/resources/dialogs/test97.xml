@@ -14,7 +14,7 @@
 
 	<list id="blist">
 		<columns>
-			<column id="id" type="long" />
+			<column id="id" type="int" />
 			<column id="blob_person" />
 			<column id="blob_comment" />
 			<column id="blob_key" />
@@ -24,7 +24,7 @@
 
     <list id="blistnowrap" nowrap="">
         <columns>
-            <column id="id" type="long" />
+            <column id="id" type="int" />
         </columns>
     </list>
 

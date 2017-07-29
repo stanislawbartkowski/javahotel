@@ -10,7 +10,7 @@
 
 
  <form>
-   <field id="id" type="long" />
+   <field id="id" type="int" />
    <field id="pnumber" />
    <field id="pname" />
  </form> 

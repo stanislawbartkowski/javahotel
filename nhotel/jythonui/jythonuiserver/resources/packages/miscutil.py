@@ -84,8 +84,7 @@ def getColumnDescr(dlist,colid):
     after = e.getAfterDot()
 #    print colid,tt
     if tt == TT.BIGDECIMAL : return  (cutil.DECIMAL,after)
-    if tt == TT.INT : return (cutil.LONG,0)
-    if tt == TT.LONG : return (cutil.LONG,0)
+    if tt == TT.INT : return (cutil.INT,0)
     if tt == TT.BOOLEAN : return (cutil.BOOL,0)
     if tt == TT.DATE : return (cutil.DATE,0)
     if tt == TT.DATETIME : return (cutil.DATETIME,0)

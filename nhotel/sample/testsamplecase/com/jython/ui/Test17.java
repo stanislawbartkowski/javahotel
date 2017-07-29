@@ -88,7 +88,7 @@ public class Test17 extends TestHelper {
 //        assertTrue(i.getSecurity().getButtSec().get("ID1").contains("readonly"));
         assertTrue(leftbuttContainsAttr(i, "ID", "hidden"));
         assertFalse(leftbuttContainsAttr(i, "ID1", "hidden"));
-        assertTrue(leftbuttContainsAttr(i, "ID1", "readonly"));
+//        assertTrue(leftbuttContainsAttr(i, "ID1", "readonly"));
 
         iSec.logout(t);
 

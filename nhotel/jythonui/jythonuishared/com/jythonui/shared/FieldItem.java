@@ -54,6 +54,9 @@ public class FieldItem extends ElemDescription {
 	}
 
 	public int getAfterDot() {
+		// 2017/07/29 -- return 0 for all non decimal types
+		if (getFieldType() != TT.BIGDECIMAL)
+			return 0;
 		return getAfterDot(getAttr(ICommonConsts.AFTERDOT));
 	}
 
@@ -90,9 +93,6 @@ public class FieldItem extends ElemDescription {
 
 		if (CUtil.EqNS(t, ICommonConsts.DATETYPE))
 			return TT.DATE;
-
-		if (CUtil.EqNS(t, ICommonConsts.LONGTYPE))
-			return TT.LONG;
 
 		if (CUtil.EqNS(t, ICommonConsts.INTTYPE))
 			return TT.INT;

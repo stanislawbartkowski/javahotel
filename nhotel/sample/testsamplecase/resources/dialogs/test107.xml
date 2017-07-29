@@ -18,7 +18,7 @@
 	
       <list id="list1" displayname="List of numbers">
                 <columns>
-                        <column id="id" displayname="storeKey" type="long" hidden="" />
+                        <column id="id" displayname="storeKey" type="int" hidden="" />
                         <column id="number0" displayname="Number" type="decimal" afterdot="0" />
                         <column id="number1" displayname="Number 1" type="decimal" afterdot="1" />
                         <column id="number2" displayname="Number 2" type="decimal" afterdot="2" />
@@ -29,14 +29,14 @@
        
              <list id="list2" >
                 <columns>
-                        <column id="keyf" type="long" />
+                        <column id="keyf" type="int" />
                         <column id="timef" type="datetime" />
                 </columns>
        </list>
        
        <list id="list3" displayname="Check list">
                 <columns>
-                        <column id="id" displayname="Id" type="long" hidden="" />
+                        <column id="id" displayname="Id" type="int" hidden="" />
 			<column id="check" displayname="Select" type="bool" editable="" />
                         <column id="number" displayname="Number" type="decimal" afterdot="0" />
                 </columns>

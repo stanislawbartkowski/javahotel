@@ -163,13 +163,13 @@ public class RunJython extends UtilHelper implements IExecuteJython {
 					valP = new PyBoolean(b.booleanValue());
 					break;
 				case INT:
-					Integer i = val.getValueI();
-					valP = new PyInteger(i);
+					Long i = val.getValueL();
+					valP = new PyLong(i);
 					break;
-				case LONG:
-					Long l = val.getValueL();
-					valP = new PyLong(l);
-					break;
+//--				case LONG:
+//					Long l = val.getValueL();
+//					valP = new PyLong(l);
+//					break;
 				case BIGDECIMAL:
 					BigDecimal bi = val.getValueBD();
 					valP = new PyFloat(bi.doubleValue());
@@ -649,17 +649,17 @@ public class RunJython extends UtilHelper implements IExecuteJython {
 					case BOOLEAN:
 						f.setValue((Boolean) val);
 						break;
+//					case INT:
+//						Integer inte;
+//						if (val instanceof Integer) {
+//							inte = (Integer) val;
+//						} else {
+//							BigInteger b = (BigInteger) val;
+//							inte = b.intValue();
+//						}
+//						f.setValue(inte);
+//						break;
 					case INT:
-						Integer inte;
-						if (val instanceof Integer) {
-							inte = (Integer) val;
-						} else {
-							BigInteger b = (BigInteger) val;
-							inte = b.intValue();
-						}
-						f.setValue(inte);
-						break;
-					case LONG:
 						Long lV = null;
 						if (val instanceof Integer) {
 							lV = new Long((Integer) val);
@@ -714,7 +714,7 @@ public class RunJython extends UtilHelper implements IExecuteJython {
 					Boolean valB = (Boolean) val;
 					f.setValue(valB);
 				} else if (val instanceof Integer) {
-					Integer valI = (Integer) val;
+					Long valI = ((Integer) val).longValue();
 					f.setValue(valI);
 				} else if (val instanceof BigInteger) {
 					BigInteger bi = (BigInteger) val;

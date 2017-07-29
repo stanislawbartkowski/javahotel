@@ -10,7 +10,7 @@
 
 	<form>
 		<field id="glob1" hidden=""  readonlychange=""
-			helper="helper.xml" helperrefresh="" />
+			helper="helper.xml"  />
 		<field id="glob2" type="datetime" notempty="" readonlyadd=""
 			helper="helper.xml" />
 	</form>

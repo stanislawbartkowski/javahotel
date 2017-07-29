@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<dialog xmlns="http://www.jythongwt.dialogxsd.com" polymer="">
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" >
  
  <uibinder>binder/binder127.xml</uibinder>
 

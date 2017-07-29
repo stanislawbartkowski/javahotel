@@ -5,7 +5,7 @@
 	<list id="list" nopropertycolumn="">
 		<standbutt>FILTER,SHOW</standbutt>
 		<columns>
-			<column id="id" type="long" />
+			<column id="id" type="int" />
 			<column id="pnumber" />
 			<column id="pname" />
 		</columns>
@@ -14,7 +14,7 @@
 	<list id="list1">
 		<standbutt></standbutt>
 		<columns>
-			<column id="id" type="long" />
+			<column id="id" type="int" />
 		</columns>
 	</list>
 </dialog>	

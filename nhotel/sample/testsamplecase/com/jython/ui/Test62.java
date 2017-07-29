@@ -162,7 +162,7 @@ public class Test62 extends TestHelper {
 		iRem.saveRemember(KEY1, val);
 		val = iRem.getRemember(KEY1, ite);
 		assertNotNull(val);
-		assertEquals(new Integer(56), val.getValueI());
+		assertEquals(new Long(56), val.getValueL());
 	}
 
 	@Test

@@ -10,7 +10,7 @@
 
 	<dateline id="dateline" colno="10" lineid="id" defafile="name1">
 		<columns>
-			<column id="id" type="long" hidden="" />
+			<column id="id" type="int" hidden="" />
 			<column id="displayname" />
 		</columns>
 		<files>

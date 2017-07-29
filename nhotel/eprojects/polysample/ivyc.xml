@@ -15,7 +15,6 @@
 	<info organisation="" module="SampleEE" status="integration">
 	</info>
 	<dependencies>
-		<dependency org="javax.mail" name="mail" rev="1.5.0-b01" />		
-	</dependencies>
-
+      <dependency org="com.sun.mail" name="javax.mail" rev="1.6.0"/>	
+    </dependencies>
 </ivy-module>

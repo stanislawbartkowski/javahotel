@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <dialog xmlns="http://www.jythongwt.dialogxsd.com">
 
+<!--
 	<uibinder>binder/startp.xml</uibinder>
-
-	<before />
+-->
 
 	<jython>
 		<import>from samplep import main</import>
@@ -12,7 +12,8 @@
 
 	<leftstack>
 		<button id="standard" displayname="Standard" header="" />
-                <button id="maindialog" displayname="Main dialog" actiontype="JMAIN_DIALOG" actionparam="startp.xml" />
+   		          <button id="maindialog" displayname="Binder data type" actiontype="JMAIN_DIALOG" actionparam="startp.xml" />
+		            <button id="dialogtypes1" displayname="UI binder data types" actiontype="JMAIN_DIALOG" actionparam="dialogtypes1.xml" />
                 <button id="okmessage" displayname="Ok Message" actiontype="JOK_MESSAGE" actionparam="Hello" actionparam1="Title" actionparam2="okaction" />
                 <button id="yesmessage" displayname="YesNo Message" actiontype="JYESNO_MESSAGE" actionparam="Do you really want to carry on" actionparam1="I'm asking You" actionparam2="yesnoaction" />
                 <button id="alertdialog" displayname="Alert dialogs" actiontype="JMAIN_DIALOG" actionparam="alertp.xml" />
@@ -24,9 +25,42 @@
           <button id="click" validate="" />
         </buttons>
 
-         <form>
+<!--
+   <form>
             <field id="glob1" notempty="" signalchange="" />
             <field id="globchange" signalchange="" />
-        </form>
- 
+   </form>
+-->
+
+
+ <ui:UiBinder xmlns:ui='http://www.jythongwt.uibinderxsd.com'
+	xmlns:g='http://www.jythongwt.uibinderxsd.com' xmlns:p='http://www.jythongwt.uibinderxsd.com'
+	xmlns:i='http://www.jythongwt.uibinderxsd.com' xmlns:v='http://www.jythongwt.uibinderxsd.com'
+        xmlns='http://www.jythongwt.uihtml.com'>
+	<ui:HTMLPanel>
+	    <ui:Label>This dialog contains different data type</ui:Label>
+	    <br/>
+            <p:PaperInput label="Any string" fieldid="vstring" />
+            <p:PaperInput label="Password" type="password" fieldid="vpassword" />
+            <p:PaperInput label="Type number, digits and dot but only digits accepted" type="number" fieldid="vnumb" />
+            <p:PaperCheckbox fieldid="vchecked">To be or not te be</p:PaperCheckbox>
+            <v:VaadinDatePicker fieldid="vdate1" label="Select a date" />
+            <v:VaadinDatePickerLight fieldid="vdate2" attrForValue="value" >
+                <paper-input label="Input date or select (is not working propely now)" size="9"/>
+                <!-- <input is="iron-input" placeholder="Date" size="10"/> -->
+                <!-- <input is="iron-input" label="Date of birthday"></input> -->
+            </v:VaadinDatePickerLight>
+<!--
+            <p:PaperInput label="Event after change" fieldid="globchange" />
+-->
+
+            <p:PaperButton fieldid="click" tabindex="0" toggles="true">Click me</p:PaperButton>
+
+						<h4>Result after click</h4>
+            <div class="vertical-section">
+                <p:PaperTextarea label="Result" fieldid="vresult" disabled="true"/>
+            </div>
+            </ui:HTMLPanel>
+</ui:UiBinder>
+
 </dialog>

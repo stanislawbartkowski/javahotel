@@ -16,7 +16,7 @@ public interface IMapValues {
 
     String TYPE = "type";
     String ELEM = "elem";
-    String LONG = "long";
+    String INT = "int";
     String DECIMAL = "decimal";
     String BOOL = "boolean";
     String DATE = "date";
