@@ -63,13 +63,13 @@ class BiWidget {
 		case 0:
 			return "[-+]?[0-9]*";
 		case 1:
-			return "[-+]?[0-9]*(\\.[0-9])?";
+			return "[-+]?[0-9]*(\\.[0-9]{0,1}){0,1}";
 		case 2:
-			return "[-+]?[0-9]+(\\.[0-9][0-9]?)?";
+			return "[-+]?[0-9]*(\\.[0-9]{0,2}){0,1}";
 		case 3:
-			return "[-+]?[0-9]+(\\.[0-9][0-9]?[0-9]?)?";
+			return "[-+]?[0-9]*(\\.[0-9]{0,3}){0,1}";
 		case 4:
-			return "[-+]?[0-9]+(\\.[0-9][0-9]?[0-9]?[0-9]?)?";
+			return "[-+]?[0-9]*(\\.[0-9]{0,4}){0,1}";
 		}
 		return null;
 	}
@@ -198,7 +198,7 @@ class BiWidget {
 		return s.replace('-', '/');
 	}
 
-	private void setErrorMessage(String err) {
+	void setErrorMessage(String err) {
 		VaadinDatePicker d1 = getVaadinDatePicker();
 		if (d1 != null) {
 			d1.setErrorMessage(err);
@@ -238,15 +238,16 @@ class BiWidget {
 	}
 
 	private V checkForString() {
-		Optional<String> o = Optional.empty();
+		Optional<String> o = null;
 		PaperInput p = getPaperInput();
 		if (p != null)
-			o = Optional.of(p.getValue());
+			o = Optional.ofNullable(p.getValue());
+		// PaperTextarea can return null
 		PaperTextarea a = getPaperTextarea();
-		if (a != null && a.getValue() != null)
-			o = Optional.of(a.getValue());
-		if (o.isPresent())
-			return new V(o.get());
+		if (a != null)
+			o = Optional.ofNullable(a.getValue());
+		if (o != null)
+			return new V(o.orElse(null));
 		else
 			return null;
 	}
@@ -400,7 +401,12 @@ class BiWidget {
 
 	}
 
-	private void setErrorMessageForNumbers(TT t, PaperInput w) {
+	private String errorMessageForNumbers(PaperInput w) {
+		// integerformatnotvalid
+		// decimalformatnotvalid
+		if (fi.getFieldType() == TT.INT)
+			return iGet.getMessage("integerformatnotvalid");
+		return iGet.getMessage("decimalformatnotvalid").replaceAll("%%", CUtil.NumbToS(fi.getAfterDot()));
 
 	}
 
@@ -415,7 +421,7 @@ class BiWidget {
 				p.setPattern(regNumberExpr(fi));
 				p.setAllowedPattern(regNumberExpr(fi));
 				p.setAutoValidate(true);
-				p.setErrorMessage("aaaaa");
+				p.setErrorMessage(errorMessageForNumbers(p));
 				return;
 			}
 	}

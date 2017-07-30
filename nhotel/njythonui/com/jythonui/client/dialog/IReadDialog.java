@@ -22,7 +22,7 @@ public interface IReadDialog {
 
 	List<FieldItem> getDynamicList();
 
-	void readDialog(String dialogName, String displayName, boolean main);
+	void readDialog(String dialogName, String displayName, boolean main, String param1, String param2);
 
 	HTMLPanel getH();
 

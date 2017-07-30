@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+  <before/>
+  <jython>
+    <import>from samplep import dialogmessage</import>
+    <method>dialogmessage.dialogactionup({0},{1})</method>
+  </jython>
+	<!-- buttons -->
+  <buttons>
+    <button id="click" actiontype="JUP_DIALOG" actionparam="dpopup.xml" />
+  </buttons>
+	<!-- binder -->
+  <ui:UiBinder xmlns:ui='http://www.jythongwt.uibinderxsd.com'				        xmlns:g='http://www.jythongwt.uibinderxsd.com' xmlns:p='http://www.jythongwt.uibinderxsd.com'				        xmlns:i='http://www.jythongwt.uibinderxsd.com' xmlns='http://www.jythongwt.uihtml.com'>
+    <p:PaperDialog modal="true">
+      <paper-dialog-scrollable>
+        <div class="vertical-section">
+          <p:PaperTextarea label="Input data" fieldid="vinput" readonly="true"/>
+          <p:PaperTextarea label="Value to return to parent" fieldid="vreturn"/>
+        </div>
+      </paper-dialog-scrollable>
+      <div class="buttons">
+        <p:PaperButton fieldid="ok">Yes</p:PaperButton>
+        <p:PaperButton fieldid="no">No</p:PaperButton>
+      </div>
+    </p:PaperDialog>
+  </ui:UiBinder>
+</dialog>

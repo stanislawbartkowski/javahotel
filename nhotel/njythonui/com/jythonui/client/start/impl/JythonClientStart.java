@@ -133,7 +133,7 @@ public class JythonClientStart implements IJythonClientStart {
 		displayPanelInfo(IMainPanel.InfoType.TITLE, IConsts.PANELINFOTITLE);
 		displayPanelInfo(IMainPanel.InfoType.OWNER, IConsts.PANELINFOOWNERNAME);
 		IReadDialog d = UIGiniInjector.getI().getReadDialog();
-		d.readDialog(startP, null, true);
+		d.readDialog(startP, null, true, null, null);
 	}
 
 	@Override

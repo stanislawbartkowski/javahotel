@@ -1,14 +1,25 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <dialog xmlns="http://www.jythongwt.dialogxsd.com">
-
-	<uibinder>binder/dpopup.xml</uibinder>
-
-	<before />
-        
-	<jython>
-		<import>from samplep import dialogup</import>
-		<method>dialogup.dpopaction({0},{1})</method>
-	</jython>
-        
-
+  <before />
+  <jython>
+    <import>from samplep import dialogup</import>
+    <method>dialogup.dpopaction({0},{1})</method>
+  </jython>
+  <ui:UiBinder xmlns:ui='http://www.jythongwt.uibinderxsd.com'	        xmlns:g='http://www.jythongwt.uibinderxsd.com' xmlns:p='http://www.jythongwt.uibinderxsd.com'	        xmlns:i='http://www.jythongwt.uibinderxsd.com' xmlns='http://www.jythongwt.uihtml.com'>
+    <p:PaperDialog modal="true">
+      <paper-dialog-scrollable>
+        <p:PaperInput label="String copied from parent" readonly="true" fieldid="dstring" />
+        <p:PaperInput label="Number copied from parent" readonly="true" fieldid="dint" />
+				<!-- readonly, active, do not work for check box -->
+        <p:PaperCheckbox fieldid="dchecked">Field copied from parent</p:PaperCheckbox>
+        <br/>
+        <br/>
+        <p:PaperInput label="String to copy to parent" fieldid="newstring" />
+      </paper-dialog-scrollable>
+      <div class="buttons">
+        <p:PaperButton fieldid="ok">Click to close the dialog</p:PaperButton>
+        <p:PaperButton fieldid="copy">Copy field to parent</p:PaperButton>
+      </div>
+    </p:PaperDialog>
+  </ui:UiBinder>
 </dialog>

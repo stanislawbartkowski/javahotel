@@ -101,7 +101,8 @@ public class PolymerUtil {
 				desc = c.getName();
 			else
 				desc = desc + " , " + c.getName();
-		Utils.errAlertB(M.M().ActionSupportedOnlyForWidget(description, w.getClass().getName(), desc));
+		// 2017/07/30 swap order desc - w.getClass().getName()
+		Utils.errAlertB(M.M().ActionSupportedOnlyForWidget(description, desc, w.getClass().getName()));
 	}
 
 	public static Widget findandverifyWidget(String description, HTMLPanel ha, String id,

@@ -56,7 +56,22 @@ def setErrorMessage(var,mess,title=None,action=None) :
 
 def setCloseDialog(var,closeS=True,closeB = None) :
     var[ICommonConsts.JCLOSEDIALOG] = closeS
-    if closeB : var[ICommonConsts.JCLOSEBUTTON] = None
+    if closeB : var[ICommonConsts.JCLOSEBUTTON] = closeB
+    
+def callUpDialog(var,dialname,startpar = None, startpar1=None) :
+    var[ICommonConsts.JUPDIALOG] = dialname
+    if startpar : var[ICommonConsts.JBUTTONDIALOGSTART] = startpar
+    if startpar1 : var[ICommonConsts.JBUTTONDIALOGSTART1] = startpar1    
+
+def _getVarValue(var,k) :
+    if k in var.keys() : return var[k]
+    return None
+
+def getUpDialogParam(var) :
+    return _getVarValue(var,ICommonConsts.JBUTTONDIALOGSTART)
+
+def getUpDialogParam1(var) :
+    return _getVarValue(var,ICommonConsts.JBUTTONDIALOGSTART1)
 
 def enableField(var, li, enable=True) :
     if type(li) != list : li = [li]
@@ -181,7 +196,7 @@ def checkEmpty(var, li) :
   for f in li :
     if var[f] : continue
     isempty = True
-    setErrorField(var, f, "@cannotbeempty")
+    setErrorField(var, f, "@emptyfieldmessage")
   return isempty  
   
 def checkGreaterZero(var, key, empty=True):

@@ -20,6 +20,8 @@ import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.common.TT;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.IReadDialog;
+import com.jythonui.client.gini.UIGiniInjector;
+import com.jythonui.client.smessage.IGetDisplayMess;
 import com.jythonui.client.util.U;
 import com.jythonui.client.var.ISetJythonVariables;
 import com.jythonui.client.var.JythonVariables;
@@ -66,20 +68,11 @@ public class SetFields {
 
 	public static void setV(IEventBus iBus, DialogVariables va) {
 
-		visitListOfFields(va, ICommonConsts.JCOPY, (fie, field) -> {
+		visitListOfFields(iBus, va, ICommonConsts.JCOPY, (fie, field, r, bi) -> {
 
-			R r = getIRForField(fie);
-			if (r == null) {
-				String dName = U.getIDialog(JythonVariables.getS().peek().getBus()).getD().getDialog().getId();
-				Utils.errAlert(M.M().DialogField(dName, fie), M.M().CannotWindWidget());
-			}
 			String dialogName = r.iR.getD().getDialog().getId();
 			FieldItem def = getDef(r.iR, fie);
-			BiWidget bi = new BiWidget(iBus, r.w, fie, def);
 			TT t = bi.getWidgetType();
-			if (t == null)
-				Utils.errAlertB(M.M().DialogField(dialogName, field),
-						M.M().WidgetTypeNotImplemented(r.w.getClass().getName()));
 			FieldValue val = va.getValue(fie);
 			assert val != null;
 
@@ -134,16 +127,38 @@ public class SetFields {
 
 	}
 
+	public static void runforerror(IEventBus iBus, DialogVariables va) {
+		SetFields.visitListOfFields(iBus, va, ICommonConsts.JERROR + "_", (fie, field, r, bi) -> {
+			String err = va.getValueS(field);
+			bi.setErrorMessage(M.S().getString(err));
+		});
+
+	}
+
 	@FunctionalInterface
 	public interface IVisitor {
-		void action(String fie, String field);
+		void action(String fie, String field, R r, BiWidget bi);
 	};
 
-	static void visitListOfFields(DialogVariables var, String prefix, IVisitor i) {
+	static void visitListOfFields(IEventBus iBus, DialogVariables var, String prefix, IVisitor i) {
 
 		var.getFields().stream().filter(key -> key.startsWith(prefix)).forEach(key -> {
+
 			String fie = key.substring(prefix.length());
-			i.action(fie, key);
+
+			R r = getIRForField(fie);
+			if (r == null) {
+				String dName = U.getIDialog(JythonVariables.getS().peek().getBus()).getD().getDialog().getId();
+				Utils.errAlert(M.M().DialogField(dName, fie), M.M().CannotWindWidget());
+			}
+			String dialogName = r.iR.getD().getDialog().getId();
+			FieldItem def = getDef(r.iR, fie);
+			BiWidget bi = new BiWidget(iBus, r.w, fie, def);
+			TT t = bi.getWidgetType();
+			if (t == null)
+				Utils.errAlertB(M.M().DialogField(dialogName, key),
+						M.M().WidgetTypeNotImplemented(r.w.getClass().getName()));
+			i.action(fie, key, r, bi);
 		});
 
 	}

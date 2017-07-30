@@ -14,6 +14,11 @@
 
    <form>
       <field id="vint" type="int" />
+			<field id="vdec0" type="decimal" afterdot="0" />
+			<field id="vdec1" type="decimal" afterdot="1" />
+			<field id="vdec2" type="decimal" afterdot="2" />
+			<field id="vdec3" type="decimal" afterdot="3" />
+			<field id="vdec4" type="decimal" afterdot="4" />
    </form>
 
 
@@ -28,7 +33,15 @@
             <p:PaperInput label="Any string" fieldid="vstring" />
             <p:PaperInput label="Password" type="password" fieldid="vpassword" />
             <p:PaperInput label="Type integer, only digits are accepted" fieldid="vint" />
-            </ui:HTMLPanel>
+						<p:PaperInput label="Type decimal, 0 digits" fieldid="vdec0" />
+						<p:PaperInput label="Type decimal, 1 digit" fieldid="vdec1" />
+						<p:PaperInput label="Type decimal, 2 digits" fieldid="vdec2" />
+						<p:PaperInput label="Type decimal, 3 digits" fieldid="vdec3" />
+						<p:PaperInput label="Type decimal, 4 digits" fieldid="vdec4" />
+						<p:PaperCheckbox fieldid="vchecked">To be or not te be, should be checked !</p:PaperCheckbox>
+						<v:VaadinDatePicker fieldid="vdate1" label="A date should be predefined" />
+						<p:PaperTextarea label="Text area, should be predefined" fieldid="vtext"/>
+    </ui:HTMLPanel>
 </ui:UiBinder>
 
 </dialog>

@@ -48,8 +48,9 @@ public class RunAction {
 		String[] kom = { ICommonConsts.JMAINDIALOG, ICommonConsts.JUPDIALOG, ICommonConsts.JOKMESSAGE,
 				ICommonConsts.JERRORMESSAGE, ICommonConsts.JYESNOMESSAGE, ICommonConsts.JSUBMIT,
 				ICommonConsts.JURL_OPEN, ICommonConsts.JEXECUTEACTION, ICommonConsts.JCLOSEDIALOG };
-		String[] param = { null, ICommonConsts.JBUTTONDIALOGSTART, ICommonConsts.JMESSAGE_TITLE, ICommonConsts.JMESSAGE_TITLE,
-				ICommonConsts.JMESSAGE_TITLE, null, ICommonConsts.JMESSAGE_TITLE, null, ICommonConsts.JCLOSEBUTTON };
+		String[] param = { null, ICommonConsts.JBUTTONDIALOGSTART, ICommonConsts.JMESSAGE_TITLE,
+				ICommonConsts.JMESSAGE_TITLE, ICommonConsts.JMESSAGE_TITLE, null, ICommonConsts.JMESSAGE_TITLE, null,
+				ICommonConsts.JCLOSEBUTTON };
 		String[] param2 = { null, ICommonConsts.JAFTERDIALOGACTION, ICommonConsts.JAFTERDIALOGACTION,
 				ICommonConsts.JAFTERDIALOGACTION, ICommonConsts.JAFTERDIALOGACTION, null, null,
 				IConsts.JBUTTONDIALOGRES, null };
@@ -131,7 +132,7 @@ public class RunAction {
 		// }
 		if (action.equals(ICommonConsts.JMAINDIALOG) || action.equals(ICommonConsts.JUPDIALOG)) {
 			IReadDialog d = UIGiniInjector.getI().getReadDialog();
-			d.readDialog(pars[0], displayName, action.equals(ICommonConsts.JMAINDIALOG));
+			d.readDialog(pars[0], displayName, action.equals(ICommonConsts.JMAINDIALOG), param1, param2);
 			return;
 		}
 		// if (!checkW(action, param, param1, param2, w))

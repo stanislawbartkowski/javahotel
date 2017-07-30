@@ -118,7 +118,6 @@ public class ReadDialog implements IReadDialog {
 			v.setValueS(ICommonConsts.HELPER, i.getHelper());
 			v.setValueS(IConsts.JHELPERFIELD, i.getId());
 			ActionButton.callA(iBus, v, ICommonConsts.HELPER, i.getHelper() + "-" + i.getId());
-
 		}
 
 	}
@@ -129,6 +128,7 @@ public class ReadDialog implements IReadDialog {
 		public void raise(IEvent e, DialogVariables i) {
 			SetFields.setV(iBus, i);
 			RunAction.action(iBus, i);
+			SetFields.runforerror(iBus, i);
 		}
 	}
 
@@ -171,9 +171,14 @@ public class ReadDialog implements IReadDialog {
 			verify(arg);
 			if (!arg.getDialog().isBefore())
 				go(arg, new DialogVariables());
-			else
-				ExecuteAction.action(JythonVariables.constructVar(), dialogName, ICommonConsts.BEFORE,
-						new BeforeA(arg));
+			else {
+				DialogVariables var = JythonVariables.constructVar();
+				if (param != null)
+					var.setValueS(ICommonConsts.JBUTTONDIALOGSTART, param);
+				if (param1 != null)
+					var.setValueS(ICommonConsts.JBUTTONDIALOGSTART1, param1);
+				ExecuteAction.action(var, dialogName, ICommonConsts.BEFORE, new BeforeA(arg));
+			}
 		}
 
 	}
@@ -199,6 +204,9 @@ public class ReadDialog implements IReadDialog {
 	private DialogInfo d;
 
 	private boolean main;
+
+	private String param;
+	private String param1;
 
 	private String displayName;
 
@@ -271,10 +279,12 @@ public class ReadDialog implements IReadDialog {
 	}
 
 	@Override
-	public void readDialog(String dialogName, String displayName, boolean main) {
+	public void readDialog(String dialogName, String displayName, boolean main, String param, String param1) {
 
 		this.main = main;
 		this.displayName = displayName;
+		this.param = param;
+		this.param1 = param1;
 
 		if (main) {
 			PC p = (PC) M.getPanel().getCurrentContent();
