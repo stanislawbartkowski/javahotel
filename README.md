@@ -14,7 +14,23 @@ Simple tool to run commands accross Linux cluster. Tool does not require any dep
 * Setup root passwordless connection between master and slave hosts
 * Prepare nodes.txt file containing host names/IP addresses of all slave hosts. [Example](nodes.txt)
 
+## hostsproc.rc Procs description
+
+Proc name | Parameters | Action | Example
+----------|------------|--------|--------
+runallhosts | Script name | Copies and executes script on all hosts | runallhosts checkfilewall.sh
+runcommand | Command and parameters | Executes single command on all hosts | runallhostscommand "ntpstat; echo $?"
+copyfiles | File name | Copies file from master to all slave hosts | copyfiles "/etc/yum.repos.d/epel.repo"
+
 ## Execute
+
+Add next command to run.sh file and execute ./run.sh
+
+[Check current content](run.sh)
+
+
+
+
 
 
 
