@@ -1,7 +1,7 @@
 # hosts
-Simple tool to run commands accross Linux cluster. Tool does not require any dependencies.
+Simple tool to run commands across Linux cluster. The tool does not require any dependencies.
 
-## File description
+## Files description
 * run.sh Main file
 * hostsproc.rc Utility procs
 * nodes.txt List of all slave nodes
@@ -26,9 +26,13 @@ copyfiles | File name | Copies file from master to all slave hosts | copyfiles "
 
 Add next command to run.sh file and execute ./run.sh
 
-[Check current content](run.sh)
+[More samples](run.sh)
 
+## users.sh
 
+For BigInights it is a requirement to have consistent user's id on all hosts. It is particularly important for *bigsql* user. The tool verifies all users on all hosts.
+
+[user.sh](users.sh)
 
 
 
