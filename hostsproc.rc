@@ -1,0 +1,112 @@
+
+log() {
+  local mess=$1
+  echo $mess
+}  
+
+logexit() {
+  log "$@"
+  exit
+}  
+
+
+runhost() {
+  local host=$1
+  local scriptfile=$2
+  local logfile=$3
+
+  log "Entering host $host"
+ 
+  [ -z "$scriptfile" ] && logexit "Script file to run not specified"
+  [ ! -f $scriptfile ] && logexit "$scriptfile does not exist"
+   
+  # create directory
+  # essential : use -n parameter for ssh command
+  ssh -n root@$host "mkdir tempscript" 2>/dev/null
+  scp $scriptfile root@$host:tempscript
+  if [ -z "$logfile" ]; then
+    ssh -n root@$host "cd tempscript; ./$scriptfile"
+  else
+    ssh -n root@$host "cd tempscript; ./$scriptfile" >$logfile
+  fi
+  
+  log "Leaving host $host"
+}
+
+runcommand() {
+  local host=$1
+  local command=$2
+
+  log ""
+  log "Entering host $host"
+  log "========================="
+  log ""
+ 
+  # create directory
+  # essential : use -n parameter for ssh command
+  
+  ssh -n root@$host "$command"
+
+  log ""
+  log "========================"
+  log "Leaving host $host"
+}
+
+runallhosts() {
+    local scriptfile=$1
+    echo $scriptfile
+    while read host;  do     
+        #ignore empty lines
+        [ -n "$host" ] && runhost $host $scriptfile
+   done <`dirname $0`/nodes.txt
+}
+
+runallhostscommand() {
+    local command=$1
+    while read host;  do     
+        #ignore empty lines
+        [ -n "$host" ] && runcommand $host "$command"
+   done <`dirname $0`/nodes.txt
+
+}
+
+copyfiles() {
+    local file=$1
+    first=1
+    while read host;  do     
+        #ignore empty lines
+        if [ $first -eq "1" ]; then
+         first=0
+        continue
+      fi 
+        log "scp $file $host"
+        [ -n "$host" ] && scp $file "$host:$file"
+   done <`dirname $0`/nodes.txt
+}
+
+copydir() {
+    local dir=$1
+    local subdir=$2
+    first=1
+    while read host;  do     
+        #ignore empty lines
+        if [ $first -eq "1" ]; then
+         first=0
+        continue
+      fi 
+        log "scp $file $host"
+        [ -n "$host" ] && scp -r $dir/$subdir "$host:$dir"
+   done <`dirname $0`/nodes.txt
+}
+
+copyrepo() {
+  copyfiles "/etc/yum.conf"
+  copyfiles "/etc/yum.repos.d/redhat.repo"
+  copyfiles "/etc/yum.repos.d/epel.repo"
+  copyfiles "/etc/yum.repos.d/IOP.repo"
+  copyfiles "/etc/yum.repos.d/IOP-UTILS.repo"
+  copyfiles "/etc/yum.repos.d/BIGINSIGHTS-VALUEPACK-1.2.0.0.repo"
+
+  runallhostscommand "yum clean all; yum repolist"
+}
+
