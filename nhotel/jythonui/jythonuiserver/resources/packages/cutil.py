@@ -73,6 +73,9 @@ def getUpDialogParam(var) :
 def getUpDialogParam1(var) :
     return _getVarValue(var,ICommonConsts.JBUTTONDIALOGSTART1)
 
+def getUpReturnMessage(var) :
+    return var[ICommonConsts.JBUTTONDIALOGMESSAGE]
+
 def enableField(var, li, enable=True) :
     if type(li) != list : li = [li]
     for fieldid in li : 

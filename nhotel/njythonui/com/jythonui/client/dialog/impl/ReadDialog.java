@@ -50,6 +50,7 @@ import com.polymerui.client.eventbus.IEvent;
 import com.polymerui.client.eventbus.IEventBus;
 import com.polymerui.client.eventbus.ISubscriber;
 import com.polymerui.client.eventbus.ResultButtonAction;
+import com.polymerui.client.eventbus.SignalChildDialog;
 import com.polymerui.client.eventbus.StandardDialogEvent;
 import com.polymerui.client.eventbus.StandardDialogResult;
 import com.polymerui.client.util.Utils;
@@ -132,12 +133,25 @@ public class ReadDialog implements IReadDialog {
 		}
 	}
 
+	private class SignalChildDialogAction implements ISubscriber<String[]> {
+
+		@Override
+		public void raise(IEvent e, String[] i) {
+			String closeMessage = i[0];
+			String closeButton = i[1];
+			if (CUtil.EmptyS(closeButton))
+				return;
+			DialogVariables v = JythonVariables.constructVar();
+			v.setValueS(ICommonConsts.JBUTTONDIALOGMESSAGE, closeMessage);
+			ActionButton.callA(iBus, v, closeButton, closeButton);
+		}
+
+	}
+
 	private class CloseDialogAction implements ISubscriber<String[]> {
 
 		@Override
 		public void raise(IEvent e, String[] i) {
-			String closeAction = i[0];
-			String closeButton = i[1];
 			if (main) {
 				String mess = M.M().CloseActionCannotBeAppliedToMainDialog(ICommonConsts.JCLOSEDIALOG,
 						ICommonConsts.JMAINDIALOG);
@@ -146,6 +160,11 @@ public class ReadDialog implements IReadDialog {
 			}
 			assert p != null;
 			p.close();
+			String closeMessage = i[0];
+			String closeButton = i[1];
+			if ((closeMessage != null) && closeButton == null)
+				closeButton = IConsts.DEFAULDCLOSECHILDACTION;
+			parentiBus.publish(new SignalChildDialog(), new String[] { closeMessage, closeButton });
 		}
 	}
 
@@ -210,6 +229,9 @@ public class ReadDialog implements IReadDialog {
 
 	private String displayName;
 
+	// used to report back to parent dialog from child dialog
+	private IEventBus parentiBus;
+
 	private final List<FieldItem> dynamicList = new ArrayList<FieldItem>();
 
 	private final ISetJythonVariables iSet = new ISetJythonVariables() {
@@ -251,6 +273,7 @@ public class ReadDialog implements IReadDialog {
 		iBus.subscribe(new CloseDialogEvent(), new CloseDialogAction());
 		iBus.subscribe(new CloseDialogHandler(), new CloseDialogFromDocHandler());
 		iBus.subscribe(new ClickHelperEvent(), new ClickHelperSubscriber());
+		iBus.subscribe(new SignalChildDialog(), new SignalChildDialogAction());
 		d = arg;
 		IMainPanel iP = M.getPanel();
 		String uDisplay = displayName;
@@ -279,12 +302,14 @@ public class ReadDialog implements IReadDialog {
 	}
 
 	@Override
-	public void readDialog(String dialogName, String displayName, boolean main, String param, String param1) {
+	public void readDialog(String dialogName, String displayName, boolean main, String param, String param1,
+			IEventBus parentiBus) {
 
 		this.main = main;
 		this.displayName = displayName;
 		this.param = param;
 		this.param1 = param1;
+		this.parentiBus = parentiBus;
 
 		if (main) {
 			PC p = (PC) M.getPanel().getCurrentContent();
@@ -298,9 +323,9 @@ public class ReadDialog implements IReadDialog {
 	}
 
 	private void verify(DialogInfo d) {
-		if (d.getDialog().getBinderW() == null) {
+		if (d.getDialog().getBinderW() == null)
 			Utils.errAlertB(M.M().DialogShouldContainBinder(d.getDialog().getId()));
-		}
+
 	}
 
 	@Override

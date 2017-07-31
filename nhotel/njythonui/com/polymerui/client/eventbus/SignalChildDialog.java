@@ -10,24 +10,12 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.client.dialog;
+package com.polymerui.client.eventbus;
 
-import java.util.List;
+public class SignalChildDialog extends AbstractEventType {
 
-import com.google.gwt.user.client.ui.HTMLPanel;
-import com.jythonui.shared.DialogInfo;
-import com.jythonui.shared.FieldItem;
-import com.polymerui.client.eventbus.IEventBus;
-
-public interface IReadDialog {
-
-	List<FieldItem> getDynamicList();
-
-	void readDialog(String dialogName, String displayName, boolean main, String param1, String param2,
-			IEventBus paranetiBus);
-
-	HTMLPanel getH();
-
-	DialogInfo getD();
+	public SignalChildDialog() {
+		super(SignalChildDialog.class);
+	}
 
 }

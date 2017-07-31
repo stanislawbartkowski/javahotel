@@ -132,7 +132,7 @@ public class RunAction {
 		// }
 		if (action.equals(ICommonConsts.JMAINDIALOG) || action.equals(ICommonConsts.JUPDIALOG)) {
 			IReadDialog d = UIGiniInjector.getI().getReadDialog();
-			d.readDialog(pars[0], displayName, action.equals(ICommonConsts.JMAINDIALOG), param1, param2);
+			d.readDialog(pars[0], displayName, action.equals(ICommonConsts.JMAINDIALOG), param1, param2, iBus);
 			return;
 		}
 		// if (!checkW(action, param, param1, param2, w))
@@ -166,6 +166,8 @@ public class RunAction {
 		// return;
 		// }
 		if (action.equals(ICommonConsts.JCLOSEDIALOG)) {
+			// param : close message
+			// param1 : close button
 			iBus.publish(new CloseDialogEvent(), new String[] { param, param1 });
 			return;
 		}

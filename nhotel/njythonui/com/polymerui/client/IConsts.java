@@ -24,7 +24,7 @@ import com.gwtmodel.table.common.IMessConsts;
  */
 public interface IConsts {
 
-	String UIVersion = "UI : 2017/07/29 (r 2.00)";
+	String UIVersion = "UI : 2017/07/31 (r 2.00)";
 
 	String JBUTTONDIALOGRES = "JUPDIALOG_RES";
 	String JBUTTONRES = "JUPDIALOG_BUTTON";
@@ -280,5 +280,6 @@ public interface IConsts {
 	String IMAGEFOLDER = "img";
 	String PRODUCTIMAGEDEFAULT = "default_logo.png";
 	String PROGRESSIMAGEDEFAULT = "default_progressicon.gif";
+	String DEFAULDCLOSECHILDACTION = "closepopup";
 
 };

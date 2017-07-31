@@ -13,6 +13,7 @@
       <br/>
 			<br/>
       <p:PaperButton fieldid="click" tabindex="0" toggles="true">Click to kick off popup</p:PaperButton>
+      <p:PaperTextarea label="Child result" fieldid="vresult" readonly="true"/>
     </ui:HTMLPanel>
   </ui:UiBinder>
 </dialog>
