@@ -57,14 +57,14 @@ Execute
 ### source.rc
 
 
-| Environment variable     | Value           | Sample  |
-| ------------- |:-------------:| -----:|
-| INPUTFILE      | Input Oracle DDL file | /mnt/exported/oracle/oracle.DDL |
-| OJAR      | path to OMigration.jar file      |  ../dist/OMigrationDB2.jar |
-| URL | DB2 JDBC url   | jdbc:db2://db211:50000/eod |
-| USER | DB2 user name | db2inst1 
-| PASSWD | DB2 password | db2inst1
-| DB2JAR | path to DB2 JDBC driver | /opt/ibm/db2/V11.1/java/db2jcc4.jar
+| Environment variable     | Value      | Required     | Sample  |
+| ------------- |:-------------:| ----- | -----:|
+| INPUTFILE      | Input Oracle DDL file | yes | /mnt/exported/oracle/oracle.DDL |
+| OJAR      | path to OMigration.jar file | yes     |  ../dist/OMigrationDB2.jar |
+| URL | DB2 JDBC url  | Only when dealing with DB | jdbc:db2://db211:50000/eod |
+| USER | DB2 user name | Only when dealing with DB | db2inst1 
+| PASSWD | DB2 password | Only when dealing with DB | db2inst1
+| DB2JAR | path to DB2 JDBC driver | Only when dealing with DB | /opt/ibm/db2/V11.1/java/db2jcc4.jar
 
 Important: URL, USER, PASSWORD and DB2JAR variables are required only if compare script is used.
 
@@ -81,30 +81,41 @@ export DB2JAR=/opt/ibm/db2/V11.1/java/db2jcc4.jar
 ```
 ### list
 
-sh/list script
-
+```BASH
+cd sh
+./list script
+```
 List all objects found in Oracle DDL source file
 
 ### extract
 
-sh/extract script
-
+```BASH
+cd sh
+./extract script
+```
 Extracts all objects from Oracle DDL source file and stores them to /tmp/db2odir directory. The content of the output directory is automatically removed at the beginning. Every object is kept in a single file and all objects of a particular type are saved in a separate directory.
 During extraction, some simple transformation is applied.
 
 ### compare
 
-sh/compare script
-
+```BASH
+cd sh
+./compare script
+```
 Should be executed during or after migration. Retrieves all objects from Oracle DDL source file and compares against current of DB2 database. Reports all objects missed. The script needs a single parameter, the object type scanned or ALL meaning all objects
 
-sh/compare {object type}
+```BASH
+cd sh
+./compare {object type}
+```
 
 {object type} :  FUNCTION,SEQUENCE,TABLE,TRIGGER,VIEW,PACKAGE,PROCEDURE,GLOBALTEMP,TYPE,BODY or ALL
 
 Example:
-
-sh/compare SEQUENCE 
+```BASH
+cd sh
+./compare SEQUENCE 
+```
 
 # Transformation
 
