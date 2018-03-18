@@ -31,27 +31,13 @@ static int numb = 0;
 class AthleteGraph {
 public:
 	AthleteGraph(): graph(nullptr) {}
-	// list of athletes, nodes in the graph
-	vector<Athlete> nodes;
-	// two dimensional table
-	// (i,j) = true, direct node from i->j
-	// means that athlete i can stand below athlete j
-	bool *graph;
-	void addnode(int weight, int width) {
+	void addNode(int weight, int width) {
 		  Athlete pa = Athlete (weight,width);
 		  // create & copy operator
 		  nodes.push_back(pa);
 	}
-	// number of athletes
-	int number() const {
-		return nodes.size();
-	}
-	// return an index of (i,j) node
-	int elem(int i,int j) const {
-		return i*number()+j;
-	}
-	// creates graph from list of nodes
-	void creategraph() {
+
+	void createGraph() {
 		// initialize graph as matrix
 		graph = new bool[number()*number()];
 		// initialize, node nodes
@@ -71,35 +57,7 @@ public:
 				if (graph[elem(i,j)]) cout << i << "->" << j << endl;
 	}
 
-	// calculate the longest tower with base 'node' and updates longest[node] row
-	// node: index in nodes vector
-	// if longest[node] not null, longest[node] calculated already
-	// returning longest[node] should be not nullptr
-	// important: longest[node] in opposite order, the lightest at the beginning
-	void calclongest(int node, vector<int> **longest) const {
-		// longest for node calculated already ?
-		if (longest[node] != nullptr) return;
-		int m = -1;
-		// find the longest tower for nodes adjacent
-		for (int i=0; i<number(); i++)
-			if (graph[elem(node,i)]) {
-				numb++;
-				// calculate the longest tower for j
-				calclongest(i,longest);
-//				assert(longest[i] != nullptr);
-				if (m == -1) m = i;
-				else
-					if (longest[m]->size() < longest[i]->size()) m = i;
-			}
-	  //longest[m], the longest subtower
-	  longest[node] = new vector<int>();
-      if (m != -1) *longest[node] = *longest[m];
-      // the heaviest at the end
-	  longest[node]->push_back(node);
-	}
-
-
-	void findlongest() const {
+	void findLongest() const {
 		// two dimensional array
 		//longest[i] - the longest tower with the base i
 		// important: created in opposite order
@@ -110,7 +68,7 @@ public:
 		}
 		// calculate longest tower for all nodes
 		for (int i=0; i<number(); i++)
-			calclongest(i,longest);
+			calcLongest(i,longest);
 
 		// print the result
 		int m = 0;
@@ -130,6 +88,49 @@ public:
 //			cout << kk << endl;
 		}
 	}
+private:
+	// list of athletes, nodes in the graph
+	vector<Athlete> nodes;
+	// two dimensional table
+	// (i,j) = true, direct node from i->j
+	// means that athlete i can stand below athlete j
+	// creates graph from list of nodes
+	bool *graph;
+	// number of athletes
+	int number() const {
+		return nodes.size();
+	}
+	// return an index of (i,j) node
+	int elem(int i,int j) const {
+		return i*number()+j;
+	}
+	// calculate the longest tower with base 'node' and updates longest[node] row
+	// node: index in nodes vector
+	// if longest[node] not null, longest[node] calculated already
+	// returning longest[node] should be not nullptr
+	// important: longest[node] in opposite order, the lightest at the beginning
+	void calcLongest(int node, vector<int> **longest) const {
+		// longest for node calculated already ?
+		if (longest[node] != nullptr) return;
+		int m = -1;
+		// find the longest tower for nodes adjacent
+		for (int i=0; i<number(); i++)
+			if (graph[elem(node,i)]) {
+				numb++;
+				// calculate the longest tower for j
+				calcLongest(i,longest);
+//				assert(longest[i] != nullptr);
+				if (m == -1) m = i;
+				else
+					if (longest[m]->size() < longest[i]->size()) m = i;
+			}
+	  //longest[m], the longest subtower
+	  longest[node] = new vector<int>();
+      if (m != -1) *longest[node] = *longest[m];
+      // the heaviest at the end
+	  longest[node]->push_back(node);
+	}
+
 };
 
 
@@ -137,16 +138,16 @@ int main() {
 	cout << "!!!Hello World, welcome circus!!!" << endl; // prints !!!Hello World!!!
 	AthleteGraph pg;
 	// create test data
-	pg.addnode(65,100);
-	pg.addnode(70,150);
-	pg.addnode(56,90);
-	pg.addnode(75,190);
-	pg.addnode(60,95);
-	pg.addnode(68,110);
+	pg.addNode(65,100);
+	pg.addNode(70,150);
+	pg.addNode(56,90);
+	pg.addNode(75,190);
+	pg.addNode(60,95);
+	pg.addNode(68,110);
 	// prepare graph
-	pg.creategraph();
+	pg.createGraph();
 //	pg.print();
 	// unleash the hell
-	pg.findlongest();
+	pg.findLongest();
 	cout << numb << endl;
 }
