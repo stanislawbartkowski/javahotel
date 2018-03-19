@@ -31,6 +31,9 @@ static int numb = 0;
 class AthleteGraph {
 public:
 	AthleteGraph(): graph(nullptr) {}
+	~AthleteGraph() {
+		if (graph != nullptr) delete graph;
+	}
 	void addNode(int weight, int width) {
 		  Athlete pa = Athlete (weight,width);
 		  // create & copy operator
@@ -87,6 +90,11 @@ public:
 
 //			cout << kk << endl;
 		}
+
+		// dispose memory allocated
+		for (int i=0; i<number(); i++)
+			delete longest[i];
+		delete longest;
 	}
 private:
 	// list of athletes, nodes in the graph
