@@ -98,6 +98,20 @@ INFO: Verification Successful.
 INFO: Adding Spectrum Scale MPack : ambari-server install-mpack --mpack=SpectrumScaleExtension-MPack-2.4.2.4.tar.gz -v
 INFO: Spectrum Scale MPack Successfully Added. Continuing with Ambari Server Restart...
 INFO: Performing Ambari Server Restart.
+INFO: Ambari Server Restart Completed Successfully.
+INFO: Backing up original HDFS files to hdfs-original-files-backup
+INFO: Running command cp -f -r -p -u /var/lib/ambari-server/resources/common-services/HDFS/2.1.0.2.0/package/scripts/ hdfs-original-files-backup
+Done.
 ```
+IBM Spectrum Scale package should be visible on the list of services ready to install.
+![](images/Zrzut%20ekranu%20z%202018-04-29%2001-17-29.png)
+## Prepare GPFS stanza file.
+PGFS cluster will comprise two discs attached to data nodes GDP3 and GDP4. Disk is visible ass /dev/vdb device. Stanza file should be created in /var/lib/ambari-server/resources/ directory.
+```
+cd /var/lib/ambari-server/resources/
+vi gpfs_nsd
 
+DISK|gdp3.sb.com:/dev/vdb
+DISK|gdp4.sb.com:/dev/vdb
+```
 
