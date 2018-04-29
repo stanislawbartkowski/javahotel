@@ -163,7 +163,7 @@ ambari-server restart
 ```
 Start all services.
 
-When NameNode is restart check GDPS mounting point. Directory structure should reflect HDFS directory layout.
+When NameNode is restarted check GDPS mounting point. Directory structure should reflect HDFS directory layout.
 ```
 [root@gdp1 resources]# ls /bigpfs/
 app-logs  ats  hdp  mapred  mr-history  tmp  user
