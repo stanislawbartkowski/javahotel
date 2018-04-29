@@ -138,3 +138,19 @@ Enter GPFS stanza file name in property window. Make sure that there is no trail
 Also decrease all replica numbers from default 3 to 2, we have only two discs here.
 
 ![](images/Zrzut%20ekranu%20z%202018-04-29%2010-58-35.png)
+
+After successful installation the Amabari dashboard should look like:
+
+![](images/Zrzut%20ekranu%20z%202018-04-29%2011-49-33.png)
+
+IBM Spectrum Scale and HDFS transparency are installed.
+
+## Next steps
+
+Start HDFS only, not "Restart all required".
+
+There is a long delay while NameNode is starting:
+```
+2018-04-29 11:53:06,305 - Retrying after 10 seconds. Reason: Execution of '/usr/hdp/current/hadoop-hdfs-namenode/bin/hdfs dfsadmin -fs hdfs://gdp1.sb.com:8020 -safemode get | grep 'Safe mode is OFF'' returned 1. 
+2018-04-29 11:53:19,350 - Retrying after 10 seconds. Reason: Execution of '/usr/hdp/current/hadoop-hdfs-namenode/bin/hdfs dfsadmin -fs hdfs://gdp1.sb.com:8020 -safemode get | grep 'Safe mode is OFF'' returned 1.
+```
