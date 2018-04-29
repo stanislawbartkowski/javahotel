@@ -191,4 +191,7 @@ Found 2 items
 drwxr-xr-x   - hdfs hdfs          0 2018-04-29 21:15 /tmp/entity-file-history
 -rw-r--r--   2 root root          0 2018-04-29 21:21 /tmp/hello.gpfs
 ```
+Install all other services.
 
+## Grande finale
+![](images/Zrzut%20ekranu%20z%202018-04-29%2023-42-26.png)
