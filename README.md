@@ -6,6 +6,19 @@ https://www.ibm.com/support/knowledgecenter/STXKQY_5.0.0/com.ibm.spectrum.scale.
 
 Before proceeding you need to have IBM Spectrum Scale local repository with all rpms necessary to run successful installation. More details : https://www.ibm.com/support/knowledgecenter/STXKQY_5.0.0/com.ibm.spectrum.scale.v5r00.doc/bl1adv_localrepo.htm
 
+## Resources
+[IBM Spectrum Scale Wiki](https://www.ibm.com/developerworks/community/wikis/home?lang=en#!/wiki/General%20Parallel%20File%20System%20(GPFS)/page/IBM%20Spectrum%20Scale%20support%20for%20Hadoop)
+
+[IBM Spectrum Scale Ambari extension](https://www.ibm.com/support/knowledgecenter/en/STXKQY_5.0.0/com.ibm.spectrum.scale.v5r00.doc/bl1adv_serviceinstall.htm)
+
+[HortonWorks + IBM Spectrum Scale Redbook](https://www.redbooks.ibm.com/redpapers/pdfs/redp5448.pdf)
+
+[Hadoop + IBM Spectrum Scale integration, overwiev](https://www.ibm.com/support/knowledgecenter/en/STXKQY_5.0.0/com.ibm.spectrum.scale.v5r00.doc/bl1adv_productoverview.htm)
+
+[IBM Spectrum Scale knowledge centre](https://www.ibm.com/support/knowledgecenter/en/STXKQY/ibmspectrumscale_welcome.html)
+
+[IBM Spectrum Scale and HortonWorks](https://community.hortonworks.com/articles/108565/ibm-spectrum-scale-423-certified-with-hdp-26-and-a.html)
+
 ## Deployment model
 ![depoly](images/deply.jpg)
 
