@@ -168,3 +168,14 @@ When NameNode is restarted check GDPS mounting point. Directory structure should
 [root@gdp1 resources]# ls /bigpfs/
 app-logs  ats  hdp  mapred  mr-history  tmp  user
 ```
+Verify that GPFS replaced HDFS.
+```
+touch /bigpfs/tmp/hello.gpfs
+
+root@gdp1 resources]# su - hdfs
+[hdfs@gdp1 ~]$ hdfs dfs -ls /tmp
+Found 2 items
+drwxr-xr-x   - hdfs hdfs          0 2018-04-29 21:15 /tmp/entity-file-history
+-rw-r--r--   2 root root          0 2018-04-29 21:21 /tmp/hello.gpfs
+```
+
