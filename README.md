@@ -81,6 +81,8 @@ Install management pack.
 ```
 ./SpectrumScaleIntegrationPackageInstaller-2.4.2.4.bin 
 
+END OF TERMS AND CONDITIONS
+
 Do you agree to the above license terms? [yes or no] 
 yes
 Installing...
@@ -97,6 +99,13 @@ INFO: Verifying Ambari Server Address, Username and Password.
 INFO: Verification Successful.
 INFO: Adding Spectrum Scale MPack : ambari-server install-mpack --mpack=SpectrumScaleExtension-MPack-2.4.2.4.tar.gz -v
 INFO: Spectrum Scale MPack Successfully Added. Continuing with Ambari Server Restart...
+INFO: Performing Ambari Server Restart.
+INFO: Ambari Server Restart Completed Successfully.
+INFO: Running command - curl -u admin:******* -H 'X-Requested-By: ambari' -X POST -d '{"ExtensionLink": {"stack_name":"HDP", "stack_version": "2.6", "extension_name": "SpectrumScaleExtension", "extension_version": "2.4.2.4"}}' http://127.0.0.1:8080/api/v1/links/
+INFO: Extension Link Created Successfully.
+INFO: Starting Spectrum Scale Changes.
+INFO: wrote system_action_definitions.xml successfully.
+INFO: Spectrum Scale Changes Successfully Completed.
 INFO: Performing Ambari Server Restart.
 INFO: Ambari Server Restart Completed Successfully.
 INFO: Backing up original HDFS files to hdfs-original-files-backup
