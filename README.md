@@ -127,9 +127,9 @@ Install GPFS nodes on all nodes in the cluster, not only on data nodes.
 
 ![](images/Zrzut%20ekranu%20z%202018-04-29%2010-45-02.png)
 
-Prepare URL pointing to repository containing GPFS and GPFS Transparency dependencies (here http://localhost/gpfs_rpms/)
+Prepare URL pointing to repository containing GPFS and GPFS Transparency dependencies (here http://mirror/gpfs_rpms/)
 
-![](images/Zrzut%20ekranu%20z%202018-04-29%2010-53-58.png)
+![](images/Zrzut%20ekranu%20z%202018-04-29%2011-31-56.png)
 
 Enter GPFS stanza file name in property window. Make sure that there is no trailing space in the file name!
 
