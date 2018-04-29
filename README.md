@@ -1,4 +1,4 @@
-# SpectrumScale/Hortonworks
+# IBM Spectrum Scale/Hortonworks
 
 Create simple HDP + IBM BigSQL + IBM Spectrum Scale cluster on your machine using KVM virtualization.
 
@@ -25,8 +25,8 @@ qemu-img create -f qcow2 DISK3.qcow2 40G
 ```
 
 ## Install basic HDP cluster
-![](images/Zrzut%20ekranu%20z%202018-04-11%2017-09-46.png)
-![](images/Zrzut%20ekranu%20z%202018-04-11%2017-10-23.png)
+![deploy](images/Zrzut%20ekranu%20z%202018-04-11%2017-09-46.png)
+![deploy](images/Zrzut%20ekranu%20z%202018-04-11%2017-10-23.png)
 ## Prepare IBM Spectrum Scale and HDFS Transparency dependencies
 
 https://www.ibm.com/developerworks/community/wikis/home?lang=en#!/wiki/General%20Parallel%20File%20System%20(GPFS)/page/2nd%20generation%20HDFS%20Transparency%20Protocol?section=HDFSTransparency2.7.3-x
@@ -114,4 +114,27 @@ vi gpfs_nsd
 DISK|gdp3.sb.com:/dev/vdb
 DISK|gdp4.sb.com:/dev/vdb
 ```
+### Install IBM Spectrum Scale
+Make sure that all service are stopped.
 
+![](images/Zrzut%20ekranu%20z%202018-04-29%2010-40-20.png)
+
+Install GPFS Master along with Ambari server.
+
+![](images/Zrzut%20ekranu%20z%202018-04-29%2010-43-10.png)
+
+Install GPFS nodes on all nodes in the cluster, not only on data nodes.
+
+![](images/Zrzut%20ekranu%20z%202018-04-29%2010-45-02.png)
+
+Prepare URL pointing to repository containing GPFS and GPFS Transparency dependencies (here http://localhost/gpfs_rpms/)
+
+![](images/Zrzut%20ekranu%20z%202018-04-29%2010-53-58.png)
+
+Enter GPFS stanza file name in property window. Make sure that there is no trailing space in the file name!
+
+![](images/Zrzut%20ekranu%20z%202018-04-29%2010-55-52.png)
+
+Also decrease all replica numbers from default 3 to 2, we have only two discs here.
+
+![](images/Zrzut%20ekranu%20z%202018-04-29%2010-58-35.png)
