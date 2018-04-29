@@ -156,10 +156,15 @@ IBM Spectrum Scale and HDFS transparency are installed.
 
 ## Next steps
 
-Start HDFS only, not "Restart all required".
+Very important: restart ambari-server before doing anything!
 
-There is a long delay while NameNode is starting:
 ```
-2018-04-29 11:53:06,305 - Retrying after 10 seconds. Reason: Execution of '/usr/hdp/current/hadoop-hdfs-namenode/bin/hdfs dfsadmin -fs hdfs://gdp1.sb.com:8020 -safemode get | grep 'Safe mode is OFF'' returned 1. 
-2018-04-29 11:53:19,350 - Retrying after 10 seconds. Reason: Execution of '/usr/hdp/current/hadoop-hdfs-namenode/bin/hdfs dfsadmin -fs hdfs://gdp1.sb.com:8020 -safemode get | grep 'Safe mode is OFF'' returned 1.
+ambari-server restart
+```
+Start all services.
+
+When NameNode is restart check GDPS mounting point. Directory structure should reflect HDFS directory layout.
+```
+[root@gdp1 resources]# ls /bigpfs/
+app-logs  ats  hdp  mapred  mr-history  tmp  user
 ```
