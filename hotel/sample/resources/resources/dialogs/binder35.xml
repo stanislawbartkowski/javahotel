@@ -1,9 +1,0 @@
-<dialog xmlns="http://www.jythongwt.dialogxsd.com"  polymer="">
- 
- <uibinder>binder/binder35.xml</uibinder>
-  
- <form>     
-   <field id="uploader"  type="upload" />   
- </form>
-   
-</dialog>

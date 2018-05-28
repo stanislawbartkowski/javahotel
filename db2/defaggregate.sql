@@ -1,0 +1,46 @@
+DROP PROCEDURE listagg_initialize;
+DROP PROCEDURE listagg_accumulate;
+DROP PROCEDURE listagg_merge;
+DROP FUNCTION listagg_finalize;
+DROP FUNCTION LISTAGGDUPL;
+
+CALL sqlj.remove_jar('LISTAGGJAR');
+
+CALL SQLJ.INSTALL_JAR('file:/home/db2inst1/sqllib/function/UniqListAgg.jar', 'LISTAGGJAR');
+
+CALL sqlj.refresh_classes();
+
+CREATE OR REPLACE PROCEDURE listagg_initialize(OUT v VARCHAR(8000))
+   LANGUAGE JAVA 
+   PARAMETER STYLE JAVA
+   FENCED NO SQL
+   EXTERNAL NAME 'LISTAGGJAR:com.ibmfun.agglist.AggUniqList.listagg_initialize';
+
+CREATE OR REPLACE PROCEDURE listagg_accumulate(IN i VARCHAR(8000), INOUT v VARCHAR(8000))
+   LANGUAGE JAVA 
+   PARAMETER STYLE JAVA
+   FENCED NO SQL
+   EXTERNAL NAME 'LISTAGGJAR:com.ibmfun.agglist.AggUniqList.listagg_accumulate';
+
+CREATE OR REPLACE PROCEDURE listagg_merge(IN i VARCHAR(8000), INOUT v VARCHAR(8000))
+   LANGUAGE JAVA 
+   PARAMETER STYLE JAVA
+   FENCED NO SQL
+   EXTERNAL NAME 'LISTAGGJAR:com.ibmfun.agglist.AggUniqList.listagg_merge';
+
+CREATE OR REPLACE FUNCTION listagg_finalize (IN i VARCHAR(8000))
+RETURNS VARCHAR(8000)
+   LANGUAGE JAVA 
+   PARAMETER STYLE JAVA
+   FENCED NO SQL
+   EXTERNAL NAME 'LISTAGGJAR:com.ibmfun.agglist.AggUniqList.listagg_finalize';
+
+CREATE OR REPLACE FUNCTION LISTAGGDUPL(IN V VARCHAR(8000))
+   RETURNS VARCHAR(8000)
+   AGGREGATE WITH (list VARCHAR(8000))
+   USING 
+   INITIALIZE PROCEDURE listagg_initialize
+   ACCUMULATE PROCEDURE listagg_accumulate
+   MERGE PROCEDURE listagg_merge
+   FINALIZE FUNCTION listagg_finalize
+;
