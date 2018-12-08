@@ -68,7 +68,7 @@ Install DB2
 Create DB2 instance
 > cd /opt/ibm/db2/V11.1/instance/
 
-> ./db2icrt db2inst1 -u db2fenc1
+> ./db2icrt -u db2fenc1 db2inst1 
 
 Instance is created in /home/db2inst1 directory. Instance owner is db2inst1.
 ### Create SAMPLE database, test if DB2 is installed properly
