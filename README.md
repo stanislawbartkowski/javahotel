@@ -105,6 +105,20 @@ Check if created
 
 Currently it is necessary to start DB2 instance manually every time container is restarted. Looking for a way to start DB2 automatically.
 
+## Create container without dedicated network
 
-
+## Start container
+```bash
+docker run -v /tmp/db2:/tmp/i -p 50000:50000  --name db2centos db2centos
+```
+## Logon as root user
+```bash
+docker exec -it db2centos bash
+```
+Perform installation
+## Logon as db2inst1 user
+```bash
+ docker exec -it -u db2inst1 --privileged db2centos bash
+```
+Start DB2 instance, create database etc
 
